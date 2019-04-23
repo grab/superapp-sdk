@@ -10,6 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/grab/superapp-sdk.git"
   },
+  "maintainers": [
+    "Viet Hai Pham <viethai.pham@grabtaxi.com>",
+    "Oleksandr Prokofiev <oleksandr.prokofiev@grabtaxi.com>",
+    "Xijun Li <xijun.li@grabtaxi.com>"
+  ],
   "keywords": [
     "superapp",
     "webview",
