@@ -4,7 +4,10 @@
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && rollup -c",
+    "watch": "rollup -cw",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -29,5 +32,14 @@
   "homepage": "https://github.com/grab/superapp-sdk#readme",
   "dependencies": {
     "@grabjs/mobile-kit-bridge-sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "rollup": "^1.7.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.2.2",
+    "rollup-plugin-uglify": "^6.0.2"
   }
 }

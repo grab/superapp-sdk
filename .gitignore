@@ -80,6 +80,7 @@ typings/
 .dynamodb/
 
 # Custom
+dist/**/*
 .DS_STORE
 .rpt2*
 .npmrc
