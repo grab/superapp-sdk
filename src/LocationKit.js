@@ -7,7 +7,7 @@
 
 const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
 
-class LocationModule {
+export class LocationModule {
     constructor() {
         bridgeSDK.wrapModule(window, 'LocationModule')
     }
@@ -17,5 +17,3 @@ class LocationModule {
     }
 
 }
-
-export default LocationModule;

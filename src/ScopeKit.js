@@ -7,7 +7,7 @@
 
 const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
 
-class ScopeModule {
+export class ScopeModule {
     constructor() {
         bridgeSDK.wrapModule(window, 'ScopeModule')
     }
@@ -20,5 +20,3 @@ class ScopeModule {
     }
 
 }
-
-export default ScopeModule;

@@ -7,7 +7,7 @@
 
 const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
 
-class MediaModule {
+export class MediaModule {
     constructor() {
         bridgeSDK.wrapModule(window, 'MediaModule')
     }
@@ -17,5 +17,3 @@ class MediaModule {
     }
 
 }
-
-export default MediaModule;
