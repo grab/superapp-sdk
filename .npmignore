@@ -1,0 +1,13 @@
+coverage/
+src/
+dist/**/*
+!dist/index.min.js
+!dist/*.d.ts
+**/index.html
+.rpt2*
+tslint*
+*babel*
+*jest*
+*gulp*
+*yarn*
+rollup.config.js
