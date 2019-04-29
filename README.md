@@ -19,7 +19,7 @@ error | String | Error message (required for **non-200** status codes)
 
 
 ### Response status codes
-Key | Type | Description
+Code | Type | Description
  --- | --- | ---
  200 | OK | Request successful, **result** value contains response data
  204 | No Content | Request successful, **result** value doesn't contain data
