@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export { LocationModule } from './LocationKit';
-export { MediaModule } from './MediaKit';
-export { ScopeModule } from './ScopeKit';
+export { LocationModule } from "./LocationModule";
+export { MediaModule } from "./MediaModule";
+export { ScopeModule } from "./ScopeModule";

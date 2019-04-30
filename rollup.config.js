@@ -10,7 +10,7 @@ function createConfig({ file = 'dist/index.js' }) {
     output: {
       format: 'umd',
       file,
-      name: 'supperappSDK',
+      name: 'SuperAppSDK'
     },
     external: [
       ...Object.keys(pkg.dependencies || {}),
