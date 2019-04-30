@@ -1,0 +1,26 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script: 
+    - npm install
+    - npm run build
+
+deploy-to-npm:
+  stage: deploy
+  script: 
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+    - npm publish
+  only:
+  - /^v[0-9]+\.[0-9]+\.[0-9]$/
+  # Do not run on branches
+  except:
+    - branches
