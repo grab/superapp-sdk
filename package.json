@@ -1,10 +1,9 @@
 {
   "name": "@grabjs/superapp-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist && rollup -c",
     "watch": "rollup -cw",
     "prepublishOnly": "npm run build"
@@ -18,6 +17,7 @@
     "Oleksandr Prokofiev <oleksandr.prokofiev@grabtaxi.com>",
     "Xijun Li <xijun.li@grabtaxi.com>"
   ],
+  "files": ["dist/index.js", "docs"],
   "keywords": [
     "superapp",
     "webview",
