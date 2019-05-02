@@ -16,8 +16,9 @@ build:
 
 deploy-to-npm:
   stage: deploy
-  script: 
+  script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+    - npm run build
     - npm publish
   only:
   - /^v[0-9]+\.[0-9]+\.[0-9]$/
