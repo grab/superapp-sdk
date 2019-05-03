@@ -5,15 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
+import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export class LocationModule {
-    constructor() {
-        bridgeSDK.wrapModule(window, 'LocationModule')
-    }
+  constructor() {
+    bridgeSDK.wrapModule(window, 'LocationModule');
+  }
 
-    getCoordinate() {
-        return window.WrappedLocationModule.invoke('getCoordinate');
-    }
-
+  getCoordinate() {
+    return window.WrappedLocationModule.invoke('getCoordinate');
+  }
 }

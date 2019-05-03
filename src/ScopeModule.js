@@ -5,18 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
+import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export class ScopeModule {
-    constructor() {
-        bridgeSDK.wrapModule(window, 'ScopeModule')
-    }
+  constructor() {
+    bridgeSDK.wrapModule(window, 'ScopeModule');
+  }
 
-    hasAccessTo(module, method) {
-        return window.WrappedScopeModule.invoke('hasAccessTo', { module, method });
-    }
-    reloadScopes() {
-        return window.WrappedScopeModule.invoke('reloadScopes');
-    }
-
+  hasAccessTo(module, method) {
+    return window.WrappedScopeModule.invoke('hasAccessTo', { module, method });
+  }
+  reloadScopes() {
+    return window.WrappedScopeModule.invoke('reloadScopes');
+  }
 }

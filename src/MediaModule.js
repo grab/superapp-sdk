@@ -5,15 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
+import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export class MediaModule {
-    constructor() {
-        bridgeSDK.wrapModule(window, 'MediaModule')
-    }
+  constructor() {
+    bridgeSDK.wrapModule(window, 'MediaModule');
+  }
 
-    playDRMContent(data) {
-        return window.WrappedMediaModule.invoke('playDRMContent', { data });
-    }
-
+  playDRMContent(data) {
+    return window.WrappedMediaModule.invoke('playDRMContent', { data });
+  }
 }
