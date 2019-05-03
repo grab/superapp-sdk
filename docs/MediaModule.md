@@ -43,6 +43,40 @@ START_PLAYBACK | Emitted when the video starts playing
 STOP_PLAYBACK | Emitted when the video stops playing
 PROGRESS_PLAYBACK | Emitted every 10 seconds
 
+#### Code sample
+```javascript
+import { MediaModule } from '@grabjs/superapp-sdk';
+
+const mediaModule = new MediaModule();
+
+try {
+  // This is for backward compatibility, since older app
+  // versions do not support this syntax.
+  mediaModule
+    .playDRMContent({
+      content: 'content-url-here',
+      certificate: 'certificate-url-here',
+      license: 'license-url-here',
+      titleId: 'title-id-here'
+    })
+    .subscribe({
+      next: ({ result, error, status_code }) => {
+        if (!!result) {
+          const { type, titleId, length, position } = result;
+
+          // Do what we want with the data here.
+        } else if (!!error) {
+          // Handle error here.
+        }
+      },
+      complete: () => {
+        // Completion logic here when the stream stops.
+      }})
+} catch (e) {
+  // Fallback to old way to ensure the video still plays.
+}
+```
+
 #### Response example
 ```json
 {
