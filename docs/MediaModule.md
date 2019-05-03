@@ -35,8 +35,10 @@ titleId | string | Playback item identifier
 length | int | Length of the video (in seconds)
 position | int | The current position of the video (in seconds)
 
+The types of events are as follows:
+
 EventType | Description
- --- | --- | ---
+ --- | ---
 START_PLAYBACK | Emitted when the video starts playing
 STOP_PLAYBACK | Emitted when the video stops playing
 PROGRESS_PLAYBACK | Emitted every 10 seconds

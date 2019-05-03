@@ -4,6 +4,11 @@
 Communication between web-app and native Grab app happens via web bridge. Each request and 
 response object must have a structure defined in this document.
 
+## Currently available modules
+- [Location Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocationModule.md).
+- [Media Module](https://github.com/grab/superapp-sdk/blob/master/docs/MediaModule.md).
+- [Scope Module](https://github.com/grab/superapp-sdk/blob/master/docs/ScopeModule.md).
+
 ## Request
 Each request to native API should be done through JavaScript bridge provided by Grab. Please refer to specific Module API documentation for more details
 
@@ -46,5 +51,3 @@ Code | Type | Description
     error : "Client doesn't have access to method \"getLocation\" in module \"LocationModule\""
 }
 ```
-
- 
