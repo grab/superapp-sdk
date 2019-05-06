@@ -19,6 +19,24 @@ Name | Type | Description
 latitude | Double | Latitude is horizontal line described for earth coordinates
 longitude | Double | Longitude is vertical line described for earth coordinates
 
+#### Code sample
+```javascript
+import { LocationModule } from '@grabjs/superapp-sdk';
+
+const locationModule = new LocationModule();
+
+// This returns a Promise.
+locationModule.getCoordinate()
+  .then(({ result, error, status_code }) => {
+    if (!!result) {
+      const { latitude, longitude } = result;
+
+      // Handle coordinates here.
+    } else if (!!error) {
+      // Handle error here.
+    }
+  })
+```
 
 ##### Response example
 ```json
