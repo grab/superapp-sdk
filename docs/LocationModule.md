@@ -1,25 +1,25 @@
-## What is LocationModule ?
+# What is LocationModule ?
 
 `LocationModule` Will return current user position
 
 
-### Methods
+## Methods
 
+### 1. Get current user coordinate
 
-#### 1. Get current user coordinate
-
+#### Method name
 ```javascript
-LocationModule.getCoordinate()
+getCoordinate()
 ```
 
-##### Return type
-##### Coordinate
+#### Return type
+#### Coordinate
 Name | Type | Description
  --- | --- | ---
 latitude | Double | Latitude is horizontal line described for earth coordinates
 longitude | Double | Longitude is vertical line described for earth coordinates
 
-#### Code sample
+#### Code example
 ```javascript
 import { LocationModule } from '@grabjs/superapp-sdk';
 
@@ -38,14 +38,13 @@ locationModule.getCoordinate()
   })
 ```
 
-##### Response example
+#### Response example
 ```json
 {
-    status_code: 200
-    result : {
+    "status_code": 200,
+    "result" : {
         "latitude": 1.234523,
         "longitude": 1.4356345
     }
 }
 ```
-

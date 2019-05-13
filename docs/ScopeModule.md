@@ -7,10 +7,11 @@
 
 
 ### 1. Check if current client has access to specific API
-```javascript
-ScopeModule.hasAccessTo(module, method)
-```
 
+#### Method name
+```javascript
+hasAccessTo(module, method)
+```
 
 #### Params
 Name | Type | Description
@@ -18,34 +19,64 @@ Name | Type | Description
 module  | String  | Bridge module name
 method  | String  | Method name
 
-#### Result
+#### Return type
 Type | Description
  --- | ---
 Bool  | Bridge module name
 
-#### Result example
+#### Code example
+```javascript
+import { ScopeModule } from '@grabjs/superapp-sdk';
+
+const scopeModule = new ScopeModule();
+
+// This returns a Promise.
+scopeModule.hasAccessTo('LocationModule', 'getCoordinate')
+  .then(({ result, error, status_code }) => {
+    if (!!result) {
+      // Access is granted.
+    }
+  })
+```
+
+#### Return example
 ```json
 {
-    status_code: 200
-    result : true
+    "status_code": 200,
+    "result" : true
 }
 ```
-</br>
 
 ### 2. Request to reload consented scopes for current client
+
+#### Method name
 ```javascript
-ScopeModule.reloadScopes()
+reloadScopes()
 ```
 
 #### Params
 No parameters required for this request
 
-#### Result
+#### Return type
 No result type is associated with this request.
 
-#### Response example
+```javascript
+import { ScopeModule } from '@grabjs/superapp-sdk';
+
+const scopeModule = new ScopeModule();
+
+// This returns a Promise.
+scopeModule.reloadScopes()
+  .then(({ status_code }) => {
+    if (`${status_code}`.startsWith('20')) {
+      // Reload is successful.
+    }
+  })
+```
+
+#### Return example
 ```json
 {
-    status_code: 200
+    "status_code": 200,
 }
 ```
