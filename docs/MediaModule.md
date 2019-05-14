@@ -7,8 +7,10 @@
 
 
 ### 1. To play DRM content
+
+#### Method name
 ```javascript
-MediaModule.playDRMContent(data)
+playDRMContent(data)
 ```
 
 #### Params
@@ -43,7 +45,7 @@ START_PLAYBACK | Emitted when the video starts playing
 STOP_PLAYBACK | Emitted when the video stops playing
 PROGRESS_PLAYBACK | Emitted every 10 seconds
 
-#### Code sample
+#### Code example
 ```javascript
 import { MediaModule } from '@grabjs/superapp-sdk';
 
@@ -80,8 +82,8 @@ try {
 #### Response example
 ```json
 {
-    status_code: 200
-    result : {
+    "status_code": 200,
+    "result" : {
         "type": "PROGRESS_PLAYBACK",
         "titleId": "2o23asdf1asd123",
         "length": 3600,
