@@ -1,50 +1,82 @@
-# What is LocationModule ?
+# LocationModule
 
-`LocationModule` Will return current user position
+## Description
 
+Will return current user position
 
 ## Methods
 
 ### 1. Get current user coordinate
 
-#### Method name
+**Method name**
+
+`getCoordinate`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+| Name      | Type   | Description                                                 |
+| --------- | ------ | ----------------------------------------------------------- |
+| latitude  | Double | Latitude is horizontal line described for earth coordinates |
+| longitude | Double | Longitude is vertical line described for earth coordinates  |
+
+**Code example**
+
 ```javascript
-getCoordinate()
-```
+import { LocationModule } from '@grab/superapp-sdk';
 
-#### Return type
-#### Coordinate
-Name | Type | Description
- --- | --- | ---
-latitude | Double | Latitude is horizontal line described for earth coordinates
-longitude | Double | Longitude is vertical line described for earth coordinates
+// Ideally, initialize this only one and reuse across app.
+const locationModule = new LocationModule()
 
-#### Code example
-```javascript
-import { LocationModule } from '@grabjs/superapp-sdk';
-
-const locationModule = new LocationModule();
-
-// This returns a Promise.
-locationModule.getCoordinate()
-  .then(({ result, error, status_code }) => {
+locationModule.getCoordinate({})
+  .then({ result, error }) => {
     if (!!result) {
       const { latitude, longitude } = result;
-
-      // Handle coordinates here.
     } else if (!!error) {
-      // Handle error here.
+      // Some error happened.
     }
-  })
+  }
 ```
 
-#### Response example
-```json
-{
-    "status_code": 200,
-    "result" : {
-        "latitude": 1.234523,
-        "longitude": 1.4356345
+### 2. Stream current user coordinates
+
+**Method name**
+
+`observeLocationChange`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+| Name      | Type   | Description                                                 |
+| --------- | ------ | ----------------------------------------------------------- |
+| latitude  | Double | Latitude is horizontal line described for earth coordinates |
+| longitude | Double | Longitude is vertical line described for earth coordinates  |
+
+**Code example**
+
+```javascript
+import { LocationModule } from '@grab/superapp-sdk';
+
+// Ideally, initialize this only one and reuse across app.
+const locationModule = new LocationModule();
+
+// Unsubscribe from this subscription to terminate the stream.
+const subscription = locationModule.observeLocationChange({}).subscribe({
+  next: ({ result, error }) => {
+    if (!!result) {
+      const { latitude, longitude } = result;
+    } else if (!!error) {
+      // Some error happened.
     }
-}
+  },
+  complete: () => {
+    // Completion logic for when the stream completes.
+  }
+});
 ```
