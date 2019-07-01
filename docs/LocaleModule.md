@@ -23,10 +23,9 @@ Will return current locale information
 
 ### 1. Get language locale
 
-**Method name** `getLanguageLocaleIdentifier`
+**Method name**: `getLanguageLocaleIdentifier`
 
-**Arguments**
- `None`
+**Arguments**: `None`
 
 **Return type**
 
