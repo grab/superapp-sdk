@@ -8,13 +8,11 @@ Will return current user position
 
 ### 1. Get current user coordinate
 
-**Method name**
+**Method name**: `getCoordinate`
 
-`getCoordinate`
+**Scopes to be requested**: `mobile.geolocation`
 
-**Arguments**
-
-`None`
+**Arguments**: `None`
 
 **Return type**
 
@@ -43,13 +41,11 @@ locationModule.getCoordinate({})
 
 ### 2. Stream current user coordinates
 
-**Method name**
+**Method name**: `observeLocationChange`
 
-`observeLocationChange`
+**Scopes to be requested**: `mobile.geolocation`
 
-**Arguments**
-
-`None`
+**Arguments**: `None`
 
 **Return type**
 
