@@ -8,6 +8,7 @@ response object must have a structure defined in this document.
 - [Location Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocationModule.md).
 - [Media Module](https://github.com/grab/superapp-sdk/blob/master/docs/MediaModule.md).
 - [Scope Module](https://github.com/grab/superapp-sdk/blob/master/docs/ScopeModule.md).
+- [Locale Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocaleModule.md).
 
 ## Request
 Each request to native API should be done through JavaScript bridge provided by Grab. Please refer to specific Module API documentation for more details
@@ -36,8 +37,8 @@ Code | Type | Description
 ### Success response example
 ```json
 {
-    status_code: 200
-    result : {
+    "status_code": 200,
+    "result": {
         "latitude": 1.234523,
         "longitude": 1.4356345
     }
@@ -47,7 +48,7 @@ Code | Type | Description
 ### Failure response example
 ```json
 {
-    status_code: 403
-    error : "Client doesn't have access to method \"getLocation\" in module \"LocationModule\""
+    "status_code": 403,
+    "error": "Client doesn't have access to method \"getLocation\" in module \"LocationModule\""
 }
 ```
