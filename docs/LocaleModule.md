@@ -18,7 +18,6 @@ Will return current locale information
 | Burmese (Unicode) | my     |
 | Khmer             | km     |
 
-
 ## Methods
 
 ### 1. Get language locale
@@ -50,5 +49,3 @@ localeModule.getLanguageLocaleIdentifier({})
     }
   }
 ```
-
-
