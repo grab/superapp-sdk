@@ -1,82 +1,67 @@
-# What is ScopeModule ?
+# ScopeModule
 
-`ScopeModule` Provides access scope control related API.
+## Description
 
+Access scope control related API.
 
 ## Methods
 
-
 ### 1. Check if current client has access to specific API
 
-#### Method name
-```javascript
-hasAccessTo(module, method)
-```
+**Method name**: `hasAccessTo`
 
-#### Params
+**Arguments**
 Name | Type | Description
- --- | --- | ---
-module  | String  | Bridge module name
-method  | String  | Method name
+--- | --- | ---
+module|String|Bridge module name
+method|String|Method name
 
-#### Return type
-Type | Description
- --- | ---
-Bool  | Bridge module name
+**Return type**
 
-#### Code example
+`Boolean`
+
+**Code example**
+
 ```javascript
-import { ScopeModule } from '@grabjs/superapp-sdk';
+import { ScopeModule } from '@grab/superapp-sdk';
 
-const scopeModule = new ScopeModule();
+// Ideally, initialize this only one and reuse across app.
+const scopeModule = new ScopeModule()
 
-// This returns a Promise.
-scopeModule.hasAccessTo('LocationModule', 'getCoordinate')
-  .then(({ result, error, status_code }) => {
+scopeModule.hasAccessTo({ module, method })
+  .then({ result, error }) => {
     if (!!result) {
-      // Access is granted.
+      // There is a valid result.
+    } else if (!!error) {
+      // Some error happened.
     }
-  })
-```
-
-#### Return example
-```json
-{
-    "status_code": 200,
-    "result" : true
-}
+  }
 ```
 
 ### 2. Request to reload consented scopes for current client
 
-#### Method name
+**Method name**: `reloadScopes`
+
+**Arguments**: `None`
+
+**Return type**
+
+`Void`
+
+**Code example**
+
 ```javascript
-reloadScopes()
-```
+import { ScopeModule } from '@grab/superapp-sdk';
 
-#### Params
-No parameters required for this request
+// Ideally, initialize this only one and reuse across app.
+const scopeModule = new ScopeModule()
 
-#### Return type
-No result type is associated with this request.
-
-```javascript
-import { ScopeModule } from '@grabjs/superapp-sdk';
-
-const scopeModule = new ScopeModule();
-
-// This returns a Promise.
-scopeModule.reloadScopes()
-  .then(({ status_code }) => {
+scopeModule.reloadScopes({})
+  .then({ status_code, error }) => {
     if (`${status_code}`.startsWith('20')) {
-      // Reload is successful.
+      // The operation succeeded.
+    } else if (!!error) {
+      // Some error happened.
     }
-  })
-```
-
-#### Return example
-```json
-{
-    "status_code": 200,
-}
+  }
 ```
