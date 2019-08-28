@@ -28,7 +28,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.setBoolean({ key, value })
+storageModule.setBoolean(key, value)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -59,7 +59,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.getBoolean({ key })
+storageModule.getBoolean(key)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -91,7 +91,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.setInt({ key, value })
+storageModule.setInt(key, value)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -122,7 +122,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.getInt({ key })
+storageModule.getInt(key)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -154,7 +154,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.setString({ key, value })
+storageModule.setString(key, value)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -185,7 +185,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.getString({ key })
+storageModule.getString(key)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -217,7 +217,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.setDouble({ key, value })
+storageModule.setDouble(key, value)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -248,7 +248,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.getDouble({ key })
+storageModule.getDouble(key)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
@@ -279,7 +279,7 @@ import { StorageModule } from '@grab/superapp-sdk';
 // Ideally, initialize this only one and reuse across app.
 const storageModule = new StorageModule()
 
-storageModule.remove({ key })
+storageModule.remove(key)
   .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
