@@ -11,10 +11,11 @@ Provides persistence storage APIs, which helps the webview have access to persis
 **Method name**: `setBoolean`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
-value|Boolean|boolean value to put to local storage
+
+| Name  | Type    | Description                           |
+| ----- | ------- | ------------------------------------- |
+| key   | String  | String name of the key                |
+| value | Boolean | boolean value to put to local storage |
 
 **Return type**
 
@@ -43,9 +44,10 @@ storageModule.setBoolean(key, value)
 **Method name**: `getBoolean`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
+
+| Name | Type   | Description            |
+| ---- | ------ | ---------------------- |
+| key  | String | String name of the key |
 
 **Return type**
 
@@ -74,10 +76,11 @@ storageModule.getBoolean(key)
 **Method name**: `setInt`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
-value|Int|int value to put to local storage
+
+| Name  | Type   | Description                       |
+| ----- | ------ | --------------------------------- |
+| key   | String | String name of the key            |
+| value | Int    | int value to put to local storage |
 
 **Return type**
 
@@ -106,9 +109,10 @@ storageModule.setInt(key, value)
 **Method name**: `getInt`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
+
+| Name | Type   | Description            |
+| ---- | ------ | ---------------------- |
+| key  | String | String name of the key |
 
 **Return type**
 
@@ -137,10 +141,11 @@ storageModule.getInt(key)
 **Method name**: `setString`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
-value|String|string value to put to local storage
+
+| Name  | Type   | Description                          |
+| ----- | ------ | ------------------------------------ |
+| key   | String | String name of the key               |
+| value | String | string value to put to local storage |
 
 **Return type**
 
@@ -169,9 +174,10 @@ storageModule.setString(key, value)
 **Method name**: `getString`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
+
+| Name | Type   | Description            |
+| ---- | ------ | ---------------------- |
+| key  | String | String name of the key |
 
 **Return type**
 
@@ -200,10 +206,11 @@ storageModule.getString(key)
 **Method name**: `setDouble`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
-value|Double|double value to put to local storage
+
+| Name  | Type   | Description                          |
+| ----- | ------ | ------------------------------------ |
+| key   | String | String name of the key               |
+| value | Double | double value to put to local storage |
 
 **Return type**
 
@@ -232,9 +239,10 @@ storageModule.setDouble(key, value)
 **Method name**: `getDouble`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
+
+| Name | Type   | Description            |
+| ---- | ------ | ---------------------- |
+| key  | String | String name of the key |
 
 **Return type**
 
@@ -263,9 +271,10 @@ storageModule.getDouble(key)
 **Method name**: `remove`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-key|String|String name of the key
+
+| Name | Type   | Description            |
+| ---- | ------ | ---------------------- |
+| key  | String | String name of the key |
 
 **Return type**
 

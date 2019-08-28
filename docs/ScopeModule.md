@@ -11,10 +11,11 @@ Access scope control related API.
 **Method name**: `hasAccessTo`
 
 **Arguments**
-Name | Type | Description
---- | --- | ---
-module|String|Bridge module name
-method|String|Method name
+
+| Name   | Type   | Description        |
+| ------ | ------ | ------------------ |
+| module | String | Bridge module name |
+| method | String | Method name        |
 
 **Return type**
 
