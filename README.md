@@ -11,6 +11,7 @@ response object must have a structure defined in this document.
 - [Media Module](https://github.com/grab/superapp-sdk/blob/master/docs/MediaModule.md).
 - [Scope Module](https://github.com/grab/superapp-sdk/blob/master/docs/ScopeModule.md).
 - [Locale Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocaleModule.md).
+- [Storage Module](https://github.com/grab/superapp-sdk/blob/master/docs/StorageModule.md)
 
 One point to note is that partner engineers need to call `ScopeModule.reloadScopes` after redirection to partner website to load permissions from `GrabID`:
 
