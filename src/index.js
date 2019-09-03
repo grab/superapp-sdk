@@ -9,3 +9,4 @@ export { LocationModule } from './LocationModule';
 export { MediaModule } from './MediaModule';
 export { ScopeModule } from './ScopeModule';
 export { StorageModule } from './StorageModule';
+export { PlatformModule } from './PlatformModule';
