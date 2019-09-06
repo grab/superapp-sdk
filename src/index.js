@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export { LocaleModule } from './LocaleModule';
 export { LocationModule } from './LocationModule';
 export { MediaModule } from './MediaModule';
+export { PlatformModule } from './PlatformModule';
 export { ScopeModule } from './ScopeModule';
 export { StorageModule } from './StorageModule';
-export { PlatformModule } from './PlatformModule';
