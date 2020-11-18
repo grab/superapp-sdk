@@ -68,4 +68,5 @@ Each resonse from the native bridge follows the same structure described bellow.
 }
 ```
 ---
-* _Latitudes and longitudes, addresses and other POI data used in this file are either sourced from `GrabPlaces`, `GrabMaps`, `OSM` or randomly created by the developer and are not obtained from other external sources._
+* **GDMCOMMENT:** Latitudes and longitudes used in this file are either sourced from GrabPlaces, GrabMaps, OSM or randomly created by the developer and are not obtained from other external sources.
+
