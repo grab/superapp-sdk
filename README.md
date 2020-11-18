@@ -49,13 +49,12 @@ Each resonse from the native bridge follows the same structure described bellow.
 | 500  | Internal Error    | Unexpected internal error (e.g. failed to serialize response object)            |
 
 ### Success response example
-
 ```json
 {
   "status_code": 200,
   "result": {
-    "latitude": 1.234523,
-    "longitude": 1.4356345
+    "latitude": 1.234567,
+    "longitude": -1.234567
   }
 }
 ```
@@ -68,3 +67,5 @@ Each resonse from the native bridge follows the same structure described bellow.
   "error": "Client doesn't have access to method \"getLocation\" in module \"LocationModule\""
 }
 ```
+---
+* _Latitudes and longitudes, addresses and other POI data used in this file are either sourced from `GrabPlaces`, `GrabMaps`, `OSM` or randomly created by the developer and are not obtained from other external sources._
