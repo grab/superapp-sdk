@@ -23,7 +23,7 @@ Provides APIs to interract with the webview container.
 **Code example**
 
 ```javascript
-import { ContainerModule } from "@grab/superapp-sdk";
+import { ContainerModule } from "@grabjs/superapp-sdk";
 
 // Ideally, initialize this only one and reuse across app.
 const containerModule = new ContainerModule();
@@ -56,7 +56,7 @@ containerModule
 **Code example**
 
 ```javascript
-import { ContainerModule } from "@grab/superapp-sdk";
+import { ContainerModule } from "@grabjs/superapp-sdk";
 
 // Ideally, initialize this only one and reuse across app.
 const containerModule = new ContainerModule();
