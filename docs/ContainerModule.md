@@ -76,9 +76,9 @@ containerModule.setHeaderTitle("Home").then(({ result, error }) => {
 
 **Arguments**
 
-| Name  | Type   | Description       |
-| ----- | ------ | ----------------- |
-| url | String | URL of the current page |
+| Name | Type   | Description             |
+| ---- | ------ | ----------------------- |
+| url  | String | URL of the current page |
 
 **Return type**
 
