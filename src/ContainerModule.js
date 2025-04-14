@@ -13,14 +13,14 @@ export class ContainerModule {
   }
 
   setHeaderBackgroundColor(backgroundColor) {
-    return window.WrappedStorageModule.invoke('setHeaderBackgroundColor', { backgroundColor });
+    return window.WrappedContainerModule.invoke('setHeaderBackgroundColor', { backgroundColor });
   }
 
   setHeaderTitle(title) {
-    return window.WrappedStorageModule.invoke('setHeaderTitle', { title });
+    return window.WrappedContainerModule.invoke('setHeaderTitle', { title });
   }
 
   setShareUrl(url) {
-    return window.WrappedStorageModule.invoke('setShareUrl', { url });
+    return window.WrappedContainerModule.invoke('setShareUrl', { url });
   }
 }
