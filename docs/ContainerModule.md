@@ -69,3 +69,34 @@ containerModule.setHeaderTitle("Home").then(({ result, error }) => {
   }
 });
 ```
+
+### 3. Set share URL
+
+**Method name**: `setShareURL`
+
+**Arguments**
+
+| Name  | Type   | Description       |
+| ----- | ------ | ----------------- |
+| url | String | URL of the current page |
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.setShareURL("https://grab.com/").then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
