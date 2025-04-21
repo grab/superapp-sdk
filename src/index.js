@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export { CheckoutModule } from './CheckoutModule';
 export { ContainerModule } from './ContainerModule';
 export { LocaleModule } from './LocaleModule';
 export { LocationModule } from './LocationModule';
