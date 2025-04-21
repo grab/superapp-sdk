@@ -12,15 +12,37 @@ export class ContainerModule {
     bridgeSDK.wrapModule(window, 'ContainerModule');
   }
 
-  setHeaderBackgroundColor(backgroundColor) {
-    return window.WrappedContainerModule.invoke('setHeaderBackgroundColor', { backgroundColor });
+  setBackgroundColor(backgroundColor) {
+    return window.WrappedContainerModule.invoke('setBackgroundColor', {
+      backgroundColor,
+    });
   }
 
-  setHeaderTitle(title) {
-    return window.WrappedContainerModule.invoke('setHeaderTitle', { title });
+  setTitle(title) {
+    return window.WrappedContainerModule.invoke('setTitle', { title });
   }
 
-  setShareUrl(url) {
-    return window.WrappedContainerModule.invoke('setShareUrl', { url });
+  hideBackButton() {
+    return window.WrappedContainerModule.invoke('hideBackButton', {});
+  }
+
+  showBackButton() {
+    return window.WrappedContainerModule.invoke('showBackButton', {});
+  }
+
+  hideRefreshButton() {
+    return window.WrappedContainerModule.invoke('hideRefreshButton', {});
+  }
+
+  showRefreshButton() {
+    return window.WrappedContainerModule.invoke('showRefreshButton', {});
+  }
+
+  hideLoader() {
+    return window.WrappedContainerModule.invoke('hideLoader', {});
+  }
+
+  close() {
+    return window.WrappedContainerModule.invoke('close', {});
   }
 }

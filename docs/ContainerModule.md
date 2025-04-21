@@ -6,9 +6,9 @@ Provides APIs to interract with the webview container.
 
 ## Methods
 
-### 1. Set header background color
+### 1. Set background color
 
-**Method name**: `setHeaderBackgroundColor`
+**Method name**: `setBackgroundColor`
 
 **Arguments**
 
@@ -29,7 +29,7 @@ import { ContainerModule } from "@grabjs/superapp-sdk";
 const containerModule = new ContainerModule();
 
 containerModule
-  .setHeaderBackgroundColor("#ffffff")
+  .setBackgroundColor("#ffffff")
   .then(({ result, error }) => {
     if (result) {
       // There is a valid result.
@@ -39,9 +39,9 @@ containerModule
   });
 ```
 
-### 2. Set header title
+### 2. Set title
 
-**Method name**: `setHeaderTitle`
+**Method name**: `setTitle`
 
 **Arguments**
 
@@ -61,7 +61,7 @@ import { ContainerModule } from "@grabjs/superapp-sdk";
 // Ideally, initialize this only one and reuse across app.
 const containerModule = new ContainerModule();
 
-containerModule.setHeaderTitle("Home").then(({ result, error }) => {
+containerModule.setTitle("Home").then(({ result, error }) => {
   if (result) {
     // There is a valid result.
   } else if (error) {
@@ -70,15 +70,13 @@ containerModule.setHeaderTitle("Home").then(({ result, error }) => {
 });
 ```
 
-### 3. Set share URL
+### 3. Hide back button
 
-**Method name**: `setShareURL`
+**Method name**: `hideBackButton`
 
 **Arguments**
 
-| Name | Type   | Description             |
-| ---- | ------ | ----------------------- |
-| url  | String | URL of the current page |
+`None`
 
 **Return type**
 
@@ -92,7 +90,152 @@ import { ContainerModule } from "@grabjs/superapp-sdk";
 // Ideally, initialize this only one and reuse across app.
 const containerModule = new ContainerModule();
 
-containerModule.setShareURL("https://grab.com/").then(({ result, error }) => {
+containerModule.hideBackButton().then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 4. Show back button
+
+**Method name**: `showBackButton`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.showBackButton().then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 5. Hide refresh button
+
+**Method name**: `hideRefreshButton`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.hideRefreshButton().then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 6. Show refresh button
+
+**Method name**: `showRefreshButton`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.showRefreshButton().then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 7. Hide loader
+
+**Method name**: `hideLoader`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.hideLoader().then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 8. Close
+
+**Method name**: `close`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.close().then(({ result, error }) => {
   if (result) {
     // There is a valid result.
   } else if (error) {
