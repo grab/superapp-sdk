@@ -58,7 +58,12 @@ export class ContainerModule {
     }
     return window.WrappedContainerModule.invoke(
       'sendAnalyticsEvent',
-      eventDetails
+      {
+        sessionId: eventDetails.sessionId,
+        viewName: eventDetails.viewName,
+        eventName: eventDetails.eventName,
+        eventData: JSON.stringify(eventDetails.eventData),
+      }
     );
   }
 
