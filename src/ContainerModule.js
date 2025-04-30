@@ -115,6 +115,9 @@ export class ContainerModule {
     if (!eventData) {
       return `${AnalyticsEventName.PAYMENT_INITIATED} event requires eventData`;
     }
+    if (typeof eventData !== 'object' || Array.isArray(eventData)) {
+      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires eventData to be an object`;
+    }
 
     const allowedPaymentFields = ['transactionId', 'products', 'amount', 'currency', 'promoCodes'];
     const paymentFields = Object.keys(eventData);
@@ -175,6 +178,9 @@ export class ContainerModule {
     if (!eventData) {
       return `${AnalyticsEventName.ERROR_OCCURRED} event requires eventData`;
     }
+    if (typeof eventData !== 'object' || Array.isArray(eventData)) {
+      return `${AnalyticsEventName.ERROR_OCCURRED} event requires eventData to be an object`;
+    }
 
     const allowedErrorFields = ['errorCode', 'errorMessage'];
     const errorFields = Object.keys(eventData);
@@ -199,6 +205,9 @@ export class ContainerModule {
   _validateCustomEvent(eventData) {
     if (!eventData) {
       return `${AnalyticsEventName.CUSTOM} event requires eventData`;
+    }
+    if (typeof eventData !== 'object' || Array.isArray(eventData)) {
+      return `${AnalyticsEventName.CUSTOM} event requires eventData to be an object`;
     }
 
     const allowedCustomFields = ['customEventName', 'customEventData'];
