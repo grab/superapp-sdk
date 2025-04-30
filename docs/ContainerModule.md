@@ -246,7 +246,7 @@ The following events are allowed, each with their specific requirements for the 
     - `products` (Array of objects, optional): The products that are about to be purchased
       - Each product must have:
         - `id` (String, required): The product's unique identifier
-        - `quantity` (Number): The quantity of the product
+        - `quantity` (Number, optional): The quantity of the product
     - `amount` (Number, optional): The total amount of the transaction
     - `currency` (String, optional): The currency used for the transaction
     - `promoCodes` (Array of string, optional): Any promo codes applied to this transaction
