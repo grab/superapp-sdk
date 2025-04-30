@@ -271,7 +271,7 @@ The following events are allowed, each with their specific requirements for the 
 **Code example**
 
 ```javascript
-import { ContainerModule } from "@grabjs/superapp-sdk";
+import { ContainerModule, AnalyticsEventName } from "@grabjs/superapp-sdk";
 
 // Ideally, initialize this only one and reuse across app.
 const containerModule = new ContainerModule();
@@ -281,7 +281,7 @@ containerModule
   .sendAnalyticsEvent({
     sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
     viewName: "Home",
-    eventName: "STARTED",
+    eventName: AnalyticsEventName.STARTED,
     eventData: null,
   })
   .then(({ result, error }) => {
@@ -295,7 +295,7 @@ containerModule
 // Example for PAYMENT_INITIATED event
 containerModule
   .sendAnalyticsEvent({
-    eventName: "PAYMENT_INITIATED",
+    eventName: AnalyticsEventName.PAYMENT_INITIATED,
     eventData: {
       transactionId: "txn_123456",
       products: [

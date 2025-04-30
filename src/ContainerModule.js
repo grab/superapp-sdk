@@ -7,6 +7,13 @@
 
 const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
 
+export const AnalyticsEventName = {
+  STARTED: 'STARTED',
+  PAYMENT_INITIATED: 'PAYMENT_INITIATED',
+  ERROR_OCCURRED: 'ERROR_OCCURRED',
+  CUSTOM: 'CUSTOM',
+};
+
 export class ContainerModule {
   constructor() {
     bridgeSDK.wrapModule(window, 'ContainerModule');
@@ -70,18 +77,13 @@ export class ContainerModule {
       return 'viewName must be a string';
     }
 
-    const allowedEvents = [
-      'STARTED',
-      'PAYMENT_INITIATED',
-      'ERROR_OCCURRED',
-      'CUSTOM',
-    ];
+    const allowedEvents = Object.values(AnalyticsEventName);
     if (!allowedEvents.includes(eventDetails.eventName)) {
       return `Invalid eventName. Must be one of: ${allowedEvents.join(', ')}`;
     }
 
     switch (eventDetails.eventName) {
-      case 'STARTED':
+      case AnalyticsEventName.STARTED:
         if (
           eventDetails.eventData !== null &&
           eventDetails.eventData !== undefined
@@ -90,7 +92,7 @@ export class ContainerModule {
         }
         break;
 
-      case 'PAYMENT_INITIATED':
+      case AnalyticsEventName.PAYMENT_INITIATED:
         if (
           !eventDetails.eventData ||
           typeof eventDetails.eventData.transactionId !== 'string'
@@ -136,7 +138,7 @@ export class ContainerModule {
         }
         break;
 
-      case 'ERROR_OCCURRED':
+      case AnalyticsEventName.ERROR_OCCURRED:
         if (
           !eventDetails.eventData ||
           typeof eventDetails.eventData.errorCode !== 'string'
@@ -151,7 +153,7 @@ export class ContainerModule {
         }
         break;
 
-      case 'CUSTOM':
+      case AnalyticsEventName.CUSTOM:
         if (
           !eventDetails.eventData ||
           typeof eventDetails.eventData.customEventName !== 'string'
