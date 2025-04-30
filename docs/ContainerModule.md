@@ -226,7 +226,7 @@ An object, containing the following properties:
 | `sessionId` | String | No       | A unique identifier for the user's session                     |
 | `viewName`  | String | No       | The name of the page or screen displayed when the event occurs |
 | `eventName` | String | Yes      | Name of the event                                              |
-| `eventData` | Any    | Yes      | An object containing the event data                            |
+| `eventData` | Any    | Yes      | The event data (can be any type)                               |
 
 **Events**
 
