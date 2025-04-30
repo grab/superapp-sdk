@@ -230,18 +230,18 @@ An object, containing the following properties:
 
 **Events**
 
-The following events are allowed, each with their specific requirements:
+The following events are allowed, each with their specific requirements for the `eventData` field:
 
 - `STARTED`
 
   - **Description**: Triggered when the MiniApp is initialized.
-  - **Requirements**:
-    - `eventData` must be empty
+  - **Requirements for eventData**:
+    - Must be empty
 
 - `PAYMENT_INITIATED`
 
   - **Description**: Triggered when a purchase is made through MiniApp.
-  - **Requirements**:
+  - **Requirements for eventData**:
     - `transactionId` (String, required): The transaction identifier provided by the GrabPay SDK
     - `products` (Array of objects, optional): The products that are about to be purchased
       - Each product must have:
@@ -254,13 +254,13 @@ The following events are allowed, each with their specific requirements:
 - `ERROR_OCCURRED`
 
   - **Description**: Triggered when an error occurs within the MiniApp.
-  - **Requirements**:
+  - **Requirements for eventData**:
     - `errorCode` (String, required): A code or type identifying the error
     - `errorMessage` (String, optional): A message describing the error
 
 - `CUSTOM`
   - **Description**: Triggered when a custom event should be tracked within the MiniApp.
-  - **Requirements**:
+  - **Requirements for eventData**:
     - `customEventName` (String, required): The name of the custom event
     - `customEventData` (Any, optional): An object containing the custom event data
 
