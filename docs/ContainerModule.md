@@ -258,6 +258,7 @@ The following events are allowed, each with their specific requirements for the 
   - **Requirements for eventData**:
     - `errorCode` (String, required): A code or type identifying the error
     - `errorMessage` (String, optional): A message describing the error
+    - `errorSeverity` (String, optional): The severity level of the error. Must be one of: 'warning', 'error', 'critical'
 
 - `CUSTOM`
   - **Description**: Triggered when a custom event should be tracked within the MiniApp.
@@ -308,6 +309,26 @@ containerModule
       amount: 100.5,
       currency: "SGD",
       promoCodes: ["10%OFF"],
+    },
+  })
+  .then(({ result, error }) => {
+    if (result) {
+      // There is a valid result.
+    } else if (error) {
+      // Some error happened.
+    }
+  });
+
+// Example for ERROR_OCCURRED event
+containerModule
+  .sendAnalyticsEvent({
+    sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
+    viewName: "Payment",
+    eventName: "ERROR_OCCURRED",
+    eventData: {
+      errorCode: "PAYMENT_FAILED",
+      errorMessage: "Failed to process payment due to insufficient funds",
+      errorSeverity: "error"
     },
   })
   .then(({ result, error }) => {

@@ -186,7 +186,7 @@ export class ContainerModule {
       return `${AnalyticsEventName.ERROR_OCCURRED} event requires eventData to be an object`;
     }
 
-    const allowedErrorFields = ['errorCode', 'errorMessage'];
+    const allowedErrorFields = ['errorCode', 'errorMessage', 'errorSeverity'];
     const errorFields = Object.keys(eventData);
     const additionalErrorFields = errorFields.filter(field => !allowedErrorFields.includes(field));
     if (additionalErrorFields.length > 0) {
@@ -201,6 +201,9 @@ export class ContainerModule {
     }
     if (eventData.errorMessage && typeof eventData.errorMessage !== 'string') {
       return `${AnalyticsEventName.ERROR_OCCURRED} event requires errorMessage in eventData to be a string`;
+    }
+    if (eventData.errorSeverity && !['warning', 'error', 'critical'].includes(eventData.errorSeverity)) {
+      return `${AnalyticsEventName.ERROR_OCCURRED} event requires errorSeverity in eventData to be one of: warning, error, critical`;
     }
 
     return null;
