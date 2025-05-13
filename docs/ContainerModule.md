@@ -2,7 +2,7 @@
 
 ## Description
 
-Provides APIs to interract with the webview container.
+Provides APIs to interact with the webview container.
 
 ## Methods
 
@@ -29,9 +29,7 @@ import { ContainerModule } from "@grabjs/superapp-sdk";
 const containerModule = new ContainerModule();
 
 containerModule.setBackgroundColor("#ffffff").then(({ result, error }) => {
-  if (result) {
-    // There is a valid result.
-  } else if (error) {
+  if (error) {
     // Some error happened.
   }
 });
@@ -60,9 +58,7 @@ import { ContainerModule } from "@grabjs/superapp-sdk";
 const containerModule = new ContainerModule();
 
 containerModule.setTitle("Home").then(({ result, error }) => {
-  if (result) {
-    // There is a valid result.
-  } else if (error) {
+  if (error) {
     // Some error happened.
   }
 });
@@ -89,9 +85,7 @@ import { ContainerModule } from "@grabjs/superapp-sdk";
 const containerModule = new ContainerModule();
 
 containerModule.hideBackButton().then(({ result, error }) => {
-  if (result) {
-    // There is a valid result.
-  } else if (error) {
+  if (error) {
     // Some error happened.
   }
 });
@@ -118,9 +112,7 @@ import { ContainerModule } from "@grabjs/superapp-sdk";
 const containerModule = new ContainerModule();
 
 containerModule.showBackButton().then(({ result, error }) => {
-  if (result) {
-    // There is a valid result.
-  } else if (error) {
+  if (error) {
     // Some error happened.
   }
 });
@@ -231,26 +223,31 @@ An object, containing the following properties:
 
 **Events**
 
-The following events are allowed, each with their specific requirements for the `eventData` field:
+The following events are available:
 
 - `STARTED`
 
   - **Description**: Triggered when the MiniApp is initialized.
   - **Requirements for eventData**:
-    - Must be empty
+    - Must be `null` or `undefined`
+    - No additional fields are allowed
 
-- `PAYMENT_INITIATED`
+- `PAYMENT_STATUS_UPDATED`
 
-  - **Description**: Triggered when a purchase is made through MiniApp.
+  - **Description**: Triggered when a payment status is updated.
   - **Requirements for eventData**:
-    - `transactionId` (String, required): The transaction identifier provided by the GrabPay SDK
-    - `products` (Array of objects, optional): The products that are about to be purchased
+    - `transactionId` (String, optional): The transaction identifier provided by the GrabPay SDK
+    - `statusCode` (String, required): The status of the payment. Must be one of: 'SUCCESS', 'FAILURE', 'CANCELLED', 'INITIATED', 'UNKNOWN' (case-sensitive)
+    - `statusMessage` (String, optional): A message describing the status update
+    - `products` (Array of objects, optional): The products that are being purchased
       - Each product must have:
         - `id` (String, required): The product's unique identifier
         - `quantity` (Number, optional): The quantity of the product
     - `amount` (Number, optional): The total amount of the transaction
     - `currency` (String, optional): The currency used for the transaction
     - `promoCodes` (Array of string, optional): Any promo codes applied to this transaction
+    - No additional fields are allowed
+    - All fields must match their specified types exactly
 
 - `ERROR_OCCURRED`
 
@@ -258,22 +255,42 @@ The following events are allowed, each with their specific requirements for the 
   - **Requirements for eventData**:
     - `errorCode` (String, required): A code or type identifying the error
     - `errorMessage` (String, optional): A message describing the error
-    - `errorSeverity` (String, optional): The severity level of the error. Must be one of: 'warning', 'error', 'critical'
+    - `errorSeverity` (String, optional): The severity level of the error. Must be one of: 'WARNING', 'ERROR', 'CRITICAL' (case-sensitive)
+    - No additional fields are allowed
+    - All fields must match their specified types exactly
 
 - `CUSTOM`
   - **Description**: Triggered when a custom event should be tracked within the MiniApp.
   - **Requirements for eventData**:
     - `customEventName` (String, required): The name of the custom event
     - `customEventData` (Any, optional): An object containing the custom event data
+    - No additional fields are allowed
+    - All fields must match their specified types exactly
 
 **Return type**
 
+Returns a Promise-like object that resolves to an object with the following structure:
 `None`
+
+**Validation**
+
+The SDK performs strict validation on all events:
+
+- All required fields must be present
+- Field types must match their specifications exactly
+- No additional fields are allowed beyond those specified
+- Event data is automatically stringified before being sent
+- Validation errors will be returned in the `error` field of the response
 
 **Code example**
 
 ```javascript
-import { ContainerModule } from "@grabjs/superapp-sdk";
+import {
+  ContainerModule,
+  AnalyticsEventName,
+  PaymentStatusCode,
+  ErrorSeverity,
+} from "@grabjs/superapp-sdk";
 
 // Ideally, initialize this only one and reuse across app.
 const containerModule = new ContainerModule();
@@ -281,27 +298,29 @@ const containerModule = new ContainerModule();
 // Example for STARTED event
 containerModule
   .sendAnalyticsEvent({
+    url: "https://www.grab.com/sg/",
     sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
     viewName: "Home",
-    eventName: "STARTED",
+    eventName: AnalyticsEventName.STARTED,
     eventData: null,
   })
   .then(({ result, error }) => {
-    if (result) {
-      // There is a valid result.
-    } else if (error) {
+    if (error) {
       // Some error happened.
     }
   });
 
-// Example for PAYMENT_INITIATED event
+// Example for PAYMENT_STATUS_UPDATED event
 containerModule
   .sendAnalyticsEvent({
+    url: "https://www.grab.com/sg/",
     sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
     viewName: "Payment",
-    eventName: "PAYMENT_INITIATED",
+    eventName: AnalyticsEventName.PAYMENT_STATUS_UPDATED,
     eventData: {
       transactionId: "txn_123456",
+      statusCode: PaymentStatusCode.SUCCESS,
+      statusMessage: "Payment completed successfully",
       products: [
         { id: "product_1", quantity: 2 },
         { id: "product_2", quantity: 1 },
@@ -312,9 +331,7 @@ containerModule
     },
   })
   .then(({ result, error }) => {
-    if (result) {
-      // There is a valid result.
-    } else if (error) {
+    if (error) {
       // Some error happened.
     }
   });
@@ -322,19 +339,39 @@ containerModule
 // Example for ERROR_OCCURRED event
 containerModule
   .sendAnalyticsEvent({
+    url: "https://www.grab.com/sg/",
     sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
     viewName: "Payment",
-    eventName: "ERROR_OCCURRED",
+    eventName: AnalyticsEventName.ERROR_OCCURRED,
     eventData: {
       errorCode: "PAYMENT_FAILED",
       errorMessage: "Failed to process payment due to insufficient funds",
-      errorSeverity: "error"
+      errorSeverity: ErrorSeverity.ERROR,
     },
   })
   .then(({ result, error }) => {
-    if (result) {
-      // There is a valid result.
-    } else if (error) {
+    if (error) {
+      // Some error happened.
+    }
+  });
+
+// Example for CUSTOM event
+containerModule
+  .sendAnalyticsEvent({
+    url: "https://www.grab.com/sg/",
+    sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
+    viewName: "Home",
+    eventName: AnalyticsEventName.CUSTOM,
+    eventData: {
+      customEventName: "USER_ACTION",
+      customEventData: {
+        action: "button_click",
+        buttonId: "submit_order",
+      },
+    },
+  })
+  .then(({ result, error }) => {
+    if (error) {
       // Some error happened.
     }
   });

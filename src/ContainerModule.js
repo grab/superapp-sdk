@@ -9,9 +9,23 @@ const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
 
 export const AnalyticsEventName = {
   STARTED: 'STARTED',
-  PAYMENT_INITIATED: 'PAYMENT_INITIATED',
+  PAYMENT_STATUS_UPDATED: 'PAYMENT_STATUS_UPDATED',
   ERROR_OCCURRED: 'ERROR_OCCURRED',
   CUSTOM: 'CUSTOM',
+};
+
+export const ErrorSeverity = {
+  WARNING: 'WARNING',
+  ERROR: 'ERROR',
+  CRITICAL: 'CRITICAL',
+};
+
+export const PaymentStatusCode = {
+  SUCCESS: 'SUCCESS',
+  FAILURE: 'FAILURE',
+  CANCELLED: 'CANCELLED',
+  INITIATED: 'INITIATED',
+  UNKNOWN: 'UNKNOWN',
 };
 
 export class ContainerModule {
@@ -95,8 +109,8 @@ export class ContainerModule {
       case AnalyticsEventName.STARTED:
         return this._validateStartedEvent(eventDetails.eventData);
 
-      case AnalyticsEventName.PAYMENT_INITIATED:
-        return this._validatePaymentInitiatedEvent(eventDetails.eventData);
+      case AnalyticsEventName.PAYMENT_STATUS_UPDATED:
+        return this._validatePaymentStatusUpdatedEvent(eventDetails.eventData);
 
       case AnalyticsEventName.ERROR_OCCURRED:
         return this._validateErrorOccurredEvent(eventDetails.eventData);
@@ -115,64 +129,76 @@ export class ContainerModule {
     return null;
   }
 
-  _validatePaymentInitiatedEvent(eventData) {
+  _validatePaymentStatusUpdatedEvent(eventData) {
     if (!eventData) {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires eventData`;
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires eventData`;
     }
     if (typeof eventData !== 'object' || Array.isArray(eventData)) {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires eventData to be an object`;
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires eventData to be an object`;
     }
 
-    const allowedPaymentFields = ['transactionId', 'products', 'amount', 'currency', 'promoCodes'];
+    const allowedPaymentFields = ['transactionId', 'statusCode', 'statusMessage', 'products', 'amount', 'currency', 'promoCodes'];
     const paymentFields = Object.keys(eventData);
     const additionalPaymentFields = paymentFields.filter(field => !allowedPaymentFields.includes(field));
     if (additionalPaymentFields.length > 0) {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event does not allow additional fields in eventData: ${additionalPaymentFields.join(', ')}`;
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event does not allow additional fields in eventData: ${additionalPaymentFields.join(', ')}`;
     }
 
-    if (!eventData.transactionId) {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires transactionId in eventData to be defined`;
+    if (eventData.transactionId && typeof eventData.transactionId !== 'string') {
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires transactionId in eventData to be a string`;
     }
-    if (typeof eventData.transactionId !== 'string') {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires transactionId in eventData to be a string`;
+
+    if (!eventData.statusCode) {
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires statusCode in eventData to be defined`;
+    }
+    if (typeof eventData.statusCode !== 'string') {
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires statusCode in eventData to be a string`;
+    }
+    const allowedStatusCodes = Object.values(PaymentStatusCode);
+    if (!allowedStatusCodes.includes(eventData.statusCode)) {
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires statusCode in eventData to be one of: ${allowedStatusCodes.join(', ')}`;
+    }
+
+    if (eventData.statusMessage && typeof eventData.statusMessage !== 'string') {
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires statusMessage in eventData to be a string`;
     }
 
     if (eventData.products) {
       if (!Array.isArray(eventData.products)) {
-        return `${AnalyticsEventName.PAYMENT_INITIATED} event requires products in eventData to be an array`;
+        return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires products in eventData to be an array`;
       }
       for (const product of eventData.products) {
         const allowedProductFields = ['id', 'quantity'];
         const productFields = Object.keys(product);
         const additionalProductFields = productFields.filter(field => !allowedProductFields.includes(field));
         if (additionalProductFields.length > 0) {
-          return `${AnalyticsEventName.PAYMENT_INITIATED} event does not allow additional fields in eventData.products item: ${additionalProductFields.join(', ')}`;
+          return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event does not allow additional fields in eventData.products item: ${additionalProductFields.join(', ')}`;
         }
 
         if (!product.id) {
-          return `${AnalyticsEventName.PAYMENT_INITIATED} event requires id in eventData.products item to be defined`;
+          return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires id in eventData.products item to be defined`;
         }
         if (typeof product.id !== 'string') {
-          return `${AnalyticsEventName.PAYMENT_INITIATED} event requires id in eventData.products item to be a string`;
+          return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires id in eventData.products item to be a string`;
         }
         if (product.quantity && typeof product.quantity !== 'number') {
-          return `${AnalyticsEventName.PAYMENT_INITIATED} event requires quantity in eventData.products item to be a number`;
+          return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires quantity in eventData.products item to be a number`;
         }
       }
     }
 
     if (eventData.amount && typeof eventData.amount !== 'number') {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires amount in eventData to be a number`;
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires amount in eventData to be a number`;
     }
     if (eventData.currency && typeof eventData.currency !== 'string') {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires currency in eventData to be a string`;
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires currency in eventData to be a string`;
     }
     if (
       eventData.promoCodes &&
       (!Array.isArray(eventData.promoCodes) ||
         !eventData.promoCodes.every((code) => typeof code === 'string'))
     ) {
-      return `${AnalyticsEventName.PAYMENT_INITIATED} event requires promoCodes in eventData to be an array of strings`;
+      return `${AnalyticsEventName.PAYMENT_STATUS_UPDATED} event requires promoCodes in eventData to be an array of strings`;
     }
 
     return null;
@@ -202,8 +228,8 @@ export class ContainerModule {
     if (eventData.errorMessage && typeof eventData.errorMessage !== 'string') {
       return `${AnalyticsEventName.ERROR_OCCURRED} event requires errorMessage in eventData to be a string`;
     }
-    if (eventData.errorSeverity && !['warning', 'error', 'critical'].includes(eventData.errorSeverity)) {
-      return `${AnalyticsEventName.ERROR_OCCURRED} event requires errorSeverity in eventData to be one of: warning, error, critical`;
+    if (eventData.errorSeverity && !Object.values(ErrorSeverity).includes(eventData.errorSeverity)) {
+      return `${AnalyticsEventName.ERROR_OCCURRED} event requires errorSeverity in eventData to be one of: ${Object.values(ErrorSeverity).join(', ')}`;
     }
 
     return null;
