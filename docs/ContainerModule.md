@@ -229,8 +229,7 @@ The following events are available:
 
   - **Description**: Triggered when the MiniApp is initialized.
   - **Requirements for eventData**:
-    - Must be `null` or `undefined`
-    - No additional fields are allowed
+    - Must be empty
 
 - `PAYMENT_STATUS_UPDATED`
 
@@ -246,8 +245,6 @@ The following events are available:
     - `amount` (Number, optional): The total amount of the transaction
     - `currency` (String, optional): The currency used for the transaction
     - `promoCodes` (Array of string, optional): Any promo codes applied to this transaction
-    - No additional fields are allowed
-    - All fields must match their specified types exactly
 
 - `ERROR_OCCURRED`
 
@@ -256,20 +253,15 @@ The following events are available:
     - `errorCode` (String, required): A code or type identifying the error
     - `errorMessage` (String, optional): A message describing the error
     - `errorSeverity` (String, optional): The severity level of the error. Must be one of: 'WARNING', 'ERROR', 'CRITICAL' (case-sensitive)
-    - No additional fields are allowed
-    - All fields must match their specified types exactly
 
 - `CUSTOM`
   - **Description**: Triggered when a custom event should be tracked within the MiniApp.
   - **Requirements for eventData**:
     - `customEventName` (String, required): The name of the custom event
     - `customEventData` (Any, optional): An object containing the custom event data
-    - No additional fields are allowed
-    - All fields must match their specified types exactly
 
 **Return type**
 
-Returns a Promise-like object that resolves to an object with the following structure:
 `None`
 
 **Validation**
@@ -279,7 +271,6 @@ The SDK performs strict validation on all events:
 - All required fields must be present
 - Field types must match their specifications exactly
 - No additional fields are allowed beyond those specified
-- Event data is automatically stringified before being sent
 - Validation errors will be returned in the `error` field of the response
 
 **Code example**
