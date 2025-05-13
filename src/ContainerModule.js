@@ -59,6 +59,7 @@ export class ContainerModule {
     return window.WrappedContainerModule.invoke(
       'sendAnalyticsEvent',
       {
+        url: eventDetails.url,
         sessionId: eventDetails.sessionId,
         viewName: eventDetails.viewName,
         eventName: eventDetails.eventName,
@@ -75,6 +76,9 @@ export class ContainerModule {
       }
     }
 
+    if (eventDetails.url && typeof eventDetails.url !== 'string') {
+      return 'url must be a string';
+    }
     if (eventDetails.sessionId && typeof eventDetails.sessionId !== 'string') {
       return 'sessionId must be a string';
     }
