@@ -24,7 +24,6 @@ export const PaymentStatusCode = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE',
   CANCELLED: 'CANCELLED',
-  INITIATED: 'INITIATED',
   UNKNOWN: 'UNKNOWN',
 };
 
