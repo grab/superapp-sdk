@@ -9,16 +9,9 @@ import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export class SystemWebViewKitModule {
   constructor() {
-    // creates window.WrappedSystemWebViewKitModule
     bridgeSDK.wrapModule(window, 'SystemWebViewKitModule');
   }
 
-  /**
-   * Open the given URL in a system webview.
-   * 
-   * @param {{ parameters: { url: string } }} opts
-   * @returns {Promise<{ status_code: number, result: any, error: string }>}
-   */
   redirectToSystemWebView({ parameters }) {
     return window.WrappedSystemWebViewKitModule.invoke(
       'redirectToSystemWebView',
