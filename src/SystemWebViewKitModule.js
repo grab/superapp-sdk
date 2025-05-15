@@ -17,7 +17,7 @@ export class SystemWebViewKitModule {
    * Open the given URL in a system webview.
    * 
    * @param {{ parameters: { url: string } }} opts
-   * @returns {Promise<void>}
+   * @returns {Promise<{ status_code: number, result: any, error: string }>}
    */
   redirectToSystemWebView({ parameters }) {
     return window.WrappedSystemWebViewKitModule.invoke(

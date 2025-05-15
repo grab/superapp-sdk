@@ -18,7 +18,12 @@ Open a URL in a system webview.
 | ---- | ------ | ---------------- |
 | url  | String | The URL to open. |
 
-**Return type**: `Promise<void>`
+**Return type**: 
+`Promise<{ status_code: number, result: any, error: string }>`  
+- `status_code` is the HTTP-style code (200 on success)  
+- `result` is the payload for `status_code === 200`  
+- `error` is the error message for `status_code !== 200`
+
 
 ## Code example
 
@@ -32,9 +37,13 @@ const systemWebViewKitModule = new SystemWebViewKitModule();
 systemWebViewKitModule.redirectToSystemWebView({
     parameters: { url: 'https://example.com' }
   })
-  .then(() => {
-     // success: webview was handed off
+  .then(({ status_code, result, error }) => {
+    if (status_code === 200) {
+      // WebView opened successfully
+    } else {
+      // some native error
+    }
   })
-  .catch(error => {
-     // Some error happened.
+  .catch(invocationError => {
+    // Bridge invocation failed
   });
