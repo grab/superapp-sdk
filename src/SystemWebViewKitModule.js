@@ -13,9 +13,13 @@ export class SystemWebViewKitModule {
   }
 
   redirectToSystemWebView({ parameters }) {
+    const payload = JSON.stringify({
+      method: 'redirectToSystemWebView',
+      parameters,
+    });
     return window.WrappedSystemWebViewKitModule.invoke(
       'redirectToSystemWebView',
-      { parameters }
+      payload
     );
   }
 }
