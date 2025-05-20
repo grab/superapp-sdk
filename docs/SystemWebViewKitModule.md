@@ -30,9 +30,8 @@ import { SystemWebViewKitModule } from '@grab/superapp-sdk';
 const systemWebViewKitModule = new SystemWebViewKitModule();
 
 // open the system webview
-systemWebViewKitModule.redirectToSystemWebView({
-        url: 'http://wwww.example.com',
-    }).then({ result, error }) => {
+systemWebViewKitModule.redirectToSystemWebView({ url: 'http://wwww.example.com' })
+  .then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
     } else if (!!error) {
