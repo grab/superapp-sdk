@@ -23,7 +23,7 @@ export const ErrorSeverity = {
 export const PaymentStatusCode = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE',
-  CANCELLED: 'CANCELLED',
+  CANCEL: 'CANCEL',
   PROCESSING: 'PROCESSING',
 };
 

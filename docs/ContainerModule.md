@@ -236,7 +236,7 @@ The following events are available:
   - **Description**: Triggered when a payment status is updated.
   - **Requirements for eventData**:
     - `transactionId` (String, optional): The transaction identifier provided by the GrabPay SDK
-    - `statusCode` (String, required): The status of the payment. Must be one of: 'SUCCESS', 'FAILURE', 'CANCELLED', 'PROCESSING' (case-sensitive)
+    - `statusCode` (String, required): The status of the payment. Must be one of: 'SUCCESS', 'FAILURE', 'CANCEL', 'PROCESSING' (case-sensitive)
     - `statusMessage` (String, optional): A message describing the status update
     - `products` (Array of objects, optional): The products that are being purchased
       - Each product must have:
