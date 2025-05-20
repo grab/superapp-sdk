@@ -24,7 +24,7 @@ export const PaymentStatusCode = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE',
   CANCELLED: 'CANCELLED',
-  UNKNOWN: 'UNKNOWN',
+  PROCESSING: 'PROCESSING',
 };
 
 export class ContainerModule {
