@@ -31,8 +31,8 @@ const systemWebViewKitModule = new SystemWebViewKitModule();
 
 // open the system webview
 systemWebViewKitModule.redirectToSystemWebView({
-    parameters: { url: 'https://example.com' }
-  }).then({ result, error }) => {
+        url: 'http://wwww.example.com',
+    }).then({ result, error }) => {
     if (!!result) {
       // There is a valid result.
     } else if (!!error) {

@@ -12,11 +12,8 @@ export class SystemWebViewKitModule {
     bridgeSDK.wrapModule(window, 'SystemWebViewKitModule');
   }
 
-  redirectToSystemWebView({ parameters }) {
-    const payload = JSON.stringify({
-      method: 'redirectToSystemWebView',
-      parameters,
-    });
+  redirectToSystemWebView(payload) {
+    console.log(`redirectToSystemWebView(${JSON.stringify(payload)})`);
     return window.WrappedSystemWebViewKitModule.invoke(
       'redirectToSystemWebView',
       payload
