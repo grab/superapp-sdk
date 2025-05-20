@@ -13,7 +13,6 @@ export class SystemWebViewKitModule {
   }
 
   redirectToSystemWebView(payload) {
-    console.log(`redirectToSystemWebView(${JSON.stringify(payload)})`);
     return window.WrappedSystemWebViewKitModule.invoke(
       'redirectToSystemWebView',
       payload
