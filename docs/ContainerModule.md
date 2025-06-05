@@ -205,7 +205,37 @@ containerModule.close().then(({ result, error }) => {
 });
 ```
 
-### 8. Send analytics event
+### 8. On content loaded
+
+**Method name**: `onContentLoaded`
+Call this method to notify the client that page content loaded
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.onContentLoaded().then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 9. Send analytics event
 
 **Method name**: `sendAnalyticsEvent`
 

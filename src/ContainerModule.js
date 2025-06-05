@@ -62,6 +62,10 @@ export class ContainerModule {
     return window.WrappedContainerModule.invoke('close');
   }
 
+  onContentLoaded() {
+    return window.WrappedContainerModule.invoke('onContentLoaded');
+  }
+
   sendAnalyticsEvent(eventDetails) {
     const validationError = this._validateAnalyticsEvent(eventDetails);
     if (validationError) {
