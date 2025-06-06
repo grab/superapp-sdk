@@ -235,7 +235,39 @@ containerModule.onContentLoaded().then(({ result, error }) => {
 });
 ```
 
-### 9. Send analytics event
+### 9. Open link in external browser
+
+**Method name**: `openExternalLink`
+Call this method to tell client to open the link in external browser
+
+**Arguments**
+
+| Name  | Type   | Required | Description       |
+| ----- | ------ | -------- | ----------------- |
+| url   | String | Yes      | URL to open       |
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.openExternalLink("https://grab.com").then(({ result, error }) => {
+  if (result) {
+    // There is a valid result.
+  } else if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 10. Send analytics event
 
 **Method name**: `sendAnalyticsEvent`
 
