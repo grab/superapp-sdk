@@ -66,6 +66,10 @@ export class ContainerModule {
     return window.WrappedContainerModule.invoke('onContentLoaded');
   }
 
+  openExternalLink(url) {
+    return window.WrappedContainerModule.invoke('openExternalLink', { url });
+  }
+
   sendAnalyticsEvent(eventDetails) {
     const validationError = this._validateAnalyticsEvent(eventDetails);
     if (validationError) {
