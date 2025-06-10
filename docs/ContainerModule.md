@@ -299,8 +299,7 @@ containerModule.openExternalLink("https://grab.com").then(({ result, error }) =>
 For 'BOOKING_COMPLETION' state:
    - 'DEFAULT'
 
-For 'CUSTOM' state:
-   - 'DEFAULT'
+For 'CUSTOM' state: anything
 
 **Event Data Requirements**
 
@@ -308,7 +307,7 @@ For 'CUSTOM' state:
    - `booking_amount` (number, required): The amount of the booking
    - `booking_currency` (string, required): The currency of the booking
 
-2. For 'CUSTOM' state and 'DEFAULT' event:
+2. For 'CUSTOM' state:
    - `page` (string, required): The page identifier
 
 **Return type**
