@@ -78,7 +78,7 @@ export class ContainerModule {
     const validationError = this._validateAnalyticsEvent(eventDetails);
     if (validationError) {
       return {
-        then: (callback) => callback({ result: null, error: validationError }),
+        then: (callback) => callback({ status_code: 400, error: validationError }),
       };
     }
     return window.WrappedContainerModule.invoke(
