@@ -92,27 +92,22 @@ export class ContainerModule {
   }
 
   _validateAnalyticsEvent(eventDetails) {
-    const requiredFields = ['state', 'name'];
-    for (const field of requiredFields) {
-      if (eventDetails[field] == null) {
-        return `Missing required field: ${field}`;
-      }
+    if (eventDetails.name == null) {
+      return 'name is required';
     }
-
     if (typeof eventDetails.name !== 'string') {
       return 'name must be a string';
     }
 
+    if (eventDetails.state == null) {
+      return 'state is required';
+    }
     if (typeof eventDetails.state !== 'string') {
       return 'state must be a string';
     }
     const allowedStates = Object.values(AnalyticsEventState);
     if (!allowedStates.includes(eventDetails.state)) {
-      return `Invalid state. Must be one of: ${allowedStates.join(', ')}`;
-    }
-
-    if (eventDetails.data != null && typeof eventDetails.data !== 'object') {
-      return 'data must be an object';
+      return `state must be one of: ${allowedStates.join(', ')}`;
     }
 
     switch (eventDetails.state) {
@@ -136,7 +131,7 @@ export class ContainerModule {
       case AnalyticsEventName.HOMEPAGE.INITIATE:
         return null;
       default:
-        return null;
+        return `name must be one of: ${[AnalyticsEventName.HOMEPAGE.DEFAULT, AnalyticsEventName.HOMEPAGE.INITIATE].join(', ')}`;
     }
   }
 
@@ -145,21 +140,31 @@ export class ContainerModule {
       case AnalyticsEventName.CHECKOUT_PAGE.DEFAULT:
         return null;
       case AnalyticsEventName.CHECKOUT_PAGE.BOOK:
+        if (data == null) {
+          return `data is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
+        }
+        if (typeof data !== 'object') {
+          return `data must be an object for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
+        }
+
         if (data.booking_amount == null) {
-          return `${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event requires booking_amount in data to be defined`;
+          return `data.booking_amount is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
+
         if (typeof data.booking_amount !== 'number') {
-          return `${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event requires booking_amount in data to be a number`;
+          return `data.booking_amount must be a number for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
+
         if (data.booking_currency == null) {
-          return `${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event requires booking_currency in data to be defined`;
+          return `data.booking_currency is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
+
         if (typeof data.booking_currency !== 'string') {
-          return `${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event requires booking_currency in data to be a string`;
+          return `data.booking_currency must be a string for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
         return null;
       default:
-        return null;
+        return `name must be one of: ${[AnalyticsEventName.CHECKOUT_PAGE.DEFAULT, AnalyticsEventName.CHECKOUT_PAGE.BOOK].join(', ')}`;
     }
   }
 
@@ -168,19 +173,27 @@ export class ContainerModule {
       case AnalyticsEventName.BOOKING_COMPLETION.DEFAULT:
         return null;
       default:
-        return null;
+        return `name must be one of: ${[AnalyticsEventName.BOOKING_COMPLETION.DEFAULT].join(', ')}`;
     }
   }
 
   _validateCustomState(name, data) {
+     if (data == null) {
+      return `data is required for ${AnalyticsEventState.CUSTOM} state`;
+    }
+    if (typeof data !== 'object') {
+      return `data must be an object for ${AnalyticsEventState.CUSTOM} state`;
+    }
+
+    if (data.page == null) {
+      return `data.page is required`;
+    }
+    if (typeof data.page !== 'string') {
+      return `data.page must be a string`;
+    }
+
     switch (name) {
       case AnalyticsEventName.CUSTOM.DEFAULT:
-        if (data.page == null) {
-          return `${AnalyticsEventName.CUSTOM.DEFAULT} event requires page in data to be defined`;
-        }
-        if (typeof data.page !== 'string') {
-          return `${AnalyticsEventName.CUSTOM.DEFAULT} event requires page in data to be a string`;
-        }
         return null;
       default:
         return null;
