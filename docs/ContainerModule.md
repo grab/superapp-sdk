@@ -333,7 +333,6 @@ containerModule.sendAnalyticsEvent({
 }).then(({ result, error }) => {
   if (error) {
     // Handle validation or other errors
-    console.error(error);
   }
 });
 
@@ -342,12 +341,15 @@ containerModule.sendAnalyticsEvent({
   state: AnalyticsEventState.CUSTOM,
   name: AnalyticsEventName.CUSTOM.DEFAULT,
   data: {
-    page: "payment_success"
+    page: "CLICK_ITEM",
+    departure_time: "2025-06-01 08:00:00",
+    arrival_time: "2025-06-01 10:30:00",
+    departure_address: "6 Bayfront Ave, Singapore 018974",
+    arrival_address: "Petronas Twin Tower, Kuala Lumpur City Centre, 50088 Kuala Lumpur, Malaysia",
   }
 }).then(({ result, error }) => {
   if (error) {
     // Handle validation or other errors
-    console.error(error);
   }
 });
 ```
