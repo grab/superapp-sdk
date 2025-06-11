@@ -147,20 +147,20 @@ export class ContainerModule {
           return `data must be an object for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
 
-        if (data.booking_amount == null) {
-          return `data.booking_amount is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
+        if (data.transaction_amount == null) {
+          return `data.transaction_amount is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
 
-        if (typeof data.booking_amount !== 'number') {
-          return `data.booking_amount must be a number for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
+        if (typeof data.transaction_amount !== 'number') {
+          return `data.transaction_amount must be a number for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
 
-        if (data.booking_currency == null) {
-          return `data.booking_currency is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
+        if (data.transaction_currency == null) {
+          return `data.transaction_currency is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
 
-        if (typeof data.booking_currency !== 'string') {
-          return `data.booking_currency must be a string for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
+        if (typeof data.transaction_currency !== 'string') {
+          return `data.transaction_currency must be a string for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
         }
         return null;
       default:

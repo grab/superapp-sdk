@@ -304,8 +304,8 @@ For 'CUSTOM' state: anything
 **Event Data Requirements**
 
 1. For 'CHECKOUT_PAGE' state and 'BOOK' event:
-   - `booking_amount` (number, required): The amount of the booking
-   - `booking_currency` (string, required): The currency of the booking
+   - `transaction_amount` (number, required): The amount of the transaction
+   - `transaction_currency` (string, required): The currency of the transaction
 
 2. For 'CUSTOM' state:
    - `page` (string, required): The page identifier
@@ -326,8 +326,8 @@ containerModule.sendAnalyticsEvent({
   state: AnalyticsEventState.CHECKOUT_PAGE,
   name: AnalyticsEventName.CHECKOUT_PAGE.BOOK,
   data: {
-    booking_amount: 100,
-    booking_currency: "SGD"
+    transaction_amount: 100,
+    transaction_currency: "SGD"
   }
 }).then(({ result, error }) => {
   if (error) {
