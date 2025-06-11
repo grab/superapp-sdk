@@ -7,18 +7,18 @@
 
 const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
 
-export const AnalyticsEventState = {
+export const ContainerAnalyticsEventState = {
   HOMEPAGE: 'HOMEPAGE',
   CHECKOUT_PAGE: 'CHECKOUT_PAGE',
   BOOKING_COMPLETION: 'BOOKING_COMPLETION',
   CUSTOM: 'CUSTOM',
 };
 
-export const AnalyticsEventName = {
+export const ContainerAnalyticsEventName = {
   DEFAULT: 'DEFAULT',
 };
 
-export const AnalyticsEventData = {
+export const ContainerAnalyticsEventData = {
   TRANSACTION_AMOUNT: 'transaction_amount',
   TRANSACTION_CURRENCY: 'transaction_currency',
   PAGE: 'page',
