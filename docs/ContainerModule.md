@@ -242,9 +242,9 @@ Call this method to tell client to open the link in external browser
 
 **Arguments**
 
-| Name  | Type   | Required | Description       |
-| ----- | ------ | -------- | ----------------- |
-| url   | String | Yes      | URL to open       |
+| Name | Type   | Required | Description |
+| ---- | ------ | -------- | ----------- |
+| url  | String | Yes      | URL to open |
 
 **Return type**
 
@@ -273,42 +273,34 @@ containerModule.openExternalLink("https://grab.com").then(({ result, error }) =>
 
 **Arguments**
 
-| Name         | Type   | Required | Description                                    |
-| ------------ | ------ | -------- | ---------------------------------------------- |
-| state        | String | Yes      | State of the event (see AnalyticsEventState)   |
-| name         | String | Yes      | Name of the event (see AnalyticsEventName)     |
-| data         | Object | No       | Additional data for the event                  |
+| Name         | Type   | Required | Description                                             |
+| ------------ | ------ | -------- | ------------------------------------------------------- |
+| eventDetails | Object | Yes      | Event details containing state, name, and data         |
 
-**AnalyticsEventState**
+**EventDetails Object Properties**
+
+| Property | Type   | Required | Description                                                       |
+| -------- | ------ | -------- | ----------------------------------------------------------------- |
+| state    | String | Yes      | State of the event (cf. Predefined AnalyticsEventState)           |
+| name     | String | Yes      | Name of the event (cf. Predefined AnalyticsEventName)             |
+| data     | Object | No       | Additional data for the event (cf. Predefined AnalyticsEventData) |
+
+**Predefined AnalyticsEventState**
 
 - 'HOMEPAGE'
 - 'CHECKOUT_PAGE'
 - 'BOOKING_COMPLETION'
 - 'CUSTOM'
 
-**AnalyticsEventName**
+**Predefined AnalyticsEventName**
 
-1. For 'HOMEPAGE' state:
-   - 'DEFAULT'
-   - 'INITIATE'
+- 'DEFAULT'
 
-2. For 'CHECKOUT_PAGE' state:
-   - 'DEFAULT'
-   - 'BOOK'
+**Predefined AnalyticsEventData**
 
-3. For 'BOOKING_COMPLETION' state:
-   - 'DEFAULT'
-
-4. For 'CUSTOM' state: anything
-
-**Event Data Requirements**
-
-1. For 'CHECKOUT_PAGE' state and 'BOOK' event:
-   - `transaction_amount` (number, required): The amount of the transaction
-   - `transaction_currency` (string, required): The currency of the transaction
-
-2. For 'CUSTOM' state:
-   - `page` (string, required): The page identifier
+- 'TRANSACTION_AMOUNT': 'transaction_amount'
+- 'TRANSACTION_CURRENCY': 'transaction_currency'
+- 'PAGE': 'page'
 
 **Return type**
 
@@ -317,17 +309,27 @@ containerModule.openExternalLink("https://grab.com").then(({ result, error }) =>
 **Code example**
 
 ```javascript
-import { ContainerModule, AnalyticsEventState, AnalyticsEventName } from "@grabjs/superapp-sdk";
+import { ContainerModule, AnalyticsEventState, AnalyticsEventName, AnalyticsEventData } from "@grabjs/superapp-sdk";
 
 const containerModule = new ContainerModule();
 
-// Example: Send a booking event
+// Example: Send a DEFAULT event for HOMEPAGE state
+containerModule.sendAnalyticsEvent({
+  state: AnalyticsEventState.HOMEPAGE,
+  name: AnalyticsEventName.DEFAULT,
+}).then(({ result, error }) => {
+  if (error) {
+    // Handle validation or other errors
+  }
+});
+
+// Example: Send a BOOK event for CHECKOUT_PAGE state
 containerModule.sendAnalyticsEvent({
   state: AnalyticsEventState.CHECKOUT_PAGE,
-  name: AnalyticsEventName.CHECKOUT_PAGE.BOOK,
+  name: 'BOOK',
   data: {
-    transaction_amount: 100,
-    transaction_currency: "SGD"
+    [AnalyticsEventData.TRANSACTION_AMOUNT]: 100,
+    [AnalyticsEventData.TRANSACTION_CURRENCY]: "SGD"
   }
 }).then(({ result, error }) => {
   if (error) {
@@ -335,20 +337,22 @@ containerModule.sendAnalyticsEvent({
   }
 });
 
-// Example: Send a custom event
+// Example: Send a CLICK_RIDE event for CUSTOM state
 containerModule.sendAnalyticsEvent({
   state: AnalyticsEventState.CUSTOM,
-  name: AnalyticsEventName.CUSTOM.DEFAULT,
+  name: 'CLICK_RIDE',
   data: {
-    page: "CLICK_ITEM",
+    [AnalyticsEventData.PAGE]: "LIST_RIDES",
     departure_time: "2025-06-01 08:00:00",
     arrival_time: "2025-06-01 10:30:00",
     departure_address: "6 Bayfront Ave, Singapore 018974",
     arrival_address: "Petronas Twin Tower, Kuala Lumpur City Centre, 50088 Kuala Lumpur, Malaysia",
   }
+
 }).then(({ result, error }) => {
   if (error) {
     // Handle validation or other errors
   }
 });
 ```
+

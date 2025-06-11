@@ -15,20 +15,13 @@ export const AnalyticsEventState = {
 };
 
 export const AnalyticsEventName = {
-  HOMEPAGE: {
-    DEFAULT: 'DEFAULT',
-    INITIATE: 'INITIATE',
-  },
-  CHECKOUT_PAGE: {
-    DEFAULT: 'DEFAULT',
-    BOOK: 'BOOK',
-  },
-  BOOKING_COMPLETION: {
-    DEFAULT: 'DEFAULT',
-  },
-  CUSTOM: {
-    DEFAULT: 'DEFAULT',
-  },
+  DEFAULT: 'DEFAULT',
+};
+
+export const AnalyticsEventData = {
+  TRANSACTION_AMOUNT: 'transaction_amount',
+  TRANSACTION_CURRENCY: 'transaction_currency',
+  PAGE: 'page',
 };
 
 export class ContainerModule {
@@ -105,98 +98,11 @@ export class ContainerModule {
     if (typeof eventDetails.state !== 'string') {
       return 'state must be a string';
     }
-    const allowedStates = Object.values(AnalyticsEventState);
-    if (!allowedStates.includes(eventDetails.state)) {
-      return `state must be one of: ${allowedStates.join(', ')}`;
+
+    if (eventDetails.data != null && typeof eventDetails.data !== 'object') {
+      return `data must be undefined or an object`;
     }
 
-    switch (eventDetails.state) {
-      case AnalyticsEventState.HOMEPAGE:
-        return this._validateHomepageState(eventDetails.name, eventDetails.data);
-      case AnalyticsEventState.CHECKOUT_PAGE:
-        return this._validateCheckoutPageState(eventDetails.name, eventDetails.data);
-      case AnalyticsEventState.BOOKING_COMPLETION:
-        return this._validateBookingCompletionState(eventDetails.name, eventDetails.data);
-      case AnalyticsEventState.CUSTOM:
-        return this._validateCustomState(eventDetails.name, eventDetails.data);
-      default:
-        return null;
-    }
-  }
-
-  _validateHomepageState(name, data) {
-    switch (name) {
-      case AnalyticsEventName.HOMEPAGE.DEFAULT:
-        return null;
-      case AnalyticsEventName.HOMEPAGE.INITIATE:
-        return null;
-      default:
-        return `name must be one of: ${[AnalyticsEventName.HOMEPAGE.DEFAULT, AnalyticsEventName.HOMEPAGE.INITIATE].join(', ')}`;
-    }
-  }
-
-  _validateCheckoutPageState(name, data) {
-    switch (name) {
-      case AnalyticsEventName.CHECKOUT_PAGE.DEFAULT:
-        return null;
-      case AnalyticsEventName.CHECKOUT_PAGE.BOOK:
-        if (data == null) {
-          return `data is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
-        }
-        if (typeof data !== 'object') {
-          return `data must be an object for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
-        }
-
-        if (data.transaction_amount == null) {
-          return `data.transaction_amount is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
-        }
-
-        if (typeof data.transaction_amount !== 'number') {
-          return `data.transaction_amount must be a number for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
-        }
-
-        if (data.transaction_currency == null) {
-          return `data.transaction_currency is required for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
-        }
-
-        if (typeof data.transaction_currency !== 'string') {
-          return `data.transaction_currency must be a string for ${AnalyticsEventName.CHECKOUT_PAGE.BOOK} event`;
-        }
-        return null;
-      default:
-        return `name must be one of: ${[AnalyticsEventName.CHECKOUT_PAGE.DEFAULT, AnalyticsEventName.CHECKOUT_PAGE.BOOK].join(', ')}`;
-    }
-  }
-
-  _validateBookingCompletionState(name, data) {
-    switch (name) {
-      case AnalyticsEventName.BOOKING_COMPLETION.DEFAULT:
-        return null;
-      default:
-        return `name must be one of: ${[AnalyticsEventName.BOOKING_COMPLETION.DEFAULT].join(', ')}`;
-    }
-  }
-
-  _validateCustomState(name, data) {
-     if (data == null) {
-      return `data is required for ${AnalyticsEventState.CUSTOM} state`;
-    }
-    if (typeof data !== 'object') {
-      return `data must be an object for ${AnalyticsEventState.CUSTOM} state`;
-    }
-
-    if (data.page == null) {
-      return `data.page is required`;
-    }
-    if (typeof data.page !== 'string') {
-      return `data.page must be a string`;
-    }
-
-    switch (name) {
-      case AnalyticsEventName.CUSTOM.DEFAULT:
-        return null;
-      default:
-        return null;
-    }
+    return null;
   }
 }
