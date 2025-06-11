@@ -242,9 +242,9 @@ Call this method to tell client to open the link in external browser
 
 **Arguments**
 
-| Name  | Type   | Required | Description       |
-| ----- | ------ | -------- | ----------------- |
-| url   | String | Yes      | URL to open       |
+| Name | Type   | Required | Description |
+| ---- | ------ | -------- | ----------- |
+| url  | String | Yes      | URL to open |
 
 **Return type**
 
@@ -273,159 +273,86 @@ containerModule.openExternalLink("https://grab.com").then(({ result, error }) =>
 
 **Arguments**
 
-An object, containing the following properties:
+| Name         | Type   | Required | Description                                             |
+| ------------ | ------ | -------- | ------------------------------------------------------- |
+| eventDetails | Object | Yes      | Event details containing state, name, and data         |
 
-| Name        | Type   | Required | Description                                                    |
-| ----------- | ------ | -------- | -------------------------------------------------------------- |
-| `url`       | String | No       | The URL associated with the event                              |
-| `sessionId` | String | No       | A unique identifier for the user's session                     |
-| `viewName`  | String | No       | The name of the page or screen displayed when the event occurs |
-| `eventName` | String | Yes      | Name of the event                                              |
-| `eventData` | Any    | No       | The event data (can be any type)                               |
+**EventDetails Object Properties**
 
-**Events**
+| Property | Type   | Required | Description                                                       |
+| -------- | ------ | -------- | ----------------------------------------------------------------- |
+| state    | String | Yes      | State of the event (cf. Predefined ContainerAnalyticsEventState)           |
+| name     | String | Yes      | Name of the event (cf. Predefined ContainerAnalyticsEventName)             |
+| data     | Object | No       | Additional data for the event (cf. Predefined ContainerAnalyticsEventData) |
 
-The following events are available:
+**Predefined ContainerAnalyticsEventState**
 
-- `STARTED`
+- 'HOMEPAGE'
+- 'CHECKOUT_PAGE'
+- 'BOOKING_COMPLETION'
+- 'CUSTOM'
 
-  - **Description**: Triggered when the MiniApp is initialized.
-  - **Requirements for eventData**:
-    - Must be empty
+**Predefined ContainerAnalyticsEventName**
 
-- `PAYMENT_STATUS_UPDATED`
+- 'DEFAULT'
 
-  - **Description**: Triggered when a payment status is updated.
-  - **Requirements for eventData**:
-    - `transactionId` (String, optional): The transaction identifier provided by the GrabPay SDK
-    - `statusCode` (String, required): The status of the payment. Must be one of: 'SUCCESS', 'FAILURE', 'CANCEL', 'PROCESSING' (case-sensitive)
-    - `statusMessage` (String, optional): A message describing the status update
-    - `products` (Array of objects, optional): The products that are being purchased
-      - Each product must have:
-        - `id` (String, required): The product's unique identifier
-        - `quantity` (Number, optional): The quantity of the product
-    - `amount` (Number, optional): The total amount of the transaction
-    - `currency` (String, optional): The currency used for the transaction
-    - `promoCodes` (Array of string, optional): Any promo codes applied to this transaction
+**Predefined ContainerAnalyticsEventData**
 
-- `ERROR_OCCURRED`
-
-  - **Description**: Triggered when an error occurs within the MiniApp.
-  - **Requirements for eventData**:
-    - `errorCode` (String, required): A code or type identifying the error
-    - `errorMessage` (String, optional): A message describing the error
-    - `errorSeverity` (String, optional): The severity level of the error. Must be one of: 'WARNING', 'ERROR', 'CRITICAL' (case-sensitive)
-
-- `CUSTOM`
-  - **Description**: Triggered when a custom event should be tracked within the MiniApp.
-  - **Requirements for eventData**:
-    - `customEventName` (String, required): The name of the custom event
-    - `customEventData` (Any, optional): An object containing the custom event data
+- 'TRANSACTION_AMOUNT': 'transaction_amount'
+- 'TRANSACTION_CURRENCY': 'transaction_currency'
+- 'PAGE': 'page'
 
 **Return type**
 
 `None`
 
-**Validation**
-
-The SDK performs strict validation on all events:
-
-- All required fields must be present
-- Field types must match their specifications exactly
-- No additional fields are allowed beyond those specified
-- Validation errors will be returned in the `error` field of the response
-
 **Code example**
 
 ```javascript
-import {
-  ContainerModule,
-  AnalyticsEventName,
-  PaymentStatusCode,
-  ErrorSeverity,
-} from "@grabjs/superapp-sdk";
+import { ContainerModule, ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from "@grabjs/superapp-sdk";
 
-// Ideally, initialize this only one and reuse across app.
 const containerModule = new ContainerModule();
 
-// Example for STARTED event
-containerModule
-  .sendAnalyticsEvent({
-    url: "https://www.grab.com/sg/",
-    sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
-    viewName: "Home",
-    eventName: AnalyticsEventName.STARTED,
-    eventData: null,
-  })
-  .then(({ result, error }) => {
-    if (error) {
-      // Some error happened.
-    }
-  });
+// Example: Send a DEFAULT event for HOMEPAGE state
+containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: ContainerAnalyticsEventName.DEFAULT,
+}).then(({ result, error }) => {
+  if (error) {
+    // Handle validation or other errors
+  }
+});
 
-// Example for PAYMENT_STATUS_UPDATED event
-containerModule
-  .sendAnalyticsEvent({
-    url: "https://www.grab.com/sg/",
-    sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
-    viewName: "Payment",
-    eventName: AnalyticsEventName.PAYMENT_STATUS_UPDATED,
-    eventData: {
-      transactionId: "txn_123456",
-      statusCode: PaymentStatusCode.SUCCESS,
-      statusMessage: "Payment completed successfully",
-      products: [
-        { id: "product_1", quantity: 2 },
-        { id: "product_2", quantity: 1 },
-      ],
-      amount: 100.5,
-      currency: "SGD",
-      promoCodes: ["10%OFF"],
-    },
-  })
-  .then(({ result, error }) => {
-    if (error) {
-      // Some error happened.
-    }
-  });
+// Example: Send a BOOK event for CHECKOUT_PAGE state
+containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CHECKOUT_PAGE,
+  name: 'BOOK',
+  data: {
+    [ContainerAnalyticsEventData.TRANSACTION_AMOUNT]: 100,
+    [ContainerAnalyticsEventData.TRANSACTION_CURRENCY]: "SGD"
+  }
+}).then(({ result, error }) => {
+  if (error) {
+    // Handle validation or other errors
+  }
+});
 
-// Example for ERROR_OCCURRED event
-containerModule
-  .sendAnalyticsEvent({
-    url: "https://www.grab.com/sg/",
-    sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
-    viewName: "Payment",
-    eventName: AnalyticsEventName.ERROR_OCCURRED,
-    eventData: {
-      errorCode: "PAYMENT_FAILED",
-      errorMessage: "Failed to process payment due to insufficient funds",
-      errorSeverity: ErrorSeverity.ERROR,
-    },
-  })
-  .then(({ result, error }) => {
-    if (error) {
-      // Some error happened.
-    }
-  });
+// Example: Send a CLICK_RIDE event for CUSTOM state
+containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CUSTOM,
+  name: 'CLICK_RIDE',
+  data: {
+    [ContainerAnalyticsEventData.PAGE]: "LIST_RIDES",
+    departure_time: "2025-06-01 08:00:00",
+    arrival_time: "2025-06-01 10:30:00",
+    departure_address: "6 Bayfront Ave, Singapore 018974",
+    arrival_address: "Petronas Twin Tower, Kuala Lumpur City Centre, 50088 Kuala Lumpur, Malaysia",
+  }
 
-// Example for CUSTOM event
-containerModule
-  .sendAnalyticsEvent({
-    url: "https://www.grab.com/sg/",
-    sessionId: "e48553f4-625a-431d-adae-56d7801c083c",
-    viewName: "Home",
-    eventName: AnalyticsEventName.CUSTOM,
-    eventData: {
-      customEventName: "USER_ACTION",
-      customEventData: {
-        action: "button_click",
-        buttonId: "submit_order",
-      },
-    },
-  })
-  .then(({ result, error }) => {
-    if (error) {
-      // Some error happened.
-    }
-  });
+}).then(({ result, error }) => {
+  if (error) {
+    // Handle validation or other errors
+  }
+});
 ```
+
