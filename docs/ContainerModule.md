@@ -296,7 +296,7 @@ containerModule.openExternalLink("https://grab.com").then(({ result, error }) =>
    - 'DEFAULT'
    - 'BOOK'
 
-3. 'BOOKING_COMPLETION' state:
+3. For 'BOOKING_COMPLETION' state:
    - 'DEFAULT'
 
 4. For 'CUSTOM' state: anything
