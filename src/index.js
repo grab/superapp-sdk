@@ -6,7 +6,7 @@
  */
 
 export { CheckoutModule } from './CheckoutModule';
-export { ContainerModule } from './ContainerModule';
+export { ContainerModule, ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from './ContainerModule';
 export { LocaleModule } from './LocaleModule';
 export { LocationModule } from './LocationModule';
 export { MediaModule } from './MediaModule';
