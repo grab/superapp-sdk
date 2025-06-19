@@ -13,6 +13,6 @@ export class CheckoutModule {
   }
 
   triggerCheckout(checkoutDetails) {
-    return window.WrappedCheckoutModule.invoke('triggerCheckout', checkoutDetails);
+    return window.WrappedCheckoutModule.invoke('triggerCheckout', { checkoutDetails });
   }
 }
