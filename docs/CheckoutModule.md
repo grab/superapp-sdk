@@ -15,7 +15,6 @@ Provides APIs to trigger native checkout flow from web.
 | Name           | Type   | Description                                                                |
 | -------------- | ------ | -------------------------------------------------------------------------- |
 | responseParams | String | The response params that partners get when charge init endpoint is called  |
-| channel        | String | The channel of triggering the transaction. In this case, it is `MiniApp`   |
 
 **Return type**
 
@@ -37,10 +36,8 @@ const checkoutModule = new checkoutModule();
 // Get responseParams from chargeInit endpoint
 const responseParams = chargeInit() // This is a dummy function
 
-const channel = "MiniApp"
-
 checkoutModule
-  .triggerCheckout({ responseParams, channel })
+  .triggerCheckout(responseParams)
   .then(({ result, error }) => {
     if (result) {
       // There is a valid result.
