@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const bridgeSDK = require('@grabjs/mobile-kit-bridge-sdk');
+import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export const ContainerAnalyticsEventState = {
   HOMEPAGE: 'HOMEPAGE',
