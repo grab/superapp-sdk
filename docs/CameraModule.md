@@ -5,7 +5,7 @@ The CameraModule provides functionality to open the device camera for QR code sc
 ## Usage
 
 ```javascript
-import { CameraModule, CameraResultType } from '@grab/superapp-sdk';
+import { CameraModule, CameraResultCode } from '@grab/superapp-sdk';
 
 const cameraModule = new CameraModule();
 ```
@@ -30,9 +30,9 @@ cameraModule.scanQRCode({
 })
   .then(({ result, error }) => {
     if (result) {
-      if (result.type === CameraResultType.SUCCESS) {
+      if (result.type === CameraResultCode.SUCCESS) {
         console.log('QR Code scanned:', result.data);
-      } else if (result.type === CameraResultType.CANCELLED) {
+      } else if (result.type === CameraResultCode.CANCELLED) {
         console.log('User cancelled camera');
       }
     } else if (error) {
@@ -53,7 +53,7 @@ cameraModule.scanQRCode()
 
 ## Constants
 
-### `CameraResultType`
+### `CameraResultCode`
 
 Enum for different camera result types:
 
@@ -68,7 +68,7 @@ The camera method returns a thenable object (with a `then` method) that resolves
 ```javascript
 {
   result: {
-    type: CameraResultType.SUCCESS, // Result type
+    type: CameraResultCode.SUCCESS, // Result type
     data: "scanned_qr_code_string",  // The QR code content (for SUCCESS type)
   },
   error: null // Error message if an error occurred
@@ -91,11 +91,11 @@ The camera method returns a thenable object that resolves with a result/error ob
 cameraModule.scanQRCode()
   .then(({ result, error }) => {
     if (result) {
-      if (result.type === CameraResultType.SUCCESS) {
+      if (result.type === CameraResultCode.SUCCESS) {
         console.log('QR Code scanned:', result.data);
-      } else if (result.type === CameraResultType.CANCELLED) {
+      } else if (result.type === CameraResultCode.CANCELLED) {
         console.log('User cancelled camera');
-      } else if (result.type === CameraResultType.ERROR) {
+      } else if (result.type === CameraResultCode.ERROR) {
         console.error('Camera error:', result.error);
       }
     } else if (error) {
