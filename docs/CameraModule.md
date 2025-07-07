@@ -12,22 +12,19 @@ const cameraModule = new CameraModule();
 
 ## Methods
 
-### `scanQRCode(config)`
+### `scanQRCode(title)`
 
-Opens the camera to scan QR codes with custom configuration options.
+Opens the camera to scan QR codes with an optional title.
 
 **Parameters:**
-- `config` (Object, optional): Configuration object
-  - `title` (string, optional): Title to display in camera view
+- `title` (string, optional): Title to display in camera view
 
-**Returns:** `Thenable<Object>` (object with `then` method)
+**Returns:** `Promise<Object>` (Promise that resolves with the QR code result)
 
 **Example:**
 ```javascript
 // With custom title
-cameraModule.scanQRCode({
-  title: 'Scan Payment QR'
-})
+cameraModule.scanQRCode('Scan Payment QR')
   .then(({ result, error }) => {
     if (result) {
       if (result.type === CameraResultCode.SUCCESS) {
@@ -63,7 +60,7 @@ Enum for different camera result types:
 
 ## Response Format
 
-The camera method returns a thenable object (with a `then` method) that resolves with an object containing:
+The camera method returns a Promise that resolves with an object containing:
 
 ```javascript
 {
@@ -75,17 +72,9 @@ The camera method returns a thenable object (with a `then` method) that resolves
 }
 ```
 
-For validation errors, the response format is:
-```javascript
-{
-  result: null,
-  error: "validation error message"
-}
-```
-
 ## Error Handling
 
-The camera method returns a thenable object that resolves with a result/error object:
+The camera method returns a Promise that resolves with a result/error object:
 
 ```javascript
 cameraModule.scanQRCode()
@@ -103,15 +92,6 @@ cameraModule.scanQRCode()
     }
   });
 ```
-
-## Validation
-
-The method validates the configuration parameters:
-
-- `config` must be undefined or an object
-- `config.title` must be a string if provided
-
-Invalid configurations will return an error response with `status_code: 400`.
 
 ## Platform Support
 

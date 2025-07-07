@@ -20,33 +20,12 @@ export class CameraModule {
 
   /**
    * Opens the camera to scan QR codes
-   * @param {Object} config - QR scanner configuration
-   * @param {string} [config.title] - Title to display in camera view
+   * @param {string} [title] - Title to display in camera view
    * @returns {Promise} Promise that resolves with the QR code result
    */
-  scanQRCode(config = {}) {
-    const validationError = this._validateQRCodeConfig(config);
-    if (validationError) {
-      return {
-        then: (callback) => callback({ status_code: 400, error: validationError }),
-      };
-    }
-    
+  scanQRCode(title) {
     return window.WrappedCameraModule.invoke('scanQRCode', {
-      title: config?.title,
+      title,
     });
-  }
-
-
-  _validateQRCodeConfig(config) {
-    if (config != null && typeof config !== 'object') {
-      return 'config must be undefined or an object';
-    }
-
-    if (config && config.title != null && typeof config.title !== 'string') {
-      return 'title must be a string';
-    }
-
-    return null;
   }
 } 
