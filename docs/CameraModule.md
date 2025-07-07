@@ -19,7 +19,7 @@ Opens the camera to scan QR codes with an optional title.
 **Parameters:**
 - `title` (string, optional): Title to display in camera view
 
-**Returns:** `Promise<Object>` (Promise that resolves with the QR code result)
+**Returns:** `Object` (QR code result object)
 
 **Example:**
 ```javascript
@@ -27,9 +27,9 @@ Opens the camera to scan QR codes with an optional title.
 cameraModule.scanQRCode('Scan Payment QR')
   .then(({ result, error }) => {
     if (result) {
-      if (result.type === CameraResultCode.SUCCESS) {
+      if (result.code === CameraResultCode.SUCCESS) {
         console.log('QR Code scanned:', result.data);
-      } else if (result.type === CameraResultCode.CANCELLED) {
+      } else if (result.code === CameraResultCode.CANCELLED) {
         console.log('User cancelled camera');
       }
     } else if (error) {
@@ -52,7 +52,7 @@ cameraModule.scanQRCode()
 
 ### `CameraResultCode`
 
-Enum for different camera result types:
+Enum for different camera result codes:
 
 - `SUCCESS`: Successfully scanned a QR code
 - `ERROR`: An error occurred
@@ -60,13 +60,13 @@ Enum for different camera result types:
 
 ## Response Format
 
-The camera method returns a Promise that resolves with an object containing:
+The camera method returns an object containing:
 
 ```javascript
 {
   result: {
-    type: CameraResultCode.SUCCESS, // Result type
-    data: "scanned_qr_code_string",  // The QR code content (for SUCCESS type)
+    code: CameraResultCode.SUCCESS, // Result code
+    data: "scanned_qr_code_string",  // The QR code content (for SUCCESS code)
   },
   error: null // Error message if an error occurred
 }
@@ -74,17 +74,17 @@ The camera method returns a Promise that resolves with an object containing:
 
 ## Error Handling
 
-The camera method returns a Promise that resolves with a result/error object:
+The camera method returns a result/error object:
 
 ```javascript
 cameraModule.scanQRCode()
   .then(({ result, error }) => {
     if (result) {
-      if (result.type === CameraResultCode.SUCCESS) {
+      if (result.code === CameraResultCode.SUCCESS) {
         console.log('QR Code scanned:', result.data);
-      } else if (result.type === CameraResultCode.CANCELLED) {
+      } else if (result.code === CameraResultCode.CANCELLED) {
         console.log('User cancelled camera');
-      } else if (result.type === CameraResultCode.ERROR) {
+      } else if (result.code === CameraResultCode.ERROR) {
         console.error('Camera error:', result.error);
       }
     } else if (error) {
