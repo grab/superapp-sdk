@@ -8,7 +8,7 @@
 import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export const CameraResultType = {
-  QR_CODE: 'QR_CODE',
+  SUCCESS: 'SUCCESS',
   ERROR: 'ERROR',
   CANCELLED: 'CANCELLED',
 };
@@ -31,8 +31,12 @@ export class CameraModule {
         then: (callback) => callback({ status_code: 400, error: validationError }),
       };
     }
+    
+    // Ensure config is always an object to prevent crashes
+    const safeConfig = config || {};
+    
     return window.WrappedCameraModule.invoke('scanQRCode', {
-      title: config.title,
+      title: safeConfig.title,
     });
   }
 

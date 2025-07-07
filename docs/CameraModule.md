@@ -20,7 +20,7 @@ Opens the camera to scan QR codes with custom configuration options.
 - `config` (Object, optional): Configuration object
   - `title` (string, optional): Title to display in camera view
 
-**Returns:** `Promise<Object>`
+**Returns:** `Thenable<Object>` (object with `then` method)
 
 **Example:**
 ```javascript
@@ -28,21 +28,26 @@ Opens the camera to scan QR codes with custom configuration options.
 cameraModule.scanQRCode({
   title: 'Scan Payment QR'
 })
-  .then(result => {
-    if (result.type === CameraResultType.QR_CODE) {
-      console.log('QR Code scanned:', result.data);
-    } else if (result.type === CameraResultType.CANCELLED) {
-      console.log('User cancelled camera');
+  .then(({ result, error }) => {
+    if (result) {
+      if (result.type === CameraResultType.SUCCESS) {
+        console.log('QR Code scanned:', result.data);
+      } else if (result.type === CameraResultType.CANCELLED) {
+        console.log('User cancelled camera');
+      }
+    } else if (error) {
+      // Some error happened.
     }
-  })
-  .catch(error => {
-    console.error('Camera error:', error);
   });
 
 // With default settings
 cameraModule.scanQRCode()
-  .then(result => {
-    // Handle result
+  .then(({ result, error }) => {
+    if (result) {
+      // Handle successful result
+    } else if (error) {
+      // Some error happened.
+    }
   });
 ```
 
@@ -52,45 +57,50 @@ cameraModule.scanQRCode()
 
 Enum for different camera result types:
 
-- `QR_CODE`: Successfully scanned a QR code
+- `SUCCESS`: Successfully scanned a QR code
 - `ERROR`: An error occurred
 - `CANCELLED`: User cancelled the camera operation
 
 ## Response Format
 
-The camera method returns a Promise that resolves with an object containing:
+The camera method returns a thenable object (with a `then` method) that resolves with an object containing:
 
 ```javascript
 {
-  type: CameraResultType.QR_CODE, // Result type
-  data: "scanned_qr_code_string",  // The QR code content (for QR_CODE type)
-  error: null                      // Error message (for ERROR type)
+  result: {
+    type: CameraResultType.SUCCESS, // Result type
+    data: "scanned_qr_code_string",  // The QR code content (for SUCCESS type)
+  },
+  error: null // Error message if an error occurred
 }
 ```
 
 For validation errors, the response format is:
 ```javascript
 {
-  status_code: 400,
+  result: null,
   error: "validation error message"
 }
 ```
 
 ## Error Handling
 
-The camera method returns a promise that can be caught for error handling:
+The camera method returns a thenable object that resolves with a result/error object:
 
 ```javascript
 cameraModule.scanQRCode()
-  .then(result => {
-    if (result.status_code === 400) {
-      console.error('Validation error:', result.error);
-      return;
+  .then(({ result, error }) => {
+    if (result) {
+      if (result.type === CameraResultType.SUCCESS) {
+        console.log('QR Code scanned:', result.data);
+      } else if (result.type === CameraResultType.CANCELLED) {
+        console.log('User cancelled camera');
+      } else if (result.type === CameraResultType.ERROR) {
+        console.error('Camera error:', result.error);
+      }
+    } else if (error) {
+      // Some error happened.
     }
-    // Handle successful result
-  })
-  .catch(error => {
-    console.error('Camera operation failed:', error);
   });
 ```
 
@@ -99,7 +109,7 @@ cameraModule.scanQRCode()
 The method validates the configuration parameters:
 
 - `config` must be undefined or an object
-- `title` must be a string if provided
+- `config.title` must be a string if provided
 
 Invalid configurations will return an error response with `status_code: 400`.
 
