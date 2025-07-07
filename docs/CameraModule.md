@@ -12,20 +12,20 @@ const cameraModule = new CameraModule();
 
 ## Methods
 
-### `openCameraWithConfig(config)`
+### `scanQRCode(config)`
 
-Opens the camera with custom configuration options.
+Opens the camera to scan QR codes with custom configuration options.
 
 **Parameters:**
 - `config` (Object, optional): Configuration object
-  - `title` (string, optional): Title to display in camera view (default: "Scan QR Code")
+  - `title` (string, optional): Title to display in camera view
 
 **Returns:** `Promise<Object>`
 
 **Example:**
 ```javascript
 // With custom title
-cameraModule.openCameraWithConfig({
+cameraModule.scanQRCode({
   title: 'Scan Payment QR'
 })
   .then(result => {
@@ -40,7 +40,7 @@ cameraModule.openCameraWithConfig({
   });
 
 // With default settings
-cameraModule.openCameraWithConfig()
+cameraModule.scanQRCode()
   .then(result => {
     // Handle result
   });
@@ -53,7 +53,6 @@ cameraModule.openCameraWithConfig()
 Enum for different camera result types:
 
 - `QR_CODE`: Successfully scanned a QR code
-- `SUCCESS`: General success status
 - `ERROR`: An error occurred
 - `CANCELLED`: User cancelled the camera operation
 
@@ -82,7 +81,7 @@ For validation errors, the response format is:
 The camera method returns a promise that can be caught for error handling:
 
 ```javascript
-cameraModule.openCameraWithConfig()
+cameraModule.scanQRCode()
   .then(result => {
     if (result.status_code === 400) {
       console.error('Validation error:', result.error);

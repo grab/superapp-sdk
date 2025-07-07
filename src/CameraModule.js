@@ -9,7 +9,6 @@ import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export const CameraResultType = {
   QR_CODE: 'QR_CODE',
-  SUCCESS: 'SUCCESS',
   ERROR: 'ERROR',
   CANCELLED: 'CANCELLED',
 };
@@ -20,24 +19,25 @@ export class CameraModule {
   }
 
   /**
-   * Opens the camera with specific configuration
-   * @param {Object} config - Camera configuration
-   * @param {string} config.title - Title to display in camera view
+   * Opens the camera to scan QR codes
+   * @param {Object} config - QR scanner configuration
+   * @param {string} [config.title] - Title to display in camera view
    * @returns {Promise} Promise that resolves with the QR code result
    */
-  openCameraWithConfig(config = {}) {
-    const validationError = this._validateCameraConfig(config);
+  scanQRCode(config = {}) {
+    const validationError = this._validateQRCodeConfig(config);
     if (validationError) {
       return {
         then: (callback) => callback({ status_code: 400, error: validationError }),
       };
     }
-    return window.WrappedCameraModule.invoke('openCameraWithConfig', {
-      title: config.title || 'Scan QR Code',
+    return window.WrappedCameraModule.invoke('scanQRCode', {
+      title: config.title,
     });
   }
 
-  _validateCameraConfig(config) {
+
+  _validateQRCodeConfig(config) {
     if (config != null && typeof config !== 'object') {
       return 'config must be undefined or an object';
     }
