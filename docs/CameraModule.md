@@ -56,6 +56,7 @@ cameraModule.scanQRCode()
 Enum for different camera result codes:
 
 - `SUCCESS`: Successfully scanned a QR code
+- `ERROR`: An error occurred
 - `CANCELLED`: User cancelled the camera operation
 
 ## Response Format
@@ -84,6 +85,8 @@ cameraModule.scanQRCode()
         console.log('QR Code scanned:', result.data);
       } else if (result.code === CameraResultCode.CANCELLED) {
         console.log('User cancelled camera');
+      } else if (result.code === CameraResultCode.ERROR) {
+        console.error('Camera error:', result.error);
       }
     } else if (error) {
       // Some error happened.
