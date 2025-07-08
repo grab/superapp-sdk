@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export { CameraModule, CameraResultCode } from './CameraModule';
 export { CheckoutModule } from './CheckoutModule';
 export { ContainerModule, ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from './ContainerModule';
 export { LocaleModule } from './LocaleModule';
