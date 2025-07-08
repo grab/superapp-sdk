@@ -7,6 +7,7 @@ response object must have a structure defined in this document.
 
 ## Currently available modules
 
+- [Camera Module](https://github.com/grab/superapp-sdk/blob/master/docs/CameraModule.md)
 - [Checkout Module](https://github.com/grab/superapp-sdk/blob/master/docs/CheckoutModule.md).
 - [Container Module](https://github.com/grab/superapp-sdk/blob/master/docs/ContainerModule.md).
 - [Location Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocationModule.md).
