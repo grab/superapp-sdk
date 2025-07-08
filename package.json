@@ -1,6 +1,6 @@
 {
   "name": "@grabjs/superapp-sdk",
-  "version": "1.7.14",
+  "version": "1.7.15",
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
   "scripts": {

@@ -9,7 +9,6 @@ import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export const CameraResultCode = {
   SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
   CANCELLED: 'CANCELLED',
 };
 
