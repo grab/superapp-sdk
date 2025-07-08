@@ -21,7 +21,7 @@ export class CameraModule {
   /**
    * Opens the camera to scan QR codes
    * @param {string} [title] - Title to display in camera view
-   * @returns {Promise} Promise that resolves with the QR code result
+   * @returns {Object} Object with the scanned QR code result string
    */
   scanQRCode(title) {
     return window.WrappedCameraModule.invoke('scanQRCode', {

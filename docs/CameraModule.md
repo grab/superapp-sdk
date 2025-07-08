@@ -93,11 +93,6 @@ cameraModule.scanQRCode()
   });
 ```
 
-## Platform Support
-
-- iOS: ✅ Supported
-- Android: ✅ Supported (when implemented)
-
 ## Notes
 
 Camera permissions and lifecycle (opening/closing) are handled automatically by the native iOS app, so no additional management is required from the JavaScript side. 
