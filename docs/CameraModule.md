@@ -12,19 +12,20 @@ const cameraModule = new CameraModule();
 
 ## Methods
 
-### `scanQRCode(title)`
+### `scanQRCode(config)`
 
-Opens the camera to scan QR codes with an optional title.
+Opens the camera to scan QR codes with optional configuration.
 
 **Parameters:**
-- `title` (string, optional): Title to display in camera view
+- `config` (Object, optional): Configuration object for QR code scanning
+  - `title` (string, optional): Title to display in camera view
 
 **Returns:** `Object` (QR code result object)
 
 **Example:**
 ```javascript
 // With custom title
-cameraModule.scanQRCode('Scan Payment QR')
+cameraModule.scanQRCode({ title: 'Scan Payment QR' })
   .then(({ result, error }) => {
     if (result) {
       if (result.code === CameraResultCode.SUCCESS) {

@@ -20,12 +20,11 @@ export class CameraModule {
 
   /**
    * Opens the camera to scan QR codes
-   * @param {string} [title] - Title to display in camera view
+   * @param {Object} [config] - Configuration object for QR code scanning
+   * @param {string} [config.title] - Title to display in camera view
    * @returns {Object} Object with the scanned QR code result string
    */
-  scanQRCode(title) {
-    return window.WrappedCameraModule.invoke('scanQRCode', {
-      title,
-    });
+  scanQRCode(config = {}) {
+    return window.WrappedCameraModule.invoke('scanQRCode', config);
   }
 } 
