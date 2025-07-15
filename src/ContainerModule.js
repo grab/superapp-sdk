@@ -85,7 +85,7 @@ export class ContainerModule {
   }
 
   isConnected() {
-    const userAgent = window.navigator?.userAgent;
+    const userAgent = window.navigator && window.navigator.userAgent;
     if (!userAgent) {
       return {
         then: (callback) => callback({
