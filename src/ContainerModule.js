@@ -84,6 +84,26 @@ export class ContainerModule {
     );
   }
 
+  isConnected() {
+    const userAgent = window.navigator?.userAgent;
+    if (!userAgent) {
+      return {
+        then: (callback) => callback({
+          status_code: 404,
+          error: 'User agent not available'
+        }),
+      };
+    }
+    
+    const isConnected = userAgent.toLowerCase().startsWith('grab');
+    return {
+      then: (callback) => callback({
+        status_code: isConnected ? 200 : 404,
+        error: isConnected ? null : 'Not connected to Grab app'
+      }),
+    };
+  }
+
   _validateAnalyticsEvent(eventDetails) {
     if (eventDetails.name == null) {
       return 'name is required';
