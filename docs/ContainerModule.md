@@ -235,7 +235,63 @@ containerModule.onContentLoaded().then(({ result, error }) => {
 });
 ```
 
-### 9. Open link in external browser
+### 9. Show loader
+
+**Method name**: `showLoader`
+Call this method to notify the client to show loader
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.showLoader().then(({ result, error }) => {
+  if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 10. Hide loader
+
+**Method name**: `hideLoader`
+Call this method to notify the client to hide loader
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.hideLoader().then(({ result, error }) => {
+  if (error) {
+    // Some error happened.
+  }
+});
+```
+
+### 11. Open link in external browser
 
 **Method name**: `openExternalLink`
 Call this method to tell client to open the link in external browser
@@ -269,7 +325,7 @@ containerModule
   });
 ```
 
-### 10. Check connection status
+### 12. Check connection status
 
 **Method name**: `isConnected`
 Call this method to check if the web app is connected to the Grab app via JSBridge.
@@ -298,7 +354,7 @@ containerModule.isConnected().then(({ status_code, error }) => {
 });
 ```
 
-### 11. Send analytics event
+### 13. Send analytics event
 
 **Method name**: `sendAnalyticsEvent`
 
