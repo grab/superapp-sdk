@@ -66,9 +66,11 @@ The camera method returns an object containing:
 {
   result: {
     code: CameraResultCode.SUCCESS, // Result code
-    data: "scanned_qr_code_string",  // The QR code content (for SUCCESS code)
-  },
-  error: null // Error message if an error occurred
+    data: {                         // Null when result code is CANCELLED
+      qrCode: "scanned_qr_code_string", // The QR code content (for SUCCESS code)
+    },
+    message: "QR code scanning cancelled" // Nullable error message if an error occurred
+  }
 }
 ```
 
