@@ -18,12 +18,14 @@ Provides APIs to trigger native checkout flow from web.
 
 **Return type**
 
-| Name          | Type   | Description                                           |
-| ------------- | ------ | ----------------------------------------------------- |
-| transactionID | String | Unique identifier for the transaction at Grab side    |
-| status        | String | Status of the transaction                             |
-| errorReason   | String | The reason why the transaction failed                 |
-| errorCode     | String | Error code associated with the failed transaction     |
+| Name          | Type   | Description                                         | Example                                                |
+| ------------- | ------ | --------------------------------------------------- | ------------------------------------------------------ |
+| transactionID | String | Unique identifier for the transaction at Grab side  | uuid                                                   |
+| status        | String | Status of the transaction                           | `success`, `failure`, `pending`, `userInitiatedCancel` |
+| errorReason   | String | The reason why the transaction failed               | `insufficient_balance`, etc                            |
+| errorCode     | String | Error code associated with the failed transaction   | `BUS-TXN-001`, etc                                     |
+
+For detailed errorReason and errorCode, please refer to the API documentation of `process/payment`.
 
 **Code example**
 
