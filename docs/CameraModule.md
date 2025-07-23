@@ -26,12 +26,22 @@ Opens the camera to scan QR codes with optional configuration.
 ```javascript
 cameraModule.scanQRCode({ title: 'Scan Payment QR' })
   .then((response) => {
-    if (response.status_code === 200) {
-      console.log('QR Code scanned:', response.result.qrCode);
-    } else if (response.status_code === 204) {
-      console.log('No result - user cancelled');
-    } else if (response.status_code === 403) {
-      console.log('Camera access denied:', response.error);
+    switch (response.status_code) {
+      case 200:
+        // Success - QR code scanned
+        console.log('QR Code scanned:', response.result.qrCode);
+        break;
+      case 204:
+        // No result - user cancelled
+        console.log('No result - user cancelled');
+        break;
+      case 403:
+        // Permission denied
+        console.log('Camera access denied:', response.error);
+        break;
+      default:
+        // Handle other potential status codes
+        console.log('Error:', response.error);
     }
   });
 ```
@@ -66,35 +76,6 @@ The camera method returns an object with different structures based on the resul
   "error": "Camera access denied"
   // No result property
 }
-```
-
-## Error Handling
-
-Handle different response scenarios based on the status code:
-
-```javascript
-cameraModule.scanQRCode()
-  .then((response) => {
-    switch (response.status_code) {
-      case 200:
-        // Success - QR code scanned
-        console.log('QR Code:', response.result.qrCode);
-        break;
-      case 204:
-        // No result - user cancelled or no QR code detected
-        console.log('Scanning cancelled');
-        break;
-      case 403:
-        // Permission denied
-        console.log('Camera access denied:', response.error);
-        break;
-      default:
-        // Handle other potential status codes
-        if (response.error) {
-          console.log('Error:', response.error);
-        }
-    }
-  });
 ```
 
 ## Status Codes
