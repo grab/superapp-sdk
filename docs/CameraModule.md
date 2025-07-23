@@ -5,7 +5,7 @@ The CameraModule provides functionality to open the device camera for QR code sc
 ## Usage
 
 ```javascript
-import { CameraModule, CameraResultCode } from '@grab/superapp-sdk';
+import { CameraModule } from '@grab/superapp-sdk';
 
 const cameraModule = new CameraModule();
 ```
@@ -26,72 +26,95 @@ Opens the camera to scan QR codes with optional configuration.
 ```javascript
 // With custom title
 cameraModule.scanQRCode({ title: 'Scan Payment QR' })
-  .then(({ result, error }) => {
-    if (result) {
-      if (result.code === CameraResultCode.SUCCESS) {
-        console.log('QR Code scanned:', result.data);
-      } else if (result.code === CameraResultCode.CANCELLED) {
-        console.log('User cancelled camera');
-      }
-    } else if (error) {
-      // Some error happened.
+  .then((response) => {
+    if (response.status_code === 200) {
+      console.log('QR Code scanned:', response.result.qrCode);
+    } else if (response.status_code === 204) {
+      console.log('No result - user cancelled or no QR code detected');
+    } else if (response.status_code === 403) {
+      console.log('Camera access denied:', response.error);
     }
   });
 
 // With default settings
 cameraModule.scanQRCode()
-  .then(({ result, error }) => {
-    if (result) {
-      // Handle successful result
-    } else if (error) {
-      // Some error happened.
+  .then((response) => {
+    if (response.status_code === 200) {
+      console.log('QR Code scanned:', response.result.qrCode);
+    } else if (response.status_code === 204) {
+      console.log('No result - user cancelled or no QR code detected');
+    } else if (response.error) {
+      console.log('Error occurred:', response.error);
     }
   });
 ```
 
-## Constants
-
-### `CameraResultCode`
-
-Enum for different camera result codes:
-
-- `SUCCESS`: Successfully scanned a QR code
-- `CANCELLED`: User cancelled the camera operation
-
 ## Response Format
 
-The camera method returns an object containing:
+The camera method returns an object with different structures based on the result:
 
+### Success Response (Status Code 200)
 ```javascript
 {
-  result: {
-    code: CameraResultCode.SUCCESS, // Result code
-    data: {                         // Null when result code is CANCELLED
-      qrCode: "scanned_qr_code_string", // The QR code content (for SUCCESS code)
-    },
-    message: "QR code scanning cancelled" // Nullable error message if an error occurred
+  "status_code": 200,
+  "result": {
+    "qrCode": "scanned_qr_code_string" // The QR code content
   }
+}
+```
+
+### No Result Response (Status Code 204)
+```javascript
+{
+  "status_code": 204
+  // No result property
+  // No error property
+}
+```
+
+### Error Response (Status Code 403)
+```javascript
+{
+  "status_code": 403,
+  "error": "Camera access denied"
+  // No result property
 }
 ```
 
 ## Error Handling
 
-The camera method returns a result/error object:
+Handle different response scenarios based on the status code:
 
 ```javascript
 cameraModule.scanQRCode()
-  .then(({ result, error }) => {
-    if (result) {
-      if (result.code === CameraResultCode.SUCCESS) {
-        console.log('QR Code scanned:', result.data);
-      } else if (result.code === CameraResultCode.CANCELLED) {
-        console.log('User cancelled camera');
-      }
-    } else if (error) {
-      // Some error happened.
+  .then((response) => {
+    switch (response.status_code) {
+      case 200:
+        // Success - QR code scanned
+        console.log('QR Code:', response.result.qrCode);
+        break;
+      case 204:
+        // No result - user cancelled or no QR code detected
+        console.log('Scanning cancelled or no QR code found');
+        break;
+      case 403:
+        // Permission denied
+        console.log('Camera access denied:', response.error);
+        break;
+      default:
+        // Handle other potential status codes
+        if (response.error) {
+          console.log('Error:', response.error);
+        }
     }
   });
 ```
+
+## Status Codes
+
+- `200`: Successfully scanned a QR code
+- `204`: No result (user cancelled or no QR code detected)
+- `403`: Camera access denied
 
 ## Notes
 
