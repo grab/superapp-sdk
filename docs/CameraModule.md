@@ -24,27 +24,14 @@ Opens the camera to scan QR codes with optional configuration.
 
 **Example:**
 ```javascript
-// With custom title
 cameraModule.scanQRCode({ title: 'Scan Payment QR' })
   .then((response) => {
     if (response.status_code === 200) {
       console.log('QR Code scanned:', response.result.qrCode);
     } else if (response.status_code === 204) {
-      console.log('No result - user cancelled or no QR code detected');
+      console.log('No result - user cancelled');
     } else if (response.status_code === 403) {
       console.log('Camera access denied:', response.error);
-    }
-  });
-
-// With default settings
-cameraModule.scanQRCode()
-  .then((response) => {
-    if (response.status_code === 200) {
-      console.log('QR Code scanned:', response.result.qrCode);
-    } else if (response.status_code === 204) {
-      console.log('No result - user cancelled or no QR code detected');
-    } else if (response.error) {
-      console.log('Error occurred:', response.error);
     }
   });
 ```
@@ -95,7 +82,7 @@ cameraModule.scanQRCode()
         break;
       case 204:
         // No result - user cancelled or no QR code detected
-        console.log('Scanning cancelled or no QR code found');
+        console.log('Scanning cancelled');
         break;
       case 403:
         // Permission denied
@@ -113,7 +100,7 @@ cameraModule.scanQRCode()
 ## Status Codes
 
 - `200`: Successfully scanned a QR code
-- `204`: No result (user cancelled or no QR code detected)
+- `204`: No result (user cancelled)
 - `403`: Camera access denied
 
 ## Notes
