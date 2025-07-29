@@ -103,7 +103,7 @@ export class ContainerModule {
       };
     }
     
-    const isConnected = userAgent.toLowerCase().startsWith('grab');
+    const isConnected = /grab[a-z]*\//i.test(userAgent);
     return {
       then: (callback) => callback({
         status_code: isConnected ? 200 : 404,
