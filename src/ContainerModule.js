@@ -63,6 +63,14 @@ export class ContainerModule {
     return window.WrappedContainerModule.invoke('onContentLoaded');
   }
 
+  showLoader() {
+    return window.WrappedContainerModule.invoke('showLoader');
+  }
+
+  hideLoader() {
+    return window.WrappedContainerModule.invoke('hideLoader');
+  }
+
   openExternalLink(url) {
     return window.WrappedContainerModule.invoke('openExternalLink', { url });
   }
