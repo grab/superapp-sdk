@@ -15,7 +15,12 @@ export class LocationModule {
   getCoordinate() {
     return window.WrappedLocationModule.invoke('getCoordinate');
   }
+  
   observeLocationChange() {
     return window.WrappedLocationModule.invoke('observeLocationChange');
+  }
+
+  getCountryCode() {
+    return window.WrappedLocationModule.invoke('getCountryCode');
   }
 }
