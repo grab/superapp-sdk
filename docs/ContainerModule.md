@@ -325,7 +325,41 @@ containerModule
   });
 ```
 
-### 12. Check connection status
+### 12. On CTA Tap
+
+**Method name**: `onCtaTap`
+Call this method to notify the client that the user has continued the flow
+
+**Arguments**
+
+| Name   | Type   | Required | Description |
+|--------| ------ | -------- |-------------|
+| action | String | Yes      | tap action  |
+
+**Return type**
+
+`None`
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only one and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule
+  .onCtaTap("AV_LANDING_PAGE_CONTINUE")
+  .then(({ result, error }) => {
+    if (result) {
+      // There is a valid result.
+    } else if (error) {
+      // Some error happened.
+    }
+  });
+```
+
+### 13. Check connection status
 
 **Method name**: `isConnected`
 Call this method to check if the web app is connected to the Grab app via JSBridge.
@@ -354,7 +388,7 @@ containerModule.isConnected().then(({ status_code, error }) => {
 });
 ```
 
-### 13. Send analytics event
+### 14. Send analytics event
 
 **Method name**: `sendAnalyticsEvent`
 
