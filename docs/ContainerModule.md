@@ -487,3 +487,38 @@ containerModule
     }
   });
 ```
+
+### 15. Get session parameters
+
+**Method name**: `getSessionParams`
+
+**Arguments**
+
+`None`
+
+**Return type**
+
+| Name          | Type   | Description                                                 |
+| ------------- | ------ | ----------------------------------------------------------- |
+| sessionParams | String | Parameters attached to the current session                  |
+
+**Code example**
+
+```javascript
+import { ContainerModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only once and reuse across app.
+const containerModule = new ContainerModule();
+
+containerModule.getSessionParams().then(({ result, error }) => {
+  if (result) {
+    // Session params can be in any format (primitive, base64 encoded string, etc)
+    // e.g. stringified JSON object '{"param1": 123, "param2": "grab-test"}'
+    const sessionData = JSON.parse(result.sessionParams);
+    console.log("Session parameters:", sessionData);
+  } else if (error) {
+    // Some error happened.
+    console.error("Error getting session params:", error);
+  }
+});
+```
