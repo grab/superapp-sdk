@@ -116,6 +116,10 @@ export class ContainerModule {
     };
   }
 
+  getSessionParams() {
+    return window.WrappedContainerModule.invoke('getSessionParams');
+  }
+
   _validateAnalyticsEvent(eventDetails) {
     if (eventDetails.name == null) {
       return 'name is required';
