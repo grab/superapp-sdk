@@ -514,8 +514,8 @@ containerModule.getSessionParams().then(({ result, error }) => {
   if (result) {
     // Session params can be in any format (primitive, base64 encoded string, etc)
     // e.g. stringified JSON object '{"param1": 123, "param2": "grab-test"}'
-    const sessionData = JSON.parse(result.sessionParams);
-    console.log("Session parameters:", sessionData);
+    const sessionParams = JSON.parse(result);
+    console.log("Session parameters:", sessionParams);
   } else if (error) {
     // Some error happened.
     console.error("Error getting session params:", error);
