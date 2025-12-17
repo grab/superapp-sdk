@@ -6,19 +6,20 @@ import { uglify } from 'rollup-plugin-uglify';
 function createConfig({ file = 'dist/index.js' }) {
   return {
     input: 'src/index.js',
-    external: ['crypto'],
     output: {
       format: 'umd',
       file,
-      name: 'SuperAppSDK',
-      globals: {
-        crypto: 'crypto'
-      }
+      name: 'SuperAppSDK'
     },
     plugins: [
+      resolve({
+        browser: true,
+        preferBuiltins: false
+      }),
+      commonJs({
+        include: /node_modules/
+      }),
       babel({ exclude: 'node_modules/**' }),
-      resolve(),
-      commonJs({ include: 'node_modules/**' }),
       uglify()
     ]
   };
