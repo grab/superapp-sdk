@@ -8,6 +8,7 @@
 export { CameraModule } from './CameraModule';
 export { CheckoutModule } from './CheckoutModule';
 export { ContainerModule, ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from './ContainerModule';
+export { IdentityModule } from './IdentityModule';
 export { LocaleModule } from './LocaleModule';
 export { LocationModule } from './LocationModule';
 export { MediaModule } from './MediaModule';

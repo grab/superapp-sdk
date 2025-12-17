@@ -1,6 +1,6 @@
 {
   "name": "@grabjs/superapp-sdk",
-  "version": "1.7.24",
+  "version": "1.8.0",
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
   "scripts": {
@@ -34,7 +34,8 @@
   },
   "homepage": "https://github.com/grab/superapp-sdk#readme",
   "dependencies": {
-    "@grabjs/mobile-kit-bridge-sdk": "^1.1.1"
+    "@grabjs/mobile-kit-bridge-sdk": "^1.1.1",
+    "crypto-js": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
