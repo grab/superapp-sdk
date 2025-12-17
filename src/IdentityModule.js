@@ -181,8 +181,8 @@ export class IdentityModule {
         responseMode,
       });
 
-      // Check if native authorization returned a 403 error
-      if (nativeResult.error && nativeResult.status_code === 403) {
+      // Check if native authorization returned error
+      if (nativeResult.error && nativeResult.status_code >= 400) {
         console.error(
           "Native authorization returned 403, falling back to web flow:",
           nativeResult.error
