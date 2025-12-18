@@ -12,9 +12,14 @@ function createConfig({ file = 'dist/index.js' }) {
       name: 'SuperAppSDK'
     },
     plugins: [
+      resolve({
+        browser: true,
+        preferBuiltins: false
+      }),
+      commonJs({
+        include: /node_modules/
+      }),
       babel({ exclude: 'node_modules/**' }),
-      resolve(),
-      commonJs({ include: 'node_modules/**' }),
       uglify()
     ]
   };
