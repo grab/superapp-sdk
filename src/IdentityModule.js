@@ -224,7 +224,7 @@ export class IdentityModule {
   static performNativeAuthorization(invokeParams) {
     return window.WrappedContainerModule.invoke("authorize", {
       clientId: invokeParams.clientId,
-      redirectUri: IdentityModule.normalizeUrl(window.location.href),
+      redirectUri: invokeParams.redirectUri,
       scope: invokeParams.scope,
       nonce: invokeParams.nonce,
       state: invokeParams.state,
@@ -251,7 +251,6 @@ export class IdentityModule {
       state: pkceArtifacts.state,
       codeChallenge: pkceArtifacts.codeChallenge,
       codeChallengeMethod: pkceArtifacts.codeChallengeMethod,
-      environment: request.environment,
     };
 
     const responseMode = request.responseMode || "redirect";
@@ -271,7 +270,10 @@ export class IdentityModule {
           nativeResult.error
         );
         // Fallback to web flow
-        return this.performWebAuthorization(invokeParams);
+        return this.performWebAuthorization({
+          ...invokeParams,
+          environment: request.environment,
+        });
       }
 
       return nativeResult;
@@ -281,7 +283,10 @@ export class IdentityModule {
         "Native authorization failed, falling back to web flow:",
         error
       );
-      return this.performWebAuthorization(invokeParams);
+      return this.performWebAuthorization({
+        ...invokeParams,
+        environment: request.environment,
+      });
     }
   }
 
@@ -324,7 +329,6 @@ export class IdentityModule {
       return "redirectUri must be a valid URL";
     }
 
-    // Validate environment parameter
     const environmentError = IdentityModule.validateRequiredString(
       request.environment,
       "environment"
