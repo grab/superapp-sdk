@@ -188,7 +188,6 @@ export class IdentityModule {
   async performWebAuthorization(params) {
     this.setStorageItem("login_return_uri", window.location.href);
 
-    // Fetch authorization endpoint from OpenID configuration
     let authorizationEndpoint;
     try {
       authorizationEndpoint = await this.fetchAuthorizationEndpoint(params.environment);
