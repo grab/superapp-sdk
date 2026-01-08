@@ -224,7 +224,7 @@ export class IdentityModule {
   static performNativeAuthorization(invokeParams) {
     return window.WrappedContainerModule.invoke("authorize", {
       clientId: invokeParams.clientId,
-      redirectUri: invokeParams.redirectUri,
+      redirectUri: invokeParams.responseMode === "redirect" ? invokeParams.redirectUri : IdentityModule.normalizeUrl(window.location.href),
       scope: invokeParams.scope,
       nonce: invokeParams.nonce,
       state: invokeParams.state,
