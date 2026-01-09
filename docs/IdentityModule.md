@@ -23,8 +23,18 @@ The IdentityModule provides functionality related to user identity.
 | clientId | String | Yes | Client ID for authorization |
 | scope | String | Yes | Scope of the authorization |
 | redirectUri | String | Yes | Redirect URI for authorization callback |
-| authorizationEndpoint | String | Yes | Endpoint for web authorization fallback |
-| responseMode | String | No | Response mode ('redirect' or 'in_place') |
+| environment | String | Yes | Environment ('staging' or 'production'). Used to fetch the authorization endpoint from the OpenID configuration for the web flow |
+| responseMode | String | No | Response mode ('redirect' or 'in_place'). Defaults to 'redirect' if not specified |
+
+**Important Note on `redirectUri` and `responseMode`:**
+
+The actual `redirectUri` used during authorization may differ from the one you provide, depending on the flow:
+
+- **`responseMode: 'in_place'` when native flow is available**: Uses the current page URL (normalized) as the `redirectUri`, overriding your provided value
+- **`responseMode: 'in_place'` falling back to web flow if native flow is not available**: Uses your provided `redirectUri`
+- **`responseMode: 'redirect'`**: Always uses your provided `redirectUri`
+
+To ensure successful token exchange (which requires matching `redirectUri` values), **always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`** after authorization completes.
 
 **Return type**
 
@@ -53,21 +63,123 @@ const request = {
   clientId: "your-client-id",
   scope: "profile openid",
   redirectUri: "https://your-redirect-uri.com",
-  authorizationEndpoint: "https://api.grab.com/grabid/v1/oauth2/authorize",
+  environment: "production", // or "staging"
   responseMode: "redirect"
 };
 
-identityModule.authorize(request).then(({ result, error, status_code }) => {
-  if (status_code === 200 && result) {
-    // Authorization successful
-    console.log("Auth Code:", result.code);
-    console.log("State:", result.state);
-  } else if (status_code === 499) {
-    // User cancelled the authorization
-    console.log("User cancelled");
-  } else if (error) {
-    // Authorization failed
-    console.error("Auth error:", error);
-  }
-});
+const { result, error, status_code } = await identityModule.authorize(request);
+if (status_code === 200 && result) {
+  // Authorization successful (in_place mode with native flow)
+  console.log("Auth Code:", result.code);
+  console.log("State:", result.state);    
+} else if (status_code === 302) {
+  // Authorization redirect initiated (web flow or redirect response mode)
+  // The page will redirect to the authorization server
+} else if (status_code === 499) {
+  // User cancelled the authorization
+  console.log("User cancelled");
+} else if (error) {
+  // Authorization failed
+  console.error("Auth error:", error);
+}
+```
+
+### 2. Get Authorization Artifacts
+
+**Method name**: `getAuthorizationArtifacts`
+
+**Description**
+
+Retrieves the authorization artifacts that were stored in localStorage during the authorization flow. These include PKCE (Proof Key for Code Exchange) values and the actual `redirectUri` that was used. These values are needed to complete the OAuth token exchange after the authorization redirect.
+
+**Important:** The `redirectUri` returned by this method is the **actual** redirect URI that was sent to the authorization server. This may differ from the `redirectUri` you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow. You **must** use this returned `redirectUri` for token exchange to ensure OAuth compliance.
+
+**Arguments**
+
+None
+
+**Return type**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| result | Object \| null | Object containing the authorization artifacts (200), or null if not stored (204) or inconsistent (400) |
+| error | String \| null | Error message if artifacts are inconsistent (400), otherwise null |
+| status_code | Number | HTTP status code: 200 (success), 204 (no artifacts), or 400 (inconsistent state) |
+
+**Result Object Properties**
+
+When `status_code` is 200, the `result` object contains:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| state | String | The state parameter used for CSRF protection |
+| codeVerifier | String | The PKCE code verifier used for token exchange |
+| nonce | String | The nonce used for ID token verification |
+| redirectUri | String | The actual redirect URI that was used during authorization |
+
+**Status Codes**
+
+- **200**: All four artifacts are present and returned in `result`
+- **204**: No artifacts are stored (authorization has not been called yet)
+- **400**: Inconsistent state detected (only some artifacts present, possible data corruption)
+
+**Code example**
+
+```javascript
+import { IdentityModule } from "@grabjs/superapp-sdk";
+
+// Ideally, initialize this only once and reuse across app.
+const identityModule = new IdentityModule();
+
+// After authorization redirect, retrieve the stored artifacts
+const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
+
+if (status_code === 200 && result) {
+  // All artifacts present - proceed with token exchange
+  const { state, codeVerifier, nonce, redirectUri } = result;
+  console.log("State:", state);
+  console.log("Code Verifier:", codeVerifier);
+  console.log("Nonce:", nonce);
+  console.log("Redirect URI:", redirectUri);
+} else if (status_code === 204) {
+  // No artifacts yet - user hasn't authorized
+  console.log("No authorization artifacts found. Authorization has not been initiated.");
+} else if (status_code === 400) {
+  // Inconsistent state - possible data corruption
+  console.error("Authorization artifacts error:", error);
+}
+```
+
+### 3. Clear Authorization Artifacts
+
+**Method name**: `clearAuthorizationArtifacts`
+
+**Description**
+
+Clears all stored authorization artifacts from localStorage. This should be called after a successful token exchange or when you need to reset the authorization state (e.g., on error or logout).
+
+**Arguments**
+
+None
+
+**Return type**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| result | null | Always null (no data to return) |
+| error | null | Always null (no error) |
+| status_code | Number | Always 204 (No Content - successful operation) |
+
+**Code example**
+
+```javascript
+import { IdentityModule } from "@grabjs/superapp-sdk";
+
+const identityModule = new IdentityModule();
+
+// After successful token exchange or on error
+const { status_code } = await identityModule.clearAuthorizationArtifacts();
+if (status_code === 204) {
+  console.log("Authorization artifacts cleared");
+}
 ```
