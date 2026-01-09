@@ -152,21 +152,7 @@ if (status_code === 200 && result) {
   // 1. Verify the state parameter from the redirect matches state
   // 2. Exchange the authorization code for tokens using codeVerifier and redirectUri
   // 3. Validate the nonce in the ID token matches nonce
-  
-  // Example token exchange call:
-  const tokenResponse = await fetch('https://token-endpoint.com', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      code: authorizationCode, // from URL callback
-      redirect_uri: redirectUri, // MUST match the one used in authorization
-      code_verifier: codeVerifier,
-      client_id: 'your-client-id'
-    })
-  });
-  
-  // After successful token exchange, clean up
+  // 4. After successful token exchange, clean up
   identityModule.clearAuthorizationArtifacts();
 } else if (status_code === 204) {
   // No artifacts yet - user hasn't authorized
@@ -206,87 +192,3 @@ const identityModule = new IdentityModule();
 identityModule.clearAuthorizationArtifacts();
 console.log("Authorization artifacts cleared");
 ```
-
-## Complete Authorization Flow Example
-
-Here's a complete example showing the full OAuth authorization and token exchange flow:
-
-```javascript
-import { IdentityModule } from "@grabjs/superapp-sdk";
-
-const identityModule = new IdentityModule();
-
-// Step 1: Initiate authorization
-async function startAuthorization() {
-  const request = {
-    clientId: "your-client-id",
-    scope: "openid profile email",
-    redirectUri: "https://your-app.com/callback",
-    environment: "production",
-    responseMode: "in_place" // or "redirect"
-  };
-  
-  const { result, status_code, error } = await identityModule.authorize(request);
-  
-  if (status_code === 200) {
-    // In-place authorization completed immediately (native flow)
-    await handleAuthorizationCallback(result.code, result.state);
-  } else if (status_code === 302) {
-    // Redirect initiated - page will navigate to authorization server
-    // After redirect back, handleAuthorizationCallback will be called
-  } else if (error) {
-    console.error("Authorization failed:", error);
-  }
-}
-
-// Step 2: Handle authorization callback (after redirect or in-place completion)
-async function handleAuthorizationCallback(code, stateFromUrl) {
-  // Retrieve all stored artifacts including the actual redirectUri
-  const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
-  
-  if (status_code !== 200 || !result) {
-    console.error("Failed to retrieve authorization artifacts:", error);
-    identityModule.clearAuthorizationArtifacts();
-    return;
-  }
-  
-  const { state, codeVerifier, nonce, redirectUri } = result;
-  
-  // Verify state matches (CSRF protection)
-  if (state !== stateFromUrl) {
-    console.error("State mismatch - possible CSRF attack");
-    identityModule.clearAuthorizationArtifacts();
-    return;
-  }
-  
-  // Step 3: Exchange authorization code for tokens
-  try {
-    const tokenResponse = await fetch('https://partner-api.grab.com/grabid/v1/oauth2/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        code: code,
-        redirect_uri: redirectUri, // Use the actual redirectUri from artifacts
-        code_verifier: codeVerifier,
-        client_id: 'your-client-id'
-      })
-    });
-    
-    const tokens = await tokenResponse.json();
-    
-    // Step 4: Verify nonce in ID token
-    // (decode and validate tokens.id_token, ensure nonce claim matches)
-    
-    console.log("Token exchange successful:", tokens);
-    
-    // Step 5: Clean up stored artifacts
-    identityModule.clearAuthorizationArtifacts();
-    
-  } catch (error) {
-    console.error("Token exchange failed:", error);
-    identityModule.clearAuthorizationArtifacts();
-  }
-}
-```
-
