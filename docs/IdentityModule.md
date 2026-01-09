@@ -30,8 +30,8 @@ The IdentityModule provides functionality related to user identity.
 
 The actual `redirectUri` used during authorization may differ from the one you provide, depending on the flow:
 
-- **`responseMode: 'in_place'` with native authorization available**: Uses the current page URL (normalized) as the `redirectUri`, overriding your provided value
-- **`responseMode: 'in_place'` falling back to web flow**: Uses your provided `redirectUri`
+- **`responseMode: 'in_place'` when native flow is available**: Uses the current page URL (normalized) as the `redirectUri`, overriding your provided value
+- **`responseMode: 'in_place'` falling back to web flow if native flow is not available**: Uses your provided `redirectUri`
 - **`responseMode: 'redirect'`**: Always uses your provided `redirectUri`
 
 To ensure successful token exchange (which requires matching `redirectUri` values), **always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`** after authorization completes.
@@ -67,27 +67,21 @@ const request = {
   responseMode: "redirect"
 };
 
-identityModule.authorize(request).then(({ result, error, status_code }) => {
-  if (status_code === 200 && result) {
-    // Authorization successful (in_place mode with native authorization)
-    console.log("Auth Code:", result.code);
-    console.log("State:", result.state);
-    
-    // Important: Get the actual redirectUri used for token exchange
-    const artifacts = await identityModule.getAuthorizationArtifacts();
-    console.log("Actual redirectUri:", artifacts.result.redirectUri);
-  } else if (status_code === 302) {
-    // Authorization redirect initiated (web flow or redirect mode)
-    // The page will redirect to the authorization server
-    // After callback, use getAuthorizationArtifacts() to retrieve stored values
-  } else if (status_code === 499) {
-    // User cancelled the authorization
-    console.log("User cancelled");
-  } else if (error) {
-    // Authorization failed
-    console.error("Auth error:", error);
-  }
-});
+const { result, error, status_code } = await identityModule.authorize(request);
+if (status_code === 200 && result) {
+  // Authorization successful (in_place mode with native flow)
+  console.log("Auth Code:", result.code);
+  console.log("State:", result.state);    
+} else if (status_code === 302) {
+  // Authorization redirect initiated (web flow or redirect response mode)
+  // The page will redirect to the authorization server
+} else if (status_code === 499) {
+  // User cancelled the authorization
+  console.log("User cancelled");
+} else if (error) {
+  // Authorization failed
+  console.error("Auth error:", error);
+}
 ```
 
 ### 2. Get Authorization Artifacts
@@ -98,7 +92,7 @@ identityModule.authorize(request).then(({ result, error, status_code }) => {
 
 Retrieves the authorization artifacts that were stored in localStorage during the authorization flow. These include PKCE (Proof Key for Code Exchange) values and the actual `redirectUri` that was used. These values are needed to complete the OAuth token exchange after the authorization redirect.
 
-**Important:** The `redirectUri` returned by this method is the **actual** redirect URI that was sent to the authorization server. This may differ from the `redirectUri` you provided to `authorize()` if you used `responseMode: 'in_place'` with native authorization. You **must** use this returned `redirectUri` for token exchange to ensure OAuth compliance.
+**Important:** The `redirectUri` returned by this method is the **actual** redirect URI that was sent to the authorization server. This may differ from the `redirectUri` you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow. You **must** use this returned `redirectUri` for token exchange to ensure OAuth compliance.
 
 **Arguments**
 
@@ -147,21 +141,12 @@ if (status_code === 200 && result) {
   console.log("Code Verifier:", codeVerifier);
   console.log("Nonce:", nonce);
   console.log("Redirect URI:", redirectUri);
-  
-  // Use these values to:
-  // 1. Verify the state parameter from the redirect matches state
-  // 2. Exchange the authorization code for tokens using codeVerifier and redirectUri
-  // 3. Validate the nonce in the ID token matches nonce
-  // 4. After successful token exchange, clean up
-  identityModule.clearAuthorizationArtifacts();
 } else if (status_code === 204) {
   // No artifacts yet - user hasn't authorized
   console.log("No authorization artifacts found. Authorization has not been initiated.");
 } else if (status_code === 400) {
   // Inconsistent state - possible data corruption
   console.error("Authorization artifacts error:", error);
-  // Clear artifacts and restart the authorization flow
-  identityModule.clearAuthorizationArtifacts();
 }
 ```
 
@@ -179,7 +164,11 @@ None
 
 **Return type**
 
-None (void)
+| Name | Type | Description |
+| --- | --- | --- |
+| result | null | Always null (no data to return) |
+| error | null | Always null (no error) |
+| status_code | Number | Always 204 (No Content - successful operation) |
 
 **Code example**
 
@@ -189,6 +178,8 @@ import { IdentityModule } from "@grabjs/superapp-sdk";
 const identityModule = new IdentityModule();
 
 // After successful token exchange or on error
-identityModule.clearAuthorizationArtifacts();
-console.log("Authorization artifacts cleared");
+const { status_code } = await identityModule.clearAuthorizationArtifacts();
+if (status_code === 204) {
+  console.log("Authorization artifacts cleared");
+}
 ```

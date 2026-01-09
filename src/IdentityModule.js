@@ -162,12 +162,18 @@ export class IdentityModule {
     });
   }
 
-  clearAuthorizationArtifacts() {
+  async clearAuthorizationArtifacts() {
     window.localStorage.removeItem(`${this.NAMESPACE}:nonce`);
     window.localStorage.removeItem(`${this.NAMESPACE}:state`);
     window.localStorage.removeItem(`${this.NAMESPACE}:code_verifier`);
     window.localStorage.removeItem(`${this.NAMESPACE}:redirect_uri`);
     window.localStorage.removeItem(`${this.NAMESPACE}:login_return_uri`);
+    
+    return Promise.resolve({
+      status_code: 204,
+      result: null,
+      error: null
+    });
   }
 
   setStorageItem(key, value) {
