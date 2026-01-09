@@ -128,19 +128,21 @@ export class IdentityModule {
     this.setStorageItem("nonce", artifacts.nonce);
     this.setStorageItem("state", artifacts.state);
     this.setStorageItem("code_verifier", artifacts.codeVerifier);
+    this.setStorageItem("redirect_uri", artifacts.redirectUri);
   }
 
-  async getPKCEArtifacts() {
+  async getAuthorizationArtifacts() {
     const state = this.getStorageItem("state");
     const codeVerifier = this.getStorageItem("code_verifier");
     const nonce = this.getStorageItem("nonce");
+    const redirectUri = this.getStorageItem("redirect_uri");
 
-    const existingCount = [state, codeVerifier, nonce].filter(item => item !== null).length;
+    const existingCount = [state, codeVerifier, nonce, redirectUri].filter(item => item !== null).length;
 
-    if (existingCount === 3) {
+    if (existingCount === 4) {
       return Promise.resolve({
         status_code: 200,
-        result: { state, codeVerifier, nonce },
+        result: { state, codeVerifier, nonce, redirectUri },
         error: null
       });
     }
@@ -156,8 +158,16 @@ export class IdentityModule {
     return Promise.resolve({
       status_code: 400,
       result: null,
-      error: "Inconsistent PKCE artifacts in storage"
+      error: "Inconsistent authorization artifacts in storage"
     });
+  }
+
+  clearAuthorizationArtifacts() {
+    window.localStorage.removeItem(`${this.NAMESPACE}:nonce`);
+    window.localStorage.removeItem(`${this.NAMESPACE}:state`);
+    window.localStorage.removeItem(`${this.NAMESPACE}:code_verifier`);
+    window.localStorage.removeItem(`${this.NAMESPACE}:redirect_uri`);
+    window.localStorage.removeItem(`${this.NAMESPACE}:login_return_uri`);
   }
 
   setStorageItem(key, value) {
@@ -186,7 +196,13 @@ export class IdentityModule {
   }
 
   async performWebAuthorization(params) {
+    // Store the current page URL for potential return navigation
     this.setStorageItem("login_return_uri", window.location.href);
+    
+    // Update the stored redirectUri to match what will be sent to the authorization server
+    // This is necessary when falling back from native flow, where the initially stored
+    // redirectUri might have been the normalized current URL (for in_place mode)
+    this.setStorageItem("redirect_uri", params.redirectUri);
 
     let authorizationEndpoint;
     try {
@@ -224,7 +240,7 @@ export class IdentityModule {
   static performNativeAuthorization(invokeParams) {
     return window.WrappedContainerModule.invoke("authorize", {
       clientId: invokeParams.clientId,
-      redirectUri: invokeParams.responseMode === "redirect" ? invokeParams.redirectUri : IdentityModule.normalizeUrl(window.location.href),
+      redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,
       nonce: invokeParams.nonce,
       state: invokeParams.state,
@@ -241,7 +257,17 @@ export class IdentityModule {
     }
 
     const pkceArtifacts = this.generatePKCEArtifacts();
-    this.storePKCEArtifacts(pkceArtifacts);
+    
+    const responseMode = request.responseMode || "redirect";
+    
+    const actualRedirectUri = responseMode === "in_place" 
+      ? IdentityModule.normalizeUrl(window.location.href)
+      : request.redirectUri;
+    
+    this.storePKCEArtifacts({
+      ...pkceArtifacts,
+      redirectUri: actualRedirectUri
+    });
 
     const invokeParams = {
       clientId: request.clientId,
@@ -253,13 +279,12 @@ export class IdentityModule {
       codeChallengeMethod: pkceArtifacts.codeChallengeMethod,
     };
 
-    const responseMode = request.responseMode || "redirect";
-
     // Always try native consent first, fallback to web consent if unavailable
     // Note: Native respects responseMode; web always redirects
     try {
       const nativeResult = await IdentityModule.performNativeAuthorization({
         ...invokeParams,
+        actualRedirectUri,
         responseMode,
       });
 
@@ -283,6 +308,7 @@ export class IdentityModule {
         "Native authorization failed, falling back to web flow:",
         error
       );
+      // Fallback to web flow
       return this.performWebAuthorization({
         ...invokeParams,
         environment: request.environment,
