@@ -36,6 +36,13 @@ The actual `redirectUri` used during authorization may differ from the one you p
 
 To ensure successful token exchange (which requires matching `redirectUri` values), **always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`** after authorization completes.
 
+**Consent Selection Rules (Native vs Web):**
+
+- If the user agent does not match the Grab app pattern, the SDK uses **web consent**.
+- If `environment` is `staging`, the SDK **skips version gating** and attempts native consent.
+- Otherwise, if the app version in the user agent is below **5.396.0** (iOS or Android), the SDK uses **web consent**.
+- For supported versions, the SDK attempts **native consent** first and falls back to web on specific native errors.
+
 **Return type**
 
 | Name | Type | Description |

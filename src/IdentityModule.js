@@ -11,9 +11,8 @@ import Base64 from "crypto-js/enc-base64";
 
 export class IdentityModule {
   constructor() {
-    // TODO: migrate to IdentityModule later, use ContainerModule for now
-    if (!window.WrappedContainerModule) {
-      bridgeSDK.wrapModule(window, "ContainerModule");
+    if (!window.WrappedIdentityModule) {
+      bridgeSDK.wrapModule(window, 'IdentityModule');
     }
   }
 
@@ -201,6 +200,53 @@ export class IdentityModule {
     return `${authorizationEndpoint}?${query}`;
   }
 
+  static parseGrabUserAgent(userAgent) {
+    if (!userAgent || typeof userAgent !== "string") {
+      return null;
+    }
+
+    const match = userAgent.match(
+      /(Grab|GrabBeta|GrabBetaDebug|GrabTaxi|GrabEarlyAccess)\/v?([0-9]+)\.([0-9]+)\.([0-9]+) \(.*(Android|iOS).*\)/i
+    );
+    if (!match) {
+      return null;
+    }
+
+    return {
+      appName: match[1],
+      major: Number(match[2]),
+      minor: Number(match[3]),
+      patch: Number(match[4]),
+      platform: match[5],
+    };
+  }
+
+  static isVersionBelow(current, min) {
+    if (current.major !== min.major) {
+      return current.major < min.major;
+    }
+    if (current.minor !== min.minor) {
+      return current.minor < min.minor;
+    }
+    return current.patch < min.patch;
+  }
+
+  static shouldUseWebConsent(request) {
+    const userAgentInfo = IdentityModule.parseGrabUserAgent(
+      window.navigator.userAgent
+    );
+    if (!userAgentInfo) {
+      return true;
+    }
+
+    if (request.environment === "staging") {
+      return false;
+    }
+
+    const minimumVersion = { major: 5, minor: 396, patch: 0 };
+    return IdentityModule.isVersionBelow(userAgentInfo, minimumVersion);
+  }
+
   async performWebAuthorization(params) {
     // Store the current page URL for potential return navigation
     this.setStorageItem("login_return_uri", window.location.href);
@@ -244,7 +290,7 @@ export class IdentityModule {
   }
 
   static performNativeAuthorization(invokeParams) {
-    return window.WrappedContainerModule.invoke("authorize", {
+    return window.WrappedIdentityModule.invoke("authorize", {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,
@@ -284,6 +330,13 @@ export class IdentityModule {
       codeChallenge: pkceArtifacts.codeChallenge,
       codeChallengeMethod: pkceArtifacts.codeChallengeMethod,
     };
+
+    if (IdentityModule.shouldUseWebConsent(request)) {
+      return this.performWebAuthorization({
+        ...invokeParams,
+        environment: request.environment,
+      });
+    }
 
     // Always try native consent first, fallback to web consent if unavailable
     // Note: Native respects responseMode; web always redirects
