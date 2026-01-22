@@ -82,7 +82,7 @@ if (status_code === 200 && result) {
 } else if (status_code === 302) {
   // Authorization redirect initiated (web flow or redirect response mode)
   // The page will redirect to the authorization server
-} else if (status_code === 499) {
+} else if (status_code === 204) {
   // User cancelled the authorization
   console.log("User cancelled");
 } else if (error) {
