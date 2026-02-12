@@ -60,6 +60,8 @@ if (status_code === 200 && result) {
 
 Trigger email capture bottom sheet and OTP verification. If the user closes the verify OTP bottom sheet, the method will return a `status_code` of `204`.
 
+Successful verification will also update the email address for the user on Grab.
+
 **Arguments**
 
 | Name | Type | Required | Description |
@@ -73,7 +75,7 @@ Trigger email capture bottom sheet and OTP verification. If the user closes the 
 | --- | --- | --- |
 | result | Object \| null | Result of the verify email operation. Returns `null` if the user cancels (204). |
 | error | String \| null | Error message if the operation fails |
-| status_code | Number | HTTP status code (e.g. 200 for success, 204 if user cancels, 400 for client errors, 500 for internal server errors) |
+| status_code | Number | HTTP status code (e.g. 200 for success, 204 if user cancels, 400 for client errors, 403 for unauthorised, 500 for internal server errors) |
 
 **Result Object Properties**
 
