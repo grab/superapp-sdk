@@ -5,15 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { ModuleBase } from './ModuleBase';
 
-export class PlatformModule {
-    constructor() {
-        bridgeSDK.wrapModule(window, 'PlatformModule')
-    }
+export class PlatformModule extends ModuleBase {
+  constructor() {
+    super('PlatformModule');
+  }
 
-    back() {
-        return window.WrappedPlatformModule.invoke('back');
-    }
-
+  back() {
+      return window.WrappedPlatformModule.invoke('back');
+  }
 }

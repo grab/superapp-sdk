@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { ModuleBase } from './ModuleBase';
 
-export class LocaleModule {
+export class LocaleModule extends ModuleBase {
   constructor() {
-    bridgeSDK.wrapModule(window, 'LocaleModule');
+    super('LocaleModule');
   }
 
   getLanguageLocaleIdentifier() {

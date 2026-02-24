@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { ModuleBase } from './ModuleBase';
 
-export class CameraModule {
+export class CameraModule extends ModuleBase {
   constructor() {
-    bridgeSDK.wrapModule(window, 'CameraModule');
+    super('CameraModule');
   }
 
   /**

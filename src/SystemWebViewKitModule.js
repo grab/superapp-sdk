@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { ModuleBase } from './ModuleBase';
 
-export class SystemWebViewKitModule {
+export class SystemWebViewKitModule extends ModuleBase {
   constructor() {
-    bridgeSDK.wrapModule(window, 'SystemWebViewKitModule');
+    super('SystemWebViewKitModule');
   }
 
   redirectToSystemWebView(payload) {

@@ -5,13 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from "@grabjs/mobile-kit-bridge-sdk";
+import { ModuleBase } from './ModuleBase';
 
-export class ProfileModule {
+export class ProfileModule extends ModuleBase {
   constructor() {
-    if (!window.WrappedProfileModule) {
-      bridgeSDK.wrapModule(window, 'ProfileModule');
-    }
+    super('ProfileModule');
   }
 
   static parseGrabUserAgent(userAgent) {

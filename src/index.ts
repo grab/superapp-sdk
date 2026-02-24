@@ -7,7 +7,7 @@
 
 export { CameraModule } from './CameraModule';
 export { CheckoutModule } from './CheckoutModule';
-export { ContainerModule, ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from './ContainerModule';
+export { ContainerModule, ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from './ContainerModule/index';
 export { IdentityModule } from './IdentityModule';
 export { ProfileModule } from './ProfileModule';
 export { LocaleModule } from './LocaleModule';
@@ -17,3 +17,5 @@ export { PlatformModule } from './PlatformModule';
 export { ScopeModule } from './ScopeModule';
 export { StorageModule } from './StorageModule';
 export { SystemWebViewKitModule } from './SystemWebViewKitModule';
+
+export type { WrappedResponse } from './type';

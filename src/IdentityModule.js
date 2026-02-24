@@ -5,15 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from "@grabjs/mobile-kit-bridge-sdk";
+import { ModuleBase } from './ModuleBase';
 import sha256 from "crypto-js/sha256";
 import Base64 from "crypto-js/enc-base64";
 
-export class IdentityModule {
+export class IdentityModule extends ModuleBase {
   constructor() {
-    if (!window.WrappedIdentityModule) {
-      bridgeSDK.wrapModule(window, 'IdentityModule');
-    }
+    super('IdentityModule');
   }
 
   get NAMESPACE() {
