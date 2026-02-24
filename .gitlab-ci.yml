@@ -25,3 +25,15 @@ deploy-to-npm:
   # Do not run on branches
   except:
     - branches
+
+deploy-to-npm-beta:
+  stage: deploy
+  script:
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+    - npm run build
+    - npm publish --access public --tag beta
+  only:
+    - /^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$/
+  # Do not run on branches
+  except:
+    - branches
