@@ -29,6 +29,11 @@ export type {
 // ContainerModule
 export { default as ContainerModule } from './modules/ContainerModule';
 export type { AnalyticsEventDetails } from './modules/ContainerModule';
+export {
+  ContainerAnalyticsEventState,
+  ContainerAnalyticsEventName,
+  ContainerAnalyticsEventData,
+} from './modules/ContainerModule';
 
 // IdentityModule
 export { default as IdentityModule } from './modules/IdentityModule';
@@ -89,10 +94,12 @@ export { default as ProfileModule } from './modules/ProfileModule';
 export type {
   // FetchEmail
   FetchEmailResponse,
+  EmailResult,
 
   // VerifyEmail
   VerifyEmailRequest,
   VerifyEmailResponse,
+  VerifyEmailResult,
 } from './modules/ProfileModule';
 
 // ScopeModule

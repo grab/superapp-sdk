@@ -27,18 +27,28 @@ class PlatformModule extends ModuleBase {
   /**
    * Close the current view and navigate back to the host application.
    *
-   * @returns Promise that resolves when navigation completes
+   * @remarks
+   * This method triggers the native back navigation, which closes the current webview
+   * and returns the user to the previous screen in the Grab app.
+   *
+   * @returns Promise that resolves to {@link BackResponse} when navigation completes.
    *
    * @example
    * ```javascript
+   * // Navigate back after completing a task
    * platformModule.back()
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (result || status_code === 200) {
+   *       console.log("Navigation successful");
+   *     } else if (error) {
+   *       console.error("Navigation error:", error);
    *     }
    *   });
+   *
+   * // Example: Back button handler
+   * backButton.addEventListener('click', () => {
+   *   platformModule.back();
+   * });
    * ```
    */
   back(): Promise<BackResponse> {

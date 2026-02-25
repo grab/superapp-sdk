@@ -7,17 +7,18 @@ response object must have a structure defined in this document.
 
 ## Currently available modules
 
-- [Camera Module](https://github.com/grab/superapp-sdk/blob/master/docs/CameraModule.md)
-- [Checkout Module](https://github.com/grab/superapp-sdk/blob/master/docs/CheckoutModule.md).
-- [Container Module](https://github.com/grab/superapp-sdk/blob/master/docs/ContainerModule.md).
-- [Identity Module](https://github.com/grab/superapp-sdk/blob/master/docs/IdentityModule.md).
-- [Location Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocationModule.md).
-- [Media Module](https://github.com/grab/superapp-sdk/blob/master/docs/MediaModule.md).
-- [Scope Module](https://github.com/grab/superapp-sdk/blob/master/docs/ScopeModule.md).
-- [Locale Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocaleModule.md).
-- [Storage Module](https://github.com/grab/superapp-sdk/blob/master/docs/StorageModule.md)
-- [Platform Module](https://github.com/grab/superapp-sdk/blob/master/docs/PlatformModule.md)
-- [SystemWebViewKit Module](https://github.com/grab/superapp-sdk/blob/master/docs/SystemWebViewKitModule.md)
+- [CameraModule](classes/CameraModule.md)
+- [CheckoutModule](classes/CheckoutModule.md)
+- [ContainerModule](classes/ContainerModule.md)
+- [IdentityModule](classes/IdentityModule.md)
+- [LocaleModule](classes/LocaleModule.md)
+- [LocationModule](classes/LocationModule.md)
+- [MediaModule](classes/MediaModule.md)
+- [PlatformModule](classes/PlatformModule.md)
+- [ProfileModule](classes/ProfileModule.md)
+- [ScopeModule](classes/ScopeModule.md)
+- [StorageModule](classes/StorageModule.md)
+- [SystemWebViewKitModule](classes/SystemWebViewKitModule.md)
 
 One point to note is that partner engineers need to call `ScopeModule.reloadScopes` after redirection to partner website to load permissions from `GrabID`:
 

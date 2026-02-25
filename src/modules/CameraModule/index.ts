@@ -29,44 +29,22 @@ class CameraModule extends ModuleBase {
   /**
    * Opens the camera to scan QR codes with optional configuration.
    *
-   * The camera method returns an object with different structures based on the result:
-   * - **Success Response (Status Code 200)**:
-   *   ```javascript
-   *   {
-   *     "status_code": 200,
-   *     "result": {
-   *       "qrCode": "scanned_qr_code_string" // The QR code content
-   *     }
-   *   }
-   *   ```
-   * - **No Result Response (Status Code 204)**: User cancelled or no QR code detected
-   *   ```javascript
-   *   {
-   *     "status_code": 204
-   *     // No result property
-   *     // No error property
-   *   }
-   *   ```
-   * - **Error Response (Status Code 403)**: Camera access denied
-   *   ```javascript
-   *   {
-   *     "status_code": 403,
-   *     "error": "Camera access denied"
-   *     // No result property
-   *   }
-   *   ```
+   * @remarks
+   * Camera permissions and lifecycle are handled automatically by the native app.
    *
    * **Status Codes:**
    * - `200`: Successfully scanned a QR code
-   * - `204`: No result (user cancelled)
+   * - `204`: No result (user cancelled or no QR code detected)
    * - `403`: Camera access denied
    *
-   * @param request - Configuration object for QR code scanning (optional)
-   * @param request.title - Title to display in camera view (optional)
-   * @returns Promise that resolves to response object
+   * @param request - Configuration object for QR code scanning.
+   *   - `title`: Title to display in camera view (optional)
+   *
+   * @returns Promise that resolves to {@link ScanQRCodeResponse} with the scanned QR code data.
    *
    * @example
    * ```javascript
+   * // Basic usage with custom title
    * cameraModule.scanQRCode({ title: 'Scan Payment QR' })
    *   .then((response) => {
    *     switch (response.status_code) {
@@ -76,15 +54,20 @@ class CameraModule extends ModuleBase {
    *         break;
    *       case 204:
    *         // No result - user cancelled
-   *         console.log('No result - user cancelled');
+   *         console.log('User cancelled scanning');
    *         break;
    *       case 403:
    *         // Permission denied
-   *         console.log('Camera access denied:', response.error);
+   *         console.error('Camera access denied:', response.error);
    *         break;
-   *       default:
-   *         // Handle other potential status codes
-   *         console.log('Error:', response.error);
+   *     }
+   *   });
+   *
+   * // Without title
+   * cameraModule.scanQRCode({})
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200 && result) {
+   *       console.log('Scanned QR code:', result.qrCode);
    *     }
    *   });
    * ```

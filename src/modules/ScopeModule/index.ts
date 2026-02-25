@@ -27,19 +27,40 @@ class ScopeModule extends ModuleBase {
   /**
    * Check if the current client has access to a specific API method.
    *
-   * @param module - Bridge module name
-   * @param method - Method name
-   * @returns Promise that resolves to boolean indicating whether access is granted
+   * @remarks
+   * Use this method to verify permissions before calling sensitive APIs.
+   * Returns `true` if the scope is granted, `false` otherwise.
+   *
+   * @param module - Bridge module name (e.g., "LocationModule", "ProfileModule").
+   * @param method - Method name (e.g., "getCoordinate", "fetchEmail").
+   *
+   * @returns Promise that resolves to {@link HasAccessToResponse} with a boolean indicating access.
    *
    * @example
    * ```javascript
-   * scopeModule.hasAccessTo('LocationModule', 'getCoordinate')
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *       console.log("Has access:", result);
-   *     } else if (!!error) {
-   *       // Some error happened.
+   * // Check location permission before accessing coordinates
+   * const { result, error, status_code } = await scopeModule.hasAccessTo(
+   *   'LocationModule',
+   *   'getCoordinate'
+   * );
+   *
+   * if (result === true) {
+   *   console.log("Location access granted");
+   *   // Proceed with location API call
+   *   const location = await locationModule.getCoordinate();
+   * } else if (result === false) {
+   *   console.log("Location access denied");
+   *   // Show message to user or request permission
+   *   showPermissionRequest();
+   * } else if (error) {
+   *   console.error("Access check error:", error);
+   * }
+   *
+   * // Check profile permission
+   * scopeModule.hasAccessTo('ProfileModule', 'fetchEmail')
+   *   .then(({ result }) => {
+   *     if (result) {
+   *       profileModule.fetchEmail();
    *     }
    *   });
    * ```
@@ -51,16 +72,32 @@ class ScopeModule extends ModuleBase {
   /**
    * Request to reload consented scopes for the current client.
    *
-   * @returns Promise that resolves when scopes are reloaded
+   * @remarks
+   * Use this method after the user has granted new permissions to refresh the scope cache.
+   * This ensures that subsequent {@link hasAccessTo} calls reflect the updated permissions.
+   *
+   * **Status Codes:**
+   * - `200` or `204`: The operation succeeded
+   *
+   * @returns Promise that resolves to {@link ReloadScopesResponse} when scopes are reloaded.
    *
    * @example
    * ```javascript
+   * // After user grants new permissions
    * scopeModule.reloadScopes()
    *   .then(({ status_code, error }) => {
-   *     if (`${status_code}`.startsWith('20')) {
-   *       // The operation succeeded.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *     if (status_code === 200 || status_code === 204) {
+   *       console.log("Scopes reloaded successfully");
+   *       
+   *       // Now check if new permission is available
+   *       scopeModule.hasAccessTo('LocationModule', 'getCoordinate')
+   *         .then(({ result }) => {
+   *           if (result) {
+   *             console.log("New permission is now active");
+   *           }
+   *         });
+   *     } else if (error) {
+   *       console.error("Reload scopes error:", error);
    *     }
    *   });
    * ```

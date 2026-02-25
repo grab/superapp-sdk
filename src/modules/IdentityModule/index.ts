@@ -252,6 +252,7 @@ class IdentityModule extends ModuleBase {
   /**
    * Initiates the OAuth authorization flow with support for both native and web consent.
    *
+   * @remarks
    * **Important Note on `redirectUri` and `responseMode`:**
    *
    * The actual `redirectUri` used during authorization may differ from the one you provide, depending on the flow:
@@ -259,7 +260,7 @@ class IdentityModule extends ModuleBase {
    * - **`responseMode: 'in_place'` falling back to web flow if native flow is not available**: Uses your provided `redirectUri`
    * - **`responseMode: 'redirect'`**: Always uses your provided `redirectUri`
    *
-   * To ensure successful token exchange (which requires matching `redirectUri` values), **always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`** after authorization completes.
+   * To ensure successful token exchange (which requires matching `redirectUri` values), **always retrieve the actual `redirectUri` from {@link getAuthorizationArtifacts}** after authorization completes.
    *
    * **Consent Selection Rules (Native vs Web):**
    * - If the user agent does not match the Grab app pattern, the SDK uses **web consent**.
@@ -267,22 +268,26 @@ class IdentityModule extends ModuleBase {
    * - Otherwise, if the app version in the user agent is below **5.396.0** (iOS or Android), the SDK uses **web consent**.
    * - For supported versions, the SDK attempts **native consent** first and falls back to web on specific native errors.
    *
-   * @param request - Authorization request parameters
-   * @param request.clientId - Client ID for authorization (required)
-   * @param request.scope - Scope of the authorization (required)
-   * @param request.redirectUri - Redirect URI for authorization callback (required)
-   * @param request.environment - Environment ('staging' or 'production'). Used to fetch the authorization endpoint from the OpenID configuration for the web flow (required)
-   * @param request.responseMode - Response mode ('redirect' or 'in_place'). Defaults to 'redirect' if not specified (optional)
-   * @returns Promise that resolves to authorization response
-   *
    * **Status Codes:**
    * - `200`: Authorization successful (in_place mode with native flow)
    * - `302`: Authorization redirect initiated (web flow or redirect response mode)
    * - `204`: User cancelled the authorization
    * - `400`: Invalid request or configuration error
    *
+   * @param request - Authorization request parameters.
+   *   - `clientId`: Client ID for authorization (required)
+   *   - `scope`: Scope of the authorization (required)
+   *   - `redirectUri`: Redirect URI for authorization callback (required)
+   *   - `environment`: Environment ('staging' or 'production'). Used to fetch the authorization endpoint from the OpenID configuration for the web flow (required)
+   *   - `responseMode`: Response mode ('redirect' or 'in_place'). Defaults to 'redirect' if not specified (optional)
+   *
+   * @returns Promise that resolves to {@link AuthorizeResponse}.
+   *
+   * @see {@link Environment}, {@link ResponseMode}
+   *
    * @example
    * ```javascript
+   * // Example 1: Using redirect response mode
    * const request = {
    *   clientId: "your-client-id",
    *   scope: "profile openid",
@@ -305,6 +310,22 @@ class IdentityModule extends ModuleBase {
    * } else if (error) {
    *   // Authorization failed
    *   console.error("Auth error:", error);
+   * }
+   *
+   * // Example 2: Using in_place response mode
+   * const inPlaceRequest = {
+   *   clientId: "your-client-id",
+   *   scope: "profile openid",
+   *   redirectUri: "https://your-redirect-uri.com",
+   *   environment: "production",
+   *   responseMode: "in_place"
+   * };
+   *
+   * const response = await identityModule.authorize(inPlaceRequest);
+   * if (response.status_code === 200 && response.result) {
+   *   // Get the actual redirectUri used
+   *   const { redirectUri } = await identityModule.getAuthorizationArtifacts();
+   *   console.log("Actual redirect URI:", redirectUri);
    * }
    * ```
    */
@@ -385,19 +406,20 @@ class IdentityModule extends ModuleBase {
   /**
    * Retrieves the authorization artifacts that were stored in localStorage during the authorization flow.
    *
-   * These include PKCE (Proof Key for Code Exchange) values and the actual `redirectUri` that was used.
+   * @remarks
+   * These artifacts include PKCE (Proof Key for Code Exchange) values and the actual `redirectUri` that was used.
    * These values are needed to complete the OAuth token exchange after the authorization redirect.
    *
    * **Important:** The `redirectUri` returned by this method is the **actual** redirect URI that was sent to the authorization server.
-   * This may differ from the `redirectUri` you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow.
+   * This may differ from the `redirectUri` you provided to {@link authorize} if you used `responseMode: 'in_place'` with native flow.
    * You **must** use this returned `redirectUri` for token exchange to ensure OAuth compliance.
-   *
-   * @returns Promise that resolves to authorization artifacts response
    *
    * **Status Codes:**
    * - `200`: All four artifacts are present and returned in `result`
    * - `204`: No artifacts are stored (authorization has not been called yet)
    * - `400`: Inconsistent state detected (only some artifacts present, possible data corruption)
+   *
+   * @returns Promise that resolves to {@link GetAuthorizationArtifactsResponse} with stored artifacts.
    *
    * @example
    * ```javascript
@@ -411,9 +433,16 @@ class IdentityModule extends ModuleBase {
    *   console.log("Code Verifier:", codeVerifier);
    *   console.log("Nonce:", nonce);
    *   console.log("Redirect URI:", redirectUri);
+   *   
+   *   // Use these values for token exchange
+   *   await exchangeToken({
+   *     code: authCode,
+   *     codeVerifier,
+   *     redirectUri, // Use the actual redirectUri from artifacts
+   *   });
    * } else if (status_code === 204) {
    *   // No artifacts yet - user hasn't authorized
-   *   console.log("No authorization artifacts found. Authorization has not been initiated.");
+   *   console.log("No authorization artifacts found.");
    * } else if (status_code === 400) {
    *   // Inconsistent state - possible data corruption
    *   console.error("Authorization artifacts error:", error);
@@ -456,17 +485,30 @@ class IdentityModule extends ModuleBase {
   /**
    * Clears all stored authorization artifacts from localStorage.
    *
+   * @remarks
    * This should be called after a successful token exchange or when you need to reset the authorization state
    * (e.g., on error or logout).
    *
-   * @returns Promise that resolves with status code 204 (No Content - successful operation)
+   * **Status Codes:**
+   * - `204`: No Content - successful operation
+   *
+   * @returns Promise that resolves to {@link ClearAuthorizationArtifactsResponse} with status code 204.
    *
    * @example
    * ```javascript
-   * // After successful token exchange or on error
+   * // After successful token exchange
    * const { status_code } = await identityModule.clearAuthorizationArtifacts();
    * if (status_code === 204) {
-   *   console.log("Authorization artifacts cleared");
+   *   console.log("Authorization artifacts cleared successfully");
+   * }
+   *
+   * // On error or logout
+   * try {
+   *   await exchangeToken(params);
+   * } catch (error) {
+   *   console.error("Token exchange failed:", error);
+   *   // Clear artifacts to reset state
+   *   await identityModule.clearAuthorizationArtifacts();
    * }
    * ```
    */

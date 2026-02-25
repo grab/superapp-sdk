@@ -46,9 +46,12 @@ class ProfileModule extends ModuleBase {
   /**
    * Fetch the user's verified email address.
    *
-   * If the user does not have a verified email, the method will return a `status_code` of `204`.
-   *
+   * @remarks
    * **Required Scope:** `mobile.profile`
+   *
+   * **Version Requirements:** This method requires Grab app version 5.399 or above.
+   *
+   * If the user does not have a verified email, the method will return a `status_code` of `204`.
    *
    * **Status Codes:**
    * - `200`: Success, verified email found and returned in `result`
@@ -57,7 +60,7 @@ class ProfileModule extends ModuleBase {
    * - `403`: Feature not supported (requires Grab app version 5.399 or above)
    * - `500`: Internal server error
    *
-   * @returns Promise that resolves to email response
+   * @returns Promise that resolves to {@link FetchEmailResponse} with the user's email.
    *
    * @example
    * ```javascript
@@ -65,8 +68,14 @@ class ProfileModule extends ModuleBase {
    *
    * if (status_code === 200 && result) {
    *   console.log("User email:", result.email);
+   *   // Use email for pre-filling forms or verification
+   *   document.getElementById('email').value = result.email;
    * } else if (status_code === 204) {
    *   console.log("User does not have a verified email.");
+   *   // Prompt user to add email
+   *   showEmailCaptureForm();
+   * } else if (status_code === 403) {
+   *   console.error("Feature not supported:", error);
    * } else if (error) {
    *   console.error("Fetch email error:", error);
    * }
@@ -85,10 +94,13 @@ class ProfileModule extends ModuleBase {
   /**
    * Trigger email capture bottom sheet and OTP verification.
    *
+   * @remarks
+   * **Required Scope:** `mobile.profile`
+   *
+   * **Version Requirements:** This method requires Grab app version 5.399 or above.
+   *
    * If the user closes the verify OTP bottom sheet, the method will return a `status_code` of `204`.
    * Successful verification will also update the email address for the user on Grab.
-   *
-   * **Required Scope:** `mobile.profile`
    *
    * **Status Codes:**
    * - `200`: Success, email verified and returned in `result`
@@ -97,26 +109,41 @@ class ProfileModule extends ModuleBase {
    * - `403`: Unauthorised or feature not supported (requires Grab app version 5.399 or above)
    * - `500`: Internal server error
    *
-   * @param verifyEmailDetails - Email verification details
-   * @param verifyEmailDetails.email - Email address for verification. Native bottom sheet will be displayed with this email address if not empty (User can edit before proceeding) (optional)
-   * @param verifyEmailDetails.skipUserInput - If set to `true`, and email is not empty, trigger the verify OTP bottom sheet directly (optional)
-   * @returns Promise that resolves to verification response
+   * @param verifyEmailDetails - Email verification details.
+   *   - `email`: Email address for verification. Native bottom sheet will be displayed with this email address if not empty (User can edit before proceeding) (optional)
+   *   - `skipUserInput`: If set to `true`, and email is not empty, trigger the verify OTP bottom sheet directly (optional)
+   *
+   * @returns Promise that resolves to {@link VerifyEmailResponse} with the verified email.
    *
    * @example
    * ```javascript
-   * const request = {
+   * // Example 1: Let user enter email
+   * const response1 = await profileModule.verifyEmail({});
+   * if (response1.status_code === 200 && response1.result) {
+   *   console.log("Verified email:", response1.result.email);
+   * }
+   *
+   * // Example 2: Pre-fill email and let user edit
+   * const response2 = await profileModule.verifyEmail({
    *   email: "test@example.com",
    *   skipUserInput: false
-   * };
+   * });
    *
-   * const { result, error, status_code } = await profileModule.verifyEmail(request);
+   * // Example 3: Skip user input and verify directly
+   * const response3 = await profileModule.verifyEmail({
+   *   email: "test@example.com",
+   *   skipUserInput: true
+   * });
    *
-   * if (status_code === 200 && result) {
-   *   console.log("Verified email:", result.email);
-   * } else if (status_code === 204) {
+   * if (response3.status_code === 200 && response3.result) {
+   *   console.log("Email verified successfully:", response3.result.email);
+   *   saveEmailToDatabase(response3.result.email);
+   * } else if (response3.status_code === 204) {
    *   console.log("User closed the bottom sheet.");
-   * } else if (error) {
-   *   console.error("Verify email error:", error);
+   * } else if (response3.status_code === 403) {
+   *   console.error("Feature not supported:", response3.error);
+   * } else if (response3.error) {
+   *   console.error("Verify email error:", response3.error);
    * }
    * ```
    */
@@ -136,8 +163,10 @@ export default ProfileModule;
 export type {
   // FetchEmail
   FetchEmailResponse,
+  EmailResult,
 
   // VerifyEmail
   VerifyEmailRequest,
   VerifyEmailResponse,
+  VerifyEmailResult,
 } from './type';

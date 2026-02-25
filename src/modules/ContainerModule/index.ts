@@ -8,6 +8,8 @@
 import { WrappedResponse } from '../../core/types';
 import { ModuleBase } from '../../core/ModuleBase';
 import { AnalyticsEventDetails } from './type';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from './type';
 
 /**
  * The ContainerModule provides APIs to interact with the webview container.
@@ -28,16 +30,24 @@ class ContainerModule extends ModuleBase {
   /**
    * Set the background color of the container.
    *
-   * @param backgroundColor - Hexadecimal color value (e.g., "#ffffff")
-   * @returns Promise that resolves when background color is set
+   * @param backgroundColor - Hexadecimal color value (e.g., "#ffffff", "#000000").
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when background color is set.
    *
    * @example
    * ```javascript
-   * containerModule.setBackgroundColor("#ffffff").then(({ result, error }) => {
-   *   if (error) {
-   *     // Some error happened.
-   *   }
-   * });
+   * // Set to white background
+   * containerModule.setBackgroundColor("#ffffff")
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Background color set successfully");
+   *     } else if (error) {
+   *       console.error("Error setting background:", error);
+   *     }
+   *   });
+   *
+   * // Set to dark background
+   * containerModule.setBackgroundColor("#1a1a1a");
    * ```
    */
   setBackgroundColor(backgroundColor: string): Promise<WrappedResponse<undefined>> {
@@ -49,16 +59,25 @@ class ContainerModule extends ModuleBase {
   /**
    * Set the title of the container.
    *
-   * @param title - Title of the page
-   * @returns Promise that resolves when title is set
+   * @param title - Title text to display in the navigation bar.
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when title is set.
    *
    * @example
    * ```javascript
-   * containerModule.setTitle("Home").then(({ result, error }) => {
-   *   if (error) {
-   *     // Some error happened.
-   *   }
-   * });
+   * containerModule.setTitle("Home")
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Title set successfully");
+   *     } else if (error) {
+   *       console.error("Error setting title:", error);
+   *     }
+   *   });
+   *
+   * // Dynamic title based on page
+   * const setPageTitle = (pageName) => {
+   *   containerModule.setTitle(pageName);
+   * };
    * ```
    */
   setTitle(title: string): Promise<WrappedResponse<undefined>> {
@@ -68,15 +87,18 @@ class ContainerModule extends ModuleBase {
   /**
    * Hide the back button of the container.
    *
-   * @returns Promise that resolves when back button is hidden
+   * @returns Promise that resolves to {@link WrappedResponse} when back button is hidden.
    *
    * @example
    * ```javascript
-   * containerModule.hideBackButton().then(({ result, error }) => {
-   *   if (error) {
-   *     // Some error happened.
-   *   }
-   * });
+   * containerModule.hideBackButton()
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Back button hidden");
+   *     } else if (error) {
+   *       console.error("Error:", error);
+   *     }
+   *   });
    * ```
    */
   hideBackButton(): Promise<WrappedResponse<undefined>> {
@@ -86,15 +108,18 @@ class ContainerModule extends ModuleBase {
   /**
    * Show the back button of the container.
    *
-   * @returns Promise that resolves when back button is shown
+   * @returns Promise that resolves to {@link WrappedResponse} when back button is shown.
    *
    * @example
    * ```javascript
-   * containerModule.showBackButton().then(({ result, error }) => {
-   *   if (error) {
-   *     // Some error happened.
-   *   }
-   * });
+   * containerModule.showBackButton()
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Back button shown");
+   *     } else if (error) {
+   *       console.error("Error:", error);
+   *     }
+   *   });
    * ```
    */
   showBackButton(): Promise<WrappedResponse<undefined>> {
@@ -104,17 +129,18 @@ class ContainerModule extends ModuleBase {
   /**
    * Hide the refresh button of the container.
    *
-   * @returns Promise that resolves when refresh button is hidden
+   * @returns Promise that resolves to {@link WrappedResponse} when refresh button is hidden.
    *
    * @example
    * ```javascript
-   * containerModule.hideRefreshButton().then(({ result, error }) => {
-   *   if (result) {
-   *     // There is a valid result.
-   *   } else if (error) {
-   *     // Some error happened.
-   *   }
-   * });
+   * containerModule.hideRefreshButton()
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Refresh button hidden");
+   *     } else if (error) {
+   *       console.error("Error:", error);
+   *     }
+   *   });
    * ```
    */
   hideRefreshButton(): Promise<WrappedResponse<undefined>> {
@@ -124,17 +150,18 @@ class ContainerModule extends ModuleBase {
   /**
    * Show the refresh button of the container.
    *
-   * @returns Promise that resolves when refresh button is shown
+   * @returns Promise that resolves to {@link WrappedResponse} when refresh button is shown.
    *
    * @example
    * ```javascript
-   * containerModule.showRefreshButton().then(({ result, error }) => {
-   *   if (result) {
-   *     // There is a valid result.
-   *   } else if (error) {
-   *     // Some error happened.
-   *   }
-   * });
+   * containerModule.showRefreshButton()
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Refresh button shown");
+   *     } else if (error) {
+   *       console.error("Error:", error);
+   *     }
+   *   });
    * ```
    */
   showRefreshButton(): Promise<WrappedResponse<undefined>> {
@@ -144,16 +171,26 @@ class ContainerModule extends ModuleBase {
   /**
    * Close the container.
    *
-   * @returns Promise that resolves when container is closed
+   * @remarks
+   * This method closes the current webview and returns the user to the previous screen.
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when container is closed.
    *
    * @example
    * ```javascript
-   * containerModule.close().then(({ result, error }) => {
-   *   if (result) {
-   *     // There is a valid result.
-   *   } else if (error) {
-   *     // Some error happened.
-   *   }
+   * // Close after completing a task
+   * containerModule.close()
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Container closed");
+   *     } else if (error) {
+   *       console.error("Error:", error);
+   *     }
+   *   });
+   *
+   * // Example: Close button handler
+   * closeButton.addEventListener('click', () => {
+   *   containerModule.close();
    * });
    * ```
    */
@@ -163,19 +200,30 @@ class ContainerModule extends ModuleBase {
 
   /**
    * Notify the client that page content has loaded.
-   * Call this method to inform the container that the page content has finished loading.
    *
-   * @returns Promise that resolves when notification is sent
+   * @remarks
+   * Call this method to inform the container that the page content has finished loading.
+   * This can be used to hide loading indicators or trigger post-load actions on the native side.
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when notification is sent.
    *
    * @example
    * ```javascript
-   * containerModule.onContentLoaded().then(({ result, error }) => {
-   *   if (result) {
-   *     // There is a valid result.
-   *   } else if (error) {
-   *     // Some error happened.
-   *   }
+   * // Notify after page load
+   * window.addEventListener('load', () => {
+   *   containerModule.onContentLoaded()
+   *     .then(({ status_code }) => {
+   *       if (status_code === 200) {
+   *         console.log("Content loaded notification sent");
+   *       }
+   *     });
    * });
+   *
+   * // Notify after async data load
+   * async function loadPageData() {
+   *   await fetchData();
+   *   await containerModule.onContentLoaded();
+   * }
    * ```
    */
   onContentLoaded(): Promise<WrappedResponse<undefined>> {
@@ -184,17 +232,26 @@ class ContainerModule extends ModuleBase {
 
   /**
    * Show the loader in the container.
-   * Call this method to notify the client to show a loading indicator.
    *
-   * @returns Promise that resolves when loader is shown
+   * @remarks
+   * Call this method to notify the client to show a loading indicator.
+   * Remember to call {@link hideLoader} when the operation completes.
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when loader is shown.
    *
    * @example
    * ```javascript
-   * containerModule.showLoader().then(({ result, error }) => {
-   *   if (error) {
-   *     // Some error happened.
+   * // Show loader during async operation
+   * async function fetchData() {
+   *   await containerModule.showLoader();
+   *   
+   *   try {
+   *     const data = await api.fetch();
+   *     processData(data);
+   *   } finally {
+   *     await containerModule.hideLoader();
    *   }
-   * });
+   * }
    * ```
    */
   showLoader(): Promise<WrappedResponse<undefined>> {
@@ -203,17 +260,21 @@ class ContainerModule extends ModuleBase {
 
   /**
    * Hide the loader in the container.
-   * Call this method to notify the client to hide the loading indicator.
    *
-   * @returns Promise that resolves when loader is hidden
+   * @remarks
+   * Call this method to notify the client to hide the loading indicator.
+   * Should be called after {@link showLoader} when the operation completes.
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when loader is hidden.
    *
    * @example
    * ```javascript
-   * containerModule.hideLoader().then(({ result, error }) => {
-   *   if (error) {
-   *     // Some error happened.
-   *   }
-   * });
+   * containerModule.hideLoader()
+   *   .then(({ status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Loader hidden");
+   *     }
+   *   });
    * ```
    */
   hideLoader(): Promise<WrappedResponse<undefined>> {
@@ -222,22 +283,31 @@ class ContainerModule extends ModuleBase {
 
   /**
    * Open a link in the external browser.
-   * Call this method to tell the client to open the specified URL in an external browser.
    *
-   * @param url - URL to open in external browser
-   * @returns Promise that resolves when external link is opened
+   * @remarks
+   * Call this method to tell the client to open the specified URL in an external browser
+   * (outside of the Grab app).
+   *
+   * @param url - URL to open in external browser.
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when external link is opened.
    *
    * @example
    * ```javascript
-   * containerModule
-   *   .openExternalLink("https://grab.com")
-   *   .then(({ result, error }) => {
-   *     if (result) {
-   *       // There is a valid result.
+   * containerModule.openExternalLink("https://grab.com")
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("External link opened");
    *     } else if (error) {
-   *       // Some error happened.
+   *       console.error("Error opening link:", error);
    *     }
    *   });
+   *
+   * // Example: Open terms and conditions
+   * termsLink.addEventListener('click', (e) => {
+   *   e.preventDefault();
+   *   containerModule.openExternalLink("https://grab.com/terms");
+   * });
    * ```
    */
   openExternalLink(url: string): Promise<WrappedResponse<undefined>> {
@@ -246,22 +316,31 @@ class ContainerModule extends ModuleBase {
 
   /**
    * Notify the client that the user has tapped a call-to-action (CTA).
-   * Call this method to notify the client that the user has continued the flow.
    *
-   * @param action - CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE")
-   * @returns Promise that resolves when CTA tap is notified
+   * @remarks
+   * Call this method to notify the client that the user has continued the flow.
+   * This is useful for analytics and tracking user engagement.
+   *
+   * @param action - CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE", "BOOKING_CONFIRMED").
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} when CTA tap is notified.
    *
    * @example
    * ```javascript
-   * containerModule
-   *   .onCtaTap("AV_LANDING_PAGE_CONTINUE")
-   *   .then(({ result, error }) => {
-   *     if (result) {
-   *       // There is a valid result.
+   * containerModule.onCtaTap("AV_LANDING_PAGE_CONTINUE")
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("CTA tap notified");
    *     } else if (error) {
-   *       // Some error happened.
+   *       console.error("Error:", error);
    *     }
    *   });
+   *
+   * // Example: Notify on button click
+   * continueButton.addEventListener('click', () => {
+   *   containerModule.onCtaTap("CONTINUE_TO_CHECKOUT");
+   *   navigateToCheckout();
+   * });
    * ```
    */
   onCtaTap(action: string): Promise<WrappedResponse<undefined>> {
@@ -269,27 +348,24 @@ class ContainerModule extends ModuleBase {
   }
 
   /**
-   * Send an analytics event to the container.
+   * Use this method to track user interactions and page transitions.
    *
-   * **Predefined ContainerAnalyticsEventState:**
-   * - `HOMEPAGE`
-   * - `CHECKOUT_PAGE`
-   * - `BOOKING_COMPLETION`
-   * - `CUSTOM`
+   * @remarks
+   * You can use predefined constants to ensure consistency across the platform.
    *
-   * **Predefined ContainerAnalyticsEventName:**
-   * - `DEFAULT`
+   * **Predefined Values:**
+   * - **States:** {@link ContainerAnalyticsEventState}
+   * - **Names:** {@link ContainerAnalyticsEventName}
+   * - **Data Keys:** {@link ContainerAnalyticsEventData}
    *
-   * **Predefined ContainerAnalyticsEventData:**
-   * - `TRANSACTION_AMOUNT`: 'transaction_amount'
-   * - `TRANSACTION_CURRENCY`: 'transaction_currency'
-   * - `PAGE`: 'page'
+   * @param eventDetails - The details of the event to send.
+   *   - `state`: The current context (e.g., {@link ContainerAnalyticsEventState.HOMEPAGE}).
+   *   - `name`: The event name (e.g., {@link ContainerAnalyticsEventName.DEFAULT}).
+   *   - `data`: Optional metadata. Use {@link ContainerAnalyticsEventData} for standard keys.
    *
-   * @param eventDetails - Event details containing state, name, and data
-   * @param eventDetails.state - State of the event (required)
-   * @param eventDetails.name - Name of the event (required)
-   * @param eventDetails.data - Additional data for the event (optional)
-   * @returns Promise that resolves when analytics event is sent
+   * @returns A promise that resolves when the event has been successfully queued.
+   *
+   * @see {@link ContainerAnalyticsEventState}, {@link ContainerAnalyticsEventName}, {@link ContainerAnalyticsEventData}
    *
    * @example
    * ```javascript
@@ -302,7 +378,7 @@ class ContainerModule extends ModuleBase {
    *
    * const containerModule = new ContainerModule();
    *
-   * // Example: Send a DEFAULT event for HOMEPAGE state
+   * // Example 1: Send a DEFAULT event for HOMEPAGE state
    * containerModule
    *   .sendAnalyticsEvent({
    *     state: ContainerAnalyticsEventState.HOMEPAGE,
@@ -310,11 +386,11 @@ class ContainerModule extends ModuleBase {
    *   })
    *   .then(({ result, error }) => {
    *     if (error) {
-   *       // Handle validation or other errors
+   *       console.error("Validation error:", error);
    *     }
    *   });
    *
-   * // Example: Send a BOOK event for CHECKOUT_PAGE state
+   * // Example 2: Send a BOOK event for CHECKOUT_PAGE state with standard data keys
    * containerModule
    *   .sendAnalyticsEvent({
    *     state: ContainerAnalyticsEventState.CHECKOUT_PAGE,
@@ -326,11 +402,11 @@ class ContainerModule extends ModuleBase {
    *   })
    *   .then(({ result, error }) => {
    *     if (error) {
-   *       // Handle validation or other errors
+   *       console.error("Validation error:", error);
    *     }
    *   });
    *
-   * // Example: Send a CLICK_RIDE event for CUSTOM state
+   * // Example 3: Send a CLICK_RIDE event for CUSTOM state with custom metadata
    * containerModule
    *   .sendAnalyticsEvent({
    *     state: ContainerAnalyticsEventState.CUSTOM,
@@ -346,7 +422,7 @@ class ContainerModule extends ModuleBase {
    *   })
    *   .then(({ result, error }) => {
    *     if (error) {
-   *       // Handle validation or other errors
+   *       console.error("Validation error:", error);
    *     }
    *   });
    * ```
@@ -368,23 +444,39 @@ class ContainerModule extends ModuleBase {
 
   /**
    * Check if the web app is connected to the Grab app via JSBridge.
-   * Call this method to verify the connection status.
+   *
+   * @remarks
+   * Call this method to verify the connection status before using other SDK features.
    *
    * **Status Codes:**
    * - `200`: Connected to Grab app
    * - `424`: Not connected to Grab app or user agent not available
    *
-   * @returns Promise that resolves with connection status
+   * @returns Promise that resolves to {@link WrappedResponse} with connection status.
    *
    * @example
    * ```javascript
-   * containerModule.isConnected().then(({ status_code, error }) => {
+   * containerModule.isConnected()
+   *   .then(({ status_code, error }) => {
+   *     if (status_code === 200) {
+   *       console.log("Connected to Grab app");
+   *       // Enable SDK features
+   *       enableSDKFeatures();
+   *     } else if (status_code === 424) {
+   *       console.log("Not connected to Grab app");
+   *       // Show fallback UI
+   *       showWebOnlyExperience();
+   *     }
+   *   });
+   *
+   * // Example: Check connection on app init
+   * async function initApp() {
+   *   const { status_code } = await containerModule.isConnected();
    *   if (status_code === 200) {
-   *     // Connected to Grab app
-   *   } else if (error) {
-   *     // Not connected to Grab app
+   *     // Initialize SDK-dependent features
+   *     await locationModule.getCoordinate();
    *   }
-   * });
+   * }
    * ```
    */
   isConnected(): Promise<WrappedResponse<undefined>> {
@@ -413,23 +505,38 @@ class ContainerModule extends ModuleBase {
 
   /**
    * Get the session parameters from the container.
-   * Session params can be in any format (primitive, base64 encoded string, etc).
    *
-   * @returns Promise that resolves with session parameters attached to the current session
+   * @remarks
+   * Session params can be in any format (primitive, base64 encoded string, etc).
+   * Use this to retrieve configuration or state that was passed when opening the webview.
+   *
+   * @returns Promise that resolves to {@link WrappedResponse} with session parameters attached to the current session.
    *
    * @example
    * ```javascript
-   * containerModule.getSessionParams().then(({ result, error }) => {
-   *   if (result) {
-   *     // Session params can be in any format (primitive, base64 encoded string, etc)
-   *     // e.g. stringified JSON object '{"param1": 123, "param2": "grab-test"}'
-   *     const sessionParams = JSON.parse(result);
-   *     console.log("Session parameters:", sessionParams);
-   *   } else if (error) {
-   *     // Some error happened.
-   *     console.error("Error getting session params:", error);
-   *   }
-   * });
+   * containerModule.getSessionParams()
+   *   .then(({ result, error, status_code }) => {
+   *     if (result) {
+   *       // Session params can be in any format
+   *       // e.g. stringified JSON object '{"param1": 123, "param2": "grab-test"}'
+   *       const sessionParams = JSON.parse(result);
+   *       console.log("Session parameters:", sessionParams);
+   *       
+   *       // Use params to configure the app
+   *       if (sessionParams.param1) {
+   *         configureFeature(sessionParams.param1);
+   *       }
+   *     } else if (error) {
+   *       console.error("Error getting session params:", error);
+   *     }
+   *   });
+   *
+   * // Example: Get user ID from session params
+   * async function getUserId() {
+   *   const { result } = await containerModule.getSessionParams();
+   *   const params = JSON.parse(result || '{}');
+   *   return params.userId;
+   * }
    * ```
    */
   getSessionParams(): Promise<WrappedResponse<Record<string, unknown>>> {
@@ -469,3 +576,9 @@ class ContainerModule extends ModuleBase {
 export default ContainerModule;
 
 export type { AnalyticsEventDetails };
+
+export {
+  ContainerAnalyticsEventState,
+  ContainerAnalyticsEventName,
+  ContainerAnalyticsEventData,
+} from './type';

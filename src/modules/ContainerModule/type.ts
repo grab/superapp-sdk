@@ -9,9 +9,13 @@
  * Container analytics event state constants
  */
 export const ContainerAnalyticsEventState = {
+  /** Homepage state */
   HOMEPAGE: 'HOMEPAGE',
+  /** Checkout page state */
   CHECKOUT_PAGE: 'CHECKOUT_PAGE',
+  /** Booking completion state */
   BOOKING_COMPLETION: 'BOOKING_COMPLETION',
+  /** Custom state for other pages */
   CUSTOM: 'CUSTOM',
 } as const;
 
@@ -25,6 +29,7 @@ export type ContainerAnalyticsEventState =
  * Container analytics event name constants
  */
 export const ContainerAnalyticsEventName = {
+  /** Default event name */
   DEFAULT: 'DEFAULT',
 } as const;
 
@@ -38,8 +43,11 @@ export type ContainerAnalyticsEventName =
  * Container analytics event data field constants
  */
 export const ContainerAnalyticsEventData = {
+  /** Transaction amount field */
   TRANSACTION_AMOUNT: 'transaction_amount',
+  /** Transaction currency field */
   TRANSACTION_CURRENCY: 'transaction_currency',
+  /** Page identifier field */
   PAGE: 'page',
 } as const;
 
@@ -54,15 +62,18 @@ export type ContainerAnalyticsEventData =
  */
 export interface AnalyticsEventDetails {
   /**
-   * The state in which the event occurred
+   * The state in which the event occurred.
+   * Use {@link ContainerAnalyticsEventState} for predefined values.
    */
   state: string;
   /**
-   * The name of the event
+   * The name of the event.
+   * Use {@link ContainerAnalyticsEventName} for predefined values.
    */
   name: string;
   /**
-   * Optional data associated with the event
+   * Optional metadata associated with the event.
+   * Use {@link ContainerAnalyticsEventData} for standard keys.
    */
   data?: Record<string, any> | null;
 }

@@ -2,11 +2,18 @@
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts"],
   "plugin": ["typedoc-plugin-markdown"],
-  "out": "./docs-2",
+  "out": "./docs",
   "excludePrivate": true,
   "excludeInternal": true,
   "excludeProtected": true,
   "categorizeByGroup": true,
   "sort": ["source-order"],
-  "readme": "none"
+  "readme": "none",
+  "disableSources": true,
+  "hidePageHeader": true,
+  "hidePageTitle": false,
+  "hideBreadcrumbs": false,
+  "expandObjects": true,
+  "expandParameters": true,
+  "parametersFormat": "list"
 }

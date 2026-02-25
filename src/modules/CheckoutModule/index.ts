@@ -27,30 +27,39 @@ class CheckoutModule extends ModuleBase {
   /**
    * Trigger the native checkout flow.
    *
-   * @param request - Checkout request parameters
-   * @param request.responseParams - The response params that partners get when charge init endpoint is called
-   * @returns Promise that resolves to checkout response with transaction details
+   * @remarks
+   * This method initiates the native payment checkout flow within the Grab app.
+   * The `responseParams` should be obtained from your charge initialization endpoint.
    *
-   * The result object contains:
+   * **Result Object:**
    * - `transactionID`: Unique identifier for the transaction at Grab side
    * - `status`: Status of the transaction
-   * - `errorReason`: The reason why the transaction failed
-   * - `errorCode`: Error code associated with the failed transaction
+   * - `errorReason`: The reason why the transaction failed (if applicable)
+   * - `errorCode`: Error code associated with the failed transaction (if applicable)
+   *
+   * @param request - Checkout request parameters.
+   *   - `responseParams`: The response params from the charge init endpoint
+   *
+   * @returns Promise that resolves to {@link TriggerCheckoutResponse} with transaction details.
    *
    * @example
    * ```javascript
    * // Get responseParams from chargeInit endpoint
-   * const responseParams = await chargeInit(); // This is a dummy function
+   * const responseParams = await chargeInit(); // Replace with your actual endpoint
    *
    * checkoutModule
    *   .triggerCheckout({ responseParams })
-   *   .then(({ result, error }) => {
+   *   .then(({ result, error, status_code }) => {
    *     if (result) {
-   *       // There is a valid result.
    *       console.log("Transaction ID:", result.transactionID);
    *       console.log("Status:", result.status);
+   *       
+   *       if (result.errorCode) {
+   *         console.error("Error Code:", result.errorCode);
+   *         console.error("Error Reason:", result.errorReason);
+   *       }
    *     } else if (error) {
-   *       // Some error happened.
+   *       console.error("Checkout error:", error);
    *     }
    *   });
    * ```

@@ -38,17 +38,43 @@ class LocaleModule extends ModuleBase {
   /**
    * Get the current language locale identifier.
    *
-   * @returns Promise that resolves to language locale response with locale identifier (e.g., "en", "id")
+   * @remarks
+   * The locale identifier follows standard language codes (e.g., "en", "id", "zh").
+   * Use this to localize your content to match the user's language preference in the Grab app.
+   *
+   * **Supported Languages:**
+   * - `en`: English
+   * - `id`: Indonesia
+   * - `zh`: Chinese
+   * - `ms`: Malaysia
+   * - `th`: Thai
+   * - `vi`: Vietnamese
+   * - `zg`: Burmese Zawgyi
+   * - `my`: Burmese Unicode
+   * - `km`: Khmer
+   *
+   * @returns Promise that resolves to {@link GetLanguageLocaleIdentifierResponse} with the locale identifier.
    *
    * @example
    * ```javascript
    * localeModule.getLanguageLocaleIdentifier()
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
+   *   .then(({ result, error, status_code }) => {
+   *     if (result) {
    *       const locale = result.locale;
    *       console.log("Current locale:", locale);
-   *     } else if (!!error) {
+   *       
+   *       // Localize your content based on locale
+   *       if (locale === 'id') {
+   *         showIndonesianContent();
+   *       } else if (locale === 'zh') {
+   *         showChineseContent();
+   *       } else {
+   *         showEnglishContent();
+   *       }
+   *     } else if (error) {
    *       // Some error happened. Use default language.
+   *       console.error("Locale error:", error);
+   *       showEnglishContent();
    *     }
    *   });
    * ```

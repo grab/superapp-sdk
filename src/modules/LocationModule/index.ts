@@ -29,18 +29,25 @@ class LocationModule extends ModuleBase {
   /**
    * Get the current user's coordinate (latitude and longitude).
    *
+   * @remarks
    * **Required Scope:** `mobile.geolocation`
    *
-   * @returns Promise that resolves to coordinate response with latitude and longitude
+   * This method retrieves the user's current position as latitude and longitude coordinates.
+   *
+   * @returns Promise that resolves to {@link GetCoordinateResponse} with latitude and longitude.
    *
    * @example
    * ```javascript
    * locationModule.getCoordinate()
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
+   *   .then(({ result, error, status_code }) => {
+   *     if (result) {
    *       const { latitude, longitude } = result;
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *       console.log(`Location: ${latitude}, ${longitude}`);
+   *       
+   *       // Use coordinates for map display or location-based features
+   *       displayOnMap(latitude, longitude);
+   *     } else if (error) {
+   *       console.error("Location error:", error);
    *     }
    *   });
    * ```
@@ -52,25 +59,34 @@ class LocationModule extends ModuleBase {
   /**
    * Stream the current user's coordinates with continuous updates.
    *
+   * @remarks
    * **Required Scope:** `mobile.geolocation`
    *
-   * @returns Promise that resolves to coordinate response with latitude and longitude
+   * This method returns a stream that emits location updates as the user moves.
+   * Unsubscribe from the subscription to terminate the stream.
+   *
+   * @returns Promise that resolves to a stream of {@link GetCoordinateResponse} with continuous location updates.
    *
    * @example
    * ```javascript
-   * // Unsubscribe from this subscription to terminate the stream.
+   * // Subscribe to location changes
    * const subscription = locationModule.observeLocationChange().subscribe({
-   *   next: ({ result, error }) => {
-   *     if (!!result) {
+   *   next: ({ result, error, status_code }) => {
+   *     if (result) {
    *       const { latitude, longitude } = result;
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *       console.log(`Updated location: ${latitude}, ${longitude}`);
+   *       updateMapMarker(latitude, longitude);
+   *     } else if (error) {
+   *       console.error("Location update error:", error);
    *     }
    *   },
    *   complete: () => {
-   *     // Completion logic for when the stream completes.
+   *     console.log("Location stream completed");
    *   }
    * });
+   *
+   * // Later, unsubscribe to stop receiving updates
+   * // subscription.unsubscribe();
    * ```
    */
   observeLocationChange(): Promise<GetCoordinateResponse> {
@@ -80,48 +96,18 @@ class LocationModule extends ModuleBase {
   /**
    * Get the current user's country code based on their location.
    *
-   * The location method returns an object with different structures based on the result:
-   * - **Success Response (Status Code 200)**:
-   *   ```javascript
-   *   {
-   *     "status_code": 200,
-   *     "result": "SG" // The country code (e.g., "SG", "ID", "MY")
-   *   }
-   *   ```
-   * - **No Result Response (Status Code 204)**: Location is undefined or uncovered by location service
-   *   ```javascript
-   *   {
-   *     "status_code": 204
-   *     // No result property
-   *     // No error property
-   *   }
-   *   ```
-   * - **Error Response (Status Code 403)**: Location access denied
-   *   ```javascript
-   *   {
-   *     "status_code": 403,
-   *     "error": "Location access denied"
-   *     // No result property
-   *   }
-   *   ```
-   * - **Error Response (Status Code 424)**: Location service unavailable
-   *   ```javascript
-   *   {
-   *     "status_code": 424,
-   *     "error": "Determining country code from coordinates fails"
-   *     // No result property
-   *   }
-   *   ```
-   *
+   * @remarks
    * **Required Scope:** `mobile.geolocation`
+   *
+   * This method determines the user's country code (e.g., "SG", "ID", "MY") based on their GPS coordinates.
    *
    * **Status Codes:**
    * - `200`: Successfully retrieved country code
-   * - `204`: No result (location is undefined or uncovered by location service or in ocean area)
+   * - `204`: No result (location is undefined, uncovered by location service, or in ocean area)
    * - `403`: Location access denied (mobile.geolocation scope not granted)
    * - `424`: Location service unavailable/unaccessible
    *
-   * @returns Promise that resolves to country code response
+   * @returns Promise that resolves to {@link GetCountryCodeResponse} with the country code.
    *
    * @example
    * ```javascript
@@ -131,22 +117,27 @@ class LocationModule extends ModuleBase {
    *       case 200:
    *         // Success - country code retrieved
    *         console.log('Country code:', response.result);
+   *         
+   *         // Use country code for localization or region-specific features
+   *         if (response.result === 'SG') {
+   *           showSingaporeContent();
+   *         } else if (response.result === 'ID') {
+   *           showIndonesiaContent();
+   *         }
    *         break;
    *       case 204:
-   *         // No result - location is undefined or might be uncovered by location service data
-   *         console.log('No result - location is undefined or uncovered by location service');
+   *         // No result - location is undefined or uncovered by location service
+   *         console.log('Location not available');
+   *         showDefaultContent();
    *         break;
    *       case 403:
    *         // Permission denied - mobile.geolocation scope not granted
-   *         console.log('Location access denied:', response.error);
+   *         console.error('Location access denied:', response.error);
    *         break;
    *       case 424:
    *         // Location service has issue/unaccessible
-   *         console.log('Location service unavailable:', response.error);
+   *         console.error('Location service unavailable:', response.error);
    *         break;
-   *       default:
-   *         // Handle other potential status codes
-   *         console.log('Error:', response.error);
    *     }
    *   });
    * ```

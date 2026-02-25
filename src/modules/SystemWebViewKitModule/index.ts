@@ -27,21 +27,41 @@ class SystemWebViewKitModule extends ModuleBase {
   /**
    * Redirect to a system webview with the specified URL.
    *
-   * @param payload - Request parameters
-   * @param payload.url - The URL to open in the system webview
-   * @returns Promise that resolves when redirect is initiated
+   * @remarks
+   * This method opens the specified URL in a native system webview, which is separate from
+   * the Grab app's webview. This is useful for displaying external content or web pages
+   * that need full browser capabilities.
+   *
+   * @param payload - Request parameters.
+   *   - `url`: The URL to open in the system webview
+   *
+   * @returns Promise that resolves to {@link RedirectToSystemWebViewResponse} when redirect is initiated.
    *
    * @example
    * ```javascript
-   * // Open the system webview
-   * systemWebViewKitModule.redirectToSystemWebView({ url: 'http://www.example.com' })
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   * // Example 1: Open an external website
+   * systemWebViewKitModule.redirectToSystemWebView({
+   *   url: 'https://www.example.com'
+   * })
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("System webview opened successfully");
+   *     } else if (error) {
+   *       console.error("Redirect error:", error);
    *     }
    *   });
+   *
+   * // Example 2: Open terms and conditions
+   * systemWebViewKitModule.redirectToSystemWebView({
+   *   url: 'https://www.grab.com/terms'
+   * });
+   *
+   * // Example 3: Open help documentation
+   * const openHelp = () => {
+   *   systemWebViewKitModule.redirectToSystemWebView({
+   *     url: 'https://help.grab.com'
+   *   });
+   * };
    * ```
    */
   redirectToSystemWebView(

@@ -12,7 +12,7 @@ import * as bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
  * Handles common initialization logic for bridge SDK wrapping
  */
 export class ModuleBase {
-  name: string;
+  private readonly name: string;
 
   constructor(moduleName: string) {
     this.name = moduleName;

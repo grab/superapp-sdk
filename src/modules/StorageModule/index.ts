@@ -37,18 +37,22 @@ class StorageModule extends ModuleBase {
   /**
    * Store a boolean value in local storage with a key.
    *
-   * @param key - String name of the key
-   * @param value - Boolean value to store
-   * @returns Promise that resolves when value is stored
+   * @remarks
+   * **Important:** Once the user logs out, all saved data will be removed.
+   *
+   * @param key - String name of the key to store the value under.
+   * @param value - Boolean value to store.
+   *
+   * @returns Promise that resolves to {@link SetResponse} when value is stored.
    *
    * @example
    * ```javascript
    * storageModule.setBoolean('isEnabled', true)
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Boolean value stored successfully");
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -60,17 +64,21 @@ class StorageModule extends ModuleBase {
   /**
    * Retrieve a boolean value from local storage by key.
    *
-   * @param key - String name of the key
-   * @returns Promise that resolves to the stored boolean value
+   * @param key - String name of the key to retrieve.
+   *
+   * @returns Promise that resolves to {@link GetBooleanResponse} with the stored boolean value.
    *
    * @example
    * ```javascript
    * storageModule.getBoolean('isEnabled')
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200 && result !== undefined) {
+   *       console.log("Stored value:", result);
+   *       if (result) {
+   *         enableFeature();
+   *       }
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -82,18 +90,22 @@ class StorageModule extends ModuleBase {
   /**
    * Store an integer value in local storage with a key.
    *
-   * @param key - String name of the key
-   * @param value - Integer value to store
-   * @returns Promise that resolves when value is stored
+   * @remarks
+   * **Important:** Once the user logs out, all saved data will be removed.
+   *
+   * @param key - String name of the key to store the value under.
+   * @param value - Integer value to store.
+   *
+   * @returns Promise that resolves to {@link SetResponse} when value is stored.
    *
    * @example
    * ```javascript
    * storageModule.setInt('count', 42)
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Integer value stored successfully");
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -105,17 +117,19 @@ class StorageModule extends ModuleBase {
   /**
    * Retrieve an integer value from local storage by key.
    *
-   * @param key - String name of the key
-   * @returns Promise that resolves to the stored integer value
+   * @param key - String name of the key to retrieve.
+   *
+   * @returns Promise that resolves to {@link GetIntResponse} with the stored integer value.
    *
    * @example
    * ```javascript
    * storageModule.getInt('count')
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200 && result !== undefined) {
+   *       console.log("Stored count:", result);
+   *       updateCounter(result);
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -127,18 +141,22 @@ class StorageModule extends ModuleBase {
   /**
    * Store a string value in local storage with a key.
    *
-   * @param key - String name of the key
-   * @param value - String value to store
-   * @returns Promise that resolves when value is stored
+   * @remarks
+   * **Important:** Once the user logs out, all saved data will be removed.
+   *
+   * @param key - String name of the key to store the value under.
+   * @param value - String value to store.
+   *
+   * @returns Promise that resolves to {@link SetResponse} when value is stored.
    *
    * @example
    * ```javascript
    * storageModule.setString('username', 'john_doe')
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("String value stored successfully");
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -150,17 +168,19 @@ class StorageModule extends ModuleBase {
   /**
    * Retrieve a string value from local storage by key.
    *
-   * @param key - String name of the key
-   * @returns Promise that resolves to the stored string value
+   * @param key - String name of the key to retrieve.
+   *
+   * @returns Promise that resolves to {@link GetStringResponse} with the stored string value.
    *
    * @example
    * ```javascript
    * storageModule.getString('username')
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200 && result) {
+   *       console.log("Stored username:", result);
+   *       displayUsername(result);
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -172,18 +192,22 @@ class StorageModule extends ModuleBase {
   /**
    * Store a double value in local storage with a key.
    *
-   * @param key - String name of the key
-   * @param value - Double value to store
-   * @returns Promise that resolves when value is stored
+   * @remarks
+   * **Important:** Once the user logs out, all saved data will be removed.
+   *
+   * @param key - String name of the key to store the value under.
+   * @param value - Double value to store.
+   *
+   * @returns Promise that resolves to {@link SetResponse} when value is stored.
    *
    * @example
    * ```javascript
    * storageModule.setDouble('price', 19.99)
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Double value stored successfully");
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -195,17 +219,19 @@ class StorageModule extends ModuleBase {
   /**
    * Retrieve a double value from local storage by key.
    *
-   * @param key - String name of the key
-   * @returns Promise that resolves to the stored double value
+   * @param key - String name of the key to retrieve.
+   *
+   * @returns Promise that resolves to {@link GetDoubleResponse} with the stored double value.
    *
    * @example
    * ```javascript
    * storageModule.getDouble('price')
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200 && result !== undefined) {
+   *       console.log("Stored price:", result);
+   *       displayPrice(result);
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -217,17 +243,18 @@ class StorageModule extends ModuleBase {
   /**
    * Remove a value from local storage by key.
    *
-   * @param key - String name of the key to remove
-   * @returns Promise that resolves when value is removed
+   * @param key - String name of the key to remove.
+   *
+   * @returns Promise that resolves to {@link RemoveResponse} when value is removed.
    *
    * @example
    * ```javascript
    * storageModule.remove('username')
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("Value removed successfully");
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
    * ```
@@ -239,18 +266,28 @@ class StorageModule extends ModuleBase {
   /**
    * Remove all values from local storage.
    *
-   * @returns Promise that resolves when all values are removed
+   * @remarks
+   * **Warning:** This will clear all data stored by your application.
+   * Use with caution, typically during logout or app reset.
+   *
+   * @returns Promise that resolves to {@link RemoveAllResponse} when all values are removed.
    *
    * @example
    * ```javascript
    * storageModule.removeAll()
-   *   .then(({ result, error }) => {
-   *     if (!!result) {
-   *       // There is a valid result.
-   *     } else if (!!error) {
-   *       // Some error happened.
+   *   .then(({ result, error, status_code }) => {
+   *     if (status_code === 200) {
+   *       console.log("All values cleared successfully");
+   *     } else if (error) {
+   *       console.error("Storage error:", error);
    *     }
    *   });
+   *
+   * // Example: Clear storage on logout
+   * logoutButton.addEventListener('click', async () => {
+   *   await storageModule.removeAll();
+   *   window.location.href = '/login';
+   * });
    * ```
    */
   removeAll(): Promise<RemoveAllResponse> {

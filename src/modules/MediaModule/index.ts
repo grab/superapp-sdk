@@ -26,65 +26,65 @@ class MediaModule extends ModuleBase {
   /**
    * Play DRM-protected content in the native media player.
    *
-   * Returns a data stream emitting events on the video playback status.
+   * @remarks
+   * This method returns a data stream that emits events about the video playback status.
    *
-   * **Event Types:**
+   * **Event Types:** (see {@link PlaybackEventType})
    * - `START_PLAYBACK`: Emitted when the video starts playing
    * - `STOP_PLAYBACK`: Emitted when the video stops playing
-   * - `PROGRESS_PLAYBACK`: Emitted every 10 seconds
+   * - `PROGRESS_PLAYBACK`: Emitted every 10 seconds during playback
    *
-   * @param request - Video data containing URLs and identifiers
-   * @param data.content - Content URL for playback
-   * @param data.certificate - DRM certificate URL
-   * @param data.license - DRM licence URL
-   * @param data.titleId - Playback item identifier
-   * @returns Promise that resolves to a stream of playback status events. Each event contains:
-   *   - `type`: Type of the event (START_PLAYBACK, STOP_PLAYBACK, PROGRESS_PLAYBACK)
+   * **Event Data:**
+   * - `type`: Type of the event ({@link PlaybackEventType})
+   * - `titleId`: Playback item identifier
+   * - `length`: Length of the video (in seconds)
+   * - `position`: The current position of the video (in seconds)
+   *
+   * @param request - Video data containing URLs and identifiers.
+   *   - `content`: Content URL for playback
+   *   - `certificate`: DRM certificate URL
+   *   - `license`: DRM licence URL
    *   - `titleId`: Playback item identifier
-   *   - `length`: Length of the video (in seconds)
-   *   - `position`: The current position of the video (in seconds)
+   *
+   * @returns Promise that resolves to a stream of {@link PlayDRMContentResponse} with playback status events.
+   *
+   * @see {@link PlaybackEventType}
    *
    * @example
    * ```javascript
+   * // Subscribe to playback events
    * try {
-   *   // This is for backward compatibility, since older app
-   *   // versions do not support this syntax.
    *   mediaModule
    *     .playDRMContent({
-   *       content: 'content-url-here',
-   *       certificate: 'certificate-url-here',
-   *       license: 'license-url-here',
-   *       titleId: 'title-id-here'
+   *       content: 'https://example.com/content.mpd',
+   *       certificate: 'https://example.com/cert.cer',
+   *       license: 'https://example.com/license',
+   *       titleId: 'video-123'
    *     })
    *     .subscribe({
    *       next: ({ result, error, status_code }) => {
-   *         if (!!result) {
+   *         if (result) {
    *           const { type, titleId, length, position } = result;
-   *           // Do what we want with the data here.
-   *         } else if (!!error) {
-   *           // Handle error here.
+   *           
+   *           if (type === 'START_PLAYBACK') {
+   *             console.log('Video started:', titleId);
+   *           } else if (type === 'PROGRESS_PLAYBACK') {
+   *             console.log(`Progress: ${position}s / ${length}s`);
+   *             updateProgressBar(position, length);
+   *           } else if (type === 'STOP_PLAYBACK') {
+   *             console.log('Video stopped');
+   *           }
+   *         } else if (error) {
+   *           console.error('Playback error:', error);
    *         }
    *       },
    *       complete: () => {
-   *         // Completion logic here when the stream stops.
+   *         console.log('Playback stream completed');
    *       }
    *     });
    * } catch (e) {
-   *   // Fallback to old way to ensure the video still plays.
-   * }
-   * ```
-   *
-   * @example
-   * Response example:
-   * ```json
-   * {
-   *   "status_code": 200,
-   *   "result": {
-   *     "type": "PROGRESS_PLAYBACK",
-   *     "titleId": "2o23asdf1asd123",
-   *     "length": 3600,
-   *     "position": 1800
-   *   }
+   *   // Fallback for older app versions that don't support this method
+   *   console.error('DRM playback not supported:', e);
    * }
    * ```
    */

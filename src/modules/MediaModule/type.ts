@@ -33,8 +33,11 @@ export type PlayDRMContentRequest = {
  * Playback event types
  */
 export const PlaybackEventType = {
+  /** Emitted when the video starts playing */
   START_PLAYBACK: 'START_PLAYBACK',
+  /** Emitted when the video stops playing */
   STOP_PLAYBACK: 'STOP_PLAYBACK',
+  /** Emitted every 10 seconds during playback */
   PROGRESS_PLAYBACK: 'PROGRESS_PLAYBACK',
 } as const;
 

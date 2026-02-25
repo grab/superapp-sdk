@@ -17,7 +17,7 @@
     "build:browser": "rollup -c",
     "build:esm": "swc ./src -d dist/esm --config-file .swcrc.esm --strip-leading-paths",
     "build:types": "tsc --emitDeclarationOnly --outDir dist/types",
-    "docs": "rm -rf docs-2 && typedoc",
+    "docs": "rm -rf docs && typedoc",
     "format:check": "prettier --check \"src/**/*.{ts,js}\"",
     "format:fix": "prettier --write \"src/**/*.{ts,js}\"",
     "lint:check": "eslint src",
