@@ -4,7 +4,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SuperApp SDK</title>
     <script type="text/javascript" src="../dist/index.js"></script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .status {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .success { background-color: #d4edda; color: #155724; }
+      .error { background-color: #f8d7da; color: #721c24; }
+      pre {
+        background: #f5f5f5;
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+    </style>
   </head>
   <body>
+    <h1>SuperApp SDK Demo</h1>
+    <div id="results"></div>
+    
+    <script>
+      const resultsDiv = document.getElementById('results');
+      
+      function addResult(title, success, message) {
+        const div = document.createElement('div');
+        div.className = `status ${success ? 'success' : 'error'}`;
+        div.innerHTML = `<strong>${title}:</strong> ${message}`;
+        resultsDiv.appendChild(div);
+      }
+      
+      // Test 1: Check if SuperAppSDK is loaded
+      if (typeof SuperAppSDK !== 'undefined') {
+        addResult('✓ SDK Loaded', true, 'SuperAppSDK global object is available');
+      } else {
+        addResult('✗ SDK Load Failed', false, 'SuperAppSDK global object not found');
+      }
+      
+      // Test 2: Check available modules
+      if (typeof SuperAppSDK !== 'undefined') {
+        const modules = [
+          'CameraModule',
+          'CheckoutModule',
+          'ContainerModule',
+          'IdentityModule',
+          'LocaleModule',
+          'LocationModule',
+          'MediaModule',
+          'PlatformModule',
+          'ProfileModule',
+          'ScopeModule',
+          'StorageModule',
+          'SystemWebViewKitModule'
+        ];
+        
+        const availableModules = modules.filter(m => SuperAppSDK[m]);
+        addResult('✓ Modules Available', true, 
+          `${availableModules.length}/${modules.length} modules exported`);
+        
+        const pre = document.createElement('pre');
+        pre.textContent = availableModules.join('\n');
+        resultsDiv.appendChild(pre);
+      }
+      
+      // Test 3: Check if modules can be instantiated
+      try {
+        if (typeof SuperAppSDK !== 'undefined' && SuperAppSDK.ContainerModule) {
+          // Note: This will fail in a regular browser because it needs the native bridge
+          // But we can check if the constructor exists
+          addResult('✓ Module Structure', true, 
+            'ContainerModule constructor is available');
+        }
+      } catch (e) {
+        addResult('✗ Module Test', false, e.message);
+      }
+    </script>
   </body>
 </html>

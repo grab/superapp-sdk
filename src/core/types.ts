@@ -1,25 +1,9 @@
-import * as importedBridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
-
-declare global {
-  interface Window {
-    /**
-     * Wrapped Container Module interface for invoking native container operations
-     */
-    WrappedContainerModule: {
-      /**
-       * Invokes a native container module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: <T = any>(method: string, params?: any) => Promise<WrappedResponse<T>>;
-    };
-    /**
-     * Bridge SDK instance available in the window object
-     */
-    BridgeSDK?: typeof importedBridgeSDK;
-  }
-}
+/**
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 /**
  * Native response from the bridge SDK
@@ -68,3 +52,11 @@ export type WrappedResponse<T> =
        */
       status_code: 400 | 403 | 424 | 500;
     };
+
+/**
+ * Helper type to create a typed invoke function
+ */
+export type InvokeFn<T> = <K extends keyof T>(
+  method: K,
+  ...args: T[K] extends { params: never } ? [] : [T[K] extends { params: infer P } ? P : never]
+) => T[K] extends { response: infer R } ? Promise<R> : never;

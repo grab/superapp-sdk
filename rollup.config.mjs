@@ -25,7 +25,8 @@ export default {
       tsconfig: './tsconfig.json',
       declaration: false,
       declarationMap: false,
-      outDir: null,
+      module: 'ESNext',
+      target: 'ES2018',
     }),
     // Minify the output
     terser({

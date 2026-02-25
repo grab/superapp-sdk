@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { ModuleBase } from './ModuleBase';
+import { ModuleBase } from '../../core/ModuleBase';
+import { ScanQRCodeRequest, ScanQRCodeResponse } from './type';
 
 export class CameraModule extends ModuleBase {
   constructor() {
@@ -21,7 +22,7 @@ export class CameraModule extends ModuleBase {
    *   - 204: No result (user cancelled or no QR code detected)
    *   - 403: Camera access denied with error message
    */
-  scanQRCode(config = {}) {
-    return window.WrappedCameraModule.invoke('scanQRCode', config);
+  scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse> {
+    return window.WrappedCameraModule.invoke('scanQRCode', request);
   }
-} 
+}
