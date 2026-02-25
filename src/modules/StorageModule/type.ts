@@ -49,7 +49,7 @@ export type SetDoubleRequest = {
 /**
  * Response types for storage operations
  */
-export type SetStorageResponse = WrappedResponse<undefined>;
+export type SetResponse = WrappedResponse<undefined>;
 export type GetBooleanResponse = WrappedResponse<boolean>;
 export type GetIntResponse = WrappedResponse<number>;
 export type GetStringResponse = WrappedResponse<string>;

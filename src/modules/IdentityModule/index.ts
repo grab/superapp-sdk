@@ -7,16 +7,10 @@
 
 import { ModuleBase } from '../../core/ModuleBase';
 import type { WrappedResponse } from '../../core/types';
-import {
-  generateRandomString,
-  generateCodeVerifier,
-  generateCodeChallenge,
-  normalizeUrl,
-  buildAuthorizeUrl,
-  parseGrabUserAgent,
-  isVersionBelow,
-  validateRequiredString,
-} from '../../utils';
+import { normalizeUrl, validateRequiredString } from '../../utils';
+import { parseGrabUserAgent, isVersionBelow } from '../../utils/version';
+import { buildAuthorizeUrl } from './utils';
+import { generateRandomString, generateCodeVerifier, generateCodeChallenge } from './utils';
 import type {
   Environment,
   PKCEArtifacts,
@@ -27,6 +21,9 @@ import type {
   NativeAuthorizationParams,
   AuthorizeRequest,
   ShouldUseWebConsentRequest,
+  AuthorizeResponse,
+  ResponseMode,
+  AuthorizationArtifactsResult,
 } from './type';
 import {
   NAMESPACE,
@@ -38,12 +35,27 @@ import {
   MINIMUM_NATIVE_CONSENT_VERSION,
 } from './constants';
 
-export class IdentityModule extends ModuleBase {
+/**
+ * The IdentityModule provides functionality related to user identity and OAuth authorization flows.
+ *
+ * This module handles both native and web-based authorization flows with automatic fallback mechanisms.
+ * It manages PKCE (Proof Key for Code Exchange) artifacts and supports different response modes for flexibility.
+ *
+ * @example
+ * ```javascript
+ * import { IdentityModule } from "@grabjs/superapp-sdk";
+ *
+ * // Ideally, initialize this only once and reuse across app.
+ * const identityModule = new IdentityModule();
+ * ```
+ */
+class IdentityModule extends ModuleBase {
   constructor() {
     super('IdentityModule');
   }
 
-  async fetchAuthorizationEndpoint(environment: Environment): Promise<string> {
+  /** @internal */
+  private async fetchAuthorizationEndpoint(environment: Environment): Promise<string> {
     const configUrl = OPENID_CONFIG_ENDPOINTS[environment];
     if (!configUrl) {
       throw new Error(`Invalid environment: ${environment}. Must be 'staging' or 'production'`);
@@ -80,7 +92,8 @@ export class IdentityModule extends ModuleBase {
     }
   }
 
-  generatePKCEArtifacts(): PKCEArtifacts {
+  /** @internal */
+  private generatePKCEArtifacts(): PKCEArtifacts {
     const nonce = generateRandomString(NONCE_LENGTH);
     const state = generateRandomString(STATE_LENGTH);
     const codeVerifier = generateCodeVerifier(CODE_VERIFIER_LENGTH);
@@ -95,69 +108,26 @@ export class IdentityModule extends ModuleBase {
     };
   }
 
-  storePKCEArtifacts(artifacts: StoredPKCEArtifacts): void {
+  /** @internal */
+  private storePKCEArtifacts(artifacts: StoredPKCEArtifacts): void {
     this.setStorageItem('nonce', artifacts.nonce);
     this.setStorageItem('state', artifacts.state);
     this.setStorageItem('code_verifier', artifacts.codeVerifier);
     this.setStorageItem('redirect_uri', artifacts.redirectUri);
   }
 
-  async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
-    const state = this.getStorageItem('state');
-    const codeVerifier = this.getStorageItem('code_verifier');
-    const nonce = this.getStorageItem('nonce');
-    const redirectUri = this.getStorageItem('redirect_uri');
-
-    const existingCount = [state, codeVerifier, nonce, redirectUri].filter(
-      (item) => item !== null
-    ).length;
-
-    if (existingCount === 4) {
-      return Promise.resolve({
-        status_code: 200,
-        result: { state, codeVerifier, nonce, redirectUri },
-        error: null,
-      });
-    }
-
-    if (existingCount === 0) {
-      return Promise.resolve({
-        status_code: 204,
-        result: null,
-        error: null,
-      });
-    }
-
-    return Promise.resolve({
-      status_code: 400,
-      result: null,
-      error: 'Inconsistent authorization artifacts in storage',
-    });
-  }
-
-  async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
-    window.localStorage.removeItem(`${NAMESPACE}:nonce`);
-    window.localStorage.removeItem(`${NAMESPACE}:state`);
-    window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);
-    window.localStorage.removeItem(`${NAMESPACE}:redirect_uri`);
-    window.localStorage.removeItem(`${NAMESPACE}:login_return_uri`);
-
-    return Promise.resolve({
-      status_code: 204,
-      result: null,
-      error: null,
-    });
-  }
-
-  setStorageItem(key: string, value: string) {
+  /** @internal */
+  private setStorageItem(key: string, value: string) {
     window.localStorage.setItem(`${NAMESPACE}:${key}`, value);
   }
 
-  getStorageItem(key: string) {
+  /** @internal */
+  private getStorageItem(key: string) {
     return window.localStorage.getItem(`${NAMESPACE}:${key}`);
   }
 
-  static shouldUseWebConsent(request: ShouldUseWebConsentRequest): boolean {
+  /** @internal */
+  private static shouldUseWebConsent(request: ShouldUseWebConsentRequest): boolean {
     const userAgentInfo = parseGrabUserAgent(window.navigator.userAgent);
     if (!userAgentInfo) {
       return true;
@@ -170,8 +140,11 @@ export class IdentityModule extends ModuleBase {
     return isVersionBelow(userAgentInfo, MINIMUM_NATIVE_CONSENT_VERSION);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async performWebAuthorization(params: WebAuthorizationParams): Promise<WrappedResponse<any>> {
+  /** @internal */
+
+  private async performWebAuthorization(
+    params: WebAuthorizationParams
+  ): Promise<WrappedResponse<any>> {
     // Store the current page URL for potential return navigation
     this.setStorageItem('login_return_uri', window.location.href);
 
@@ -213,9 +186,10 @@ export class IdentityModule extends ModuleBase {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static performNativeAuthorization(
+  /** @internal */
+  private static performNativeAuthorization(
     invokeParams: NativeAuthorizationParams
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<WrappedResponse<any>> {
     return window.WrappedIdentityModule.invoke('authorize', {
       clientId: invokeParams.clientId,
@@ -229,6 +203,111 @@ export class IdentityModule extends ModuleBase {
     });
   }
 
+  /** @internal */
+  private static validateAuthorizeRequest(request: AuthorizeRequest): string | null {
+    if (request === null || request === undefined) {
+      return 'request is required';
+    }
+
+    if (typeof request !== 'object') {
+      return 'request must be an object';
+    }
+
+    const scopeError = validateRequiredString(request.scope, 'scope');
+    if (scopeError) {
+      return scopeError;
+    }
+
+    const clientIdError = validateRequiredString(request.clientId, 'clientId');
+    if (clientIdError) {
+      return clientIdError;
+    }
+
+    const redirectUriError = validateRequiredString(request.redirectUri, 'redirectUri');
+    if (redirectUriError) {
+      return redirectUriError;
+    }
+
+    try {
+      const url = new URL(request.redirectUri);
+      if (!url) {
+        return 'redirectUri must be a valid URL';
+      }
+    } catch {
+      return 'redirectUri must be a valid URL';
+    }
+
+    const environmentError = validateRequiredString(request.environment, 'environment');
+    if (environmentError) {
+      return environmentError;
+    }
+
+    if (request.environment !== 'staging' && request.environment !== 'production') {
+      return "environment must be either 'staging' or 'production'";
+    }
+
+    return null;
+  }
+
+  /**
+   * Initiates the OAuth authorization flow with support for both native and web consent.
+   *
+   * **Important Note on `redirectUri` and `responseMode`:**
+   *
+   * The actual `redirectUri` used during authorization may differ from the one you provide, depending on the flow:
+   * - **`responseMode: 'in_place'` when native flow is available**: Uses the current page URL (normalized) as the `redirectUri`, overriding your provided value
+   * - **`responseMode: 'in_place'` falling back to web flow if native flow is not available**: Uses your provided `redirectUri`
+   * - **`responseMode: 'redirect'`**: Always uses your provided `redirectUri`
+   *
+   * To ensure successful token exchange (which requires matching `redirectUri` values), **always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`** after authorization completes.
+   *
+   * **Consent Selection Rules (Native vs Web):**
+   * - If the user agent does not match the Grab app pattern, the SDK uses **web consent**.
+   * - If `environment` is `staging`, the SDK **skips version gating** and attempts native consent.
+   * - Otherwise, if the app version in the user agent is below **5.396.0** (iOS or Android), the SDK uses **web consent**.
+   * - For supported versions, the SDK attempts **native consent** first and falls back to web on specific native errors.
+   *
+   * @param request - Authorization request parameters
+   * @param request.clientId - Client ID for authorization (required)
+   * @param request.scope - Scope of the authorization (required)
+   * @param request.redirectUri - Redirect URI for authorization callback (required)
+   * @param request.environment - Environment ('staging' or 'production'). Used to fetch the authorization endpoint from the OpenID configuration for the web flow (required)
+   * @param request.responseMode - Response mode ('redirect' or 'in_place'). Defaults to 'redirect' if not specified (optional)
+   * @returns Promise that resolves to authorization response
+   *
+   * **Status Codes:**
+   * - `200`: Authorization successful (in_place mode with native flow)
+   * - `302`: Authorization redirect initiated (web flow or redirect response mode)
+   * - `204`: User cancelled the authorization
+   * - `400`: Invalid request or configuration error
+   *
+   * @example
+   * ```javascript
+   * const request = {
+   *   clientId: "your-client-id",
+   *   scope: "profile openid",
+   *   redirectUri: "https://your-redirect-uri.com",
+   *   environment: "production", // or "staging"
+   *   responseMode: "redirect"
+   * };
+   *
+   * const { result, error, status_code } = await identityModule.authorize(request);
+   * if (status_code === 200 && result) {
+   *   // Authorization successful (in_place mode with native flow)
+   *   console.log("Auth Code:", result.code);
+   *   console.log("State:", result.state);
+   * } else if (status_code === 302) {
+   *   // Authorization redirect initiated (web flow or redirect response mode)
+   *   // The page will redirect to the authorization server
+   * } else if (status_code === 204) {
+   *   // User cancelled the authorization
+   *   console.log("User cancelled");
+   * } else if (error) {
+   *   // Authorization failed
+   *   console.error("Auth error:", error);
+   * }
+   * ```
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async authorize(request: AuthorizeRequest): Promise<WrappedResponse<any>> {
     const validationError = IdentityModule.validateAuthorizeRequest(request);
@@ -303,66 +382,122 @@ export class IdentityModule extends ModuleBase {
     }
   }
 
-  static validateAuthorizeRequest(request: AuthorizeRequest): string | null {
-    if (request === null || request === undefined) {
-      return 'request is required';
+  /**
+   * Retrieves the authorization artifacts that were stored in localStorage during the authorization flow.
+   *
+   * These include PKCE (Proof Key for Code Exchange) values and the actual `redirectUri` that was used.
+   * These values are needed to complete the OAuth token exchange after the authorization redirect.
+   *
+   * **Important:** The `redirectUri` returned by this method is the **actual** redirect URI that was sent to the authorization server.
+   * This may differ from the `redirectUri` you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow.
+   * You **must** use this returned `redirectUri` for token exchange to ensure OAuth compliance.
+   *
+   * @returns Promise that resolves to authorization artifacts response
+   *
+   * **Status Codes:**
+   * - `200`: All four artifacts are present and returned in `result`
+   * - `204`: No artifacts are stored (authorization has not been called yet)
+   * - `400`: Inconsistent state detected (only some artifacts present, possible data corruption)
+   *
+   * @example
+   * ```javascript
+   * // After authorization redirect, retrieve the stored artifacts
+   * const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
+   *
+   * if (status_code === 200 && result) {
+   *   // All artifacts present - proceed with token exchange
+   *   const { state, codeVerifier, nonce, redirectUri } = result;
+   *   console.log("State:", state);
+   *   console.log("Code Verifier:", codeVerifier);
+   *   console.log("Nonce:", nonce);
+   *   console.log("Redirect URI:", redirectUri);
+   * } else if (status_code === 204) {
+   *   // No artifacts yet - user hasn't authorized
+   *   console.log("No authorization artifacts found. Authorization has not been initiated.");
+   * } else if (status_code === 400) {
+   *   // Inconsistent state - possible data corruption
+   *   console.error("Authorization artifacts error:", error);
+   * }
+   * ```
+   */
+  async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
+    const state = this.getStorageItem('state');
+    const codeVerifier = this.getStorageItem('code_verifier');
+    const nonce = this.getStorageItem('nonce');
+    const redirectUri = this.getStorageItem('redirect_uri');
+
+    const existingCount = [state, codeVerifier, nonce, redirectUri].filter(
+      (item) => item !== null
+    ).length;
+
+    if (existingCount === 4) {
+      return Promise.resolve({
+        status_code: 200,
+        result: { state, codeVerifier, nonce, redirectUri },
+        error: null,
+      });
     }
 
-    if (typeof request !== 'object') {
-      return 'request must be an object';
+    if (existingCount === 0) {
+      return Promise.resolve({
+        status_code: 204,
+        result: null,
+        error: null,
+      });
     }
 
-    const scopeError = validateRequiredString(request.scope, 'scope');
-    if (scopeError) {
-      return scopeError;
-    }
+    return Promise.resolve({
+      status_code: 400,
+      result: null,
+      error: 'Inconsistent authorization artifacts in storage',
+    });
+  }
 
-    const clientIdError = validateRequiredString(request.clientId, 'clientId');
-    if (clientIdError) {
-      return clientIdError;
-    }
+  /**
+   * Clears all stored authorization artifacts from localStorage.
+   *
+   * This should be called after a successful token exchange or when you need to reset the authorization state
+   * (e.g., on error or logout).
+   *
+   * @returns Promise that resolves with status code 204 (No Content - successful operation)
+   *
+   * @example
+   * ```javascript
+   * // After successful token exchange or on error
+   * const { status_code } = await identityModule.clearAuthorizationArtifacts();
+   * if (status_code === 204) {
+   *   console.log("Authorization artifacts cleared");
+   * }
+   * ```
+   */
+  async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
+    window.localStorage.removeItem(`${NAMESPACE}:nonce`);
+    window.localStorage.removeItem(`${NAMESPACE}:state`);
+    window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);
+    window.localStorage.removeItem(`${NAMESPACE}:redirect_uri`);
+    window.localStorage.removeItem(`${NAMESPACE}:login_return_uri`);
 
-    const redirectUriError = validateRequiredString(request.redirectUri, 'redirectUri');
-    if (redirectUriError) {
-      return redirectUriError;
-    }
-
-    try {
-      const url = new URL(request.redirectUri);
-      if (!url) {
-        return 'redirectUri must be a valid URL';
-      }
-    } catch {
-      return 'redirectUri must be a valid URL';
-    }
-
-    const environmentError = validateRequiredString(request.environment, 'environment');
-    if (environmentError) {
-      return environmentError;
-    }
-
-    if (request.environment !== 'staging' && request.environment !== 'production') {
-      return "environment must be either 'staging' or 'production'";
-    }
-
-    return null;
+    return Promise.resolve({
+      status_code: 204,
+      result: null,
+      error: null,
+    });
   }
 }
 
+export default IdentityModule;
+
 export type {
+  // Authorize
+  AuthorizeRequest,
   Environment,
   ResponseMode,
-  OpenIDConfigEndpoints,
-  PKCEArtifacts,
-  StoredPKCEArtifacts,
-  AuthorizationArtifactsResult,
-  GetAuthorizationArtifactsResponse,
-  ClearAuthorizationArtifactsResponse,
-  GrabUserAgentInfo,
-  VersionInfo,
-  WebAuthorizationParams,
-  NativeAuthorizationParams,
-  AuthorizeRequest,
   AuthorizeResponse,
-  ShouldUseWebConsentRequest,
-} from './type';
+
+  // GetAuthorizationArtifacts
+  GetAuthorizationArtifactsResponse,
+  AuthorizationArtifactsResult,
+
+  // ClearAuthorizationArtifacts
+  ClearAuthorizationArtifactsResponse,
+};

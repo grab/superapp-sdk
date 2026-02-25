@@ -6,20 +6,62 @@
  */
 
 import { ModuleBase } from '../../core/ModuleBase';
-import { LanguageLocaleResponse } from './type';
+import { GetLanguageLocaleIdentifierResponse } from './type';
 
-export class LocaleModule extends ModuleBase {
+/**
+ * The LocaleModule provides functionality to retrieve current locale information.
+ *
+ * **Supported Languages:**
+ * - English (`en`)
+ * - Indonesia (`id`)
+ * - Chinese (`zh`)
+ * - Malaysia (`ms`)
+ * - Thai (`th`)
+ * - Vietnamese (`vi`)
+ * - Burmese Zawgyi (`zg`)
+ * - Burmese Unicode (`my`)
+ * - Khmer (`km`)
+ *
+ * @example
+ * ```javascript
+ * import { LocaleModule } from '@grabjs/superapp-sdk';
+ *
+ * // Ideally, initialize this only once and reuse across app.
+ * const localeModule = new LocaleModule();
+ * ```
+ */
+class LocaleModule extends ModuleBase {
   constructor() {
     super('LocaleModule');
   }
 
   /**
-   * Get the language locale identifier
-   * @returns Promise that resolves to language locale response
+   * Get the current language locale identifier.
+   *
+   * @returns Promise that resolves to language locale response with locale identifier (e.g., "en", "id")
+   *
+   * @example
+   * ```javascript
+   * localeModule.getLanguageLocaleIdentifier()
+   *   .then(({ result, error }) => {
+   *     if (!!result) {
+   *       const locale = result.locale;
+   *       console.log("Current locale:", locale);
+   *     } else if (!!error) {
+   *       // Some error happened. Use default language.
+   *     }
+   *   });
+   * ```
    */
-  getLanguageLocaleIdentifier(): Promise<LanguageLocaleResponse> {
+  getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse> {
     return window.WrappedLocaleModule.invoke('getLanguageLocaleIdentifier');
   }
 }
 
-export type { LanguageLocaleResult, LanguageLocaleResponse } from './type';
+export default LocaleModule;
+
+export type {
+  // GetLanguageLocaleIdentifier
+  GetLanguageLocaleIdentifierResponse,
+  GetLanguageLocaleIdentifierResult,
+} from './type';

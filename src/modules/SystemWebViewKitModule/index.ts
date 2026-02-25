@@ -8,15 +8,41 @@
 import { ModuleBase } from '../../core/ModuleBase';
 import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './type';
 
-export class SystemWebViewKitModule extends ModuleBase {
+/**
+ * The SystemWebViewKitModule provides functionality to open a URL in a system webview.
+ *
+ * @example
+ * ```javascript
+ * import { SystemWebViewKitModule } from '@grabjs/superapp-sdk';
+ *
+ * // Initialize once and reuse
+ * const systemWebViewKitModule = new SystemWebViewKitModule();
+ * ```
+ */
+class SystemWebViewKitModule extends ModuleBase {
   constructor() {
     super('SystemWebViewKitModule');
   }
 
   /**
-   * Redirect to system webview with specified URL
-   * @param payload - URL to redirect to
+   * Redirect to a system webview with the specified URL.
+   *
+   * @param payload - Request parameters
+   * @param payload.url - The URL to open in the system webview
    * @returns Promise that resolves when redirect is initiated
+   *
+   * @example
+   * ```javascript
+   * // Open the system webview
+   * systemWebViewKitModule.redirectToSystemWebView({ url: 'http://www.example.com' })
+   *   .then(({ result, error }) => {
+   *     if (!!result) {
+   *       // There is a valid result.
+   *     } else if (!!error) {
+   *       // Some error happened.
+   *     }
+   *   });
+   * ```
    */
   redirectToSystemWebView(
     payload: RedirectToSystemWebViewRequest
@@ -25,4 +51,10 @@ export class SystemWebViewKitModule extends ModuleBase {
   }
 }
 
-export type { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './type';
+export default SystemWebViewKitModule;
+
+export type {
+  // RedirectToSystemWebView
+  RedirectToSystemWebViewRequest,
+  RedirectToSystemWebViewResponse,
+} from './type';

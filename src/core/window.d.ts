@@ -7,10 +7,13 @@
 
 import * as importedBridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 import type { ScanQRCodeRequest, ScanQRCodeResponse } from '../modules/CameraModule/type';
-import type { TriggerCheckoutRequest, TriggerCheckoutResponse } from '../modules/CheckoutModule/type';
+import type {
+  TriggerCheckoutRequest,
+  TriggerCheckoutResponse,
+} from '../modules/CheckoutModule/type';
 import type { AuthorizeResponse } from '../modules/IdentityModule/type';
-import type { LanguageLocaleResponse } from '../modules/LocaleModule/type';
-import type { CoordinateResponse, CountryCodeResponse } from '../modules/LocationModule/type';
+import type { GetLanguageLocaleIdentifierResponse } from '../modules/LocaleModule/type';
+import type { GetCoordinateResponse, GetCountryCodeResponse } from '../modules/LocationModule/type';
 import type { VideoData, PlayDRMContentResponse } from '../modules/MediaModule/type';
 import type { BackResponse } from '../modules/PlatformModule/type';
 import type {
@@ -29,7 +32,7 @@ import type {
   SetStringRequest,
   SetDoubleRequest,
   StorageKeyRequest,
-  SetStorageResponse,
+  Set,
   GetBooleanResponse,
   GetIntResponse,
   GetStringResponse,
@@ -103,16 +106,16 @@ type IdentityModuleMethods = {
  * Method map for LocaleModule
  */
 type LocaleModuleMethods = {
-  getLanguageLocaleIdentifier: { params: never; response: LanguageLocaleResponse };
+  getLanguageLocaleIdentifier: { params: never; response: GetLanguageLocaleIdentifierResponse };
 };
 
 /**
  * Method map for LocationModule
  */
 type LocationModuleMethods = {
-  getCoordinate: { params: never; response: CoordinateResponse };
-  observeLocationChange: { params: never; response: CoordinateResponse };
-  getCountryCode: { params: never; response: CountryCodeResponse };
+  getCoordinate: { params: never; response: GetCoordinateResponse };
+  observeLocationChange: { params: never; response: GetCoordinateResponse };
+  getCountryCode: { params: never; response: GetCountryCodeResponse };
 };
 
 /**
@@ -149,13 +152,13 @@ type ScopeModuleMethods = {
  * Method map for StorageModule
  */
 type StorageModuleMethods = {
-  setBoolean: { params: SetBooleanRequest; response: SetStorageResponse };
+  setBoolean: { params: SetBooleanRequest; response: Set };
   getBoolean: { params: StorageKeyRequest; response: GetBooleanResponse };
-  setInt: { params: SetIntRequest; response: SetStorageResponse };
+  setInt: { params: SetIntRequest; response: Set };
   getInt: { params: StorageKeyRequest; response: GetIntResponse };
-  setString: { params: SetStringRequest; response: SetStorageResponse };
+  setString: { params: SetStringRequest; response: Set };
   getString: { params: StorageKeyRequest; response: GetStringResponse };
-  setDouble: { params: SetDoubleRequest; response: SetStorageResponse };
+  setDouble: { params: SetDoubleRequest; response: Set };
   getDouble: { params: StorageKeyRequest; response: GetDoubleResponse };
   remove: { params: StorageKeyRequest; response: RemoveResponse };
   removeAll: { params: never; response: RemoveAllResponse };

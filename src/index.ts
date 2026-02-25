@@ -5,119 +5,141 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Module exports
-export { CameraModule } from './modules/CameraModule';
-export { CheckoutModule } from './modules/CheckoutModule';
-export {
-  ContainerModule,
-  ContainerAnalyticsEventState,
-  ContainerAnalyticsEventName,
-  ContainerAnalyticsEventData,
-} from './modules/ContainerModule/index';
-export { IdentityModule } from './modules/IdentityModule/index';
-export { ProfileModule } from './modules/ProfileModule/index';
-export { LocaleModule } from './modules/LocaleModule/index';
-export { LocationModule } from './modules/LocationModule/index';
-export { MediaModule } from './modules/MediaModule/index';
-export { PlatformModule } from './modules/PlatformModule/index';
-export { ScopeModule } from './modules/ScopeModule/index';
-export { StorageModule } from './modules/StorageModule/index';
-export { SystemWebViewKitModule } from './modules/SystemWebViewKitModule/index';
+// Modules
+// -------
 
-// Type exports - Global types
-export type { WrappedResponse } from './core/types';
-
-// Type exports - CameraModule
-export type { ScanQRCodeResult, ScanQRCodeResponse, ScanQRCodeRequest } from './modules/CameraModule/type';
-
-// Type exports - CheckoutModule
+// CameraModule
+export { default as CameraModule } from './modules/CameraModule';
 export type {
+  // ScanQRCode
+  ScanQRCodeRequest,
+  ScanQRCodeResponse,
+  ScanQRCodeResult,
+} from './modules/CameraModule';
+
+// CheckoutModule
+export { default as CheckoutModule } from './modules/CheckoutModule';
+export type {
+  // TriggerCheckout
   TriggerCheckoutRequest,
-  TriggerCheckoutResult,
   TriggerCheckoutResponse,
-} from './modules/CheckoutModule/type';
+  TriggerCheckoutResult,
+} from './modules/CheckoutModule';
 
-// Type exports - ContainerModule
-export type { AnalyticsEventDetails } from './modules/ContainerModule/type';
+// ContainerModule
+export { default as ContainerModule } from './modules/ContainerModule';
+export type { AnalyticsEventDetails } from './modules/ContainerModule';
 
-// Type exports - IdentityModule
+// IdentityModule
+export { default as IdentityModule } from './modules/IdentityModule';
 export type {
+  // Authorize
+  AuthorizeRequest,
   Environment,
   ResponseMode,
-  OpenIDConfigEndpoints,
-  PKCEArtifacts,
-  StoredPKCEArtifacts,
-  AuthorizationArtifactsResult,
-  GetAuthorizationArtifactsResponse,
-  ClearAuthorizationArtifactsResponse,
-  GrabUserAgentInfo as IdentityGrabUserAgentInfo,
-  VersionInfo as IdentityVersionInfo,
-  WebAuthorizationParams,
-  NativeAuthorizationParams,
-  AuthorizeRequest,
   AuthorizeResponse,
-  ShouldUseWebConsentRequest,
-} from './modules/IdentityModule/type';
 
-// Type exports - LocationModule
-export type {
-  CoordinateResult,
-  CoordinateResponse,
-  CountryCodeResult,
-  CountryCodeResponse,
-} from './modules/LocationModule/type';
+  // GetAuthorizationArtifacts
+  GetAuthorizationArtifactsResponse,
+  AuthorizationArtifactsResult,
 
-// Type exports - MediaModule
+  // ClearAuthorizationArtifacts
+  ClearAuthorizationArtifactsResponse,
+} from './modules/IdentityModule';
+
+// LocaleModule
+export { default as LocaleModule } from './modules/LocaleModule';
 export type {
-  VideoData,
-  PlaybackEventType,
-  PlaybackStatusResult,
+  // GetLanguageLocaleIdentifier
+  GetLanguageLocaleIdentifierResponse,
+  GetLanguageLocaleIdentifierResult,
+} from './modules/LocaleModule';
+
+// LocationModule
+export { default as LocationModule } from './modules/LocationModule';
+export type {
+  // GetCoordinate
+  GetCoordinateResponse,
+  GetCoordinateResult,
+
+  // GetCountryCode
+  GetCountryCodeResponse,
+  GetCountryCodeResult,
+} from './modules/LocationModule';
+
+// MediaModule
+export { default as MediaModule } from './modules/MediaModule';
+export type {
+  // PlayDRMContent
+  PlayDRMContentRequest,
   PlayDRMContentResponse,
-} from './modules/MediaModule/type';
-export { PlaybackEventType as PlaybackEventTypeEnum } from './modules/MediaModule/type';
+  PlaybackStatusResult,
+  PlaybackEventType,
+} from './modules/MediaModule';
 
-// Type exports - LocaleModule
-export type { LanguageLocaleResult, LanguageLocaleResponse } from './modules/LocaleModule/type';
-
-// Type exports - PlatformModule
-export type { BackResponse } from './modules/PlatformModule/type';
-
-// Type exports - ProfileModule
+// PlatformModule
+export { default as PlatformModule } from './modules/PlatformModule';
 export type {
-  GrabUserAgentInfo,
-  VersionInfo,
-  EmailResult,
+  // Back
+  BackResponse,
+} from './modules/PlatformModule';
+
+// ProfileModule
+export { default as ProfileModule } from './modules/ProfileModule';
+export type {
+  // FetchEmail
   FetchEmailResponse,
+
+  // VerifyEmail
   VerifyEmailRequest,
-  VerifyEmailResult,
   VerifyEmailResponse,
-} from './modules/ProfileModule/type';
+} from './modules/ProfileModule';
 
-// Type exports - ScopeModule
+// ScopeModule
+export { default as ScopeModule } from './modules/ScopeModule';
 export type {
-  HasAccessToRequest,
+  // HasAccessTo
   HasAccessToResponse,
+
+  // ReloadScopes
   ReloadScopesResponse,
-} from './modules/ScopeModule/type';
+} from './modules/ScopeModule';
 
-// Type exports - StorageModule
+// StorageModule
+export { default as StorageModule } from './modules/StorageModule';
 export type {
-  StorageKeyRequest,
-  SetBooleanRequest,
-  SetIntRequest,
-  SetStringRequest,
-  SetDoubleRequest,
-  SetStorageResponse,
+  // SetXXX
+  SetResponse,
+
+  // GetBoolean
   GetBooleanResponse,
-  GetIntResponse,
-  GetStringResponse,
-  GetDoubleResponse,
-  RemoveResponse,
-  RemoveAllResponse,
-} from './modules/StorageModule/type';
 
-// Type exports - SystemWebViewKitModule
+  // GetInt
+  GetIntResponse,
+
+  // GetString
+  GetStringResponse,
+
+  // GetDouble
+  GetDoubleResponse,
+
+  // Remove
+  RemoveResponse,
+
+  // RemoveAll
+  RemoveAllResponse,
+} from './modules/StorageModule';
+
+// SystemWebViewKitModule
+export { default as SystemWebViewKitModule } from './modules/SystemWebViewKitModule';
 export type {
+  // RedirectToSystemWebView
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
-} from './modules/SystemWebViewKitModule/type';
+} from './modules/SystemWebViewKitModule';
+
+// Core
+// ----
+
+// WrappedResponse
+export type { WrappedResponse } from './core/types';

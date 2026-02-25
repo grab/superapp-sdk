@@ -8,18 +8,47 @@
 import { ModuleBase } from '../../core/ModuleBase';
 import { BackResponse } from './type';
 
-export class PlatformModule extends ModuleBase {
+/**
+ * The PlatformModule provides API to navigate back to the host application.
+ *
+ * @example
+ * ```javascript
+ * import { PlatformModule } from '@grabjs/superapp-sdk';
+ *
+ * // Ideally, initialize this only once and reuse across app.
+ * const platformModule = new PlatformModule();
+ * ```
+ */
+class PlatformModule extends ModuleBase {
   constructor() {
     super('PlatformModule');
   }
 
   /**
-   * Navigate back to the host application
+   * Close the current view and navigate back to the host application.
+   *
    * @returns Promise that resolves when navigation completes
+   *
+   * @example
+   * ```javascript
+   * platformModule.back()
+   *   .then(({ result, error }) => {
+   *     if (!!result) {
+   *       // There is a valid result.
+   *     } else if (!!error) {
+   *       // Some error happened.
+   *     }
+   *   });
+   * ```
    */
   back(): Promise<BackResponse> {
     return window.WrappedPlatformModule.invoke('back');
   }
 }
 
-export type { BackResponse } from './type';
+export default PlatformModule;
+
+export type {
+  // Back
+  BackResponse,
+} from './type';

@@ -5,7 +5,7 @@ const globals = require('globals');
 
 module.exports = [
   {
-    ignores: ['dist/', 'node_modules/', 'coverage/', 'demo/', '*.config.js', '!eslint.config.js'],
+    ignores: ['dist/', 'node_modules/', 'coverage/', 'demo/', '*.config.js', 'eslint.config.js', 'scripts/'],
   },
   {
     files: ['**/*.ts', '**/*.js'],

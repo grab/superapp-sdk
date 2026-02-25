@@ -10,7 +10,7 @@ import { WrappedResponse } from '../../core/types';
 /**
  * Language locale identifier result (e.g., "en_US", "id_ID")
  */
-export type LanguageLocaleResult = {
+export type GetLanguageLocaleIdentifierResult = {
   /**
    * Language locale identifier string
    */
@@ -20,4 +20,5 @@ export type LanguageLocaleResult = {
 /**
  * Response type for language locale identifier retrieval
  */
-export type LanguageLocaleResponse = WrappedResponse<LanguageLocaleResult>;
+export type GetLanguageLocaleIdentifierResponse =
+  WrappedResponse<GetLanguageLocaleIdentifierResult>;

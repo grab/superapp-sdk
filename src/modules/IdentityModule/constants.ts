@@ -36,8 +36,7 @@ export const CODE_VERIFIER_LENGTH = 64;
  * OpenID configuration endpoints for different environments
  */
 export const OPENID_CONFIG_ENDPOINTS: OpenIDConfigEndpoints = {
-  staging:
-    'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration',
+  staging: 'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration',
   production: 'https://partner-api.grab.com/grabid/v1/oauth2/.well-known/openid-configuration',
 };
 

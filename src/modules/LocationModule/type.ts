@@ -10,7 +10,7 @@ import { WrappedResponse } from '../../core/types';
 /**
  * Coordinate data with latitude and longitude
  */
-export type CoordinateResult = {
+export type GetCoordinateResult = {
   /**
    * Latitude is horizontal line described for earth coordinates
    */
@@ -24,12 +24,12 @@ export type CoordinateResult = {
 /**
  * Response type for coordinate retrieval
  */
-export type CoordinateResponse = WrappedResponse<CoordinateResult>;
+export type GetCoordinateResponse = WrappedResponse<GetCoordinateResult>;
 
 /**
  * Country code data
  */
-export type CountryCodeResult = {
+export type GetCountryCodeResult = {
   /**
    * ISO country code (e.g., "SG", "ID", "MY")
    */
@@ -39,4 +39,4 @@ export type CountryCodeResult = {
 /**
  * Response type for country code retrieval
  */
-export type CountryCodeResponse = WrappedResponse<CountryCodeResult>;
+export type GetCountryCodeResponse = WrappedResponse<GetCountryCodeResult>;

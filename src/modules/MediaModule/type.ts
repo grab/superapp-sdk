@@ -10,7 +10,7 @@ import { WrappedResponse } from '../../core/types';
 /**
  * Video data for DRM content playback
  */
-export type VideoData = {
+export type PlayDRMContentRequest = {
   /**
    * Content URL for playback
    */
@@ -50,7 +50,7 @@ export type PlaybackStatusResult = {
   /**
    * Type of the event
    */
-  type: string;
+  type: PlaybackEventType;
   /**
    * Playback item identifier
    */
