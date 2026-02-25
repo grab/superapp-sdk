@@ -3,20 +3,15 @@
   "version": "2.0.0-beta.1",
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
-  "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
       "default": "./dist/index.js"
     }
   },
   "scripts": {
-    "build": "rm -rf dist && npm run build:esm && npm run build:types && npm run build:browser",
-    "build:browser": "rollup -c",
-    "build:esm": "swc ./src -d dist/esm --config-file .swcrc.esm --strip-leading-paths",
-    "build:types": "tsc --emitDeclarationOnly --outDir dist/types",
+    "build": "rm -rf dist && rollup -c",
     "docs": "rm -rf docs && typedoc",
     "format:check": "prettier --check \"src/**/*.{ts,js}\"",
     "format:fix": "prettier --write \"src/**/*.{ts,js}\"",
@@ -59,8 +54,6 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@swc/cli": "^0.8.0",
-    "@swc/core": "^1.15.13",
     "@types/crypto-js": "^4.2.2",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",

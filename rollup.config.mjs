@@ -23,7 +23,7 @@ export default {
     // Handle TypeScript files
     typescript({
       tsconfig: './tsconfig.json',
-      declaration: false,
+      declaration: true,
       declarationMap: false,
       module: 'ESNext',
       target: 'ES2018',

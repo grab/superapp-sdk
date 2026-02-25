@@ -14,7 +14,7 @@ module.exports = [
       parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
-        project: './tsconfig.build.json',
+        project: './tsconfig.json',
       },
       globals: {
         ...globals.node,
