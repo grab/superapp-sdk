@@ -43,6 +43,7 @@ export type {
   Environment,
   ResponseMode,
   AuthorizeResponse,
+  AuthorizeResult,
 
   // GetAuthorizationArtifacts
   GetAuthorizationArtifactsResponse,

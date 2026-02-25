@@ -38,7 +38,7 @@ const identityModule = new IdentityModule();
 
 ### authorize()
 
-> **authorize**(`request`: [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`any`\>\>
+> **authorize**(`request`: [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 Initiates the OAuth authorization flow with support for both native and web consent.
 
@@ -57,7 +57,7 @@ Authorization request parameters.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`any`\>\>
+`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 Promise that resolves to [AuthorizeResponse](../type-aliases/AuthorizeResponse.md).
 
@@ -174,7 +174,7 @@ if (status_code === 200 && result) {
   console.log("Code Verifier:", codeVerifier);
   console.log("Nonce:", nonce);
   console.log("Redirect URI:", redirectUri);
-  
+
   // Use these values for token exchange
   await exchangeToken({
     code: authCode,

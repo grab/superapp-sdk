@@ -61,7 +61,7 @@ locationModule.getCoordinate()
     if (result) {
       const { latitude, longitude } = result;
       console.log(`Location: ${latitude}, ${longitude}`);
-      
+
       // Use coordinates for map display or location-based features
       displayOnMap(latitude, longitude);
     } else if (error) {
@@ -149,7 +149,7 @@ locationModule.getCountryCode()
       case 200:
         // Success - country code retrieved
         console.log('Country code:', response.result);
-        
+
         // Use country code for localization or region-specific features
         if (response.result === 'SG') {
           showSingaporeContent();

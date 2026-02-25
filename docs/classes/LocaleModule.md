@@ -80,7 +80,7 @@ localeModule.getLanguageLocaleIdentifier()
     if (result) {
       const locale = result.locale;
       console.log("Current locale:", locale);
-      
+
       // Localize your content based on locale
       if (locale === 'id') {
         showIndonesianContent();

@@ -319,7 +319,7 @@ Remember to call [hideLoader](#hideloader) when the operation completes.
 // Show loader during async operation
 async function fetchData() {
   await containerModule.showLoader();
-  
+
   try {
     const data = await api.fetch();
     processData(data);
@@ -627,7 +627,7 @@ containerModule.getSessionParams()
       // e.g. stringified JSON object '{"param1": 123, "param2": "grab-test"}'
       const sessionParams = JSON.parse(result);
       console.log("Session parameters:", sessionParams);
-      
+
       // Use params to configure the app
       if (sessionParams.param1) {
         configureFeature(sessionParams.param1);

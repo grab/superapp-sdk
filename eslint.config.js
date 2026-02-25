@@ -29,7 +29,7 @@ module.exports = [
       ...tsPlugin.configs['recommended-requiring-type-checking'].rules,
 
       // TypeScript specific rules
-      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [

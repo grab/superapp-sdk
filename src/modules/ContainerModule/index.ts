@@ -8,8 +8,6 @@
 import { WrappedResponse } from '../../core/types';
 import { ModuleBase } from '../../core/ModuleBase';
 import { AnalyticsEventDetails } from './type';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData } from './type';
 
 /**
  * The ContainerModule provides APIs to interact with the webview container.
@@ -244,7 +242,7 @@ class ContainerModule extends ModuleBase {
    * // Show loader during async operation
    * async function fetchData() {
    *   await containerModule.showLoader();
-   *   
+   *
    *   try {
    *     const data = await api.fetch();
    *     processData(data);
@@ -500,6 +498,7 @@ class ContainerModule extends ModuleBase {
     return Promise.resolve({
       status_code: 424,
       error: 'Not connected to Grab app',
+      result: undefined,
     });
   }
 
@@ -521,7 +520,7 @@ class ContainerModule extends ModuleBase {
    *       // e.g. stringified JSON object '{"param1": 123, "param2": "grab-test"}'
    *       const sessionParams = JSON.parse(result);
    *       console.log("Session parameters:", sessionParams);
-   *       
+   *
    *       // Use params to configure the app
    *       if (sessionParams.param1) {
    *         configureFeature(sessionParams.param1);
@@ -562,10 +561,7 @@ class ContainerModule extends ModuleBase {
       return 'state must be a string';
     }
 
-    if (
-      (eventDetails.data !== null || eventDetails.data !== undefined) &&
-      typeof eventDetails.data !== 'object'
-    ) {
+    if (eventDetails.data !== undefined && typeof eventDetails.data !== 'object') {
       return `data must be undefined or an object`;
     }
 

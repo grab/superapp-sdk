@@ -36,7 +36,7 @@ export type WrappedResponse<T> =
       /**
        * HTTP status code indicating the result of the operation
        */
-      status_code: 204;
+      status_code: 204 | 302;
     }
   | {
       /**

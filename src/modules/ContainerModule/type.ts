@@ -75,5 +75,5 @@ export interface AnalyticsEventDetails {
    * Optional metadata associated with the event.
    * Use {@link ContainerAnalyticsEventData} for standard keys.
    */
-  data?: Record<string, any> | null;
+  data?: Record<string, unknown> | null;
 }

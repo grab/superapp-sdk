@@ -26,7 +26,7 @@ Use [ContainerAnalyticsEventName](../variables/ContainerAnalyticsEventName.md) f
 
 ### data?
 
-> `optional` **data**: `Record`\<`string`, `any`\> \| `null`
+> `optional` **data**: `Record`\<`string`, `unknown`\> \| `null`
 
 Optional metadata associated with the event.
 Use [ContainerAnalyticsEventData](../variables/ContainerAnalyticsEventData.md) for standard keys.

@@ -88,7 +88,7 @@ class ScopeModule extends ModuleBase {
    *   .then(({ status_code, error }) => {
    *     if (status_code === 200 || status_code === 204) {
    *       console.log("Scopes reloaded successfully");
-   *       
+   *
    *       // Now check if new permission is available
    *       scopeModule.hasAccessTo('LocationModule', 'getCoordinate')
    *         .then(({ result }) => {

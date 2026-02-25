@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import encBase64url from 'crypto-js/enc-base64url';
 import sha256 from 'crypto-js/sha256';
 
 /**
@@ -49,8 +50,8 @@ export function generateCodeVerifier(length: number): string {
  * @returns Base64 URL-encoded code challenge
  */
 export function generateCodeChallenge(codeVerifier: string): string {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return base64URLEncode(sha256(codeVerifier).toString());
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+  return sha256(codeVerifier).toString(encBase64url);
 }
 
 /**

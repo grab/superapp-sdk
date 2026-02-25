@@ -65,7 +65,7 @@ class MediaModule extends ModuleBase {
    *       next: ({ result, error, status_code }) => {
    *         if (result) {
    *           const { type, titleId, length, position } = result;
-   *           
+   *
    *           if (type === 'START_PLAYBACK') {
    *             console.log('Video started:', titleId);
    *           } else if (type === 'PROGRESS_PLAYBACK') {

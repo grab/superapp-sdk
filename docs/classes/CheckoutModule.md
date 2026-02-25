@@ -77,7 +77,7 @@ checkoutModule
     if (result) {
       console.log("Transaction ID:", result.transactionID);
       console.log("Status:", result.status);
-      
+
       if (result.errorCode) {
         console.error("Error Code:", result.errorCode);
         console.error("Error Reason:", result.errorReason);

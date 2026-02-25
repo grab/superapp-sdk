@@ -190,9 +190,19 @@ export type AuthorizeRequest = {
 };
 
 /**
+ * Authorization result
+ */
+export type AuthorizeResult = {
+  state: string;
+  codeVerifier: string;
+  nonce: string;
+  redirectUri: string;
+};
+
+/**
  * Authorization response
  */
-export type AuthorizeResponse = WrappedResponse<any>;
+export type AuthorizeResponse = WrappedResponse<AuthorizeResult>;
 
 /**
  * Should use web consent request

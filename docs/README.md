@@ -37,6 +37,7 @@
 - [GetAuthorizationArtifactsResponse](type-aliases/GetAuthorizationArtifactsResponse.md)
 - [ClearAuthorizationArtifactsResponse](type-aliases/ClearAuthorizationArtifactsResponse.md)
 - [AuthorizeRequest](type-aliases/AuthorizeRequest.md)
+- [AuthorizeResult](type-aliases/AuthorizeResult.md)
 - [AuthorizeResponse](type-aliases/AuthorizeResponse.md)
 - [GetLanguageLocaleIdentifierResult](type-aliases/GetLanguageLocaleIdentifierResult.md)
 - [GetLanguageLocaleIdentifierResponse](type-aliases/GetLanguageLocaleIdentifierResponse.md)

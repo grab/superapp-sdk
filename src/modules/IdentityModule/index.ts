@@ -6,7 +6,6 @@
  */
 
 import { ModuleBase } from '../../core/ModuleBase';
-import type { WrappedResponse } from '../../core/types';
 import { normalizeUrl, validateRequiredString } from '../../utils';
 import { parseGrabUserAgent, isVersionBelow } from '../../utils/version';
 import { buildAuthorizeUrl } from './utils';
@@ -24,6 +23,7 @@ import type {
   AuthorizeResponse,
   ResponseMode,
   AuthorizationArtifactsResult,
+  AuthorizeResult,
 } from './type';
 import {
   NAMESPACE,
@@ -117,12 +117,12 @@ class IdentityModule extends ModuleBase {
   }
 
   /** @internal */
-  private setStorageItem(key: string, value: string) {
+  private setStorageItem(key: string, value: string): void {
     window.localStorage.setItem(`${NAMESPACE}:${key}`, value);
   }
 
   /** @internal */
-  private getStorageItem(key: string) {
+  private getStorageItem(key: string): string | null {
     return window.localStorage.getItem(`${NAMESPACE}:${key}`);
   }
 
@@ -144,7 +144,7 @@ class IdentityModule extends ModuleBase {
 
   private async performWebAuthorization(
     params: WebAuthorizationParams
-  ): Promise<WrappedResponse<any>> {
+  ): Promise<AuthorizeResponse> {
     // Store the current page URL for potential return navigation
     this.setStorageItem('login_return_uri', window.location.href);
 
@@ -178,19 +178,17 @@ class IdentityModule extends ModuleBase {
     window.location.assign(authorizeUrl);
 
     // Return a special response indicating redirect is happening
-    // Status 302 is not part of the standard WrappedResponse union but is used here
-    // to indicate a redirect operation
     return Promise.resolve({
-      status_code: 302 as 200,
-      result: null as unknown as Record<string, unknown>,
+      status_code: 302,
+      result: undefined,
+      error: undefined,
     });
   }
 
   /** @internal */
   private static performNativeAuthorization(
     invokeParams: NativeAuthorizationParams
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<WrappedResponse<any>> {
+  ): Promise<AuthorizeResponse> {
     return window.WrappedIdentityModule.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
@@ -329,8 +327,7 @@ class IdentityModule extends ModuleBase {
    * }
    * ```
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async authorize(request: AuthorizeRequest): Promise<WrappedResponse<any>> {
+  async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
     const validationError = IdentityModule.validateAuthorizeRequest(request);
     if (validationError) {
       return Promise.resolve({ status_code: 400, error: validationError });
@@ -433,7 +430,7 @@ class IdentityModule extends ModuleBase {
    *   console.log("Code Verifier:", codeVerifier);
    *   console.log("Nonce:", nonce);
    *   console.log("Redirect URI:", redirectUri);
-   *   
+   *
    *   // Use these values for token exchange
    *   await exchangeToken({
    *     code: authCode,
@@ -535,6 +532,7 @@ export type {
   Environment,
   ResponseMode,
   AuthorizeResponse,
+  AuthorizeResult,
 
   // GetAuthorizationArtifacts
   GetAuthorizationArtifactsResponse,
