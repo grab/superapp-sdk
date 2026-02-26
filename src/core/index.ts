@@ -5,6 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export { ModuleBase } from './ModuleBase';
-export type { WrappedResponse, InvokeFn } from './types';
-import './window.d';
+export { BaseModule } from './base-module';
+export type {
+  Response,
+  ErrorResponse,
+  NoResultResponse,
+  SuccessResponse,
+  Invoke,
+} from './base-module';
+export { logger, Logger, LogLevel } from './logger';
+export type { LoggerConfig } from './logger';

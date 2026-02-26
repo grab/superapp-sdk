@@ -5,149 +5,207 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// Core
+// ----
+
+// Logger
+export { logger, Logger, LogLevel } from './core';
+export type { LoggerConfig } from './core';
+
+// Response types
+export type { Response, ErrorResponse, NoResultResponse, SuccessResponse } from './core';
+
 // Modules
 // -------
 
 // CameraModule
-export { default as CameraModule } from './modules/CameraModule';
+export { default as CameraModule } from './modules/camera-module';
 export type {
   // ScanQRCode
   ScanQRCodeRequest,
   ScanQRCodeResponse,
+  ScanQRCodeSuccessResponse,
+  ScanQRCodeCancelledResponse,
+  ScanQRCodeErrorResponse,
   ScanQRCodeResult,
-} from './modules/CameraModule';
+} from './modules/camera-module';
 
 // CheckoutModule
-export { default as CheckoutModule } from './modules/CheckoutModule';
+export { default as CheckoutModule } from './modules/checkout-module';
 export type {
   // TriggerCheckout
   TriggerCheckoutRequest,
   TriggerCheckoutResponse,
+  TriggerCheckoutSuccessResponse,
+  TriggerCheckoutErrorResponse,
   TriggerCheckoutResult,
-} from './modules/CheckoutModule';
+} from './modules/checkout-module';
 
 // ContainerModule
-export { default as ContainerModule } from './modules/ContainerModule';
-export type { AnalyticsEventDetails } from './modules/ContainerModule';
+export { default as ContainerModule } from './modules/container-module';
+export type { AnalyticsEventDetails } from './modules/container-module';
 export {
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
   ContainerAnalyticsEventData,
-} from './modules/ContainerModule';
+} from './modules/container-module';
 
 // IdentityModule
-export { default as IdentityModule } from './modules/IdentityModule';
+export { default as IdentityModule } from './modules/identity-module';
 export type {
   // Authorize
   AuthorizeRequest,
   Environment,
   ResponseMode,
   AuthorizeResponse,
+  AuthorizeSuccessResponse,
+  AuthorizeRedirectResponse,
+  AuthorizeCancelledResponse,
+  AuthorizeErrorResponse,
   AuthorizeResult,
 
   // GetAuthorizationArtifacts
   GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsSuccessResponse,
+  GetAuthorizationArtifactsNoResultResponse,
+  GetAuthorizationArtifactsErrorResponse,
   AuthorizationArtifactsResult,
 
   // ClearAuthorizationArtifacts
   ClearAuthorizationArtifactsResponse,
-} from './modules/IdentityModule';
+  ClearAuthorizationArtifactsSuccessResponse,
+} from './modules/identity-module';
 
 // LocaleModule
-export { default as LocaleModule } from './modules/LocaleModule';
+export { default as LocaleModule } from './modules/locale-module';
 export type {
   // GetLanguageLocaleIdentifier
   GetLanguageLocaleIdentifierResponse,
+  GetLanguageLocaleIdentifierSuccessResponse,
+  GetLanguageLocaleIdentifierErrorResponse,
   GetLanguageLocaleIdentifierResult,
-} from './modules/LocaleModule';
+} from './modules/locale-module';
 
 // LocationModule
-export { default as LocationModule } from './modules/LocationModule';
+export { default as LocationModule } from './modules/location-module';
 export type {
   // GetCoordinate
   GetCoordinateResponse,
+  GetCoordinateSuccessResponse,
+  GetCoordinateErrorResponse,
   GetCoordinateResult,
 
   // GetCountryCode
   GetCountryCodeResponse,
+  GetCountryCodeSuccessResponse,
+  GetCountryCodeNoResultResponse,
+  GetCountryCodeErrorResponse,
   GetCountryCodeResult,
-} from './modules/LocationModule';
+} from './modules/location-module';
 
 // MediaModule
-export { default as MediaModule } from './modules/MediaModule';
+export { default as MediaModule } from './modules/media-module';
 export type {
   // PlayDRMContent
   PlayDRMContentRequest,
   PlayDRMContentResponse,
+  PlayDRMContentSuccessResponse,
+  PlayDRMContentErrorResponse,
   PlaybackStatusResult,
   PlaybackEventType,
-} from './modules/MediaModule';
+} from './modules/media-module';
 
 // PlatformModule
-export { default as PlatformModule } from './modules/PlatformModule';
+export { default as PlatformModule } from './modules/platfom-module';
 export type {
   // Back
   BackResponse,
-} from './modules/PlatformModule';
+  BackSuccessResponse,
+  BackErrorResponse,
+} from './modules/platfom-module';
 
 // ProfileModule
-export { default as ProfileModule } from './modules/ProfileModule';
+export { default as ProfileModule } from './modules/profile-module';
 export type {
   // FetchEmail
   FetchEmailResponse,
+  FetchEmailSuccessResponse,
+  FetchEmailNoResultResponse,
+  FetchEmailErrorResponse,
   EmailResult,
 
   // VerifyEmail
   VerifyEmailRequest,
   VerifyEmailResponse,
+  VerifyEmailSuccessResponse,
+  VerifyEmailCancelledResponse,
+  VerifyEmailErrorResponse,
   VerifyEmailResult,
-} from './modules/ProfileModule';
+} from './modules/profile-module';
 
 // ScopeModule
-export { default as ScopeModule } from './modules/ScopeModule';
+export { default as ScopeModule } from './modules/scope-module';
 export type {
   // HasAccessTo
   HasAccessToResponse,
+  HasAccessToSuccessResponse,
+  HasAccessToErrorResponse,
 
   // ReloadScopes
   ReloadScopesResponse,
-} from './modules/ScopeModule';
+  ReloadScopesSuccessResponse,
+  ReloadScopesErrorResponse,
+} from './modules/scope-module';
 
 // StorageModule
-export { default as StorageModule } from './modules/StorageModule';
+export { default as StorageModule } from './modules/storage-module';
 export type {
   // SetXXX
   SetResponse,
+  SetSuccessResponse,
+  SetErrorResponse,
 
   // GetBoolean
   GetBooleanResponse,
+  GetBooleanSuccessResponse,
+  GetBooleanNoResultResponse,
+  GetBooleanErrorResponse,
 
   // GetInt
   GetIntResponse,
+  GetIntSuccessResponse,
+  GetIntNoResultResponse,
+  GetIntErrorResponse,
 
   // GetString
   GetStringResponse,
+  GetStringSuccessResponse,
+  GetStringNoResultResponse,
+  GetStringErrorResponse,
 
   // GetDouble
   GetDoubleResponse,
+  GetDoubleSuccessResponse,
+  GetDoubleNoResultResponse,
+  GetDoubleErrorResponse,
 
   // Remove
   RemoveResponse,
+  RemoveSuccessResponse,
+  RemoveErrorResponse,
 
   // RemoveAll
   RemoveAllResponse,
-} from './modules/StorageModule';
+  RemoveAllSuccessResponse,
+  RemoveAllErrorResponse,
+} from './modules/storage-module';
 
 // SystemWebViewKitModule
-export { default as SystemWebViewKitModule } from './modules/SystemWebViewKitModule';
+export { default as SystemWebViewKitModule } from './modules/system-web-view- kit-module';
 export type {
   // RedirectToSystemWebView
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
-} from './modules/SystemWebViewKitModule';
-
-// Core
-// ----
-
-// WrappedResponse
-export type { WrappedResponse } from './core/types';
+  RedirectToSystemWebViewSuccessResponse,
+  RedirectToSystemWebViewErrorResponse,
+} from './modules/system-web-view- kit-module';

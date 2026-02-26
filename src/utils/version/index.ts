@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { GrabUserAgent, Version } from './type';
+import { GrabUserAgent, Version } from './types';
 
 /**
  * Parses Grab user agent string to extract app information

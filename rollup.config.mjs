@@ -5,13 +5,21 @@ import terser from '@rollup/plugin-terser';
 
 export default {
   input: 'src/index.ts',
-  output: {
-    file: 'dist/index.js',
-    format: 'umd',
-    name: 'SuperAppSDK',
-    sourcemap: true,
-    exports: 'named',
-  },
+  output: [
+    {
+      file: 'dist/index.js',
+      format: 'umd',
+      name: 'SuperAppSDK',
+      sourcemap: true,
+      exports: 'named',
+    },
+    {
+      file: 'dist/index.esm.js',
+      format: 'es',
+      sourcemap: true,
+      exports: 'named',
+    },
+  ],
   plugins: [
     // Resolve node_modules dependencies
     resolve({

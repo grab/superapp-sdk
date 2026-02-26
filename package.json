@@ -7,6 +7,8 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
       "default": "./dist/index.js"
     }
   },
@@ -17,6 +19,10 @@
     "format:fix": "prettier --write \"src/**/*.{ts,js}\"",
     "lint:check": "eslint src",
     "lint:fix": "eslint src --fix",
+    "playground:data": "node scripts/generate-typedoc-json.js",
+    "playground:dev": "npm run playground:data && cd playground && npm run dev",
+    "playground:build": "npm run playground:data && cd playground && npm run build",
+    "playground": "npm run playground:dev",
     "prepublishOnly": "npm run build",
     "type-check": "tsc --noEmit"
   },
