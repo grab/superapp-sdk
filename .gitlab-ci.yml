@@ -5,36 +5,43 @@ cache:
     - node_modules/
 
 stages:
+  - check
   - build
-  - deploy
+  - publish
+
+check:
+  stage: check
+  script:
+    - npm install
+    - npm run check
 
 build:
   stage: build
-  script: 
-    - npm install
-    - npm run check
+  script:
     - npm run build
+  needs:
+    - check
 
 deploy-to-npm:
-  stage: deploy
+  stage: publish
   script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
-    - npm run build
     - npm publish --access public
+  needs:
+    - build
   only:
-  - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  # Do not run on branches
+    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   except:
     - branches
 
 deploy-to-npm-beta:
-  stage: deploy
+  stage: publish
   script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
-    - npm run build
     - npm publish --access public --tag beta
+  needs:
+    - build
   only:
     - /^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$/
-  # Do not run on branches
   except:
     - branches
