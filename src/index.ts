@@ -201,11 +201,11 @@ export type {
 } from './modules/storage';
 
 // SystemWebViewKitModule
-export { default as SystemWebViewKitModule } from './modules/system-web-view- kit';
+export { default as SystemWebViewKitModule } from './modules/system-web-view-kit';
 export type {
   // RedirectToSystemWebView
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewSuccessResponse,
   RedirectToSystemWebViewErrorResponse,
-} from './modules/system-web-view- kit';
+} from './modules/system-web-view-kit';
