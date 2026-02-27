@@ -5,13 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export { BaseModule } from './base-module';
-export type {
-  Response,
-  ErrorResponse,
-  NoResultResponse,
-  SuccessResponse,
-  Invoke,
-} from './base-module';
+export { BaseModule } from './module';
+export type { Response, ErrorResponse, NoResultResponse, SuccessResponse, Invoke } from './module';
 export { logger, Logger, LogLevel } from './logger';
 export type { LoggerConfig } from './logger';

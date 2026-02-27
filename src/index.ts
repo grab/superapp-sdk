@@ -19,7 +19,7 @@ export type { Response, ErrorResponse, NoResultResponse, SuccessResponse } from 
 // -------
 
 // CameraModule
-export { default as CameraModule } from './modules/camera-module';
+export { default as CameraModule } from './modules/camera';
 export type {
   // ScanQRCode
   ScanQRCodeRequest,
@@ -28,10 +28,10 @@ export type {
   ScanQRCodeCancelledResponse,
   ScanQRCodeErrorResponse,
   ScanQRCodeResult,
-} from './modules/camera-module';
+} from './modules/camera';
 
 // CheckoutModule
-export { default as CheckoutModule } from './modules/checkout-module';
+export { default as CheckoutModule } from './modules/checkout';
 export type {
   // TriggerCheckout
   TriggerCheckoutRequest,
@@ -39,19 +39,19 @@ export type {
   TriggerCheckoutSuccessResponse,
   TriggerCheckoutErrorResponse,
   TriggerCheckoutResult,
-} from './modules/checkout-module';
+} from './modules/checkout';
 
 // ContainerModule
-export { default as ContainerModule } from './modules/container-module';
-export type { AnalyticsEventDetails } from './modules/container-module';
+export { default as ContainerModule } from './modules/container';
+export type { AnalyticsEventDetails } from './modules/container';
 export {
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
   ContainerAnalyticsEventData,
-} from './modules/container-module';
+} from './modules/container';
 
 // IdentityModule
-export { default as IdentityModule } from './modules/identity-module';
+export { default as IdentityModule } from './modules/identity';
 export type {
   // Authorize
   AuthorizeRequest,
@@ -74,20 +74,20 @@ export type {
   // ClearAuthorizationArtifacts
   ClearAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsSuccessResponse,
-} from './modules/identity-module';
+} from './modules/identity';
 
 // LocaleModule
-export { default as LocaleModule } from './modules/locale-module';
+export { default as LocaleModule } from './modules/locale';
 export type {
   // GetLanguageLocaleIdentifier
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierSuccessResponse,
   GetLanguageLocaleIdentifierErrorResponse,
   GetLanguageLocaleIdentifierResult,
-} from './modules/locale-module';
+} from './modules/locale';
 
 // LocationModule
-export { default as LocationModule } from './modules/location-module';
+export { default as LocationModule } from './modules/location';
 export type {
   // GetCoordinate
   GetCoordinateResponse,
@@ -101,10 +101,10 @@ export type {
   GetCountryCodeNoResultResponse,
   GetCountryCodeErrorResponse,
   GetCountryCodeResult,
-} from './modules/location-module';
+} from './modules/location';
 
 // MediaModule
-export { default as MediaModule } from './modules/media-module';
+export { default as MediaModule } from './modules/media';
 export type {
   // PlayDRMContent
   PlayDRMContentRequest,
@@ -113,19 +113,19 @@ export type {
   PlayDRMContentErrorResponse,
   PlaybackStatusResult,
   PlaybackEventType,
-} from './modules/media-module';
+} from './modules/media';
 
 // PlatformModule
-export { default as PlatformModule } from './modules/platfom-module';
+export { default as PlatformModule } from './modules/platfom';
 export type {
   // Back
   BackResponse,
   BackSuccessResponse,
   BackErrorResponse,
-} from './modules/platfom-module';
+} from './modules/platfom';
 
 // ProfileModule
-export { default as ProfileModule } from './modules/profile-module';
+export { default as ProfileModule } from './modules/profile';
 export type {
   // FetchEmail
   FetchEmailResponse,
@@ -141,10 +141,10 @@ export type {
   VerifyEmailCancelledResponse,
   VerifyEmailErrorResponse,
   VerifyEmailResult,
-} from './modules/profile-module';
+} from './modules/profile';
 
 // ScopeModule
-export { default as ScopeModule } from './modules/scope-module';
+export { default as ScopeModule } from './modules/scope';
 export type {
   // HasAccessTo
   HasAccessToResponse,
@@ -155,10 +155,10 @@ export type {
   ReloadScopesResponse,
   ReloadScopesSuccessResponse,
   ReloadScopesErrorResponse,
-} from './modules/scope-module';
+} from './modules/scope';
 
 // StorageModule
-export { default as StorageModule } from './modules/storage-module';
+export { default as StorageModule } from './modules/storage';
 export type {
   // SetXXX
   SetResponse,
@@ -198,14 +198,14 @@ export type {
   RemoveAllResponse,
   RemoveAllSuccessResponse,
   RemoveAllErrorResponse,
-} from './modules/storage-module';
+} from './modules/storage';
 
 // SystemWebViewKitModule
-export { default as SystemWebViewKitModule } from './modules/system-web-view- kit-module';
+export { default as SystemWebViewKitModule } from './modules/system-web-view- kit';
 export type {
   // RedirectToSystemWebView
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewSuccessResponse,
   RedirectToSystemWebViewErrorResponse,
-} from './modules/system-web-view- kit-module';
+} from './modules/system-web-view- kit';

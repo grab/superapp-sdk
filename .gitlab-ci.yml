@@ -12,6 +12,7 @@ build:
   stage: build
   script: 
     - npm install
+    - npm run check
     - npm run build
 
 deploy-to-npm:
