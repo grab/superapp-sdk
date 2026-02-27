@@ -2,22 +2,27 @@
 
 # Class: StorageModule
 
-Provides persistence storage APIs, which helps the webview have access to persistence information for multiple sessions.
+Provides persistence storage APIs for maintaining data across multiple sessions.
+
+## Remarks
 
 **Important:** Once the user logs out, all saved data will be removed.
 
+The StorageModule enables miniapps to store and retrieve primitive values (boolean, integer,
+string, double) that persist across webview sessions.
+
 ## Example
 
-```javascript
+Initialize the StorageModule:
+```typescript
 import { StorageModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const storageModule = new StorageModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -31,7 +36,7 @@ const storageModule = new StorageModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -67,15 +72,12 @@ Promise that resolves to [SetResponse](../type-aliases/SetResponse.md) when valu
 
 #### Example
 
-```javascript
-storageModule.setBoolean('isEnabled', true)
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Boolean value stored successfully");
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  await storageModule.setBoolean('isEnabled', true);
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -102,18 +104,18 @@ Promise that resolves to [GetBooleanResponse](../type-aliases/GetBooleanResponse
 
 #### Example
 
-```javascript
-storageModule.getBoolean('isEnabled')
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200 && result !== undefined) {
-      console.log("Stored value:", result);
-      if (result) {
-        enableFeature();
-      }
-    } else if (error) {
-      console.error("Storage error:", error);
+```typescript
+try {
+  const response = await storageModule.getBoolean('isEnabled');
+  if (response.status_code === 200 && response.result !== undefined) {
+    console.log("Stored value:", response.result);
+    if (response.result) {
+      enableFeature();
     }
-  });
+  }
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -150,15 +152,12 @@ Promise that resolves to [SetResponse](../type-aliases/SetResponse.md) when valu
 
 #### Example
 
-```javascript
-storageModule.setInt('count', 42)
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Integer value stored successfully");
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  await storageModule.setInt('count', 42);
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -185,16 +184,16 @@ Promise that resolves to [GetIntResponse](../type-aliases/GetIntResponse.md) wit
 
 #### Example
 
-```javascript
-storageModule.getInt('count')
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200 && result !== undefined) {
-      console.log("Stored count:", result);
-      updateCounter(result);
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  const response = await storageModule.getInt('count');
+  if (response.status_code === 200 && response.result !== undefined) {
+    console.log("Stored count:", response.result);
+    updateCounter(response.result);
+  }
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -231,15 +230,12 @@ Promise that resolves to [SetResponse](../type-aliases/SetResponse.md) when valu
 
 #### Example
 
-```javascript
-storageModule.setString('username', 'john_doe')
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("String value stored successfully");
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  await storageModule.setString('username', 'john_doe');
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -266,16 +262,16 @@ Promise that resolves to [GetStringResponse](../type-aliases/GetStringResponse.m
 
 #### Example
 
-```javascript
-storageModule.getString('username')
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200 && result) {
-      console.log("Stored username:", result);
-      displayUsername(result);
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  const response = await storageModule.getString('username');
+  if (response.status_code === 200 && response.result) {
+    console.log("Stored username:", response.result);
+    displayUsername(response.result);
+  }
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -312,15 +308,12 @@ Promise that resolves to [SetResponse](../type-aliases/SetResponse.md) when valu
 
 #### Example
 
-```javascript
-storageModule.setDouble('price', 19.99)
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Double value stored successfully");
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  await storageModule.setDouble('price', 19.99);
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -347,16 +340,16 @@ Promise that resolves to [GetDoubleResponse](../type-aliases/GetDoubleResponse.m
 
 #### Example
 
-```javascript
-storageModule.getDouble('price')
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200 && result !== undefined) {
-      console.log("Stored price:", result);
-      displayPrice(result);
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  const response = await storageModule.getDouble('price');
+  if (response.status_code === 200 && response.result !== undefined) {
+    console.log("Stored price:", response.result);
+    displayPrice(response.result);
+  }
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -383,15 +376,12 @@ Promise that resolves to [RemoveResponse](../type-aliases/RemoveResponse.md) whe
 
 #### Example
 
-```javascript
-storageModule.remove('username')
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Value removed successfully");
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
+```typescript
+try {
+  await storageModule.remove('username');
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -413,21 +403,24 @@ Promise that resolves to [RemoveAllResponse](../type-aliases/RemoveAllResponse.m
 **Warning:** This will clear all data stored by your application.
 Use with caution, typically during logout or app reset.
 
-#### Example
+#### Examples
 
-```javascript
-storageModule.removeAll()
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("All values cleared successfully");
-    } else if (error) {
-      console.error("Storage error:", error);
-    }
-  });
-
-// Example: Clear storage on logout
-logoutButton.addEventListener('click', async () => {
+```typescript
+try {
   await storageModule.removeAll();
-  window.location.href = '/login';
+} catch (error) {
+  console.error(error);
+}
+```
+
+Clear storage on logout
+```typescript
+logoutButton.addEventListener('click', async () => {
+  try {
+    await storageModule.removeAll();
+    window.location.href = '/login';
+  } catch (error) {
+    console.error(error);
+  }
 });
 ```

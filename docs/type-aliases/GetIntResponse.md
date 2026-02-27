@@ -2,4 +2,6 @@
 
 # Type Alias: GetIntResponse
 
-> **GetIntResponse** = [`WrappedResponse`](WrappedResponse.md)\<`number`\>
+> **GetIntResponse** = [`GetIntSuccessResponse`](GetIntSuccessResponse.md) \| [`GetIntNoResultResponse`](GetIntNoResultResponse.md) \| [`GetIntErrorResponse`](GetIntErrorResponse.md)
+
+Response type for getInt

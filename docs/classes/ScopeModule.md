@@ -2,20 +2,26 @@
 
 # Class: ScopeModule
 
-The ScopeModule provides access to scope control related APIs.
+Provides access to scope control related APIs.
+
+## Remarks
+
+The ScopeModule enables miniapps to check permissions and reload scope configurations.
+Use this module to verify access to sensitive APIs before calling them and to refresh
+permission states after the user grants new permissions.
 
 ## Example
 
-```javascript
+Initialize the ScopeModule:
+```typescript
 import { ScopeModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const scopeModule = new ScopeModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -29,7 +35,7 @@ const scopeModule = new ScopeModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -64,34 +70,55 @@ Promise that resolves to [HasAccessToResponse](../type-aliases/HasAccessToRespon
 Use this method to verify permissions before calling sensitive APIs.
 Returns `true` if the scope is granted, `false` otherwise.
 
-#### Example
+#### Examples
 
-```javascript
-// Check location permission before accessing coordinates
-const { result, error, status_code } = await scopeModule.hasAccessTo(
-  'LocationModule',
-  'getCoordinate'
-);
-
-if (result === true) {
-  console.log("Location access granted");
-  // Proceed with location API call
-  const location = await locationModule.getCoordinate();
-} else if (result === false) {
-  console.log("Location access denied");
-  // Show message to user or request permission
-  showPermissionRequest();
-} else if (error) {
-  console.error("Access check error:", error);
+Check location permission:
+```typescript
+try {
+  const response = await scopeModule.hasAccessTo('LocationModule', 'getCoordinate');
+  if (response.status_code === 200 && response.result === true) {
+    const location = await locationModule.getCoordinate();
+  }
+} catch (error) {
+  console.error(error);
 }
+```
 
-// Check profile permission
-scopeModule.hasAccessTo('ProfileModule', 'fetchEmail')
-  .then(({ result }) => {
-    if (result) {
-      profileModule.fetchEmail();
-    }
-  });
+Check profile permission:
+```typescript
+try {
+  const response = await scopeModule.hasAccessTo('ProfileModule', 'fetchEmail');
+  if (response.status_code === 200 && response.result === true) {
+    await profileModule.fetchEmail();
+  }
+} catch (error) {
+  console.error(error);
+}
+```
+
+Handling the response:
+```typescript
+try {
+  const response = await scopeModule.hasAccessTo('LocationModule', 'getCoordinate');
+
+  switch (response.status_code) {
+    case 200:
+      if (response.result === true) {
+        console.log('Location access granted');
+      } else {
+        console.log('Location access denied');
+      }
+      break;
+    case 400:
+      console.error('Invalid request:', response.error);
+      break;
+    case 500:
+      console.error('Access check error:', response.error);
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -113,27 +140,39 @@ Promise that resolves to [ReloadScopesResponse](../type-aliases/ReloadScopesResp
 Use this method after the user has granted new permissions to refresh the scope cache.
 This ensures that subsequent [hasAccessTo](#hasaccessto) calls reflect the updated permissions.
 
-**Status Codes:**
-- `200` or `204`: The operation succeeded
+#### Examples
 
-#### Example
+Basic usage:
+```typescript
+try {
+  await scopeModule.reloadScopes();
+  const response = await scopeModule.hasAccessTo('LocationModule', 'getCoordinate');
+} catch (error) {
+  console.error(error);
+}
+```
 
-```javascript
-// After user grants new permissions
-scopeModule.reloadScopes()
-  .then(({ status_code, error }) => {
-    if (status_code === 200 || status_code === 204) {
-      console.log("Scopes reloaded successfully");
+Handling the response:
+```typescript
+try {
+  const response = await scopeModule.reloadScopes();
 
-      // Now check if new permission is available
-      scopeModule.hasAccessTo('LocationModule', 'getCoordinate')
-        .then(({ result }) => {
-          if (result) {
-            console.log("New permission is now active");
-          }
-        });
-    } else if (error) {
-      console.error("Reload scopes error:", error);
-    }
-  });
+  switch (response.status_code) {
+    case 200:
+      console.log('Scopes reloaded successfully');
+      const accessResponse = await scopeModule.hasAccessTo('LocationModule', 'getCoordinate');
+      if (accessResponse.result) {
+        console.log('New permission is now active');
+      }
+      break;
+    case 400:
+      console.error('Invalid request:', response.error);
+      break;
+    case 500:
+      console.error('Reload scopes error:', response.error);
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```

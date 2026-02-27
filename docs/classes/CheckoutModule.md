@@ -2,20 +2,26 @@
 
 # Class: CheckoutModule
 
-The CheckoutModule provides APIs to trigger native checkout flow from web.
+Provides APIs to trigger native checkout flow from web.
+
+## Remarks
+
+The CheckoutModule enables miniapps to initiate payment transactions through the Grab app's
+native checkout interface. All payment processing and user interactions are handled by the
+native platform.
 
 ## Example
 
-```javascript
-import { CheckoutModule } from "@grabjs/superapp-sdk";
+Initialize the CheckoutModule:
+```typescript
+import { CheckoutModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const checkoutModule = new CheckoutModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -29,7 +35,7 @@ const checkoutModule = new CheckoutModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -45,8 +51,7 @@ Trigger the native checkout flow.
 
 [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)
 
-Checkout request parameters.
-  - `responseParams`: The response params from the charge init endpoint
+Request parameters for triggering checkout.
 
 #### Returns
 
@@ -65,25 +70,47 @@ The `responseParams` should be obtained from your charge initialization endpoint
 - `errorReason`: The reason why the transaction failed (if applicable)
 - `errorCode`: Error code associated with the failed transaction (if applicable)
 
-#### Example
+#### Examples
 
-```javascript
-// Get responseParams from chargeInit endpoint
-const responseParams = await chargeInit(); // Replace with your actual endpoint
+Basic usage:
+```typescript
+try {
+  const responseParams = await chargeInit();
+  const response = await checkoutModule.triggerCheckout({ responseParams });
+  if (response.status_code === 200) {
+    console.log('Transaction ID:', response.result.transactionID);
+  }
+} catch (error) {
+  console.error(error);
+}
+```
 
-checkoutModule
-  .triggerCheckout({ responseParams })
-  .then(({ result, error, status_code }) => {
-    if (result) {
-      console.log("Transaction ID:", result.transactionID);
-      console.log("Status:", result.status);
+Handling the response:
+```typescript
+try {
+  const responseParams = await chargeInit();
+  const response = await checkoutModule.triggerCheckout({ responseParams });
 
-      if (result.errorCode) {
-        console.error("Error Code:", result.errorCode);
-        console.error("Error Reason:", result.errorReason);
+  switch (response.status_code) {
+    case 200:
+      console.log('Transaction ID:', response.result.transactionID);
+      console.log('Status:', response.result.status);
+      if (response.result.errorCode) {
+        console.error('Error Code:', response.result.errorCode);
+        console.error('Error Reason:', response.result.errorReason);
       }
-    } else if (error) {
-      console.error("Checkout error:", error);
-    }
-  });
+      break;
+    case 400:
+      console.error('Invalid request:', response.error);
+      break;
+    case 403:
+      console.error('Permission denied:', response.error);
+      break;
+    case 500:
+      console.error('Checkout error:', response.error);
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```

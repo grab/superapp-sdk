@@ -2,23 +2,25 @@
 
 # Class: IdentityModule
 
-The IdentityModule provides functionality related to user identity and OAuth authorization flows.
+Provides functionality related to user identity and OAuth authorization flows.
+
+## Remarks
 
 This module handles both native and web-based authorization flows with automatic fallback mechanisms.
 It manages PKCE (Proof Key for Code Exchange) artifacts and supports different response modes for flexibility.
 
 ## Example
 
-```javascript
-import { IdentityModule } from "@grabjs/superapp-sdk";
+Initialize the IdentityModule:
+```typescript
+import { IdentityModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const identityModule = new IdentityModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -32,7 +34,7 @@ const identityModule = new IdentityModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -49,11 +51,6 @@ Initiates the OAuth authorization flow with support for both native and web cons
 [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)
 
 Authorization request parameters.
-  - `clientId`: Client ID for authorization (required)
-  - `scope`: Scope of the authorization (required)
-  - `redirectUri`: Redirect URI for authorization callback (required)
-  - `environment`: Environment ('staging' or 'production'). Used to fetch the authorization endpoint from the OpenID configuration for the web flow (required)
-  - `responseMode`: Response mode ('redirect' or 'in_place'). Defaults to 'redirect' if not specified (optional)
 
 #### Returns
 
@@ -78,58 +75,55 @@ To ensure successful token exchange (which requires matching `redirectUri` value
 - Otherwise, if the app version in the user agent is below **5.396.0** (iOS or Android), the SDK uses **web consent**.
 - For supported versions, the SDK attempts **native consent** first and falls back to web on specific native errors.
 
-**Status Codes:**
-- `200`: Authorization successful (in_place mode with native flow)
-- `302`: Authorization redirect initiated (web flow or redirect response mode)
-- `204`: User cancelled the authorization
-- `400`: Invalid request or configuration error
-
 #### See
 
 [Environment](../type-aliases/Environment.md), [ResponseMode](../type-aliases/ResponseMode.md)
 
-#### Example
+#### Examples
 
-```javascript
-// Example 1: Using redirect response mode
-const request = {
-  clientId: "your-client-id",
-  scope: "profile openid",
-  redirectUri: "https://your-redirect-uri.com",
-  environment: "production", // or "staging"
-  responseMode: "redirect"
-};
+Using redirect response mode
+```typescript
+try {
+  const request = {
+    clientId: "your-client-id",
+    scope: "profile openid",
+    redirectUri: "https://your-redirect-uri.com",
+    environment: "production",
+    responseMode: "redirect"
+  };
 
-const { result, error, status_code } = await identityModule.authorize(request);
-if (status_code === 200 && result) {
-  // Authorization successful (in_place mode with native flow)
-  console.log("Auth Code:", result.code);
-  console.log("State:", result.state);
-} else if (status_code === 302) {
-  // Authorization redirect initiated (web flow or redirect response mode)
-  // The page will redirect to the authorization server
-} else if (status_code === 204) {
-  // User cancelled the authorization
-  console.log("User cancelled");
-} else if (error) {
-  // Authorization failed
-  console.error("Auth error:", error);
+  const { result, error, status_code } = await identityModule.authorize(request);
+  if (status_code === 200 && result) {
+    console.log("Auth Code:", result.code);
+    console.log("State:", result.state);
+  } else if (status_code === 302) {
+    console.log("Authorization redirect initiated");
+  } else if (status_code === 204) {
+    console.log("User cancelled");
+  }
+} catch (error) {
+  console.error(error);
 }
+```
 
-// Example 2: Using in_place response mode
-const inPlaceRequest = {
-  clientId: "your-client-id",
-  scope: "profile openid",
-  redirectUri: "https://your-redirect-uri.com",
-  environment: "production",
-  responseMode: "in_place"
-};
+Using in_place response mode
+```typescript
+try {
+  const inPlaceRequest = {
+    clientId: "your-client-id",
+    scope: "profile openid",
+    redirectUri: "https://your-redirect-uri.com",
+    environment: "production",
+    responseMode: "in_place"
+  };
 
-const response = await identityModule.authorize(inPlaceRequest);
-if (response.status_code === 200 && response.result) {
-  // Get the actual redirectUri used
-  const { redirectUri } = await identityModule.getAuthorizationArtifacts();
-  console.log("Actual redirect URI:", redirectUri);
+  const response = await identityModule.authorize(inPlaceRequest);
+  if (response.status_code === 200 && response.result) {
+    const { redirectUri } = await identityModule.getAuthorizationArtifacts();
+    console.log("Actual redirect URI:", redirectUri);
+  }
+} catch (error) {
+  console.error(error);
 }
 ```
 
@@ -156,37 +150,31 @@ These values are needed to complete the OAuth token exchange after the authoriza
 This may differ from the `redirectUri` you provided to [authorize](#authorize) if you used `responseMode: 'in_place'` with native flow.
 You **must** use this returned `redirectUri` for token exchange to ensure OAuth compliance.
 
-**Status Codes:**
-- `200`: All four artifacts are present and returned in `result`
-- `204`: No artifacts are stored (authorization has not been called yet)
-- `400`: Inconsistent state detected (only some artifacts present, possible data corruption)
-
 #### Example
 
-```javascript
-// After authorization redirect, retrieve the stored artifacts
-const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
+```typescript
+try {
+  const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
 
-if (status_code === 200 && result) {
-  // All artifacts present - proceed with token exchange
-  const { state, codeVerifier, nonce, redirectUri } = result;
-  console.log("State:", state);
-  console.log("Code Verifier:", codeVerifier);
-  console.log("Nonce:", nonce);
-  console.log("Redirect URI:", redirectUri);
+  if (status_code === 200 && result) {
+    const { state, codeVerifier, nonce, redirectUri } = result;
+    console.log("State:", state);
+    console.log("Code Verifier:", codeVerifier);
+    console.log("Nonce:", nonce);
+    console.log("Redirect URI:", redirectUri);
 
-  // Use these values for token exchange
-  await exchangeToken({
-    code: authCode,
-    codeVerifier,
-    redirectUri, // Use the actual redirectUri from artifacts
-  });
-} else if (status_code === 204) {
-  // No artifacts yet - user hasn't authorized
-  console.log("No authorization artifacts found.");
-} else if (status_code === 400) {
-  // Inconsistent state - possible data corruption
-  console.error("Authorization artifacts error:", error);
+    await exchangeToken({
+      code: authCode,
+      codeVerifier,
+      redirectUri,
+    });
+  } else if (status_code === 204) {
+    console.log("No authorization artifacts found.");
+  } else if (status_code === 400) {
+    console.error("Authorization artifacts error:", error);
+  }
+} catch (error) {
+  console.error(error);
 }
 ```
 
@@ -194,13 +182,13 @@ if (status_code === 200 && result) {
 
 ### clearAuthorizationArtifacts()
 
-> **clearAuthorizationArtifacts**(): `Promise`\<[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)\>
+> **clearAuthorizationArtifacts**(): `Promise`\<[`ClearAuthorizationArtifactsSuccessResponse`](../type-aliases/ClearAuthorizationArtifactsSuccessResponse.md)\>
 
 Clears all stored authorization artifacts from localStorage.
 
 #### Returns
 
-`Promise`\<[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)\>
+`Promise`\<[`ClearAuthorizationArtifactsSuccessResponse`](../type-aliases/ClearAuthorizationArtifactsSuccessResponse.md)\>
 
 Promise that resolves to [ClearAuthorizationArtifactsResponse](../type-aliases/ClearAuthorizationArtifactsResponse.md) with status code 204.
 
@@ -209,24 +197,15 @@ Promise that resolves to [ClearAuthorizationArtifactsResponse](../type-aliases/C
 This should be called after a successful token exchange or when you need to reset the authorization state
 (e.g., on error or logout).
 
-**Status Codes:**
-- `204`: No Content - successful operation
-
 #### Example
 
-```javascript
-// After successful token exchange
-const { status_code } = await identityModule.clearAuthorizationArtifacts();
-if (status_code === 204) {
-  console.log("Authorization artifacts cleared successfully");
-}
-
-// On error or logout
+```typescript
 try {
-  await exchangeToken(params);
+  const { status_code } = await identityModule.clearAuthorizationArtifacts();
+  if (status_code === 204) {
+    console.log("Authorization artifacts cleared successfully");
+  }
 } catch (error) {
-  console.error("Token exchange failed:", error);
-  // Clear artifacts to reset state
-  await identityModule.clearAuthorizationArtifacts();
+  console.error(error);
 }
 ```

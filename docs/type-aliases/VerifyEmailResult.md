@@ -2,14 +2,14 @@
 
 # Type Alias: VerifyEmailResult
 
-> **VerifyEmailResult** = \{ `verified`: `boolean`; \}
+> **VerifyEmailResult** = \{ `email`: `string`; \}
 
 Email verification result
 
 ## Properties
 
-### verified
+### email
 
-> **verified**: `boolean`
+> **email**: `string`
 
-Whether the email was successfully verified
+Verified email address

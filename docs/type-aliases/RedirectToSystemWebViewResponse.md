@@ -2,6 +2,6 @@
 
 # Type Alias: RedirectToSystemWebViewResponse
 
-> **RedirectToSystemWebViewResponse** = [`WrappedResponse`](WrappedResponse.md)\<`undefined`\>
+> **RedirectToSystemWebViewResponse** = [`RedirectToSystemWebViewSuccessResponse`](RedirectToSystemWebViewSuccessResponse.md) \| [`RedirectToSystemWebViewErrorResponse`](RedirectToSystemWebViewErrorResponse.md)
 
 Response type for system webview redirect

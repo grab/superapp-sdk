@@ -2,6 +2,6 @@
 
 # Type Alias: PlayDRMContentResponse
 
-> **PlayDRMContentResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`PlaybackStatusResult`](PlaybackStatusResult.md)\>
+> **PlayDRMContentResponse** = [`PlayDRMContentSuccessResponse`](PlayDRMContentSuccessResponse.md) \| [`PlayDRMContentErrorResponse`](PlayDRMContentErrorResponse.md)
 
 Response type for DRM content playback

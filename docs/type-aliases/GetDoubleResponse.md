@@ -2,4 +2,6 @@
 
 # Type Alias: GetDoubleResponse
 
-> **GetDoubleResponse** = [`WrappedResponse`](WrappedResponse.md)\<`number`\>
+> **GetDoubleResponse** = [`GetDoubleSuccessResponse`](GetDoubleSuccessResponse.md) \| [`GetDoubleNoResultResponse`](GetDoubleNoResultResponse.md) \| [`GetDoubleErrorResponse`](GetDoubleErrorResponse.md)
+
+Response type for getDouble

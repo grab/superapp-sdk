@@ -2,30 +2,22 @@
 
 # Type Alias: AuthorizeResult
 
-> **AuthorizeResult** = \{ `state`: `string`; `codeVerifier`: `string`; `nonce`: `string`; `redirectUri`: `string`; \}
+> **AuthorizeResult** = \{ `code`: `string`; `state`: `string`; \}
 
 Authorization result
 
 ## Properties
 
+### code
+
+> **code**: `string`
+
+Authorization code
+
+***
+
 ### state
 
 > **state**: `string`
 
-***
-
-### codeVerifier
-
-> **codeVerifier**: `string`
-
-***
-
-### nonce
-
-> **nonce**: `string`
-
-***
-
-### redirectUri
-
-> **redirectUri**: `string`
+State parameter for CSRF protection

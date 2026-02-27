@@ -2,6 +2,6 @@
 
 # Type Alias: SetResponse
 
-> **SetResponse** = [`WrappedResponse`](WrappedResponse.md)\<`undefined`\>
+> **SetResponse** = [`SetSuccessResponse`](SetSuccessResponse.md) \| [`SetErrorResponse`](SetErrorResponse.md)
 
-Response types for storage operations
+Response types for storage set operations

@@ -2,6 +2,6 @@
 
 # Type Alias: GetCountryCodeResponse
 
-> **GetCountryCodeResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`GetCountryCodeResult`](GetCountryCodeResult.md)\>
+> **GetCountryCodeResponse** = [`GetCountryCodeSuccessResponse`](GetCountryCodeSuccessResponse.md) \| [`GetCountryCodeNoResultResponse`](GetCountryCodeNoResultResponse.md) \| [`GetCountryCodeErrorResponse`](GetCountryCodeErrorResponse.md)
 
 Response type for country code retrieval

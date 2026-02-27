@@ -2,6 +2,6 @@
 
 # Type Alias: GetCoordinateResponse
 
-> **GetCoordinateResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`GetCoordinateResult`](GetCoordinateResult.md)\>
+> **GetCoordinateResponse** = [`GetCoordinateSuccessResponse`](GetCoordinateSuccessResponse.md) \| [`GetCoordinateErrorResponse`](GetCoordinateErrorResponse.md)
 
 Response type for coordinate retrieval

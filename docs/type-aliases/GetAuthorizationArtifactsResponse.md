@@ -2,6 +2,6 @@
 
 # Type Alias: GetAuthorizationArtifactsResponse
 
-> **GetAuthorizationArtifactsResponse** = \{ `status_code`: `200`; `result`: [`AuthorizationArtifactsResult`](AuthorizationArtifactsResult.md); `error`: `null`; \} \| \{ `status_code`: `204`; `result`: `null`; `error`: `null`; \} \| \{ `status_code`: `400`; `result`: `null`; `error`: `string`; \}
+> **GetAuthorizationArtifactsResponse** = [`GetAuthorizationArtifactsSuccessResponse`](GetAuthorizationArtifactsSuccessResponse.md) \| [`GetAuthorizationArtifactsNoResultResponse`](GetAuthorizationArtifactsNoResultResponse.md) \| [`GetAuthorizationArtifactsErrorResponse`](GetAuthorizationArtifactsErrorResponse.md)
 
 Response type for getting authorization artifacts

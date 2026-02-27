@@ -2,22 +2,22 @@
 
 # Type Alias: VerifyEmailRequest
 
-> **VerifyEmailRequest** = \{ `email`: `string`; `verificationCode`: `string`; \}
+> **VerifyEmailRequest** = \{ `email?`: `string`; `skipUserInput?`: `boolean`; \}
 
 Request parameters for email verification
 
 ## Properties
 
-### email
+### email?
 
-> **email**: `string`
+> `optional` **email**: `string`
 
-Email address to verify
+Email address to verify (optional)
 
 ***
 
-### verificationCode
+### skipUserInput?
 
-> **verificationCode**: `string`
+> `optional` **skipUserInput**: `boolean`
 
-Verification code sent to the email
+Whether to skip user input and verify directly (optional)

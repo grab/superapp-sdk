@@ -2,4 +2,6 @@
 
 # Type Alias: RemoveResponse
 
-> **RemoveResponse** = [`WrappedResponse`](WrappedResponse.md)\<`undefined`\>
+> **RemoveResponse** = [`RemoveSuccessResponse`](RemoveSuccessResponse.md) \| [`RemoveErrorResponse`](RemoveErrorResponse.md)
+
+Response type for remove

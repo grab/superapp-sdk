@@ -2,4 +2,6 @@
 
 # Type Alias: GetStringResponse
 
-> **GetStringResponse** = [`WrappedResponse`](WrappedResponse.md)\<`string`\>
+> **GetStringResponse** = [`GetStringSuccessResponse`](GetStringSuccessResponse.md) \| [`GetStringNoResultResponse`](GetStringNoResultResponse.md) \| [`GetStringErrorResponse`](GetStringErrorResponse.md)
+
+Response type for getString

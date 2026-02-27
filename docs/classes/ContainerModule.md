@@ -2,20 +2,25 @@
 
 # Class: ContainerModule
 
-The ContainerModule provides APIs to interact with the webview container.
+Provides APIs to interact with the webview container.
+
+## Remarks
+
+The ContainerModule enables miniapps to control the webview container's appearance and behavior,
+including navigation controls, loading indicators, analytics tracking, and session management.
 
 ## Example
 
-```javascript
-import { ContainerModule } from "@grabjs/superapp-sdk";
+Initialize the ContainerModule:
+```typescript
+import { ContainerModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const containerModule = new ContainerModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -29,13 +34,13 @@ const containerModule = new ContainerModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
 ### setBackgroundColor()
 
-> **setBackgroundColor**(`backgroundColor`: `string`): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **setBackgroundColor**(`backgroundColor`: `string`): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Set the background color of the container.
 
@@ -49,32 +54,26 @@ Hexadecimal color value (e.g., "#ffffff", "#000000").
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when background color is set.
+Promise that resolves to [Response](../type-aliases/Response.md) when background color is set.
 
 #### Example
 
-```javascript
-// Set to white background
-containerModule.setBackgroundColor("#ffffff")
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Background color set successfully");
-    } else if (error) {
-      console.error("Error setting background:", error);
-    }
-  });
-
-// Set to dark background
-containerModule.setBackgroundColor("#1a1a1a");
+```typescript
+try {
+  await containerModule.setBackgroundColor("#ffffff");
+  await containerModule.setBackgroundColor("#1a1a1a");
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### setTitle()
 
-> **setTitle**(`title`: `string`): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **setTitle**(`title`: `string`): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Set the title of the container.
 
@@ -88,170 +87,153 @@ Title text to display in the navigation bar.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when title is set.
+Promise that resolves to [Response](../type-aliases/Response.md) when title is set.
 
 #### Example
 
-```javascript
-containerModule.setTitle("Home")
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Title set successfully");
-    } else if (error) {
-      console.error("Error setting title:", error);
-    }
-  });
-
-// Dynamic title based on page
-const setPageTitle = (pageName) => {
-  containerModule.setTitle(pageName);
-};
+```typescript
+try {
+  await containerModule.setTitle("Home");
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### hideBackButton()
 
-> **hideBackButton**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **hideBackButton**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Hide the back button of the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when back button is hidden.
+Promise that resolves to [Response](../type-aliases/Response.md) when back button is hidden.
 
 #### Example
 
-```javascript
-containerModule.hideBackButton()
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Back button hidden");
-    } else if (error) {
-      console.error("Error:", error);
-    }
-  });
+```typescript
+try {
+  await containerModule.hideBackButton();
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### showBackButton()
 
-> **showBackButton**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **showBackButton**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Show the back button of the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when back button is shown.
+Promise that resolves to [Response](../type-aliases/Response.md) when back button is shown.
 
 #### Example
 
-```javascript
-containerModule.showBackButton()
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Back button shown");
-    } else if (error) {
-      console.error("Error:", error);
-    }
-  });
+```typescript
+try {
+  await containerModule.showBackButton();
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### hideRefreshButton()
 
-> **hideRefreshButton**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **hideRefreshButton**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Hide the refresh button of the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when refresh button is hidden.
+Promise that resolves to [Response](../type-aliases/Response.md) when refresh button is hidden.
 
 #### Example
 
-```javascript
-containerModule.hideRefreshButton()
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Refresh button hidden");
-    } else if (error) {
-      console.error("Error:", error);
-    }
-  });
+```typescript
+try {
+  await containerModule.hideRefreshButton();
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### showRefreshButton()
 
-> **showRefreshButton**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **showRefreshButton**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Show the refresh button of the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when refresh button is shown.
+Promise that resolves to [Response](../type-aliases/Response.md) when refresh button is shown.
 
 #### Example
 
-```javascript
-containerModule.showRefreshButton()
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Refresh button shown");
-    } else if (error) {
-      console.error("Error:", error);
-    }
-  });
+```typescript
+try {
+  await containerModule.showRefreshButton();
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### close()
 
-> **close**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **close**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Close the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when container is closed.
+Promise that resolves to [Response](../type-aliases/Response.md) when container is closed.
 
 #### Remarks
 
 This method closes the current webview and returns the user to the previous screen.
 
-#### Example
+#### Examples
 
-```javascript
-// Close after completing a task
-containerModule.close()
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("Container closed");
-    } else if (error) {
-      console.error("Error:", error);
-    }
-  });
+Close after completing a task
+```typescript
+try {
+  await containerModule.close();
+} catch (error) {
+  console.error(error);
+}
+```
 
-// Example: Close button handler
-closeButton.addEventListener('click', () => {
-  containerModule.close();
+Close button handler
+```typescript
+closeButton.addEventListener('click', async () => {
+  try {
+    await containerModule.close();
+  } catch (error) {
+    console.error(error);
+  }
 });
 ```
 
@@ -259,15 +241,15 @@ closeButton.addEventListener('click', () => {
 
 ### onContentLoaded()
 
-> **onContentLoaded**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **onContentLoaded**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Notify the client that page content has loaded.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when notification is sent.
+Promise that resolves to [Response](../type-aliases/Response.md) when notification is sent.
 
 #### Remarks
 
@@ -276,37 +258,29 @@ This can be used to hide loading indicators or trigger post-load actions on the 
 
 #### Example
 
-```javascript
-// Notify after page load
-window.addEventListener('load', () => {
-  containerModule.onContentLoaded()
-    .then(({ status_code }) => {
-      if (status_code === 200) {
-        console.log("Content loaded notification sent");
-      }
-    });
+```typescript
+window.addEventListener('load', async () => {
+  try {
+    await containerModule.onContentLoaded();
+  } catch (error) {
+    console.error(error);
+  }
 });
-
-// Notify after async data load
-async function loadPageData() {
-  await fetchData();
-  await containerModule.onContentLoaded();
-}
 ```
 
 ***
 
 ### showLoader()
 
-> **showLoader**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **showLoader**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Show the loader in the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when loader is shown.
+Promise that resolves to [Response](../type-aliases/Response.md) when loader is shown.
 
 #### Remarks
 
@@ -315,33 +289,34 @@ Remember to call [hideLoader](#hideloader) when the operation completes.
 
 #### Example
 
-```javascript
-// Show loader during async operation
+```typescript
 async function fetchData() {
-  await containerModule.showLoader();
-
   try {
+    await containerModule.showLoader();
     const data = await api.fetch();
     processData(data);
+  } catch (error) {
+    console.error(error);
   } finally {
     await containerModule.hideLoader();
   }
 }
+fetchData();
 ```
 
 ***
 
 ### hideLoader()
 
-> **hideLoader**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **hideLoader**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Hide the loader in the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when loader is hidden.
+Promise that resolves to [Response](../type-aliases/Response.md) when loader is hidden.
 
 #### Remarks
 
@@ -350,20 +325,19 @@ Should be called after [showLoader](#showloader) when the operation completes.
 
 #### Example
 
-```javascript
-containerModule.hideLoader()
-  .then(({ status_code }) => {
-    if (status_code === 200) {
-      console.log("Loader hidden");
-    }
-  });
+```typescript
+try {
+  await containerModule.hideLoader();
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### openExternalLink()
 
-> **openExternalLink**(`url`: `string`): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **openExternalLink**(`url`: `string`): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Open a link in the external browser.
 
@@ -377,31 +351,35 @@ URL to open in external browser.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when external link is opened.
+Promise that resolves to [Response](../type-aliases/Response.md) when external link is opened.
 
 #### Remarks
 
 Call this method to tell the client to open the specified URL in an external browser
 (outside of the Grab app).
 
-#### Example
+#### Examples
 
-```javascript
-containerModule.openExternalLink("https://grab.com")
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("External link opened");
-    } else if (error) {
-      console.error("Error opening link:", error);
-    }
-  });
+Open external link
+```typescript
+try {
+  await containerModule.openExternalLink("https://grab.com");
+} catch (error) {
+  console.error(error);
+}
+```
 
-// Example: Open terms and conditions
-termsLink.addEventListener('click', (e) => {
+Open terms and conditions
+```typescript
+termsLink.addEventListener('click', async (e) => {
   e.preventDefault();
-  containerModule.openExternalLink("https://grab.com/terms");
+  try {
+    await containerModule.openExternalLink("https://grab.com/terms");
+  } catch (error) {
+    console.error(error);
+  }
 });
 ```
 
@@ -409,7 +387,7 @@ termsLink.addEventListener('click', (e) => {
 
 ### onCtaTap()
 
-> **onCtaTap**(`action`: `string`): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **onCtaTap**(`action`: `string`): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Notify the client that the user has tapped a call-to-action (CTA).
 
@@ -423,31 +401,35 @@ CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE", "BOOKING_CONFIRMED").
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) when CTA tap is notified.
+Promise that resolves to [Response](../type-aliases/Response.md) when CTA tap is notified.
 
 #### Remarks
 
 Call this method to notify the client that the user has continued the flow.
 This is useful for analytics and tracking user engagement.
 
-#### Example
+#### Examples
 
-```javascript
-containerModule.onCtaTap("AV_LANDING_PAGE_CONTINUE")
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200) {
-      console.log("CTA tap notified");
-    } else if (error) {
-      console.error("Error:", error);
-    }
-  });
+Notify CTA tap
+```typescript
+try {
+  await containerModule.onCtaTap("AV_LANDING_PAGE_CONTINUE");
+} catch (error) {
+  console.error(error);
+}
+```
 
-// Example: Notify on button click
-continueButton.addEventListener('click', () => {
-  containerModule.onCtaTap("CONTINUE_TO_CHECKOUT");
-  navigateToCheckout();
+Notify on button click
+```typescript
+continueButton.addEventListener('click', async () => {
+  try {
+    await containerModule.onCtaTap("CONTINUE_TO_CHECKOUT");
+    navigateToCheckout();
+  } catch (error) {
+    console.error(error);
+  }
 });
 ```
 
@@ -455,7 +437,7 @@ continueButton.addEventListener('click', () => {
 
 ### sendAnalyticsEvent()
 
-> **sendAnalyticsEvent**(`eventDetails`: [`AnalyticsEventDetails`](../interfaces/AnalyticsEventDetails.md)): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **sendAnalyticsEvent**(`eventDetails`: [`AnalyticsEventDetails`](../interfaces/AnalyticsEventDetails.md)): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Use this method to track user interactions and page transitions.
 
@@ -465,14 +447,11 @@ Use this method to track user interactions and page transitions.
 
 [`AnalyticsEventDetails`](../interfaces/AnalyticsEventDetails.md)
 
-The details of the event to send.
-  - `state`: The current context (e.g., [ContainerAnalyticsEventState.HOMEPAGE](../variables/ContainerAnalyticsEventState.md#homepage)).
-  - `name`: The event name (e.g., [ContainerAnalyticsEventName.DEFAULT](../variables/ContainerAnalyticsEventName.md#default)).
-  - `data`: Optional metadata. Use [ContainerAnalyticsEventData](../variables/ContainerAnalyticsEventData.md) for standard keys.
+Details for analytics events sent to the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 A promise that resolves when the event has been successfully queued.
 
@@ -489,49 +468,55 @@ You can use predefined constants to ensure consistency across the platform.
 
 [ContainerAnalyticsEventState](../variables/ContainerAnalyticsEventState.md), [ContainerAnalyticsEventName](../variables/ContainerAnalyticsEventName.md), [ContainerAnalyticsEventData](../variables/ContainerAnalyticsEventData.md)
 
-#### Example
+#### Examples
 
-```javascript
+Send a DEFAULT event for HOMEPAGE state
+```typescript
 import {
-  ContainerModule,
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
+} from "@grabjs/superapp-sdk";
+
+try {
+  await containerModule.sendAnalyticsEvent({
+    state: ContainerAnalyticsEventState.HOMEPAGE,
+    name: ContainerAnalyticsEventName.DEFAULT,
+  });
+} catch (error) {
+  console.error(error);
+}
+```
+
+Send a BOOK event for CHECKOUT_PAGE state with standard data keys
+```typescript
+import {
+  ContainerAnalyticsEventState,
   ContainerAnalyticsEventData,
 } from "@grabjs/superapp-sdk";
 
-const containerModule = new ContainerModule();
-
-// Example 1: Send a DEFAULT event for HOMEPAGE state
-containerModule
-  .sendAnalyticsEvent({
-    state: ContainerAnalyticsEventState.HOMEPAGE,
-    name: ContainerAnalyticsEventName.DEFAULT,
-  })
-  .then(({ result, error }) => {
-    if (error) {
-      console.error("Validation error:", error);
-    }
-  });
-
-// Example 2: Send a BOOK event for CHECKOUT_PAGE state with standard data keys
-containerModule
-  .sendAnalyticsEvent({
+try {
+  await containerModule.sendAnalyticsEvent({
     state: ContainerAnalyticsEventState.CHECKOUT_PAGE,
     name: "BOOK",
     data: {
       [ContainerAnalyticsEventData.TRANSACTION_AMOUNT]: 100,
       [ContainerAnalyticsEventData.TRANSACTION_CURRENCY]: "SGD",
     },
-  })
-  .then(({ result, error }) => {
-    if (error) {
-      console.error("Validation error:", error);
-    }
   });
+} catch (error) {
+  console.error(error);
+}
+```
 
-// Example 3: Send a CLICK_RIDE event for CUSTOM state with custom metadata
-containerModule
-  .sendAnalyticsEvent({
+Send a CLICK_RIDE event for CUSTOM state with custom metadata
+```typescript
+import {
+  ContainerAnalyticsEventState,
+  ContainerAnalyticsEventData,
+} from "@grabjs/superapp-sdk";
+
+try {
+  await containerModule.sendAnalyticsEvent({
     state: ContainerAnalyticsEventState.CUSTOM,
     name: "CLICK_RIDE",
     data: {
@@ -542,59 +527,57 @@ containerModule
       arrival_address:
         "Petronas Twin Tower, Kuala Lumpur City Centre, 50088 Kuala Lumpur, Malaysia",
     },
-  })
-  .then(({ result, error }) => {
-    if (error) {
-      console.error("Validation error:", error);
-    }
   });
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
 
 ### isConnected()
 
-> **isConnected**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+> **isConnected**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
 Check if the web app is connected to the Grab app via JSBridge.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`undefined`\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`undefined`\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) with connection status.
+Promise that resolves to [Response](../type-aliases/Response.md) with connection status.
 
 #### Remarks
 
 Call this method to verify the connection status before using other SDK features.
 
-**Status Codes:**
-- `200`: Connected to Grab app
-- `424`: Not connected to Grab app or user agent not available
+#### Examples
 
-#### Example
-
-```javascript
-containerModule.isConnected()
-  .then(({ status_code, error }) => {
-    if (status_code === 200) {
-      console.log("Connected to Grab app");
-      // Enable SDK features
-      enableSDKFeatures();
-    } else if (status_code === 424) {
-      console.log("Not connected to Grab app");
-      // Show fallback UI
-      showWebOnlyExperience();
-    }
-  });
-
-// Example: Check connection on app init
-async function initApp() {
+Check connection status
+```typescript
+try {
   const { status_code } = await containerModule.isConnected();
   if (status_code === 200) {
-    // Initialize SDK-dependent features
+    console.log("Connected to Grab app");
+    enableSDKFeatures();
+  } else if (status_code === 424) {
+    console.log("Not connected to Grab app");
+    showWebOnlyExperience();
+  }
+} catch (error) {
+  console.error(error);
+}
+```
+
+Check connection on app init
+```typescript
+try {
+  const { status_code } = await containerModule.isConnected();
+  if (status_code === 200) {
     await locationModule.getCoordinate();
   }
+} catch (error) {
+  console.error(error);
 }
 ```
 
@@ -602,45 +585,47 @@ async function initApp() {
 
 ### getSessionParams()
 
-> **getSessionParams**(): `Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`Record`\<`string`, `unknown`\>\>\>
+> **getSessionParams**(): `Promise`\<[`Response`](../type-aliases/Response.md)\<`Record`\<`string`, `unknown`\>\>\>
 
 Get the session parameters from the container.
 
 #### Returns
 
-`Promise`\<[`WrappedResponse`](../type-aliases/WrappedResponse.md)\<`Record`\<`string`, `unknown`\>\>\>
+`Promise`\<[`Response`](../type-aliases/Response.md)\<`Record`\<`string`, `unknown`\>\>\>
 
-Promise that resolves to [WrappedResponse](../type-aliases/WrappedResponse.md) with session parameters attached to the current session.
+Promise that resolves to [Response](../type-aliases/Response.md) with session parameters attached to the current session.
 
 #### Remarks
 
 Session params can be in any format (primitive, base64 encoded string, etc).
 Use this to retrieve configuration or state that was passed when opening the webview.
 
-#### Example
+#### Examples
 
-```javascript
-containerModule.getSessionParams()
-  .then(({ result, error, status_code }) => {
-    if (result) {
-      // Session params can be in any format
-      // e.g. stringified JSON object '{"param1": 123, "param2": "grab-test"}'
-      const sessionParams = JSON.parse(result);
-      console.log("Session parameters:", sessionParams);
-
-      // Use params to configure the app
-      if (sessionParams.param1) {
-        configureFeature(sessionParams.param1);
-      }
-    } else if (error) {
-      console.error("Error getting session params:", error);
+Get session parameters
+```typescript
+try {
+  const { result } = await containerModule.getSessionParams();
+  if (result) {
+    const sessionParams = JSON.parse(result);
+    console.log("Session parameters:", sessionParams);
+    if (sessionParams.param1) {
+      configureFeature(sessionParams.param1);
     }
-  });
+  }
+} catch (error) {
+  console.error(error);
+}
+```
 
-// Example: Get user ID from session params
-async function getUserId() {
+Get user ID from session params
+```typescript
+try {
   const { result } = await containerModule.getSessionParams();
   const params = JSON.parse(result || '{}');
   return params.userId;
+} catch (error) {
+  console.error(error);
+  return null;
 }
 ```

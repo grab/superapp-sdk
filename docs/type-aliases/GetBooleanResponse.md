@@ -2,4 +2,6 @@
 
 # Type Alias: GetBooleanResponse
 
-> **GetBooleanResponse** = [`WrappedResponse`](WrappedResponse.md)\<`boolean`\>
+> **GetBooleanResponse** = [`GetBooleanSuccessResponse`](GetBooleanSuccessResponse.md) \| [`GetBooleanNoResultResponse`](GetBooleanNoResultResponse.md) \| [`GetBooleanErrorResponse`](GetBooleanErrorResponse.md)
+
+Response type for getBoolean

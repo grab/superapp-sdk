@@ -2,22 +2,24 @@
 
 # Class: LocationModule
 
-The LocationModule provides functionality to access the user's current position.
+Provides functionality to access the user's current position.
+
+## Remarks
 
 **Required Scope:** `mobile.geolocation`
 
 ## Example
 
-```javascript
+Initialize the LocationModule:
+```typescript
 import { LocationModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const locationModule = new LocationModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -31,7 +33,7 @@ const locationModule = new LocationModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -53,21 +55,45 @@ Promise that resolves to [GetCoordinateResponse](../type-aliases/GetCoordinateRe
 
 This method retrieves the user's current position as latitude and longitude coordinates.
 
-#### Example
+#### Examples
 
-```javascript
-locationModule.getCoordinate()
-  .then(({ result, error, status_code }) => {
-    if (result) {
-      const { latitude, longitude } = result;
+Basic usage:
+```typescript
+try {
+  const response = await locationModule.getCoordinate();
+  if (response.status_code === 200) {
+    const { latitude, longitude } = response.result;
+    console.log(`Location: ${latitude}, ${longitude}`);
+  }
+} catch (error) {
+  console.error(error);
+}
+```
+
+Handling the response:
+```typescript
+try {
+  const response = await locationModule.getCoordinate();
+
+  switch (response.status_code) {
+    case 200:
+      const { latitude, longitude } = response.result;
       console.log(`Location: ${latitude}, ${longitude}`);
-
-      // Use coordinates for map display or location-based features
       displayOnMap(latitude, longitude);
-    } else if (error) {
-      console.error("Location error:", error);
-    }
-  });
+      break;
+    case 403:
+      console.error('Location access denied:', response.error);
+      break;
+    case 424:
+      console.error('Location service unavailable:', response.error);
+      break;
+    case 500:
+      console.error('Location error:', response.error);
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***
@@ -91,27 +117,49 @@ Promise that resolves to a stream of [GetCoordinateResponse](../type-aliases/Get
 This method returns a stream that emits location updates as the user moves.
 Unsubscribe from the subscription to terminate the stream.
 
-#### Example
+#### Examples
 
-```javascript
-// Subscribe to location changes
+Basic usage:
+```typescript
 const subscription = locationModule.observeLocationChange().subscribe({
-  next: ({ result, error, status_code }) => {
-    if (result) {
-      const { latitude, longitude } = result;
+  next: (response) => {
+    if (response.status_code === 200) {
+      const { latitude, longitude } = response.result;
       console.log(`Updated location: ${latitude}, ${longitude}`);
       updateMapMarker(latitude, longitude);
-    } else if (error) {
-      console.error("Location update error:", error);
     }
-  },
-  complete: () => {
-    console.log("Location stream completed");
   }
 });
 
 // Later, unsubscribe to stop receiving updates
 // subscription.unsubscribe();
+```
+
+Handling location updates:
+```typescript
+const subscription = locationModule.observeLocationChange().subscribe({
+  next: (response) => {
+    switch (response.status_code) {
+      case 200:
+        const { latitude, longitude } = response.result;
+        console.log(`Updated location: ${latitude}, ${longitude}`);
+        updateMapMarker(latitude, longitude);
+        break;
+      case 403:
+        console.error('Location access denied:', response.error);
+        break;
+      case 424:
+        console.error('Location service unavailable:', response.error);
+        break;
+      case 500:
+        console.error('Location update error:', response.error);
+        break;
+    }
+  },
+  complete: () => {
+    console.log('Location stream completed');
+  }
+});
 ```
 
 ***
@@ -134,42 +182,49 @@ Promise that resolves to [GetCountryCodeResponse](../type-aliases/GetCountryCode
 
 This method determines the user's country code (e.g., "SG", "ID", "MY") based on their GPS coordinates.
 
-**Status Codes:**
-- `200`: Successfully retrieved country code
-- `204`: No result (location is undefined, uncovered by location service, or in ocean area)
-- `403`: Location access denied (mobile.geolocation scope not granted)
-- `424`: Location service unavailable/unaccessible
+#### Examples
 
-#### Example
+Basic usage:
+```typescript
+try {
+  const response = await locationModule.getCountryCode();
+  if (response.status_code === 200) {
+    console.log('Country code:', response.result.countryCode);
+  }
+} catch (error) {
+  console.error(error);
+}
+```
 
-```javascript
-locationModule.getCountryCode()
-  .then((response) => {
-    switch (response.status_code) {
-      case 200:
-        // Success - country code retrieved
-        console.log('Country code:', response.result);
+Handling the response:
+```typescript
+try {
+  const response = await locationModule.getCountryCode();
 
-        // Use country code for localization or region-specific features
-        if (response.result === 'SG') {
-          showSingaporeContent();
-        } else if (response.result === 'ID') {
-          showIndonesiaContent();
-        }
-        break;
-      case 204:
-        // No result - location is undefined or uncovered by location service
-        console.log('Location not available');
-        showDefaultContent();
-        break;
-      case 403:
-        // Permission denied - mobile.geolocation scope not granted
-        console.error('Location access denied:', response.error);
-        break;
-      case 424:
-        // Location service has issue/unaccessible
-        console.error('Location service unavailable:', response.error);
-        break;
-    }
-  });
+  switch (response.status_code) {
+    case 200:
+      console.log('Country code:', response.result.countryCode);
+      if (response.result.countryCode === 'SG') {
+        showSingaporeContent();
+      } else if (response.result.countryCode === 'ID') {
+        showIndonesiaContent();
+      }
+      break;
+    case 204:
+      console.log('Location not available');
+      showDefaultContent();
+      break;
+    case 403:
+      console.error('Location access denied:', response.error);
+      break;
+    case 424:
+      console.error('Location service unavailable:', response.error);
+      break;
+    case 500:
+      console.error('Country code error:', response.error);
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```

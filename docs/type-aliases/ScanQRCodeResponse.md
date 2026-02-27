@@ -2,6 +2,6 @@
 
 # Type Alias: ScanQRCodeResponse
 
-> **ScanQRCodeResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`ScanQRCodeResult`](ScanQRCodeResult.md)\>
+> **ScanQRCodeResponse** = [`ScanQRCodeSuccessResponse`](ScanQRCodeSuccessResponse.md) \| [`ScanQRCodeCancelledResponse`](ScanQRCodeCancelledResponse.md) \| [`ScanQRCodeErrorResponse`](ScanQRCodeErrorResponse.md)
 
-Response from the scanQRCode method
+Response when scanning a QR code

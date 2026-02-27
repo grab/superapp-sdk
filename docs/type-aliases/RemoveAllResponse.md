@@ -2,4 +2,6 @@
 
 # Type Alias: RemoveAllResponse
 
-> **RemoveAllResponse** = [`WrappedResponse`](WrappedResponse.md)\<`undefined`\>
+> **RemoveAllResponse** = [`RemoveAllSuccessResponse`](RemoveAllSuccessResponse.md) \| [`RemoveAllErrorResponse`](RemoveAllErrorResponse.md)
+
+Response type for removeAll

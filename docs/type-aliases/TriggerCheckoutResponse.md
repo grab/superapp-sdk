@@ -2,6 +2,6 @@
 
 # Type Alias: TriggerCheckoutResponse
 
-> **TriggerCheckoutResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`TriggerCheckoutResult`](TriggerCheckoutResult.md)\>
+> **TriggerCheckoutResponse** = [`TriggerCheckoutSuccessResponse`](TriggerCheckoutSuccessResponse.md) \| [`TriggerCheckoutErrorResponse`](TriggerCheckoutErrorResponse.md)
 
 Response from the triggerCheckout method

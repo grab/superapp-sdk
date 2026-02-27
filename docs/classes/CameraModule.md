@@ -2,14 +2,18 @@
 
 # Class: CameraModule
 
-The CameraModule provides functionality to open the device camera for QR code scanning and retrieve the scan results.
+Provides programmatic access to the device camera through the native host application.
 
-Camera permissions and lifecycle (opening/closing) are handled automatically by the native iOS app,
-so no additional management is required from the JavaScript side.
+## Remarks
+
+All camera operations, including permission management and hardware lifecycle control,
+are delegated to the native platform. This module serves as a bridge for invoking
+camera-related functionality from the JavaScript execution context.
 
 ## Example
 
-```javascript
+Initialize the CameraModule:
+```typescript
 import { CameraModule } from '@grabjs/superapp-sdk';
 
 const cameraModule = new CameraModule();
@@ -17,7 +21,7 @@ const cameraModule = new CameraModule();
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -31,7 +35,7 @@ const cameraModule = new CameraModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -39,7 +43,7 @@ const cameraModule = new CameraModule();
 
 > **scanQRCode**(`request`: [`ScanQRCodeRequest`](../type-aliases/ScanQRCodeRequest.md)): `Promise`\<[`ScanQRCodeResponse`](../type-aliases/ScanQRCodeResponse.md)\>
 
-Opens the camera to scan QR codes with optional configuration.
+Opens the camera to scan a QR code.
 
 #### Parameters
 
@@ -47,51 +51,63 @@ Opens the camera to scan QR codes with optional configuration.
 
 [`ScanQRCodeRequest`](../type-aliases/ScanQRCodeRequest.md)
 
-Configuration object for QR code scanning.
-  - `title`: Title to display in camera view (optional)
+Request parameters for scanning a QR code.
 
 #### Returns
 
 `Promise`\<[`ScanQRCodeResponse`](../type-aliases/ScanQRCodeResponse.md)\>
 
-Promise that resolves to [ScanQRCodeResponse](../type-aliases/ScanQRCodeResponse.md) with the scanned QR code data.
+Promise that resolves with the QR code scan response.
 
-#### Remarks
+#### Examples
 
-Camera permissions and lifecycle are handled automatically by the native app.
+With title
+```typescript
+try {
+  const response = await cameraModule.scanQRCode({ title: 'Scan Payment QR' });
+  if (response.status_code === 200) {
+    console.log('QR Code:', response.result.qrCode);
+  }
+} catch (error) {
+  console.error(error);
+}
+```
 
-**Status Codes:**
-- `200`: Successfully scanned a QR code
-- `204`: No result (user cancelled or no QR code detected)
-- `403`: Camera access denied
+Without title
+```typescript
+try {
+  const response = await cameraModule.scanQRCode({});
+  if (response.status_code === 200) {
+    console.log('QR Code:', response.result.qrCode);
+  }
+} catch (error) {
+  console.error(error);
+}
+```
 
-#### Example
+Handling the response
+```typescript
+try {
+  const response = await cameraModule.scanQRCode({ title: 'Scan Payment QR' });
 
-```javascript
-// Basic usage with custom title
-cameraModule.scanQRCode({ title: 'Scan Payment QR' })
-  .then((response) => {
-    switch (response.status_code) {
-      case 200:
-        // Success - QR code scanned
-        console.log('QR Code scanned:', response.result.qrCode);
-        break;
-      case 204:
-        // No result - user cancelled
-        console.log('User cancelled scanning');
-        break;
-      case 403:
-        // Permission denied
-        console.error('Camera access denied:', response.error);
-        break;
-    }
-  });
-
-// Without title
-cameraModule.scanQRCode({})
-  .then(({ result, error, status_code }) => {
-    if (status_code === 200 && result) {
-      console.log('Scanned QR code:', result.qrCode);
-    }
-  });
+  switch (response.status_code) {
+    case 200:
+      console.log('QR Code scanned:', response.result.qrCode);
+      break;
+    case 204:
+      console.log('User cancelled scanning');
+      break;
+    case 400:
+      console.error('Invalid request:', response.error);
+      break;
+    case 403:
+      console.error('Camera access denied:', response.error);
+      break;
+    case 500:
+      console.error('Scanning error:', response.error);
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```

@@ -2,11 +2,18 @@
 
 # Class: MediaModule
 
-The MediaModule provides functionality to open a media player for DRM-protected content.
+Provides functionality to open a media player for DRM-protected content.
+
+## Remarks
+
+The MediaModule enables miniapps to play Digital Rights Management (DRM) protected video
+content through the Grab app's native media player. Playback events are streamed back to
+provide real-time status updates.
 
 ## Example
 
-```javascript
+Initialize the MediaModule:
+```typescript
 import { MediaModule } from '@grabjs/superapp-sdk';
 
 const mediaModule = new MediaModule();
@@ -14,7 +21,7 @@ const mediaModule = new MediaModule();
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -28,7 +35,7 @@ const mediaModule = new MediaModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -44,11 +51,7 @@ Play DRM-protected content in the native media player.
 
 [`PlayDRMContentRequest`](../type-aliases/PlayDRMContentRequest.md)
 
-Video data containing URLs and identifiers.
-  - `content`: Content URL for playback
-  - `certificate`: DRM certificate URL
-  - `license`: DRM licence URL
-  - `titleId`: Playback item identifier
+Video data for DRM content playback.
 
 #### Returns
 
@@ -75,10 +78,10 @@ This method returns a data stream that emits events about the video playback sta
 
 [PlaybackEventType](../type-aliases/PlaybackEventType.md)
 
-#### Example
+#### Examples
 
-```javascript
-// Subscribe to playback events
+Basic usage:
+```typescript
 try {
   mediaModule
     .playDRMContent({
@@ -88,28 +91,58 @@ try {
       titleId: 'video-123'
     })
     .subscribe({
-      next: ({ result, error, status_code }) => {
-        if (result) {
-          const { type, titleId, length, position } = result;
+      next: (response) => {
+        if (response.status_code === 200) {
+          const { type, position, length } = response.result;
+          console.log(`Playback event: ${type} at ${position}s / ${length}s`);
+        }
+      }
+    });
+} catch (error) {
+  console.error('DRM playback not supported:', error);
+}
+```
 
-          if (type === 'START_PLAYBACK') {
-            console.log('Video started:', titleId);
-          } else if (type === 'PROGRESS_PLAYBACK') {
-            console.log(`Progress: ${position}s / ${length}s`);
-            updateProgressBar(position, length);
-          } else if (type === 'STOP_PLAYBACK') {
-            console.log('Video stopped');
-          }
-        } else if (error) {
-          console.error('Playback error:', error);
+Handling playback events:
+```typescript
+try {
+  mediaModule
+    .playDRMContent({
+      content: 'https://example.com/content.mpd',
+      certificate: 'https://example.com/cert.cer',
+      license: 'https://example.com/license',
+      titleId: 'video-123'
+    })
+    .subscribe({
+      next: (response) => {
+        switch (response.status_code) {
+          case 200:
+            const { type, titleId, length, position } = response.result;
+            if (type === 'START_PLAYBACK') {
+              console.log('Video started:', titleId);
+            } else if (type === 'PROGRESS_PLAYBACK') {
+              console.log(`Progress: ${position}s / ${length}s`);
+              updateProgressBar(position, length);
+            } else if (type === 'STOP_PLAYBACK') {
+              console.log('Video stopped');
+            }
+            break;
+          case 400:
+            console.error('Invalid request:', response.error);
+            break;
+          case 403:
+            console.error('DRM permission denied:', response.error);
+            break;
+          case 500:
+            console.error('Playback error:', response.error);
+            break;
         }
       },
       complete: () => {
         console.log('Playback stream completed');
       }
     });
-} catch (e) {
-  // Fallback for older app versions that don't support this method
-  console.error('DRM playback not supported:', e);
+} catch (error) {
+  console.error('DRM playback not supported:', error);
 }
 ```

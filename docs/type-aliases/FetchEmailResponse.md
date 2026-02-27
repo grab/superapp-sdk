@@ -2,6 +2,6 @@
 
 # Type Alias: FetchEmailResponse
 
-> **FetchEmailResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`EmailResult`](EmailResult.md)\>
+> **FetchEmailResponse** = [`FetchEmailSuccessResponse`](FetchEmailSuccessResponse.md) \| [`FetchEmailNoResultResponse`](FetchEmailNoResultResponse.md) \| [`FetchEmailErrorResponse`](FetchEmailErrorResponse.md)
 
 Response type for fetching email

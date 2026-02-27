@@ -2,6 +2,6 @@
 
 # Type Alias: BackResponse
 
-> **BackResponse** = [`WrappedResponse`](WrappedResponse.md)\<`undefined`\>
+> **BackResponse** = [`BackSuccessResponse`](BackSuccessResponse.md) \| [`BackErrorResponse`](BackErrorResponse.md)
 
 Response type for back navigation

@@ -2,6 +2,6 @@
 
 # Type Alias: VerifyEmailResponse
 
-> **VerifyEmailResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`VerifyEmailResult`](VerifyEmailResult.md)\>
+> **VerifyEmailResponse** = [`VerifyEmailSuccessResponse`](VerifyEmailSuccessResponse.md) \| [`VerifyEmailCancelledResponse`](VerifyEmailCancelledResponse.md) \| [`VerifyEmailErrorResponse`](VerifyEmailErrorResponse.md)
 
 Response type for email verification

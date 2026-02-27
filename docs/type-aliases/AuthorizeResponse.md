@@ -2,6 +2,6 @@
 
 # Type Alias: AuthorizeResponse
 
-> **AuthorizeResponse** = [`WrappedResponse`](WrappedResponse.md)\<[`AuthorizeResult`](AuthorizeResult.md)\>
+> **AuthorizeResponse** = [`AuthorizeSuccessResponse`](AuthorizeSuccessResponse.md) \| [`AuthorizeRedirectResponse`](AuthorizeRedirectResponse.md) \| [`AuthorizeCancelledResponse`](AuthorizeCancelledResponse.md) \| [`AuthorizeErrorResponse`](AuthorizeErrorResponse.md)
 
 Authorization response

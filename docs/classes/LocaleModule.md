@@ -2,7 +2,12 @@
 
 # Class: LocaleModule
 
-The LocaleModule provides functionality to retrieve current locale information.
+Provides functionality to retrieve current locale information.
+
+## Remarks
+
+The LocaleModule enables miniapps to detect the user's language preference in the Grab app
+and localize content accordingly.
 
 **Supported Languages:**
 - English (`en`)
@@ -17,16 +22,16 @@ The LocaleModule provides functionality to retrieve current locale information.
 
 ## Example
 
-```javascript
+Initialize the LocaleModule:
+```typescript
 import { LocaleModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const localeModule = new LocaleModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -40,7 +45,7 @@ const localeModule = new LocaleModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -72,16 +77,30 @@ Use this to localize your content to match the user's language preference in the
 - `my`: Burmese Unicode
 - `km`: Khmer
 
-#### Example
+#### Examples
 
-```javascript
-localeModule.getLanguageLocaleIdentifier()
-  .then(({ result, error, status_code }) => {
-    if (result) {
-      const locale = result.locale;
-      console.log("Current locale:", locale);
+Basic usage:
+```typescript
+try {
+  const response = await localeModule.getLanguageLocaleIdentifier();
+  if (response.status_code === 200) {
+    const locale = response.result.locale;
+    console.log('Current locale:', locale);
+  }
+} catch (error) {
+  console.error(error);
+}
+```
 
-      // Localize your content based on locale
+Handling the response:
+```typescript
+try {
+  const response = await localeModule.getLanguageLocaleIdentifier();
+
+  switch (response.status_code) {
+    case 200:
+      const locale = response.result.locale;
+      console.log('Current locale:', locale);
       if (locale === 'id') {
         showIndonesianContent();
       } else if (locale === 'zh') {
@@ -89,10 +108,17 @@ localeModule.getLanguageLocaleIdentifier()
       } else {
         showEnglishContent();
       }
-    } else if (error) {
-      // Some error happened. Use default language.
-      console.error("Locale error:", error);
+      break;
+    case 400:
+      console.error('Invalid request:', response.error);
       showEnglishContent();
-    }
-  });
+      break;
+    case 500:
+      console.error('Locale error:', response.error);
+      showEnglishContent();
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```

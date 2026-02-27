@@ -2,6 +2,6 @@
 
 # Type Alias: HasAccessToResponse
 
-> **HasAccessToResponse** = [`WrappedResponse`](WrappedResponse.md)\<`boolean`\>
+> **HasAccessToResponse** = [`HasAccessToSuccessResponse`](HasAccessToSuccessResponse.md) \| [`HasAccessToErrorResponse`](HasAccessToErrorResponse.md)
 
 Response type for hasAccessTo check

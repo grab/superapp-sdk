@@ -2,20 +2,25 @@
 
 # Class: PlatformModule
 
-The PlatformModule provides API to navigate back to the host application.
+Provides API to navigate back to the host application.
+
+## Remarks
+
+The PlatformModule enables miniapps to trigger native back navigation,
+closing the current webview and returning the user to the previous screen in the Grab app.
 
 ## Example
 
-```javascript
+Initialize the PlatformModule:
+```typescript
 import { PlatformModule } from '@grabjs/superapp-sdk';
 
-// Ideally, initialize this only once and reuse across app.
 const platformModule = new PlatformModule();
 ```
 
 ## Extends
 
-- `ModuleBase`
+- `BaseModule`
 
 ## Constructors
 
@@ -29,7 +34,7 @@ const platformModule = new PlatformModule();
 
 #### Overrides
 
-`ModuleBase.constructor`
+`BaseModule.constructor`
 
 ## Methods
 
@@ -50,21 +55,45 @@ Promise that resolves to [BackResponse](../type-aliases/BackResponse.md) when na
 This method triggers the native back navigation, which closes the current webview
 and returns the user to the previous screen in the Grab app.
 
-#### Example
+#### Examples
 
-```javascript
-// Navigate back after completing a task
-platformModule.back()
-  .then(({ result, error, status_code }) => {
-    if (result || status_code === 200) {
-      console.log("Navigation successful");
-    } else if (error) {
-      console.error("Navigation error:", error);
-    }
-  });
+Basic usage:
+```typescript
+try {
+  await platformModule.back();
+} catch (error) {
+  console.error(error);
+}
+```
 
-// Example: Back button handler
-backButton.addEventListener('click', () => {
-  platformModule.back();
+Back button handler:
+```typescript
+backButton.addEventListener('click', async () => {
+  try {
+    await platformModule.back();
+  } catch (error) {
+    console.error(error);
+  }
 });
+```
+
+Handling the response:
+```typescript
+try {
+  const response = await platformModule.back();
+
+  switch (response.status_code) {
+    case 200:
+      console.log('Navigation successful');
+      break;
+    case 400:
+      console.error('Invalid request:', response.error);
+      break;
+    case 500:
+      console.error('Navigation error:', response.error);
+      break;
+  }
+} catch (error) {
+  console.error(error);
+}
 ```
