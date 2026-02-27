@@ -85,6 +85,4 @@ dist/**/*
 .rpt2*
 .npmrc
 .vscode
-.prettierignore
-.prettierrc
 *yarn.lock
