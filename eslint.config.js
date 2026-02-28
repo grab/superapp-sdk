@@ -73,9 +73,10 @@ export default [
       // JSDoc consistency
       'jsdoc/check-param-names': 'warn',
       'jsdoc/check-types': 'off',
-      'jsdoc/require-param': 'warn',
-      'jsdoc/require-param-description': 'warn',
-      'jsdoc/require-returns-description': 'warn',
+      'jsdoc/require-param': 'error',
+      'jsdoc/require-param-description': 'error',
+      'jsdoc/require-returns': 'warn',
+      'jsdoc/require-returns-description': 'error',
 
       // Disable formatting rules (handled by Prettier)
       ...prettierConfig.rules,

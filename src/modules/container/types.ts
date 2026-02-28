@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Container analytics event state constants
@@ -441,17 +441,6 @@ export type ContainerModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Container Module interface for invoking native container operations
-     */
-    WrappedContainerModule: {
-      /**
-       * Invokes a native container module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<ContainerModuleMethods>;
-    };
+    WrappedContainerModule: WrappedModule<ContainerModuleMethods>;
   }
 }

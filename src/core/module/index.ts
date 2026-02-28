@@ -11,4 +11,12 @@
  */
 
 export { BaseModule } from './BaseModule';
-export type { Response, ErrorResponse, NoResultResponse, SuccessResponse, Invoke } from './types';
+export type {
+  Response,
+  ErrorResponse,
+  NoResultResponse,
+  SuccessResponse,
+  Invoke,
+  MethodMap,
+  WrappedModule,
+} from './types';

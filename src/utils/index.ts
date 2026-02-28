@@ -11,6 +11,7 @@
  */
 
 export { getErrorMessage, getErrorForLog } from './error';
+export { isGrabAppConnected } from './connection';
 export { normalizeUrl } from './url';
 export {
   validateRequiredString,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Request parameters for redirecting to system webview
@@ -53,17 +53,6 @@ export type SystemWebViewKitModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped SystemWebViewKit Module interface for invoking native system webview kit operations
-     */
-    WrappedSystemWebViewKitModule: {
-      /**
-       * Invokes a native system webview kit module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<SystemWebViewKitModuleMethods>;
-    };
+    WrappedSystemWebViewKitModule: WrappedModule<SystemWebViewKitModuleMethods>;
   }
 }

@@ -99,3 +99,33 @@ export type Invoke<T> = <K extends keyof T>(
   method: K,
   ...args: T[K] extends { params: never } ? [] : [T[K] extends { params: infer P } ? P : never]
 ) => T[K] extends { response: infer R } ? Promise<R> : never;
+
+/**
+ * Method map shape: each key is a method name; value is `{ params: P; response: R }` or `{ params: never; response: R }`.
+ *
+ * @remarks
+ * Use this to type module method maps for consistency. Example:
+ * `type CameraModuleMethods = MethodMap<{ scanQRCode: { params: ScanQRCodeRequest; response: ScanQRCodeResponse } }>`
+ */
+export type MethodMap = Record<
+  string,
+  { params: unknown; response: unknown } | { params: never; response: unknown }
+>;
+
+/**
+ * Wrapped module interface for native bridge invocations.
+ *
+ * @remarks
+ * Each module's global wrapper (e.g., WrappedContainerModule) conforms to this interface.
+ * Use for consistent `declare global` Window augmentations.
+ */
+export type WrappedModule<T extends MethodMap> = {
+  /**
+   * Invokes a native module method.
+   *
+   * @param method - The method name to invoke
+   * @param params - Optional parameters for the method
+   * @returns Promise resolving to the native module response
+   */
+  invoke: Invoke<T>;
+};

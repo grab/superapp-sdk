@@ -6,7 +6,7 @@
  */
 
 import { BaseModule, createValidationErrorResponse } from '../../core';
-import { validateRequiredString, validateOptionalObject } from '../../utils';
+import { validateRequiredString, validateOptionalObject, isGrabAppConnected } from '../../utils';
 import {
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
@@ -508,7 +508,7 @@ class ContainerModule extends BaseModule {
    * ```
    */
   isConnected(): Promise<IsConnectedResponse> {
-    const userAgent = window.navigator && window.navigator.userAgent;
+    const userAgent = window.navigator?.userAgent ?? '';
     if (!userAgent) {
       return Promise.resolve({
         status_code: 424,
@@ -517,8 +517,7 @@ class ContainerModule extends BaseModule {
       });
     }
 
-    const isConnected = /grab[a-z]*\//i.test(userAgent);
-    if (isConnected) {
+    if (isGrabAppConnected(userAgent)) {
       return Promise.resolve({
         status_code: 200,
         result: undefined,

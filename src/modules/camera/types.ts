@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Result object containing the scanned QR code data
@@ -68,17 +68,6 @@ export type CameraModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Camera Module interface for invoking native camera operations
-     */
-    WrappedCameraModule: {
-      /**
-       * Invokes a native camera module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<CameraModuleMethods>;
-    };
+    WrappedCameraModule: WrappedModule<CameraModuleMethods>;
   }
 }

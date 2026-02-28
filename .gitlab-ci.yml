@@ -19,6 +19,7 @@ build:
   stage: build
   script:
     - npm run build
+    - npm run docs
   needs:
     - check
 

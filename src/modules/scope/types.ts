@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Request parameters for checking access to a method
@@ -75,17 +75,6 @@ export type ScopeModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Scope Module interface for invoking native scope operations
-     */
-    WrappedScopeModule: {
-      /**
-       * Invokes a native scope module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<ScopeModuleMethods>;
-    };
+    WrappedScopeModule: WrappedModule<ScopeModuleMethods>;
   }
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Common storage key-value pair request
@@ -271,17 +271,6 @@ export type StorageModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Storage Module interface for invoking native storage operations
-     */
-    WrappedStorageModule: {
-      /**
-       * Invokes a native storage module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<StorageModuleMethods>;
-    };
+    WrappedStorageModule: WrappedModule<StorageModuleMethods>;
   }
 }

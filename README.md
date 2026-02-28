@@ -35,7 +35,7 @@ Each request to native API should be done through JavaScript bridge provided by 
 
 ## Response
 
-Each resonse from the native bridge follows the same structure described bellow.
+Each response from the native bridge follows the same structure described bellow.
 
 | Key         | Type                     | Description                                                                        |
 | ----------- | ------------------------ | ---------------------------------------------------------------------------------- |

@@ -130,7 +130,10 @@ class IdentityModule extends BaseModule {
     }
   }
 
-  /** @internal */
+  /**
+   * @returns PKCE artifacts for authorization flow.
+   * @internal
+   */
   private generatePKCEArtifacts(): PKCEArtifacts {
     const nonce = generateRandomString(NONCE_LENGTH);
     const state = generateRandomString(STATE_LENGTH);

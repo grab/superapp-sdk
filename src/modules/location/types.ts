@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Coordinate data with latitude and longitude
@@ -101,17 +101,6 @@ export type LocationModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Location Module interface for invoking native location operations
-     */
-    WrappedLocationModule: {
-      /**
-       * Invokes a native location module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<LocationModuleMethods>;
-    };
+    WrappedLocationModule: WrappedModule<LocationModuleMethods>;
   }
 }

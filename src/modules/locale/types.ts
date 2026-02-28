@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Language locale identifier result (e.g., "en_US", "id_ID")
@@ -51,17 +51,6 @@ export type LocaleModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Locale Module interface for invoking native locale operations
-     */
-    WrappedLocaleModule: {
-      /**
-       * Invokes a native locale module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<LocaleModuleMethods>;
-    };
+    WrappedLocaleModule: WrappedModule<LocaleModuleMethods>;
   }
 }

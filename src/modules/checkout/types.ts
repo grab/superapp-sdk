@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Request parameters for triggering checkout
@@ -61,17 +61,6 @@ export type CheckoutModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Checkout Module interface for invoking native checkout operations
-     */
-    WrappedCheckoutModule: {
-      /**
-       * Invokes a native checkout module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<CheckoutModuleMethods>;
-    };
+    WrappedCheckoutModule: WrappedModule<CheckoutModuleMethods>;
   }
 }

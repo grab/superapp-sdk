@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, Invoke } from '../../core';
+import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
 
 /**
  * Video data for DRM content playback
@@ -100,17 +100,6 @@ export type MediaModuleMethods = {
 
 declare global {
   interface Window {
-    /**
-     * Wrapped Media Module interface for invoking native media operations
-     */
-    WrappedMediaModule: {
-      /**
-       * Invokes a native media module method
-       * @param method - The method name to invoke
-       * @param params - Optional parameters for the method
-       * @returns Promise resolving to the native module response
-       */
-      invoke: Invoke<MediaModuleMethods>;
-    };
+    WrappedMediaModule: WrappedModule<MediaModuleMethods>;
   }
 }
