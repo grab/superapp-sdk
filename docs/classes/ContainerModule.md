@@ -48,7 +48,7 @@ const containerModule = new ContainerModule();
 
 ### setBackgroundColor()
 
-> **setBackgroundColor**(`backgroundColor`: `string`): `Promise`\<`SetBackgroundColorResponse`\>
+> **setBackgroundColor**(`backgroundColor`: `string`): `Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
 
 Set the background color of the container.
 
@@ -62,9 +62,9 @@ Hexadecimal color value (e.g., "#ffffff", "#000000").
 
 #### Returns
 
-`Promise`\<`SetBackgroundColorResponse`\>
+`Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
 
-Promise that resolves to SetBackgroundColorResponse when background color is set.
+Promise that resolves to [SetBackgroundColorResponse](../type-aliases/SetBackgroundColorResponse.md) when background color is set.
 
 #### Example
 
@@ -81,7 +81,7 @@ try {
 
 ### setTitle()
 
-> **setTitle**(`title`: `string`): `Promise`\<`SetTitleResponse`\>
+> **setTitle**(`title`: `string`): `Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
 
 Set the title of the container.
 
@@ -95,9 +95,9 @@ Title text to display in the navigation bar.
 
 #### Returns
 
-`Promise`\<`SetTitleResponse`\>
+`Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
 
-Promise that resolves to SetTitleResponse when title is set.
+Promise that resolves to [SetTitleResponse](../type-aliases/SetTitleResponse.md) when title is set.
 
 #### Example
 
@@ -113,15 +113,15 @@ try {
 
 ### hideBackButton()
 
-> **hideBackButton**(): `Promise`\<`HideBackButtonResponse`\>
+> **hideBackButton**(): `Promise`\<[`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)\>
 
 Hide the back button of the container.
 
 #### Returns
 
-`Promise`\<`HideBackButtonResponse`\>
+`Promise`\<[`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)\>
 
-Promise that resolves to HideBackButtonResponse when back button is hidden.
+Promise that resolves to [HideBackButtonResponse](../type-aliases/HideBackButtonResponse.md) when back button is hidden.
 
 #### Example
 
@@ -137,15 +137,15 @@ try {
 
 ### showBackButton()
 
-> **showBackButton**(): `Promise`\<`ShowBackButtonResponse`\>
+> **showBackButton**(): `Promise`\<[`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)\>
 
 Show the back button of the container.
 
 #### Returns
 
-`Promise`\<`ShowBackButtonResponse`\>
+`Promise`\<[`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)\>
 
-Promise that resolves to ShowBackButtonResponse when back button is shown.
+Promise that resolves to [ShowBackButtonResponse](../type-aliases/ShowBackButtonResponse.md) when back button is shown.
 
 #### Example
 
@@ -161,15 +161,15 @@ try {
 
 ### hideRefreshButton()
 
-> **hideRefreshButton**(): `Promise`\<`HideRefreshButtonResponse`\>
+> **hideRefreshButton**(): `Promise`\<[`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)\>
 
 Hide the refresh button of the container.
 
 #### Returns
 
-`Promise`\<`HideRefreshButtonResponse`\>
+`Promise`\<[`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)\>
 
-Promise that resolves to HideRefreshButtonResponse when refresh button is hidden.
+Promise that resolves to [HideRefreshButtonResponse](../type-aliases/HideRefreshButtonResponse.md) when refresh button is hidden.
 
 #### Example
 
@@ -185,15 +185,15 @@ try {
 
 ### showRefreshButton()
 
-> **showRefreshButton**(): `Promise`\<`ShowRefreshButtonResponse`\>
+> **showRefreshButton**(): `Promise`\<[`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)\>
 
 Show the refresh button of the container.
 
 #### Returns
 
-`Promise`\<`ShowRefreshButtonResponse`\>
+`Promise`\<[`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)\>
 
-Promise that resolves to ShowRefreshButtonResponse when refresh button is shown.
+Promise that resolves to [ShowRefreshButtonResponse](../type-aliases/ShowRefreshButtonResponse.md) when refresh button is shown.
 
 #### Example
 
@@ -209,15 +209,15 @@ try {
 
 ### close()
 
-> **close**(): `Promise`\<`CloseResponse`\>
+> **close**(): `Promise`\<[`CloseResponse`](../type-aliases/CloseResponse.md)\>
 
 Close the container.
 
 #### Returns
 
-`Promise`\<`CloseResponse`\>
+`Promise`\<[`CloseResponse`](../type-aliases/CloseResponse.md)\>
 
-Promise that resolves to CloseResponse when container is closed.
+Promise that resolves to [CloseResponse](../type-aliases/CloseResponse.md) when container is closed.
 
 #### Remarks
 
@@ -249,15 +249,15 @@ closeButton.addEventListener('click', async () => {
 
 ### onContentLoaded()
 
-> **onContentLoaded**(): `Promise`\<`OnContentLoadedResponse`\>
+> **onContentLoaded**(): `Promise`\<[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)\>
 
 Notify the client that page content has loaded.
 
 #### Returns
 
-`Promise`\<`OnContentLoadedResponse`\>
+`Promise`\<[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)\>
 
-Promise that resolves to OnContentLoadedResponse when notification is sent.
+Promise that resolves to [OnContentLoadedResponse](../type-aliases/OnContentLoadedResponse.md) when notification is sent.
 
 #### Remarks
 
@@ -280,15 +280,15 @@ window.addEventListener('load', async () => {
 
 ### showLoader()
 
-> **showLoader**(): `Promise`\<`ShowLoaderResponse`\>
+> **showLoader**(): `Promise`\<[`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)\>
 
 Show the loader in the container.
 
 #### Returns
 
-`Promise`\<`ShowLoaderResponse`\>
+`Promise`\<[`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)\>
 
-Promise that resolves to ShowLoaderResponse when loader is shown.
+Promise that resolves to [ShowLoaderResponse](../type-aliases/ShowLoaderResponse.md) when loader is shown.
 
 #### Remarks
 
@@ -316,15 +316,15 @@ fetchData();
 
 ### hideLoader()
 
-> **hideLoader**(): `Promise`\<`HideLoaderResponse`\>
+> **hideLoader**(): `Promise`\<[`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)\>
 
 Hide the loader in the container.
 
 #### Returns
 
-`Promise`\<`HideLoaderResponse`\>
+`Promise`\<[`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)\>
 
-Promise that resolves to HideLoaderResponse when loader is hidden.
+Promise that resolves to [HideLoaderResponse](../type-aliases/HideLoaderResponse.md) when loader is hidden.
 
 #### Remarks
 
@@ -345,7 +345,7 @@ try {
 
 ### openExternalLink()
 
-> **openExternalLink**(`url`: `string`): `Promise`\<`OpenExternalLinkResponse`\>
+> **openExternalLink**(`url`: `string`): `Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
 
 Open a link in the external browser.
 
@@ -359,9 +359,9 @@ URL to open in external browser.
 
 #### Returns
 
-`Promise`\<`OpenExternalLinkResponse`\>
+`Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
 
-Promise that resolves to OpenExternalLinkResponse when external link is opened.
+Promise that resolves to [OpenExternalLinkResponse](../type-aliases/OpenExternalLinkResponse.md) when external link is opened.
 
 #### Remarks
 
@@ -395,7 +395,7 @@ termsLink.addEventListener('click', async (e) => {
 
 ### onCtaTap()
 
-> **onCtaTap**(`action`: `string`): `Promise`\<`OnCtaTapResponse`\>
+> **onCtaTap**(`action`: `string`): `Promise`\<[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)\>
 
 Notify the client that the user has tapped a call-to-action (CTA).
 
@@ -409,9 +409,9 @@ CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE", "BOOKING_CONFIRMED").
 
 #### Returns
 
-`Promise`\<`OnCtaTapResponse`\>
+`Promise`\<[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)\>
 
-Promise that resolves to OnCtaTapResponse when CTA tap is notified.
+Promise that resolves to [OnCtaTapResponse](../type-aliases/OnCtaTapResponse.md) when CTA tap is notified.
 
 #### Remarks
 
@@ -445,7 +445,7 @@ continueButton.addEventListener('click', async () => {
 
 ### sendAnalyticsEvent()
 
-> **sendAnalyticsEvent**(`eventDetails`: [`AnalyticsEventDetails`](../interfaces/AnalyticsEventDetails.md)): `Promise`\<`SendAnalyticsEventResponse`\>
+> **sendAnalyticsEvent**(`eventDetails`: [`AnalyticsEventDetails`](../interfaces/AnalyticsEventDetails.md)): `Promise`\<[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)\>
 
 Use this method to track user interactions and page transitions.
 
@@ -459,7 +459,7 @@ Details for analytics events sent to the container.
 
 #### Returns
 
-`Promise`\<`SendAnalyticsEventResponse`\>
+`Promise`\<[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)\>
 
 A promise that resolves when the event has been successfully queued.
 
@@ -545,15 +545,15 @@ try {
 
 ### isConnected()
 
-> **isConnected**(): `Promise`\<`IsConnectedResponse`\>
+> **isConnected**(): `Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
 
 Check if the web app is connected to the Grab app via JSBridge.
 
 #### Returns
 
-`Promise`\<`IsConnectedResponse`\>
+`Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
 
-Promise that resolves to IsConnectedResponse with connection status.
+Promise that resolves to [IsConnectedResponse](../type-aliases/IsConnectedResponse.md) with connection status.
 
 #### Remarks
 
@@ -593,15 +593,15 @@ try {
 
 ### getSessionParams()
 
-> **getSessionParams**(): `Promise`\<`GetSessionParamsResponse`\>
+> **getSessionParams**(): `Promise`\<[`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)\>
 
 Get the session parameters from the container.
 
 #### Returns
 
-`Promise`\<`GetSessionParamsResponse`\>
+`Promise`\<[`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)\>
 
-Promise that resolves to GetSessionParamsResponse with a JSON string in `result` on success.
+Promise that resolves to [GetSessionParamsResponse](../type-aliases/GetSessionParamsResponse.md) with a JSON string in `result` on success.
 
 #### Remarks
 
