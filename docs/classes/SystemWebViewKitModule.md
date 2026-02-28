@@ -10,13 +10,21 @@ The SystemWebViewKitModule enables miniapps to open external URLs in a native sy
 which is separate from the Grab app's webview. This is useful for displaying external content
 or web pages that need full browser capabilities.
 
-## Example
+## Examples
 
-Initialize the SystemWebViewKitModule:
+**ES Module:**
 ```typescript
 import { SystemWebViewKitModule } from '@grabjs/superapp-sdk';
 
 const systemWebViewKitModule = new SystemWebViewKitModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const systemWebViewKitModule = new SuperAppSDK.SystemWebViewKitModule();
+</script>
 ```
 
 ## Extends

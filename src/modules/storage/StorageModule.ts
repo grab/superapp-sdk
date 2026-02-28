@@ -26,11 +26,20 @@ import {
  * string, double) that persist across webview sessions.
  *
  * @example
- * Initialize the StorageModule:
+ * **ES Module:**
  * ```typescript
  * import { StorageModule } from '@grabjs/superapp-sdk';
  *
  * const storageModule = new StorageModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const storageModule = new SuperAppSDK.StorageModule();
+ * </script>
  * ```
  */
 class StorageModule extends BaseModule {

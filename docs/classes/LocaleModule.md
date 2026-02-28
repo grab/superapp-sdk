@@ -20,13 +20,21 @@ and localize content accordingly.
 - Burmese Unicode (`my`)
 - Khmer (`km`)
 
-## Example
+## Examples
 
-Initialize the LocaleModule:
+**ES Module:**
 ```typescript
 import { LocaleModule } from '@grabjs/superapp-sdk';
 
 const localeModule = new LocaleModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const localeModule = new SuperAppSDK.LocaleModule();
+</script>
 ```
 
 ## Extends

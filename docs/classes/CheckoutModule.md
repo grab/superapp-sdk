@@ -10,13 +10,21 @@ The CheckoutModule enables miniapps to initiate payment transactions through the
 native checkout interface. All payment processing and user interactions are handled by the
 native platform.
 
-## Example
+## Examples
 
-Initialize the CheckoutModule:
+**ES Module:**
 ```typescript
 import { CheckoutModule } from '@grabjs/superapp-sdk';
 
 const checkoutModule = new CheckoutModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const checkoutModule = new SuperAppSDK.CheckoutModule();
+</script>
 ```
 
 ## Extends

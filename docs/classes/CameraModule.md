@@ -10,13 +10,21 @@ All camera operations, including permission management and hardware lifecycle co
 are delegated to the native platform. This module serves as a bridge for invoking
 camera-related functionality from the JavaScript execution context.
 
-## Example
+## Examples
 
-Initialize the CameraModule:
+**ES Module:**
 ```typescript
 import { CameraModule } from '@grabjs/superapp-sdk';
 
 const cameraModule = new CameraModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const cameraModule = new SuperAppSDK.CameraModule();
+</script>
 ```
 
 ## Extends

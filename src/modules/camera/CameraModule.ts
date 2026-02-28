@@ -17,11 +17,20 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  * camera-related functionality from the JavaScript execution context.
  *
  * @example
- * Initialize the CameraModule:
+ * **ES Module:**
  * ```typescript
  * import { CameraModule } from '@grabjs/superapp-sdk';
  *
  * const cameraModule = new CameraModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const cameraModule = new SuperAppSDK.CameraModule();
+ * </script>
  * ```
  */
 class CameraModule extends BaseModule {

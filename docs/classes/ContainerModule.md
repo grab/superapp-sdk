@@ -9,13 +9,21 @@ Provides APIs to interact with the webview container.
 The ContainerModule enables miniapps to control the webview container's appearance and behavior,
 including navigation controls, loading indicators, analytics tracking, and session management.
 
-## Example
+## Examples
 
-Initialize the ContainerModule:
+**ES Module:**
 ```typescript
 import { ContainerModule } from '@grabjs/superapp-sdk';
 
 const containerModule = new ContainerModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const containerModule = new SuperAppSDK.ContainerModule();
+</script>
 ```
 
 ## Extends

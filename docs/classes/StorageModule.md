@@ -11,13 +11,21 @@ Provides persistence storage APIs for maintaining data across multiple sessions.
 The StorageModule enables miniapps to store and retrieve primitive values (boolean, integer,
 string, double) that persist across webview sessions.
 
-## Example
+## Examples
 
-Initialize the StorageModule:
+**ES Module:**
 ```typescript
 import { StorageModule } from '@grabjs/superapp-sdk';
 
 const storageModule = new StorageModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const storageModule = new SuperAppSDK.StorageModule();
+</script>
 ```
 
 ## Extends

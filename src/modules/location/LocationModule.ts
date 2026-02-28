@@ -15,11 +15,20 @@ import { GetCoordinateResponse, GetCountryCodeResponse } from './types';
  * **Required Scope:** `mobile.geolocation`
  *
  * @example
- * Initialize the LocationModule:
+ * **ES Module:**
  * ```typescript
  * import { LocationModule } from '@grabjs/superapp-sdk';
  *
  * const locationModule = new LocationModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const locationModule = new SuperAppSDK.LocationModule();
+ * </script>
  * ```
  */
 class LocationModule extends BaseModule {

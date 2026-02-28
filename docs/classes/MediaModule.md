@@ -10,13 +10,21 @@ The MediaModule enables miniapps to play Digital Rights Management (DRM) protect
 content through the Grab app's native media player. Playback events are streamed back to
 provide real-time status updates.
 
-## Example
+## Examples
 
-Initialize the MediaModule:
+**ES Module:**
 ```typescript
 import { MediaModule } from '@grabjs/superapp-sdk';
 
 const mediaModule = new MediaModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const mediaModule = new SuperAppSDK.MediaModule();
+</script>
 ```
 
 ## Extends

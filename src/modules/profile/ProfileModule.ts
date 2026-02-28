@@ -19,11 +19,20 @@ import { MINIMUM_PROFILE_VERSION } from './constants';
  * **Version Requirements:** This module requires Grab app version 5.399 or above.
  *
  * @example
- * Initialize the ProfileModule:
+ * **ES Module:**
  * ```typescript
  * import { ProfileModule } from '@grabjs/superapp-sdk';
  *
  * const profileModule = new ProfileModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const profileModule = new SuperAppSDK.ProfileModule();
+ * </script>
  * ```
  */
 class ProfileModule extends BaseModule {

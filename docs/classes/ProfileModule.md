@@ -10,13 +10,21 @@ Provides functionality related to user profile information.
 
 **Version Requirements:** This module requires Grab app version 5.399 or above.
 
-## Example
+## Examples
 
-Initialize the ProfileModule:
+**ES Module:**
 ```typescript
 import { ProfileModule } from '@grabjs/superapp-sdk';
 
 const profileModule = new ProfileModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const profileModule = new SuperAppSDK.ProfileModule();
+</script>
 ```
 
 ## Extends

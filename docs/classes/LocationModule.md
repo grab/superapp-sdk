@@ -8,13 +8,21 @@ Provides functionality to access the user's current position.
 
 **Required Scope:** `mobile.geolocation`
 
-## Example
+## Examples
 
-Initialize the LocationModule:
+**ES Module:**
 ```typescript
 import { LocationModule } from '@grabjs/superapp-sdk';
 
 const locationModule = new LocationModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const locationModule = new SuperAppSDK.LocationModule();
+</script>
 ```
 
 ## Extends

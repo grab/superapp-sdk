@@ -17,11 +17,20 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  * or web pages that need full browser capabilities.
  *
  * @example
- * Initialize the SystemWebViewKitModule:
+ * **ES Module:**
  * ```typescript
  * import { SystemWebViewKitModule } from '@grabjs/superapp-sdk';
  *
  * const systemWebViewKitModule = new SystemWebViewKitModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const systemWebViewKitModule = new SuperAppSDK.SystemWebViewKitModule();
+ * </script>
  * ```
  */
 class SystemWebViewKitModule extends BaseModule {

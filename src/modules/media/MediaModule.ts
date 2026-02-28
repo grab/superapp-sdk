@@ -17,11 +17,20 @@ import { PlayDRMContentRequest, PlayDRMContentResponse } from './types';
  * provide real-time status updates.
  *
  * @example
- * Initialize the MediaModule:
+ * **ES Module:**
  * ```typescript
  * import { MediaModule } from '@grabjs/superapp-sdk';
  *
  * const mediaModule = new MediaModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const mediaModule = new SuperAppSDK.MediaModule();
+ * </script>
  * ```
  */
 class MediaModule extends BaseModule {

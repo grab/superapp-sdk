@@ -16,11 +16,20 @@ import { BackResponse } from './types';
  * closing the current webview and returning the user to the previous screen in the Grab app.
  *
  * @example
- * Initialize the PlatformModule:
+ * **ES Module:**
  * ```typescript
  * import { PlatformModule } from '@grabjs/superapp-sdk';
  *
  * const platformModule = new PlatformModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const platformModule = new SuperAppSDK.PlatformModule();
+ * </script>
  * ```
  */
 class PlatformModule extends BaseModule {

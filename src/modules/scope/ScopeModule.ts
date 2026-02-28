@@ -17,11 +17,20 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  * permission states after the user grants new permissions.
  *
  * @example
- * Initialize the ScopeModule:
+ * **ES Module:**
  * ```typescript
  * import { ScopeModule } from '@grabjs/superapp-sdk';
  *
  * const scopeModule = new ScopeModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const scopeModule = new SuperAppSDK.ScopeModule();
+ * </script>
  * ```
  */
 class ScopeModule extends BaseModule {

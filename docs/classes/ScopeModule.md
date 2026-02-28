@@ -10,13 +10,21 @@ The ScopeModule enables miniapps to check permissions and reload scope configura
 Use this module to verify access to sensitive APIs before calling them and to refresh
 permission states after the user grants new permissions.
 
-## Example
+## Examples
 
-Initialize the ScopeModule:
+**ES Module:**
 ```typescript
 import { ScopeModule } from '@grabjs/superapp-sdk';
 
 const scopeModule = new ScopeModule();
+```
+
+**CDN (UMD):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const scopeModule = new SuperAppSDK.ScopeModule();
+</script>
 ```
 
 ## Extends

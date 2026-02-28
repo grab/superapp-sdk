@@ -41,11 +41,20 @@ import {
  * It manages PKCE (Proof Key for Code Exchange) artifacts and supports different response modes for flexibility.
  *
  * @example
- * Initialize the IdentityModule:
+ * **ES Module:**
  * ```typescript
  * import { IdentityModule } from '@grabjs/superapp-sdk';
  *
  * const identityModule = new IdentityModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const identityModule = new SuperAppSDK.IdentityModule();
+ * </script>
  * ```
  */
 class IdentityModule extends BaseModule {
