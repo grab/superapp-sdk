@@ -10,13 +10,12 @@ import ScopeModule from './ScopeModule';
 export default ScopeModule;
 
 export type {
+  HasAccessToErrorResponse,
   // HasAccessTo
   HasAccessToResponse,
   HasAccessToSuccessResponse,
-  HasAccessToErrorResponse,
-
+  ReloadScopesErrorResponse,
   // ReloadScopes
   ReloadScopesResponse,
   ReloadScopesSuccessResponse,
-  ReloadScopesErrorResponse,
 } from './types';

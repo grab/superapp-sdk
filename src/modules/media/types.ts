@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse } from '../../core';
+import type { ErrorResponse, SuccessResponse } from '../../core';
 
 /**
  * Video data for DRM content playback
@@ -30,9 +30,12 @@ export type PlayDRMContentRequest = {
 };
 
 /**
- * Playback event types
+ * Playback event type constants.
+ *
+ * @remarks
+ * Use as both runtime values and for type narrowing. The `PlaybackEventType` type is derived from this object.
  */
-export const PlaybackEventType = {
+export const PLAYBACK_EVENT_TYPES = {
   /** Emitted when the video starts playing */
   START_PLAYBACK: 'START_PLAYBACK',
   /** Emitted when the video stops playing */
@@ -42,9 +45,9 @@ export const PlaybackEventType = {
 } as const;
 
 /**
- * Type representing valid playback event types
+ * Union type of valid playback event type values.
  */
-export type PlaybackEventType = (typeof PlaybackEventType)[keyof typeof PlaybackEventType];
+export type PlaybackEventType = (typeof PLAYBACK_EVENT_TYPES)[keyof typeof PLAYBACK_EVENT_TYPES];
 
 /**
  * Playback status result

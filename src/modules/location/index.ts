@@ -10,16 +10,15 @@ import LocationModule from './LocationModule';
 export default LocationModule;
 
 export type {
+  GetCoordinateErrorResponse,
   // GetCoordinate
   GetCoordinateResponse,
-  GetCoordinateSuccessResponse,
-  GetCoordinateErrorResponse,
   GetCoordinateResult,
-
+  GetCoordinateSuccessResponse,
+  GetCountryCodeErrorResponse,
+  GetCountryCodeNoResultResponse,
   // GetCountryCode
   GetCountryCodeResponse,
-  GetCountryCodeSuccessResponse,
-  GetCountryCodeNoResultResponse,
-  GetCountryCodeErrorResponse,
   GetCountryCodeResult,
+  GetCountryCodeSuccessResponse,
 } from './types';

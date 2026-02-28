@@ -10,25 +10,23 @@ import IdentityModule from './IdentityModule';
 export default IdentityModule;
 
 export type {
-  // Authorize
-  AuthorizeRequest,
-  Environment,
-  ResponseMode,
-  AuthorizeResponse,
-  AuthorizeSuccessResponse,
-  AuthorizeRedirectResponse,
+  AuthorizationArtifactsResult,
   AuthorizeCancelledResponse,
   AuthorizeErrorResponse,
+  AuthorizeRedirectResponse,
+  // Authorize
+  AuthorizeRequest,
+  AuthorizeResponse,
   AuthorizeResult,
-
-  // GetAuthorizationArtifacts
-  GetAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsSuccessResponse,
-  GetAuthorizationArtifactsNoResultResponse,
-  GetAuthorizationArtifactsErrorResponse,
-  AuthorizationArtifactsResult,
-
+  AuthorizeSuccessResponse,
   // ClearAuthorizationArtifacts
   ClearAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsSuccessResponse,
+  Environment,
+  GetAuthorizationArtifactsErrorResponse,
+  GetAuthorizationArtifactsNoResultResponse,
+  // GetAuthorizationArtifacts
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsSuccessResponse,
+  ResponseMode,
 } from './types';

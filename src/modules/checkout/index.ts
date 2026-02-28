@@ -10,10 +10,10 @@ import CheckoutModule from './CheckoutModule';
 export default CheckoutModule;
 
 export type {
+  TriggerCheckoutErrorResponse,
   // TriggerCheckout
   TriggerCheckoutRequest,
   TriggerCheckoutResponse,
-  TriggerCheckoutSuccessResponse,
-  TriggerCheckoutErrorResponse,
   TriggerCheckoutResult,
+  TriggerCheckoutSuccessResponse,
 } from './types';

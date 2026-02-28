@@ -5,3 +5,5 @@ demo/
 docs/
 playground/
 slides/
+package-lock.json
+bundle-stats.html

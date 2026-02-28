@@ -1,41 +1,64 @@
-# JavaScript to Native bridge communication
+# @grabjs/superapp-sdk
+
+SDK for Grab SuperApp WebView. Enables miniapps running inside the Grab app to interact with native capabilities (camera, location, identity, checkout, etc.) through a JavaScript bridge.
+
+## Installation
+
+```bash
+npm install @grabjs/superapp-sdk
+```
+
+## Quick Start
+
+```javascript
+import { LocationModule, ScopeModule } from '@grabjs/superapp-sdk';
+
+// Load scopes after redirect (required for permission checks)
+const scopeModule = new ScopeModule();
+await scopeModule.reloadScopes();
+
+// Use modules to access native features
+const locationModule = new LocationModule();
+const response = await locationModule.getCoordinate();
+if (response.status_code === 200) {
+  console.log('Coordinates:', response.result);
+}
+```
+
+**Note:** Call `ScopeModule.reloadScopes()` after redirecting to a partner website to load permissions from GrabID. Without it, permission checks may not reflect the user's actual scopes.
+
+## Full Documentation
+
+See the [API documentation](docs/README.md) for the complete reference, including:
+
+- All available modules and their methods
+- Request and response formats
+- Type definitions
+
+---
 
 ## Overview
 
-Communication between web-app and native Grab app happens via web bridge. Each request and
-response object must have a structure defined in this document.
+Communication between web-app and native Grab app happens via web bridge. Each request and response object must have a structure defined in this document.
 
-## Currently available modules
+### Currently available modules
 
-- [CameraModule](classes/CameraModule.md)
-- [CheckoutModule](classes/CheckoutModule.md)
-- [ContainerModule](classes/ContainerModule.md)
-- [IdentityModule](classes/IdentityModule.md)
-- [LocaleModule](classes/LocaleModule.md)
-- [LocationModule](classes/LocationModule.md)
-- [MediaModule](classes/MediaModule.md)
-- [PlatformModule](classes/PlatformModule.md)
-- [ProfileModule](classes/ProfileModule.md)
-- [ScopeModule](classes/ScopeModule.md)
-- [StorageModule](classes/StorageModule.md)
-- [SystemWebViewKitModule](classes/SystemWebViewKitModule.md)
+- [CameraModule](docs/classes/CameraModule.md)
+- [CheckoutModule](docs/classes/CheckoutModule.md)
+- [ContainerModule](docs/classes/ContainerModule.md)
+- [IdentityModule](docs/classes/IdentityModule.md)
+- [LocaleModule](docs/classes/LocaleModule.md)
+- [LocationModule](docs/classes/LocationModule.md)
+- [MediaModule](docs/classes/MediaModule.md)
+- [PlatformModule](docs/classes/PlatformModule.md)
+- [ProfileModule](docs/classes/ProfileModule.md)
+- [ScopeModule](docs/classes/ScopeModule.md)
+- [StorageModule](docs/classes/StorageModule.md)
+- [SystemWebViewKitModule](docs/classes/SystemWebViewKitModule.md)
 
-One point to note is that partner engineers need to call `ScopeModule.reloadScopes` after redirection to partner website to load permissions from `GrabID`:
+### Response
 
-```javascript
-const scopeModule = new ScopeModule();
-await scopeModule.reloadScopes();
-```
-
-Afterwards, calls to module methods will reflect actual permissions.
-
-## Request
-
-Each request to native API should be done through JavaScript bridge provided by Grab. Please refer to specific Module API documentation for more details
-
-## Response
-
-Each response from the native bridge follows the same structure described bellow.
+Each response from the native bridge follows the same structure:
 
 | Key         | Type                     | Description                                                                        |
 | ----------- | ------------------------ | ---------------------------------------------------------------------------------- |
@@ -43,7 +66,7 @@ Each response from the native bridge follows the same structure described bellow
 | result      | Object or primitive type | Result object according to method specification (required for **200** status code) |
 | error       | String                   | Error message (required for **non-200** status codes)                              |
 
-### Response status codes
+#### Response status codes
 
 | Code | Type              | Description                                                                     |
 | ---- | ----------------- | ------------------------------------------------------------------------------- |
@@ -53,28 +76,3 @@ Each response from the native bridge follows the same structure described bellow
 | 403  | Forbidden         | The client doesn't have permission to access this method                        |
 | 424  | Failed Dependency | Underlying request returned an error                                            |
 | 500  | Internal Error    | Unexpected internal error (e.g. failed to serialize response object)            |
-
-### Success response example
-
-```json
-{
-  "status_code": 200,
-  "result": {
-    "latitude": 1.234567,
-    "longitude": -1.234567
-  }
-}
-```
-
-### Failure response example
-
-```json
-{
-  "status_code": 403,
-  "error": "Client doesn't have access to method \"getLocation\" in module \"LocationModule\""
-}
-```
-
----
-
-- **GDMCOMMENT:** Latitudes and longitudes used in this file are either sourced from GrabPlaces, GrabMaps, OSM or randomly created by the developer and are not obtained from other external sources.

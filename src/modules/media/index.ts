@@ -10,11 +10,12 @@ import MediaModule from './MediaModule';
 export default MediaModule;
 
 export type {
+  PlaybackEventType,
+  PlaybackStatusResult,
+  PlayDRMContentErrorResponse,
   // PlayDRMContent
   PlayDRMContentRequest,
   PlayDRMContentResponse,
   PlayDRMContentSuccessResponse,
-  PlayDRMContentErrorResponse,
-  PlaybackStatusResult,
-  PlaybackEventType,
 } from './types';
+export { PLAYBACK_EVENT_TYPES } from './types';

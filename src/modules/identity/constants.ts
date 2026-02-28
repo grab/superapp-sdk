@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { OpenIDConfigEndpoints } from './types';
 import type { Version } from '../../utils/version/types';
+import type { OpenIDConfigEndpoints } from './types';
 
 /**
  * Storage namespace for IdentityModule

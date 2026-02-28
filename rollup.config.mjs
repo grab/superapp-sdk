@@ -1,7 +1,15 @@
+/**
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default {
   input: 'src/index.ts',
@@ -21,25 +29,17 @@ export default {
     },
   ],
   plugins: [
-    // Resolve node_modules dependencies
     resolve({
       browser: true,
       preferBuiltins: false,
     }),
-    // Convert CommonJS modules to ES6
     commonjs(),
-    // Handle TypeScript files
     typescript({
       tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationMap: true,
-      module: 'ESNext',
-      target: 'ES2018',
     }),
-    // Minify the output
     terser({
       format: {
-        comments: false,
+        comments: /Copyright|@license|License/i,
       },
       compress: {
         drop_console: false,
@@ -47,7 +47,15 @@ export default {
       },
       mangle: true,
     }),
+    ...(process.env.ROLLUP_VISUALIZE
+      ? [
+          visualizer({
+            filename: 'bundle-stats.html',
+            gzipSize: true,
+            template: 'treemap',
+          }),
+        ]
+      : []),
   ],
-  // Mark peer dependencies as external if needed (currently bundling all)
   external: [],
 };

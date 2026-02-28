@@ -1,7 +1,15 @@
+/**
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierConfig from 'eslint-config-prettier';
+import jsdocPlugin from 'eslint-plugin-jsdoc';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 
 export default [
@@ -25,6 +33,7 @@ export default [
     plugins: {
       '@typescript-eslint': tsPlugin,
       jsdoc: jsdocPlugin,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
@@ -41,10 +50,16 @@ export default [
           varsIgnorePattern: '^_',
         },
       ],
-      '@typescript-eslint/no-unsafe-assignment': 'warn',
-      '@typescript-eslint/no-unsafe-member-access': 'warn',
-      '@typescript-eslint/no-unsafe-call': 'warn',
-      '@typescript-eslint/no-unsafe-return': 'warn',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+
+      // Import order
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
 
       // General rules
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -67,7 +82,7 @@ export default [
       'jsdoc/check-types': 'off',
       'jsdoc/require-param': 'error',
       'jsdoc/require-param-description': 'error',
-      'jsdoc/require-returns': 'warn',
+      'jsdoc/require-returns': 'error',
       'jsdoc/require-returns-description': 'error',
 
       // Disable formatting rules (handled by Prettier)
@@ -100,6 +115,10 @@ export default [
     files: ['scripts/**/*.ts'],
     rules: {
       'no-console': 'off',
+      'jsdoc/require-param': 'off',
+      'jsdoc/require-param-description': 'off',
+      'jsdoc/require-returns': 'off',
+      'jsdoc/require-returns-description': 'off',
     },
   },
 ];

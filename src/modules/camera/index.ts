@@ -10,11 +10,11 @@ import CameraModule from './CameraModule';
 export default CameraModule;
 
 export type {
+  ScanQRCodeCancelledResponse,
+  ScanQRCodeErrorResponse,
   // ScanQRCode
   ScanQRCodeRequest,
   ScanQRCodeResponse,
-  ScanQRCodeSuccessResponse,
-  ScanQRCodeCancelledResponse,
-  ScanQRCodeErrorResponse,
   ScanQRCodeResult,
+  ScanQRCodeSuccessResponse,
 } from './types';

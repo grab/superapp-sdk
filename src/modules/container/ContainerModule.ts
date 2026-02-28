@@ -6,29 +6,29 @@
  */
 
 import { BaseModule, createValidationErrorResponse } from '../../core';
-import { validateRequiredString, validateOptionalObject, isGrabAppConnected } from '../../utils';
-import {
-  ContainerAnalyticsEventState,
-  ContainerAnalyticsEventName,
-  ContainerAnalyticsEventData,
-} from './types';
+import { isGrabAppConnected, validateOptionalObject, validateRequiredString } from '../../utils';
 import type {
   AnalyticsEventDetails,
+  CloseResponse,
+  GetSessionParamsResponse,
+  HideBackButtonResponse,
+  HideLoaderResponse,
+  HideRefreshButtonResponse,
+  IsConnectedResponse,
+  OnContentLoadedResponse,
+  OnCtaTapResponse,
+  OpenExternalLinkResponse,
+  SendAnalyticsEventResponse,
   SetBackgroundColorResponse,
   SetTitleResponse,
-  HideBackButtonResponse,
   ShowBackButtonResponse,
-  HideRefreshButtonResponse,
-  ShowRefreshButtonResponse,
-  CloseResponse,
-  OnContentLoadedResponse,
   ShowLoaderResponse,
-  HideLoaderResponse,
-  OpenExternalLinkResponse,
-  OnCtaTapResponse,
-  SendAnalyticsEventResponse,
-  IsConnectedResponse,
-  GetSessionParamsResponse,
+  ShowRefreshButtonResponse,
+} from './types';
+import {
+  ContainerAnalyticsEventData,
+  ContainerAnalyticsEventName,
+  ContainerAnalyticsEventState,
 } from './types';
 
 /**

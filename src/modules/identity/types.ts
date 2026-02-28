@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse } from '../../core';
+import type { ErrorResponse, NoResultResponse, SuccessResponse } from '../../core';
 
 /**
  * Environment type for GrabID endpoints

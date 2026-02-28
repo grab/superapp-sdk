@@ -8,6 +8,8 @@
 /**
  * Validates that a value is a non-empty string.
  *
+ * @internal
+ *
  * @param value - The value to validate.
  * @param fieldName - The name of the field for error messages.
  *
@@ -25,6 +27,8 @@ export function validateRequiredString(value: string, fieldName: string): string
 
 /**
  * Validates that a value is a valid URL string.
+ *
+ * @internal
  *
  * @param value - The value to validate.
  * @param fieldName - The name of the field for error messages.
@@ -46,6 +50,8 @@ export function validateUrl(value: string, fieldName: string): string | null {
 /**
  * Validates that a value is a non-null object.
  *
+ * @internal
+ *
  * @param value - The value to validate.
  * @param fieldName - The name of the field for error messages.
  *
@@ -66,6 +72,8 @@ export function validateObject(value: unknown, fieldName: string): string | null
 
 /**
  * Validates that a value is either undefined or a plain object.
+ *
+ * @internal
  *
  * @param value - The value to validate.
  * @param fieldName - The name of the field for error messages.

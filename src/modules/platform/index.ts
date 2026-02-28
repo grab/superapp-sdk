@@ -10,8 +10,8 @@ import PlatformModule from './PlatformModule';
 export default PlatformModule;
 
 export type {
+  BackErrorResponse,
   // Back
   BackResponse,
   BackSuccessResponse,
-  BackErrorResponse,
 } from './types';

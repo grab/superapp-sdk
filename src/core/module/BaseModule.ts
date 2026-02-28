@@ -6,7 +6,8 @@
  */
 
 import * as bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
-import { getErrorMessage, getErrorForLog } from '../../utils';
+
+import { getErrorForLog, getErrorMessage } from '../../utils';
 import { logger } from '../logger';
 
 /**
@@ -29,12 +30,16 @@ export class BaseModule {
    *
    * @param moduleName - The name of the module (e.g., "ContainerModule", "ProfileModule").
    * Used to create the wrapped global (e.g., `WrappedContainerModule`).
+   *
+   * @throws Error when the bridge SDK is not available or when wrapModule fails.
    */
   constructor(moduleName: string) {
     this.name = moduleName;
 
     if ((window as unknown as Record<string, unknown>)[`Wrapped${this.name}`]) {
       logger.warn(`${this.name} module is already initialized`, this.name);
+      // Early return: skip wrapModule. The new instance remains valid because it delegates
+      // to the existing window.WrappedX set by the first instance. No re-wrap needed.
       return;
     }
 

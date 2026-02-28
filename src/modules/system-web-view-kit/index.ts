@@ -10,9 +10,9 @@ import SystemWebViewKitModule from './SystemWebViewKitModule';
 export default SystemWebViewKitModule;
 
 export type {
+  RedirectToSystemWebViewErrorResponse,
   // RedirectToSystemWebView
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewSuccessResponse,
-  RedirectToSystemWebViewErrorResponse,
 } from './types';

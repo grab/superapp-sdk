@@ -7,13 +7,13 @@
 
 import { BaseModule } from '../../core';
 import type {
-  SetResponse,
   GetBooleanResponse,
+  GetDoubleResponse,
   GetIntResponse,
   GetStringResponse,
-  GetDoubleResponse,
-  RemoveResponse,
   RemoveAllResponse,
+  RemoveResponse,
+  SetResponse,
 } from './types';
 
 /**

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse } from '../../core';
+import type { ErrorResponse, SuccessResponse } from '../../core';
 
 /**
  * Success response when back navigation is successful

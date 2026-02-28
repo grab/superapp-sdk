@@ -8,6 +8,8 @@
 /**
  * Checks if the user agent indicates the web app is running inside the Grab app (JSBridge connected).
  *
+ * @internal
+ *
  * @param userAgent - The user agent string (e.g., from `navigator.userAgent`).
  *
  * @returns `true` if the user agent matches the Grab app pattern (e.g., "Grab/", "GrabBeta/"); `false` otherwise.

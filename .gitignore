@@ -81,6 +81,7 @@ typings/
 
 # Custom
 dist/
+bundle-stats.html
 .DS_STORE
 .rpt2*
 .npmrc

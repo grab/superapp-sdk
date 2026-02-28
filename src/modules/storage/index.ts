@@ -10,42 +10,36 @@ import StorageModule from './StorageModule';
 export default StorageModule;
 
 export type {
-  // SetXXX
-  SetResponse,
-  SetSuccessResponse,
-  SetErrorResponse,
-
+  GetBooleanErrorResponse,
+  GetBooleanNoResultResponse,
   // GetBoolean
   GetBooleanResponse,
   GetBooleanSuccessResponse,
-  GetBooleanNoResultResponse,
-  GetBooleanErrorResponse,
-
-  // GetInt
-  GetIntResponse,
-  GetIntSuccessResponse,
-  GetIntNoResultResponse,
-  GetIntErrorResponse,
-
-  // GetString
-  GetStringResponse,
-  GetStringSuccessResponse,
-  GetStringNoResultResponse,
-  GetStringErrorResponse,
-
+  GetDoubleErrorResponse,
+  GetDoubleNoResultResponse,
   // GetDouble
   GetDoubleResponse,
   GetDoubleSuccessResponse,
-  GetDoubleNoResultResponse,
-  GetDoubleErrorResponse,
-
-  // Remove
-  RemoveResponse,
-  RemoveSuccessResponse,
-  RemoveErrorResponse,
-
+  GetIntErrorResponse,
+  GetIntNoResultResponse,
+  // GetInt
+  GetIntResponse,
+  GetIntSuccessResponse,
+  GetStringErrorResponse,
+  GetStringNoResultResponse,
+  // GetString
+  GetStringResponse,
+  GetStringSuccessResponse,
+  RemoveAllErrorResponse,
   // RemoveAll
   RemoveAllResponse,
   RemoveAllSuccessResponse,
-  RemoveAllErrorResponse,
+  RemoveErrorResponse,
+  // Remove
+  RemoveResponse,
+  RemoveSuccessResponse,
+  SetErrorResponse,
+  // SetXXX
+  SetResponse,
+  SetSuccessResponse,
 } from './types';

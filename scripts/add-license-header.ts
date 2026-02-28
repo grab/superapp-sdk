@@ -20,9 +20,11 @@ const HEADER = `/**
 
 const COPYRIGHT_MARKER = 'Copyright (c) Grab';
 
+const SUPPORTED_EXTENSIONS = ['.ts', '.js', '.mjs', '.cjs'];
+
 function addLicenseHeader(filePath: string, checkOnly = false): boolean {
   const ext = path.extname(filePath);
-  if (ext !== '.ts' && ext !== '.js') {
+  if (!SUPPORTED_EXTENSIONS.includes(ext)) {
     return false;
   }
 
@@ -69,7 +71,7 @@ function findSourceFiles(dir: string, files: string[] = []): string[] {
       }
     } else if (entry.isFile()) {
       const ext = path.extname(entry.name);
-      if (ext === '.ts' || ext === '.js') {
+      if (SUPPORTED_EXTENSIONS.includes(ext)) {
         files.push(fullPath);
       }
     }

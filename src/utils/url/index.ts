@@ -8,6 +8,8 @@
 /**
  * Normalizes a URL by extracting only the origin and pathname.
  *
+ * @internal
+ *
  * @param urlString - The URL string to normalize.
  *
  * @returns Normalized URL with only origin and pathname.

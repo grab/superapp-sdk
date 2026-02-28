@@ -5,44 +5,43 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { BaseModule, logger, createValidationErrorResponse } from '../../core';
+import { BaseModule, createValidationErrorResponse, logger } from '../../core';
 import {
+  getErrorForLog,
+  getErrorMessage,
+  meetsMinimumVersion,
   normalizeUrl,
+  validateObject,
   validateRequiredString,
   validateUrl,
-  validateObject,
-  meetsMinimumVersion,
-  getErrorMessage,
-  getErrorForLog,
 } from '../../utils';
 import {
-  buildAuthorizeUrl,
-  generateRandomString,
-  generateCodeVerifier,
-  generateCodeChallenge,
-} from './utils';
+  CODE_CHALLENGE_METHOD,
+  CODE_VERIFIER_LENGTH,
+  MINIMUM_NATIVE_CONSENT_VERSION,
+  NAMESPACE,
+  NONCE_LENGTH,
+  OPENID_CONFIG_ENDPOINTS,
+  STATE_LENGTH,
+} from './constants';
 import type {
-  Environment,
-  ResponseMode,
-  PKCEArtifacts,
-  StoredPKCEArtifacts,
-  GetAuthorizationArtifactsResponse,
-  ClearAuthorizationArtifactsResponse,
-  WebAuthorizationParams,
-  NativeAuthorizationParams,
   AuthorizeRequest,
-  ShouldUseWebConsentRequest,
   AuthorizeResponse,
+  ClearAuthorizationArtifactsResponse,
+  Environment,
+  GetAuthorizationArtifactsResponse,
+  NativeAuthorizationParams,
+  PKCEArtifacts,
+  ShouldUseWebConsentRequest,
+  StoredPKCEArtifacts,
+  WebAuthorizationParams,
 } from './types';
 import {
-  NAMESPACE,
-  CODE_CHALLENGE_METHOD,
-  NONCE_LENGTH,
-  STATE_LENGTH,
-  CODE_VERIFIER_LENGTH,
-  OPENID_CONFIG_ENDPOINTS,
-  MINIMUM_NATIVE_CONSENT_VERSION,
-} from './constants';
+  buildAuthorizeUrl,
+  generateCodeChallenge,
+  generateCodeVerifier,
+  generateRandomString,
+} from './utils';
 
 /**
  * Provides functionality related to user identity and OAuth authorization flows.
@@ -74,15 +73,9 @@ class IdentityModule extends BaseModule {
   }
 
   /**
-   * @internal
-   * Exists only to ensure ResponseMode is imported in the generated .d.ts for {@link} resolution.
-   * Do not use.
-   */
-  static readonly _responseModeDocRef: ResponseMode | undefined = undefined;
-
-  /**
    * @param environment - The environment (staging or production).
    * @returns The authorization endpoint URL.
+   * @throws Error when the environment is invalid, the OpenID config fetch fails, or the config is invalid.
    * @internal
    */
   private async fetchAuthorizationEndpoint(environment: Environment): Promise<string> {
@@ -131,14 +124,14 @@ class IdentityModule extends BaseModule {
   }
 
   /**
-   * @returns PKCE artifacts for authorization flow.
+   * @returns Promise resolving to PKCE artifacts for authorization flow.
    * @internal
    */
-  private generatePKCEArtifacts(): PKCEArtifacts {
+  private async generatePKCEArtifacts(): Promise<PKCEArtifacts> {
     const nonce = generateRandomString(NONCE_LENGTH);
     const state = generateRandomString(STATE_LENGTH);
     const codeVerifier = generateCodeVerifier(CODE_VERIFIER_LENGTH);
-    const codeChallenge = generateCodeChallenge(codeVerifier);
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
 
     return {
       nonce,
@@ -381,7 +374,7 @@ class IdentityModule extends BaseModule {
       return Promise.resolve(createValidationErrorResponse(validationError) as AuthorizeResponse);
     }
 
-    const pkceArtifacts = this.generatePKCEArtifacts();
+    const pkceArtifacts = await this.generatePKCEArtifacts();
 
     const responseMode = request.responseMode || 'redirect';
 

@@ -6,9 +6,9 @@
  */
 
 import { BaseModule } from '../../core';
-import type { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 import { meetsMinimumVersion } from '../../utils';
 import { MINIMUM_PROFILE_VERSION } from './constants';
+import type { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 
 /**
  * Provides functionality related to user profile information.

@@ -17,255 +17,244 @@
 // ----
 
 // Logger
-export { logger, Logger, LogLevel } from './core';
 export type { LoggerConfig } from './core';
+export { Logger, logger, LogLevel } from './core';
 
 // Response types
-export type { Response, ErrorResponse, NoResultResponse, SuccessResponse } from './core';
+export type { ErrorResponse, NoResultResponse, Response, SuccessResponse } from './core';
 
 // Utils (environment detection)
-export { parseGrabUserAgent, isVersionBelow, meetsMinimumVersion } from './utils';
-export type { Version, GrabUserAgent } from './utils';
+export type { GrabUserAgent, Version } from './utils';
+export { isVersionBelow, meetsMinimumVersion, parseGrabUserAgent } from './utils';
 
 // Modules
 // -------
 
 // CameraModule
-export { default as CameraModule } from './modules/camera';
 export type {
+  ScanQRCodeCancelledResponse,
+  ScanQRCodeErrorResponse,
   // ScanQRCode
   ScanQRCodeRequest,
   ScanQRCodeResponse,
-  ScanQRCodeSuccessResponse,
-  ScanQRCodeCancelledResponse,
-  ScanQRCodeErrorResponse,
   ScanQRCodeResult,
+  ScanQRCodeSuccessResponse,
 } from './modules/camera';
+export { default as CameraModule } from './modules/camera';
 
 // CheckoutModule
-export { default as CheckoutModule } from './modules/checkout';
 export type {
+  TriggerCheckoutErrorResponse,
   // TriggerCheckout
   TriggerCheckoutRequest,
   TriggerCheckoutResponse,
-  TriggerCheckoutSuccessResponse,
-  TriggerCheckoutErrorResponse,
   TriggerCheckoutResult,
+  TriggerCheckoutSuccessResponse,
 } from './modules/checkout';
+export { default as CheckoutModule } from './modules/checkout';
 
 // ContainerModule
-export { default as ContainerModule } from './modules/container';
 export type {
   AnalyticsEventDetails,
+  CloseErrorResponse,
+  CloseResponse,
+  CloseSuccessResponse,
+  GetSessionParamsErrorResponse,
+  GetSessionParamsResponse,
+  GetSessionParamsSuccessResponse,
+  HideBackButtonErrorResponse,
+  HideBackButtonResponse,
+  HideBackButtonSuccessResponse,
+  HideLoaderErrorResponse,
+  HideLoaderResponse,
+  HideLoaderSuccessResponse,
+  HideRefreshButtonErrorResponse,
+  HideRefreshButtonResponse,
+  HideRefreshButtonSuccessResponse,
+  IsConnectedErrorResponse,
+  IsConnectedResponse,
+  IsConnectedSuccessResponse,
+  OnContentLoadedErrorResponse,
+  OnContentLoadedResponse,
+  OnContentLoadedSuccessResponse,
+  OnCtaTapErrorResponse,
+  OnCtaTapResponse,
+  OnCtaTapSuccessResponse,
+  OpenExternalLinkErrorResponse,
+  OpenExternalLinkResponse,
+  OpenExternalLinkSuccessResponse,
+  SendAnalyticsEventErrorResponse,
+  SendAnalyticsEventResponse,
+  SendAnalyticsEventSuccessResponse,
+  SetBackgroundColorErrorResponse,
   // Response types (referenced by ContainerModule methods)
   SetBackgroundColorResponse,
   SetBackgroundColorSuccessResponse,
-  SetBackgroundColorErrorResponse,
+  SetTitleErrorResponse,
   SetTitleResponse,
   SetTitleSuccessResponse,
-  SetTitleErrorResponse,
-  HideBackButtonResponse,
-  HideBackButtonSuccessResponse,
-  HideBackButtonErrorResponse,
+  ShowBackButtonErrorResponse,
   ShowBackButtonResponse,
   ShowBackButtonSuccessResponse,
-  ShowBackButtonErrorResponse,
-  HideRefreshButtonResponse,
-  HideRefreshButtonSuccessResponse,
-  HideRefreshButtonErrorResponse,
-  ShowRefreshButtonResponse,
-  ShowRefreshButtonSuccessResponse,
-  ShowRefreshButtonErrorResponse,
-  CloseResponse,
-  CloseSuccessResponse,
-  CloseErrorResponse,
-  OnContentLoadedResponse,
-  OnContentLoadedSuccessResponse,
-  OnContentLoadedErrorResponse,
+  ShowLoaderErrorResponse,
   ShowLoaderResponse,
   ShowLoaderSuccessResponse,
-  ShowLoaderErrorResponse,
-  HideLoaderResponse,
-  HideLoaderSuccessResponse,
-  HideLoaderErrorResponse,
-  OpenExternalLinkResponse,
-  OpenExternalLinkSuccessResponse,
-  OpenExternalLinkErrorResponse,
-  OnCtaTapResponse,
-  OnCtaTapSuccessResponse,
-  OnCtaTapErrorResponse,
-  SendAnalyticsEventResponse,
-  SendAnalyticsEventSuccessResponse,
-  SendAnalyticsEventErrorResponse,
-  IsConnectedResponse,
-  IsConnectedSuccessResponse,
-  IsConnectedErrorResponse,
-  GetSessionParamsResponse,
-  GetSessionParamsSuccessResponse,
-  GetSessionParamsErrorResponse,
+  ShowRefreshButtonErrorResponse,
+  ShowRefreshButtonResponse,
+  ShowRefreshButtonSuccessResponse,
 } from './modules/container';
+export { default as ContainerModule } from './modules/container';
 export {
-  ContainerAnalyticsEventState,
-  ContainerAnalyticsEventName,
   ContainerAnalyticsEventData,
+  ContainerAnalyticsEventName,
+  ContainerAnalyticsEventState,
 } from './modules/container';
 
 // IdentityModule
-export { default as IdentityModule } from './modules/identity';
 export type {
-  // Authorize
-  AuthorizeRequest,
-  Environment,
-  ResponseMode,
-  AuthorizeResponse,
-  AuthorizeSuccessResponse,
-  AuthorizeRedirectResponse,
+  AuthorizationArtifactsResult,
   AuthorizeCancelledResponse,
   AuthorizeErrorResponse,
+  AuthorizeRedirectResponse,
+  // Authorize
+  AuthorizeRequest,
+  AuthorizeResponse,
   AuthorizeResult,
-
-  // GetAuthorizationArtifacts
-  GetAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsSuccessResponse,
-  GetAuthorizationArtifactsNoResultResponse,
-  GetAuthorizationArtifactsErrorResponse,
-  AuthorizationArtifactsResult,
-
+  AuthorizeSuccessResponse,
   // ClearAuthorizationArtifacts
   ClearAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsSuccessResponse,
+  Environment,
+  GetAuthorizationArtifactsErrorResponse,
+  GetAuthorizationArtifactsNoResultResponse,
+  // GetAuthorizationArtifacts
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsSuccessResponse,
+  ResponseMode,
 } from './modules/identity';
+export { default as IdentityModule } from './modules/identity';
 
 // LocaleModule
-export { default as LocaleModule } from './modules/locale';
 export type {
+  GetLanguageLocaleIdentifierErrorResponse,
   // GetLanguageLocaleIdentifier
   GetLanguageLocaleIdentifierResponse,
-  GetLanguageLocaleIdentifierSuccessResponse,
-  GetLanguageLocaleIdentifierErrorResponse,
   GetLanguageLocaleIdentifierResult,
+  GetLanguageLocaleIdentifierSuccessResponse,
 } from './modules/locale';
+export { default as LocaleModule } from './modules/locale';
 
 // LocationModule
-export { default as LocationModule } from './modules/location';
 export type {
+  GetCoordinateErrorResponse,
   // GetCoordinate
   GetCoordinateResponse,
-  GetCoordinateSuccessResponse,
-  GetCoordinateErrorResponse,
   GetCoordinateResult,
-
+  GetCoordinateSuccessResponse,
+  GetCountryCodeErrorResponse,
+  GetCountryCodeNoResultResponse,
   // GetCountryCode
   GetCountryCodeResponse,
-  GetCountryCodeSuccessResponse,
-  GetCountryCodeNoResultResponse,
-  GetCountryCodeErrorResponse,
   GetCountryCodeResult,
+  GetCountryCodeSuccessResponse,
 } from './modules/location';
+export { default as LocationModule } from './modules/location';
 
 // MediaModule
-export { default as MediaModule } from './modules/media';
 export type {
+  PlaybackEventType,
+  PlaybackStatusResult,
+  PlayDRMContentErrorResponse,
   // PlayDRMContent
   PlayDRMContentRequest,
   PlayDRMContentResponse,
   PlayDRMContentSuccessResponse,
-  PlayDRMContentErrorResponse,
-  PlaybackStatusResult,
-  PlaybackEventType,
 } from './modules/media';
+export { default as MediaModule, PLAYBACK_EVENT_TYPES } from './modules/media';
 
 // PlatformModule
-export { default as PlatformModule } from './modules/platform';
 export type {
+  BackErrorResponse,
   // Back
   BackResponse,
   BackSuccessResponse,
-  BackErrorResponse,
 } from './modules/platform';
+export { default as PlatformModule } from './modules/platform';
 
 // ProfileModule
-export { default as ProfileModule } from './modules/profile';
 export type {
+  EmailResult,
+  FetchEmailErrorResponse,
+  FetchEmailNoResultResponse,
   // FetchEmail
   FetchEmailResponse,
   FetchEmailSuccessResponse,
-  FetchEmailNoResultResponse,
-  FetchEmailErrorResponse,
-  EmailResult,
-
+  VerifyEmailCancelledResponse,
+  VerifyEmailErrorResponse,
   // VerifyEmail
   VerifyEmailRequest,
   VerifyEmailResponse,
-  VerifyEmailSuccessResponse,
-  VerifyEmailCancelledResponse,
-  VerifyEmailErrorResponse,
   VerifyEmailResult,
+  VerifyEmailSuccessResponse,
 } from './modules/profile';
+export { default as ProfileModule } from './modules/profile';
 
 // ScopeModule
-export { default as ScopeModule } from './modules/scope';
 export type {
+  HasAccessToErrorResponse,
   // HasAccessTo
   HasAccessToResponse,
   HasAccessToSuccessResponse,
-  HasAccessToErrorResponse,
-
+  ReloadScopesErrorResponse,
   // ReloadScopes
   ReloadScopesResponse,
   ReloadScopesSuccessResponse,
-  ReloadScopesErrorResponse,
 } from './modules/scope';
+export { default as ScopeModule } from './modules/scope';
 
 // StorageModule
-export { default as StorageModule } from './modules/storage';
 export type {
-  // SetXXX
-  SetResponse,
-  SetSuccessResponse,
-  SetErrorResponse,
-
+  GetBooleanErrorResponse,
+  GetBooleanNoResultResponse,
   // GetBoolean
   GetBooleanResponse,
   GetBooleanSuccessResponse,
-  GetBooleanNoResultResponse,
-  GetBooleanErrorResponse,
-
-  // GetInt
-  GetIntResponse,
-  GetIntSuccessResponse,
-  GetIntNoResultResponse,
-  GetIntErrorResponse,
-
-  // GetString
-  GetStringResponse,
-  GetStringSuccessResponse,
-  GetStringNoResultResponse,
-  GetStringErrorResponse,
-
+  GetDoubleErrorResponse,
+  GetDoubleNoResultResponse,
   // GetDouble
   GetDoubleResponse,
   GetDoubleSuccessResponse,
-  GetDoubleNoResultResponse,
-  GetDoubleErrorResponse,
-
-  // Remove
-  RemoveResponse,
-  RemoveSuccessResponse,
-  RemoveErrorResponse,
-
+  GetIntErrorResponse,
+  GetIntNoResultResponse,
+  // GetInt
+  GetIntResponse,
+  GetIntSuccessResponse,
+  GetStringErrorResponse,
+  GetStringNoResultResponse,
+  // GetString
+  GetStringResponse,
+  GetStringSuccessResponse,
+  RemoveAllErrorResponse,
   // RemoveAll
   RemoveAllResponse,
   RemoveAllSuccessResponse,
-  RemoveAllErrorResponse,
+  RemoveErrorResponse,
+  // Remove
+  RemoveResponse,
+  RemoveSuccessResponse,
+  SetErrorResponse,
+  // SetXXX
+  SetResponse,
+  SetSuccessResponse,
 } from './modules/storage';
+export { default as StorageModule } from './modules/storage';
 
 // SystemWebViewKitModule
-export { default as SystemWebViewKitModule } from './modules/system-web-view-kit';
 export type {
+  RedirectToSystemWebViewErrorResponse,
   // RedirectToSystemWebView
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewSuccessResponse,
-  RedirectToSystemWebViewErrorResponse,
 } from './modules/system-web-view-kit';
+export { default as SystemWebViewKitModule } from './modules/system-web-view-kit';

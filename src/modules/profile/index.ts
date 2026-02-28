@@ -10,18 +10,17 @@ import ProfileModule from './ProfileModule';
 export default ProfileModule;
 
 export type {
+  EmailResult,
+  FetchEmailErrorResponse,
+  FetchEmailNoResultResponse,
   // FetchEmail
   FetchEmailResponse,
   FetchEmailSuccessResponse,
-  FetchEmailNoResultResponse,
-  FetchEmailErrorResponse,
-  EmailResult,
-
+  VerifyEmailCancelledResponse,
+  VerifyEmailErrorResponse,
   // VerifyEmail
   VerifyEmailRequest,
   VerifyEmailResponse,
-  VerifyEmailSuccessResponse,
-  VerifyEmailCancelledResponse,
-  VerifyEmailErrorResponse,
   VerifyEmailResult,
+  VerifyEmailSuccessResponse,
 } from './types';

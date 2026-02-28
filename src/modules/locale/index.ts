@@ -10,9 +10,9 @@ import LocaleModule from './LocaleModule';
 export default LocaleModule;
 
 export type {
+  GetLanguageLocaleIdentifierErrorResponse,
   // GetLanguageLocaleIdentifier
   GetLanguageLocaleIdentifierResponse,
-  GetLanguageLocaleIdentifierSuccessResponse,
-  GetLanguageLocaleIdentifierErrorResponse,
   GetLanguageLocaleIdentifierResult,
+  GetLanguageLocaleIdentifierSuccessResponse,
 } from './types';
