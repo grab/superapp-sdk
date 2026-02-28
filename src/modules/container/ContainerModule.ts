@@ -6,6 +6,7 @@
  */
 
 import { Response, BaseModule } from '../../core';
+import { validateRequiredString, validateOptionalObject } from '../../utils/validation';
 import { AnalyticsEventDetails } from './types';
 
 /**
@@ -537,22 +538,19 @@ class ContainerModule extends BaseModule {
    * @internal
    */
   private _validateAnalyticsEvent(eventDetails: AnalyticsEventDetails): string | null {
-    if (eventDetails.name === null || eventDetails.name === undefined) {
-      return 'name is required';
-    }
-    if (typeof eventDetails.name !== 'string') {
-      return 'name must be a string';
+    const nameError = validateRequiredString(eventDetails.name, 'name');
+    if (nameError) {
+      return nameError;
     }
 
-    if (eventDetails.state === null || eventDetails.state === undefined) {
-      return 'state is required';
-    }
-    if (typeof eventDetails.state !== 'string') {
-      return 'state must be a string';
+    const stateError = validateRequiredString(eventDetails.state, 'state');
+    if (stateError) {
+      return stateError;
     }
 
-    if (eventDetails.data !== undefined && typeof eventDetails.data !== 'object') {
-      return `data must be undefined or an object`;
+    const dataError = validateOptionalObject(eventDetails.data, 'data');
+    if (dataError) {
+      return dataError;
     }
 
     return null;

@@ -1,5 +1,6 @@
 const tsPlugin = require('@typescript-eslint/eslint-plugin');
 const tsParser = require('@typescript-eslint/parser');
+const jsdocPlugin = require('eslint-plugin-jsdoc');
 const prettierConfig = require('eslint-config-prettier');
 const globals = require('globals');
 
@@ -14,7 +15,7 @@ module.exports = [
       parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
-        project: './tsconfig.json',
+        project: './tsconfig.eslint.json',
       },
       globals: {
         ...globals.node,
@@ -23,6 +24,7 @@ module.exports = [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
+      jsdoc: jsdocPlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
@@ -63,8 +65,21 @@ module.exports = [
         { max: 100, skipBlankLines: true, skipComments: true },
       ],
 
+      // JSDoc consistency
+      'jsdoc/check-param-names': 'warn',
+      'jsdoc/check-types': 'off',
+      'jsdoc/require-param-description': 'warn',
+      'jsdoc/require-returns-description': 'warn',
+
       // Disable formatting rules (handled by Prettier)
       ...prettierConfig.rules,
+    },
+  },
+  {
+    // Logger intentionally uses console methods for output
+    files: ['src/core/logger/index.ts'],
+    rules: {
+      'no-console': 'off',
     },
   },
   {

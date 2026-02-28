@@ -28,7 +28,7 @@ DRM certificate URL
 
 > **license**: `string`
 
-DRM licence URL
+DRM license URL
 
 ***
 

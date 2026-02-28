@@ -17,3 +17,50 @@ export function validateRequiredString(value: string, fieldName: string): string
   }
   return null;
 }
+
+/**
+ * Validates that a value is a valid URL string
+ * @param value - The value to validate
+ * @param fieldName - The name of the field for error messages
+ * @returns Error message if invalid, null if valid
+ */
+export function validateUrl(value: string, fieldName: string): string | null {
+  try {
+    new URL(value);
+    return null;
+  } catch {
+    return `${fieldName} must be a valid URL`;
+  }
+}
+
+/**
+ * Validates that a value is a non-null object
+ * @param value - The value to validate
+ * @param fieldName - The name of the field for error messages
+ * @returns Error message if invalid, null if valid
+ */
+export function validateObject(value: unknown, fieldName: string): string | null {
+  if (value === null || value === undefined) {
+    return `${fieldName} is required`;
+  }
+  if (typeof value !== 'object') {
+    return `${fieldName} must be an object`;
+  }
+  return null;
+}
+
+/**
+ * Validates that a value is either undefined or a plain object
+ * @param value - The value to validate
+ * @param fieldName - The name of the field for error messages
+ * @returns Error message if invalid, null if valid
+ */
+export function validateOptionalObject(value: unknown, fieldName: string): string | null {
+  if (value === undefined) {
+    return null;
+  }
+  if (typeof value !== 'object' || value === null) {
+    return `${fieldName} must be undefined or an object`;
+  }
+  return null;
+}

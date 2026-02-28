@@ -21,6 +21,7 @@
     "format:fix": "prettier --write \"src/**/*.{ts,js}\"",
     "lint:check": "eslint src",
     "lint:fix": "eslint src --fix",
+    "add-license": "node scripts/add-license-header.js src scripts",
     "playground:data": "node scripts/generate-typedoc-json.js",
     "playground:dev": "npm run playground:data && cd playground && npm run dev",
     "playground:build": "npm run playground:data && cd playground && npm run build",
@@ -68,6 +69,7 @@
     "@typescript-eslint/parser": "^8.56.1",
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsdoc": "^62.7.1",
     "globals": "^17.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
@@ -80,6 +82,9 @@
     "typescript": "^5.9.3"
   },
   "lint-staged": {
-    "src/**/*.{ts,js}": "sh -c 'prettier --write \"$@\" && eslint --fix \"$@\"' _"
+    "src/**/*.{ts,js}": [
+      "node scripts/add-license-header.js",
+      "sh -c 'prettier --write \"$@\" && eslint --fix \"$@\"' _"
+    ]
   }
 }

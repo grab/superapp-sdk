@@ -116,13 +116,13 @@ export type {
 } from './modules/media';
 
 // PlatformModule
-export { default as PlatformModule } from './modules/platfom';
+export { default as PlatformModule } from './modules/platform';
 export type {
   // Back
   BackResponse,
   BackSuccessResponse,
   BackErrorResponse,
-} from './modules/platfom';
+} from './modules/platform';
 
 // ProfileModule
 export { default as ProfileModule } from './modules/profile';

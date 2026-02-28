@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 
 /**
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
  * TypeDoc JSON Generator Script for Playground
  * Generates TypeDoc JSON output for the React playground to consume
  */

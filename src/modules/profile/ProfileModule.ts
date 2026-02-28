@@ -8,6 +8,7 @@
 import { BaseModule } from '../../core';
 import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 import { parseGrabUserAgent, isVersionBelow } from '../../utils/version';
+import { MINIMUM_PROFILE_VERSION } from './constants';
 
 /**
  * Provides functionality related to user profile information.
@@ -40,8 +41,7 @@ class ProfileModule extends BaseModule {
       return false;
     }
 
-    const minimumVersion = { major: 5, minor: 399, patch: 0 };
-    return !isVersionBelow(userAgentInfo, minimumVersion);
+    return !isVersionBelow(userAgentInfo, MINIMUM_PROFILE_VERSION);
   }
 
   /**

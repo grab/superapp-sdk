@@ -122,41 +122,6 @@ export type ClearAuthorizationArtifactsSuccessResponse = NoResultResponse & {
 export type ClearAuthorizationArtifactsResponse = ClearAuthorizationArtifactsSuccessResponse;
 
 /**
- * Grab user agent information parsed from user agent string
- */
-export type GrabUserAgentInfo = {
-  /**
-   * App name (e.g., "Grab", "GrabBeta")
-   */
-  appName: string;
-  /**
-   * Major version number
-   */
-  major: number;
-  /**
-   * Minor version number
-   */
-  minor: number;
-  /**
-   * Patch version number
-   */
-  patch: number;
-  /**
-   * Platform (Android or iOS)
-   */
-  platform: string;
-} | null;
-
-/**
- * Version information for comparison
- */
-export type VersionInfo = {
-  major: number;
-  minor: number;
-  patch: number;
-};
-
-/**
  * Web authorization parameters
  */
 export type WebAuthorizationParams = {

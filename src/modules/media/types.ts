@@ -20,7 +20,7 @@ export type PlayDRMContentRequest = {
    */
   certificate: string;
   /**
-   * DRM licence URL
+   * DRM license URL
    */
   license: string;
   /**

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { BaseModule, logger } from '../../core';
 import { normalizeUrl } from '../../utils/url';
-import { validateRequiredString } from '../../utils/validation';
+import { validateRequiredString, validateUrl, validateObject } from '../../utils/validation';
 import { parseGrabUserAgent, isVersionBelow } from '../../utils/version';
 import { buildAuthorizeUrl } from './utils';
 import { generateRandomString, generateCodeVerifier, generateCodeChallenge } from './utils';
@@ -63,21 +63,29 @@ class IdentityModule extends BaseModule {
     try {
       const response = await fetch(configUrl);
       if (!response.ok) {
-        console.error(
-          `Failed to fetch OpenID configuration from ${configUrl}: ${response.status} ${response.statusText}`
+        logger.error(
+          `Failed to fetch OpenID configuration from ${configUrl}: ${response.status} ${response.statusText}`,
+          'IdentityModule'
         );
         throw new Error('Failed to fetch authorization configuration');
       }
 
       const config = (await response.json()) as { authorization_endpoint?: string };
       if (!config.authorization_endpoint) {
-        console.error('authorization_endpoint not found in OpenID configuration response');
+        logger.error(
+          'authorization_endpoint not found in OpenID configuration response',
+          'IdentityModule'
+        );
         throw new Error('Invalid authorization configuration');
       }
 
       return config.authorization_endpoint;
     } catch (error) {
-      console.error('Error fetching authorization endpoint:', error);
+      logger.error(
+        'Error fetching authorization endpoint',
+        'IdentityModule',
+        error instanceof Error ? error : undefined
+      );
 
       if (
         error instanceof Error &&
@@ -140,7 +148,6 @@ class IdentityModule extends BaseModule {
   }
 
   /** @internal */
-
   private async performWebAuthorization(
     params: WebAuthorizationParams
   ): Promise<AuthorizeResponse> {
@@ -202,12 +209,9 @@ class IdentityModule extends BaseModule {
 
   /** @internal */
   private static validateAuthorizeRequest(request: AuthorizeRequest): string | null {
-    if (request === null || request === undefined) {
-      return 'request is required';
-    }
-
-    if (typeof request !== 'object') {
-      return 'request must be an object';
+    const objectError = validateObject(request, 'request');
+    if (objectError) {
+      return objectError;
     }
 
     const scopeError = validateRequiredString(request.scope, 'scope');
@@ -225,13 +229,9 @@ class IdentityModule extends BaseModule {
       return redirectUriError;
     }
 
-    try {
-      const url = new URL(request.redirectUri);
-      if (!url) {
-        return 'redirectUri must be a valid URL';
-      }
-    } catch {
-      return 'redirectUri must be a valid URL';
+    const redirectUriUrlError = validateUrl(request.redirectUri, 'redirectUri');
+    if (redirectUriUrlError) {
+      return redirectUriUrlError;
     }
 
     const environmentError = validateRequiredString(request.environment, 'environment');
@@ -369,9 +369,9 @@ class IdentityModule extends BaseModule {
         nativeResult.status_code &&
         [400, 401, 403].includes(nativeResult.status_code)
       ) {
-        console.error(
-          `Native authorization returned ${nativeResult.status_code}, falling back to web flow:`,
-          nativeResult.error
+        logger.error(
+          `Native authorization returned ${nativeResult.status_code}, falling back to web flow: ${nativeResult.error}`,
+          'IdentityModule'
         );
         // Fallback to web flow
         return this.performWebAuthorization({
@@ -383,7 +383,11 @@ class IdentityModule extends BaseModule {
       return nativeResult;
     } catch (error) {
       // Native consent is unavailable, fallback to web flow
-      console.error('Native authorization failed, falling back to web flow:', error);
+      logger.error(
+        'Native authorization failed, falling back to web flow',
+        'IdentityModule',
+        error instanceof Error ? error : undefined
+      );
       // Fallback to web flow
       return this.performWebAuthorization({
         ...invokeParams,

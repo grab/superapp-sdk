@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { OpenIDConfigEndpoints, VersionInfo } from './types';
+import type { OpenIDConfigEndpoints } from './types';
+import type { Version } from '../../utils/version/types';
 
 /**
  * Storage namespace for IdentityModule
@@ -43,7 +44,7 @@ export const OPENID_CONFIG_ENDPOINTS: OpenIDConfigEndpoints = {
 /**
  * Minimum version required for native consent flow
  */
-export const MINIMUM_NATIVE_CONSENT_VERSION: VersionInfo = {
+export const MINIMUM_NATIVE_CONSENT_VERSION: Version = {
   major: 5,
   minor: 396,
   patch: 0,

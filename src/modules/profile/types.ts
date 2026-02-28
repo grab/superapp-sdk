@@ -1,39 +1,11 @@
+/**
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import type { SuccessResponse, NoResultResponse, ErrorResponse, Invoke } from '../../core';
-
-/**
- * Parsed Grab user agent information
- */
-export type GrabUserAgentInfo = {
-  /**
-   * App name (e.g., "Grab", "GrabBeta", "GrabBetaDebug", "GrabTaxi", "GrabEarlyAccess")
-   */
-  appName: string;
-  /**
-   * Major version number
-   */
-  major: number;
-  /**
-   * Minor version number
-   */
-  minor: number;
-  /**
-   * Patch version number
-   */
-  patch: number;
-  /**
-   * Platform (Android or iOS)
-   */
-  platform: string;
-} | null;
-
-/**
- * Version information for comparison
- */
-export type VersionInfo = {
-  major: number;
-  minor: number;
-  patch: number;
-};
 
 /**
  * Email data result
