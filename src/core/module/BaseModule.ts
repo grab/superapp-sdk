@@ -10,12 +10,26 @@ import { getErrorMessage, getErrorForLog } from '../../utils';
 import { logger } from '../logger';
 
 /**
- * Base class for all SDK modules
- * Handles common initialization logic for bridge SDK wrapping
+ * Base class for all SDK modules. Handles common initialization logic for bridge SDK wrapping.
+ *
+ * @remarks
+ * Each module extends BaseModule and delegates to the native host via the bridge SDK. On construction,
+ * the class wraps the module on `window` (e.g., `WrappedContainerModule`), enabling invocation of native methods.
+ *
+ * **Duplicate initialization:** If the module is already wrapped, a warning is logged and construction returns early.
+ *
+ * **Environment requirements:** Requires `@grabjs/mobile-kit-bridge-sdk` with `wrapModule` available.
+ * Must run inside a supported environment (e.g., Grab app webview).
  */
 export class BaseModule {
   private readonly name: string;
 
+  /**
+   * Creates a new module instance and wraps it on the global window object.
+   *
+   * @param moduleName - The name of the module (e.g., "ContainerModule", "ProfileModule").
+   * Used to create the wrapped global (e.g., `WrappedContainerModule`).
+   */
   constructor(moduleName: string) {
     this.name = moduleName;
 

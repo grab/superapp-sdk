@@ -8,9 +8,15 @@
 import { GrabUserAgent, Version } from './types';
 
 /**
- * Parses Grab user agent string to extract app information
- * @param userAgent - The user agent string to parse
- * @returns Parsed user agent information or null if invalid
+ * Parses Grab user agent string to extract app information.
+ *
+ * @param userAgent - The user agent string to parse (e.g., from `navigator.userAgent`).
+ *
+ * @returns Parsed user agent information, or `null` if the string does not match the expected format.
+ *
+ * @remarks
+ * Expects format: `{AppName}/v?{major}.{minor}.{patch} ({platform})` where AppName is Grab, GrabBeta,
+ * GrabBetaDebug, GrabTaxi, or GrabEarlyAccess, and platform is Android or iOS.
  */
 export function parseGrabUserAgent(userAgent: string): GrabUserAgent {
   if (!userAgent || typeof userAgent !== 'string') {
@@ -34,10 +40,15 @@ export function parseGrabUserAgent(userAgent: string): GrabUserAgent {
 }
 
 /**
- * Compares two versions to determine if v1 is below v2
- * @param v1 - The version to check
- * @param v2 - The version to compare against
- * @returns True if v1 is below v2, false otherwise
+ * Compares two versions to determine if v1 is below v2.
+ *
+ * @param v1 - The version to check.
+ * @param v2 - The version to compare against.
+ *
+ * @returns `true` if v1 is strictly below v2 (major.minor.patch comparison); `false` otherwise.
+ *
+ * @remarks
+ * Comparison is semantic: major first, then minor, then patch. Equal versions return `false`.
  */
 export function isVersionBelow(v1: Version, v2: Version): boolean {
   if (v1.major !== v2.major) {

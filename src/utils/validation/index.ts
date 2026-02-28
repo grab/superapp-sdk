@@ -6,10 +6,15 @@
  */
 
 /**
- * Validates that a value is a non-empty string
- * @param value - The value to validate
- * @param fieldName - The name of the field for error messages
- * @returns Error message if invalid, null if valid
+ * Validates that a value is a non-empty string.
+ *
+ * @param value - The value to validate.
+ * @param fieldName - The name of the field for error messages.
+ *
+ * @returns Error message if invalid, `null` if valid.
+ *
+ * @remarks
+ * "Non-empty" means the string must exist, be of type string, and not be all whitespace after trim.
  */
 export function validateRequiredString(value: string, fieldName: string): string | null {
   if (!value || typeof value !== 'string' || value.trim() === '') {
@@ -19,10 +24,15 @@ export function validateRequiredString(value: string, fieldName: string): string
 }
 
 /**
- * Validates that a value is a valid URL string
- * @param value - The value to validate
- * @param fieldName - The name of the field for error messages
- * @returns Error message if invalid, null if valid
+ * Validates that a value is a valid URL string.
+ *
+ * @param value - The value to validate.
+ * @param fieldName - The name of the field for error messages.
+ *
+ * @returns Error message if invalid, `null` if valid.
+ *
+ * @remarks
+ * Uses the `URL` constructor for validation. Both absolute and relative URLs are accepted.
  */
 export function validateUrl(value: string, fieldName: string): string | null {
   try {
@@ -34,10 +44,15 @@ export function validateUrl(value: string, fieldName: string): string | null {
 }
 
 /**
- * Validates that a value is a non-null object
- * @param value - The value to validate
- * @param fieldName - The name of the field for error messages
- * @returns Error message if invalid, null if valid
+ * Validates that a value is a non-null object.
+ *
+ * @param value - The value to validate.
+ * @param fieldName - The name of the field for error messages.
+ *
+ * @returns Error message if invalid, `null` if valid.
+ *
+ * @remarks
+ * Accepts any object (including arrays). Rejects `null`, `undefined`, and primitives.
  */
 export function validateObject(value: unknown, fieldName: string): string | null {
   if (value === null || value === undefined) {
@@ -50,10 +65,15 @@ export function validateObject(value: unknown, fieldName: string): string | null
 }
 
 /**
- * Validates that a value is either undefined or a plain object
- * @param value - The value to validate
- * @param fieldName - The name of the field for error messages
- * @returns Error message if invalid, null if valid
+ * Validates that a value is either undefined or a plain object.
+ *
+ * @param value - The value to validate.
+ * @param fieldName - The name of the field for error messages.
+ *
+ * @returns Error message if invalid, `null` if valid.
+ *
+ * @remarks
+ * Use for optional object parameters. `undefined` passes; `null` and primitives fail.
  */
 export function validateOptionalObject(value: unknown, fieldName: string): string | null {
   if (value === undefined) {

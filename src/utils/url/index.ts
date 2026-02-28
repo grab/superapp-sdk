@@ -6,10 +6,14 @@
  */
 
 /**
- * Normalizes a URL by extracting only the origin and pathname
- * Removes query parameters and hash fragments
- * @param urlString - The URL string to normalize
- * @returns Normalized URL with only origin and pathname
+ * Normalizes a URL by extracting only the origin and pathname.
+ *
+ * @param urlString - The URL string to normalize.
+ *
+ * @returns Normalized URL with only origin and pathname.
+ *
+ * @remarks
+ * Strips query parameters and hash fragments. Useful for canonical URL comparison or routing keys.
  */
 export function normalizeUrl(urlString: string): string {
   const parsedUrl = new URL(urlString);

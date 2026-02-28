@@ -5,5 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/**
+ * @packageDocumentation
+ * Core module system: base class and response types for SDK modules.
+ */
+
 export { BaseModule } from './BaseModule';
 export type { Response, ErrorResponse, NoResultResponse, SuccessResponse, Invoke } from './types';

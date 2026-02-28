@@ -4,7 +4,12 @@
 
 > **NoResultResponse** = \{ `status_code`: `204` \| `302`; `result?`: `undefined`; `error?`: `undefined`; \}
 
-No result response from the bridge SDK
+No result response from the bridge SDK.
+
+## Remarks
+
+Returned when an operation completes with no content (e.g., user cancelled a dialog, redirect occurred).
+No `result` or `error` data is provided.
 
 ## Properties
 

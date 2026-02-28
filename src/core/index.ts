@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/**
+ * @packageDocumentation
+ * Core SDK package: BaseModule for native bridge modules, response types, and logger.
+ */
+
 export { BaseModule } from './module';
 export type { Response, ErrorResponse, NoResultResponse, SuccessResponse, Invoke } from './module';
 export { logger, Logger, LogLevel } from './logger';

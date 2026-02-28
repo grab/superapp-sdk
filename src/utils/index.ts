@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/**
+ * @packageDocumentation
+ * Utility helpers: error handling, URL normalization, validation, and version parsing.
+ */
+
 export { getErrorMessage, getErrorForLog } from './error';
 export { normalizeUrl } from './url';
 export {

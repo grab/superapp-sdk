@@ -4,7 +4,12 @@
 
 > **SuccessResponse**\<`T`\> = \{ `status_code`: `200`; `result`: `T`; `error?`: `undefined`; \}
 
-Success response from the bridge SDK
+Success response from the bridge SDK.
+
+## Remarks
+
+Returned when a native operation completes successfully. The `result` field contains the operation data.
+Use type narrowing on `status_code === 200` to safely access `result` in union types.
 
 ## Type Parameters
 

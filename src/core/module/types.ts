@@ -6,7 +6,11 @@
  */
 
 /**
- * Success response from the bridge SDK
+ * Success response from the bridge SDK.
+ *
+ * @remarks
+ * Returned when a native operation completes successfully. The `result` field contains the operation data.
+ * Use type narrowing on `status_code === 200` to safely access `result` in union types.
  */
 export type SuccessResponse<T> = {
   /**
@@ -24,7 +28,11 @@ export type SuccessResponse<T> = {
 };
 
 /**
- * No result response from the bridge SDK
+ * No result response from the bridge SDK.
+ *
+ * @remarks
+ * Returned when an operation completes with no content (e.g., user cancelled a dialog, redirect occurred).
+ * No `result` or `error` data is provided.
  */
 export type NoResultResponse = {
   /**
@@ -44,7 +52,11 @@ export type NoResultResponse = {
 };
 
 /**
- * Error response from the bridge SDK
+ * Error response from the bridge SDK.
+ *
+ * @remarks
+ * Returned when a native operation fails. The `error` field contains a human-readable message.
+ * Use type narrowing on `status_code` to distinguish between validation, permission, and server errors.
  */
 export type ErrorResponse = {
   /**
@@ -66,13 +78,22 @@ export type ErrorResponse = {
 };
 
 /**
- * Native response from the bridge SDK
- * Universal response format for all native modules
+ * Universal response format for all native module operations.
+ *
+ * @remarks
+ * All bridge SDK method calls resolve to this union type. Check `status_code` to determine the outcome:
+ * - `200`: Success — use `result`
+ * - `204` or `302`: No content or redirect
+ * - `400`, `403`, `424`, `500`: Error — use `error`
  */
 export type Response<T> = SuccessResponse<T> | NoResultResponse | ErrorResponse;
 
 /**
- * Helper type to create a typed invoke function
+ * Helper type to create a typed invoke function for native module method calls.
+ *
+ * @remarks
+ * Infers `params` and `response` from the method map. Methods with `params: never` accept no arguments;
+ * others require the corresponding params object.
  */
 export type Invoke<T> = <K extends keyof T>(
   method: K,

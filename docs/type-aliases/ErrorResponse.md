@@ -4,7 +4,12 @@
 
 > **ErrorResponse** = \{ `status_code`: `400` \| `403` \| `424` \| `500`; `result?`: `undefined`; `error`: `string`; \}
 
-Error response from the bridge SDK
+Error response from the bridge SDK.
+
+## Remarks
+
+Returned when a native operation fails. The `error` field contains a human-readable message.
+Use type narrowing on `status_code` to distinguish between validation, permission, and server errors.
 
 ## Properties
 
