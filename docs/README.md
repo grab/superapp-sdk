@@ -1,12 +1,7 @@
 # @grabjs/superapp-sdk
 
-## Enumerations
-
-- [LogLevel](enumerations/LogLevel.md)
-
 ## Classes
 
-- [Logger](classes/Logger.md)
 - [CameraModule](classes/CameraModule.md)
 - [CheckoutModule](classes/CheckoutModule.md)
 - [ContainerModule](classes/ContainerModule.md)
@@ -22,7 +17,6 @@
 
 ## Interfaces
 
-- [LoggerConfig](interfaces/LoggerConfig.md)
 - [AnalyticsEventDetails](interfaces/AnalyticsEventDetails.md)
 
 ## Type Aliases
@@ -133,7 +127,6 @@
 
 ## Variables
 
-- [logger](variables/logger.md)
 - [ContainerAnalyticsEventState](variables/ContainerAnalyticsEventState.md)
 - [ContainerAnalyticsEventName](variables/ContainerAnalyticsEventName.md)
 - [ContainerAnalyticsEventData](variables/ContainerAnalyticsEventData.md)

@@ -5,6 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/**
+ * @packageDocumentation
+ * @grabjs/superapp-sdk - SDK for Grab SuperApp WebView.
+ *
+ * Use the module classes (e.g. CameraModule, IdentityModule) to interact with
+ * native capabilities from miniapps running in the Grab app webview.
+ */
+
 // Core
 // ----
 
@@ -14,6 +22,10 @@ export type { LoggerConfig } from './core';
 
 // Response types
 export type { Response, ErrorResponse, NoResultResponse, SuccessResponse } from './core';
+
+// Utils (environment detection)
+export { parseGrabUserAgent, isVersionBelow } from './utils';
+export type { Version, GrabUserAgent } from './utils';
 
 // Modules
 // -------

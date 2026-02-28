@@ -110,64 +110,60 @@ try {
 
 > **observeLocationChange**(): `Promise`\<[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)\>
 
-Stream the current user's coordinates with continuous updates.
+Get the current user's coordinates (location update).
 
 #### Returns
 
 `Promise`\<[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)\>
 
-Promise that resolves to a stream of [GetCoordinateResponse](../type-aliases/GetCoordinateResponse.md) with continuous location updates.
+Promise that resolves to [GetCoordinateResponse](../type-aliases/GetCoordinateResponse.md) with the current coordinates.
 
 #### Remarks
 
 **Required Scope:** `mobile.geolocation`
 
-This method returns a stream that emits location updates as the user moves.
-Unsubscribe from the subscription to terminate the stream.
+This method retrieves a location update from the native layer.
 
 #### Examples
 
 Basic usage:
 ```typescript
-const subscription = locationModule.observeLocationChange().subscribe({
-  next: (response) => {
-    if (response.status_code === 200) {
+try {
+  const response = await locationModule.observeLocationChange();
+  if (response.status_code === 200) {
+    const { latitude, longitude } = response.result;
+    console.log(`Updated location: ${latitude}, ${longitude}`);
+    updateMapMarker(latitude, longitude);
+  }
+} catch (error) {
+  console.error(error);
+}
+```
+
+Handling the response:
+```typescript
+try {
+  const response = await locationModule.observeLocationChange();
+
+  switch (response.status_code) {
+    case 200:
       const { latitude, longitude } = response.result;
       console.log(`Updated location: ${latitude}, ${longitude}`);
       updateMapMarker(latitude, longitude);
-    }
+      break;
+    case 403:
+      console.error('Location access denied:', response.error);
+      break;
+    case 424:
+      console.error('Location service unavailable:', response.error);
+      break;
+    case 500:
+      console.error('Location update error:', response.error);
+      break;
   }
-});
-
-// Later, unsubscribe to stop receiving updates
-// subscription.unsubscribe();
-```
-
-Handling location updates:
-```typescript
-const subscription = locationModule.observeLocationChange().subscribe({
-  next: (response) => {
-    switch (response.status_code) {
-      case 200:
-        const { latitude, longitude } = response.result;
-        console.log(`Updated location: ${latitude}, ${longitude}`);
-        updateMapMarker(latitude, longitude);
-        break;
-      case 403:
-        console.error('Location access denied:', response.error);
-        break;
-      case 424:
-        console.error('Location service unavailable:', response.error);
-        break;
-      case 500:
-        console.error('Location update error:', response.error);
-        break;
-    }
-  },
-  complete: () => {
-    console.log('Location stream completed');
-  }
-});
+} catch (error) {
+  console.error(error);
+}
 ```
 
 ***

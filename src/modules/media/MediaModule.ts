@@ -42,7 +42,7 @@ class MediaModule extends BaseModule {
    * Play DRM-protected content in the native media player.
    *
    * @remarks
-   * This method returns a data stream that emits events about the video playback status.
+   * This method initiates DRM content playback and returns the initial response.
    *
    * **Event Types:** (see {@link PlaybackEventType})
    * - `START_PLAYBACK`: Emitted when the video starts playing
@@ -57,7 +57,7 @@ class MediaModule extends BaseModule {
    *
    * @param request - Video data for DRM content playback.
    *
-   * @returns Promise that resolves to a stream of {@link PlayDRMContentResponse} with playback status events.
+   * @returns Promise that resolves to {@link PlayDRMContentResponse}.
    *
    * @see {@link PlaybackEventType}
    *
@@ -65,66 +65,54 @@ class MediaModule extends BaseModule {
    * Basic usage:
    * ```typescript
    * try {
-   *   mediaModule
-   *     .playDRMContent({
-   *       content: 'https://example.com/content.mpd',
-   *       certificate: 'https://example.com/cert.cer',
-   *       license: 'https://example.com/license',
-   *       titleId: 'video-123'
-   *     })
-   *     .subscribe({
-   *       next: (response) => {
-   *         if (response.status_code === 200) {
-   *           const { type, position, length } = response.result;
-   *           console.log(`Playback event: ${type} at ${position}s / ${length}s`);
-   *         }
-   *       }
-   *     });
+   *   const response = await mediaModule.playDRMContent({
+   *     content: 'https://example.com/content.mpd',
+   *     certificate: 'https://example.com/cert.cer',
+   *     license: 'https://example.com/license',
+   *     titleId: 'video-123'
+   *   });
+   *   if (response.status_code === 200) {
+   *     const { type, position, length } = response.result;
+   *     console.log(`Playback event: ${type} at ${position}s / ${length}s`);
+   *   }
    * } catch (error) {
    *   console.error('DRM playback not supported:', error);
    * }
    * ```
    *
    * @example
-   * Handling playback events:
+   * Handling the response:
    * ```typescript
    * try {
-   *   mediaModule
-   *     .playDRMContent({
-   *       content: 'https://example.com/content.mpd',
-   *       certificate: 'https://example.com/cert.cer',
-   *       license: 'https://example.com/license',
-   *       titleId: 'video-123'
-   *     })
-   *     .subscribe({
-   *       next: (response) => {
-   *         switch (response.status_code) {
-   *           case 200:
-   *             const { type, titleId, length, position } = response.result;
-   *             if (type === 'START_PLAYBACK') {
-   *               console.log('Video started:', titleId);
-   *             } else if (type === 'PROGRESS_PLAYBACK') {
-   *               console.log(`Progress: ${position}s / ${length}s`);
-   *               updateProgressBar(position, length);
-   *             } else if (type === 'STOP_PLAYBACK') {
-   *               console.log('Video stopped');
-   *             }
-   *             break;
-   *           case 400:
-   *             console.error('Invalid request:', response.error);
-   *             break;
-   *           case 403:
-   *             console.error('DRM permission denied:', response.error);
-   *             break;
-   *           case 500:
-   *             console.error('Playback error:', response.error);
-   *             break;
-   *         }
-   *       },
-   *       complete: () => {
-   *         console.log('Playback stream completed');
+   *   const response = await mediaModule.playDRMContent({
+   *     content: 'https://example.com/content.mpd',
+   *     certificate: 'https://example.com/cert.cer',
+   *     license: 'https://example.com/license',
+   *     titleId: 'video-123'
+   *   });
+   *
+   *   switch (response.status_code) {
+   *     case 200:
+   *       const { type, titleId, length, position } = response.result;
+   *       if (type === 'START_PLAYBACK') {
+   *         console.log('Video started:', titleId);
+   *       } else if (type === 'PROGRESS_PLAYBACK') {
+   *         console.log(`Progress: ${position}s / ${length}s`);
+   *         updateProgressBar(position, length);
+   *       } else if (type === 'STOP_PLAYBACK') {
+   *         console.log('Video stopped');
    *       }
-   *     });
+   *       break;
+   *     case 400:
+   *       console.error('Invalid request:', response.error);
+   *       break;
+   *     case 403:
+   *       console.error('DRM permission denied:', response.error);
+   *       break;
+   *     case 500:
+   *       console.error('Playback error:', response.error);
+   *       break;
+   *   }
    * } catch (error) {
    *   console.error('DRM playback not supported:', error);
    * }

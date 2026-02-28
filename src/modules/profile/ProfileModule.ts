@@ -7,7 +7,7 @@
 
 import { BaseModule } from '../../core';
 import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
-import { parseGrabUserAgent, isVersionBelow } from '../../utils/version';
+import { parseGrabUserAgent, isVersionBelow } from '../../utils';
 import { MINIMUM_PROFILE_VERSION } from './constants';
 
 /**

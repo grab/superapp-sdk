@@ -32,7 +32,7 @@ export default {
     typescript({
       tsconfig: './tsconfig.json',
       declaration: true,
-      declarationMap: false,
+      declarationMap: true,
       module: 'ESNext',
       target: 'ES2018',
     }),

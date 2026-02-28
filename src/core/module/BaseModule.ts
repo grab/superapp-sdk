@@ -6,6 +6,7 @@
  */
 
 import * as bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { getErrorMessage, getErrorForLog } from '../../utils';
 import { logger } from '../logger';
 
 /**
@@ -34,11 +35,11 @@ export class BaseModule {
       bridgeSDK.wrapModule(window, this.name);
       logger.debug(`${this.name} module initialized successfully`, this.name);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = getErrorMessage(error);
       logger.error(
         `Failed to initialize ${this.name}: ${errorMessage}`,
         this.name,
-        error instanceof Error ? error : undefined
+        getErrorForLog(error)
       );
       throw new Error(`Failed to initialize ${this.name}: ${errorMessage}`);
     }

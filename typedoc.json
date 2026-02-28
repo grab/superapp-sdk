@@ -3,6 +3,7 @@
   "entryPoints": ["./src/index.ts"],
   "plugin": ["typedoc-plugin-markdown"],
   "out": "./docs",
+  "exclude": ["src/core/logger/**", "src/utils/**"],
   "excludePrivate": true,
   "excludeInternal": true,
   "excludeProtected": true,

@@ -6,7 +6,7 @@
  */
 
 import { Response, BaseModule } from '../../core';
-import { validateRequiredString, validateOptionalObject } from '../../utils/validation';
+import { validateRequiredString, validateOptionalObject } from '../../utils';
 import { AnalyticsEventDetails } from './types';
 
 /**

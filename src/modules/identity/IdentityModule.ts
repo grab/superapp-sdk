@@ -6,11 +6,22 @@
  */
 
 import { BaseModule, logger } from '../../core';
-import { normalizeUrl } from '../../utils/url';
-import { validateRequiredString, validateUrl, validateObject } from '../../utils/validation';
-import { parseGrabUserAgent, isVersionBelow } from '../../utils/version';
-import { buildAuthorizeUrl } from './utils';
-import { generateRandomString, generateCodeVerifier, generateCodeChallenge } from './utils';
+import {
+  normalizeUrl,
+  validateRequiredString,
+  validateUrl,
+  validateObject,
+  parseGrabUserAgent,
+  isVersionBelow,
+  getErrorMessage,
+  getErrorForLog,
+} from '../../utils';
+import {
+  buildAuthorizeUrl,
+  generateRandomString,
+  generateCodeVerifier,
+  generateCodeChallenge,
+} from './utils';
 import type {
   Environment,
   PKCEArtifacts,
@@ -93,7 +104,7 @@ class IdentityModule extends BaseModule {
       logger.error(
         'Error fetching authorization endpoint',
         'IdentityModule',
-        error instanceof Error ? error : undefined
+        getErrorForLog(error)
       );
 
       if (
@@ -174,7 +185,7 @@ class IdentityModule extends BaseModule {
     } catch (error) {
       return Promise.resolve({
         status_code: 400,
-        error: error instanceof Error ? error.message : String(error),
+        error: getErrorMessage(error),
       });
     }
 
@@ -395,7 +406,7 @@ class IdentityModule extends BaseModule {
       logger.error(
         'Native authorization failed, falling back to web flow',
         'IdentityModule',
-        error instanceof Error ? error : undefined
+        getErrorForLog(error)
       );
       // Fallback to web flow
       return this.performWebAuthorization({
