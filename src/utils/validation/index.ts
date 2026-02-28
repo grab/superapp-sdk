@@ -14,10 +14,10 @@
  * @returns Error message if invalid, `null` if valid.
  *
  * @remarks
- * "Non-empty" means the string must exist, be of type string, and not be all whitespace after trim.
+ * "Non-empty" means the string must exist and not be all whitespace after trim.
  */
 export function validateRequiredString(value: string, fieldName: string): string | null {
-  if (!value || typeof value !== 'string' || value.trim() === '') {
+  if (!value || value.trim() === '') {
     return `${fieldName} is required and must be a non-empty string`;
   }
   return null;

@@ -20,17 +20,18 @@ const HEADER = `/**
 
 const COPYRIGHT_MARKER = 'Copyright (c) Grab';
 
-function addLicenseHeader(filePath, checkOnly = false) {
+function addLicenseHeader(filePath: string, checkOnly = false): boolean {
   const ext = path.extname(filePath);
   if (ext !== '.ts' && ext !== '.js') {
     return false;
   }
 
-  let content;
+  let content: string;
   try {
     content = fs.readFileSync(filePath, 'utf8');
-  } catch (err) {
-    console.error(`Cannot read ${filePath}:`, err.message);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`Cannot read ${filePath}:`, message);
     return false;
   }
 
@@ -42,24 +43,23 @@ function addLicenseHeader(filePath, checkOnly = false) {
     return true;
   }
 
-  let newContent;
+  let newContent: string;
   if (content.startsWith('#!')) {
     const firstNewline = content.indexOf('\n');
     if (firstNewline === -1) {
-      newContent = content + '\n\n' + HEADER;
+      newContent = `${content}\n\n${HEADER}`;
     } else {
-      newContent =
-        content.slice(0, firstNewline + 1) + '\n' + HEADER + content.slice(firstNewline + 1);
+      newContent = `${content.slice(0, firstNewline + 1)}\n${HEADER}${content.slice(firstNewline + 1)}`;
     }
   } else {
-    newContent = HEADER + '\n' + content;
+    newContent = `${HEADER}\n${content}`;
   }
 
   fs.writeFileSync(filePath, newContent, 'utf8');
   return true;
 }
 
-function findSourceFiles(dir, files = []) {
+function findSourceFiles(dir: string, files: string[] = []): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
@@ -78,11 +78,9 @@ function findSourceFiles(dir, files = []) {
 }
 
 const hasCheck = process.argv.includes('--check');
-const args = process.argv
-  .slice(2)
-  .filter((arg) => arg !== '--check' && !arg.startsWith('-'));
+const args = process.argv.slice(2).filter((arg) => arg !== '--check' && !arg.startsWith('-'));
 const paths = args.length > 0 ? args : ['src', 'scripts'];
-const files = [];
+const files: string[] = [];
 
 for (const arg of paths) {
   try {
@@ -92,18 +90,19 @@ for (const arg of paths) {
     } else if (stat.isFile()) {
       files.push(arg);
     }
-  } catch (err) {
-    console.error(`Cannot access ${arg}:`, err.message);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`Cannot access ${arg}:`, message);
   }
 }
 
 if (files.length === 0) {
-  console.error('Usage: node add-license-header.js [--check] <file1|dir1> [file2|dir2] ...');
+  console.error('Usage: node add-license-header.ts [--check] <file1|dir1> [file2|dir2] ...');
   process.exit(1);
 }
 
 if (hasCheck) {
-  const missing = [];
+  const missing: string[] = [];
   for (const file of files) {
     if (addLicenseHeader(file, true)) {
       missing.push(file);

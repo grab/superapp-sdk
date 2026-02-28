@@ -6,7 +6,15 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['dist/', 'node_modules/', 'coverage/', 'demo/', '*.config.js', 'eslint.config.js', 'scripts/'],
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'coverage/',
+      'demo/',
+      'playground/',
+      'slides/',
+      '**/*.config.{js,mjs,cjs}',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.js'],
@@ -60,14 +68,12 @@ export default [
       // Code quality
       complexity: ['warn', 15],
       'max-depth': ['warn', 4],
-      'max-lines-per-function': [
-        'warn',
-        { max: 100, skipBlankLines: true, skipComments: true },
-      ],
+      'max-lines-per-function': ['warn', { max: 100, skipBlankLines: true, skipComments: true }],
 
       // JSDoc consistency
       'jsdoc/check-param-names': 'warn',
       'jsdoc/check-types': 'off',
+      'jsdoc/require-param': 'warn',
       'jsdoc/require-param-description': 'warn',
       'jsdoc/require-returns-description': 'warn',
 
@@ -83,15 +89,10 @@ export default [
     },
   },
   {
-    // Relax rules for build configuration files
-    files: ['eslint.config.js'],
-    languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-    },
+    // Relax rules for scripts (build/dev utilities)
+    files: ['scripts/**/*.ts'],
     rules: {
-      '@typescript-eslint/no-var-requires': 'off',
+      'no-console': 'off',
     },
   },
 ];

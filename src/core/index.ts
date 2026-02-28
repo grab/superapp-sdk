@@ -12,5 +12,6 @@
 
 export { BaseModule } from './module';
 export type { Response, ErrorResponse, NoResultResponse, SuccessResponse, Invoke } from './module';
+export { createValidationErrorResponse } from './response';
 export { logger, Logger, LogLevel } from './logger';
 export type { LoggerConfig } from './logger';

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { BaseModule, createValidationErrorResponse } from '../../core';
 import { validateRequiredString, validateOptionalObject } from '../../utils';
 import {
   ContainerAnalyticsEventState,
@@ -458,10 +458,9 @@ class ContainerModule extends BaseModule {
   sendAnalyticsEvent(eventDetails: AnalyticsEventDetails): Promise<SendAnalyticsEventResponse> {
     const validationError = this._validateAnalyticsEvent(eventDetails);
     if (validationError) {
-      return Promise.resolve({
-        status_code: 400,
-        error: validationError,
-      });
+      return Promise.resolve(
+        createValidationErrorResponse(validationError) as SendAnalyticsEventResponse
+      );
     }
     return window.WrappedContainerModule.invoke('sendAnalyticsEvent', {
       state: eventDetails.state,
@@ -577,7 +576,10 @@ class ContainerModule extends BaseModule {
   }
 
   /**
-   * Validate the analytics event details
+   * Validate the analytics event details.
+   *
+   * @param eventDetails - Details for analytics events sent to the container.
+   * @returns Error message if invalid, `null` if valid.
    * @internal
    */
   private _validateAnalyticsEvent(eventDetails: AnalyticsEventDetails): string | null {

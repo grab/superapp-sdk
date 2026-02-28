@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { BaseModule, logger } from '../../core';
+import { BaseModule, logger, createValidationErrorResponse } from '../../core';
 import {
   normalizeUrl,
   validateRequiredString,
@@ -21,7 +21,6 @@ import {
   generateCodeVerifier,
   generateCodeChallenge,
 } from './utils';
-/* eslint-disable @typescript-eslint/no-unused-vars -- ResponseMode imported for JSDoc @link resolution */
 import type {
   Environment,
   ResponseMode,
@@ -35,7 +34,6 @@ import type {
   ShouldUseWebConsentRequest,
   AuthorizeResponse,
 } from './types';
-/* eslint-enable @typescript-eslint/no-unused-vars */
 import {
   NAMESPACE,
   CODE_CHALLENGE_METHOD,
@@ -75,7 +73,18 @@ class IdentityModule extends BaseModule {
     super('IdentityModule');
   }
 
-  /** @internal */
+  /**
+   * @internal
+   * Exists only to ensure ResponseMode is imported in the generated .d.ts for {@link} resolution.
+   * Do not use.
+   */
+  static readonly _responseModeDocRef: ResponseMode | undefined = undefined;
+
+  /**
+   * @param environment - The environment (staging or production).
+   * @returns The authorization endpoint URL.
+   * @internal
+   */
   private async fetchAuthorizationEndpoint(environment: Environment): Promise<string> {
     const configUrl = OPENID_CONFIG_ENDPOINTS[environment];
     if (!configUrl) {
@@ -137,7 +146,10 @@ class IdentityModule extends BaseModule {
     };
   }
 
-  /** @internal */
+  /**
+   * @param artifacts - The PKCE artifacts to store.
+   * @internal
+   */
   private storePKCEArtifacts(artifacts: StoredPKCEArtifacts): void {
     this.setStorageItem('nonce', artifacts.nonce);
     this.setStorageItem('state', artifacts.state);
@@ -145,17 +157,29 @@ class IdentityModule extends BaseModule {
     this.setStorageItem('redirect_uri', artifacts.redirectUri);
   }
 
-  /** @internal */
+  /**
+   * @param key - The storage key.
+   * @param value - The value to store.
+   * @internal
+   */
   private setStorageItem(key: string, value: string): void {
     window.localStorage.setItem(`${NAMESPACE}:${key}`, value);
   }
 
-  /** @internal */
+  /**
+   * @param key - The storage key.
+   * @returns The stored value or null.
+   * @internal
+   */
   private getStorageItem(key: string): string | null {
     return window.localStorage.getItem(`${NAMESPACE}:${key}`);
   }
 
-  /** @internal */
+  /**
+   * @param request - The authorization request.
+   * @returns Whether to use web consent flow.
+   * @internal
+   */
   private static shouldUseWebConsent(request: ShouldUseWebConsentRequest): boolean {
     if (request.environment === 'staging') {
       return false;
@@ -164,7 +188,11 @@ class IdentityModule extends BaseModule {
     return !meetsMinimumVersion(window.navigator.userAgent, MINIMUM_NATIVE_CONSENT_VERSION);
   }
 
-  /** @internal */
+  /**
+   * @param params - Web authorization parameters.
+   * @returns The authorization response.
+   * @internal
+   */
   private async performWebAuthorization(
     params: WebAuthorizationParams
   ): Promise<AuthorizeResponse> {
@@ -208,7 +236,11 @@ class IdentityModule extends BaseModule {
     });
   }
 
-  /** @internal */
+  /**
+   * @param invokeParams - Parameters for native authorization invocation.
+   * @returns The authorization response.
+   * @internal
+   */
   private static performNativeAuthorization(
     invokeParams: NativeAuthorizationParams
   ): Promise<AuthorizeResponse> {
@@ -224,7 +256,11 @@ class IdentityModule extends BaseModule {
     });
   }
 
-  /** @internal */
+  /**
+   * @param request - The authorization request to validate.
+   * @returns Error message if invalid, `null` if valid.
+   * @internal
+   */
   private static validateAuthorizeRequest(request: AuthorizeRequest): string | null {
     const objectError = validateObject(request, 'request');
     if (objectError) {
@@ -339,7 +375,7 @@ class IdentityModule extends BaseModule {
   async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
     const validationError = IdentityModule.validateAuthorizeRequest(request);
     if (validationError) {
-      return Promise.resolve({ status_code: 400, error: validationError });
+      return Promise.resolve(createValidationErrorResponse(validationError) as AuthorizeResponse);
     }
 
     const pkceArtifacts = this.generatePKCEArtifacts();

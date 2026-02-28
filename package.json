@@ -18,16 +18,12 @@
     "docs": "rm -rf docs && typedoc",
     "check": "npm run type:check && npm run format:check && npm run lint:check && npm run license:check",
     "fix": "npm run format:fix && npm run lint:fix && npm run license:fix",
-    "format:check": "prettier --check \"src/**/*.{ts,js}\"",
-    "format:fix": "prettier --write \"src/**/*.{ts,js}\"",
-    "license:check": "node scripts/add-license-header.js --check src scripts",
-    "license:fix": "node scripts/add-license-header.js src scripts",
-    "lint:check": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "playground:data": "node scripts/generate-typedoc-json.js",
-    "playground:dev": "npm run playground:data && cd playground && npm run dev",
-    "playground:build": "npm run playground:data && cd playground && npm run build",
-    "playground": "npm run playground:dev",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "license:check": "tsx scripts/add-license-header.ts --check",
+    "license:fix": "tsx scripts/add-license-header.ts",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint . --fix",
     "prepare": "husky",
     "prepublishOnly": "npm run build",
     "type:check": "tsc --noEmit"
@@ -67,6 +63,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/crypto-js": "^4.2.2",
+    "@types/node": "^25.3.2",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
     "eslint": "^10.0.2",
@@ -79,14 +76,25 @@
     "prettier": "^3.8.1",
     "rollup": "^4.59.0",
     "tslib": "^2.8.1",
+    "tsx": "^4.21.0",
     "typedoc": "^0.28.17",
     "typedoc-plugin-markdown": "^4.10.0",
     "typescript": "^5.9.3"
   },
   "lint-staged": {
     "src/**/*.{ts,js}": [
-      "node scripts/add-license-header.js",
+      "tsx scripts/add-license-header.ts",
       "sh -c 'prettier --write \"$@\" && eslint --fix \"$@\"' _"
+    ],
+    "scripts/**/*.{ts,js}": [
+      "tsx scripts/add-license-header.ts",
+      "sh -c 'prettier --write \"$@\" && eslint --fix \"$@\"' _"
+    ],
+    "*.config.{js,mjs,cjs}": [
+      "prettier --write"
+    ],
+    ".prettierrc": [
+      "prettier --write"
     ]
   }
 }
