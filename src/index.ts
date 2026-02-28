@@ -24,7 +24,7 @@ export type { LoggerConfig } from './core';
 export type { Response, ErrorResponse, NoResultResponse, SuccessResponse } from './core';
 
 // Utils (environment detection)
-export { parseGrabUserAgent, isVersionBelow } from './utils';
+export { parseGrabUserAgent, isVersionBelow, meetsMinimumVersion } from './utils';
 export type { Version, GrabUserAgent } from './utils';
 
 // Modules

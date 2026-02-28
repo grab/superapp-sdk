@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { HasAccessToResponse, ReloadScopesResponse } from './types';
+import type { HasAccessToResponse, ReloadScopesResponse } from './types';
 
 /**
  * Provides access to scope control related APIs.

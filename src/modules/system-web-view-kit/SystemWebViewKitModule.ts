@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
+import type { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
  * Provides functionality to open a URL in a system webview.

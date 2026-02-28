@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import {
+import type {
   SetResponse,
   GetBooleanResponse,
   GetIntResponse,

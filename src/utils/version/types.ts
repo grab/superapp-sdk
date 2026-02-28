@@ -9,7 +9,7 @@
  * Version information for semantic version comparison.
  *
  * @remarks
- * Used with {@link isVersionBelow} for feature version checks (e.g., minimum app version).
+ * Used with isVersionBelow for feature version checks (e.g., minimum app version).
  */
 export type Version = {
   major: number;
@@ -21,7 +21,7 @@ export type Version = {
  * Grab user agent information parsed from the `navigator.userAgent` string.
  *
  * @remarks
- * Returned by {@link parseGrabUserAgent}. Use for app/version checks before calling version-dependent APIs.
+ * Returned by parseGrabUserAgent. Use for app/version checks before calling version-dependent APIs.
  */
 export type GrabUserAgent = {
   /**

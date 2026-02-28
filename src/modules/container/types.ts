@@ -391,8 +391,11 @@ export type IsConnectedResponse = IsConnectedSuccessResponse | IsConnectedErrorR
 
 /**
  * Success response for getSessionParams
+ *
+ * @remarks
+ * The native layer returns session parameters as a JSON string. Parse with `JSON.parse(result)` to use as an object.
  */
-export type GetSessionParamsSuccessResponse = SuccessResponse<Record<string, unknown>>;
+export type GetSessionParamsSuccessResponse = SuccessResponse<string>;
 
 /**
  * Error response for getSessionParams

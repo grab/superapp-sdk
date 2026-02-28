@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { GetLanguageLocaleIdentifierResponse } from './types';
+import type { GetLanguageLocaleIdentifierResponse } from './types';
 
 /**
  * Provides functionality to retrieve current locale information.

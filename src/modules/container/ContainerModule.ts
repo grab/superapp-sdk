@@ -5,9 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Response, BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { validateRequiredString, validateOptionalObject } from '../../utils';
-import { AnalyticsEventDetails } from './types';
+import {
+  ContainerAnalyticsEventState,
+  ContainerAnalyticsEventName,
+  ContainerAnalyticsEventData,
+} from './types';
+import type {
+  AnalyticsEventDetails,
+  SetBackgroundColorResponse,
+  SetTitleResponse,
+  HideBackButtonResponse,
+  ShowBackButtonResponse,
+  HideRefreshButtonResponse,
+  ShowRefreshButtonResponse,
+  CloseResponse,
+  OnContentLoadedResponse,
+  ShowLoaderResponse,
+  HideLoaderResponse,
+  OpenExternalLinkResponse,
+  OnCtaTapResponse,
+  SendAnalyticsEventResponse,
+  IsConnectedResponse,
+  GetSessionParamsResponse,
+} from './types';
 
 /**
  * Provides APIs to interact with the webview container.
@@ -39,11 +61,23 @@ class ContainerModule extends BaseModule {
   }
 
   /**
+   * @internal
+   * Exists only to ensure ContainerAnalyticsEventState, ContainerAnalyticsEventName,
+   * and ContainerAnalyticsEventData are imported in the generated .d.ts for {@link} resolution.
+   * Do not use.
+   */
+  static readonly _analyticsDocRef: readonly [
+    typeof ContainerAnalyticsEventState,
+    typeof ContainerAnalyticsEventName,
+    typeof ContainerAnalyticsEventData,
+  ] = [ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData];
+
+  /**
    * Set the background color of the container.
    *
    * @param backgroundColor - Hexadecimal color value (e.g., "#ffffff", "#000000").
    *
-   * @returns Promise that resolves to {@link Response} when background color is set.
+   * @returns Promise that resolves to {@link SetBackgroundColorResponse} when background color is set.
    *
    * @example
    * ```typescript
@@ -55,7 +89,7 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  setBackgroundColor(backgroundColor: string): Promise<Response<undefined>> {
+  setBackgroundColor(backgroundColor: string): Promise<SetBackgroundColorResponse> {
     return window.WrappedContainerModule.invoke('setBackgroundColor', {
       backgroundColor,
     });
@@ -66,7 +100,7 @@ class ContainerModule extends BaseModule {
    *
    * @param title - Title text to display in the navigation bar.
    *
-   * @returns Promise that resolves to {@link Response} when title is set.
+   * @returns Promise that resolves to {@link SetTitleResponse} when title is set.
    *
    * @example
    * ```typescript
@@ -77,14 +111,14 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  setTitle(title: string): Promise<Response<undefined>> {
+  setTitle(title: string): Promise<SetTitleResponse> {
     return window.WrappedContainerModule.invoke('setTitle', { title });
   }
 
   /**
    * Hide the back button of the container.
    *
-   * @returns Promise that resolves to {@link Response} when back button is hidden.
+   * @returns Promise that resolves to {@link HideBackButtonResponse} when back button is hidden.
    *
    * @example
    * ```typescript
@@ -95,14 +129,14 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  hideBackButton(): Promise<Response<undefined>> {
+  hideBackButton(): Promise<HideBackButtonResponse> {
     return window.WrappedContainerModule.invoke('hideBackButton');
   }
 
   /**
    * Show the back button of the container.
    *
-   * @returns Promise that resolves to {@link Response} when back button is shown.
+   * @returns Promise that resolves to {@link ShowBackButtonResponse} when back button is shown.
    *
    * @example
    * ```typescript
@@ -113,14 +147,14 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  showBackButton(): Promise<Response<undefined>> {
+  showBackButton(): Promise<ShowBackButtonResponse> {
     return window.WrappedContainerModule.invoke('showBackButton');
   }
 
   /**
    * Hide the refresh button of the container.
    *
-   * @returns Promise that resolves to {@link Response} when refresh button is hidden.
+   * @returns Promise that resolves to {@link HideRefreshButtonResponse} when refresh button is hidden.
    *
    * @example
    * ```typescript
@@ -131,14 +165,14 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  hideRefreshButton(): Promise<Response<undefined>> {
+  hideRefreshButton(): Promise<HideRefreshButtonResponse> {
     return window.WrappedContainerModule.invoke('hideRefreshButton');
   }
 
   /**
    * Show the refresh button of the container.
    *
-   * @returns Promise that resolves to {@link Response} when refresh button is shown.
+   * @returns Promise that resolves to {@link ShowRefreshButtonResponse} when refresh button is shown.
    *
    * @example
    * ```typescript
@@ -149,7 +183,7 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  showRefreshButton(): Promise<Response<undefined>> {
+  showRefreshButton(): Promise<ShowRefreshButtonResponse> {
     return window.WrappedContainerModule.invoke('showRefreshButton');
   }
 
@@ -159,7 +193,7 @@ class ContainerModule extends BaseModule {
    * @remarks
    * This method closes the current webview and returns the user to the previous screen.
    *
-   * @returns Promise that resolves to {@link Response} when container is closed.
+   * @returns Promise that resolves to {@link CloseResponse} when container is closed.
    *
    * @example
    * Close after completing a task
@@ -183,7 +217,7 @@ class ContainerModule extends BaseModule {
    * });
    * ```
    */
-  close(): Promise<Response<undefined>> {
+  close(): Promise<CloseResponse> {
     return window.WrappedContainerModule.invoke('close');
   }
 
@@ -194,7 +228,7 @@ class ContainerModule extends BaseModule {
    * Call this method to inform the container that the page content has finished loading.
    * This can be used to hide loading indicators or trigger post-load actions on the native side.
    *
-   * @returns Promise that resolves to {@link Response} when notification is sent.
+   * @returns Promise that resolves to {@link OnContentLoadedResponse} when notification is sent.
    *
    * @example
    * ```typescript
@@ -207,7 +241,7 @@ class ContainerModule extends BaseModule {
    * });
    * ```
    */
-  onContentLoaded(): Promise<Response<undefined>> {
+  onContentLoaded(): Promise<OnContentLoadedResponse> {
     return window.WrappedContainerModule.invoke('onContentLoaded');
   }
 
@@ -218,7 +252,7 @@ class ContainerModule extends BaseModule {
    * Call this method to notify the client to show a loading indicator.
    * Remember to call {@link hideLoader} when the operation completes.
    *
-   * @returns Promise that resolves to {@link Response} when loader is shown.
+   * @returns Promise that resolves to {@link ShowLoaderResponse} when loader is shown.
    *
    * @example
    * ```typescript
@@ -236,7 +270,7 @@ class ContainerModule extends BaseModule {
    * fetchData();
    * ```
    */
-  showLoader(): Promise<Response<undefined>> {
+  showLoader(): Promise<ShowLoaderResponse> {
     return window.WrappedContainerModule.invoke('showLoader');
   }
 
@@ -247,7 +281,7 @@ class ContainerModule extends BaseModule {
    * Call this method to notify the client to hide the loading indicator.
    * Should be called after {@link showLoader} when the operation completes.
    *
-   * @returns Promise that resolves to {@link Response} when loader is hidden.
+   * @returns Promise that resolves to {@link HideLoaderResponse} when loader is hidden.
    *
    * @example
    * ```typescript
@@ -258,7 +292,7 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  hideLoader(): Promise<Response<undefined>> {
+  hideLoader(): Promise<HideLoaderResponse> {
     return window.WrappedContainerModule.invoke('hideLoader');
   }
 
@@ -271,7 +305,7 @@ class ContainerModule extends BaseModule {
    *
    * @param url - URL to open in external browser.
    *
-   * @returns Promise that resolves to {@link Response} when external link is opened.
+   * @returns Promise that resolves to {@link OpenExternalLinkResponse} when external link is opened.
    *
    * @example
    * Open external link
@@ -296,7 +330,7 @@ class ContainerModule extends BaseModule {
    * });
    * ```
    */
-  openExternalLink(url: string): Promise<Response<undefined>> {
+  openExternalLink(url: string): Promise<OpenExternalLinkResponse> {
     return window.WrappedContainerModule.invoke('openExternalLink', { url });
   }
 
@@ -309,7 +343,7 @@ class ContainerModule extends BaseModule {
    *
    * @param action - CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE", "BOOKING_CONFIRMED").
    *
-   * @returns Promise that resolves to {@link Response} when CTA tap is notified.
+   * @returns Promise that resolves to {@link OnCtaTapResponse} when CTA tap is notified.
    *
    * @example
    * Notify CTA tap
@@ -334,7 +368,7 @@ class ContainerModule extends BaseModule {
    * });
    * ```
    */
-  onCtaTap(action: string): Promise<Response<undefined>> {
+  onCtaTap(action: string): Promise<OnCtaTapResponse> {
     return window.WrappedContainerModule.invoke('onCtaTap', { action });
   }
 
@@ -421,7 +455,7 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  sendAnalyticsEvent(eventDetails: AnalyticsEventDetails): Promise<Response<undefined>> {
+  sendAnalyticsEvent(eventDetails: AnalyticsEventDetails): Promise<SendAnalyticsEventResponse> {
     const validationError = this._validateAnalyticsEvent(eventDetails);
     if (validationError) {
       return Promise.resolve({
@@ -442,7 +476,7 @@ class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to verify the connection status before using other SDK features.
    *
-   * @returns Promise that resolves to {@link Response} with connection status.
+   * @returns Promise that resolves to {@link IsConnectedResponse} with connection status.
    *
    * @example
    * Check connection status
@@ -474,7 +508,7 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  isConnected(): Promise<Response<undefined>> {
+  isConnected(): Promise<IsConnectedResponse> {
     const userAgent = window.navigator && window.navigator.userAgent;
     if (!userAgent) {
       return Promise.resolve({
@@ -503,10 +537,10 @@ class ContainerModule extends BaseModule {
    * Get the session parameters from the container.
    *
    * @remarks
-   * Session params can be in any format (primitive, base64 encoded string, etc).
-   * Use this to retrieve configuration or state that was passed when opening the webview.
+   * The native layer returns session parameters as a JSON string. Parse with `JSON.parse(result)` to
+   * use as an object. Session params can contain primitives, base64 encoded strings, or nested objects.
    *
-   * @returns Promise that resolves to {@link Response} with session parameters attached to the current session.
+   * @returns Promise that resolves to {@link GetSessionParamsResponse} with a JSON string in `result` on success.
    *
    * @example
    * Get session parameters
@@ -538,7 +572,7 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  getSessionParams(): Promise<Response<Record<string, unknown>>> {
+  getSessionParams(): Promise<GetSessionParamsResponse> {
     return window.WrappedContainerModule.invoke('getSessionParams');
   }
 

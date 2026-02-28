@@ -11,8 +11,7 @@ import {
   validateRequiredString,
   validateUrl,
   validateObject,
-  parseGrabUserAgent,
-  isVersionBelow,
+  meetsMinimumVersion,
   getErrorMessage,
   getErrorForLog,
 } from '../../utils';
@@ -22,8 +21,10 @@ import {
   generateCodeVerifier,
   generateCodeChallenge,
 } from './utils';
+/* eslint-disable @typescript-eslint/no-unused-vars -- ResponseMode imported for JSDoc @link resolution */
 import type {
   Environment,
+  ResponseMode,
   PKCEArtifacts,
   StoredPKCEArtifacts,
   GetAuthorizationArtifactsResponse,
@@ -34,6 +35,7 @@ import type {
   ShouldUseWebConsentRequest,
   AuthorizeResponse,
 } from './types';
+/* eslint-enable @typescript-eslint/no-unused-vars */
 import {
   NAMESPACE,
   CODE_CHALLENGE_METHOD,
@@ -155,16 +157,11 @@ class IdentityModule extends BaseModule {
 
   /** @internal */
   private static shouldUseWebConsent(request: ShouldUseWebConsentRequest): boolean {
-    const userAgentInfo = parseGrabUserAgent(window.navigator.userAgent);
-    if (!userAgentInfo) {
-      return true;
-    }
-
     if (request.environment === 'staging') {
       return false;
     }
 
-    return isVersionBelow(userAgentInfo, MINIMUM_NATIVE_CONSENT_VERSION);
+    return !meetsMinimumVersion(window.navigator.userAgent, MINIMUM_NATIVE_CONSENT_VERSION);
   }
 
   /** @internal */

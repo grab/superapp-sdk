@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
+import type { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
 /**
  * Provides APIs to trigger native checkout flow from web.

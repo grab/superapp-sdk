@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { GrabUserAgent, Version } from './types';
+import type { GrabUserAgent, Version } from './types';
 
 /**
  * Parses Grab user agent string to extract app information.
@@ -37,6 +37,22 @@ export function parseGrabUserAgent(userAgent: string): GrabUserAgent {
     patch: Number(match[4]),
     platform: match[5],
   };
+}
+
+/**
+ * Checks if the user agent meets or exceeds the minimum required version.
+ *
+ * @param userAgent - The user agent string (e.g., from `navigator.userAgent`).
+ * @param minimum - The minimum version required.
+ *
+ * @returns `true` if the parsed app version meets or exceeds the minimum; `false` otherwise.
+ *
+ * @remarks
+ * Returns `false` if the user agent does not match the Grab app pattern.
+ */
+export function meetsMinimumVersion(userAgent: string, minimum: Version): boolean {
+  const info = parseGrabUserAgent(userAgent);
+  return info !== null && !isVersionBelow(info, minimum);
 }
 
 /**

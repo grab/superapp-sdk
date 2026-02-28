@@ -6,8 +6,8 @@
  */
 
 import { BaseModule } from '../../core';
-import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
-import { parseGrabUserAgent, isVersionBelow } from '../../utils';
+import type { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
+import { meetsMinimumVersion } from '../../utils';
 import { MINIMUM_PROFILE_VERSION } from './constants';
 
 /**
@@ -41,16 +41,13 @@ class ProfileModule extends BaseModule {
   }
   /**
    * Check if the current Grab app version supports ProfileModule features
-   * @returns True if supported (version 5.399 or above)
+   *
+   * @returns `true` if supported (version 5.399 or above), `false` otherwise.
+   *
    * @internal
    */
   static isSupported(): boolean {
-    const userAgentInfo = parseGrabUserAgent(window.navigator.userAgent);
-    if (!userAgentInfo) {
-      return false;
-    }
-
-    return !isVersionBelow(userAgentInfo, MINIMUM_PROFILE_VERSION);
+    return meetsMinimumVersion(window.navigator.userAgent, MINIMUM_PROFILE_VERSION);
   }
 
   /**

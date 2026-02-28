@@ -18,5 +18,5 @@ export {
   validateObject,
   validateOptionalObject,
 } from './validation';
-export { parseGrabUserAgent, isVersionBelow } from './version';
+export { parseGrabUserAgent, isVersionBelow, meetsMinimumVersion } from './version';
 export type { Version, GrabUserAgent } from './version/types';

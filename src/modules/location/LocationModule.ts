@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { GetCoordinateResponse, GetCountryCodeResponse } from './types';
+import type { GetCoordinateResponse, GetCountryCodeResponse } from './types';
 
 /**
  * Provides functionality to access the user's current position.

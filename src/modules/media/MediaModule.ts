@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { PlayDRMContentRequest, PlayDRMContentResponse } from './types';
+import type { PlayDRMContentRequest, PlayDRMContentResponse } from './types';
 
 /**
  * Provides functionality to open a media player for DRM-protected content.

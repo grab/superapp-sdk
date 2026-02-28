@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
+import type { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
  * Provides programmatic access to the device camera through the native host application.

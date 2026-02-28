@@ -7,8 +7,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const HEADER = `/**
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)

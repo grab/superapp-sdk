@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { BackResponse } from './types';
+import type { BackResponse } from './types';
 
 /**
  * Provides API to navigate back to the host application.
