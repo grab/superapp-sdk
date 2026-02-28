@@ -6,7 +6,8 @@
  */
 
 import { BaseModule, createValidationErrorResponse } from '../../core';
-import { isGrabAppConnected, validateOptionalObject, validateRequiredString } from '../../utils';
+import { validateOptionalObject, validateRequiredString } from '../../utils';
+import { isGrabAppConnected } from '../../utils/connection';
 import type {
   AnalyticsEventDetails,
   CloseResponse,
@@ -61,10 +62,12 @@ class ContainerModule extends BaseModule {
   }
 
   /**
+   * Workaround for TypeDoc {@link} resolution.
+   *
    * @internal
-   * Exists only to ensure ContainerAnalyticsEventState, ContainerAnalyticsEventName,
-   * and ContainerAnalyticsEventData are imported in the generated .d.ts for {@link} resolution.
-   * Do not use.
+   * This static property exists only to ensure ContainerAnalyticsEventState, ContainerAnalyticsEventName,
+   * and ContainerAnalyticsEventData are present in the generated .d.ts, so that {@link} references
+   * in method JSDoc resolve correctly. Do not use in application code.
    */
   static readonly _analyticsDocRef: readonly [
     typeof ContainerAnalyticsEventState,

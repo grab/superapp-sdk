@@ -42,7 +42,7 @@ export default {
         comments: /Copyright|@license|License/i,
       },
       compress: {
-        drop_console: false,
+        drop_console: process.env.NODE_ENV === 'production' || process.env.DROP_CONSOLE === '1',
         passes: 2,
       },
       mangle: true,

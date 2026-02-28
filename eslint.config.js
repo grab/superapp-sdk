@@ -14,7 +14,17 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['dist/', 'node_modules/', 'coverage/', 'demo/', 'playground/', 'slides/'],
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'coverage/',
+      'demo/',
+      'playground/',
+      'slides/',
+      'docs/',
+      'bundle-stats.html',
+      '*.min.js',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.js'],

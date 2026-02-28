@@ -3,6 +3,7 @@
     "target": "es2018",
     "module": "ESNext",
     "declaration": true,
+    "declarationMap": true,
     "outDir": "dist",
     "verbatimModuleSyntax": true,
     "strict": true,

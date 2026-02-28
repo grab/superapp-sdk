@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ErrorResponse } from './module/types';
+import type { ErrorResponse } from '../module/types';
 
 /**
  * Creates a validation error response (status_code 400).
+ *
  *
  * @param error - The validation error message.
  *

@@ -32,6 +32,7 @@
     "license:fix": "tsx scripts/add-license-header.ts src scripts rollup.config.mjs eslint.config.js",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:staged": "lint-staged",
     "prepare": "husky",
     "prepublishOnly": "npm run check && npm run build && npm run docs",
     "type:check": "tsc --noEmit"

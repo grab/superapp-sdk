@@ -8,6 +8,8 @@
 /**
  * Generates a cryptographically random string of specified length using alphanumeric characters.
  *
+ * @internal
+ *
  * @param length - The desired length of the random string.
  *
  * @returns Random alphanumeric string.
@@ -30,6 +32,8 @@ export function generateRandomString(length: number): string {
 /**
  * Encodes a string to Base64 URL-safe format per RFC 4648.
  *
+ * @internal
+ *
  * @param str - The string to encode.
  *
  * @returns Base64 URL-encoded string.
@@ -43,6 +47,8 @@ export function base64URLEncode(str: string): string {
 
 /**
  * Generates a PKCE (Proof Key for Code Exchange) code verifier.
+ *
+ * @internal
  *
  * @param length - The desired length of the random string before Base64 URL encoding.
  *
@@ -58,9 +64,11 @@ export function generateCodeVerifier(length: number): string {
 /**
  * Encodes an ArrayBuffer to Base64 URL-safe format per RFC 4648.
  *
- * @param buffer - The raw bytes to encode.
- * @returns Base64 URL-encoded string.
  * @internal
+ *
+ * @param buffer - The raw bytes to encode.
+ *
+ * @returns Base64 URL-encoded string.
  */
 function base64URLEncodeBuffer(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer);
@@ -73,6 +81,8 @@ function base64URLEncodeBuffer(buffer: ArrayBuffer): string {
 
 /**
  * Generates a PKCE code challenge from a code verifier using SHA-256.
+ *
+ * @internal
  *
  * @param codeVerifier - The code verifier to hash.
  *
@@ -89,6 +99,8 @@ export async function generateCodeChallenge(codeVerifier: string): Promise<strin
 
 /**
  * Builds an OAuth authorization URL with query parameters.
+ *
+ * @internal
  *
  * @param authorizationEndpoint - The base authorization endpoint URL.
  * @param requestMap - Object containing query parameters (e.g., client_id, redirect_uri, response_type).
