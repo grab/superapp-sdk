@@ -20,7 +20,7 @@ const HEADER = `/**
 
 const COPYRIGHT_MARKER = 'Copyright (c) Grab';
 
-function addLicenseHeader(filePath) {
+function addLicenseHeader(filePath, checkOnly = false) {
   const ext = path.extname(filePath);
   if (ext !== '.ts' && ext !== '.js') {
     return false;
@@ -36,6 +36,10 @@ function addLicenseHeader(filePath) {
 
   if (content.includes(COPYRIGHT_MARKER)) {
     return false;
+  }
+
+  if (checkOnly) {
+    return true;
   }
 
   let newContent;
@@ -73,10 +77,14 @@ function findSourceFiles(dir, files = []) {
   return files;
 }
 
-const args = process.argv.slice(2).filter((arg) => !arg.startsWith('-'));
+const hasCheck = process.argv.includes('--check');
+const args = process.argv
+  .slice(2)
+  .filter((arg) => arg !== '--check' && !arg.startsWith('-'));
+const paths = args.length > 0 ? args : ['src', 'scripts'];
 const files = [];
 
-for (const arg of args) {
+for (const arg of paths) {
   try {
     const stat = fs.statSync(arg);
     if (stat.isDirectory()) {
@@ -90,18 +98,33 @@ for (const arg of args) {
 }
 
 if (files.length === 0) {
-  console.error('Usage: node add-license-header.js <file1|dir1> [file2|dir2] ...');
+  console.error('Usage: node add-license-header.js [--check] <file1|dir1> [file2|dir2] ...');
   process.exit(1);
 }
 
-let modified = 0;
-for (const file of files) {
-  if (addLicenseHeader(file)) {
-    console.log('Added header:', file);
-    modified++;
+if (hasCheck) {
+  const missing = [];
+  for (const file of files) {
+    if (addLicenseHeader(file, true)) {
+      missing.push(file);
+    }
   }
-}
-
-if (modified > 0) {
-  console.log(`Modified ${modified} file(s)`);
+  if (missing.length > 0) {
+    for (const file of missing) {
+      console.log('Missing license header:', file);
+    }
+    console.log(`${missing.length} file(s) missing license header`);
+    process.exit(1);
+  }
+} else {
+  let modified = 0;
+  for (const file of files) {
+    if (addLicenseHeader(file)) {
+      console.log('Added header:', file);
+      modified++;
+    }
+  }
+  if (modified > 0) {
+    console.log(`Modified ${modified} file(s)`);
+  }
 }
