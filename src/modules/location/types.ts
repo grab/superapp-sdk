@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse } from '../../core';
 
 /**
  * Coordinate data with latitude and longitude
@@ -91,16 +91,16 @@ export type GetCountryCodeResponse =
   | GetCountryCodeErrorResponse;
 
 /**
- * Method map for LocationModule
+ * Concrete interface for the native Location module bridge.
  */
-export type LocationModuleMethods = {
-  getCoordinate: { params: never; response: GetCoordinateResponse };
-  observeLocationChange: { params: never; response: GetCoordinateResponse };
-  getCountryCode: { params: never; response: GetCountryCodeResponse };
-};
+export interface WrappedLocationModule {
+  invoke(method: 'getCoordinate'): Promise<GetCoordinateResponse>;
+  invoke(method: 'observeLocationChange'): Promise<GetCoordinateResponse>;
+  invoke(method: 'getCountryCode'): Promise<GetCountryCodeResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedLocationModule: WrappedModule<LocationModuleMethods>;
+    WrappedLocationModule: WrappedLocationModule;
   }
 }

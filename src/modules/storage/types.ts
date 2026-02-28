@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse } from '../../core';
 
 /**
  * Common storage key-value pair request
@@ -254,23 +254,23 @@ export type RemoveAllResponse = RemoveAllSuccessResponse | RemoveAllErrorRespons
 export type Set = SetResponse;
 
 /**
- * Method map for StorageModule
+ * Concrete interface for the native Storage module bridge.
  */
-export type StorageModuleMethods = {
-  setBoolean: { params: SetBooleanRequest; response: SetResponse };
-  getBoolean: { params: StorageKeyRequest; response: GetBooleanResponse };
-  setInt: { params: SetIntRequest; response: SetResponse };
-  getInt: { params: StorageKeyRequest; response: GetIntResponse };
-  setString: { params: SetStringRequest; response: SetResponse };
-  getString: { params: StorageKeyRequest; response: GetStringResponse };
-  setDouble: { params: SetDoubleRequest; response: SetResponse };
-  getDouble: { params: StorageKeyRequest; response: GetDoubleResponse };
-  remove: { params: StorageKeyRequest; response: RemoveResponse };
-  removeAll: { params: never; response: RemoveAllResponse };
-};
+export interface WrappedStorageModule {
+  invoke(method: 'setBoolean', params: SetBooleanRequest): Promise<SetResponse>;
+  invoke(method: 'getBoolean', params: StorageKeyRequest): Promise<GetBooleanResponse>;
+  invoke(method: 'setInt', params: SetIntRequest): Promise<SetResponse>;
+  invoke(method: 'getInt', params: StorageKeyRequest): Promise<GetIntResponse>;
+  invoke(method: 'setString', params: SetStringRequest): Promise<SetResponse>;
+  invoke(method: 'getString', params: StorageKeyRequest): Promise<GetStringResponse>;
+  invoke(method: 'setDouble', params: SetDoubleRequest): Promise<SetResponse>;
+  invoke(method: 'getDouble', params: StorageKeyRequest): Promise<GetDoubleResponse>;
+  invoke(method: 'remove', params: StorageKeyRequest): Promise<RemoveResponse>;
+  invoke(method: 'removeAll'): Promise<RemoveAllResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedStorageModule: WrappedModule<StorageModuleMethods>;
+    WrappedStorageModule: WrappedStorageModule;
   }
 }

@@ -6,15 +6,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: [
-      'dist/',
-      'node_modules/',
-      'coverage/',
-      'demo/',
-      'playground/',
-      'slides/',
-      '**/*.config.{js,mjs,cjs}',
-    ],
+    ignores: ['dist/', 'node_modules/', 'coverage/', 'demo/', 'playground/', 'slides/'],
   },
   {
     files: ['**/*.ts', '**/*.js'],
@@ -39,9 +31,9 @@ export default [
       ...tsPlugin.configs['recommended-requiring-type-checking'].rules,
 
       // TypeScript specific rules
-      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -80,6 +72,20 @@ export default [
 
       // Disable formatting rules (handled by Prettier)
       ...prettierConfig.rules,
+    },
+  },
+  {
+    // Config files import untyped packages (eslint-config-prettier, etc.)
+    files: ['**/*.config.{js,mjs,cjs}'],
+    rules: {
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      'jsdoc/require-param': 'off',
+      'jsdoc/require-param-description': 'off',
+      'jsdoc/require-returns': 'off',
+      'jsdoc/require-returns-description': 'off',
     },
   },
   {

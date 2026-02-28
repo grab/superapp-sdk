@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse } from '../../core';
 
 /**
  * Environment type for GrabID endpoints
@@ -244,10 +244,11 @@ export type ShouldUseWebConsentRequest = {
 };
 
 /**
- * Method map for IdentityModule
+ * Concrete interface for the native Identity module bridge.
  */
-export type IdentityModuleMethods = {
-  authorize: {
+export interface WrappedIdentityModule {
+  invoke(
+    method: 'authorize',
     params: {
       clientId: string;
       redirectUri: string;
@@ -257,13 +258,12 @@ export type IdentityModuleMethods = {
       codeChallenge: string;
       codeChallengeMethod: string;
       responseMode: string;
-    };
-    response: AuthorizeResponse;
-  };
-};
+    }
+  ): Promise<AuthorizeResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedIdentityModule: WrappedModule<IdentityModuleMethods>;
+    WrappedIdentityModule: WrappedIdentityModule;
   }
 }

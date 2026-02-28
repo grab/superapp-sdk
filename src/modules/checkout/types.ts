@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, ErrorResponse } from '../../core';
 
 /**
  * Request parameters for triggering checkout
@@ -53,14 +53,17 @@ export type TriggerCheckoutErrorResponse = ErrorResponse & {
 export type TriggerCheckoutResponse = TriggerCheckoutSuccessResponse | TriggerCheckoutErrorResponse;
 
 /**
- * Method map for CheckoutModule
+ * Concrete interface for the native Checkout module bridge.
  */
-export type CheckoutModuleMethods = {
-  triggerCheckout: { params: TriggerCheckoutRequest; response: TriggerCheckoutResponse };
-};
+export interface WrappedCheckoutModule {
+  invoke(
+    method: 'triggerCheckout',
+    params: TriggerCheckoutRequest
+  ): Promise<TriggerCheckoutResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedCheckoutModule: WrappedModule<CheckoutModuleMethods>;
+    WrappedCheckoutModule: WrappedCheckoutModule;
   }
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, ErrorResponse } from '../../core';
 
 /**
  * Success response when back navigation is successful
@@ -30,14 +30,14 @@ export type BackErrorResponse = ErrorResponse & {
 export type BackResponse = BackSuccessResponse | BackErrorResponse;
 
 /**
- * Method map for PlatformModule
+ * Concrete interface for the native Platform module bridge.
  */
-export type PlatformModuleMethods = {
-  back: { params: never; response: BackResponse };
-};
+export interface WrappedPlatformModule {
+  invoke(method: 'back'): Promise<BackResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedPlatformModule: WrappedModule<PlatformModuleMethods>;
+    WrappedPlatformModule: WrappedPlatformModule;
   }
 }

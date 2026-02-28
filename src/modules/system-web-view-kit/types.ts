@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, ErrorResponse } from '../../core';
 
 /**
  * Request parameters for redirecting to system webview
@@ -42,17 +42,17 @@ export type RedirectToSystemWebViewResponse =
   | RedirectToSystemWebViewErrorResponse;
 
 /**
- * Method map for SystemWebViewKitModule
+ * Concrete interface for the native SystemWebViewKit module bridge.
  */
-export type SystemWebViewKitModuleMethods = {
-  redirectToSystemWebView: {
-    params: RedirectToSystemWebViewRequest;
-    response: RedirectToSystemWebViewResponse;
-  };
-};
+export interface WrappedSystemWebViewKitModule {
+  invoke(
+    method: 'redirectToSystemWebView',
+    params: RedirectToSystemWebViewRequest
+  ): Promise<RedirectToSystemWebViewResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedSystemWebViewKitModule: WrappedModule<SystemWebViewKitModuleMethods>;
+    WrappedSystemWebViewKitModule: WrappedSystemWebViewKitModule;
   }
 }

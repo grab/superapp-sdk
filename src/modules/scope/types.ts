@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, ErrorResponse } from '../../core';
 
 /**
  * Request parameters for checking access to a method
@@ -66,15 +66,15 @@ export type ReloadScopesErrorResponse = ErrorResponse & {
 export type ReloadScopesResponse = ReloadScopesSuccessResponse | ReloadScopesErrorResponse;
 
 /**
- * Method map for ScopeModule
+ * Concrete interface for the native Scope module bridge.
  */
-export type ScopeModuleMethods = {
-  hasAccessTo: { params: HasAccessToRequest; response: HasAccessToResponse };
-  reloadScopes: { params: never; response: ReloadScopesResponse };
-};
+export interface WrappedScopeModule {
+  invoke(method: 'hasAccessTo', params: HasAccessToRequest): Promise<HasAccessToResponse>;
+  invoke(method: 'reloadScopes'): Promise<ReloadScopesResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedScopeModule: WrappedModule<ScopeModuleMethods>;
+    WrappedScopeModule: WrappedScopeModule;
   }
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse } from '../../core';
 
 /**
  * Result object containing the scanned QR code data
@@ -60,14 +60,18 @@ export type ScanQRCodeRequest = {
 };
 
 /**
- * Method map for CameraModule
+ * Concrete interface for the native Camera module bridge.
+ *
+ * @remarks
+ * Explicit method signature avoids generic conditional type resolution issues
+ * that can trigger @typescript-eslint/no-unsafe-* in consuming modules.
  */
-export type CameraModuleMethods = {
-  scanQRCode: { params: ScanQRCodeRequest; response: ScanQRCodeResponse };
-};
+export interface WrappedCameraModule {
+  invoke(method: 'scanQRCode', params: ScanQRCodeRequest): Promise<ScanQRCodeResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedCameraModule: WrappedModule<CameraModuleMethods>;
+    WrappedCameraModule: WrappedCameraModule;
   }
 }

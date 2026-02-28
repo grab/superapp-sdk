@@ -4,6 +4,7 @@
   "description": "SDK for Grab SuperApp WebView.",
   "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
@@ -85,14 +86,17 @@
   "lint-staged": {
     "src/**/*.{ts,js}": [
       "tsx scripts/add-license-header.ts",
-      "sh -c 'prettier --write \"$@\" && eslint --fix \"$@\"' _"
+      "prettier --write",
+      "eslint --fix"
     ],
     "scripts/**/*.{ts,js}": [
       "tsx scripts/add-license-header.ts",
-      "sh -c 'prettier --write \"$@\" && eslint --fix \"$@\"' _"
+      "prettier --write",
+      "eslint --fix"
     ],
     "*.config.{js,mjs,cjs}": [
-      "prettier --write"
+      "prettier --write",
+      "eslint --fix"
     ],
     ".prettierrc": [
       "prettier --write"

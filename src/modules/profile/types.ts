@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, NoResultResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, NoResultResponse, ErrorResponse } from '../../core';
 
 /**
  * Email data result
@@ -114,15 +114,15 @@ export type VerifyEmailResponse =
   | VerifyEmailErrorResponse;
 
 /**
- * Method map for ProfileModule
+ * Concrete interface for the native Profile module bridge.
  */
-export type ProfileModuleMethods = {
-  fetchEmail: { params: never; response: FetchEmailResponse };
-  verifyEmail: { params: VerifyEmailRequest; response: VerifyEmailResponse };
-};
+export interface WrappedProfileModule {
+  invoke(method: 'fetchEmail'): Promise<FetchEmailResponse>;
+  invoke(method: 'verifyEmail', params: VerifyEmailRequest): Promise<VerifyEmailResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedProfileModule: WrappedModule<ProfileModuleMethods>;
+    WrappedProfileModule: WrappedProfileModule;
   }
 }

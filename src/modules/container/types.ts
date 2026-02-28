@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, ErrorResponse } from '../../core';
 
 /**
  * Container analytics event state constants
@@ -417,30 +417,33 @@ export type GetSessionParamsResponse =
   | GetSessionParamsErrorResponse;
 
 /**
- * Method map for ContainerModule
+ * Concrete interface for the native Container module bridge.
  */
-export type ContainerModuleMethods = {
-  setBackgroundColor: { params: { backgroundColor: string }; response: SetBackgroundColorResponse };
-  setTitle: { params: { title: string }; response: SetTitleResponse };
-  hideBackButton: { params: never; response: HideBackButtonResponse };
-  showBackButton: { params: never; response: ShowBackButtonResponse };
-  hideRefreshButton: { params: never; response: HideRefreshButtonResponse };
-  showRefreshButton: { params: never; response: ShowRefreshButtonResponse };
-  close: { params: never; response: CloseResponse };
-  onContentLoaded: { params: never; response: OnContentLoadedResponse };
-  showLoader: { params: never; response: ShowLoaderResponse };
-  hideLoader: { params: never; response: HideLoaderResponse };
-  openExternalLink: { params: { url: string }; response: OpenExternalLinkResponse };
-  onCtaTap: { params: { action: string }; response: OnCtaTapResponse };
-  sendAnalyticsEvent: {
-    params: { state: string; name: string; data: string | null };
-    response: SendAnalyticsEventResponse;
-  };
-  getSessionParams: { params: never; response: GetSessionParamsResponse };
-};
+export interface WrappedContainerModule {
+  invoke(
+    method: 'setBackgroundColor',
+    params: { backgroundColor: string }
+  ): Promise<SetBackgroundColorResponse>;
+  invoke(method: 'setTitle', params: { title: string }): Promise<SetTitleResponse>;
+  invoke(method: 'hideBackButton'): Promise<HideBackButtonResponse>;
+  invoke(method: 'showBackButton'): Promise<ShowBackButtonResponse>;
+  invoke(method: 'hideRefreshButton'): Promise<HideRefreshButtonResponse>;
+  invoke(method: 'showRefreshButton'): Promise<ShowRefreshButtonResponse>;
+  invoke(method: 'close'): Promise<CloseResponse>;
+  invoke(method: 'onContentLoaded'): Promise<OnContentLoadedResponse>;
+  invoke(method: 'showLoader'): Promise<ShowLoaderResponse>;
+  invoke(method: 'hideLoader'): Promise<HideLoaderResponse>;
+  invoke(method: 'openExternalLink', params: { url: string }): Promise<OpenExternalLinkResponse>;
+  invoke(method: 'onCtaTap', params: { action: string }): Promise<OnCtaTapResponse>;
+  invoke(
+    method: 'sendAnalyticsEvent',
+    params: { state: string; name: string; data: string | null }
+  ): Promise<SendAnalyticsEventResponse>;
+  invoke(method: 'getSessionParams'): Promise<GetSessionParamsResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedContainerModule: WrappedModule<ContainerModuleMethods>;
+    WrappedContainerModule: WrappedContainerModule;
   }
 }

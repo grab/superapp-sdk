@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, ErrorResponse } from '../../core';
 
 /**
  * Video data for DRM content playback
@@ -92,14 +92,17 @@ export type PlayDRMContentErrorResponse = ErrorResponse & {
 export type PlayDRMContentResponse = PlayDRMContentSuccessResponse | PlayDRMContentErrorResponse;
 
 /**
- * Method map for MediaModule
+ * Concrete interface for the native Media module bridge.
  */
-export type MediaModuleMethods = {
-  playDRMContent: { params: { data: PlayDRMContentRequest }; response: PlayDRMContentResponse };
-};
+export interface WrappedMediaModule {
+  invoke(
+    method: 'playDRMContent',
+    params: { data: PlayDRMContentRequest }
+  ): Promise<PlayDRMContentResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedMediaModule: WrappedModule<MediaModuleMethods>;
+    WrappedMediaModule: WrappedMediaModule;
   }
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { SuccessResponse, ErrorResponse, WrappedModule } from '../../core';
+import type { SuccessResponse, ErrorResponse } from '../../core';
 
 /**
  * Language locale identifier result (e.g., "en_US", "id_ID")
@@ -43,14 +43,14 @@ export type GetLanguageLocaleIdentifierResponse =
   | GetLanguageLocaleIdentifierErrorResponse;
 
 /**
- * Method map for LocaleModule
+ * Concrete interface for the native Locale module bridge.
  */
-export type LocaleModuleMethods = {
-  getLanguageLocaleIdentifier: { params: never; response: GetLanguageLocaleIdentifierResponse };
-};
+export interface WrappedLocaleModule {
+  invoke(method: 'getLanguageLocaleIdentifier'): Promise<GetLanguageLocaleIdentifierResponse>;
+}
 
 declare global {
   interface Window {
-    WrappedLocaleModule: WrappedModule<LocaleModuleMethods>;
+    WrappedLocaleModule: WrappedLocaleModule;
   }
 }
