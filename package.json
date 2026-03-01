@@ -26,8 +26,8 @@
     "fix": "npm run format:fix && npm run lint:fix && npm run license:fix",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
-    "check": "npm run type:check && npm run format:check && npm run lint:check && npm run license:check && npm run audit && npm run docs && git diff --exit-code docs/",
-    "audit": "npm audit --audit-level=critical",
+    "check": "npm run type:check && npm run format:check && npm run lint:check && npm run license:check && npm run audit:check && npm run docs && git diff --exit-code docs/",
+    "audit:check": "npm audit --audit-level=critical",
     "license:check": "tsx scripts/add-license-header.ts --check src scripts rollup.config.mjs eslint.config.js",
     "license:fix": "tsx scripts/add-license-header.ts src scripts rollup.config.mjs eslint.config.js",
     "lint:check": "eslint .",
@@ -61,15 +61,14 @@
     "url": "https://github.com/grab/superapp-sdk/issues"
   },
   "homepage": "https://github.com/grab/superapp-sdk#readme",
-  "dependencies": {
-    "@grabjs/mobile-kit-bridge-sdk": "^2.2.2"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@grabjs/mobile-kit-bridge-sdk": "^2.2.2",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^25.3.2",
+    "@types/node": "@types/node@^20",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
     "eslint": "^10.0.2",
@@ -79,7 +78,6 @@
     "globals": "^17.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "marked": "^12.0.2",
     "prettier": "^3.8.1",
     "rimraf": "^6.1.3",
     "rollup": "^4.59.0",

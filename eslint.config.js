@@ -24,6 +24,7 @@ export default [
       'docs/',
       'bundle-stats.html',
       '*.min.js',
+      'scripts/',
     ],
   },
   {

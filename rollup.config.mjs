@@ -11,6 +11,13 @@ import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import { visualizer } from 'rollup-plugin-visualizer';
 
+const COPYRIGHT_BANNER = `/*!
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */`;
+
 export default {
   input: 'src/index.ts',
   output: [
@@ -39,10 +46,10 @@ export default {
     }),
     terser({
       format: {
-        comments: /Copyright|@license|License/i,
+        comments: false,
+        preamble: COPYRIGHT_BANNER,
       },
       compress: {
-        drop_console: true,
         passes: 2,
       },
       mangle: true,
