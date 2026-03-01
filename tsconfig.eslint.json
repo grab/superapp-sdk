@@ -1,5 +1,8 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true
+  },
   "include": ["src/**/*", "scripts/**/*", "eslint.config.js", "rollup.config.mjs"],
   "exclude": ["node_modules", "dist", "demo", "playground", "slides"]
 }
