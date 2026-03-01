@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / PlatformModule
+[@grabjs/superapp-sdk](../globals.md) / PlatformModule
 
 # Class: PlatformModule
 

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / PlaybackEventType
+[@grabjs/superapp-sdk](../globals.md) / PlaybackEventType
 
 # Type Alias: PlaybackEventType
 

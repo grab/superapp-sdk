@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / CloseErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / CloseErrorResponse
 
 # Type Alias: CloseErrorResponse
 

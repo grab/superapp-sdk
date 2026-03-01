@@ -20,7 +20,7 @@ export enum LogLevel {
 }
 
 /**
- * Logger configuration options.
+ * Logger configuration options. Ah
  *
  * @remarks
  * All settings can be overridden via Logger.configure.

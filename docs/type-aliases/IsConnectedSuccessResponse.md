@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / IsConnectedSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / IsConnectedSuccessResponse
 
 # Type Alias: IsConnectedSuccessResponse
 

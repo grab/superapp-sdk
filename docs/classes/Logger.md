@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / Logger
+[@grabjs/superapp-sdk](../globals.md) / Logger
 
 # Class: Logger
 

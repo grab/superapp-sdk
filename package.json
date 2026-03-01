@@ -1,6 +1,6 @@
 {
   "name": "@grabjs/superapp-sdk",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "SDK for Grab SuperApp WebView.",
   "type": "module",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "exports": {
     ".": {
@@ -26,7 +26,7 @@
     "fix": "npm run format:fix && npm run lint:fix && npm run license:fix",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
-    "check": "npm run type:check && npm run format:check && npm run lint:check && npm run license:check && npm run audit",
+    "check": "npm run type:check && npm run format:check && npm run lint:check && npm run license:check && npm run audit && npm run docs && git diff --exit-code docs/",
     "audit": "npm audit --audit-level=critical",
     "license:check": "tsx scripts/add-license-header.ts --check src scripts rollup.config.mjs eslint.config.js",
     "license:fix": "tsx scripts/add-license-header.ts src scripts rollup.config.mjs eslint.config.js",
@@ -34,7 +34,7 @@
     "lint:fix": "eslint . --fix",
     "lint:staged": "lint-staged",
     "prepare": "husky",
-    "prepublishOnly": "npm run check && npm run build && npm run docs",
+    "prepublishOnly": "npm run build",
     "type:check": "tsc --noEmit"
   },
   "repository": {
@@ -47,8 +47,7 @@
     "Xijun Li <xijun.li@grabtaxi.com>"
   ],
   "files": [
-    "dist",
-    "docs"
+    "dist"
   ],
   "keywords": [
     "superapp",

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / SetSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / SetSuccessResponse
 
 # Type Alias: SetSuccessResponse
 

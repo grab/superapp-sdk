@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / parseGrabUserAgent
+[@grabjs/superapp-sdk](../globals.md) / parseGrabUserAgent
 
 # Function: parseGrabUserAgent()
 

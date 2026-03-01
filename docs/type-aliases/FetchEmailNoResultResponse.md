@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / FetchEmailNoResultResponse
+[@grabjs/superapp-sdk](../globals.md) / FetchEmailNoResultResponse
 
 # Type Alias: FetchEmailNoResultResponse
 

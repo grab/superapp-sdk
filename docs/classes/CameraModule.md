@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / CameraModule
+[@grabjs/superapp-sdk](../globals.md) / CameraModule
 
 # Class: CameraModule
 

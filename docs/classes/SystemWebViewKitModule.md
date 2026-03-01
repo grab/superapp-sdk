@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / SystemWebViewKitModule
+[@grabjs/superapp-sdk](../globals.md) / SystemWebViewKitModule
 
 # Class: SystemWebViewKitModule
 

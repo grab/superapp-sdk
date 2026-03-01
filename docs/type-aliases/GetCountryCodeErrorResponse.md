@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetCountryCodeErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / GetCountryCodeErrorResponse
 
 # Type Alias: GetCountryCodeErrorResponse
 

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetBooleanResponse
+[@grabjs/superapp-sdk](../globals.md) / GetBooleanResponse
 
 # Type Alias: GetBooleanResponse
 

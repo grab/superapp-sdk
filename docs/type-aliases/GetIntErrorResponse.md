@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetIntErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / GetIntErrorResponse
 
 # Type Alias: GetIntErrorResponse
 

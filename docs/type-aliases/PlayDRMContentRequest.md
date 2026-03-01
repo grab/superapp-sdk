@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / PlayDRMContentRequest
+[@grabjs/superapp-sdk](../globals.md) / PlayDRMContentRequest
 
 # Type Alias: PlayDRMContentRequest
 

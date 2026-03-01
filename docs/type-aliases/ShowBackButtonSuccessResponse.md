@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ShowBackButtonSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / ShowBackButtonSuccessResponse
 
 # Type Alias: ShowBackButtonSuccessResponse
 

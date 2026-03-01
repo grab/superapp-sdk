@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetAuthorizationArtifactsSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / GetAuthorizationArtifactsSuccessResponse
 
 # Type Alias: GetAuthorizationArtifactsSuccessResponse
 

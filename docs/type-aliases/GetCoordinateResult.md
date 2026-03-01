@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetCoordinateResult
+[@grabjs/superapp-sdk](../globals.md) / GetCoordinateResult
 
 # Type Alias: GetCoordinateResult
 

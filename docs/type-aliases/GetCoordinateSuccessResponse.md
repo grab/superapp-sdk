@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetCoordinateSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / GetCoordinateSuccessResponse
 
 # Type Alias: GetCoordinateSuccessResponse
 

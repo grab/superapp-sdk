@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / isVersionBelow
+[@grabjs/superapp-sdk](../globals.md) / isVersionBelow
 
 # Function: isVersionBelow()
 

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / AuthorizeErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / AuthorizeErrorResponse
 
 # Type Alias: AuthorizeErrorResponse
 

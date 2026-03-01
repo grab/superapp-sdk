@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / HideLoaderErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / HideLoaderErrorResponse
 
 # Type Alias: HideLoaderErrorResponse
 

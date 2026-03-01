@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / OpenExternalLinkSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / OpenExternalLinkSuccessResponse
 
 # Type Alias: OpenExternalLinkSuccessResponse
 

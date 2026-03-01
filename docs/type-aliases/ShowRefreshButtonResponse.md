@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ShowRefreshButtonResponse
+[@grabjs/superapp-sdk](../globals.md) / ShowRefreshButtonResponse
 
 # Type Alias: ShowRefreshButtonResponse
 

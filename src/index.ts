@@ -25,7 +25,12 @@ export type { ErrorResponse, NoResultResponse, Response, SuccessResponse } from 
 
 // Utils (environment detection)
 export type { GrabUserAgent, Version } from './utils';
-export { isVersionBelow, meetsMinimumVersion, parseGrabUserAgent } from './utils';
+export {
+  isGrabAppConnected,
+  isVersionBelow,
+  meetsMinimumVersion,
+  parseGrabUserAgent,
+} from './utils';
 
 // Modules
 // -------
@@ -103,11 +108,11 @@ export type {
   ShowRefreshButtonResponse,
   ShowRefreshButtonSuccessResponse,
 } from './modules/container';
-export { default as ContainerModule } from './modules/container';
 export {
   ContainerAnalyticsEventData,
   ContainerAnalyticsEventName,
   ContainerAnalyticsEventState,
+  default as ContainerModule,
 } from './modules/container';
 
 // IdentityModule

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / HasAccessToErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / HasAccessToErrorResponse
 
 # Type Alias: HasAccessToErrorResponse
 

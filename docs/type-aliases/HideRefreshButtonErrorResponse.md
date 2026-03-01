@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / HideRefreshButtonErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / HideRefreshButtonErrorResponse
 
 # Type Alias: HideRefreshButtonErrorResponse
 

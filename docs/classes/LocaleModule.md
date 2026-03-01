@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / LocaleModule
+[@grabjs/superapp-sdk](../globals.md) / LocaleModule
 
 # Class: LocaleModule
 

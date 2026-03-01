@@ -26,11 +26,6 @@ import type {
   ShowLoaderResponse,
   ShowRefreshButtonResponse,
 } from './types';
-import {
-  ContainerAnalyticsEventData,
-  ContainerAnalyticsEventName,
-  ContainerAnalyticsEventState,
-} from './types';
 
 /**
  * Provides APIs to interact with the webview container.
@@ -60,20 +55,6 @@ class ContainerModule extends BaseModule {
   constructor() {
     super('ContainerModule');
   }
-
-  /**
-   * Workaround for TypeDoc {@link} resolution.
-   *
-   * @internal
-   * This static property exists only to ensure ContainerAnalyticsEventState, ContainerAnalyticsEventName,
-   * and ContainerAnalyticsEventData are present in the generated .d.ts, so that {@link} references
-   * in method JSDoc resolve correctly. Do not use in application code.
-   */
-  static readonly _analyticsDocRef: readonly [
-    typeof ContainerAnalyticsEventState,
-    typeof ContainerAnalyticsEventName,
-    typeof ContainerAnalyticsEventData,
-  ] = [ContainerAnalyticsEventState, ContainerAnalyticsEventName, ContainerAnalyticsEventData];
 
   /**
    * Set the background color of the container.
@@ -458,7 +439,9 @@ class ContainerModule extends BaseModule {
    * }
    * ```
    */
-  sendAnalyticsEvent(eventDetails: AnalyticsEventDetails): Promise<SendAnalyticsEventResponse> {
+  async sendAnalyticsEvent(
+    eventDetails: AnalyticsEventDetails
+  ): Promise<SendAnalyticsEventResponse> {
     const validationError = this._validateAnalyticsEvent(eventDetails);
     if (validationError) {
       return Promise.resolve(

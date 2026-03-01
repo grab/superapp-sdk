@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / SetBackgroundColorSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / SetBackgroundColorSuccessResponse
 
 # Type Alias: SetBackgroundColorSuccessResponse
 

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ContainerAnalyticsEventState
+[@grabjs/superapp-sdk](../globals.md) / ContainerAnalyticsEventState
 
 # Type Alias: ContainerAnalyticsEventState
 

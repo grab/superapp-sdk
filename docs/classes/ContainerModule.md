@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ContainerModule
+[@grabjs/superapp-sdk](../globals.md) / ContainerModule
 
 # Class: ContainerModule
 

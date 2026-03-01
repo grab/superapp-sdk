@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / HideBackButtonResponse
+[@grabjs/superapp-sdk](../globals.md) / HideBackButtonResponse
 
 # Type Alias: HideBackButtonResponse
 

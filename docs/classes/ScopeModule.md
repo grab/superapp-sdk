@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ScopeModule
+[@grabjs/superapp-sdk](../globals.md) / ScopeModule
 
 # Class: ScopeModule
 

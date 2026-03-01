@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / NoResultResponse
+[@grabjs/superapp-sdk](../globals.md) / NoResultResponse
 
 # Type Alias: NoResultResponse
 

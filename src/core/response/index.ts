@@ -10,6 +10,7 @@ import type { ErrorResponse } from '../module/types';
 /**
  * Creates a validation error response (status_code 400).
  *
+ * @internal
  *
  * @param error - The validation error message.
  *

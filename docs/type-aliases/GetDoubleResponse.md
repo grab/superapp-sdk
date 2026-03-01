@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetDoubleResponse
+[@grabjs/superapp-sdk](../globals.md) / GetDoubleResponse
 
 # Type Alias: GetDoubleResponse
 

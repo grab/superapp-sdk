@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / LogLevel
+[@grabjs/superapp-sdk](../globals.md) / LogLevel
 
 # Enumeration: LogLevel
 

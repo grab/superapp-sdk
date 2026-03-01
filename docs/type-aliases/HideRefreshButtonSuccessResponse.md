@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / HideRefreshButtonSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / HideRefreshButtonSuccessResponse
 
 # Type Alias: HideRefreshButtonSuccessResponse
 

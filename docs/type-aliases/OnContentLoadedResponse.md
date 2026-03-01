@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / OnContentLoadedResponse
+[@grabjs/superapp-sdk](../globals.md) / OnContentLoadedResponse
 
 # Type Alias: OnContentLoadedResponse
 

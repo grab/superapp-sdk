@@ -31,7 +31,7 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        ecmaVersion: 2018,
+        ecmaVersion: 'latest',
         sourceType: 'module',
         project: './tsconfig.eslint.json',
       },
@@ -47,7 +47,7 @@ export default [
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
-      ...tsPlugin.configs['recommended-requiring-type-checking'].rules,
+      ...tsPlugin.configs['recommended-type-checked'].rules,
 
       // TypeScript specific rules
       '@typescript-eslint/explicit-function-return-type': 'error',
@@ -94,9 +94,8 @@ export default [
       'jsdoc/require-param-description': 'error',
       'jsdoc/require-returns': 'error',
       'jsdoc/require-returns-description': 'error',
-
-      // Disable formatting rules (handled by Prettier)
-      ...prettierConfig.rules,
+      'jsdoc/require-description': 'warn',
+      'jsdoc/tag-lines': ['warn', 'any', { startLines: 1 }],
     },
   },
   {
@@ -131,4 +130,6 @@ export default [
       'jsdoc/require-returns-description': 'off',
     },
   },
+  // Disable formatting rules (handled by Prettier) - must be last
+  prettierConfig,
 ];

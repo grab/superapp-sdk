@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / VerifyEmailSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / VerifyEmailSuccessResponse
 
 # Type Alias: VerifyEmailSuccessResponse
 

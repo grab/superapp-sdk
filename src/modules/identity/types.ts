@@ -9,16 +9,25 @@ import type { ErrorResponse, NoResultResponse, SuccessResponse } from '../../cor
 
 /**
  * Environment type for GrabID endpoints
+ *
+ * @remarks
+ * Used with {@link IdentityModule.authorize} to specify staging or production environment.
  */
 export type Environment = 'staging' | 'production';
 
 /**
  * Response mode for authorization flow
+ *
+ * @remarks
+ * - `redirect`: Redirects to authorization server and returns via callback URL
+ * - `in_place`: Returns authorization code in-place without navigation (native only)
  */
 export type ResponseMode = 'redirect' | 'in_place';
 
 /**
  * OpenID configuration endpoints for different environments
+ *
+ * @internal
  */
 export type OpenIDConfigEndpoints = {
   staging: string;
@@ -27,6 +36,8 @@ export type OpenIDConfigEndpoints = {
 
 /**
  * PKCE (Proof Key for Code Exchange) artifacts for OAuth 2.0 flow
+ *
+ * @internal
  */
 export type PKCEArtifacts = {
   /**
@@ -53,6 +64,8 @@ export type PKCEArtifacts = {
 
 /**
  * Stored PKCE artifacts with redirect URI
+ *
+ * @internal
  */
 export type StoredPKCEArtifacts = {
   nonce: string;
@@ -123,6 +136,8 @@ export type ClearAuthorizationArtifactsResponse = ClearAuthorizationArtifactsSuc
 
 /**
  * Web authorization parameters
+ *
+ * @internal
  */
 export type WebAuthorizationParams = {
   environment: Environment;
@@ -137,6 +152,8 @@ export type WebAuthorizationParams = {
 
 /**
  * Native authorization parameters
+ *
+ * @internal
  */
 export type NativeAuthorizationParams = {
   clientId: string;
@@ -238,6 +255,8 @@ export type AuthorizeResponse =
 
 /**
  * Should use web consent request
+ *
+ * @internal
  */
 export type ShouldUseWebConsentRequest = {
   environment: Environment;
@@ -245,6 +264,8 @@ export type ShouldUseWebConsentRequest = {
 
 /**
  * Concrete interface for the native Identity module bridge.
+ *
+ * @internal
  */
 export interface WrappedIdentityModule {
   invoke(

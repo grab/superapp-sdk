@@ -13,6 +13,8 @@ import { logger } from '../logger';
 /**
  * Base class for all SDK modules. Handles common initialization logic for bridge SDK wrapping.
  *
+ * @internal
+ *
  * @remarks
  * Each module extends BaseModule and delegates to the native host via the bridge SDK. On construction,
  * the class wraps the module on `window` (e.g., `WrappedContainerModule`), enabling invocation of native methods.

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / PLAYBACK\_EVENT\_TYPES
+[@grabjs/superapp-sdk](../globals.md) / PLAYBACK\_EVENT\_TYPES
 
 # Variable: PLAYBACK\_EVENT\_TYPES
 

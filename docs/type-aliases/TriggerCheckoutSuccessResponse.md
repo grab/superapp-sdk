@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / TriggerCheckoutSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / TriggerCheckoutSuccessResponse
 
 # Type Alias: TriggerCheckoutSuccessResponse
 

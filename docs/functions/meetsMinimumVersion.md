@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / meetsMinimumVersion
+[@grabjs/superapp-sdk](../globals.md) / meetsMinimumVersion
 
 # Function: meetsMinimumVersion()
 

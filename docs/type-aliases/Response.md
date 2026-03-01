@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / Response
+[@grabjs/superapp-sdk](../globals.md) / Response
 
 # Type Alias: Response\<T\>
 

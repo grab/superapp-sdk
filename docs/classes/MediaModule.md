@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / MediaModule
+[@grabjs/superapp-sdk](../globals.md) / MediaModule
 
 # Class: MediaModule
 

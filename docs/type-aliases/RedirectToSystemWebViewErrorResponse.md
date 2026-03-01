@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / RedirectToSystemWebViewErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / RedirectToSystemWebViewErrorResponse
 
 # Type Alias: RedirectToSystemWebViewErrorResponse
 

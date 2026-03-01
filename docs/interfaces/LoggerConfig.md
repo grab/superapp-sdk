@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / LoggerConfig
+[@grabjs/superapp-sdk](../globals.md) / LoggerConfig
 
 # Interface: LoggerConfig
 

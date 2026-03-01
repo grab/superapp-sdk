@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / AuthorizeResult
+[@grabjs/superapp-sdk](../globals.md) / AuthorizeResult
 
 # Type Alias: AuthorizeResult
 

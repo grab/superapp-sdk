@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / AuthorizeCancelledResponse
+[@grabjs/superapp-sdk](../globals.md) / AuthorizeCancelledResponse
 
 # Type Alias: AuthorizeCancelledResponse
 

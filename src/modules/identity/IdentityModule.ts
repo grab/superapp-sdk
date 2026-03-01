@@ -73,6 +73,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Fetches the authorization endpoint URL from the OpenID configuration for the given environment.
+   *
    * @param environment - The environment (staging or production).
    * @returns The authorization endpoint URL.
    * @throws Error when the environment is invalid, the OpenID config fetch fails, or the config is invalid.
@@ -124,6 +126,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Generates PKCE (Proof Key for Code Exchange) artifacts for the authorization flow.
+   *
    * @returns Promise resolving to PKCE artifacts for authorization flow.
    * @internal
    */
@@ -143,6 +147,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Stores PKCE artifacts in localStorage for use during the authorization redirect callback.
+   *
    * @param artifacts - The PKCE artifacts to store.
    * @internal
    */
@@ -154,6 +160,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Stores a key-value pair in localStorage under the identity module namespace.
+   *
    * @param key - The storage key.
    * @param value - The value to store.
    * @internal
@@ -163,6 +171,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Retrieves a value from localStorage by key under the identity module namespace.
+   *
    * @param key - The storage key.
    * @returns The stored value or null.
    * @internal
@@ -172,6 +182,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Determines whether the web consent flow should be used instead of native consent.
+   *
    * @param request - The authorization request.
    * @returns Whether to use web consent flow.
    * @internal
@@ -185,6 +197,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Performs the web-based authorization flow by redirecting the user to the authorization server.
+   *
    * @param params - Web authorization parameters.
    * @returns The authorization response.
    * @internal
@@ -233,6 +247,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Invokes the native authorization flow through the wrapped identity module.
+   *
    * @param invokeParams - Parameters for native authorization invocation.
    * @returns The authorization response.
    * @internal
@@ -253,6 +269,8 @@ class IdentityModule extends BaseModule {
   }
 
   /**
+   * Validates the authorization request parameters.
+   *
    * @param request - The authorization request to validate.
    * @returns Error message if invalid, `null` if valid.
    * @internal
@@ -485,7 +503,7 @@ class IdentityModule extends BaseModule {
    * }
    * ```
    */
-  async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
+  getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
     const state = this.getStorageItem('state');
     const codeVerifier = this.getStorageItem('code_verifier');
     const nonce = this.getStorageItem('nonce');
@@ -539,7 +557,7 @@ class IdentityModule extends BaseModule {
    * }
    * ```
    */
-  async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
+  clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
     window.localStorage.removeItem(`${NAMESPACE}:nonce`);
     window.localStorage.removeItem(`${NAMESPACE}:state`);
     window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);

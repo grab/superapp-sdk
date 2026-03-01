@@ -1,6 +1,9 @@
-image: node:latest
+image: node:20
 
 cache:
+  key:
+    files:
+      - package-lock.json
   paths:
     - node_modules/
 
@@ -12,37 +15,35 @@ stages:
 check:
   stage: check
   script:
-    - npm install
+    - npm ci
     - npm run check
 
 build:
   stage: build
   script:
+    - npm ci
     - npm run build
-    - npm run docs
   needs:
     - check
 
-deploy-to-npm:
+publish-to-npm:
   stage: publish
+  needs:
+    - build
   script:
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+    - npm ci
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
     - npm publish --access public
-  needs:
-    - build
-  only:
-    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  except:
-    - branches
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
 
-deploy-to-npm-beta:
+publish-to-npm-beta:
   stage: publish
-  script:
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
-    - npm publish --access public --tag beta
   needs:
     - build
-  only:
-    - /^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$/
-  except:
-    - branches
+  script:
+    - npm ci
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+    - npm publish --access public --tag beta
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$/'

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / EmailResult
+[@grabjs/superapp-sdk](../globals.md) / EmailResult
 
 # Type Alias: EmailResult
 

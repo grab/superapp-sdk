@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetSessionParamsSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / GetSessionParamsSuccessResponse
 
 # Type Alias: GetSessionParamsSuccessResponse
 

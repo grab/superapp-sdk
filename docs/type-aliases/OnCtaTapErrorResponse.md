@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / OnCtaTapErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / OnCtaTapErrorResponse
 
 # Type Alias: OnCtaTapErrorResponse
 

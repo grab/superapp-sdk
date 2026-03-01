@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ProfileModule
+[@grabjs/superapp-sdk](../globals.md) / ProfileModule
 
 # Class: ProfileModule
 

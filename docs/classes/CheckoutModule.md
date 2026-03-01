@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / CheckoutModule
+[@grabjs/superapp-sdk](../globals.md) / CheckoutModule
 
 # Class: CheckoutModule
 

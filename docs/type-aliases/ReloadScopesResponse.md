@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ReloadScopesResponse
+[@grabjs/superapp-sdk](../globals.md) / ReloadScopesResponse
 
 # Type Alias: ReloadScopesResponse
 

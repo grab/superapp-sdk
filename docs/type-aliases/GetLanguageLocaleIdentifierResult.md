@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GetLanguageLocaleIdentifierResult
+[@grabjs/superapp-sdk](../globals.md) / GetLanguageLocaleIdentifierResult
 
 # Type Alias: GetLanguageLocaleIdentifierResult
 

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / IdentityModule
+[@grabjs/superapp-sdk](../globals.md) / IdentityModule
 
 # Class: IdentityModule
 

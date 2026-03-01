@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / StorageModule
+[@grabjs/superapp-sdk](../globals.md) / StorageModule
 
 # Class: StorageModule
 

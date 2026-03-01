@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / PlaybackStatusResult
+[@grabjs/superapp-sdk](../globals.md) / PlaybackStatusResult
 
 # Type Alias: PlaybackStatusResult
 

@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ScanQRCodeSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / ScanQRCodeSuccessResponse
 
 # Type Alias: ScanQRCodeSuccessResponse
 

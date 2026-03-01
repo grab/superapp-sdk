@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ClearAuthorizationArtifactsResponse
+[@grabjs/superapp-sdk](../globals.md) / ClearAuthorizationArtifactsResponse
 
 # Type Alias: ClearAuthorizationArtifactsResponse
 

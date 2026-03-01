@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / GrabUserAgent
+[@grabjs/superapp-sdk](../globals.md) / GrabUserAgent
 
 # Type Alias: GrabUserAgent
 

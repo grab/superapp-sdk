@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / PlayDRMContentErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / PlayDRMContentErrorResponse
 
 # Type Alias: PlayDRMContentErrorResponse
 

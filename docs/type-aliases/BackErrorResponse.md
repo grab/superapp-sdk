@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / BackErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / BackErrorResponse
 
 # Type Alias: BackErrorResponse
 

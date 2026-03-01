@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / ShowLoaderErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / ShowLoaderErrorResponse
 
 # Type Alias: ShowLoaderErrorResponse
 

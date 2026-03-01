@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / Version
+[@grabjs/superapp-sdk](../globals.md) / Version
 
 # Type Alias: Version
 

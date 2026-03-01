@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / AnalyticsEventDetails
+[@grabjs/superapp-sdk](../globals.md) / AnalyticsEventDetails
 
 # Interface: AnalyticsEventDetails
 

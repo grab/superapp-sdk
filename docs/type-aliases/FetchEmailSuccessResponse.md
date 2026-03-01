@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / FetchEmailSuccessResponse
+[@grabjs/superapp-sdk](../globals.md) / FetchEmailSuccessResponse
 
 # Type Alias: FetchEmailSuccessResponse
 

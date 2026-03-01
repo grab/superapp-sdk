@@ -18,7 +18,7 @@
     "*"
   ],
   "sort": ["source-order"],
-  "readme": "none",
+  "readme": "./docs-readme.md",
   "disableSources": true,
   "hidePageHeader": true,
   "hidePageTitle": false,

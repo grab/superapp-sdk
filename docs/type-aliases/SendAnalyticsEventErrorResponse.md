@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / SendAnalyticsEventErrorResponse
+[@grabjs/superapp-sdk](../globals.md) / SendAnalyticsEventErrorResponse
 
 # Type Alias: SendAnalyticsEventErrorResponse
 

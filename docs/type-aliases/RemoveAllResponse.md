@@ -1,4 +1,4 @@
-[@grabjs/superapp-sdk](../README.md) / RemoveAllResponse
+[@grabjs/superapp-sdk](../globals.md) / RemoveAllResponse
 
 # Type Alias: RemoveAllResponse
 
