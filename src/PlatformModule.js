@@ -8,12 +8,11 @@
 import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export class PlatformModule {
-    constructor() {
-        bridgeSDK.wrapModule(window, 'PlatformModule')
-    }
+  constructor() {
+    bridgeSDK.wrapModule(window, 'PlatformModule');
+  }
 
-    back() {
-        return window.WrappedPlatformModule.invoke('back');
-    }
-
+  back() {
+    return window.WrappedPlatformModule.invoke('back');
+  }
 }

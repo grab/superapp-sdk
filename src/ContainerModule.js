@@ -86,33 +86,32 @@ export class ContainerModule {
         then: (callback) => callback({ status_code: 400, error: validationError }),
       };
     }
-    return window.WrappedContainerModule.invoke(
-      'sendAnalyticsEvent',
-      {
-        state: eventDetails.state,
-        name: eventDetails.name,
-        data: eventDetails.data ? JSON.stringify(eventDetails.data) : null,
-      }
-    );
+    return window.WrappedContainerModule.invoke('sendAnalyticsEvent', {
+      state: eventDetails.state,
+      name: eventDetails.name,
+      data: eventDetails.data ? JSON.stringify(eventDetails.data) : null,
+    });
   }
 
   isConnected() {
     const userAgent = window.navigator && window.navigator.userAgent;
     if (!userAgent) {
       return {
-        then: (callback) => callback({
-          status_code: 404,
-          error: 'User agent not available'
-        }),
+        then: (callback) =>
+          callback({
+            status_code: 404,
+            error: 'User agent not available',
+          }),
       };
     }
-    
+
     const isConnected = /grab[a-z]*\//i.test(userAgent);
     return {
-      then: (callback) => callback({
-        status_code: isConnected ? 200 : 404,
-        error: isConnected ? null : 'Not connected to Grab app'
-      }),
+      then: (callback) =>
+        callback({
+          status_code: isConnected ? 200 : 404,
+          error: isConnected ? null : 'Not connected to Grab app',
+        }),
     };
   }
 

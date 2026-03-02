@@ -13,10 +13,6 @@ export class SystemWebViewKitModule {
   }
 
   redirectToSystemWebView(payload) {
-    return window.WrappedSystemWebViewKitModule.invoke(
-      'redirectToSystemWebView',
-      payload
-    );
+    return window.WrappedSystemWebViewKitModule.invoke('redirectToSystemWebView', payload);
   }
 }
-

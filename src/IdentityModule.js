@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from "@grabjs/mobile-kit-bridge-sdk";
-import sha256 from "crypto-js/sha256";
-import Base64 from "crypto-js/enc-base64";
+import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import sha256 from 'crypto-js/sha256';
+import Base64 from 'crypto-js/enc-base64';
 
 export class IdentityModule {
   constructor() {
@@ -17,11 +17,11 @@ export class IdentityModule {
   }
 
   get NAMESPACE() {
-    return "grabid";
+    return 'grabid';
   }
 
   get CODE_CHALLENGE_METHOD() {
-    return "S256";
+    return 'S256';
   }
 
   get NONCE_LENGTH() {
@@ -38,8 +38,9 @@ export class IdentityModule {
 
   get OPENID_CONFIG_ENDPOINTS() {
     return {
-      staging: "https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration",
-      production: "https://partner-api.grab.com/grabid/v1/oauth2/.well-known/openid-configuration"
+      staging:
+        'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration',
+      production: 'https://partner-api.grab.com/grabid/v1/oauth2/.well-known/openid-configuration',
     };
   }
 
@@ -52,36 +53,39 @@ export class IdentityModule {
     try {
       const response = await fetch(configUrl);
       if (!response.ok) {
-        console.error(`Failed to fetch OpenID configuration from ${configUrl}: ${response.status} ${response.statusText}`);
-        throw new Error("Failed to fetch authorization configuration");
+        console.error(
+          `Failed to fetch OpenID configuration from ${configUrl}: ${response.status} ${response.statusText}`
+        );
+        throw new Error('Failed to fetch authorization configuration');
       }
-      
+
       const config = await response.json();
       if (!config.authorization_endpoint) {
-        console.error("authorization_endpoint not found in OpenID configuration response");
-        throw new Error("Invalid authorization configuration");
+        console.error('authorization_endpoint not found in OpenID configuration response');
+        throw new Error('Invalid authorization configuration');
       }
-      
+
       return config.authorization_endpoint;
     } catch (error) {
-      console.error("Error fetching authorization endpoint:", error);
-      
-      if (error.message === "Failed to fetch authorization configuration" || 
-          error.message === "Invalid authorization configuration") {
+      console.error('Error fetching authorization endpoint:', error);
+
+      if (
+        error.message === 'Failed to fetch authorization configuration' ||
+        error.message === 'Invalid authorization configuration'
+      ) {
         throw error;
       }
-      
-      throw new Error("Something wrong happened when fetching authorization configuration");
+
+      throw new Error('Something wrong happened when fetching authorization configuration');
     }
   }
 
   static generateRandomString(length) {
-    const charset =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const randomValues = new Uint32Array(length);
     crypto.getRandomValues(randomValues);
 
-    let result = "";
+    let result = '';
     for (let i = 0; i < length; i += 1) {
       result += charset.charAt(randomValues[i] % charset.length);
     }
@@ -89,17 +93,11 @@ export class IdentityModule {
   }
 
   static base64URLEncode(str) {
-    return str
-      .toString(Base64)
-      .replace(/=/g, "")
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_");
+    return str.toString(Base64).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
   }
 
   static generateCodeVerifier(len) {
-    return IdentityModule.base64URLEncode(
-      IdentityModule.generateRandomString(len)
-    );
+    return IdentityModule.base64URLEncode(IdentityModule.generateRandomString(len));
   }
 
   static generateCodeChallenge(codeVerifier) {
@@ -109,9 +107,7 @@ export class IdentityModule {
   generatePKCEArtifacts() {
     const nonce = IdentityModule.generateRandomString(this.NONCE_LENGTH);
     const state = IdentityModule.generateRandomString(this.STATE_LENGTH);
-    const codeVerifier = IdentityModule.generateCodeVerifier(
-      this.CODE_VERIFIER_LENGTH
-    );
+    const codeVerifier = IdentityModule.generateCodeVerifier(this.CODE_VERIFIER_LENGTH);
     const codeChallenge = IdentityModule.generateCodeChallenge(codeVerifier);
 
     return {
@@ -124,25 +120,27 @@ export class IdentityModule {
   }
 
   storePKCEArtifacts(artifacts) {
-    this.setStorageItem("nonce", artifacts.nonce);
-    this.setStorageItem("state", artifacts.state);
-    this.setStorageItem("code_verifier", artifacts.codeVerifier);
-    this.setStorageItem("redirect_uri", artifacts.redirectUri);
+    this.setStorageItem('nonce', artifacts.nonce);
+    this.setStorageItem('state', artifacts.state);
+    this.setStorageItem('code_verifier', artifacts.codeVerifier);
+    this.setStorageItem('redirect_uri', artifacts.redirectUri);
   }
 
   async getAuthorizationArtifacts() {
-    const state = this.getStorageItem("state");
-    const codeVerifier = this.getStorageItem("code_verifier");
-    const nonce = this.getStorageItem("nonce");
-    const redirectUri = this.getStorageItem("redirect_uri");
+    const state = this.getStorageItem('state');
+    const codeVerifier = this.getStorageItem('code_verifier');
+    const nonce = this.getStorageItem('nonce');
+    const redirectUri = this.getStorageItem('redirect_uri');
 
-    const existingCount = [state, codeVerifier, nonce, redirectUri].filter(item => item !== null).length;
+    const existingCount = [state, codeVerifier, nonce, redirectUri].filter(
+      (item) => item !== null
+    ).length;
 
     if (existingCount === 4) {
       return Promise.resolve({
         status_code: 200,
         result: { state, codeVerifier, nonce, redirectUri },
-        error: null
+        error: null,
       });
     }
 
@@ -150,14 +148,14 @@ export class IdentityModule {
       return Promise.resolve({
         status_code: 204,
         result: null,
-        error: null
+        error: null,
       });
     }
 
     return Promise.resolve({
       status_code: 400,
       result: null,
-      error: "Inconsistent authorization artifacts in storage"
+      error: 'Inconsistent authorization artifacts in storage',
     });
   }
 
@@ -167,11 +165,11 @@ export class IdentityModule {
     window.localStorage.removeItem(`${this.NAMESPACE}:code_verifier`);
     window.localStorage.removeItem(`${this.NAMESPACE}:redirect_uri`);
     window.localStorage.removeItem(`${this.NAMESPACE}:login_return_uri`);
-    
+
     return Promise.resolve({
       status_code: 204,
       result: null,
-      error: null
+      error: null,
     });
   }
 
@@ -191,17 +189,14 @@ export class IdentityModule {
   static buildAuthorizeUrl(authorizationEndpoint, requestMap) {
     const query = Object.entries(requestMap)
       .filter((entry) => entry[1] !== undefined && entry[1] !== null)
-      .map(
-        ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-      )
-      .join("&");
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&');
 
     return `${authorizationEndpoint}?${query}`;
   }
 
   static parseGrabUserAgent(userAgent) {
-    if (!userAgent || typeof userAgent !== "string") {
+    if (!userAgent || typeof userAgent !== 'string') {
       return null;
     }
 
@@ -232,14 +227,12 @@ export class IdentityModule {
   }
 
   static shouldUseWebConsent(request) {
-    const userAgentInfo = IdentityModule.parseGrabUserAgent(
-      window.navigator.userAgent
-    );
+    const userAgentInfo = IdentityModule.parseGrabUserAgent(window.navigator.userAgent);
     if (!userAgentInfo) {
       return true;
     }
 
-    if (request.environment === "staging") {
+    if (request.environment === 'staging') {
       return false;
     }
 
@@ -249,27 +242,27 @@ export class IdentityModule {
 
   async performWebAuthorization(params) {
     // Store the current page URL for potential return navigation
-    this.setStorageItem("login_return_uri", window.location.href);
-    
+    this.setStorageItem('login_return_uri', window.location.href);
+
     // Update the stored redirectUri to match what will be sent to the authorization server
     // This is necessary when falling back from native flow, where the initially stored
     // redirectUri might have been the normalized current URL (for in_place mode)
-    this.setStorageItem("redirect_uri", params.redirectUri);
+    this.setStorageItem('redirect_uri', params.redirectUri);
 
     let authorizationEndpoint;
     try {
       authorizationEndpoint = await this.fetchAuthorizationEndpoint(params.environment);
     } catch (error) {
-      return Promise.resolve({ 
-        status_code: 400, 
-        error: error.message 
+      return Promise.resolve({
+        status_code: 400,
+        error: error.message,
       });
     }
 
     const requestMap = {
       client_id: params.clientId,
       scope: params.scope,
-      response_type: "code",
+      response_type: 'code',
       redirect_uri: params.redirectUri,
       nonce: params.nonce,
       state: params.state,
@@ -277,10 +270,7 @@ export class IdentityModule {
       code_challenge: params.codeChallenge,
     };
 
-    const authorizeUrl = IdentityModule.buildAuthorizeUrl(
-      authorizationEndpoint,
-      requestMap
-    );
+    const authorizeUrl = IdentityModule.buildAuthorizeUrl(authorizationEndpoint, requestMap);
     window.location.assign(authorizeUrl);
 
     return Promise.resolve({
@@ -290,7 +280,7 @@ export class IdentityModule {
   }
 
   static performNativeAuthorization(invokeParams) {
-    return window.WrappedIdentityModule.invoke("authorize", {
+    return window.WrappedIdentityModule.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,
@@ -309,16 +299,17 @@ export class IdentityModule {
     }
 
     const pkceArtifacts = this.generatePKCEArtifacts();
-    
-    const responseMode = request.responseMode || "redirect";
-    
-    const actualRedirectUri = responseMode === "in_place" 
-      ? IdentityModule.normalizeUrl(window.location.href)
-      : request.redirectUri;
-    
+
+    const responseMode = request.responseMode || 'redirect';
+
+    const actualRedirectUri =
+      responseMode === 'in_place'
+        ? IdentityModule.normalizeUrl(window.location.href)
+        : request.redirectUri;
+
     this.storePKCEArtifacts({
       ...pkceArtifacts,
-      redirectUri: actualRedirectUri
+      redirectUri: actualRedirectUri,
     });
 
     const invokeParams = {
@@ -363,10 +354,7 @@ export class IdentityModule {
       return nativeResult;
     } catch (error) {
       // Native consent is unavailable, fallback to web flow
-      console.error(
-        "Native authorization failed, falling back to web flow:",
-        error
-      );
+      console.error('Native authorization failed, falling back to web flow:', error);
       // Fallback to web flow
       return this.performWebAuthorization({
         ...invokeParams,
@@ -376,7 +364,7 @@ export class IdentityModule {
   }
 
   static validateRequiredString(value, fieldName) {
-    if (!value || typeof value !== "string" || value.trim() === "") {
+    if (!value || typeof value !== 'string' || value.trim() === '') {
       return `${fieldName} is required and must be a non-empty string`;
     }
     return null;
@@ -384,43 +372,37 @@ export class IdentityModule {
 
   static validateAuthorizeRequest(request) {
     if (request == null) {
-      return "request is required";
+      return 'request is required';
     }
 
-    const scopeError = IdentityModule.validateRequiredString(
-      request.scope,
-      "scope"
-    );
+    const scopeError = IdentityModule.validateRequiredString(request.scope, 'scope');
     if (scopeError) return scopeError;
 
-    const clientIdError = IdentityModule.validateRequiredString(
-      request.clientId,
-      "clientId"
-    );
+    const clientIdError = IdentityModule.validateRequiredString(request.clientId, 'clientId');
     if (clientIdError) return clientIdError;
 
     const redirectUriError = IdentityModule.validateRequiredString(
       request.redirectUri,
-      "redirectUri"
+      'redirectUri'
     );
     if (redirectUriError) return redirectUriError;
 
     try {
       const url = new URL(request.redirectUri);
       if (!url) {
-        return "redirectUri must be a valid URL";
+        return 'redirectUri must be a valid URL';
       }
     } catch (error) {
-      return "redirectUri must be a valid URL";
+      return 'redirectUri must be a valid URL';
     }
 
     const environmentError = IdentityModule.validateRequiredString(
       request.environment,
-      "environment"
+      'environment'
     );
     if (environmentError) return environmentError;
 
-    if (request.environment !== "staging" && request.environment !== "production") {
+    if (request.environment !== 'staging' && request.environment !== 'production') {
       return "environment must be either 'staging' or 'production'";
     }
 

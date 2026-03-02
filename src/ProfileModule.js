@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import bridgeSDK from "@grabjs/mobile-kit-bridge-sdk";
+import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
 export class ProfileModule {
   constructor() {
@@ -15,7 +15,7 @@ export class ProfileModule {
   }
 
   static parseGrabUserAgent(userAgent) {
-    if (!userAgent || typeof userAgent !== "string") {
+    if (!userAgent || typeof userAgent !== 'string') {
       return null;
     }
 
@@ -46,9 +46,7 @@ export class ProfileModule {
   }
 
   static isSupported() {
-    const userAgentInfo = ProfileModule.parseGrabUserAgent(
-      window.navigator.userAgent
-    );
+    const userAgentInfo = ProfileModule.parseGrabUserAgent(window.navigator.userAgent);
     if (!userAgentInfo) {
       return false;
     }
@@ -61,7 +59,7 @@ export class ProfileModule {
     if (!ProfileModule.isSupported()) {
       return Promise.resolve({
         status_code: 403,
-        error: "This feature requires Grab app version 5.399 or above.",
+        error: 'This feature requires Grab app version 5.399 or above.',
       });
     }
     return window.WrappedProfileModule.invoke('fetchEmail');
@@ -71,7 +69,7 @@ export class ProfileModule {
     if (!ProfileModule.isSupported()) {
       return Promise.resolve({
         status_code: 403,
-        error: "This feature requires Grab app version 5.399 or above.",
+        error: 'This feature requires Grab app version 5.399 or above.',
       });
     }
     return window.WrappedProfileModule.invoke('verifyEmail', verifyEmailDetails);

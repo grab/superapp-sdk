@@ -34,7 +34,7 @@ Each request to native API should be done through JavaScript bridge provided by 
 
 ## Response
 
-Each resonse from the native bridge follows the same structure described bellow.
+Each response from the native bridge follows the same structure described bellow.
 
 | Key         | Type                     | Description                                                                        |
 | ----------- | ------------------------ | ---------------------------------------------------------------------------------- |
@@ -54,6 +54,7 @@ Each resonse from the native bridge follows the same structure described bellow.
 | 500  | Internal Error    | Unexpected internal error (e.g. failed to serialize response object)            |
 
 ### Success response example
+
 ```json
 {
   "status_code": 200,
@@ -72,6 +73,7 @@ Each resonse from the native bridge follows the same structure described bellow.
   "error": "Client doesn't have access to method \"getLocation\" in module \"LocationModule\""
 }
 ```
----
-* **GDMCOMMENT:** Latitudes and longitudes used in this file are either sourced from GrabPlaces, GrabMaps, OSM or randomly created by the developer and are not obtained from other external sources.
 
+---
+
+- **GDMCOMMENT:** Latitudes and longitudes used in this file are either sourced from GrabPlaces, GrabMaps, OSM or randomly created by the developer and are not obtained from other external sources.

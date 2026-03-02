@@ -24,4 +24,4 @@ export class CameraModule {
   scanQRCode(config = {}) {
     return window.WrappedCameraModule.invoke('scanQRCode', config);
   }
-} 
+}

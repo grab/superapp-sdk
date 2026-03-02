@@ -9,19 +9,19 @@ function createConfig({ file = 'dist/index.js' }) {
     output: {
       format: 'umd',
       file,
-      name: 'SuperAppSDK'
+      name: 'SuperAppSDK',
     },
     plugins: [
       resolve({
         browser: true,
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       commonJs({
-        include: /node_modules/
+        include: /node_modules/,
       }),
       babel({ exclude: 'node_modules/**' }),
-      uglify()
-    ]
+      uglify(),
+    ],
   };
 }
 
