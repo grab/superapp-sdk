@@ -13,7 +13,7 @@ Open a URL in a system webview.
 | ---------- | ---------- | ----------------------------- |
 | parameters | Parameters | The request parameters.       |
 
-#### Parameters
+### Parameters
 | Name | Type   | Description      |
 | ---- | ------ | ---------------- |
 | url  | String | The URL to open. |
