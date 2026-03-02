@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Restructured CI pipeline into 4 stages: install, check, build, publish
+- Updated package version from 1.8.8 to 1.8.9
 
 ## [1.8.8] - 2026-03-02
 
