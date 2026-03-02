@@ -76,7 +76,9 @@ export class IdentityModule {
         throw error;
       }
 
-      throw new Error('Something wrong happened when fetching authorization configuration');
+      throw new Error('Something wrong happened when fetching authorization configuration', {
+        cause: error,
+      });
     }
   }
 
@@ -393,6 +395,7 @@ export class IdentityModule {
         return 'redirectUri must be a valid URL';
       }
     } catch (error) {
+      console.error('Error validating redirectUri:', error);
       return 'redirectUri must be a valid URL';
     }
 
