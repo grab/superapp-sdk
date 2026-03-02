@@ -1,6 +1,6 @@
 {
   "name": "@grabjs/superapp-sdk",
-  "version": "1.8.7",
+  "version": "1.8.8",
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "fix": "npm run format:fix",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
+    "prepare": "husky",
     "prepublishOnly": "npm run build",
     "watch": "rollup -cw"
   },
@@ -44,11 +45,16 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.1",
     "prettier": "3.8.1",
     "rollup": "^1.7.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-node-resolve": "^4.2.2",
     "rollup-plugin-uglify": "^6.0.2"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
