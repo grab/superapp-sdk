@@ -9,9 +9,9 @@
     "fix": "npm run format:fix",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
+    "prepare": "husky",
     "prepublishOnly": "npm run build",
-    "watch": "rollup -cw",
-    "prepare": "husky"
+    "watch": "rollup -cw"
   },
   "repository": {
     "type": "git",
@@ -55,8 +55,6 @@
     "rollup-plugin-uglify": "^6.0.2"
   },
   "lint-staged": {
-    "lint-staged": {
-  "**/*": ["prettier --write --ignore-unknown"]
-}
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
