@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import StorageModule from './StorageModule';
+import { StorageModule } from './StorageModule';
 
 export default StorageModule;
 

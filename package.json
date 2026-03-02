@@ -4,11 +4,11 @@
   "description": "SDK for Grab SuperApp WebView.",
   "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
   "sideEffects": false,
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "exports": {
     ".": {
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "clean": "rimraf dist docs",
-    "build": "rimraf dist && rollup -c && tsx scripts/print-bundle-size.ts",
+    "build": "rimraf build && rimraf dist && rollup -c && mkdir dist && cp build/index.js dist/index.js && cp build/index.esm.js dist/index.esm.js && api-extractor run --local --verbose && tsx scripts/print-bundle-size.ts",
     "build:analyze": "rimraf dist && ROLLUP_VISUALIZE=1 rollup -c",
     "docs": "rimraf docs && typedoc",
     "fix": "npm run format:fix && npm run lint:fix && npm run license:fix",
@@ -61,9 +61,9 @@
     "url": "https://github.com/grab/superapp-sdk/issues"
   },
   "homepage": "https://github.com/grab/superapp-sdk#readme",
-  "dependencies": {},
   "devDependencies": {
     "@grabjs/mobile-kit-bridge-sdk": "^2.2.2",
+    "@microsoft/api-extractor": "^7.57.6",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
@@ -108,6 +108,9 @@
       "prettier --write"
     ],
     ".prettierrc": [
+      "prettier --write"
+    ],
+    "*.{md,yml,yaml}": [
       "prettier --write"
     ]
   }

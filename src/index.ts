@@ -6,7 +6,6 @@
  */
 
 /**
- * @packageDocumentation
  * @grabjs/superapp-sdk - SDK for Grab SuperApp WebView.
  *
  * Use the module classes (e.g. CameraModule, IdentityModule) to interact with

@@ -35,7 +35,7 @@ import type { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from
  * </script>
  * ```
  */
-class ProfileModule extends BaseModule {
+export class ProfileModule extends BaseModule {
   constructor() {
     super('ProfileModule');
   }
@@ -218,5 +218,3 @@ class ProfileModule extends BaseModule {
     return window.WrappedProfileModule.invoke('verifyEmail', verifyEmailDetails);
   }
 }
-
-export default ProfileModule;

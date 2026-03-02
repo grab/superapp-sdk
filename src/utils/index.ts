@@ -6,7 +6,6 @@
  */
 
 /**
- * @packageDocumentation
  * Utility helpers: error handling, URL normalization, validation, and version parsing.
  */
 

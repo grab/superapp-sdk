@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import PlatformModule from './PlatformModule';
+import { PlatformModule } from './PlatformModule';
 
 export default PlatformModule;
 

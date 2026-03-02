@@ -4,7 +4,7 @@
     "module": "ESNext",
     "declaration": true,
     "declarationMap": true,
-    "outDir": "dist",
+    "outDir": "build",
     "verbatimModuleSyntax": true,
     "strict": true,
     "noImplicitReturns": true,
@@ -13,8 +13,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "bundler",
-    "lib": ["ES2018", "DOM", "DOM.Iterable"]
+    "lib": ["ES2018", "DOM", "DOM.Iterable"],
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts", "dist", "scripts/**/*"]
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts", "build", "dist", "scripts/**/*"]
 }

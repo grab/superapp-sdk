@@ -6,17 +6,8 @@
  */
 
 /**
- * @packageDocumentation
  * Core module system: base class and response types for SDK modules.
  */
 
 export { BaseModule } from './BaseModule';
-export type {
-  ErrorResponse,
-  Invoke,
-  MethodMap,
-  NoResultResponse,
-  Response,
-  SuccessResponse,
-  WrappedModule,
-} from './types';
+export type { ErrorResponse, NoResultResponse, Response, SuccessResponse } from './types';

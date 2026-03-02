@@ -33,7 +33,7 @@ import type { PlayDRMContentRequest, PlayDRMContentResponse } from './types';
  * </script>
  * ```
  */
-class MediaModule extends BaseModule {
+export class MediaModule extends BaseModule {
   constructor() {
     super('MediaModule');
   }
@@ -122,5 +122,3 @@ class MediaModule extends BaseModule {
     return window.WrappedMediaModule.invoke('playDRMContent', { data: request });
   }
 }
-
-export default MediaModule;

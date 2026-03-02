@@ -33,7 +33,7 @@ import type { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } 
  * </script>
  * ```
  */
-class SystemWebViewKitModule extends BaseModule {
+export class SystemWebViewKitModule extends BaseModule {
   constructor() {
     super('SystemWebViewKitModule');
   }
@@ -104,5 +104,3 @@ class SystemWebViewKitModule extends BaseModule {
     return window.WrappedSystemWebViewKitModule.invoke('redirectToSystemWebView', payload);
   }
 }
-
-export default SystemWebViewKitModule;

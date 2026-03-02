@@ -31,7 +31,7 @@ import type { GetCoordinateResponse, GetCountryCodeResponse } from './types';
  * </script>
  * ```
  */
-class LocationModule extends BaseModule {
+export class LocationModule extends BaseModule {
   constructor() {
     super('LocationModule');
   }
@@ -208,5 +208,3 @@ class LocationModule extends BaseModule {
     return window.WrappedLocationModule.invoke('getCountryCode');
   }
 }
-
-export default LocationModule;

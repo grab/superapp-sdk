@@ -1,3 +1,4 @@
+build/
 dist/
 node_modules/
 coverage/
@@ -7,3 +8,5 @@ playground/
 slides/
 package-lock.json
 bundle-stats.html
+coverage/
+*.min.js

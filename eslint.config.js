@@ -15,6 +15,7 @@ import globals from 'globals';
 export default [
   {
     ignores: [
+      'build/',
       'dist/',
       'node_modules/',
       'coverage/',
@@ -67,6 +68,7 @@ export default [
       '@typescript-eslint/no-unsafe-return': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/consistent-type-imports': 'error',
 
       // Import order
       'simple-import-sort/imports': 'error',

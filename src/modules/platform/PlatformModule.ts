@@ -32,7 +32,7 @@ import type { BackResponse } from './types';
  * </script>
  * ```
  */
-class PlatformModule extends BaseModule {
+export class PlatformModule extends BaseModule {
   constructor() {
     super('PlatformModule');
   }
@@ -94,5 +94,3 @@ class PlatformModule extends BaseModule {
     return window.WrappedPlatformModule.invoke('back');
   }
 }
-
-export default PlatformModule;

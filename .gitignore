@@ -38,6 +38,7 @@ node_modules/
 .env.test
 
 # Build output
+build/
 dist/
 bundle-stats.html
 

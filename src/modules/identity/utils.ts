@@ -24,7 +24,7 @@ export function generateRandomString(length: number): string {
 
   let result = '';
   for (let i = 0; i < length; i += 1) {
-    result += charset.charAt(randomValues[i] % charset.length);
+    result += charset.charAt(randomValues[i] || 0 % charset.length);
   }
   return result;
 }
@@ -74,7 +74,7 @@ function base64URLEncodeBuffer(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer);
   let binary = '';
   for (let i = 0; i < bytes.length; i += 1) {
-    binary += String.fromCharCode(bytes[i]);
+    binary += String.fromCharCode(bytes[i] || 0);
   }
   return btoa(binary).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }

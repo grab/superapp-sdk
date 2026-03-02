@@ -22,14 +22,14 @@ export default {
   input: 'src/index.ts',
   output: [
     {
-      file: 'dist/index.js',
+      file: 'build/index.js',
       format: 'umd',
       name: 'SuperAppSDK',
       sourcemap: true,
       exports: 'named',
     },
     {
-      file: 'dist/index.esm.js',
+      file: 'build/index.esm.js',
       format: 'es',
       sourcemap: true,
       exports: 'named',

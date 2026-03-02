@@ -67,7 +67,7 @@ import {
  * </script>
  * ```
  */
-class IdentityModule extends BaseModule {
+export class IdentityModule extends BaseModule {
   constructor() {
     super('IdentityModule');
   }
@@ -431,11 +431,7 @@ class IdentityModule extends BaseModule {
       });
 
       // Check if native authorization returned error - only fallback to web for specific status codes
-      if (
-        nativeResult.error &&
-        nativeResult.status_code &&
-        [400, 401, 403].includes(nativeResult.status_code)
-      ) {
+      if (nativeResult.error && [400, 401, 403].includes(nativeResult.status_code)) {
         logger.error(
           `Native authorization returned ${nativeResult.status_code}, falling back to web flow: ${nativeResult.error}`,
           'IdentityModule'
@@ -571,5 +567,3 @@ class IdentityModule extends BaseModule {
     });
   }
 }
-
-export default IdentityModule;

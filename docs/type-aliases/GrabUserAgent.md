@@ -2,17 +2,17 @@
 
 # Type Alias: GrabUserAgent
 
-> **GrabUserAgent** = \{ `appName`: `string`; `major`: `number`; `minor`: `number`; `patch`: `number`; `platform`: `string`; \} \| `null`
+> **GrabUserAgent** = \{ `appName`: `string` \| `undefined`; `major`: `number`; `minor`: `number`; `patch`: `number`; `platform`: `string` \| `undefined`; \} \| `null`
 
 Grab user agent information parsed from the `navigator.userAgent` string.
 
 ## Type Declaration
 
-\{ `appName`: `string`; `major`: `number`; `minor`: `number`; `patch`: `number`; `platform`: `string`; \}
+\{ `appName`: `string` \| `undefined`; `major`: `number`; `minor`: `number`; `patch`: `number`; `platform`: `string` \| `undefined`; \}
 
 ### appName
 
-> **appName**: `string`
+> **appName**: `string` \| `undefined`
 
 App name (e.g., "Grab", "GrabBeta")
 
@@ -36,7 +36,7 @@ Patch version number
 
 ### platform
 
-> **platform**: `string`
+> **platform**: `string` \| `undefined`
 
 Platform (Android or iOS)
 

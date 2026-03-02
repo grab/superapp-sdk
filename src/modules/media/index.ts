@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import MediaModule from './MediaModule';
+import { MediaModule } from './MediaModule';
 
 export default MediaModule;
 

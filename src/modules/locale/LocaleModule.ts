@@ -43,7 +43,7 @@ import type { GetLanguageLocaleIdentifierResponse } from './types';
  * </script>
  * ```
  */
-class LocaleModule extends BaseModule {
+export class LocaleModule extends BaseModule {
   constructor() {
     super('LocaleModule');
   }
@@ -118,5 +118,3 @@ class LocaleModule extends BaseModule {
     return window.WrappedLocaleModule.invoke('getLanguageLocaleIdentifier');
   }
 }
-
-export default LocaleModule;

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ContainerModule from './ContainerModule';
+import { ContainerModule } from './ContainerModule';
 
 export default ContainerModule;
 

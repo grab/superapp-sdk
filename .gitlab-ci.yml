@@ -1,4 +1,4 @@
-image: node:20
+image: node:24
 
 cache:
   key:
@@ -15,23 +15,23 @@ stages:
 check:
   stage: check
   script:
-    - npm ci
     - npm run check
 
 build:
   stage: build
   script:
-    - npm ci
     - npm run build
   needs:
     - check
+  artifacts:
+    paths:
+      - dist/
 
 publish-to-npm:
   stage: publish
   needs:
     - build
   script:
-    - npm ci
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
     - npm publish --access public
   rules:
@@ -42,7 +42,6 @@ publish-to-npm-beta:
   needs:
     - build
   script:
-    - npm ci
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
     - npm publish --access public --tag beta
   rules:

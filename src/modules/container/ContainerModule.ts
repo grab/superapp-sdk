@@ -51,7 +51,7 @@ import type {
  * </script>
  * ```
  */
-class ContainerModule extends BaseModule {
+export class ContainerModule extends BaseModule {
   constructor() {
     super('ContainerModule');
   }
@@ -442,7 +442,7 @@ class ContainerModule extends BaseModule {
   async sendAnalyticsEvent(
     eventDetails: AnalyticsEventDetails
   ): Promise<SendAnalyticsEventResponse> {
-    const validationError = this._validateAnalyticsEvent(eventDetails);
+    const validationError = this.validateAnalyticsEvent(eventDetails);
     if (validationError) {
       return Promise.resolve(
         createValidationErrorResponse(validationError) as SendAnalyticsEventResponse
@@ -567,7 +567,7 @@ class ContainerModule extends BaseModule {
    * @returns Error message if invalid, `null` if valid.
    * @internal
    */
-  private _validateAnalyticsEvent(eventDetails: AnalyticsEventDetails): string | null {
+  private validateAnalyticsEvent(eventDetails: AnalyticsEventDetails): string | null {
     const nameError = validateRequiredString(eventDetails.name, 'name');
     if (nameError) {
       return nameError;
@@ -586,5 +586,3 @@ class ContainerModule extends BaseModule {
     return null;
   }
 }
-
-export default ContainerModule;

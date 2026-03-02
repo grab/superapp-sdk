@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import LocaleModule from './LocaleModule';
+import { LocaleModule } from './LocaleModule';
 
 export default LocaleModule;
 

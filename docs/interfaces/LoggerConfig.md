@@ -2,7 +2,7 @@
 
 # Interface: LoggerConfig
 
-Logger configuration options. Ah
+Logger configuration options.
 
 ## Remarks
 

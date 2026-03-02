@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import CameraModule from './CameraModule';
+import { CameraModule } from './CameraModule';
 
 export default CameraModule;
 

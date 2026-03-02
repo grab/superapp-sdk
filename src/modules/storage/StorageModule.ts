@@ -42,7 +42,7 @@ import type {
  * </script>
  * ```
  */
-class StorageModule extends BaseModule {
+export class StorageModule extends BaseModule {
   constructor() {
     super('StorageModule');
   }
@@ -296,5 +296,3 @@ class StorageModule extends BaseModule {
     return window.WrappedStorageModule.invoke('removeAll');
   }
 }
-
-export default StorageModule;

@@ -33,7 +33,7 @@ import type { HasAccessToResponse, ReloadScopesResponse } from './types';
  * </script>
  * ```
  */
-class ScopeModule extends BaseModule {
+export class ScopeModule extends BaseModule {
   constructor() {
     super('ScopeModule');
   }
@@ -156,5 +156,3 @@ class ScopeModule extends BaseModule {
     return window.WrappedScopeModule.invoke('reloadScopes');
   }
 }
-
-export default ScopeModule;

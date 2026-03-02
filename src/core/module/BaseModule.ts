@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
 
 import { getErrorForLog, getErrorMessage } from '../../utils';
 import { logger } from '../logger';
@@ -45,7 +45,7 @@ export class BaseModule {
       return;
     }
 
-    if (!bridgeSDK || typeof bridgeSDK.wrapModule !== 'function') {
+    if (typeof wrapModule !== 'function') {
       const errorMessage =
         'Bridge SDK not available. Make sure you are running in a supported environment.';
       logger.error(errorMessage, this.name);
@@ -53,7 +53,7 @@ export class BaseModule {
     }
 
     try {
-      bridgeSDK.wrapModule(window, this.name);
+      wrapModule(window, this.name);
       logger.debug(`${this.name} module initialized successfully`, this.name);
     } catch (error) {
       const errorMessage = getErrorMessage(error);

@@ -10,7 +10,7 @@
 import fs from 'fs';
 import { gzipSync } from 'zlib';
 
-const FILES = ['dist/index.js', 'dist/index.esm.js'] as const;
+const FILES = ['build/index.js', 'build/index.esm.js'] as const;
 
 function formatBytes(bytes: number): string {
   return `${(bytes / 1024).toFixed(2)} kB`;

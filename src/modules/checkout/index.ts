@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import CheckoutModule from './CheckoutModule';
+import { CheckoutModule } from './CheckoutModule';
 
 export default CheckoutModule;
 

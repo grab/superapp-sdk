@@ -27,7 +27,7 @@ export type GrabUserAgent = {
   /**
    * App name (e.g., "Grab", "GrabBeta")
    */
-  appName: string;
+  appName: string | undefined;
   /**
    * Major version number
    */
@@ -43,5 +43,5 @@ export type GrabUserAgent = {
   /**
    * Platform (Android or iOS)
    */
-  platform: string;
+  platform: string | undefined;
 } | null;

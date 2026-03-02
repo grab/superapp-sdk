@@ -33,7 +33,7 @@ import type { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  * </script>
  * ```
  */
-class CheckoutModule extends BaseModule {
+export class CheckoutModule extends BaseModule {
   constructor() {
     super('CheckoutModule');
   }
@@ -104,5 +104,3 @@ class CheckoutModule extends BaseModule {
     return window.WrappedCheckoutModule.invoke('triggerCheckout', request);
   }
 }
-
-export default CheckoutModule;

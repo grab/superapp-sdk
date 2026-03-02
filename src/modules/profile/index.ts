@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ProfileModule from './ProfileModule';
+import { ProfileModule } from './ProfileModule';
 
 export default ProfileModule;
 

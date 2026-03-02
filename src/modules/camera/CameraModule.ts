@@ -33,7 +33,7 @@ import type { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  * </script>
  * ```
  */
-class CameraModule extends BaseModule {
+export class CameraModule extends BaseModule {
   constructor() {
     super('CameraModule');
   }
@@ -103,5 +103,3 @@ class CameraModule extends BaseModule {
     return window.WrappedCameraModule.invoke('scanQRCode', request);
   }
 }
-
-export default CameraModule;
