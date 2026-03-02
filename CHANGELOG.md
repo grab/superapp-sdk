@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.10] - 2026-03-02
+
+### Added
+
+- Added ESLint 10.0.2 with flat config (eslint.config.mjs)
+- Added support for linting JavaScript, JSON, and Markdown files
+- Added npm scripts: `lint:check` and `lint:fix`
+
+### Changed
+
+- Updated `check` and `fix` npm scripts to include linting alongside formatting
+- Added error cause when throwing authorization configuration errors
+- Added error logging for redirectUri validation failures
+
+### Fixed
+
+- Fixed incorrect heading level in SystemWebViewKitModule.md documentation (#### → ###)
+
 ## [1.8.9] - 2026-03-02
 
 ### Changed
