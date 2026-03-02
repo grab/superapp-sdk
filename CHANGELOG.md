@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.1] - 2026-03-02
+
+#### Added
+
+- Full TypeScript support with type definitions
+- Added `tsconfig.json` for TypeScript compilation configuration
+- Added `scripts/build.mjs` for orchestrated build process
+- Added Microsoft API Extractor for bundling type definitions
+- Added dual module format support (ESM and CommonJS) via `exports` field
+- Added `module` field for ESM entry point
+- Added `types` field pointing to bundled type definitions
+- Added `.nvmrc` specifying Node.js version 24
+- Added `clean` npm script for removing build artifacts
+- Added TypeScript-related dependencies: `typescript`, `tslib`, `@rollup/plugin-typescript`, `@types/node`
+
+#### Changed
+
+- Migrated source code from JavaScript to TypeScript (`src/index.js` → `src/index.ts`)
+- Migrated build system from Babel to TypeScript with Rollup
+- Upgraded Rollup from 1.7.0 to 4.59.0 with modern official plugins
+- Updated `build` script to use new `scripts/build.mjs` orchestrator
+- Updated package `files` field to only include `dist` directory
+- Changed Rollup configuration from CommonJS to ES Module format (`rollup.config.mjs`)
+- Updated ESLint configuration to support TypeScript file extensions
+
+#### Removed
+
+- Removed Babel and related configuration (`.babelrc`)
+- Removed legacy Rollup plugins: `rollup-plugin-babel`, `rollup-plugin-commonjs`, `rollup-plugin-node-resolve`, `rollup-plugin-uglify`
+- Removed `docs` directory from published package files
+- Deleted legacy `rollup.config.js`
+
 ## [1.8.11] - 2026-03-02
 
 ### Changed
