@@ -394,8 +394,7 @@ export class IdentityModule {
       if (!url) {
         return 'redirectUri must be a valid URL';
       }
-    } catch (error) {
-      console.error('Error validating redirectUri:', error);
+    } catch {
       return 'redirectUri must be a valid URL';
     }
 
