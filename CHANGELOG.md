@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0-beta.1] - 2026-03-02
 
-#### Added
+### Added
 
 - Full TypeScript support with type definitions
 - Added `tsconfig.json` for TypeScript compilation configuration
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `clean` npm script for removing build artifacts
 - Added TypeScript-related dependencies: `typescript`, `tslib`, `@rollup/plugin-typescript`, `@types/node`
 
-#### Changed
+### Changed
 
 - Migrated source code from JavaScript to TypeScript (`src/index.js` → `src/index.ts`)
 - Migrated build system from Babel to TypeScript with Rollup
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed Rollup configuration from CommonJS to ES Module format (`rollup.config.mjs`)
 - Updated ESLint configuration to support TypeScript file extensions
 
-#### Removed
+### Removed
 
 - Removed Babel and related configuration (`.babelrc`)
 - Removed legacy Rollup plugins: `rollup-plugin-babel`, `rollup-plugin-commonjs`, `rollup-plugin-node-resolve`, `rollup-plugin-uglify`
