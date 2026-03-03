@@ -1,32 +1,40 @@
 /**
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
 
-import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { BaseModule } from '../../core/module';
 
-export const ContainerAnalyticsEventState = {
-  HOMEPAGE: 'HOMEPAGE',
-  CHECKOUT_PAGE: 'CHECKOUT_PAGE',
-  BOOKING_COMPLETION: 'BOOKING_COMPLETION',
-  CUSTOM: 'CUSTOM',
-};
-
-export const ContainerAnalyticsEventName = {
-  DEFAULT: 'DEFAULT',
-};
-
-export const ContainerAnalyticsEventData = {
-  TRANSACTION_AMOUNT: 'transaction_amount',
-  TRANSACTION_CURRENCY: 'transaction_currency',
-  PAGE: 'page',
-};
-
-export class ContainerModule {
+/**
+ * JSBridge module for controlling the webview container.
+ *
+ * @remarks
+ * Provides methods to customize the webview UI (title, background color, buttons), manage loading states, send analytics events, and control the webview lifecycle.
+ * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ *
+ * @example
+ * **ES Module:**
+ * ```typescript
+ * import { ContainerModule } from '@grabjs/superapp-sdk';
+ * const container = new ContainerModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const container = new SuperAppSDK.ContainerModule();
+ * </script>
+ * ```
+ *
+ * @public
+ */
+export class ContainerModule extends BaseModule {
   constructor() {
-    bridgeSDK.wrapModule(window, 'ContainerModule');
+    super('ContainerModule');
   }
 
   setBackgroundColor(backgroundColor) {
