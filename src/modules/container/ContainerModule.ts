@@ -1,82 +1,90 @@
 /**
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
 
-import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
+import { BaseModule } from '../../core/module';
 
-export const ContainerAnalyticsEventState = {
-  HOMEPAGE: 'HOMEPAGE',
-  CHECKOUT_PAGE: 'CHECKOUT_PAGE',
-  BOOKING_COMPLETION: 'BOOKING_COMPLETION',
-  CUSTOM: 'CUSTOM',
-};
-
-export const ContainerAnalyticsEventName = {
-  DEFAULT: 'DEFAULT',
-};
-
-export const ContainerAnalyticsEventData = {
-  TRANSACTION_AMOUNT: 'transaction_amount',
-  TRANSACTION_CURRENCY: 'transaction_currency',
-  PAGE: 'page',
-};
-
-export class ContainerModule {
+/**
+ * JSBridge module for controlling the webview container.
+ *
+ * @remarks
+ * Provides methods to customize the webview UI (title, background color, buttons), manage loading states, send analytics events, and control the webview lifecycle.
+ * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ *
+ * @example
+ * **ES Module:**
+ * ```typescript
+ * import { ContainerModule } from '@grabjs/superapp-sdk';
+ * const container = new ContainerModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const container = new SuperAppSDK.ContainerModule();
+ * </script>
+ * ```
+ *
+ * @public
+ */
+export class ContainerModule extends BaseModule {
   constructor() {
-    bridgeSDK.wrapModule(window, 'ContainerModule');
+    super('ContainerModule');
   }
 
   setBackgroundColor(backgroundColor) {
-    return window.WrappedContainerModule.invoke('setBackgroundColor', {
+    return window.WrappedContainerModule!.invoke('setBackgroundColor', {
       backgroundColor,
     });
   }
 
   setTitle(title) {
-    return window.WrappedContainerModule.invoke('setTitle', { title });
+    return window.WrappedContainerModule!.invoke('setTitle', { title });
   }
 
   hideBackButton() {
-    return window.WrappedContainerModule.invoke('hideBackButton');
+    return window.WrappedContainerModule!.invoke('hideBackButton');
   }
 
   showBackButton() {
-    return window.WrappedContainerModule.invoke('showBackButton');
+    return window.WrappedContainerModule!.invoke('showBackButton');
   }
 
   hideRefreshButton() {
-    return window.WrappedContainerModule.invoke('hideRefreshButton');
+    return window.WrappedContainerModule!.invoke('hideRefreshButton');
   }
 
   showRefreshButton() {
-    return window.WrappedContainerModule.invoke('showRefreshButton');
+    return window.WrappedContainerModule!.invoke('showRefreshButton');
   }
 
   close() {
-    return window.WrappedContainerModule.invoke('close');
+    return window.WrappedContainerModule!.invoke('close');
   }
 
   onContentLoaded() {
-    return window.WrappedContainerModule.invoke('onContentLoaded');
+    return window.WrappedContainerModule!.invoke('onContentLoaded');
   }
 
   showLoader() {
-    return window.WrappedContainerModule.invoke('showLoader');
+    return window.WrappedContainerModule!.invoke('showLoader');
   }
 
   hideLoader() {
-    return window.WrappedContainerModule.invoke('hideLoader');
+    return window.WrappedContainerModule!.invoke('hideLoader');
   }
 
   openExternalLink(url) {
-    return window.WrappedContainerModule.invoke('openExternalLink', { url });
+    return window.WrappedContainerModule!.invoke('openExternalLink', { url });
   }
 
   onCtaTap(action) {
-    return window.WrappedContainerModule.invoke('onCtaTap', { action });
+    return window.WrappedContainerModule!.invoke('onCtaTap', { action });
   }
 
   sendAnalyticsEvent(eventDetails) {
@@ -86,7 +94,7 @@ export class ContainerModule {
         then: (callback) => callback({ status_code: 400, error: validationError }),
       };
     }
-    return window.WrappedContainerModule.invoke('sendAnalyticsEvent', {
+    return window.WrappedContainerModule!.invoke('sendAnalyticsEvent', {
       state: eventDetails.state,
       name: eventDetails.name,
       data: eventDetails.data ? JSON.stringify(eventDetails.data) : null,
@@ -116,7 +124,7 @@ export class ContainerModule {
   }
 
   getSessionParams() {
-    return window.WrappedContainerModule.invoke('getSessionParams');
+    return window.WrappedContainerModule!.invoke('getSessionParams');
   }
 
   _validateAnalyticsEvent(eventDetails) {

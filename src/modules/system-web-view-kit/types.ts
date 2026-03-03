@@ -1,0 +1,21 @@
+/**
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
+ */
+
+import { BridgeResponse } from '../../core/response';
+
+/**
+ * Concrete interface for the native SystemWebViewKit JSBridge module.
+ */
+export interface WrappedSystemWebViewKitModule {
+  invoke(method: 'redirectToSystemWebView', params?: any): Promise<BridgeResponse<any>>;
+}
+
+declare global {
+  interface Window {
+    WrappedSystemWebViewKitModule?: WrappedSystemWebViewKitModule;
+  }
+}

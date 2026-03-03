@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.2] - 2026-03-03
+
+### Added
+
+- Added `BaseModule` abstract class in `src/core/module/` for unified module initialization
+- Added core type definitions for bridge responses (`src/core/response/types.ts`)
+- Added core type definitions for data streams (`src/core/stream/types.ts`)
+- Added organized module structure with each module in its own directory under `src/modules/`
+- Added TypeScript type definition files for all modules:
+  - `CameraModule`, `CheckoutModule`, `ContainerModule`, `IdentityModule`
+  - `LocaleModule`, `LocationModule`, `MediaModule`, `PlatformModule`
+  - `ProfileModule`, `ScopeModule`, `StorageModule`, `SystemWebViewKitModule`
+- Added barrel exports (`index.ts`) for all module directories for cleaner imports
+- Added `ContainerAnalyticsEventState`, `ContainerAnalyticsEventName`, `ContainerAnalyticsEventData` constants
+
+### Changed
+
+- Refactored all modules to extend `BaseModule` class for consistent initialization
+- Migrated remaining JavaScript modules to TypeScript:
+  - `ContainerModule.js` → `src/modules/container/ContainerModule.ts`
+  - `IdentityModule.js` → `src/modules/identity/IdentityModule.ts`
+  - `ProfileModule.js` → `src/modules/profile/ProfileModule.ts`
+  - `StorageModule.js` → `src/modules/storage/StorageModule.ts`
+- Reorganized source structure from flat `src/` to feature-based `src/modules/{name}/` layout
+- Updated `src/index.ts` exports to reflect new module paths
+
+### Removed
+
+- Deleted legacy flat JavaScript module files from `src/` root:
+  - `CameraModule.js`, `CheckoutModule.js`, `LocaleModule.js`, `LocationModule.js`
+  - `MediaModule.js`, `PlatformModule.js`, `ScopeModule.js`, `SystemWebViewKitModule.js`
+
 ## [2.0.0-beta.1] - 2026-03-02
 
 ### Added
