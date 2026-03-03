@@ -30,7 +30,7 @@ build:
   needs:
     - install
   script:
-    - npm run build
+    - npm run build:js
   artifacts:
     paths:
       - dist/

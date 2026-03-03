@@ -29,7 +29,7 @@ export type Subscription = Readonly<{
  * @remarks
  * Pass these to `subscribe()` to receive data via `next` and completion via `complete`.
  *
- * @typeparam T - The type of data emitted by the stream.
+ * @typeParam T - The type of data emitted by the stream.
  *
  * @public
  */
@@ -50,7 +50,7 @@ export type DataStreamHandlers<T> = Readonly<{
  *
  * Note: Each `subscribe()` call creates a fresh subscription, allowing multiple independent listeners.
  *
- * @typeparam T - The type of data emitted by the stream.
+ * @typeParam T - The type of data emitted by the stream.
  *
  * @public
  */
