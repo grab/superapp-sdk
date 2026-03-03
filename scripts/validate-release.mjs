@@ -165,6 +165,19 @@ function validateRelease() {
   }
 
   if (!isRelease) {
+    // Check if package.json was modified (indicating a release attempt without version bump)
+    const packageJsonChanged = baseCommit
+      ? exec(`git diff --name-only ${baseCommit} HEAD`).split('\n').some((f) => f === 'package.json')
+      : false;
+
+    if (packageJsonChanged && baseVersion) {
+      console.error(
+        `\nRelease validation failed: Version has not been bumped. Current version (${currentVersion}) is the same as base version (${baseVersion}).`
+      );
+      console.error('Please bump the version in package.json when modifying it for a release.');
+      process.exit(1);
+    }
+
     console.log('\nNo version changes detected. Skipping release validation.');
     process.exit(0);
   }
