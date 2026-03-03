@@ -84,7 +84,3 @@ export class CameraModule extends BaseModule {
     return window.WrappedCameraModule!.invoke('scanQRCode', request);
   }
 }
-
-const cameraModule = new CameraModule();
-const response = await cameraModule.scanQRCode({});
-console.log(response);
