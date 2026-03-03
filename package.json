@@ -31,6 +31,7 @@
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
     "prepublishOnly": "npm run build",
+    "validate:release": "node scripts/validate-release.mjs",
     "watch": "rollup -cw"
   },
   "repository": {

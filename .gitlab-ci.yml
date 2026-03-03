@@ -24,6 +24,7 @@ check:
     - install
   script:
     - npm run check
+    - npm run validate:release
 
 build:
   stage: build
