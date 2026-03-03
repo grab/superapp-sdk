@@ -17,6 +17,6 @@ export interface WrappedScopeModule {
 
 declare global {
   interface Window {
-    WrappedScopeModule: WrappedScopeModule;
+    WrappedScopeModule?: WrappedScopeModule;
   }
 }

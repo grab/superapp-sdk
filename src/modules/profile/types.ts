@@ -17,6 +17,6 @@ export interface WrappedProfileModule {
 
 declare global {
   interface Window {
-    WrappedProfileModule: WrappedProfileModule;
+    WrappedProfileModule?: WrappedProfileModule;
   }
 }

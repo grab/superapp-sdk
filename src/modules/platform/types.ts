@@ -16,6 +16,6 @@ export interface WrappedPlatformModule {
 
 declare global {
   interface Window {
-    WrappedPlatformModule: WrappedPlatformModule;
+    WrappedPlatformModule?: WrappedPlatformModule;
   }
 }

@@ -18,6 +18,6 @@ export interface WrappedMediaModule {
 
 declare global {
   interface Window {
-    WrappedMediaModule: WrappedMediaModule;
+    WrappedMediaModule?: WrappedMediaModule;
   }
 }

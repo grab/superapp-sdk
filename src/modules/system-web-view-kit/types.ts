@@ -16,6 +16,6 @@ export interface WrappedSystemWebViewKitModule {
 
 declare global {
   interface Window {
-    WrappedSystemWebViewKitModule: WrappedSystemWebViewKitModule;
+    WrappedSystemWebViewKitModule?: WrappedSystemWebViewKitModule;
   }
 }

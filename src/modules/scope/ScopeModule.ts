@@ -38,9 +38,9 @@ export class ScopeModule extends BaseModule {
   }
 
   hasAccessTo(module, method) {
-    return window.WrappedScopeModule.invoke('hasAccessTo', { module, method });
+    return window.WrappedScopeModule!.invoke('hasAccessTo', { module, method });
   }
   reloadScopes() {
-    return window.WrappedScopeModule.invoke('reloadScopes');
+    return window.WrappedScopeModule!.invoke('reloadScopes');
   }
 }

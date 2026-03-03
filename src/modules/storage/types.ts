@@ -25,6 +25,6 @@ export interface WrappedStorageModule {
 
 declare global {
   interface Window {
-    WrappedStorageModule: WrappedStorageModule;
+    WrappedStorageModule?: WrappedStorageModule;
   }
 }

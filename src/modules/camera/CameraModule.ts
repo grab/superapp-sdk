@@ -48,6 +48,6 @@ export class CameraModule extends BaseModule {
    * - 403: Camera access denied with error message
    */
   scanQRCode(config = {}) {
-    return window.WrappedCameraModule.invoke('scanQRCode', config);
+    return window.WrappedCameraModule!.invoke('scanQRCode', config);
   }
 }

@@ -38,53 +38,53 @@ export class ContainerModule extends BaseModule {
   }
 
   setBackgroundColor(backgroundColor) {
-    return window.WrappedContainerModule.invoke('setBackgroundColor', {
+    return window.WrappedContainerModule!.invoke('setBackgroundColor', {
       backgroundColor,
     });
   }
 
   setTitle(title) {
-    return window.WrappedContainerModule.invoke('setTitle', { title });
+    return window.WrappedContainerModule!.invoke('setTitle', { title });
   }
 
   hideBackButton() {
-    return window.WrappedContainerModule.invoke('hideBackButton');
+    return window.WrappedContainerModule!.invoke('hideBackButton');
   }
 
   showBackButton() {
-    return window.WrappedContainerModule.invoke('showBackButton');
+    return window.WrappedContainerModule!.invoke('showBackButton');
   }
 
   hideRefreshButton() {
-    return window.WrappedContainerModule.invoke('hideRefreshButton');
+    return window.WrappedContainerModule!.invoke('hideRefreshButton');
   }
 
   showRefreshButton() {
-    return window.WrappedContainerModule.invoke('showRefreshButton');
+    return window.WrappedContainerModule!.invoke('showRefreshButton');
   }
 
   close() {
-    return window.WrappedContainerModule.invoke('close');
+    return window.WrappedContainerModule!.invoke('close');
   }
 
   onContentLoaded() {
-    return window.WrappedContainerModule.invoke('onContentLoaded');
+    return window.WrappedContainerModule!.invoke('onContentLoaded');
   }
 
   showLoader() {
-    return window.WrappedContainerModule.invoke('showLoader');
+    return window.WrappedContainerModule!.invoke('showLoader');
   }
 
   hideLoader() {
-    return window.WrappedContainerModule.invoke('hideLoader');
+    return window.WrappedContainerModule!.invoke('hideLoader');
   }
 
   openExternalLink(url) {
-    return window.WrappedContainerModule.invoke('openExternalLink', { url });
+    return window.WrappedContainerModule!.invoke('openExternalLink', { url });
   }
 
   onCtaTap(action) {
-    return window.WrappedContainerModule.invoke('onCtaTap', { action });
+    return window.WrappedContainerModule!.invoke('onCtaTap', { action });
   }
 
   sendAnalyticsEvent(eventDetails) {
@@ -94,7 +94,7 @@ export class ContainerModule extends BaseModule {
         then: (callback) => callback({ status_code: 400, error: validationError }),
       };
     }
-    return window.WrappedContainerModule.invoke('sendAnalyticsEvent', {
+    return window.WrappedContainerModule!.invoke('sendAnalyticsEvent', {
       state: eventDetails.state,
       name: eventDetails.name,
       data: eventDetails.data ? JSON.stringify(eventDetails.data) : null,
@@ -124,7 +124,7 @@ export class ContainerModule extends BaseModule {
   }
 
   getSessionParams() {
-    return window.WrappedContainerModule.invoke('getSessionParams');
+    return window.WrappedContainerModule!.invoke('getSessionParams');
   }
 
   _validateAnalyticsEvent(eventDetails) {

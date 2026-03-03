@@ -16,6 +16,6 @@ export interface WrappedLocaleModule {
 
 declare global {
   interface Window {
-    WrappedLocaleModule: WrappedLocaleModule;
+    WrappedLocaleModule?: WrappedLocaleModule;
   }
 }

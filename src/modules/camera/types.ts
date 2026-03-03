@@ -15,6 +15,6 @@ import { BridgeResponse } from '../../core/response';
 
 declare global {
   interface Window {
-    WrappedCameraModule: WrappedCameraModule;
+    WrappedCameraModule?: WrappedCameraModule;
   }
 }

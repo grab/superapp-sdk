@@ -38,14 +38,14 @@ export class LocationModule extends BaseModule {
   }
 
   getCoordinate() {
-    return window.WrappedLocationModule.invoke('getCoordinate');
+    return window.WrappedLocationModule!.invoke('getCoordinate');
   }
 
   observeLocationChange() {
-    return window.WrappedLocationModule.invoke('observeLocationChange');
+    return window.WrappedLocationModule!.invoke('observeLocationChange');
   }
 
   getCountryCode() {
-    return window.WrappedLocationModule.invoke('getCountryCode');
+    return window.WrappedLocationModule!.invoke('getCountryCode');
   }
 }

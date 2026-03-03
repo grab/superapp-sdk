@@ -19,6 +19,6 @@ export interface WrappedLocationModule {
 
 declare global {
   interface Window {
-    WrappedLocationModule: WrappedLocationModule;
+    WrappedLocationModule?: WrappedLocationModule;
   }
 }

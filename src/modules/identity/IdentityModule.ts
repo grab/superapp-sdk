@@ -310,7 +310,7 @@ export class IdentityModule extends BaseModule {
   }
 
   static performNativeAuthorization(invokeParams) {
-    return window.WrappedIdentityModule.invoke('authorize', {
+    return window.WrappedIdentityModule!.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,

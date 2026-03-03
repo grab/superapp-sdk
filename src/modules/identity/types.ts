@@ -18,6 +18,6 @@ export interface WrappedIdentityModule {
 
 declare global {
   interface Window {
-    WrappedIdentityModule: WrappedIdentityModule;
+    WrappedIdentityModule?: WrappedIdentityModule;
   }
 }

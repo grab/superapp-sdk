@@ -29,6 +29,6 @@ export interface WrappedContainerModule {
 
 declare global {
   interface Window {
-    WrappedContainerModule: WrappedContainerModule;
+    WrappedContainerModule?: WrappedContainerModule;
   }
 }
