@@ -7,7 +7,7 @@ JSBridge module for accessing the device camera.
 ## Remarks
 
 Provides access to native camera functionality including QR code scanning.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 

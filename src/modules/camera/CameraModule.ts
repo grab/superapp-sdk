@@ -13,7 +13,7 @@ import { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types
  *
  * @remarks
  * Provides access to native camera functionality including QR code scanning.
- * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ * This code must run on the Grab SuperApp's webview to function correctly.
  *
  * @example
  * **ES Module:**

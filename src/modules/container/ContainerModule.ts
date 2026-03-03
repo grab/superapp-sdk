@@ -33,14 +33,14 @@ import {
  * JSBridge module for controlling the webview container.
  *
  * @remarks
- * Provides methods to customize the webview UI (title, background color, buttons), manage loading states, send analytics events, and control the webview lifecycle.
- * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ * Provides methods to interact with the webview container.
+ * This code must run on the Grab SuperApp's webview to function correctly.
  *
  * @example
  * **ES Module:**
  * ```typescript
  * import { ContainerModule } from '@grabjs/superapp-sdk';
- * const container = new ContainerModule();
+ * const containerModule = new ContainerModule();
  * ```
  *
  * @example
@@ -48,7 +48,7 @@ import {
  * ```html
  * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
  * <script>
- *   const container = new SuperAppSDK.ContainerModule();
+ *   const containerModule = new SuperAppSDK.ContainerModule();
  * </script>
  * ```
  *
@@ -60,7 +60,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Set the background color of the container.
+   * Set the background color of the container header.
    *
    * @param request - Configuration for setting the background color.
    *
@@ -105,7 +105,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Set the title of the container.
+   * Set the title of the container header.
    *
    * @param request - Configuration for setting the title.
    *
@@ -144,7 +144,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Hide the back button of the container.
+   * Hide the back button on the container header.
    *
    * @returns Resolves when the back button is hidden, or with error information if the request fails.
    *
@@ -181,7 +181,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Show the back button of the container.
+   * Show the back button on the container header.
    *
    * @returns Resolves when the back button is shown, or with error information if the request fails.
    *
@@ -218,7 +218,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Hide the refresh button of the container.
+   * Hide the refresh button on the container header.
    *
    * @returns Resolves when the refresh button is hidden, or with error information if the request fails.
    *
@@ -255,7 +255,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Show the refresh button of the container.
+   * Show the refresh button on the container header.
    *
    * @returns Resolves when the refresh button is shown, or with error information if the request fails.
    *
@@ -292,10 +292,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Close the container.
-   *
-   * @remarks
-   * This method closes the current webview and returns the user to the previous screen.
+   * Close the container and return to the previous screen.
    *
    * @returns Resolves when the container closes and the webview is dismissed, or with error information if the request fails.
    *
@@ -340,11 +337,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Notify the client that page content has loaded.
-   *
-   * @remarks
-   * Call this method to inform the container that the page content has finished loading.
-   * This can be used to hide loading indicators or trigger post-load actions on the native side.
+   * Notify the Grab SuperApp that the page content has loaded.
    *
    * @returns Resolves when the content loaded notification is sent, or with error information if the request fails.
    *
@@ -353,9 +346,7 @@ export class ContainerModule extends BaseModule {
    * @example
    * Notify on page load
    * ```typescript
-   * window.addEventListener('load', async () => {
-   *   await containerModule.onContentLoaded();
-   * });
+   * await containerModule.onContentLoaded();
    * ```
    *
    * @example
@@ -383,10 +374,9 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Show the loader in the container.
+   * Show the full-screen loading indicator.
    *
    * @remarks
-   * Call this method to notify the client to show a loading indicator.
    * Remember to call {@link ContainerModule.hideLoader} when the operation completes.
    *
    * @returns Resolves when the loading indicator is displayed, or with error information if the request fails.
@@ -394,15 +384,9 @@ export class ContainerModule extends BaseModule {
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Show loader during data fetch
+   * Show loader indicator
    * ```typescript
-   * async function fetchData() {
-   *   await containerModule.showLoader();
-   *   const data = await api.fetch();
-   *   processData(data);
-   *   await containerModule.hideLoader();
-   * }
-   * fetchData();
+   * await containerModule.showLoader();
    * ```
    *
    * @example
@@ -430,11 +414,10 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Hide the loader in the container.
+   * Hide the full-screen loading indicator.
    *
    * @remarks
-   * Call this method to notify the client to hide the loading indicator.
-   * Should be called after {@link ContainerModule.showLoader} when the operation completes.
+   * Should be called when the entry point has finished loading.
    *
    * @returns Resolves when the loading indicator is hidden, or with error information if the request fails.
    *
@@ -474,8 +457,7 @@ export class ContainerModule extends BaseModule {
    * Open a link in the external browser.
    *
    * @remarks
-   * Call this method to tell the client to open the specified URL in an external browser
-   * (outside of the Grab app).
+   * Call this method to open the specified URL in an external browser (outside of the Grab app).
    *
    * @param request - Configuration for opening the external link.
    *
@@ -487,15 +469,6 @@ export class ContainerModule extends BaseModule {
    * Open external link
    * ```typescript
    * await containerModule.openExternalLink({ url: "https://grab.com" });
-   * ```
-   *
-   * @example
-   * Open terms and conditions
-   * ```typescript
-   * termsLink.addEventListener('click', async (e) => {
-   *   e.preventDefault();
-   *   await containerModule.openExternalLink({ url: "https://grab.com/terms" });
-   * });
    * ```
    *
    * @example
@@ -525,10 +498,6 @@ export class ContainerModule extends BaseModule {
   /**
    * Notify the client that the user has tapped a call-to-action (CTA).
    *
-   * @remarks
-   * Call this method to notify the client that the user has continued the flow.
-   * This is useful for analytics and tracking user engagement.
-   *
    * @param request - Configuration for notifying CTA tap.
    *
    * @returns Resolves when the CTA tap notification is sent, or with error information if the request fails.
@@ -539,15 +508,6 @@ export class ContainerModule extends BaseModule {
    * Notify CTA tap
    * ```typescript
    * await containerModule.onCtaTap({ action: "AV_LANDING_PAGE_CONTINUE" });
-   * ```
-   *
-   * @example
-   * Notify on button click
-   * ```typescript
-   * continueButton.addEventListener('click', async () => {
-   *   await containerModule.onCtaTap({ action: "CONTINUE_TO_CHECKOUT" });
-   *   navigateToCheckout();
-   * });
    * ```
    *
    * @example
@@ -585,9 +545,9 @@ export class ContainerModule extends BaseModule {
    * - **Names:** {@link ContainerAnalyticsEventName}
    * - **Data Keys:** {@link ContainerAnalyticsEventData}
    *
-   * @param request - Details for analytics events sent to the container.
+   * @param request - Details of the analytics event to be sent to the container.
    *
-   * @returns Resolves when the analytics event is queued for delivery, or with error information if the request fails.
+   * @returns Resolves when the analytics event is sent to the container, or with error information if the request fails.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -680,49 +640,30 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Check if the web app is connected to the Grab app via JSBridge.
+   * Check if the web app is connected to the Grab SuperApp via JSBridge.
    *
    * @remarks
-   * Call this method to verify the connection status before using other SDK features.
+   * Call this method to verify the connection status before using other features.
    *
-   * @returns Resolves with the JSBridge connection status to the Grab app, or with error information if the request fails.
+   * @returns Resolves with the JSBridge connection status to the Grab SuperApp, or with error information if the request fails.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
    * Check connection status
    * ```typescript
-   * const { status_code, result } = await containerModule.isConnected();
-   * if (status_code === 200 && result?.connected) {
-   *   console.log("Connected to Grab app");
-   *   enableSDKFeatures();
-   * } else {
-   *   console.log("Not connected to Grab app");
-   *   showWebOnlyExperience();
-   * }
-   * ```
-   *
-   * @example
-   * Check connection on app init
-   * ```typescript
-   * const { status_code, result } = await containerModule.isConnected();
-   * if (status_code === 200 && result?.connected) {
-   *   await locationModule.getCoordinate();
-   * }
+   * const response = await containerModule.isConnected();
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await containerModule.isConnected();
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Connection status retrieved:', result?.connected);
-   *       break;
-   *     default:
-   *       console.log(`Could not check connection${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await containerModule.isConnected();
+   *   if (response.status_code === 200) {
+   *     console.log('Connected to Grab SuperApp');
+   *   } else {
+   *     console.log('Not connected to Grab SuperApp');
    *   }
    * } catch (error) {
    *   console.log(`Could not check connection${error ? `: ${error}` : ''}`);
@@ -752,8 +693,9 @@ export class ContainerModule extends BaseModule {
    * Get the session parameters from the container.
    *
    * @remarks
-   * The native layer returns session parameters as a JSON string. Parse with `JSON.parse(result.result)` to
-   * use as an object. Session params can contain primitives, base64 encoded strings, or nested objects.
+   * The native layer returns session parameters as a JSON string.
+   * Parse with `JSON.parse(result.result)` to use as an object.
+   * Session parameters can contain primitives, base64 encoded strings, or nested objects.
    *
    * @returns Resolves with session parameters from the container, or with error information if the request fails.
    *
@@ -808,7 +750,7 @@ export class ContainerModule extends BaseModule {
   /**
    * Validate the analytics event details.
    *
-   * @param request - Details for analytics events sent to the container.
+   * @param request - Analytics event details to be validated.
    * @returns Error message if invalid, `null` if valid.
    * @internal
    */

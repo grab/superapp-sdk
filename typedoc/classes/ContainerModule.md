@@ -6,22 +6,22 @@ JSBridge module for controlling the webview container.
 
 ## Remarks
 
-Provides methods to customize the webview UI (title, background color, buttons), manage loading states, send analytics events, and control the webview lifecycle.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+Provides methods to interact with the webview container.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 
 **ES Module:**
 ```typescript
 import { ContainerModule } from '@grabjs/superapp-sdk';
-const container = new ContainerModule();
+const containerModule = new ContainerModule();
 ```
 
 **CDN (UMD):**
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
 <script>
-  const container = new SuperAppSDK.ContainerModule();
+  const containerModule = new SuperAppSDK.ContainerModule();
 </script>
 ```
 
@@ -49,17 +49,13 @@ const container = new ContainerModule();
 
 > **close**(): `Promise`\<[`CloseResponse`](../type-aliases/CloseResponse.md)\>
 
-Close the container.
+Close the container and return to the previous screen.
 
 #### Returns
 
 `Promise`\<[`CloseResponse`](../type-aliases/CloseResponse.md)\>
 
 Resolves when the container closes and the webview is dismissed, or with error information if the request fails.
-
-#### Remarks
-
-This method closes the current webview and returns the user to the previous screen.
 
 #### Throws
 
@@ -112,8 +108,9 @@ Resolves with session parameters from the container, or with error information i
 
 #### Remarks
 
-The native layer returns session parameters as a JSON string. Parse with `JSON.parse(result.result)` to
-use as an object. Session params can contain primitives, base64 encoded strings, or nested objects.
+The native layer returns session parameters as a JSON string.
+Parse with `JSON.parse(result.result)` to use as an object.
+Session parameters can contain primitives, base64 encoded strings, or nested objects.
 
 #### Throws
 
@@ -164,7 +161,7 @@ try {
 
 > **hideBackButton**(): `Promise`\<[`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)\>
 
-Hide the back button of the container.
+Hide the back button on the container header.
 
 #### Returns
 
@@ -206,7 +203,7 @@ try {
 
 > **hideLoader**(): `Promise`\<[`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)\>
 
-Hide the loader in the container.
+Hide the full-screen loading indicator.
 
 #### Returns
 
@@ -216,8 +213,7 @@ Resolves when the loading indicator is hidden, or with error information if the 
 
 #### Remarks
 
-Call this method to notify the client to hide the loading indicator.
-Should be called after [ContainerModule.showLoader](#showloader) when the operation completes.
+Should be called when the entry point has finished loading.
 
 #### Throws
 
@@ -253,7 +249,7 @@ try {
 
 > **hideRefreshButton**(): `Promise`\<[`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)\>
 
-Hide the refresh button of the container.
+Hide the refresh button on the container header.
 
 #### Returns
 
@@ -295,17 +291,17 @@ try {
 
 > **isConnected**(): `Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
 
-Check if the web app is connected to the Grab app via JSBridge.
+Check if the web app is connected to the Grab SuperApp via JSBridge.
 
 #### Returns
 
 `Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
 
-Resolves with the JSBridge connection status to the Grab app, or with error information if the request fails.
+Resolves with the JSBridge connection status to the Grab SuperApp, or with error information if the request fails.
 
 #### Remarks
 
-Call this method to verify the connection status before using other SDK features.
+Call this method to verify the connection status before using other features.
 
 #### Throws
 
@@ -315,35 +311,17 @@ Error when the JSBridge method fails unexpectedly.
 
 Check connection status
 ```typescript
-const { status_code, result } = await containerModule.isConnected();
-if (status_code === 200 && result?.connected) {
-  console.log("Connected to Grab app");
-  enableSDKFeatures();
-} else {
-  console.log("Not connected to Grab app");
-  showWebOnlyExperience();
-}
-```
-
-Check connection on app init
-```typescript
-const { status_code, result } = await containerModule.isConnected();
-if (status_code === 200 && result?.connected) {
-  await locationModule.getCoordinate();
-}
+const response = await containerModule.isConnected();
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await containerModule.isConnected();
-  switch (status_code) {
-    case 200:
-      console.log('Connection status retrieved:', result?.connected);
-      break;
-    default:
-      console.log(`Could not check connection${error ? `: ${error}` : ''}`);
-      break;
+  const response = await containerModule.isConnected();
+  if (response.status_code === 200) {
+    console.log('Connected to Grab SuperApp');
+  } else {
+    console.log('Not connected to Grab SuperApp');
   }
 } catch (error) {
   console.log(`Could not check connection${error ? `: ${error}` : ''}`);
@@ -356,18 +334,13 @@ try {
 
 > **onContentLoaded**(): `Promise`\<[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)\>
 
-Notify the client that page content has loaded.
+Notify the Grab SuperApp that the page content has loaded.
 
 #### Returns
 
 `Promise`\<[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)\>
 
 Resolves when the content loaded notification is sent, or with error information if the request fails.
-
-#### Remarks
-
-Call this method to inform the container that the page content has finished loading.
-This can be used to hide loading indicators or trigger post-load actions on the native side.
 
 #### Throws
 
@@ -377,9 +350,7 @@ Error when the JSBridge method fails unexpectedly.
 
 Notify on page load
 ```typescript
-window.addEventListener('load', async () => {
-  await containerModule.onContentLoaded();
-});
+await containerModule.onContentLoaded();
 ```
 
 Handling the response
@@ -421,11 +392,6 @@ Configuration for notifying CTA tap.
 
 Resolves when the CTA tap notification is sent, or with error information if the request fails.
 
-#### Remarks
-
-Call this method to notify the client that the user has continued the flow.
-This is useful for analytics and tracking user engagement.
-
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
@@ -435,14 +401,6 @@ Error when the JSBridge method fails unexpectedly.
 Notify CTA tap
 ```typescript
 await containerModule.onCtaTap({ action: "AV_LANDING_PAGE_CONTINUE" });
-```
-
-Notify on button click
-```typescript
-continueButton.addEventListener('click', async () => {
-  await containerModule.onCtaTap({ action: "CONTINUE_TO_CHECKOUT" });
-  navigateToCheckout();
-});
 ```
 
 Handling the response
@@ -486,8 +444,7 @@ Resolves when the external browser opens with the URL, or with error information
 
 #### Remarks
 
-Call this method to tell the client to open the specified URL in an external browser
-(outside of the Grab app).
+Call this method to open the specified URL in an external browser (outside of the Grab app).
 
 #### Throws
 
@@ -498,14 +455,6 @@ Error when the JSBridge method fails unexpectedly.
 Open external link
 ```typescript
 await containerModule.openExternalLink({ url: "https://grab.com" });
-```
-
-Open terms and conditions
-```typescript
-termsLink.addEventListener('click', async (e) => {
-  e.preventDefault();
-  await containerModule.openExternalLink({ url: "https://grab.com/terms" });
-});
 ```
 
 Handling the response
@@ -539,13 +488,13 @@ Use this method to track user interactions and page transitions.
 
 [`SendAnalyticsEventRequest`](../type-aliases/SendAnalyticsEventRequest.md)
 
-Details for analytics events sent to the container.
+Details of the analytics event to be sent to the container.
 
 #### Returns
 
 `Promise`\<[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)\>
 
-Resolves when the analytics event is queued for delivery, or with error information if the request fails.
+Resolves when the analytics event is sent to the container, or with error information if the request fails.
 
 #### Remarks
 
@@ -640,7 +589,7 @@ try {
 
 > **setBackgroundColor**(`request`: [`SetBackgroundColorRequest`](../type-aliases/SetBackgroundColorRequest.md)): `Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
 
-Set the background color of the container.
+Set the background color of the container header.
 
 #### Parameters
 
@@ -695,7 +644,7 @@ try {
 
 > **setTitle**(`request`: [`SetTitleRequest`](../type-aliases/SetTitleRequest.md)): `Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
 
-Set the title of the container.
+Set the title of the container header.
 
 #### Parameters
 
@@ -745,7 +694,7 @@ try {
 
 > **showBackButton**(): `Promise`\<[`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)\>
 
-Show the back button of the container.
+Show the back button on the container header.
 
 #### Returns
 
@@ -787,7 +736,7 @@ try {
 
 > **showLoader**(): `Promise`\<[`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)\>
 
-Show the loader in the container.
+Show the full-screen loading indicator.
 
 #### Returns
 
@@ -797,7 +746,6 @@ Resolves when the loading indicator is displayed, or with error information if t
 
 #### Remarks
 
-Call this method to notify the client to show a loading indicator.
 Remember to call [ContainerModule.hideLoader](#hideloader) when the operation completes.
 
 #### Throws
@@ -806,15 +754,9 @@ Error when the JSBridge method fails unexpectedly.
 
 #### Examples
 
-Show loader during data fetch
+Show loader indicator
 ```typescript
-async function fetchData() {
-  await containerModule.showLoader();
-  const data = await api.fetch();
-  processData(data);
-  await containerModule.hideLoader();
-}
-fetchData();
+await containerModule.showLoader();
 ```
 
 Handling the response
@@ -840,7 +782,7 @@ try {
 
 > **showRefreshButton**(): `Promise`\<[`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)\>
 
-Show the refresh button of the container.
+Show the refresh button on the container header.
 
 #### Returns
 
