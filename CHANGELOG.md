@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.4] - 2026-03-03
+
+### Added
+
+- Added TypeDoc documentation generation with Markdown output
+  - Added `typedoc` and `typedoc-plugin-markdown` dev dependencies
+  - Added `typedoc.json` configuration for documentation generation
+  - Added `build:docs` npm script to generate API documentation
+  - Generated comprehensive API docs in `typedoc/` directory covering all modules and types
+- Updated `build` script to include both JS build and documentation generation
+
+### Changed
+
+- Updated CI build step to use `build:js` instead of `build` to avoid generating docs in CI pipeline
+- Enhanced lint-staged configuration to run ESLint on staged JavaScript and TypeScript files
+
+### Fixed
+
+- Fixed JSDoc type parameter tag from `@typeparam` to `@typeParam` in `src/core/stream/types.ts`
+
 ## [2.0.0-beta.3] - 2026-03-03
 
 ### Added
