@@ -12,14 +12,12 @@ Requires the MiniApp to be running within the Grab SuperApp's webview.
 ## Examples
 
 **ES Module:**
-
 ```typescript
 import { PlatformModule } from '@grabjs/superapp-sdk';
 const platform = new PlatformModule();
 ```
 
 **CDN (UMD):**
-
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
 <script>
@@ -49,8 +47,8 @@ const platform = new PlatformModule();
 
 ### back()
 
-> **back**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+> **back**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>

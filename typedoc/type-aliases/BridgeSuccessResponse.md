@@ -25,7 +25,7 @@ The `result` field contains the JSBridge method's data.
 
 Always undefined for success responses
 
----
+***
 
 ### result
 
@@ -33,10 +33,10 @@ Always undefined for success responses
 
 The result data from the successful JSBridge method
 
----
+***
 
-### status_code
+### status\_code
 
-> **status_code**: `200`
+> **status\_code**: `200`
 
 Status code: `200` - JSBridge method completed successfully

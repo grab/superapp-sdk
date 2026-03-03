@@ -12,14 +12,12 @@ Requires the MiniApp to be running within the Grab SuperApp's webview.
 ## Examples
 
 **ES Module:**
-
 ```typescript
 import { LocationModule } from '@grabjs/superapp-sdk';
 const location = new LocationModule();
 ```
 
 **CDN (UMD):**
-
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
 <script>
@@ -49,28 +47,28 @@ const location = new LocationModule();
 
 ### getCoordinate()
 
-> **getCoordinate**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+> **getCoordinate**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
----
+***
 
 ### getCountryCode()
 
-> **getCountryCode**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+> **getCountryCode**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
----
+***
 
 ### observeLocationChange()
 
-> **observeLocationChange**(): [`DataStream`](../type-aliases/DataStream.md)\<`any`\>
+> **observeLocationChange**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Returns
 
-[`DataStream`](../type-aliases/DataStream.md)\<`any`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>

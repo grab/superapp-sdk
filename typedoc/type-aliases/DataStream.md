@@ -17,7 +17,6 @@ The type of data emitted by the stream.
 ## Remarks
 
 Provides both Observable-like and Promise-like interfaces:
-
 - Use `subscribe()` to receive all values over time
 - Use `then()` or `await` to receive only the first value
 

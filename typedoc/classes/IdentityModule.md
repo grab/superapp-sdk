@@ -13,14 +13,12 @@ Requires the MiniApp to be running within the Grab SuperApp's webview.
 ## Examples
 
 **ES Module:**
-
 ```typescript
 import { IdentityModule } from '@grabjs/superapp-sdk';
 const identity = new IdentityModule();
 ```
 
 **CDN (UMD):**
-
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
 <script>
@@ -48,29 +46,29 @@ const identity = new IdentityModule();
 
 ## Accessors
 
-### CODE_CHALLENGE_METHOD
+### CODE\_CHALLENGE\_METHOD
 
 #### Get Signature
 
-> **get** **CODE_CHALLENGE_METHOD**(): `string`
+> **get** **CODE\_CHALLENGE\_METHOD**(): `string`
 
 ##### Returns
 
 `string`
 
----
+***
 
-### CODE_VERIFIER_LENGTH
+### CODE\_VERIFIER\_LENGTH
 
 #### Get Signature
 
-> **get** **CODE_VERIFIER_LENGTH**(): `number`
+> **get** **CODE\_VERIFIER\_LENGTH**(): `number`
 
 ##### Returns
 
 `number`
 
----
+***
 
 ### NAMESPACE
 
@@ -82,25 +80,25 @@ const identity = new IdentityModule();
 
 `string`
 
----
+***
 
-### NONCE_LENGTH
+### NONCE\_LENGTH
 
 #### Get Signature
 
-> **get** **NONCE_LENGTH**(): `number`
+> **get** **NONCE\_LENGTH**(): `number`
 
 ##### Returns
 
 `number`
 
----
+***
 
-### OPENID_CONFIG_ENDPOINTS
+### OPENID\_CONFIG\_ENDPOINTS
 
 #### Get Signature
 
-> **get** **OPENID_CONFIG_ENDPOINTS**(): \{ `production`: `string`; `staging`: `string`; \}
+> **get** **OPENID\_CONFIG\_ENDPOINTS**(): \{ `production`: `string`; `staging`: `string`; \}
 
 ##### Returns
 
@@ -114,13 +112,13 @@ const identity = new IdentityModule();
 
 > **staging**: `string` = `'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration'`
 
----
+***
 
-### STATE_LENGTH
+### STATE\_LENGTH
 
 #### Get Signature
 
-> **get** **STATE_LENGTH**(): `number`
+> **get** **STATE\_LENGTH**(): `number`
 
 ##### Returns
 
@@ -142,7 +140,7 @@ const identity = new IdentityModule();
 
 `Promise`\<[`BridgeNoResultResponse`](../type-aliases/BridgeNoResultResponse.md) \| \{ `error`: `any`; `status_code`: `number`; \} \| \{ `result`: `any`; `status_code`: `number`; \}\>
 
----
+***
 
 ### clearAuthorizationArtifacts()
 
@@ -152,7 +150,7 @@ const identity = new IdentityModule();
 
 `Promise`\<\{ `error`: `any`; `result`: `any`; `status_code`: `number`; \}\>
 
----
+***
 
 ### fetchAuthorizationEndpoint()
 
@@ -168,7 +166,7 @@ const identity = new IdentityModule();
 
 `Promise`\<`any`\>
 
----
+***
 
 ### generatePKCEArtifacts()
 
@@ -198,7 +196,7 @@ const identity = new IdentityModule();
 
 > **state**: `string`
 
----
+***
 
 ### getAuthorizationArtifacts()
 
@@ -208,7 +206,7 @@ const identity = new IdentityModule();
 
 `Promise`\<\{ `error`: `any`; `result`: `any`; `status_code`: `number`; \}\>
 
----
+***
 
 ### getStorageItem()
 
@@ -224,7 +222,7 @@ const identity = new IdentityModule();
 
 `string`
 
----
+***
 
 ### performWebAuthorization()
 
@@ -240,7 +238,7 @@ const identity = new IdentityModule();
 
 `Promise`\<\{ `error`: `any`; `status_code`: `number`; \} \| \{ `result`: `any`; `status_code`: `number`; \}\>
 
----
+***
 
 ### setStorageItem()
 
@@ -260,7 +258,7 @@ const identity = new IdentityModule();
 
 `void`
 
----
+***
 
 ### storePKCEArtifacts()
 
@@ -276,7 +274,7 @@ const identity = new IdentityModule();
 
 `void`
 
----
+***
 
 ### base64URLEncode()
 
@@ -292,7 +290,7 @@ const identity = new IdentityModule();
 
 `any`
 
----
+***
 
 ### buildAuthorizeUrl()
 
@@ -312,7 +310,7 @@ const identity = new IdentityModule();
 
 `string`
 
----
+***
 
 ### generateCodeChallenge()
 
@@ -328,7 +326,7 @@ const identity = new IdentityModule();
 
 `any`
 
----
+***
 
 ### generateCodeVerifier()
 
@@ -344,7 +342,7 @@ const identity = new IdentityModule();
 
 `any`
 
----
+***
 
 ### generateRandomString()
 
@@ -360,7 +358,7 @@ const identity = new IdentityModule();
 
 `string`
 
----
+***
 
 ### isVersionBelow()
 
@@ -380,7 +378,7 @@ const identity = new IdentityModule();
 
 `boolean`
 
----
+***
 
 ### normalizeUrl()
 
@@ -396,7 +394,7 @@ const identity = new IdentityModule();
 
 `string`
 
----
+***
 
 ### parseGrabUserAgent()
 
@@ -432,11 +430,11 @@ const identity = new IdentityModule();
 
 > **platform**: `string`
 
----
+***
 
 ### performNativeAuthorization()
 
-> `static` **performNativeAuthorization**(`invokeParams`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+> `static` **performNativeAuthorization**(`invokeParams`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -446,9 +444,9 @@ const identity = new IdentityModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
----
+***
 
 ### shouldUseWebConsent()
 
@@ -464,7 +462,7 @@ const identity = new IdentityModule();
 
 `boolean`
 
----
+***
 
 ### validateAuthorizeRequest()
 
@@ -480,7 +478,7 @@ const identity = new IdentityModule();
 
 `string`
 
----
+***
 
 ### validateRequiredString()
 

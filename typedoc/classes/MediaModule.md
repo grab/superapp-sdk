@@ -12,14 +12,12 @@ Requires the MiniApp to be running within the Grab SuperApp's webview.
 ## Examples
 
 **ES Module:**
-
 ```typescript
 import { MediaModule } from '@grabjs/superapp-sdk';
 const media = new MediaModule();
 ```
 
 **CDN (UMD):**
-
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
 <script>
@@ -49,7 +47,7 @@ const media = new MediaModule();
 
 ### observePlayDRMContent()
 
-> **observePlayDRMContent**(`data`: `any`): [`DataStream`](../type-aliases/DataStream.md)\<`any`\>
+> **observePlayDRMContent**(`data`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -59,13 +57,13 @@ const media = new MediaModule();
 
 #### Returns
 
-[`DataStream`](../type-aliases/DataStream.md)\<`any`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
----
+***
 
 ### playDRMContent()
 
-> **playDRMContent**(`data`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+> **playDRMContent**(`data`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -75,4 +73,4 @@ const media = new MediaModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
