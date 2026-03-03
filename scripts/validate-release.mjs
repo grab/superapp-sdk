@@ -165,12 +165,25 @@ function validateRelease() {
   }
 
   if (!isRelease) {
+    console.log(`Debug: Entering !isRelease block, baseCommit=${baseCommit}`);
     // Check if package.json was modified (indicating a release attempt without version bump)
-    const packageJsonChanged = baseCommit
-      ? exec(`git diff --name-only ${baseCommit} HEAD`)
-          .split('\n')
-          .some((f) => f === 'package.json')
-      : false;
+    let packageJsonChanged = false;
+    let changedFiles;
+    if (baseCommit) {
+      console.log(`Debug: baseCommit exists, checking diff against ${baseCommit}`);
+      try {
+        const diffOutput = exec(`git diff --name-only ${baseCommit} HEAD`);
+        console.log(`Debug: Raw diff output: "${diffOutput}"`);
+        changedFiles = diffOutput.split('\n').filter((f) => f);
+        console.log(`Debug: Changed files: ${JSON.stringify(changedFiles)}`);
+        packageJsonChanged = changedFiles.includes('package.json');
+        console.log(`Debug: package.json changed: ${packageJsonChanged}`);
+      } catch (e) {
+        console.log(`Debug: Error checking diff: ${e.message}`);
+      }
+    } else {
+      console.log('Debug: baseCommit is null, skipping diff check');
+    }
 
     if (packageJsonChanged && baseVersion) {
       console.error(
