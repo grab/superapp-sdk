@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for opening URLs in the device's system browser.
  *
+ * @group Modules
+ *
  * @remarks
  * Allows MiniApps to redirect users to external content using the native system webview.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for accessing device location services.
  *
+ * @group Modules
+ *
  * @remarks
  * Provides access to the device's geolocation data including coordinates and country code.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

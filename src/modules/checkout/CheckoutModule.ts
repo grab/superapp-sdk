@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for triggering native payment flows.
  *
+ * @group Modules
+ *
  * @remarks
  * Invokes the native Grab checkout/pay component to process payments.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

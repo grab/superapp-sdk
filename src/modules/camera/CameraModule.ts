@@ -11,6 +11,8 @@ import { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types
 /**
  * JSBridge module for accessing the device camera.
  *
+ * @group Modules
+ *
  * @remarks
  * Provides access to native camera functionality including QR code scanning.
  * This code must run on the Grab SuperApp's webview to function correctly.
