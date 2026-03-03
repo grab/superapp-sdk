@@ -167,7 +167,9 @@ function validateRelease() {
   if (!isRelease) {
     // Check if package.json was modified (indicating a release attempt without version bump)
     const packageJsonChanged = baseCommit
-      ? exec(`git diff --name-only ${baseCommit} HEAD`).split('\n').some((f) => f === 'package.json')
+      ? exec(`git diff --name-only ${baseCommit} HEAD`)
+          .split('\n')
+          .some((f) => f === 'package.json')
       : false;
 
     if (packageJsonChanged && baseVersion) {
