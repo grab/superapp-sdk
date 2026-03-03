@@ -141,59 +141,33 @@ function validateRelease() {
     }
   }
 
-  // Second check: local uncommitted changes to package.json with version bump
-  if (!isRelease && hasLocalPackageChanges()) {
-    if (baseVersion) {
-      if (baseVersion !== currentVersion) {
-        console.log('\nVersion bump detected in uncommitted changes to package.json.');
-        isRelease = true;
-      } else {
-        console.log(
-          `\nVersion has not been bumped. Current version (${currentVersion}) is the same as base version (${baseVersion}).`
-        );
-        console.log('Please bump the version in package.json before releasing.');
-        process.exit(1);
-      }
-    } else {
-      // Can't determine base version, but there are local changes - warn and assume release
-      console.log(
-        '\nWarning: Uncommitted changes to package.json detected, but cannot determine base version.'
-      );
-      console.log('Assuming this is a release and running validation.');
-      isRelease = true;
+  // Check if package.json was modified in this MR/branch (but version not bumped)
+  let packageJsonModified = false;
+  if (baseCommit && !isRelease) {
+    try {
+      const diffFiles = exec(`git diff --name-only ${baseCommit} HEAD`).split('\n');
+      packageJsonModified = diffFiles.includes('package.json');
+    } catch {
+      // Ignore diff errors
     }
   }
 
+  // Also check for local uncommitted changes to package.json
+  const hasLocalPkgChanges = !isRelease && hasLocalPackageChanges();
+
+  // If package.json was modified but version not bumped, that's an error
+  if ((packageJsonModified || hasLocalPkgChanges) && baseVersion && baseVersion === currentVersion) {
+    console.error(
+      `\nRelease validation failed: package.json was modified but version was not bumped.`
+    );
+    console.error(`  Current version: ${currentVersion}`);
+    console.error(`  Base version:    ${baseVersion}`);
+    console.error('\nPlease bump the version in package.json when preparing a release.');
+    process.exit(1);
+  }
+
   if (!isRelease) {
-    console.log(`Debug: Entering !isRelease block, baseCommit=${baseCommit}`);
-    // Check if package.json was modified (indicating a release attempt without version bump)
-    let packageJsonChanged = false;
-    let changedFiles;
-    if (baseCommit) {
-      console.log(`Debug: baseCommit exists, checking diff against ${baseCommit}`);
-      try {
-        const diffOutput = exec(`git diff --name-only ${baseCommit} HEAD`);
-        console.log(`Debug: Raw diff output: "${diffOutput}"`);
-        changedFiles = diffOutput.split('\n').filter((f) => f);
-        console.log(`Debug: Changed files: ${JSON.stringify(changedFiles)}`);
-        packageJsonChanged = changedFiles.includes('package.json');
-        console.log(`Debug: package.json changed: ${packageJsonChanged}`);
-      } catch (e) {
-        console.log(`Debug: Error checking diff: ${e.message}`);
-      }
-    } else {
-      console.log('Debug: baseCommit is null, skipping diff check');
-    }
-
-    if (packageJsonChanged && baseVersion) {
-      console.error(
-        `\nRelease validation failed: Version has not been bumped. Current version (${currentVersion}) is the same as base version (${baseVersion}).`
-      );
-      console.error('Please bump the version in package.json when modifying it for a release.');
-      process.exit(1);
-    }
-
-    console.log('\nNo version changes detected. Skipping release validation.');
+    console.log('\nNo version bump detected. Skipping release validation.');
     process.exit(0);
   }
 
