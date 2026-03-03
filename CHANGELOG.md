@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.3] - 2026-03-03
+
+### Added
+
+- Added TypeScript type definitions for Camera QR code scanning:
+  - `ScanQRCodeRequest` - Configuration options for QR code scanning
+  - `ScanQRCodeResponse` - Typed response from QR code scan operation
+  - `ScanQRCodeResult` - Result object containing the scanned QR code data
+- Added comprehensive JSDoc documentation with usage examples for `CameraModule.scanQRCode()`
+- Exported camera types from main index and module barrel export
+
+### Changed
+
+- Renamed npm scripts for consistency:
+  - `format:check` → `check:format`
+  - `format:fix` → `fix:format`
+  - `lint:check` → `check:lint`
+  - `lint:fix` → `fix:lint`
+- Updated `check` and `fix` scripts to use renamed sub-scripts
+
+### Fixed
+
+- Fixed JSDoc comment formatting in `checkout/types.ts`
+
+### Removed
+
+- Removed `@rollup/plugin-alias` dependency (no longer needed)
+
 ## [2.0.0-beta.2] - 2026-03-03
 
 ### Added
