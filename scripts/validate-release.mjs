@@ -76,7 +76,10 @@ function getBaseCommit() {
   if (process.env.CI_MERGE_REQUEST_DIFF_BASE_SHA) {
     return process.env.CI_MERGE_REQUEST_DIFF_BASE_SHA;
   }
-  if (process.env.CI_COMMIT_BEFORE_SHA && process.env.CI_COMMIT_BEFORE_SHA !== '0000000000000000000000000000000000000000') {
+  if (
+    process.env.CI_COMMIT_BEFORE_SHA &&
+    process.env.CI_COMMIT_BEFORE_SHA !== '0000000000000000000000000000000000000000'
+  ) {
     return process.env.CI_COMMIT_BEFORE_SHA;
   }
 
@@ -138,10 +141,27 @@ function validateRelease() {
     }
   }
 
-  // Second check: local uncommitted changes to package.json
+  // Second check: local uncommitted changes to package.json with version bump
   if (!isRelease && hasLocalPackageChanges()) {
-    console.log('\nUncommitted changes to package.json detected.');
-    isRelease = true;
+    if (baseVersion) {
+      if (baseVersion !== currentVersion) {
+        console.log('\nVersion bump detected in uncommitted changes to package.json.');
+        isRelease = true;
+      } else {
+        console.log(
+          `\nVersion has not been bumped. Current version (${currentVersion}) is the same as base version (${baseVersion}).`
+        );
+        console.log('Please bump the version in package.json before releasing.');
+        process.exit(1);
+      }
+    } else {
+      // Can't determine base version, but there are local changes - warn and assume release
+      console.log(
+        '\nWarning: Uncommitted changes to package.json detected, but cannot determine base version.'
+      );
+      console.log('Assuming this is a release and running validation.');
+      isRelease = true;
+    }
   }
 
   if (!isRelease) {
@@ -153,13 +173,13 @@ function validateRelease() {
 
   if (!hasPackageLockChanges()) {
     errors.push(
-      'package-lock.json has not been updated. Run "npm install" after bumping the version.'
+      `package-lock.json version (${currentVersion}) has not been updated from base version (${baseVersion || 'unknown'}). Run "npm install" and commit package-lock.json with the version bump.`
     );
   }
 
   if (!hasChangelogEntry(currentVersion)) {
     errors.push(
-      `No changelog entry found for version ${currentVersion}. Add an entry to CHANGELOG.md.`
+      `CHANGELOG.md has not been updated for version ${currentVersion}. Add a changelog entry and commit it along with the version bump.`
     );
   }
 
