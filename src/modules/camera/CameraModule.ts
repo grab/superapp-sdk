@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
+import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
  * JSBridge module for accessing the device camera.
@@ -38,16 +39,48 @@ export class CameraModule extends BaseModule {
   }
 
   /**
-   * Opens the camera to scan QR codes
+   * Opens the native camera to scan a QR code.
    *
-   * @param config - Configuration object for QR code scanning
-   * @returns - Promise that resolves to response object with status_code:
+   * @param request - Configuration for the scan. See {@link ScanQRCodeRequest}.
    *
-   * - 200: Success with result.qrCode containing the scanned QR code
-   * - 204: No result (user cancelled or no QR code detected)
-   * - 403: Camera access denied with error message
+   * @returns Promise resolving to a {@link ScanQRCodeResponse}.
+   *
+   * @example
+   * With title
+   * ```typescript
+   * const response = await cameraModule.scanQRCode({ title: 'Scan Payment QR' });
+   * ```
+   *
+   * @example
+   * Without title
+   * ```typescript
+   * const response = await cameraModule.scanQRCode({});
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, result, error } = await cameraModule.scanQRCode(params);
+   *   switch (status_code) {
+   *     case 200:
+   *       console.log('QR Code scanned:', result.qrCode);
+   *       break;
+   *     case 204:
+   *       console.log('User cancelled scanning');
+   *       break;
+   *     default:
+   *       console.log(`Could not scan QR code ${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (error) {
+   *   console.log(`Could not scan QR code ${error ? `: ${error}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
    */
-  scanQRCode(config = {}) {
-    return window.WrappedCameraModule!.invoke('scanQRCode', config);
+  scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse> {
+    return window.WrappedCameraModule!.invoke('scanQRCode', request);
   }
 }
