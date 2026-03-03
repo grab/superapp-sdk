@@ -6,4 +6,3 @@
  */
 
 export { MediaModule } from './MediaModule';
-export type { WrappedMediaModule } from './types';

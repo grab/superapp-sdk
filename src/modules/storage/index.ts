@@ -6,4 +6,3 @@
  */
 
 export { StorageModule } from './StorageModule';
-export type { WrappedStorageModule } from './types';

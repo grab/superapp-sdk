@@ -61,10 +61,11 @@ export type BridgeErrorResponse = {
    *
    * - `400`: Bad request (invalid parameters)
    * - `403`: Forbidden (permission denied)
+   * - `404`: Not found (resource not found)
    * - `424`: Failed dependency
    * - `500`: Internal server error
    */
-  status_code: 400 | 403 | 424 | 500;
+  status_code: 400 | 403 | 404 | 424 | 500;
   /** Always undefined for error responses */
   result?: undefined;
   /** Error message describing what went wrong */

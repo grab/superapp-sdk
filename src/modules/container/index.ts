@@ -6,9 +6,32 @@
  */
 
 export { ContainerModule } from './ContainerModule';
-export type { WrappedContainerModule } from './types';
 export {
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
   ContainerAnalyticsEventData,
 } from './constants';
+export type {
+  SetBackgroundColorRequest,
+  SetBackgroundColorResponse,
+  SetTitleRequest,
+  SetTitleResponse,
+  HideBackButtonResponse,
+  ShowBackButtonResponse,
+  HideRefreshButtonResponse,
+  ShowRefreshButtonResponse,
+  CloseResponse,
+  OnContentLoadedResponse,
+  ShowLoaderResponse,
+  HideLoaderResponse,
+  OpenExternalLinkRequest,
+  OpenExternalLinkResponse,
+  OnCtaTapRequest,
+  OnCtaTapResponse,
+  SendAnalyticsEventRequest,
+  SendAnalyticsEventResponse,
+  IsConnectedResult,
+  IsConnectedResponse,
+  GetSessionParamsResult,
+  GetSessionParamsResponse,
+} from './types';

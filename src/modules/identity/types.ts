@@ -5,19 +5,4 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
-
-/**
- * Concrete interface for the native Identity JSBridge module.
- */
-export interface WrappedIdentityModule {
-  invoke(method: 'authorize', params?: any): Promise<BridgeResponse<any>>;
-  invoke(method: 'getAuthorizationArtifacts', params?: any): Promise<BridgeResponse<any>>;
-  invoke(method: 'clearAuthorizationArtifacts', params?: any): Promise<BridgeResponse<any>>;
-}
-
-declare global {
-  interface Window {
-    WrappedIdentityModule?: WrappedIdentityModule;
-  }
-}
+export {};

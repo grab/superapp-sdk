@@ -6,4 +6,3 @@
  */
 
 export { ProfileModule } from './ProfileModule';
-export type { WrappedProfileModule } from './types';
