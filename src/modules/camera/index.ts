@@ -6,4 +6,4 @@
  */
 
 export { CameraModule } from './CameraModule';
-export type { WrappedCameraModule } from './types';
+export type { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types';

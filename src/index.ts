@@ -14,6 +14,11 @@ export {
 } from './core/response';
 export { DataStream, DataStreamHandlers, Subscription } from './core/stream';
 export { CameraModule } from './modules/camera/CameraModule';
+export type {
+  ScanQRCodeRequest,
+  ScanQRCodeResponse,
+  ScanQRCodeResult,
+} from './modules/camera/types';
 export { CheckoutModule } from './modules/checkout/CheckoutModule';
 export { ContainerModule } from './modules/container/ContainerModule';
 export {
