@@ -1,19 +1,44 @@
 /**
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
 
-import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 
-export class IdentityModule {
+import { BaseModule } from '../../core/module';
+
+/**
+ * JSBridge module for authenticating users via GrabID.
+ *
+ * @remarks
+ * Handles OAuth2/OIDC authentication flows with PKCE support, enabling MiniApps to obtain user identity tokens.
+ * Supports both native in-app consent and web-based fallback flows.
+ * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ *
+ * @example
+ * **ES Module:**
+ * ```typescript
+ * import { IdentityModule } from '@grabjs/superapp-sdk';
+ * const identity = new IdentityModule();
+ * ```
+ *
+ * @example
+ * **CDN (UMD):**
+ * ```html
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script>
+ *   const identity = new SuperAppSDK.IdentityModule();
+ * </script>
+ * ```
+ *
+ * @public
+ */
+export class IdentityModule extends BaseModule {
   constructor() {
-    if (!window.WrappedIdentityModule) {
-      bridgeSDK.wrapModule(window, 'IdentityModule');
-    }
+    super('IdentityModule');
   }
 
   get NAMESPACE() {
@@ -190,7 +215,10 @@ export class IdentityModule {
 
   static buildAuthorizeUrl(authorizationEndpoint, requestMap) {
     const query = Object.entries(requestMap)
-      .filter((entry) => entry[1] !== undefined && entry[1] !== null)
+      .filter(
+        (entry): entry is [string, string | number | boolean] =>
+          entry[1] !== undefined && entry[1] !== null
+      )
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
 
@@ -282,7 +310,7 @@ export class IdentityModule {
   }
 
   static performNativeAuthorization(invokeParams) {
-    return window.WrappedIdentityModule.invoke('authorize', {
+    return window.WrappedIdentityModule!.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,
