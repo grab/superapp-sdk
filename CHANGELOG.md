@@ -9,28 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added comprehensive TypeScript type definitions for ContainerModule:
-  - Request types: `SetBackgroundColorRequest`, `SetTitleRequest`, `OpenExternalLinkRequest`, `OnCtaTapRequest`, `SendAnalyticsEventRequest`
-  - Response types: `SetBackgroundColorResponse`, `SetTitleResponse`, `HideBackButtonResponse`, `ShowBackButtonResponse`, `HideRefreshButtonResponse`, `ShowRefreshButtonResponse`, `CloseResponse`, `OnContentLoadedResponse`, `ShowLoaderResponse`, `HideLoaderResponse`, `OpenExternalLinkResponse`, `OnCtaTapResponse`, `SendAnalyticsEventResponse`, `IsConnectedResponse`, `GetSessionParamsResponse`
-  - Result types: `IsConnectedResult`, `GetSessionParamsResult`
-- Added extensive JSDoc documentation to ContainerModule with usage examples for all methods:
-  - `setBackgroundColor()` - Set container background color with color code examples
-  - `setTitle()` - Set navigation bar title
-  - `hideBackButton()` / `showBackButton()` - Control back button visibility
-  - `hideRefreshButton()` / `showRefreshButton()` - Control refresh button visibility
-  - `close()` - Close the webview container
-  - `onContentLoaded()` - Notify native side that content has loaded
-  - `showLoader()` / `hideLoader()` - Control loading indicator visibility
-  - `openExternalLink()` - Open URLs in external browser
-  - `onCtaTap()` - Notify native side of CTA button tap
-  - `sendAnalyticsEvent()` - Send analytics events with state, name, and data
-  - `isConnected()` - Check MiniApp connection status to Grab app
-  - `getSessionParams()` - Retrieve session parameters as JSON string
+- Added comprehensive TypeScript type definitions for ContainerModule
+- Added extensive JSDoc documentation to ContainerModule with usage examples for all methods
 - Added centralized global type definitions in `src/types/global.ts`:
-  - Generic `WrappedModule` interface for all native JSBridge module wrappers
-  - `ModuleName` union type for all available modules
-  - Template literal types for `Wrapped*Module` property names
-  - Window interface extension using declaration merging for all JSBridge modules
 - Exported all ContainerModule types from main `src/index.ts` entry point
 - Exported CameraModule types from main `src/index.ts` entry point
 - Generated updated TypeDoc documentation with new ContainerModule types and detailed method documentation
