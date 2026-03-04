@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.8] - 2026-03-04
+
+### Added
+
+- CheckoutModule types and documentation for `triggerCheckout()` method
+- Exported `TriggerCheckoutRequest`, `TriggerCheckoutResponse`, and `TriggerCheckoutResult` types
+
+### Changed
+
+- Improved type safety in `WrappedModule.invoke()` with conditional return types for streaming methods
+- Removed redundant type assertions across CameraModule, ContainerModule, and LocationModule
+
+### Fixed
+
+- Standardized response structure in `ContainerModule.isJSBridgeConnected()` to include `result: null` in all branches
+
 ## [2.0.0-beta.7] - 2026-03-04
 
 ### Added

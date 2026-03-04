@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
+import { TriggerCheckoutRequest, TriggerCheckoutResponse, TriggerCheckoutResult } from './types';
 
 /**
  * JSBridge module for triggering native payment flows.
@@ -39,7 +40,43 @@ export class CheckoutModule extends BaseModule {
     super('CheckoutModule');
   }
 
-  triggerCheckout(checkoutDetails) {
-    return this.wrappedModule.invoke('triggerCheckout', checkoutDetails);
+  /**
+   * Triggers the native checkout flow for payment processing.
+   *
+   * @param request - The response from Grab payment charge init endpoint.
+   *
+   * @returns Resolves with the transaction details on success, or error information on failure.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * Trigger checkout with response params
+   * ```typescript
+   * const chargeInitResponse = await chargeInit(); // Get from Grab payment charge init endpoint
+   * const response = await checkoutModule.triggerCheckout(chargeInitResponse);
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, result, error } = await checkoutModule.triggerCheckout({ responseParams });
+   *   switch (status_code) {
+   *     case 200:
+   *       console.log('Transaction successful:', result.transactionID, result.status);
+   *       break;
+   *     default:
+   *       console.log(`Transaction failed${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (error) {
+   *   console.log(`Could not trigger checkout${error ? `: ${error}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse> {
+    return this.wrappedModule.invoke<TriggerCheckoutResult>('triggerCheckout', request);
   }
 }
