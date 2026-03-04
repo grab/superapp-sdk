@@ -5,4 +5,48 @@
  * directory of this source tree.
  */
 
-export {};
+import { DataStream } from '@grabjs/mobile-kit-bridge-sdk';
+import { BridgeResponse } from '../../core/response';
+
+/**
+ * Result object containing the geographic coordinates.
+ *
+ * @public
+ */
+export type GetCoordinateResult = {
+  /** Latitude in degrees */
+  lat: number;
+  /** Longitude in degrees */
+  lng: number;
+};
+
+/**
+ * Response when getting the device coordinates.
+ *
+ * @public
+ */
+export type GetCoordinateResponse = BridgeResponse<GetCoordinateResult>;
+
+/**
+ * Response when observing the device coordinates.
+ *
+ * @public
+ */
+export type ObserveLocationChangeResponse = DataStream<GetCoordinateResult>;
+
+/**
+ * Result object containing the country code.
+ *
+ * @public
+ */
+export type GetCountryCodeResult = {
+  /** ISO country code (e.g., "SG", "ID", "MY") */
+  countryCode: string;
+};
+
+/**
+ * Response when getting the country code.
+ *
+ * @public
+ */
+export type GetCountryCodeResponse = BridgeResponse<GetCountryCodeResult>;

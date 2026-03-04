@@ -47,7 +47,7 @@ const scope = new ScopeModule();
 
 ### hasAccessTo()
 
-> **hasAccessTo**(`module`: `any`, `method`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **hasAccessTo**(`module`: `any`, `method`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
 
 #### Parameters
 
@@ -61,14 +61,14 @@ const scope = new ScopeModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
 
 ***
 
 ### reloadScopes()
 
-> **reloadScopes**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **reloadScopes**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>

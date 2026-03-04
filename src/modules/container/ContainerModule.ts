@@ -64,7 +64,7 @@ export class ContainerModule extends BaseModule {
   /**
    * Set the background color of the container header.
    *
-   * @param request - Configuration for setting the background color.
+   * @param request - Hexadecimal color value (e.g., "#ffffff", "#000000").
    *
    * @returns Resolves when the background color has been applied, or with error information if the request fails.
    *
@@ -73,20 +73,20 @@ export class ContainerModule extends BaseModule {
    * @example
    * Set background color to white
    * ```typescript
-   * await containerModule.setBackgroundColor({ backgroundColor: "#ffffff" });
+   * await containerModule.setBackgroundColor("#ffffff");
    * ```
    *
    * @example
    * Set background color to dark
    * ```typescript
-   * await containerModule.setBackgroundColor({ backgroundColor: "#1a1a1a" });
+   * await containerModule.setBackgroundColor("#1a1a1a");
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await containerModule.setBackgroundColor(params);
+   *   const { status_code, result, error } = await containerModule.setBackgroundColor(backgroundColor);
    *   switch (status_code) {
    *     case 200:
    *       console.log('Background color set successfully');
@@ -103,13 +103,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   setBackgroundColor(request: SetBackgroundColorRequest): Promise<SetBackgroundColorResponse> {
-    return this.wrappedModule.invoke('setBackgroundColor', request);
+    return this.wrappedModule.invoke('setBackgroundColor', {
+      backgroundColor: request,
+    }) as Promise<SetBackgroundColorResponse>;
   }
 
   /**
    * Set the title of the container header.
    *
-   * @param request - Configuration for setting the title.
+   * @param request - Title of the page.
    *
    * @returns Resolves when the title has been set in the navigation bar, or with error information if the request fails.
    *
@@ -118,14 +120,14 @@ export class ContainerModule extends BaseModule {
    * @example
    * Set title
    * ```typescript
-   * await containerModule.setTitle({ title: "Home" });
+   * await containerModule.setTitle("Home");
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await containerModule.setTitle(params);
+   *   const { status_code, result, error } = await containerModule.setTitle(title);
    *   switch (status_code) {
    *     case 200:
    *       console.log('Title set successfully');
@@ -142,7 +144,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
-    return window.WrappedContainerModule!.invoke('setTitle', request);
+    return this.wrappedModule.invoke('setTitle', { title: request }) as Promise<SetTitleResponse>;
   }
 
   /**
@@ -179,7 +181,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   hideBackButton(): Promise<HideBackButtonResponse> {
-    return window.WrappedContainerModule!.invoke('hideBackButton');
+    return this.wrappedModule.invoke('hideBackButton') as Promise<HideBackButtonResponse>;
   }
 
   /**
@@ -216,7 +218,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   showBackButton(): Promise<ShowBackButtonResponse> {
-    return window.WrappedContainerModule!.invoke('showBackButton');
+    return this.wrappedModule.invoke('showBackButton') as Promise<ShowBackButtonResponse>;
   }
 
   /**
@@ -253,7 +255,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    return window.WrappedContainerModule!.invoke('hideRefreshButton');
+    return this.wrappedModule.invoke('hideRefreshButton') as Promise<HideRefreshButtonResponse>;
   }
 
   /**
@@ -290,7 +292,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    return window.WrappedContainerModule!.invoke('showRefreshButton');
+    return this.wrappedModule.invoke('showRefreshButton') as Promise<ShowRefreshButtonResponse>;
   }
 
   /**
@@ -335,7 +337,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   close(): Promise<CloseResponse> {
-    return window.WrappedContainerModule!.invoke('close');
+    return this.wrappedModule.invoke('close') as Promise<CloseResponse>;
   }
 
   /**
@@ -372,7 +374,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   onContentLoaded(): Promise<OnContentLoadedResponse> {
-    return window.WrappedContainerModule!.invoke('onContentLoaded');
+    return this.wrappedModule.invoke('onContentLoaded') as Promise<OnContentLoadedResponse>;
   }
 
   /**
@@ -412,7 +414,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   showLoader(): Promise<ShowLoaderResponse> {
-    return window.WrappedContainerModule!.invoke('showLoader');
+    return this.wrappedModule.invoke('showLoader') as Promise<ShowLoaderResponse>;
   }
 
   /**
@@ -452,7 +454,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   hideLoader(): Promise<HideLoaderResponse> {
-    return window.WrappedContainerModule!.invoke('hideLoader');
+    return this.wrappedModule.invoke('hideLoader') as Promise<HideLoaderResponse>;
   }
 
   /**
@@ -461,7 +463,7 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to open the specified URL in an external browser (outside of the Grab app).
    *
-   * @param request - Configuration for opening the external link.
+   * @param request - URL to open in external browser.
    *
    * @returns Resolves when the external browser opens with the URL, or with error information if the request fails.
    *
@@ -470,14 +472,14 @@ export class ContainerModule extends BaseModule {
    * @example
    * Open external link
    * ```typescript
-   * await containerModule.openExternalLink({ url: "https://grab.com" });
+   * await containerModule.openExternalLink("https://grab.com");
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await containerModule.openExternalLink(params);
+   *   const { status_code, result, error } = await containerModule.openExternalLink(url);
    *   switch (status_code) {
    *     case 200:
    *       console.log('External link opened successfully');
@@ -494,13 +496,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
-    return window.WrappedContainerModule!.invoke('openExternalLink', request);
+    return this.wrappedModule.invoke('openExternalLink', {
+      url: request,
+    }) as Promise<OpenExternalLinkResponse>;
   }
 
   /**
    * Notify the client that the user has tapped a call-to-action (CTA).
    *
-   * @param request - Configuration for notifying CTA tap.
+   * @param request - CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE", "BOOKING_CONFIRMED").
    *
    * @returns Resolves when the CTA tap notification is sent, or with error information if the request fails.
    *
@@ -509,14 +513,14 @@ export class ContainerModule extends BaseModule {
    * @example
    * Notify CTA tap
    * ```typescript
-   * await containerModule.onCtaTap({ action: "AV_LANDING_PAGE_CONTINUE" });
+   * await containerModule.onCtaTap("AV_LANDING_PAGE_CONTINUE");
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await containerModule.onCtaTap(params);
+   *   const { status_code, result, error } = await containerModule.onCtaTap(action);
    *   switch (status_code) {
    *     case 200:
    *       console.log('CTA tap notified successfully');
@@ -533,7 +537,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   onCtaTap(request: OnCtaTapRequest): Promise<OnCtaTapResponse> {
-    return window.WrappedContainerModule!.invoke('onCtaTap', request);
+    return this.wrappedModule.invoke('onCtaTap', { action: request }) as Promise<OnCtaTapResponse>;
   }
 
   /**
@@ -634,11 +638,11 @@ export class ContainerModule extends BaseModule {
     if (validationError) {
       return Promise.resolve({ status_code: 400, error: validationError });
     }
-    return window.WrappedContainerModule!.invoke('sendAnalyticsEvent', {
+    return this.wrappedModule.invoke('sendAnalyticsEvent', {
       state: request.state,
       name: request.name,
       data: request.data ? JSON.stringify(request.data) : null,
-    });
+    }) as Promise<SendAnalyticsEventResponse>;
   }
 
   /**
@@ -746,7 +750,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   getSessionParams(): Promise<GetSessionParamsResponse> {
-    return window.WrappedContainerModule!.invoke('getSessionParams');
+    return this.wrappedModule.invoke('getSessionParams') as Promise<GetSessionParamsResponse>;
   }
 
   /**

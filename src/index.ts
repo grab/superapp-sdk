@@ -54,6 +54,13 @@ export { IdentityModule } from './modules/identity/IdentityModule';
 export { ProfileModule } from './modules/profile/ProfileModule';
 export { LocaleModule } from './modules/locale/LocaleModule';
 export { LocationModule } from './modules/location/LocationModule';
+export type {
+  GetCoordinateResult,
+  GetCoordinateResponse,
+  ObserveLocationChangeResponse,
+  GetCountryCodeResult,
+  GetCountryCodeResponse,
+} from './modules/location/types';
 export { MediaModule } from './modules/media/MediaModule';
 export { PlatformModule } from './modules/platform/PlatformModule';
 export { ScopeModule } from './modules/scope/ScopeModule';

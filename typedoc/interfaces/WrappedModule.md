@@ -28,7 +28,7 @@ export interface WrappedProfileModule extends WrappedModule {
 
 ### invoke()
 
-> **invoke**\<`T`\>(`method`: `string`, `params?`: `unknown`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\>
+> **invoke**\<`T`\>(`method`: `string`, `params?`: `unknown`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`T`\>
 
 #### Type Parameters
 
@@ -48,4 +48,4 @@ export interface WrappedProfileModule extends WrappedModule {
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`T`\>

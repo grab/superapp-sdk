@@ -6,3 +6,10 @@
  */
 
 export { LocationModule } from './LocationModule';
+export type {
+  GetCoordinateResult,
+  GetCoordinateResponse,
+  ObserveLocationChangeResponse,
+  GetCountryCodeResult,
+  GetCountryCodeResponse,
+} from './types';
