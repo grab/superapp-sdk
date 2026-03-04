@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for accessing user profile information.
  *
+ * @group Modules
+ *
  * @remarks
  * Provides access to user profile data such as email verification.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

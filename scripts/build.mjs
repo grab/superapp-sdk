@@ -53,12 +53,22 @@ function bundleTypes() {
   execSync('api-extractor run --local', { stdio: 'inherit', cwd: ROOT_DIR });
 }
 
+function generateTypeDocJSON() {
+  console.log('Generating TypeDoc JSON...');
+  const apiJsonPath = path.join(DIST_DIR, 'api.json');
+  execSync(`npx typedoc --options typedoc.api.json --json "${apiJsonPath}"`, {
+    stdio: 'inherit',
+    cwd: ROOT_DIR,
+  });
+}
+
 function build() {
   try {
     clean();
     bundleJS();
     moveFilesToDist();
     bundleTypes();
+    generateTypeDocJSON();
     console.log('Build completed successfully!');
   } catch (error) {
     console.error('Build failed:', error.message);

@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for controlling platform navigation.
  *
+ * @group Modules
+ *
  * @remarks
  * Provides methods to interact with the native platform navigation stack, such as triggering the back action.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

@@ -32,6 +32,8 @@ import {
 /**
  * JSBridge module for controlling the webview container.
  *
+ * @group Modules
+ *
  * @remarks
  * Provides methods to interact with the webview container.
  * This code must run on the Grab SuperApp's webview to function correctly.

@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for playing DRM-protected media content.
  *
+ * @group Modules
+ *
  * @remarks
  * Provides access to the native media player with DRM support for secure content playback.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

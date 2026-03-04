@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for checking and refreshing API access permissions.
  *
+ * @group Modules
+ *
  * @remarks
  * Manages OAuth scope permissions to determine which JSBridge modules and methods the MiniApp has access to.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

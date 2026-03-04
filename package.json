@@ -1,6 +1,6 @@
 {
   "name": "@grabjs/superapp-sdk",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -21,8 +21,8 @@
     "node": "24"
   },
   "scripts": {
-    "build": "npm run build:js && npm run build:docs",
-    "build:js": "node scripts/build.mjs",
+    "build": "npm run build:dist && npm run build:docs",
+    "build:dist": "node scripts/build.mjs",
     "build:docs": "typedoc",
     "check": "npm run check:format && npm run check:lint",
     "check:format": "prettier --check .",

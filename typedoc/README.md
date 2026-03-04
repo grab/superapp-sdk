@@ -1,8 +1,7 @@
 # @grabjs/superapp-sdk
 
-## Classes
+## Modules
 
-- [BaseModule](classes/BaseModule.md)
 - [CameraModule](classes/CameraModule.md)
 - [CheckoutModule](classes/CheckoutModule.md)
 - [ContainerModule](classes/ContainerModule.md)
@@ -15,6 +14,10 @@
 - [ScopeModule](classes/ScopeModule.md)
 - [StorageModule](classes/StorageModule.md)
 - [SystemWebViewKitModule](classes/SystemWebViewKitModule.md)
+
+## Classes
+
+- [BaseModule](classes/BaseModule.md)
 
 ## Interfaces
 
