@@ -105,7 +105,7 @@ export class ContainerModule extends BaseModule {
   setBackgroundColor(request: SetBackgroundColorRequest): Promise<SetBackgroundColorResponse> {
     return this.wrappedModule.invoke('setBackgroundColor', {
       backgroundColor: request,
-    }) as Promise<SetBackgroundColorResponse>;
+    });
   }
 
   /**
@@ -144,7 +144,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
-    return this.wrappedModule.invoke('setTitle', { title: request }) as Promise<SetTitleResponse>;
+    return this.wrappedModule.invoke('setTitle', { title: request });
   }
 
   /**
@@ -181,7 +181,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   hideBackButton(): Promise<HideBackButtonResponse> {
-    return this.wrappedModule.invoke('hideBackButton') as Promise<HideBackButtonResponse>;
+    return this.wrappedModule.invoke('hideBackButton');
   }
 
   /**
@@ -218,7 +218,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   showBackButton(): Promise<ShowBackButtonResponse> {
-    return this.wrappedModule.invoke('showBackButton') as Promise<ShowBackButtonResponse>;
+    return this.wrappedModule.invoke('showBackButton');
   }
 
   /**
@@ -255,7 +255,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    return this.wrappedModule.invoke('hideRefreshButton') as Promise<HideRefreshButtonResponse>;
+    return this.wrappedModule.invoke('hideRefreshButton');
   }
 
   /**
@@ -292,7 +292,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    return this.wrappedModule.invoke('showRefreshButton') as Promise<ShowRefreshButtonResponse>;
+    return this.wrappedModule.invoke('showRefreshButton');
   }
 
   /**
@@ -337,7 +337,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   close(): Promise<CloseResponse> {
-    return this.wrappedModule.invoke('close') as Promise<CloseResponse>;
+    return this.wrappedModule.invoke('close');
   }
 
   /**
@@ -374,7 +374,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   onContentLoaded(): Promise<OnContentLoadedResponse> {
-    return this.wrappedModule.invoke('onContentLoaded') as Promise<OnContentLoadedResponse>;
+    return this.wrappedModule.invoke('onContentLoaded');
   }
 
   /**
@@ -414,7 +414,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   showLoader(): Promise<ShowLoaderResponse> {
-    return this.wrappedModule.invoke('showLoader') as Promise<ShowLoaderResponse>;
+    return this.wrappedModule.invoke('showLoader');
   }
 
   /**
@@ -454,7 +454,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   hideLoader(): Promise<HideLoaderResponse> {
-    return this.wrappedModule.invoke('hideLoader') as Promise<HideLoaderResponse>;
+    return this.wrappedModule.invoke('hideLoader');
   }
 
   /**
@@ -498,7 +498,7 @@ export class ContainerModule extends BaseModule {
   openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
     return this.wrappedModule.invoke('openExternalLink', {
       url: request,
-    }) as Promise<OpenExternalLinkResponse>;
+    });
   }
 
   /**
@@ -537,7 +537,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   onCtaTap(request: OnCtaTapRequest): Promise<OnCtaTapResponse> {
-    return this.wrappedModule.invoke('onCtaTap', { action: request }) as Promise<OnCtaTapResponse>;
+    return this.wrappedModule.invoke('onCtaTap', { action: request });
   }
 
   /**
@@ -642,7 +642,7 @@ export class ContainerModule extends BaseModule {
       state: request.state,
       name: request.name,
       data: request.data ? JSON.stringify(request.data) : null,
-    }) as Promise<SendAnalyticsEventResponse>;
+    });
   }
 
   /**
@@ -683,6 +683,7 @@ export class ContainerModule extends BaseModule {
     if (!userAgent) {
       return Promise.resolve({
         status_code: 404,
+        result: null,
         error: 'User agent not available',
       });
     }
@@ -690,8 +691,8 @@ export class ContainerModule extends BaseModule {
     const isConnected = /grab[a-z]*\//i.test(userAgent);
     return Promise.resolve(
       isConnected
-        ? { status_code: 200, result: { connected: true } }
-        : { status_code: 404, error: 'Not connected to Grab app' }
+        ? { status_code: 200, result: null, error: null }
+        : { status_code: 404, error: 'Not connected to Grab app', result: null }
     );
   }
 
@@ -750,7 +751,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   getSessionParams(): Promise<GetSessionParamsResponse> {
-    return this.wrappedModule.invoke('getSessionParams') as Promise<GetSessionParamsResponse>;
+    return this.wrappedModule.invoke('getSessionParams');
   }
 
   /**

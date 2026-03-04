@@ -62,6 +62,9 @@
 - [ShowLoaderResponse](type-aliases/ShowLoaderResponse.md)
 - [ShowRefreshButtonResponse](type-aliases/ShowRefreshButtonResponse.md)
 - [Subscription](type-aliases/Subscription.md)
+- [TriggerCheckoutRequest](type-aliases/TriggerCheckoutRequest.md)
+- [TriggerCheckoutResponse](type-aliases/TriggerCheckoutResponse.md)
+- [TriggerCheckoutResult](type-aliases/TriggerCheckoutResult.md)
 
 ## Variables
 

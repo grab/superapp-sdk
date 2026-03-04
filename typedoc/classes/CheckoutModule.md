@@ -47,14 +47,49 @@ const checkoutModule = new CheckoutModule();
 
 ### triggerCheckout()
 
-> **triggerCheckout**(`checkoutDetails`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **triggerCheckout**(`request`: [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)): `Promise`\<[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)\>
+
+Triggers the native checkout flow for payment processing.
 
 #### Parameters
 
-##### checkoutDetails
+##### request
 
-`any`
+[`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)
+
+The response from Grab payment charge init endpoint.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)\>
+
+Resolves with the transaction details on success, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Trigger checkout with response params
+```typescript
+const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
+const checkoutResponse = await checkoutModule.triggerCheckout(transactionResponse);
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, result, error } = await checkoutModule.triggerCheckout(request);
+  switch (status_code) {
+    case 200:
+      console.log('Transaction successful:', result.transactionID, result.status);
+      break;
+    default:
+      console.log(`Transaction failed${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not trigger checkout${error ? `: ${error}` : ''}`);
+}
+```
