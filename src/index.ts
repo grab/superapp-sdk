@@ -26,6 +26,30 @@ export {
   ContainerAnalyticsEventName,
   ContainerAnalyticsEventData,
 } from './modules/container/constants';
+export type {
+  SetBackgroundColorRequest,
+  SetBackgroundColorResponse,
+  SetTitleRequest,
+  SetTitleResponse,
+  HideBackButtonResponse,
+  ShowBackButtonResponse,
+  HideRefreshButtonResponse,
+  ShowRefreshButtonResponse,
+  CloseResponse,
+  OnContentLoadedResponse,
+  ShowLoaderResponse,
+  HideLoaderResponse,
+  OpenExternalLinkRequest,
+  OpenExternalLinkResponse,
+  OnCtaTapRequest,
+  OnCtaTapResponse,
+  SendAnalyticsEventRequest,
+  SendAnalyticsEventResponse,
+  IsConnectedResult,
+  IsConnectedResponse,
+  GetSessionParamsResult,
+  GetSessionParamsResponse,
+} from './modules/container/types';
 export { IdentityModule } from './modules/identity/IdentityModule';
 export { ProfileModule } from './modules/profile/ProfileModule';
 export { LocaleModule } from './modules/locale/LocaleModule';
@@ -35,3 +59,4 @@ export { PlatformModule } from './modules/platform/PlatformModule';
 export { ScopeModule } from './modules/scope/ScopeModule';
 export { StorageModule } from './modules/storage/StorageModule';
 export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
+export type { WrappedModule } from './types/global';

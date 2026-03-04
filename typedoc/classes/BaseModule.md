@@ -6,7 +6,7 @@ Base class for all JSBridge modules.
 
 ## Remarks
 
-On construction, the class wraps the module on `window` (e.g., `WrappedContainerModule`), enabling invocation of native methods.
+On construction, the class wraps the JSBridge module on `window` (e.g., `WrappedContainerModule`).
 Requires the MiniApp to be running within the Grab SuperApp's webview.
 
 ## Extended by

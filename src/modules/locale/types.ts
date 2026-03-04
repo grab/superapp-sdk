@@ -5,17 +5,4 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
-
-/**
- * Concrete interface for the native Locale JSBridge module.
- */
-export interface WrappedLocaleModule {
-  invoke(method: 'getLanguageLocaleIdentifier', params?: any): Promise<BridgeResponse<any>>;
-}
-
-declare global {
-  interface Window {
-    WrappedLocaleModule?: WrappedLocaleModule;
-  }
-}
+export {};

@@ -7,15 +7,4 @@
 
 import { BridgeResponse } from '../../core/response';
 
-/**
- * Concrete interface for the native Platform JSBridge module.
- */
-export interface WrappedPlatformModule {
-  invoke(method: 'back', params?: any): Promise<BridgeResponse<any>>;
-}
-
-declare global {
-  interface Window {
-    WrappedPlatformModule?: WrappedPlatformModule;
-  }
-}
+export {};

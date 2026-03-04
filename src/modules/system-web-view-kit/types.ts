@@ -5,17 +5,4 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
-
-/**
- * Concrete interface for the native SystemWebViewKit JSBridge module.
- */
-export interface WrappedSystemWebViewKitModule {
-  invoke(method: 'redirectToSystemWebView', params?: any): Promise<BridgeResponse<any>>;
-}
-
-declare global {
-  interface Window {
-    WrappedSystemWebViewKitModule?: WrappedSystemWebViewKitModule;
-  }
-}
+export {};

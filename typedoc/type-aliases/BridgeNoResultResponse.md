@@ -19,7 +19,7 @@ No `result` or `error` data is returned.
 
 Always undefined for no-result JSBridge responses
 
----
+***
 
 ### result?
 
@@ -27,11 +27,11 @@ Always undefined for no-result JSBridge responses
 
 Always undefined for no-result JSBridge responses
 
----
+***
 
-### status_code
+### status\_code
 
-> **status_code**: `204` \| `302`
+> **status\_code**: `204` \| `302`
 
 Status codes:
 

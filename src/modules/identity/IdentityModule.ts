@@ -309,8 +309,8 @@ export class IdentityModule extends BaseModule {
     });
   }
 
-  static performNativeAuthorization(invokeParams) {
-    return window.WrappedIdentityModule!.invoke('authorize', {
+  async performNativeAuthorization(invokeParams) {
+    return this.wrappedModule.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,
@@ -362,7 +362,7 @@ export class IdentityModule extends BaseModule {
     // Always try native consent first, fallback to web consent if unavailable
     // Note: Native respects responseMode; web always redirects
     try {
-      const nativeResult = await IdentityModule.performNativeAuthorization({
+      const nativeResult = await this.performNativeAuthorization({
         ...invokeParams,
         actualRedirectUri,
         responseMode,

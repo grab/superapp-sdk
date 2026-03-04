@@ -38,6 +38,6 @@ export class SystemWebViewKitModule extends BaseModule {
   }
 
   redirectToSystemWebView(payload) {
-    return window.WrappedSystemWebViewKitModule!.invoke('redirectToSystemWebView', payload);
+    return this.wrappedModule.invoke('redirectToSystemWebView', payload);
   }
 }

@@ -2,7 +2,7 @@
 
 # Type Alias: BridgeErrorResponse
 
-> **BridgeErrorResponse** = \{ `error`: `string`; `result?`: `undefined`; `status_code`: `400` \| `403` \| `424` \| `500`; \}
+> **BridgeErrorResponse** = \{ `error`: `string`; `result?`: `undefined`; `status_code`: `400` \| `403` \| `404` \| `424` \| `500`; \}
 
 Error response from the JSBridge method.
 
@@ -19,7 +19,7 @@ The `error` field contains a human-readable message.
 
 Error message describing what went wrong
 
----
+***
 
 ### result?
 
@@ -27,15 +27,16 @@ Error message describing what went wrong
 
 Always undefined for error responses
 
----
+***
 
-### status_code
+### status\_code
 
-> **status_code**: `400` \| `403` \| `424` \| `500`
+> **status\_code**: `400` \| `403` \| `404` \| `424` \| `500`
 
 Status codes:
 
 - `400`: Bad request (invalid parameters)
 - `403`: Forbidden (permission denied)
+- `404`: Not found (resource not found)
 - `424`: Failed dependency
 - `500`: Internal server error
