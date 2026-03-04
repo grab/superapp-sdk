@@ -6,3 +6,10 @@
  */
 
 export { ScopeModule } from './ScopeModule';
+export type {
+  HasAccessToRequest,
+  HasAccessToResponse,
+  HasAccessToResult,
+  ReloadScopesResponse,
+  ReloadScopesResult,
+} from './types';

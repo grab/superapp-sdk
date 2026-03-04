@@ -5,4 +5,24 @@
  * directory of this source tree.
  */
 
-export {};
+import { BridgeResponse } from '../../core/response';
+
+/**
+ * Response when getting the language locale identifier from the device.
+ *
+ * @remarks
+ * The locale identifier is the language and region code of the device's language settings.
+ * Examples:
+ * - "en" (English),
+ * - "id" (Indonesia),
+ * - "zh" (Chinese),
+ * - "ms" (Malaysia),
+ * - "th" (Thai),
+ * - "vi" (Vietnamese),
+ * - "zg" (Burmese Zawgyi),
+ * - "my" (Burmese Unicode),
+ * - "km" (Khmer)
+ *
+ * @public
+ */
+export type GetLanguageLocaleIdentifierResponse = BridgeResponse<string>;

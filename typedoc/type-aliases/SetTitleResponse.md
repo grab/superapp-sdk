@@ -2,6 +2,6 @@
 
 # Type Alias: SetTitleResponse
 
-> **SetTitleResponse** = [`BridgeResponse`](BridgeResponse.md)\<`null`\>
+> **SetTitleResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`SetTitleResult`](SetTitleResult.md)\>
 
 Response when setting the title.

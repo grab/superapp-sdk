@@ -6,3 +6,4 @@
  */
 
 export { LocaleModule } from './LocaleModule';
+export type { GetLanguageLocaleIdentifierResponse } from './types';

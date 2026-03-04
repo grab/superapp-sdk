@@ -47,168 +47,498 @@ const storage = new StorageModule();
 
 ### getBoolean()
 
-> **getBoolean**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **getBoolean**(`request`: [`GetBooleanRequest`](../type-aliases/GetBooleanRequest.md)): `Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
+
+Retrieves a boolean value from the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`GetBooleanRequest`](../type-aliases/GetBooleanRequest.md)
+
+The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
+
+Resolves with the stored boolean value on success, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Get a boolean value
+```typescript
+const response = await storageModule.getBoolean({ key: 'isDarkMode' });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, result, error } = await storageModule.getBoolean({ key: 'isDarkMode' });
+  switch (status_code) {
+    case 200:
+      console.log('Stored value:', result.value);
+      break;
+    default:
+      console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### getDouble()
 
-> **getDouble**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **getDouble**(`request`: [`GetDoubleRequest`](../type-aliases/GetDoubleRequest.md)): `Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
+
+Retrieves a double (floating point) value from the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`GetDoubleRequest`](../type-aliases/GetDoubleRequest.md)
+
+The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
+
+Resolves with the stored double value on success, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Get a double value
+```typescript
+const response = await storageModule.getDouble({ key: 'price' });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, result, error } = await storageModule.getDouble({ key: 'price' });
+  switch (status_code) {
+    case 200:
+      console.log('Stored value:', result.value);
+      break;
+    default:
+      console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### getInt()
 
-> **getInt**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **getInt**(`request`: [`GetIntRequest`](../type-aliases/GetIntRequest.md)): `Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
+
+Retrieves an integer value from the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`GetIntRequest`](../type-aliases/GetIntRequest.md)
+
+The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
+
+Resolves with the stored integer value on success, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Get an integer value
+```typescript
+const response = await storageModule.getInt({ key: 'userCount' });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, result, error } = await storageModule.getInt({ key: 'userCount' });
+  switch (status_code) {
+    case 200:
+      console.log('Stored value:', result.value);
+      break;
+    default:
+      console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### getString()
 
-> **getString**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **getString**(`request`: [`GetStringRequest`](../type-aliases/GetStringRequest.md)): `Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
+
+Retrieves a string value from the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`GetStringRequest`](../type-aliases/GetStringRequest.md)
+
+The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
+
+Resolves with the stored string value on success, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Get a string value
+```typescript
+const response = await storageModule.getString({ key: 'username' });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, result, error } = await storageModule.getString({ key: 'username' });
+  switch (status_code) {
+    case 200:
+      console.log('Stored value:', result.value);
+      break;
+    default:
+      console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### remove()
 
-> **remove**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **remove**(`request`: [`RemoveRequest`](../type-aliases/RemoveRequest.md)): `Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
+
+Removes a single value from the native storage by key.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`RemoveRequest`](../type-aliases/RemoveRequest.md)
+
+The key to remove from storage.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
+
+Resolves when the value is removed successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Remove a value
+```typescript
+const response = await storageModule.remove({ key: 'username' });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await storageModule.remove({ key: 'username' });
+  switch (status_code) {
+    case 200:
+      console.log('Value removed successfully');
+      break;
+    default:
+      console.log(`Could not remove value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not remove value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### removeAll()
 
-> **removeAll**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **removeAll**(`request`: [`RemoveAllRequest`](../type-aliases/RemoveAllRequest.md)): `Promise`\<[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)\>
+
+Removes all values from the native storage.
+
+#### Parameters
+
+##### request
+
+[`RemoveAllRequest`](../type-aliases/RemoveAllRequest.md)
+
+No parameters required (empty object).
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)\>
+
+Resolves when all values are removed successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Remove all values
+```typescript
+const response = await storageModule.removeAll({});
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await storageModule.removeAll({});
+  switch (status_code) {
+    case 200:
+      console.log('All values removed successfully');
+      break;
+    default:
+      console.log(`Could not remove values${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not remove values${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### setBoolean()
 
-> **setBoolean**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **setBoolean**(`request`: [`SetBooleanRequest`](../type-aliases/SetBooleanRequest.md)): `Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
+
+Stores a boolean value in the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`SetBooleanRequest`](../type-aliases/SetBooleanRequest.md)
 
-##### value
-
-`any`
+The key and boolean value to store.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
+
+Resolves when the value is stored successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Set a boolean value
+```typescript
+const response = await storageModule.setBoolean({ key: 'isDarkMode', value: true });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await storageModule.setBoolean({ key: 'isDarkMode', value: true });
+  switch (status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    default:
+      console.log(`Could not store value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not store value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### setDouble()
 
-> **setDouble**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **setDouble**(`request`: [`SetDoubleRequest`](../type-aliases/SetDoubleRequest.md)): `Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
+
+Stores a double (floating point) value in the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`SetDoubleRequest`](../type-aliases/SetDoubleRequest.md)
 
-##### value
-
-`any`
+The key and double value to store.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
+
+Resolves when the value is stored successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Set a double value
+```typescript
+const response = await storageModule.setDouble({ key: 'price', value: 19.99 });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await storageModule.setDouble({ key: 'price', value: 19.99 });
+  switch (status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    default:
+      console.log(`Could not store value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not store value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### setInt()
 
-> **setInt**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **setInt**(`request`: [`SetIntRequest`](../type-aliases/SetIntRequest.md)): `Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
+
+Stores an integer value in the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`SetIntRequest`](../type-aliases/SetIntRequest.md)
 
-##### value
-
-`any`
+The key and integer value to store.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
+
+Resolves when the value is stored successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Set an integer value
+```typescript
+const response = await storageModule.setInt({ key: 'userCount', value: 42 });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await storageModule.setInt({ key: 'userCount', value: 42 });
+  switch (status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    default:
+      console.log(`Could not store value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not store value${error ? `: ${error}` : ''}`);
+}
+```
 
 ***
 
 ### setString()
 
-> **setString**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **setString**(`request`: [`SetStringRequest`](../type-aliases/SetStringRequest.md)): `Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
+
+Stores a string value in the native storage.
 
 #### Parameters
 
-##### key
+##### request
 
-`any`
+[`SetStringRequest`](../type-aliases/SetStringRequest.md)
 
-##### value
-
-`any`
+The key and string value to store.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
+
+Resolves when the value is stored successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Set a string value
+```typescript
+const response = await storageModule.setString({ key: 'username', value: 'john_doe' });
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await storageModule.setString({ key: 'username', value: 'john_doe' });
+  switch (status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    default:
+      console.log(`Could not store value${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not store value${error ? `: ${error}` : ''}`);
+}
+```

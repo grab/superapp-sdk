@@ -2,6 +2,6 @@
 
 # Type Alias: HideBackButtonResponse
 
-> **HideBackButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<`null`\>
+> **HideBackButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`HideBackButtonResult`](HideBackButtonResult.md)\>
 
 Response when hiding the back button.

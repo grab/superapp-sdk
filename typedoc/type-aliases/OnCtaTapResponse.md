@@ -2,6 +2,6 @@
 
 # Type Alias: OnCtaTapResponse
 
-> **OnCtaTapResponse** = [`BridgeResponse`](BridgeResponse.md)\<`null`\>
+> **OnCtaTapResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`OnCtaTapResult`](OnCtaTapResult.md)\>
 
 Response when notifying CTA tap.
