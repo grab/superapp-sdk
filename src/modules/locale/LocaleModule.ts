@@ -40,6 +40,6 @@ export class LocaleModule extends BaseModule {
   }
 
   getLanguageLocaleIdentifier() {
-    return window.WrappedLocaleModule!.invoke('getLanguageLocaleIdentifier');
+    return this.wrappedModule.invoke('getLanguageLocaleIdentifier');
   }
 }

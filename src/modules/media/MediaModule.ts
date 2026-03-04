@@ -40,10 +40,10 @@ export class MediaModule extends BaseModule {
   }
 
   playDRMContent(data) {
-    return window.WrappedMediaModule!.invoke('playDRMContent', { data });
+    return this.wrappedModule.invoke('playDRMContent', { data });
   }
 
   observePlayDRMContent(data) {
-    return window.WrappedMediaModule!.invoke('observePlayDRMContent', { data });
+    return this.wrappedModule.invoke('observePlayDRMContent', { data });
   }
 }

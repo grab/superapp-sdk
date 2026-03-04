@@ -224,6 +224,22 @@ const identity = new IdentityModule();
 
 ***
 
+### performNativeAuthorization()
+
+> **performNativeAuthorization**(`invokeParams`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+
+#### Parameters
+
+##### invokeParams
+
+`any`
+
+#### Returns
+
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+
+***
+
 ### performWebAuthorization()
 
 > **performWebAuthorization**(`params`: `any`): `Promise`\<\{ `error`: `any`; `status_code`: `number`; \} \| \{ `result`: `any`; `status_code`: `number`; \}\>
@@ -429,22 +445,6 @@ const identity = new IdentityModule();
 ##### platform
 
 > **platform**: `string`
-
-***
-
-### performNativeAuthorization()
-
-> `static` **performNativeAuthorization**(`invokeParams`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
-
-#### Parameters
-
-##### invokeParams
-
-`any`
-
-#### Returns
-
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 

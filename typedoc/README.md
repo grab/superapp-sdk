@@ -19,6 +19,10 @@
 
 - [BaseModule](classes/BaseModule.md)
 
+## Interfaces
+
+- [WrappedModule](interfaces/WrappedModule.md)
+
 ## Type Aliases
 
 - [BridgeErrorResponse](type-aliases/BridgeErrorResponse.md)

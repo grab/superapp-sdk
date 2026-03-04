@@ -18,12 +18,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added `wrappedModule` getter to `BaseModule` for consistent JSBridge module access
+- Added `WrappedModule` interface and exported it from main entry point
 - Added comprehensive TypeScript type definitions for ContainerModule
 - Added extensive JSDoc documentation to ContainerModule with usage examples for all methods
 - Added centralized global type definitions in `src/types/global.ts`:
 - Exported all ContainerModule types from main `src/index.ts` entry point
 - Exported CameraModule types from main `src/index.ts` entry point
 - Generated updated TypeDoc documentation with new ContainerModule types and detailed method documentation
+
+### Changed
+
+- Refactored all modules to use `this.wrappedModule.invoke()` instead of direct `window.Wrapped*Module!.invoke` access
+- Changed `IdentityModule.performNativeAuthorization()` from static to instance method
+- Refactored `src/modules/container/types.ts` to replace inline WrappedContainerModule interface with granular type definitions
+- Updated ContainerModule methods to use typed request/response parameters instead of generic `any` types
+- Improved type safety across all ContainerModule methods with proper TypeScript typing
+- Simplified individual module `index.ts` barrel exports by removing duplicate type re-exports (now centralized in main index.ts)
+
+### Fixed
+
+- Fixed TypeScript type definitions to use consistent `BridgeResponse<T>` patterns across all container methods
+- Resolved type redundancy by consolidating global Window interface declarations in a single location
 
 ### Changed
 

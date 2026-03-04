@@ -40,6 +40,6 @@ export class PlatformModule extends BaseModule {
   }
 
   back() {
-    return window.WrappedPlatformModule!.invoke('back');
+    return this.wrappedModule.invoke('back');
   }
 }

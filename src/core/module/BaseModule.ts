@@ -6,18 +6,33 @@
  */
 
 import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
+import { WrappedModule } from '../../types/global';
 
 /**
  * Base class for all JSBridge modules.
  *
  * @remarks
- * On construction, the class wraps the module on `window` (e.g., `WrappedContainerModule`), enabling invocation of native methods.
+ * On construction, the class wraps the JSBridge module on `window` (e.g., `WrappedContainerModule`).
  * Requires the MiniApp to be running within the Grab SuperApp's webview.
  *
  * @public
  */
 export class BaseModule {
+  /**
+   * The module name used to identify the JSBridge module.
+   */
   private readonly name: string;
+
+  /**
+   * Returns the wrapped JSBridge module from the global `window` object.
+   *
+   * @returns The wrapped module instance with native method bindings.
+   *
+   * @internal
+   */
+  protected get wrappedModule(): WrappedModule {
+    return window[`Wrapped${this.name}`] as WrappedModule;
+  }
 
   /**
    * Creates a new module instance and wraps it on the global `window` object.
@@ -28,7 +43,7 @@ export class BaseModule {
   constructor(moduleName: string) {
     this.name = moduleName;
 
-    if (window[`Wrapped${this.name}`]) {
+    if (this.wrappedModule) {
       // Module is already initialized
       return;
     }

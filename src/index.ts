@@ -59,3 +59,4 @@ export { PlatformModule } from './modules/platform/PlatformModule';
 export { ScopeModule } from './modules/scope/ScopeModule';
 export { StorageModule } from './modules/storage/StorageModule';
 export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
+export type { WrappedModule } from './types/global';

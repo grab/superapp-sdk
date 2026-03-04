@@ -40,6 +40,6 @@ export class CheckoutModule extends BaseModule {
   }
 
   triggerCheckout(checkoutDetails) {
-    return window.WrappedCheckoutModule!.invoke('triggerCheckout', checkoutDetails);
+    return this.wrappedModule.invoke('triggerCheckout', checkoutDetails);
   }
 }
