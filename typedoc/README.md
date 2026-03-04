@@ -74,7 +74,6 @@
 - [OpenExternalLinkResult](type-aliases/OpenExternalLinkResult.md)
 - [ReloadScopesResponse](type-aliases/ReloadScopesResponse.md)
 - [ReloadScopesResult](type-aliases/ReloadScopesResult.md)
-- [RemoveAllRequest](type-aliases/RemoveAllRequest.md)
 - [RemoveAllResponse](type-aliases/RemoveAllResponse.md)
 - [RemoveAllResult](type-aliases/RemoveAllResult.md)
 - [RemoveRequest](type-aliases/RemoveRequest.md)

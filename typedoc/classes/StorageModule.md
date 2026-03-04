@@ -82,7 +82,7 @@ try {
   const { status_code, result, error } = await storageModule.getBoolean({ key: 'isDarkMode' });
   switch (status_code) {
     case 200:
-      console.log('Stored value:', result.value);
+      console.log('Stored value:', result);
       break;
     default:
       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -132,7 +132,7 @@ try {
   const { status_code, result, error } = await storageModule.getDouble({ key: 'price' });
   switch (status_code) {
     case 200:
-      console.log('Stored value:', result.value);
+      console.log('Stored value:', result);
       break;
     default:
       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -182,7 +182,7 @@ try {
   const { status_code, result, error } = await storageModule.getInt({ key: 'userCount' });
   switch (status_code) {
     case 200:
-      console.log('Stored value:', result.value);
+      console.log('Stored value:', result);
       break;
     default:
       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -232,7 +232,7 @@ try {
   const { status_code, result, error } = await storageModule.getString({ key: 'username' });
   switch (status_code) {
     case 200:
-      console.log('Stored value:', result.value);
+      console.log('Stored value:', result);
       break;
     default:
       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -297,17 +297,9 @@ try {
 
 ### removeAll()
 
-> **removeAll**(`request`: [`RemoveAllRequest`](../type-aliases/RemoveAllRequest.md)): `Promise`\<[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)\>
+> **removeAll**(): `Promise`\<[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)\>
 
 Removes all values from the native storage.
-
-#### Parameters
-
-##### request
-
-[`RemoveAllRequest`](../type-aliases/RemoveAllRequest.md)
-
-No parameters required (empty object).
 
 #### Returns
 
@@ -323,13 +315,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Remove all values
 ```typescript
-const response = await storageModule.removeAll({});
+const response = await storageModule.removeAll();
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, error } = await storageModule.removeAll({});
+  const { status_code, error } = await storageModule.removeAll();
   switch (status_code) {
     case 200:
       console.log('All values removed successfully');
