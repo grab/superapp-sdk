@@ -101,7 +101,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   setBackgroundColor(request: SetBackgroundColorRequest): Promise<SetBackgroundColorResponse> {
-    return window.WrappedContainerModule!.invoke('setBackgroundColor', request);
+    return this.wrappedModule.invoke('setBackgroundColor', request);
   }
 
   /**

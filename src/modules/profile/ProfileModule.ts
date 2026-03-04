@@ -85,7 +85,7 @@ export class ProfileModule extends BaseModule {
         error: 'This feature requires Grab app version 5.399 or above.',
       });
     }
-    return window.WrappedProfileModule!.invoke('fetchEmail');
+    return this.wrappedModule.invoke('fetchEmail');
   }
 
   verifyEmail(verifyEmailDetails) {
@@ -95,6 +95,6 @@ export class ProfileModule extends BaseModule {
         error: 'This feature requires Grab app version 5.399 or above.',
       });
     }
-    return window.WrappedProfileModule!.invoke('verifyEmail', verifyEmailDetails);
+    return this.wrappedModule.invoke('verifyEmail', verifyEmailDetails);
   }
 }

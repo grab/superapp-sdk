@@ -16,6 +16,10 @@
 - [StorageModule](classes/StorageModule.md)
 - [SystemWebViewKitModule](classes/SystemWebViewKitModule.md)
 
+## Interfaces
+
+- [WrappedModule](interfaces/WrappedModule.md)
+
 ## Type Aliases
 
 - [BridgeErrorResponse](type-aliases/BridgeErrorResponse.md)

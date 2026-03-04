@@ -83,6 +83,6 @@ export class CameraModule extends BaseModule {
    * @public
    */
   scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse> {
-    return window.WrappedCameraModule!.invoke<ScanQRCodeResult>('scanQRCode', request);
+    return this.wrappedModule.invoke<ScanQRCodeResult>('scanQRCode', request);
   }
 }
