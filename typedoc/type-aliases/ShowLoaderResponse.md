@@ -2,6 +2,6 @@
 
 # Type Alias: ShowLoaderResponse
 
-> **ShowLoaderResponse** = [`BridgeResponse`](BridgeResponse.md)\<`null`\>
+> **ShowLoaderResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`ShowLoaderResult`](ShowLoaderResult.md)\>
 
 Response when showing the loader.

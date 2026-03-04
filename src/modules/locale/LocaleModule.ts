@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
+import { GetLanguageLocaleIdentifierResponse } from './types';
 
 /**
  * JSBridge module for accessing device locale settings.
@@ -39,7 +40,40 @@ export class LocaleModule extends BaseModule {
     super('LocaleModule');
   }
 
-  getLanguageLocaleIdentifier() {
-    return this.wrappedModule.invoke('getLanguageLocaleIdentifier');
+  /**
+   * Retrieves the current language locale identifier from the device.
+   *
+   * @returns Resolves with the locale identifier on success, or error information on failure.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * Get the current locale
+   * ```typescript
+   * const response = await localeModule.getLanguageLocaleIdentifier();
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, result, error } = await localeModule.getLanguageLocaleIdentifier({});
+   *   switch (status_code) {
+   *     case 200:
+   *       console.log('Current locale:', result.locale);
+   *       break;
+   *     default:
+   *       console.log(`Could not get locale${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (error) {
+   *   console.log(`Could not get locale${error ? `: ${error}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse> {
+    return this.wrappedModule.invoke<string>('getLanguageLocaleIdentifier');
   }
 }

@@ -2,6 +2,6 @@
 
 # Type Alias: ShowRefreshButtonResponse
 
-> **ShowRefreshButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<`null`\>
+> **ShowRefreshButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`ShowRefreshButtonResult`](ShowRefreshButtonResult.md)\>
 
 Response when showing the refresh button.

@@ -15,11 +15,18 @@ import { BridgeResponse } from '../../core/response';
 export type SetBackgroundColorRequest = string;
 
 /**
+ * Result when setting the background color.
+ *
+ * @public
+ */
+export type SetBackgroundColorResult = void;
+
+/**
  * Response when setting the background color.
  *
  * @public
  */
-export type SetBackgroundColorResponse = BridgeResponse<null>;
+export type SetBackgroundColorResponse = BridgeResponse<SetBackgroundColorResult>;
 
 /**
  * Request parameters for setting the title.
@@ -29,67 +36,130 @@ export type SetBackgroundColorResponse = BridgeResponse<null>;
 export type SetTitleRequest = string;
 
 /**
+ * Result when setting the title.
+ *
+ * @public
+ */
+export type SetTitleResult = void;
+
+/**
  * Response when setting the title.
  *
  * @public
  */
-export type SetTitleResponse = BridgeResponse<null>;
+export type SetTitleResponse = BridgeResponse<SetTitleResult>;
+
+/**
+ * Result when hiding the back button.
+ *
+ * @public
+ */
+export type HideBackButtonResult = void;
 
 /**
  * Response when hiding the back button.
  *
  * @public
  */
-export type HideBackButtonResponse = BridgeResponse<null>;
+export type HideBackButtonResponse = BridgeResponse<HideBackButtonResult>;
+
+/**
+ * Result when showing the back button.
+ *
+ * @public
+ */
+export type ShowBackButtonResult = void;
 
 /**
  * Response when showing the back button.
  *
  * @public
  */
-export type ShowBackButtonResponse = BridgeResponse<null>;
+export type ShowBackButtonResponse = BridgeResponse<ShowBackButtonResult>;
+
+/**
+ * Result when hiding the refresh button.
+ *
+ * @public
+ */
+export type HideRefreshButtonResult = void;
 
 /**
  * Response when hiding the refresh button.
  *
  * @public
  */
-export type HideRefreshButtonResponse = BridgeResponse<null>;
+export type HideRefreshButtonResponse = BridgeResponse<HideRefreshButtonResult>;
+
+/**
+ * Result when showing the refresh button.
+ *
+ * @public
+ */
+export type ShowRefreshButtonResult = void;
 
 /**
  * Response when showing the refresh button.
  *
  * @public
  */
-export type ShowRefreshButtonResponse = BridgeResponse<null>;
+export type ShowRefreshButtonResponse = BridgeResponse<ShowRefreshButtonResult>;
+
+/**
+ * Result when closing the container.
+ *
+ * @public
+ */
+export type CloseResult = void;
 
 /**
  * Response when closing the container.
  *
  * @public
  */
-export type CloseResponse = BridgeResponse<null>;
+export type CloseResponse = BridgeResponse<CloseResult>;
+
+/**
+ * Result when notifying content loaded.
+ *
+ * @public
+ */
+export type OnContentLoadedResult = void;
 
 /**
  * Response when notifying content loaded.
  *
  * @public
  */
-export type OnContentLoadedResponse = BridgeResponse<null>;
+export type OnContentLoadedResponse = BridgeResponse<OnContentLoadedResult>;
+
+/**
+ * Result when showing the loader.
+ *
+ * @public
+ */
+export type ShowLoaderResult = void;
 
 /**
  * Response when showing the loader.
  *
  * @public
  */
-export type ShowLoaderResponse = BridgeResponse<null>;
+export type ShowLoaderResponse = BridgeResponse<ShowLoaderResult>;
+
+/**
+ * Result when hiding the loader.
+ *
+ * @public
+ */
+export type HideLoaderResult = void;
 
 /**
  * Response when hiding the loader.
  *
  * @public
  */
-export type HideLoaderResponse = BridgeResponse<null>;
+export type HideLoaderResponse = BridgeResponse<HideLoaderResult>;
 
 /**
  * Request parameters for opening an external link.
@@ -99,11 +169,18 @@ export type HideLoaderResponse = BridgeResponse<null>;
 export type OpenExternalLinkRequest = string;
 
 /**
+ * Result when opening an external link.
+ *
+ * @public
+ */
+export type OpenExternalLinkResult = void;
+
+/**
  * Response when opening an external link.
  *
  * @public
  */
-export type OpenExternalLinkResponse = BridgeResponse<null>;
+export type OpenExternalLinkResponse = BridgeResponse<OpenExternalLinkResult>;
 
 /**
  * Request parameters for notifying CTA tap.
@@ -113,11 +190,18 @@ export type OpenExternalLinkResponse = BridgeResponse<null>;
 export type OnCtaTapRequest = string;
 
 /**
+ * Result when notifying CTA tap.
+ *
+ * @public
+ */
+export type OnCtaTapResult = void;
+
+/**
  * Response when notifying CTA tap.
  *
  * @public
  */
-export type OnCtaTapResponse = BridgeResponse<null>;
+export type OnCtaTapResponse = BridgeResponse<OnCtaTapResult>;
 
 /**
  * Request parameters for sending analytics events.
@@ -134,11 +218,18 @@ export type SendAnalyticsEventRequest = {
 };
 
 /**
+ * Result when sending analytics events.
+ *
+ * @public
+ */
+export type SendAnalyticsEventResult = void;
+
+/**
  * Response when sending analytics events.
  *
  * @public
  */
-export type SendAnalyticsEventResponse = BridgeResponse<null>;
+export type SendAnalyticsEventResponse = BridgeResponse<SendAnalyticsEventResult>;
 
 /**
  * Result object containing the connection status.
