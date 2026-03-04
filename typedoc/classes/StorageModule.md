@@ -47,7 +47,7 @@ const storage = new StorageModule();
 
 ### getBoolean()
 
-> **getBoolean**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **getBoolean**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -57,13 +57,13 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### getDouble()
 
-> **getDouble**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **getDouble**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -73,13 +73,13 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### getInt()
 
-> **getInt**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **getInt**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -89,13 +89,13 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### getString()
 
-> **getString**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **getString**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -105,13 +105,13 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### remove()
 
-> **remove**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **remove**(`key`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -121,23 +121,23 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### removeAll()
 
-> **removeAll**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **removeAll**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### setBoolean()
 
-> **setBoolean**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **setBoolean**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -151,13 +151,13 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### setDouble()
 
-> **setDouble**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **setDouble**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -171,13 +171,13 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### setInt()
 
-> **setInt**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **setInt**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -191,13 +191,13 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 ***
 
 ### setString()
 
-> **setString**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+> **setString**(`key`: `any`, `value`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -211,4 +211,4 @@ const storage = new StorageModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| [`DataStream`](../type-aliases/DataStream.md)\<`unknown`\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>

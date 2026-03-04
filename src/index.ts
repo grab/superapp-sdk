@@ -20,6 +20,11 @@ export type {
   ScanQRCodeResult,
 } from './modules/camera/types';
 export { CheckoutModule } from './modules/checkout/CheckoutModule';
+export type {
+  TriggerCheckoutRequest,
+  TriggerCheckoutResponse,
+  TriggerCheckoutResult,
+} from './modules/checkout/types';
 export { ContainerModule } from './modules/container/ContainerModule';
 export {
   ContainerAnalyticsEventState,

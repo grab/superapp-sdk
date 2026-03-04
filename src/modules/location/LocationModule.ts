@@ -78,7 +78,7 @@ export class LocationModule extends BaseModule {
    * @public
    */
   getCoordinate(): Promise<GetCoordinateResponse> {
-    return this.wrappedModule.invoke('getCoordinate') as Promise<GetCoordinateResponse>;
+    return this.wrappedModule.invoke('getCoordinate');
   }
 
   /**
@@ -154,6 +154,6 @@ export class LocationModule extends BaseModule {
    * @public
    */
   getCountryCode(): Promise<GetCountryCodeResponse> {
-    return this.wrappedModule.invoke('getCountryCode') as Promise<GetCountryCodeResponse>;
+    return this.wrappedModule.invoke('getCountryCode');
   }
 }
