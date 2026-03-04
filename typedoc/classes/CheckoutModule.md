@@ -74,7 +74,7 @@ Error when the JSBridge method fails unexpectedly.
 Trigger checkout with response params
 ```typescript
 const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
-const response = await checkoutModule.triggerCheckout(transactionResponse);
+const checkoutResponse = await checkoutModule.triggerCheckout(transactionResponse);
 ```
 
 Handling the response

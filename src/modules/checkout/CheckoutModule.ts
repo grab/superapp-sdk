@@ -53,7 +53,7 @@ export class CheckoutModule extends BaseModule {
    * Trigger checkout with response params
    * ```typescript
    * const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
-   * const response = await checkoutModule.triggerCheckout(transactionResponse);
+   * const checkoutResponse = await checkoutModule.triggerCheckout(transactionResponse);
    * ```
    *
    * @example
