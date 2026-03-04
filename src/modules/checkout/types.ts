@@ -5,17 +5,4 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
-
-/**
- * Concrete interface for the native Checkout JSBridge module.
- */
-export interface WrappedCheckoutModule {
-  invoke(method: 'triggerCheckout', params?: any): Promise<BridgeResponse<any>>;
-}
-
-declare global {
-  interface Window {
-    WrappedCheckoutModule?: WrappedCheckoutModule;
-  }
-}
+export {};

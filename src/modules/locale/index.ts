@@ -6,4 +6,3 @@
  */
 
 export { LocaleModule } from './LocaleModule';
-export type { WrappedLocaleModule } from './types';

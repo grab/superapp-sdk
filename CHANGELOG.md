@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.5] - 2026-03-04
+
+### Added
+
+- Added `wrappedModule` getter to `BaseModule` for consistent JSBridge module access
+- Added `WrappedModule` interface and exported it from main entry point
+- Added comprehensive TypeScript type definitions for ContainerModule
+- Added extensive JSDoc documentation to ContainerModule with usage examples for all methods
+- Added centralized global type definitions in `src/types/global.ts`:
+- Exported all ContainerModule types from main `src/index.ts` entry point
+- Exported CameraModule types from main `src/index.ts` entry point
+- Generated updated TypeDoc documentation with new ContainerModule types and detailed method documentation
+
+### Changed
+
+- Refactored all modules to use `this.wrappedModule.invoke()` instead of direct `window.Wrapped*Module!.invoke` access
+- Changed `IdentityModule.performNativeAuthorization()` from static to instance method
+- Refactored `src/modules/container/types.ts` to replace inline WrappedContainerModule interface with granular type definitions
+- Updated ContainerModule methods to use typed request/response parameters instead of generic `any` types
+- Improved type safety across all ContainerModule methods with proper TypeScript typing
+- Simplified individual module `index.ts` barrel exports by removing duplicate type re-exports (now centralized in main index.ts)
+
+### Fixed
+
+- Fixed TypeScript type definitions to use consistent `BridgeResponse<T>` patterns across all container methods
+- Resolved type redundancy by consolidating global Window interface declarations in a single location
+
+### Changed
+
+- Refactored `src/modules/container/types.ts` to replace inline WrappedContainerModule interface with granular type definitions
+- Updated ContainerModule methods to use typed request/response parameters instead of generic `any` types
+- Improved type safety across all ContainerModule methods with proper TypeScript typing
+- Simplified individual module `index.ts` barrel exports by removing duplicate type re-exports (now centralized in main index.ts)
+
+### Fixed
+
+- Fixed TypeScript type definitions to use consistent `BridgeResponse<T>` patterns across all container methods
+- Resolved type redundancy by consolidating global Window interface declarations in a single location
+
 ## [2.0.0-beta.4] - 2026-03-03
 
 ### Added

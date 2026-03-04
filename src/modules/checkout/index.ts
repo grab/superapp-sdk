@@ -6,4 +6,3 @@
  */
 
 export { CheckoutModule } from './CheckoutModule';
-export type { WrappedCheckoutModule } from './types';

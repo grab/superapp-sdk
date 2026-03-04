@@ -12,10 +12,10 @@ Constants for container analytics event data.
 
 > **PAGE**: `string` = `'page'`
 
-### TRANSACTION_AMOUNT
+### TRANSACTION\_AMOUNT
 
-> **TRANSACTION_AMOUNT**: `string` = `'transaction_amount'`
+> **TRANSACTION\_AMOUNT**: `string` = `'transaction_amount'`
 
-### TRANSACTION_CURRENCY
+### TRANSACTION\_CURRENCY
 
-> **TRANSACTION_CURRENCY**: `string` = `'transaction_currency'`
+> **TRANSACTION\_CURRENCY**: `string` = `'transaction_currency'`

@@ -6,4 +6,3 @@
  */
 
 export { ScopeModule } from './ScopeModule';
-export type { WrappedScopeModule } from './types';

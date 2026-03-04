@@ -12,14 +12,12 @@ Requires the MiniApp to be running within the Grab SuperApp's webview.
 ## Examples
 
 **ES Module:**
-
 ```typescript
 import { CheckoutModule } from '@grabjs/superapp-sdk';
 const checkoutModule = new CheckoutModule();
 ```
 
 **CDN (UMD):**
-
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
 <script>
@@ -49,7 +47,7 @@ const checkoutModule = new CheckoutModule();
 
 ### triggerCheckout()
 
-> **triggerCheckout**(`checkoutDetails`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+> **triggerCheckout**(`checkoutDetails`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
 
 #### Parameters
 
@@ -59,4 +57,4 @@ const checkoutModule = new CheckoutModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>

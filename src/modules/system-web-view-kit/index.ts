@@ -6,4 +6,3 @@
  */
 
 export { SystemWebViewKitModule } from './SystemWebViewKitModule';
-export type { WrappedSystemWebViewKitModule } from './types';

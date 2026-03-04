@@ -33,16 +33,3 @@ export type ScanQRCodeResult = {
   /** The raw string content decoded from the scanned QR code. */
   qrCode: string;
 };
-
-/**
- * Concrete interface for the native Camera JSBridge module.
- */
-export interface WrappedCameraModule {
-  invoke(method: 'scanQRCode', params: ScanQRCodeRequest): Promise<ScanQRCodeResponse>;
-}
-
-declare global {
-  interface Window {
-    WrappedCameraModule?: WrappedCameraModule;
-  }
-}

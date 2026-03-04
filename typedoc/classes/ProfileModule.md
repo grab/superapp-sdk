@@ -12,14 +12,12 @@ Requires the MiniApp to be running within the Grab SuperApp's webview.
 ## Examples
 
 **ES Module:**
-
 ```typescript
 import { ProfileModule } from '@grabjs/superapp-sdk';
 const profile = new ProfileModule();
 ```
 
 **CDN (UMD):**
-
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
 <script>
@@ -49,17 +47,17 @@ const profile = new ProfileModule();
 
 ### fetchEmail()
 
-> **fetchEmail**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+> **fetchEmail**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
 
----
+***
 
 ### verifyEmail()
 
-> **verifyEmail**(`verifyEmailDetails`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+> **verifyEmail**(`verifyEmailDetails`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
 
 #### Parameters
 
@@ -69,9 +67,9 @@ const profile = new ProfileModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`any`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
 
----
+***
 
 ### isSupported()
 
@@ -81,7 +79,7 @@ const profile = new ProfileModule();
 
 `boolean`
 
----
+***
 
 ### isVersionBelow()
 
@@ -101,7 +99,7 @@ const profile = new ProfileModule();
 
 `boolean`
 
----
+***
 
 ### parseGrabUserAgent()
 

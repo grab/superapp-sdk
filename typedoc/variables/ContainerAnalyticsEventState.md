@@ -8,13 +8,13 @@ Constants for container analytics event states.
 
 ## Type Declaration
 
-### BOOKING_COMPLETION
+### BOOKING\_COMPLETION
 
-> **BOOKING_COMPLETION**: `string` = `'BOOKING_COMPLETION'`
+> **BOOKING\_COMPLETION**: `string` = `'BOOKING_COMPLETION'`
 
-### CHECKOUT_PAGE
+### CHECKOUT\_PAGE
 
-> **CHECKOUT_PAGE**: `string` = `'CHECKOUT_PAGE'`
+> **CHECKOUT\_PAGE**: `string` = `'CHECKOUT_PAGE'`
 
 ### CUSTOM
 

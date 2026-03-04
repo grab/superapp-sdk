@@ -6,4 +6,3 @@
  */
 
 export { IdentityModule } from './IdentityModule';
-export type { WrappedIdentityModule } from './types';

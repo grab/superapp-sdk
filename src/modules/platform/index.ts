@@ -6,4 +6,3 @@
  */
 
 export { PlatformModule } from './PlatformModule';
-export type { WrappedPlatformModule } from './types';

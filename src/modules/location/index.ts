@@ -6,4 +6,3 @@
  */
 
 export { LocationModule } from './LocationModule';
-export type { WrappedLocationModule } from './types';
