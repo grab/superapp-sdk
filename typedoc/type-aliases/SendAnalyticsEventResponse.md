@@ -2,6 +2,6 @@
 
 # Type Alias: SendAnalyticsEventResponse
 
-> **SendAnalyticsEventResponse** = [`BridgeResponse`](BridgeResponse.md)\<`null`\>
+> **SendAnalyticsEventResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`SendAnalyticsEventResult`](SendAnalyticsEventResult.md)\>
 
 Response when sending analytics events.

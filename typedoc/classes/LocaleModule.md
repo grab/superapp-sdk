@@ -47,8 +47,40 @@ const locale = new LocaleModule();
 
 ### getLanguageLocaleIdentifier()
 
-> **getLanguageLocaleIdentifier**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **getLanguageLocaleIdentifier**(): `Promise`\<[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)\>
+
+Retrieves the current language locale identifier from the device.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)\>
+
+Resolves with the locale identifier on success, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Get the current locale
+```typescript
+const response = await localeModule.getLanguageLocaleIdentifier();
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, result, error } = await localeModule.getLanguageLocaleIdentifier({});
+  switch (status_code) {
+    case 200:
+      console.log('Current locale:', result.locale);
+      break;
+    default:
+      console.log(`Could not get locale${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (error) {
+  console.log(`Could not get locale${error ? `: ${error}` : ''}`);
+}
+```

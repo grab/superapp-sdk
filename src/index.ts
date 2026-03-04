@@ -33,22 +33,35 @@ export {
 } from './modules/container/constants';
 export type {
   SetBackgroundColorRequest,
+  SetBackgroundColorResult,
   SetBackgroundColorResponse,
   SetTitleRequest,
+  SetTitleResult,
   SetTitleResponse,
+  HideBackButtonResult,
   HideBackButtonResponse,
+  ShowBackButtonResult,
   ShowBackButtonResponse,
+  HideRefreshButtonResult,
   HideRefreshButtonResponse,
+  ShowRefreshButtonResult,
   ShowRefreshButtonResponse,
+  CloseResult,
   CloseResponse,
+  OnContentLoadedResult,
   OnContentLoadedResponse,
+  ShowLoaderResult,
   ShowLoaderResponse,
+  HideLoaderResult,
   HideLoaderResponse,
   OpenExternalLinkRequest,
+  OpenExternalLinkResult,
   OpenExternalLinkResponse,
   OnCtaTapRequest,
+  OnCtaTapResult,
   OnCtaTapResponse,
   SendAnalyticsEventRequest,
+  SendAnalyticsEventResult,
   SendAnalyticsEventResponse,
   IsConnectedResult,
   IsConnectedResponse,
@@ -58,6 +71,7 @@ export type {
 export { IdentityModule } from './modules/identity/IdentityModule';
 export { ProfileModule } from './modules/profile/ProfileModule';
 export { LocaleModule } from './modules/locale/LocaleModule';
+export type { GetLanguageLocaleIdentifierResponse } from './modules/locale/types';
 export { LocationModule } from './modules/location/LocationModule';
 export type {
   GetCoordinateResult,
@@ -69,6 +83,44 @@ export type {
 export { MediaModule } from './modules/media/MediaModule';
 export { PlatformModule } from './modules/platform/PlatformModule';
 export { ScopeModule } from './modules/scope/ScopeModule';
+export type {
+  HasAccessToRequest,
+  HasAccessToResponse,
+  HasAccessToResult,
+  ReloadScopesResponse,
+  ReloadScopesResult,
+} from './modules/scope/types';
 export { StorageModule } from './modules/storage/StorageModule';
+export type {
+  SetBooleanRequest,
+  SetBooleanResponse,
+  SetBooleanResult,
+  GetBooleanRequest,
+  GetBooleanResponse,
+  GetBooleanResult,
+  SetIntRequest,
+  SetIntResponse,
+  SetIntResult,
+  GetIntRequest,
+  GetIntResponse,
+  GetIntResult,
+  SetStringRequest,
+  SetStringResponse,
+  SetStringResult,
+  GetStringRequest,
+  GetStringResponse,
+  GetStringResult,
+  SetDoubleRequest,
+  SetDoubleResponse,
+  SetDoubleResult,
+  GetDoubleRequest,
+  GetDoubleResponse,
+  GetDoubleResult,
+  RemoveRequest,
+  RemoveResponse,
+  RemoveResult,
+  RemoveAllResponse,
+  RemoveAllResult,
+} from './modules/storage/types';
 export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
 export type { WrappedModule } from './types/global';

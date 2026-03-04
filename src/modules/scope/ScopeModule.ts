@@ -6,6 +6,13 @@
  */
 
 import { BaseModule } from '../../core/module';
+import {
+  HasAccessToRequest,
+  HasAccessToResponse,
+  HasAccessToResult,
+  ReloadScopesResponse,
+  ReloadScopesResult,
+} from './types';
 
 /**
  * JSBridge module for checking and refreshing API access permissions.
@@ -13,7 +20,7 @@ import { BaseModule } from '../../core/module';
  * @group Modules
  *
  * @remarks
- * Manages OAuth scope permissions to determine which JSBridge modules and methods the MiniApp has access to.
+ * Manages OAuth scope permissions, allowing the MiniApp to check access rights and reload scopes from the server.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.
  *
  * @example
@@ -39,10 +46,80 @@ export class ScopeModule extends BaseModule {
     super('ScopeModule');
   }
 
-  hasAccessTo(module, method) {
-    return this.wrappedModule.invoke('hasAccessTo', { module, method });
+  /**
+   * Checks if the current client has access to a specific JSBridge API method.
+   *
+   * @param request - The module and method to check access for.
+   *
+   * @returns Resolves with the access check result on success, or error information on failure.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * Check access to CameraModule.scanQRCode
+   * ```typescript
+   * const response = await scopeModule.hasAccessTo({ module: 'CameraModule', method: 'scanQRCode' });
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, result, error } = await scopeModule.hasAccessTo(request);
+   *   switch (status_code) {
+   *     case 200:
+   *       console.log('Has access:', result.hasAccess);
+   *       break;
+   *     default:
+   *       console.log(`Could not check access${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (error) {
+   *   console.log(`Could not check access${error ? `: ${error}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  hasAccessTo(request: HasAccessToRequest): Promise<HasAccessToResponse> {
+    return this.wrappedModule.invoke<HasAccessToResult>('hasAccessTo', request);
   }
-  reloadScopes() {
-    return this.wrappedModule.invoke('reloadScopes');
+
+  /**
+   * Requests to reload the consented OAuth scopes for the current client.
+   * This refreshes the permissions from the server.
+   *
+   * @returns Resolves when scopes are reloaded successfully, or error information on failure.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * Reload scopes
+   * ```typescript
+   * const response = await scopeModule.reloadScopes();
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, error } = await scopeModule.reloadScopes();
+   *   switch (status_code) {
+   *     case 200:
+   *       console.log('Scopes reloaded successfully');
+   *       break;
+   *     default:
+   *       console.log(`Could not reload scopes${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (error) {
+   *   console.log(`Could not reload scopes${error ? `: ${error}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  reloadScopes(): Promise<ReloadScopesResponse> {
+    return this.wrappedModule.invoke<ReloadScopesResult>('reloadScopes');
   }
 }
