@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for persisting key-value data to native storage.
  *
+ * @group Modules
+ *
  * @remarks
  * Stores data in the native app's persistent storage, allowing data to survive webview restarts.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.

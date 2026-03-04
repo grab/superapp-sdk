@@ -10,6 +10,8 @@ import { BaseModule } from '../../core/module';
 /**
  * JSBridge module for accessing device locale settings.
  *
+ * @group Modules
+ *
  * @remarks
  * Provides the user's preferred language and region settings from the native device.
  * Requires the MiniApp to be running within the Grab SuperApp's webview.
