@@ -52,15 +52,15 @@ export class CheckoutModule extends BaseModule {
    * @example
    * Trigger checkout with response params
    * ```typescript
-   * const chargeInitResponse = await chargeInit(); // Get from Grab payment charge init endpoint
-   * const response = await checkoutModule.triggerCheckout(chargeInitResponse);
+   * const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
+   * const response = await checkoutModule.triggerCheckout(transactionResponse);
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await checkoutModule.triggerCheckout({ responseParams });
+   *   const { status_code, result, error } = await checkoutModule.triggerCheckout(request);
    *   switch (status_code) {
    *     case 200:
    *       console.log('Transaction successful:', result.transactionID, result.status);
