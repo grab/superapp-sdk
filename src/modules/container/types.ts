@@ -8,14 +8,11 @@
 import { BridgeResponse } from '../../core/response';
 
 /**
- * Request parameters for setting the container background color.
+ * Request parameters for setting the background color.
  *
  * @public
  */
-export type SetBackgroundColorRequest = {
-  /** Hexadecimal color value (e.g., "#ffffff", "#000000"). */
-  backgroundColor: string;
-};
+export type SetBackgroundColorRequest = string;
 
 /**
  * Response when setting the background color.
@@ -25,14 +22,11 @@ export type SetBackgroundColorRequest = {
 export type SetBackgroundColorResponse = BridgeResponse<null>;
 
 /**
- * Request parameters for setting the container title.
+ * Request parameters for setting the title.
  *
  * @public
  */
-export type SetTitleRequest = {
-  /** Title text to display in the navigation bar. */
-  title: string;
-};
+export type SetTitleRequest = string;
 
 /**
  * Response when setting the title.
@@ -102,10 +96,7 @@ export type HideLoaderResponse = BridgeResponse<null>;
  *
  * @public
  */
-export type OpenExternalLinkRequest = {
-  /** URL to open in external browser. */
-  url: string;
-};
+export type OpenExternalLinkRequest = string;
 
 /**
  * Response when opening an external link.
@@ -119,10 +110,7 @@ export type OpenExternalLinkResponse = BridgeResponse<null>;
  *
  * @public
  */
-export type OnCtaTapRequest = {
-  /** CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE", "BOOKING_CONFIRMED"). */
-  action: string;
-};
+export type OnCtaTapRequest = string;
 
 /**
  * Response when notifying CTA tap.

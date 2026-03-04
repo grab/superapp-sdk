@@ -2,14 +2,6 @@
 
 # Type Alias: SetBackgroundColorRequest
 
-> **SetBackgroundColorRequest** = \{ `backgroundColor`: `string`; \}
+> **SetBackgroundColorRequest** = `string`
 
-Request parameters for setting the container background color.
-
-## Properties
-
-### backgroundColor
-
-> **backgroundColor**: `string`
-
-Hexadecimal color value (e.g., "#ffffff", "#000000").
+Request parameters for setting the background color.

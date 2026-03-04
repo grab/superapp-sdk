@@ -2,14 +2,6 @@
 
 # Type Alias: SetTitleRequest
 
-> **SetTitleRequest** = \{ `title`: `string`; \}
+> **SetTitleRequest** = `string`
 
-Request parameters for setting the container title.
-
-## Properties
-
-### title
-
-> **title**: `string`
-
-Title text to display in the navigation bar.
+Request parameters for setting the title.

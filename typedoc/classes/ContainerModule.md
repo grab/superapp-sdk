@@ -374,7 +374,7 @@ try {
 
 ### onCtaTap()
 
-> **onCtaTap**(`request`: [`OnCtaTapRequest`](../type-aliases/OnCtaTapRequest.md)): `Promise`\<[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)\>
+> **onCtaTap**(`request`: `string`): `Promise`\<[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)\>
 
 Notify the client that the user has tapped a call-to-action (CTA).
 
@@ -382,9 +382,9 @@ Notify the client that the user has tapped a call-to-action (CTA).
 
 ##### request
 
-[`OnCtaTapRequest`](../type-aliases/OnCtaTapRequest.md)
+`string`
 
-Configuration for notifying CTA tap.
+CTA action identifier (e.g., "AV_LANDING_PAGE_CONTINUE", "BOOKING_CONFIRMED").
 
 #### Returns
 
@@ -400,13 +400,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Notify CTA tap
 ```typescript
-await containerModule.onCtaTap({ action: "AV_LANDING_PAGE_CONTINUE" });
+await containerModule.onCtaTap("AV_LANDING_PAGE_CONTINUE");
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await containerModule.onCtaTap(params);
+  const { status_code, result, error } = await containerModule.onCtaTap(action);
   switch (status_code) {
     case 200:
       console.log('CTA tap notified successfully');
@@ -424,7 +424,7 @@ try {
 
 ### openExternalLink()
 
-> **openExternalLink**(`request`: [`OpenExternalLinkRequest`](../type-aliases/OpenExternalLinkRequest.md)): `Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
+> **openExternalLink**(`request`: `string`): `Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
 
 Open a link in the external browser.
 
@@ -432,9 +432,9 @@ Open a link in the external browser.
 
 ##### request
 
-[`OpenExternalLinkRequest`](../type-aliases/OpenExternalLinkRequest.md)
+`string`
 
-Configuration for opening the external link.
+URL to open in external browser.
 
 #### Returns
 
@@ -454,13 +454,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Open external link
 ```typescript
-await containerModule.openExternalLink({ url: "https://grab.com" });
+await containerModule.openExternalLink("https://grab.com");
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await containerModule.openExternalLink(params);
+  const { status_code, result, error } = await containerModule.openExternalLink(url);
   switch (status_code) {
     case 200:
       console.log('External link opened successfully');
@@ -587,7 +587,7 @@ try {
 
 ### setBackgroundColor()
 
-> **setBackgroundColor**(`request`: [`SetBackgroundColorRequest`](../type-aliases/SetBackgroundColorRequest.md)): `Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
+> **setBackgroundColor**(`request`: `string`): `Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
 
 Set the background color of the container header.
 
@@ -595,9 +595,9 @@ Set the background color of the container header.
 
 ##### request
 
-[`SetBackgroundColorRequest`](../type-aliases/SetBackgroundColorRequest.md)
+`string`
 
-Configuration for setting the background color.
+Hexadecimal color value (e.g., "#ffffff", "#000000").
 
 #### Returns
 
@@ -613,18 +613,18 @@ Error when the JSBridge method fails unexpectedly.
 
 Set background color to white
 ```typescript
-await containerModule.setBackgroundColor({ backgroundColor: "#ffffff" });
+await containerModule.setBackgroundColor("#ffffff");
 ```
 
 Set background color to dark
 ```typescript
-await containerModule.setBackgroundColor({ backgroundColor: "#1a1a1a" });
+await containerModule.setBackgroundColor("#1a1a1a");
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await containerModule.setBackgroundColor(params);
+  const { status_code, result, error } = await containerModule.setBackgroundColor(backgroundColor);
   switch (status_code) {
     case 200:
       console.log('Background color set successfully');
@@ -642,7 +642,7 @@ try {
 
 ### setTitle()
 
-> **setTitle**(`request`: [`SetTitleRequest`](../type-aliases/SetTitleRequest.md)): `Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
+> **setTitle**(`request`: `string`): `Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
 
 Set the title of the container header.
 
@@ -650,9 +650,9 @@ Set the title of the container header.
 
 ##### request
 
-[`SetTitleRequest`](../type-aliases/SetTitleRequest.md)
+`string`
 
-Configuration for setting the title.
+Title of the page.
 
 #### Returns
 
@@ -668,13 +668,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Set title
 ```typescript
-await containerModule.setTitle({ title: "Home" });
+await containerModule.setTitle("Home");
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await containerModule.setTitle(params);
+  const { status_code, result, error } = await containerModule.setTitle(title);
   switch (status_code) {
     case 200:
       console.log('Title set successfully');

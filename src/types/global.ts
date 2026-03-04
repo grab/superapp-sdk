@@ -5,6 +5,7 @@
  * directory of this source tree.
  */
 
+import { DataStream } from '../core/stream';
 import { BridgeResponse } from '../core/response';
 
 /**
@@ -32,7 +33,7 @@ import { BridgeResponse } from '../core/response';
  * @public
  */
 export interface WrappedModule {
-  invoke<T>(method: string, params?: unknown): Promise<BridgeResponse<T>>;
+  invoke<T>(method: string, params?: unknown): Promise<BridgeResponse<T>> | DataStream<T>;
 }
 
 /**

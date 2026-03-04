@@ -87,3 +87,4 @@ build/
 .npmrc
 .vscode
 *yarn.lock
+temp/
