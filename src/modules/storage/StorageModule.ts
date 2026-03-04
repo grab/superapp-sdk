@@ -12,29 +12,24 @@ import {
   SetBooleanResult,
   GetBooleanRequest,
   GetBooleanResponse,
-  GetBooleanResult,
   SetIntRequest,
   SetIntResponse,
   SetIntResult,
   GetIntRequest,
   GetIntResponse,
-  GetIntResult,
   SetStringRequest,
   SetStringResponse,
   SetStringResult,
   GetStringRequest,
   GetStringResponse,
-  GetStringResult,
   SetDoubleRequest,
   SetDoubleResponse,
   SetDoubleResult,
   GetDoubleRequest,
   GetDoubleResponse,
-  GetDoubleResult,
   RemoveRequest,
   RemoveResponse,
   RemoveResult,
-  RemoveAllRequest,
   RemoveAllResponse,
   RemoveAllResult,
 } from './types';
@@ -132,7 +127,7 @@ export class StorageModule extends BaseModule {
    *   const { status_code, result, error } = await storageModule.getBoolean({ key: 'isDarkMode' });
    *   switch (status_code) {
    *     case 200:
-   *       console.log('Stored value:', result.value);
+   *       console.log('Stored value:', result);
    *       break;
    *     default:
    *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -210,7 +205,7 @@ export class StorageModule extends BaseModule {
    *   const { status_code, result, error } = await storageModule.getInt({ key: 'userCount' });
    *   switch (status_code) {
    *     case 200:
-   *       console.log('Stored value:', result.value);
+   *       console.log('Stored value:', result);
    *       break;
    *     default:
    *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -288,7 +283,7 @@ export class StorageModule extends BaseModule {
    *   const { status_code, result, error } = await storageModule.getString({ key: 'username' });
    *   switch (status_code) {
    *     case 200:
-   *       console.log('Stored value:', result.value);
+   *       console.log('Stored value:', result);
    *       break;
    *     default:
    *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -366,7 +361,7 @@ export class StorageModule extends BaseModule {
    *   const { status_code, result, error } = await storageModule.getDouble({ key: 'price' });
    *   switch (status_code) {
    *     case 200:
-   *       console.log('Stored value:', result.value);
+   *       console.log('Stored value:', result);
    *       break;
    *     default:
    *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
@@ -425,8 +420,6 @@ export class StorageModule extends BaseModule {
   /**
    * Removes all values from the native storage.
    *
-   * @param request - No parameters required (empty object).
-   *
    * @returns Resolves when all values are removed successfully, or error information on failure.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
@@ -434,14 +427,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Remove all values
    * ```typescript
-   * const response = await storageModule.removeAll({});
+   * const response = await storageModule.removeAll();
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, error } = await storageModule.removeAll({});
+   *   const { status_code, error } = await storageModule.removeAll();
    *   switch (status_code) {
    *     case 200:
    *       console.log('All values removed successfully');
@@ -457,7 +450,7 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  removeAll(request: RemoveAllRequest): Promise<RemoveAllResponse> {
-    return this.wrappedModule.invoke<RemoveAllResult>('removeAll', request);
+  removeAll(): Promise<RemoveAllResponse> {
+    return this.wrappedModule.invoke<RemoveAllResult>('removeAll');
   }
 }

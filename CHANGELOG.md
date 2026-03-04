@@ -7,9 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0-beta.9] - 2026-03-04
 
+### Added
+
+- TypeScript type definitions and JSDoc documentation for `LocaleModule`
+- TypeScript type definitions and JSDoc documentation for `ScopeModule` (`hasAccessTo`, `reloadScopes` methods)
+- Comprehensive TypeScript type definitions and JSDoc documentation for `StorageModule` (all storage operations: boolean, int, string, double, remove, removeAll)
+- Added `*Result` types for all `ContainerModule` response types for better type consistency
+- Exported all new types from main entry point (`src/index.ts`)
+
 ### Changed
 
-- Version bump to 2.0.0-beta.9
+- `LocaleModule.getLanguageLocaleIdentifier()` now returns typed `Promise<GetLanguageLocaleIdentifierResponse>`
+- `ScopeModule.hasAccessTo()` now accepts `HasAccessToRequest` parameter and returns `Promise<HasAccessToResponse>`
+- `ScopeModule.reloadScopes()` now returns `Promise<ReloadScopesResponse>`
+- `StorageModule` methods now use typed request/response parameters
+- All `ContainerModule` response types now use dedicated `*Result` types instead of `null`
 
 ## [2.0.0-beta.8] - 2026-03-04
 

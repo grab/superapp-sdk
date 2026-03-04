@@ -119,7 +119,6 @@ export type {
   RemoveRequest,
   RemoveResponse,
   RemoveResult,
-  RemoveAllRequest,
   RemoveAllResponse,
   RemoveAllResult,
 } from './modules/storage/types';

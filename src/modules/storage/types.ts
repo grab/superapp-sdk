@@ -254,14 +254,6 @@ export type RemoveResult = void;
 export type RemoveResponse = BridgeResponse<RemoveResult>;
 
 /**
- * Request parameters for removing all values from storage.
- * This method accepts no parameters.
- *
- * @public
- */
-export type RemoveAllRequest = Record<string, never>;
-
-/**
  * Result object for removing all values.
  * This operation returns no data on success.
  *
