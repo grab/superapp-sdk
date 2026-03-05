@@ -6,3 +6,12 @@
  */
 
 export { IdentityModule } from './IdentityModule';
+export type {
+  AuthorizeRequest,
+  AuthorizeResponse,
+  AuthorizeResult,
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResult,
+  ClearAuthorizationArtifactsResponse,
+  ClearAuthorizationArtifactsResult,
+} from './types';

@@ -69,7 +69,23 @@ export type {
   GetSessionParamsResponse,
 } from './modules/container/types';
 export { IdentityModule } from './modules/identity/IdentityModule';
+export type {
+  AuthorizeRequest,
+  AuthorizeResponse,
+  AuthorizeResult,
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResult,
+  ClearAuthorizationArtifactsResponse,
+  ClearAuthorizationArtifactsResult,
+} from './modules/identity/types';
 export { ProfileModule } from './modules/profile/ProfileModule';
+export type {
+  FetchEmailResponse,
+  FetchEmailResult,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
+  VerifyEmailResult,
+} from './modules/profile/types';
 export { LocaleModule } from './modules/locale/LocaleModule';
 export type { GetLanguageLocaleIdentifierResponse } from './modules/locale/types';
 export { LocationModule } from './modules/location/LocationModule';
@@ -123,4 +139,9 @@ export type {
   RemoveAllResult,
 } from './modules/storage/types';
 export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
+export type {
+  RedirectToSystemWebViewRequest,
+  RedirectToSystemWebViewResponse,
+  RedirectToSystemWebViewResult,
+} from './modules/system-web-view-kit/types';
 export type { WrappedModule } from './types/global';

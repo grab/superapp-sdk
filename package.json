@@ -1,6 +1,6 @@
 {
   "name": "@grabjs/superapp-sdk",
-  "version": "2.0.0-beta.9",
+  "version": "2.0.0-beta.10",
   "description": "SDK for Grab SuperApp WebView.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
