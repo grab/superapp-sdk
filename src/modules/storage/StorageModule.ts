@@ -7,27 +7,18 @@
 
 import { BaseModule } from '../../core/module';
 import {
-  SetBooleanRequest,
   SetBooleanResponse,
   SetBooleanResult,
-  GetBooleanRequest,
   GetBooleanResponse,
-  SetIntRequest,
   SetIntResponse,
   SetIntResult,
-  GetIntRequest,
   GetIntResponse,
-  SetStringRequest,
   SetStringResponse,
   SetStringResult,
-  GetStringRequest,
   GetStringResponse,
-  SetDoubleRequest,
   SetDoubleResponse,
   SetDoubleResult,
-  GetDoubleRequest,
   GetDoubleResponse,
-  RemoveRequest,
   RemoveResponse,
   RemoveResult,
   RemoveAllResponse,
@@ -69,7 +60,8 @@ export class StorageModule extends BaseModule {
   /**
    * Stores a boolean value in the native storage.
    *
-   * @param request - The key and boolean value to store.
+   * @param key - The key to store the value under.
+   * @param value - The boolean value to store.
    *
    * @returns Resolves when the value is stored successfully, or error information on failure.
    *
@@ -78,14 +70,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Set a boolean value
    * ```typescript
-   * const response = await storageModule.setBoolean({ key: 'isDarkMode', value: true });
+   * const response = await storageModule.setBoolean('isDarkMode', true);
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, error } = await storageModule.setBoolean({ key: 'isDarkMode', value: true });
+   *   const { status_code, error } = await storageModule.setBoolean('isDarkMode', true);
    *   switch (status_code) {
    *     case 204:
    *       console.log('Value stored successfully');
@@ -101,14 +93,17 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setBoolean(request: SetBooleanRequest): Promise<SetBooleanResponse> {
-    return this.wrappedModule.invoke<SetBooleanResult>('setBoolean', request);
+  setBoolean(key: string, value: boolean): Promise<SetBooleanResponse> {
+    return this.wrappedModule.invoke<SetBooleanResult>('setBoolean', {
+      key,
+      value,
+    });
   }
 
   /**
    * Retrieves a boolean value from the native storage.
    *
-   * @param request - The key to retrieve the value for.
+   * @param key - The key to retrieve the value for.
    *
    * @returns Resolves with the stored boolean value on success, or error information on failure.
    *
@@ -117,14 +112,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Get a boolean value
    * ```typescript
-   * const response = await storageModule.getBoolean({ key: 'isDarkMode' });
+   * const response = await storageModule.getBoolean('isDarkMode');
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await storageModule.getBoolean({ key: 'isDarkMode' });
+   *   const { status_code, result, error } = await storageModule.getBoolean('isDarkMode');
    *   switch (status_code) {
    *     case 200:
    *       console.log('Stored value:', result);
@@ -140,14 +135,15 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getBoolean(request: GetBooleanRequest): Promise<GetBooleanResponse> {
-    return this.wrappedModule.invoke<boolean | null>('getBoolean', request);
+  getBoolean(key: string): Promise<GetBooleanResponse> {
+    return this.wrappedModule.invoke<boolean | null>('getBoolean', { key });
   }
 
   /**
    * Stores an integer value in the native storage.
    *
-   * @param request - The key and integer value to store.
+   * @param key - The key to store the value under.
+   * @param value - The integer value to store.
    *
    * @returns Resolves when the value is stored successfully, or error information on failure.
    *
@@ -156,14 +152,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Set an integer value
    * ```typescript
-   * const response = await storageModule.setInt({ key: 'userCount', value: 42 });
+   * const response = await storageModule.setInt('userCount', 42);
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, error } = await storageModule.setInt({ key: 'userCount', value: 42 });
+   *   const { status_code, error } = await storageModule.setInt('userCount', 42);
    *   switch (status_code) {
    *     case 204:
    *       console.log('Value stored successfully');
@@ -179,14 +175,14 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setInt(request: SetIntRequest): Promise<SetIntResponse> {
-    return this.wrappedModule.invoke<SetIntResult>('setInt', request);
+  setInt(key: string, value: number): Promise<SetIntResponse> {
+    return this.wrappedModule.invoke<SetIntResult>('setInt', { key, value });
   }
 
   /**
    * Retrieves an integer value from the native storage.
    *
-   * @param request - The key to retrieve the value for.
+   * @param key - The key to retrieve the value for.
    *
    * @returns Resolves with the stored integer value on success, or error information on failure.
    *
@@ -195,14 +191,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Get an integer value
    * ```typescript
-   * const response = await storageModule.getInt({ key: 'userCount' });
+   * const response = await storageModule.getInt('userCount');
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await storageModule.getInt({ key: 'userCount' });
+   *   const { status_code, result, error } = await storageModule.getInt('userCount');
    *   switch (status_code) {
    *     case 200:
    *       console.log('Stored value:', result);
@@ -218,14 +214,15 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getInt(request: GetIntRequest): Promise<GetIntResponse> {
-    return this.wrappedModule.invoke<number | null>('getInt', request);
+  getInt(key: string): Promise<GetIntResponse> {
+    return this.wrappedModule.invoke<number | null>('getInt', { key });
   }
 
   /**
    * Stores a string value in the native storage.
    *
-   * @param request - The key and string value to store.
+   * @param key - The key to store the value under.
+   * @param value - The string value to store.
    *
    * @returns Resolves when the value is stored successfully, or error information on failure.
    *
@@ -234,14 +231,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Set a string value
    * ```typescript
-   * const response = await storageModule.setString({ key: 'username', value: 'john_doe' });
+   * const response = await storageModule.setString('username', 'john_doe');
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, error } = await storageModule.setString({ key: 'username', value: 'john_doe' });
+   *   const { status_code, error } = await storageModule.setString('username', 'john_doe');
    *   switch (status_code) {
    *     case 204:
    *       console.log('Value stored successfully');
@@ -257,14 +254,17 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setString(request: SetStringRequest): Promise<SetStringResponse> {
-    return this.wrappedModule.invoke<SetStringResult>('setString', request);
+  setString(key: string, value: string): Promise<SetStringResponse> {
+    return this.wrappedModule.invoke<SetStringResult>('setString', {
+      key,
+      value,
+    });
   }
 
   /**
    * Retrieves a string value from the native storage.
    *
-   * @param request - The key to retrieve the value for.
+   * @param key - The key to retrieve the value for.
    *
    * @returns Resolves with the stored string value on success, or error information on failure.
    *
@@ -273,14 +273,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Get a string value
    * ```typescript
-   * const response = await storageModule.getString({ key: 'username' });
+   * const response = await storageModule.getString('username');
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await storageModule.getString({ key: 'username' });
+   *   const { status_code, result, error } = await storageModule.getString('username');
    *   switch (status_code) {
    *     case 200:
    *       console.log('Stored value:', result);
@@ -296,14 +296,15 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getString(request: GetStringRequest): Promise<GetStringResponse> {
-    return this.wrappedModule.invoke<string | null>('getString', request);
+  getString(key: string): Promise<GetStringResponse> {
+    return this.wrappedModule.invoke<string | null>('getString', { key });
   }
 
   /**
    * Stores a double (floating point) value in the native storage.
    *
-   * @param request - The key and double value to store.
+   * @param key - The key to store the value under.
+   * @param value - The double value to store.
    *
    * @returns Resolves when the value is stored successfully, or error information on failure.
    *
@@ -312,14 +313,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Set a double value
    * ```typescript
-   * const response = await storageModule.setDouble({ key: 'price', value: 19.99 });
+   * const response = await storageModule.setDouble('price', 19.99);
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, error } = await storageModule.setDouble({ key: 'price', value: 19.99 });
+   *   const { status_code, error } = await storageModule.setDouble('price', 19.99);
    *   switch (status_code) {
    *     case 204:
    *       console.log('Value stored successfully');
@@ -335,14 +336,17 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setDouble(request: SetDoubleRequest): Promise<SetDoubleResponse> {
-    return this.wrappedModule.invoke<SetDoubleResult>('setDouble', request);
+  setDouble(key: string, value: number): Promise<SetDoubleResponse> {
+    return this.wrappedModule.invoke<SetDoubleResult>('setDouble', {
+      key,
+      value,
+    });
   }
 
   /**
    * Retrieves a double (floating point) value from the native storage.
    *
-   * @param request - The key to retrieve the value for.
+   * @param key - The key to retrieve the value for.
    *
    * @returns Resolves with the stored double value on success, or error information on failure.
    *
@@ -351,14 +355,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Get a double value
    * ```typescript
-   * const response = await storageModule.getDouble({ key: 'price' });
+   * const response = await storageModule.getDouble('price');
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await storageModule.getDouble({ key: 'price' });
+   *   const { status_code, result, error } = await storageModule.getDouble('price');
    *   switch (status_code) {
    *     case 200:
    *       console.log('Stored value:', result);
@@ -374,14 +378,14 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getDouble(request: GetDoubleRequest): Promise<GetDoubleResponse> {
-    return this.wrappedModule.invoke<number | null>('getDouble', request);
+  getDouble(key: string): Promise<GetDoubleResponse> {
+    return this.wrappedModule.invoke<number | null>('getDouble', { key });
   }
 
   /**
    * Removes a single value from the native storage by key.
    *
-   * @param request - The key to remove from storage.
+   * @param key - The key to remove from storage.
    *
    * @returns Resolves when the value is removed successfully, or error information on failure.
    *
@@ -390,14 +394,14 @@ export class StorageModule extends BaseModule {
    * @example
    * Remove a value
    * ```typescript
-   * const response = await storageModule.remove({ key: 'username' });
+   * const response = await storageModule.remove('username');
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, error } = await storageModule.remove({ key: 'username' });
+   *   const { status_code, error } = await storageModule.remove('username');
    *   switch (status_code) {
    *     case 200:
    *       console.log('Value removed successfully');
@@ -413,8 +417,8 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  remove(request: RemoveRequest): Promise<RemoveResponse> {
-    return this.wrappedModule.invoke<RemoveResult>('remove', request);
+  remove(key: string): Promise<RemoveResponse> {
+    return this.wrappedModule.invoke<RemoveResult>('remove', { key });
   }
 
   /**

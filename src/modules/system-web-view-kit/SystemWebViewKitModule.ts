@@ -6,6 +6,11 @@
  */
 
 import { BaseModule } from '../../core/module';
+import {
+  RedirectToSystemWebViewRequest,
+  RedirectToSystemWebViewResponse,
+  RedirectToSystemWebViewResult,
+} from './types';
 
 /**
  * JSBridge module for opening URLs in the device's system browser.
@@ -39,7 +44,51 @@ export class SystemWebViewKitModule extends BaseModule {
     super('SystemWebViewKitModule');
   }
 
-  redirectToSystemWebView(payload) {
-    return this.wrappedModule.invoke('redirectToSystemWebView', payload);
+  /**
+   * Opens a URL in the device's system web browser or web view.
+   *
+   * @param request - The URL to open in the system web view.
+   *
+   * @returns Resolves when the redirect is initiated successfully, or error information on failure.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * Open a URL in system web view
+   * ```typescript
+   * const response = await systemWebViewKitModule.redirectToSystemWebView({
+   *   url: 'https://www.example.com'
+   * });
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, error } = await systemWebViewKitModule.redirectToSystemWebView({
+   *     url: 'https://www.example.com'
+   *   });
+   *   switch (status_code) {
+   *     case 204:
+   *       console.log('Redirect initiated successfully');
+   *       break;
+   *     default:
+   *       console.log(`Could not redirect${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (err) {
+   *   console.log(`Could not redirect${err ? `: ${err}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  redirectToSystemWebView(
+    request: RedirectToSystemWebViewRequest
+  ): Promise<RedirectToSystemWebViewResponse> {
+    return this.wrappedModule.invoke<RedirectToSystemWebViewResult>(
+      'redirectToSystemWebView',
+      request
+    );
   }
 }

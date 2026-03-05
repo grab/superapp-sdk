@@ -128,27 +128,124 @@ const identity = new IdentityModule();
 
 ### authorize()
 
-> **authorize**(`request`: `any`): `Promise`\<[`BridgeNoResultResponse`](../type-aliases/BridgeNoResultResponse.md) \| \{ `error`: `any`; `status_code`: `number`; \} \| \{ `result`: `any`; `status_code`: `number`; \}\>
+> **authorize**(`request`: [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
+
+Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
+This method handles both native in-app consent and web-based fallback flows.
 
 #### Parameters
 
 ##### request
 
-`any`
+[`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)
+
+The authorization request parameters including client ID, redirect URI,
+                 scopes, and environment.
 
 #### Returns
 
-`Promise`\<[`BridgeNoResultResponse`](../type-aliases/BridgeNoResultResponse.md) \| \{ `error`: `any`; `status_code`: `number`; \} \| \{ `result`: `any`; `status_code`: `number`; \}\>
+`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
+
+Resolves when the authorization flow is initiated.
+         - Status 200: Authorization completed successfully (native in_place flow)
+         - Status 302: Redirect initiated (web flow or redirect response mode)
+         - Status 204: User cancelled the authorization
+         - Status 400/401/403: Authorization failed with error details
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Remarks
+
+**Important Note on redirectUri and responseMode:**
+
+The actual `redirectUri` used during authorization may differ from the one you provide,
+depending on the flow:
+
+- `responseMode: 'in_place'` when native flow is available: Uses the current page URL
+  (normalized) as the `redirectUri`, overriding your provided value
+- `responseMode: 'in_place'` falling back to web flow if native flow is not available:
+  Uses your provided `redirectUri`
+- `responseMode: 'redirect'`: Always uses your provided `redirectUri`
+
+To ensure successful token exchange (which requires matching `redirectUri` values),
+always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`
+after authorization completes.
+
+**Consent Selection Rules (Native vs Web):**
+
+- If the user agent does not match the Grab app pattern, the SDK uses web consent
+- If the app version in the user agent is below 5.396.0 (iOS or Android),
+  the SDK uses web consent
+- For supported versions, the SDK attempts native consent first and falls back to
+  web on specific native errors (400, 401, 403)
+
+#### Examples
+
+Initiate authorization with redirect mode
+```typescript
+const response = await identityModule.authorize({
+  clientId: 'your-client-id',
+  redirectUri: 'https://your-app.com/callback',
+  scope: 'openid profile',
+  environment: 'production',
+  responseMode: 'redirect'
+});
+```
+
+Handling the response
+```typescript
+const { result, error, status_code } = await identityModule.authorize({
+  clientId: 'your-client-id',
+  redirectUri: 'https://your-app.com/callback',
+  scope: 'openid profile',
+  environment: 'production',
+  responseMode: 'redirect'
+});
+
+if (status_code === 200 && result) {
+  // Authorization successful (in_place mode with native flow)
+  console.log('Auth Code:', result.code);
+  console.log('State:', result.state);
+} else if (status_code === 302) {
+  // Authorization redirect initiated (web flow or redirect response mode)
+  // The page will redirect to the authorization server
+} else if (status_code === 204) {
+  // User cancelled the authorization
+  console.log('User cancelled');
+} else if (error) {
+  // Authorization failed
+  console.error('Auth error:', error);
+}
+```
 
 ***
 
 ### clearAuthorizationArtifacts()
 
-> **clearAuthorizationArtifacts**(): `Promise`\<\{ `error`: `any`; `result`: `any`; `status_code`: `number`; \}\>
+> **clearAuthorizationArtifacts**(): `Promise`\<[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)\>
+
+Clears all stored PKCE authorization artifacts from local storage.
+This should be called after a successful token exchange or when you need to
+reset the authorization state (e.g., on error or logout).
 
 #### Returns
 
-`Promise`\<\{ `error`: `any`; `result`: `any`; `status_code`: `number`; \}\>
+`Promise`\<[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)\>
+
+Resolves with status 204 when artifacts are cleared successfully.
+         The result and error fields will always be null for this operation.
+
+#### Example
+
+Clear stored authorization artifacts after successful token exchange
+```typescript
+const { status_code } = await identityModule.clearAuthorizationArtifacts();
+if (status_code === 204) {
+  console.log('Authorization artifacts cleared');
+}
+```
 
 ***
 
@@ -200,11 +297,47 @@ const identity = new IdentityModule();
 
 ### getAuthorizationArtifacts()
 
-> **getAuthorizationArtifacts**(): `Promise`\<\{ `error`: `any`; `result`: `any`; `status_code`: `number`; \}\>
+> **getAuthorizationArtifacts**(): `Promise`\<[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)\>
+
+Retrieves stored PKCE authorization artifacts from local storage.
+These artifacts are used to complete the OAuth2 authorization code exchange.
 
 #### Returns
 
-`Promise`\<\{ `error`: `any`; `result`: `any`; `status_code`: `number`; \}\>
+`Promise`\<[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)\>
+
+Resolves with the stored artifacts if all are present (status 200),
+         no content if none are present (status 204),
+         or an error if artifacts are inconsistent (status 400).
+
+#### Remarks
+
+**Important:** The `redirectUri` returned by this method is the actual redirect URI
+that was sent to the authorization server. This may differ from the `redirectUri`
+you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow.
+You must use this returned `redirectUri` for token exchange to ensure OAuth compliance.
+
+#### Example
+
+Retrieve stored authorization artifacts after authorization redirect
+```typescript
+const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
+
+if (status_code === 200 && result) {
+  // All artifacts present - proceed with token exchange
+  const { state, codeVerifier, nonce, redirectUri } = result;
+  console.log('State:', state);
+  console.log('Code Verifier:', codeVerifier);
+  console.log('Nonce:', nonce);
+  console.log('Redirect URI:', redirectUri);
+} else if (status_code === 204) {
+  // No artifacts yet - user hasn't authorized
+  console.log('No authorization artifacts found. Authorization has not been initiated.');
+} else if (status_code === 400) {
+  // Inconsistent state - possible data corruption
+  console.error('Authorization artifacts error:', error);
+}
+```
 
 ***
 
@@ -226,7 +359,7 @@ const identity = new IdentityModule();
 
 ### performNativeAuthorization()
 
-> **performNativeAuthorization**(`invokeParams`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **performNativeAuthorization**(`invokeParams`: `any`): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 #### Parameters
 
@@ -236,13 +369,13 @@ const identity = new IdentityModule();
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 ***
 
 ### performWebAuthorization()
 
-> **performWebAuthorization**(`params`: `any`): `Promise`\<\{ `error`: `any`; `status_code`: `number`; \} \| \{ `result`: `any`; `status_code`: `number`; \}\>
+> **performWebAuthorization**(`params`: `any`): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 #### Parameters
 
@@ -252,7 +385,7 @@ const identity = new IdentityModule();
 
 #### Returns
 
-`Promise`\<\{ `error`: `any`; `status_code`: `number`; \} \| \{ `result`: `any`; `status_code`: `number`; \}\>
+`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 ***
 

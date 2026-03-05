@@ -6,3 +6,8 @@
  */
 
 export { SystemWebViewKitModule } from './SystemWebViewKitModule';
+export type {
+  RedirectToSystemWebViewRequest,
+  RedirectToSystemWebViewResponse,
+  RedirectToSystemWebViewResult,
+} from './types';
