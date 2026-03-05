@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exported all new types from main entry point (`src/index.ts`) and module barrel exports
 - Generated updated TypeDoc documentation with new type aliases for Identity, Profile, and SystemWebViewKit modules
 
+### Fixed
+
+- `StorageModule` methods now accept individual parameters `(key, value)` instead of object parameters `({key, value})` to match the existing public API
+
 ## [2.0.0-beta.9] - 2026-03-04
 
 ### Added
