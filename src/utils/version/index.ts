@@ -5,10 +5,5 @@
  * directory of this source tree.
  */
 
-export { ScopeModule } from './ScopeModule';
-export type {
-  HasAccessToResponse,
-  HasAccessToResult,
-  ReloadScopesResponse,
-  ReloadScopesResult,
-} from './types';
+export type { Version } from './types';
+export { meetsMinimumVersion } from './version';

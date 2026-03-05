@@ -7,19 +7,6 @@
 
 import { BridgeResponse } from '../../core/response';
 
-// Boolean storage types
-/**
- * Request parameters for setting a boolean value in storage.
- *
- * @public
- */
-export type SetBooleanRequest = {
-  /** The key to store the value under. */
-  key: string;
-  /** The boolean value to store. */
-  value: boolean;
-};
-
 /**
  * Result object for setting a boolean value.
  * This operation returns no data on success.
@@ -61,19 +48,6 @@ export type GetBooleanResult = {
  * @public
  */
 export type GetBooleanResponse = BridgeResponse<boolean | null>;
-
-// Integer storage types
-/**
- * Request parameters for setting an integer value in storage.
- *
- * @public
- */
-export type SetIntRequest = {
-  /** The key to store the value under. */
-  key: string;
-  /** The integer value to store. */
-  value: number;
-};
 
 /**
  * Result object for setting an integer value.
@@ -117,19 +91,6 @@ export type GetIntResult = {
  */
 export type GetIntResponse = BridgeResponse<number | null>;
 
-// String storage types
-/**
- * Request parameters for setting a string value in storage.
- *
- * @public
- */
-export type SetStringRequest = {
-  /** The key to store the value under. */
-  key: string;
-  /** The string value to store. */
-  value: string;
-};
-
 /**
  * Result object for setting a string value.
  * This operation returns no data on success.
@@ -172,19 +133,6 @@ export type GetStringResult = {
  */
 export type GetStringResponse = BridgeResponse<string | null>;
 
-// Double storage types
-/**
- * Request parameters for setting a double value in storage.
- *
- * @public
- */
-export type SetDoubleRequest = {
-  /** The key to store the value under. */
-  key: string;
-  /** The double value to store. */
-  value: number;
-};
-
 /**
  * Result object for setting a double value.
  * This operation returns no data on success.
@@ -226,17 +174,6 @@ export type GetDoubleResult = {
  * @public
  */
 export type GetDoubleResponse = BridgeResponse<number | null>;
-
-// Remove types
-/**
- * Request parameters for removing a value from storage.
- *
- * @public
- */
-export type RemoveRequest = {
-  /** The key to remove from storage. */
-  key: string;
-};
 
 /**
  * Result object for removing a value.

@@ -509,26 +509,6 @@ if (status_code === 200 && result) {
 
 ***
 
-### isVersionBelow()
-
-> `static` **isVersionBelow**(`current`: `any`, `min`: `any`): `boolean`
-
-#### Parameters
-
-##### current
-
-`any`
-
-##### min
-
-`any`
-
-#### Returns
-
-`boolean`
-
-***
-
 ### normalizeUrl()
 
 > `static` **normalizeUrl**(`urlString`: `any`): `string`
@@ -542,42 +522,6 @@ if (status_code === 200 && result) {
 #### Returns
 
 `string`
-
-***
-
-### parseGrabUserAgent()
-
-> `static` **parseGrabUserAgent**(`userAgent`: `any`): \{ `appName`: `string`; `major`: `number`; `minor`: `number`; `patch`: `number`; `platform`: `string`; \}
-
-#### Parameters
-
-##### userAgent
-
-`any`
-
-#### Returns
-
-\{ `appName`: `string`; `major`: `number`; `minor`: `number`; `patch`: `number`; `platform`: `string`; \}
-
-##### appName
-
-> **appName**: `string`
-
-##### major
-
-> **major**: `number`
-
-##### minor
-
-> **minor**: `number`
-
-##### patch
-
-> **patch**: `number`
-
-##### platform
-
-> **platform**: `string`
 
 ***
 

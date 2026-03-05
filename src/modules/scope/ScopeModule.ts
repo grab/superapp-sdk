@@ -7,7 +7,6 @@
 
 import { BaseModule } from '../../core/module';
 import {
-  HasAccessToRequest,
   HasAccessToResponse,
   HasAccessToResult,
   ReloadScopesResponse,
@@ -49,7 +48,8 @@ export class ScopeModule extends BaseModule {
   /**
    * Checks if the current client has access to a specific JSBridge API method.
    *
-   * @param request - The module and method to check access for.
+   * @param module - The bridge module name to check access for.
+   * @param method - The method name within the module to check access for.
    *
    * @returns Resolves with the access check result on success, or error information on failure.
    *
@@ -58,14 +58,14 @@ export class ScopeModule extends BaseModule {
    * @example
    * Check access to CameraModule.scanQRCode
    * ```typescript
-   * const response = await scopeModule.hasAccessTo({ module: 'CameraModule', method: 'scanQRCode' });
+   * const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
    * ```
    *
    * @example
    * Handling the response
    * ```typescript
    * try {
-   *   const { status_code, result, error } = await scopeModule.hasAccessTo(request);
+   *   const { status_code, result, error } = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
    *   switch (status_code) {
    *     case 200:
    *       console.log('Has access:', result.hasAccess);
@@ -81,8 +81,8 @@ export class ScopeModule extends BaseModule {
    *
    * @public
    */
-  hasAccessTo(request: HasAccessToRequest): Promise<HasAccessToResponse> {
-    return this.wrappedModule.invoke<HasAccessToResult>('hasAccessTo', request);
+  hasAccessTo(module: string, method: string): Promise<HasAccessToResponse> {
+    return this.wrappedModule.invoke<HasAccessToResult>('hasAccessTo', { module, method });
   }
 
   /**

@@ -13,6 +13,8 @@ import {
   VerifyEmailResponse,
   VerifyEmailResult,
 } from './types';
+import { meetsMinimumVersion, Version } from '../../utils/version';
+import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
 
 /**
  * JSBridge module for accessing user profile information.
@@ -46,45 +48,14 @@ export class ProfileModule extends BaseModule {
     super('ProfileModule');
   }
 
-  static parseGrabUserAgent(userAgent) {
-    if (!userAgent || typeof userAgent !== 'string') {
-      return null;
-    }
-
-    const match = userAgent.match(
-      /(Grab|GrabBeta|GrabBetaDebug|GrabTaxi|GrabEarlyAccess)\/v?([0-9]+)\.([0-9]+)\.([0-9]+) \(.*(Android|iOS).*\)/i
-    );
-    if (!match) {
-      return null;
-    }
-
-    return {
-      appName: match[1],
-      major: Number(match[2]),
-      minor: Number(match[3]),
-      patch: Number(match[4]),
-      platform: match[5],
-    };
-  }
-
-  static isVersionBelow(current, min) {
-    if (current.major !== min.major) {
-      return current.major < min.major;
-    }
-    if (current.minor !== min.minor) {
-      return current.minor < min.minor;
-    }
-    return current.patch < min.patch;
-  }
-
   static isSupported() {
-    const userAgentInfo = ProfileModule.parseGrabUserAgent(window.navigator.userAgent);
-    if (!userAgentInfo) {
+    const grapAppInfo = extractGrabAppInfoFromUserAgent();
+    if (!grapAppInfo) {
       return false;
     }
 
-    const minimumVersion = { major: 5, minor: 399, patch: 0 };
-    return !ProfileModule.isVersionBelow(userAgentInfo, minimumVersion);
+    const minimumVersion: Version = { major: 5, minor: 399, patch: 0 };
+    return meetsMinimumVersion(grapAppInfo.version, minimumVersion);
   }
 
   /**
