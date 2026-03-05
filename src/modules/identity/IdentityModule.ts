@@ -9,6 +9,13 @@ import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 
 import { BaseModule } from '../../core/module';
+import {
+  AuthorizeRequest,
+  AuthorizeResponse,
+  AuthorizeResult,
+  GetAuthorizationArtifactsResponse,
+  ClearAuthorizationArtifactsResponse,
+} from './types';
 
 /**
  * JSBridge module for authenticating users via GrabID.
@@ -155,7 +162,44 @@ export class IdentityModule extends BaseModule {
     this.setStorageItem('redirect_uri', artifacts.redirectUri);
   }
 
-  async getAuthorizationArtifacts() {
+  /**
+   * Retrieves stored PKCE authorization artifacts from local storage.
+   * These artifacts are used to complete the OAuth2 authorization code exchange.
+   *
+   * @returns Resolves with the stored artifacts if all are present (status 200),
+   *          no content if none are present (status 204),
+   *          or an error if artifacts are inconsistent (status 400).
+   *
+   * @remarks
+   * **Important:** The `redirectUri` returned by this method is the actual redirect URI
+   * that was sent to the authorization server. This may differ from the `redirectUri`
+   * you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow.
+   * You must use this returned `redirectUri` for token exchange to ensure OAuth compliance.
+   *
+   * @example
+   * Retrieve stored authorization artifacts after authorization redirect
+   * ```typescript
+   * const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
+   *
+   * if (status_code === 200 && result) {
+   *   // All artifacts present - proceed with token exchange
+   *   const { state, codeVerifier, nonce, redirectUri } = result;
+   *   console.log('State:', state);
+   *   console.log('Code Verifier:', codeVerifier);
+   *   console.log('Nonce:', nonce);
+   *   console.log('Redirect URI:', redirectUri);
+   * } else if (status_code === 204) {
+   *   // No artifacts yet - user hasn't authorized
+   *   console.log('No authorization artifacts found. Authorization has not been initiated.');
+   * } else if (status_code === 400) {
+   *   // Inconsistent state - possible data corruption
+   *   console.error('Authorization artifacts error:', error);
+   * }
+   * ```
+   *
+   * @public
+   */
+  async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
     const state = this.getStorageItem('state');
     const codeVerifier = this.getStorageItem('code_verifier');
     const nonce = this.getStorageItem('nonce');
@@ -188,7 +232,26 @@ export class IdentityModule extends BaseModule {
     });
   }
 
-  async clearAuthorizationArtifacts() {
+  /**
+   * Clears all stored PKCE authorization artifacts from local storage.
+   * This should be called after a successful token exchange or when you need to
+   * reset the authorization state (e.g., on error or logout).
+   *
+   * @returns Resolves with status 204 when artifacts are cleared successfully.
+   *          The result and error fields will always be null for this operation.
+   *
+   * @example
+   * Clear stored authorization artifacts after successful token exchange
+   * ```typescript
+   * const { status_code } = await identityModule.clearAuthorizationArtifacts();
+   * if (status_code === 204) {
+   *   console.log('Authorization artifacts cleared');
+   * }
+   * ```
+   *
+   * @public
+   */
+  async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
     window.localStorage.removeItem(`${this.NAMESPACE}:nonce`);
     window.localStorage.removeItem(`${this.NAMESPACE}:state`);
     window.localStorage.removeItem(`${this.NAMESPACE}:code_verifier`);
@@ -272,7 +335,7 @@ export class IdentityModule extends BaseModule {
     return IdentityModule.isVersionBelow(userAgentInfo, minimumVersion);
   }
 
-  async performWebAuthorization(params) {
+  async performWebAuthorization(params): Promise<AuthorizeResponse> {
     // Store the current page URL for potential return navigation
     this.setStorageItem('login_return_uri', window.location.href);
 
@@ -288,6 +351,7 @@ export class IdentityModule extends BaseModule {
       return Promise.resolve({
         status_code: 400,
         error: error.message,
+        result: undefined,
       });
     }
 
@@ -307,12 +371,13 @@ export class IdentityModule extends BaseModule {
 
     return Promise.resolve({
       status_code: 302,
-      result: null,
+      result: undefined,
+      error: undefined,
     });
   }
 
-  async performNativeAuthorization(invokeParams) {
-    return this.wrappedModule.invoke('authorize', {
+  async performNativeAuthorization(invokeParams): Promise<AuthorizeResponse> {
+    return this.wrappedModule.invoke<AuthorizeResult>('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,
@@ -324,7 +389,87 @@ export class IdentityModule extends BaseModule {
     });
   }
 
-  async authorize(request) {
+  /**
+   * Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
+   * This method handles both native in-app consent and web-based fallback flows.
+   *
+   * @param request - The authorization request parameters including client ID, redirect URI,
+   *                  scopes, and environment.
+   *
+   * @returns Resolves when the authorization flow is initiated.
+   *          - Status 200: Authorization completed successfully (native in_place flow)
+   *          - Status 302: Redirect initiated (web flow or redirect response mode)
+   *          - Status 204: User cancelled the authorization
+   *          - Status 400/401/403: Authorization failed with error details
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @remarks
+   * **Important Note on redirectUri and responseMode:**
+   *
+   * The actual `redirectUri` used during authorization may differ from the one you provide,
+   * depending on the flow:
+   *
+   * - `responseMode: 'in_place'` when native flow is available: Uses the current page URL
+   *   (normalized) as the `redirectUri`, overriding your provided value
+   * - `responseMode: 'in_place'` falling back to web flow if native flow is not available:
+   *   Uses your provided `redirectUri`
+   * - `responseMode: 'redirect'`: Always uses your provided `redirectUri`
+   *
+   * To ensure successful token exchange (which requires matching `redirectUri` values),
+   * always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`
+   * after authorization completes.
+   *
+   * **Consent Selection Rules (Native vs Web):**
+   *
+   * - If the user agent does not match the Grab app pattern, the SDK uses web consent
+   * - If the app version in the user agent is below 5.396.0 (iOS or Android),
+   *   the SDK uses web consent
+   * - For supported versions, the SDK attempts native consent first and falls back to
+   *   web on specific native errors (400, 401, 403)
+   *
+   * @example
+   * Initiate authorization with redirect mode
+   * ```typescript
+   * const response = await identityModule.authorize({
+   *   clientId: 'your-client-id',
+   *   redirectUri: 'https://your-app.com/callback',
+   *   scope: 'openid profile',
+   *   environment: 'production',
+   *   responseMode: 'redirect'
+   * });
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * const { result, error, status_code } = await identityModule.authorize({
+   *   clientId: 'your-client-id',
+   *   redirectUri: 'https://your-app.com/callback',
+   *   scope: 'openid profile',
+   *   environment: 'production',
+   *   responseMode: 'redirect'
+   * });
+   *
+   * if (status_code === 200 && result) {
+   *   // Authorization successful (in_place mode with native flow)
+   *   console.log('Auth Code:', result.code);
+   *   console.log('State:', result.state);
+   * } else if (status_code === 302) {
+   *   // Authorization redirect initiated (web flow or redirect response mode)
+   *   // The page will redirect to the authorization server
+   * } else if (status_code === 204) {
+   *   // User cancelled the authorization
+   *   console.log('User cancelled');
+   * } else if (error) {
+   *   // Authorization failed
+   *   console.error('Auth error:', error);
+   * }
+   * ```
+   *
+   * @public
+   */
+  async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
     const validationError = IdentityModule.validateAuthorizeRequest(request);
     if (validationError) {
       return Promise.resolve({ status_code: 400, error: validationError });

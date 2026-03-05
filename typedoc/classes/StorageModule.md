@@ -47,15 +47,15 @@ const storage = new StorageModule();
 
 ### getBoolean()
 
-> **getBoolean**(`request`: [`GetBooleanRequest`](../type-aliases/GetBooleanRequest.md)): `Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
+> **getBoolean**(`key`: `string`): `Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
 
 Retrieves a boolean value from the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`GetBooleanRequest`](../type-aliases/GetBooleanRequest.md)
+`string`
 
 The key to retrieve the value for.
 
@@ -73,13 +73,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Get a boolean value
 ```typescript
-const response = await storageModule.getBoolean({ key: 'isDarkMode' });
+const response = await storageModule.getBoolean('isDarkMode');
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await storageModule.getBoolean({ key: 'isDarkMode' });
+  const { status_code, result, error } = await storageModule.getBoolean('isDarkMode');
   switch (status_code) {
     case 200:
       console.log('Stored value:', result);
@@ -97,15 +97,15 @@ try {
 
 ### getDouble()
 
-> **getDouble**(`request`: [`GetDoubleRequest`](../type-aliases/GetDoubleRequest.md)): `Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
+> **getDouble**(`key`: `string`): `Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
 
 Retrieves a double (floating point) value from the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`GetDoubleRequest`](../type-aliases/GetDoubleRequest.md)
+`string`
 
 The key to retrieve the value for.
 
@@ -123,13 +123,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Get a double value
 ```typescript
-const response = await storageModule.getDouble({ key: 'price' });
+const response = await storageModule.getDouble('price');
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await storageModule.getDouble({ key: 'price' });
+  const { status_code, result, error } = await storageModule.getDouble('price');
   switch (status_code) {
     case 200:
       console.log('Stored value:', result);
@@ -147,15 +147,15 @@ try {
 
 ### getInt()
 
-> **getInt**(`request`: [`GetIntRequest`](../type-aliases/GetIntRequest.md)): `Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
+> **getInt**(`key`: `string`): `Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
 
 Retrieves an integer value from the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`GetIntRequest`](../type-aliases/GetIntRequest.md)
+`string`
 
 The key to retrieve the value for.
 
@@ -173,13 +173,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Get an integer value
 ```typescript
-const response = await storageModule.getInt({ key: 'userCount' });
+const response = await storageModule.getInt('userCount');
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await storageModule.getInt({ key: 'userCount' });
+  const { status_code, result, error } = await storageModule.getInt('userCount');
   switch (status_code) {
     case 200:
       console.log('Stored value:', result);
@@ -197,15 +197,15 @@ try {
 
 ### getString()
 
-> **getString**(`request`: [`GetStringRequest`](../type-aliases/GetStringRequest.md)): `Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
+> **getString**(`key`: `string`): `Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
 
 Retrieves a string value from the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`GetStringRequest`](../type-aliases/GetStringRequest.md)
+`string`
 
 The key to retrieve the value for.
 
@@ -223,13 +223,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Get a string value
 ```typescript
-const response = await storageModule.getString({ key: 'username' });
+const response = await storageModule.getString('username');
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, result, error } = await storageModule.getString({ key: 'username' });
+  const { status_code, result, error } = await storageModule.getString('username');
   switch (status_code) {
     case 200:
       console.log('Stored value:', result);
@@ -247,15 +247,15 @@ try {
 
 ### remove()
 
-> **remove**(`request`: [`RemoveRequest`](../type-aliases/RemoveRequest.md)): `Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
+> **remove**(`key`: `string`): `Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
 
 Removes a single value from the native storage by key.
 
 #### Parameters
 
-##### request
+##### key
 
-[`RemoveRequest`](../type-aliases/RemoveRequest.md)
+`string`
 
 The key to remove from storage.
 
@@ -273,13 +273,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Remove a value
 ```typescript
-const response = await storageModule.remove({ key: 'username' });
+const response = await storageModule.remove('username');
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, error } = await storageModule.remove({ key: 'username' });
+  const { status_code, error } = await storageModule.remove('username');
   switch (status_code) {
     case 200:
       console.log('Value removed successfully');
@@ -339,17 +339,23 @@ try {
 
 ### setBoolean()
 
-> **setBoolean**(`request`: [`SetBooleanRequest`](../type-aliases/SetBooleanRequest.md)): `Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
+> **setBoolean**(`key`: `string`, `value`: `boolean`): `Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
 
 Stores a boolean value in the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`SetBooleanRequest`](../type-aliases/SetBooleanRequest.md)
+`string`
 
-The key and boolean value to store.
+The key to store the value under.
+
+##### value
+
+`boolean`
+
+The boolean value to store.
 
 #### Returns
 
@@ -365,13 +371,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Set a boolean value
 ```typescript
-const response = await storageModule.setBoolean({ key: 'isDarkMode', value: true });
+const response = await storageModule.setBoolean('isDarkMode', true);
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, error } = await storageModule.setBoolean({ key: 'isDarkMode', value: true });
+  const { status_code, error } = await storageModule.setBoolean('isDarkMode', true);
   switch (status_code) {
     case 204:
       console.log('Value stored successfully');
@@ -389,17 +395,23 @@ try {
 
 ### setDouble()
 
-> **setDouble**(`request`: [`SetDoubleRequest`](../type-aliases/SetDoubleRequest.md)): `Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
+> **setDouble**(`key`: `string`, `value`: `number`): `Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
 
 Stores a double (floating point) value in the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`SetDoubleRequest`](../type-aliases/SetDoubleRequest.md)
+`string`
 
-The key and double value to store.
+The key to store the value under.
+
+##### value
+
+`number`
+
+The double value to store.
 
 #### Returns
 
@@ -415,13 +427,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Set a double value
 ```typescript
-const response = await storageModule.setDouble({ key: 'price', value: 19.99 });
+const response = await storageModule.setDouble('price', 19.99);
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, error } = await storageModule.setDouble({ key: 'price', value: 19.99 });
+  const { status_code, error } = await storageModule.setDouble('price', 19.99);
   switch (status_code) {
     case 204:
       console.log('Value stored successfully');
@@ -439,17 +451,23 @@ try {
 
 ### setInt()
 
-> **setInt**(`request`: [`SetIntRequest`](../type-aliases/SetIntRequest.md)): `Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
+> **setInt**(`key`: `string`, `value`: `number`): `Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
 
 Stores an integer value in the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`SetIntRequest`](../type-aliases/SetIntRequest.md)
+`string`
 
-The key and integer value to store.
+The key to store the value under.
+
+##### value
+
+`number`
+
+The integer value to store.
 
 #### Returns
 
@@ -465,13 +483,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Set an integer value
 ```typescript
-const response = await storageModule.setInt({ key: 'userCount', value: 42 });
+const response = await storageModule.setInt('userCount', 42);
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, error } = await storageModule.setInt({ key: 'userCount', value: 42 });
+  const { status_code, error } = await storageModule.setInt('userCount', 42);
   switch (status_code) {
     case 204:
       console.log('Value stored successfully');
@@ -489,17 +507,23 @@ try {
 
 ### setString()
 
-> **setString**(`request`: [`SetStringRequest`](../type-aliases/SetStringRequest.md)): `Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
+> **setString**(`key`: `string`, `value`: `string`): `Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
 
 Stores a string value in the native storage.
 
 #### Parameters
 
-##### request
+##### key
 
-[`SetStringRequest`](../type-aliases/SetStringRequest.md)
+`string`
 
-The key and string value to store.
+The key to store the value under.
+
+##### value
+
+`string`
+
+The string value to store.
 
 #### Returns
 
@@ -515,13 +539,13 @@ Error when the JSBridge method fails unexpectedly.
 
 Set a string value
 ```typescript
-const response = await storageModule.setString({ key: 'username', value: 'john_doe' });
+const response = await storageModule.setString('username', 'john_doe');
 ```
 
 Handling the response
 ```typescript
 try {
-  const { status_code, error } = await storageModule.setString({ key: 'username', value: 'john_doe' });
+  const { status_code, error } = await storageModule.setString('username', 'john_doe');
   switch (status_code) {
     case 204:
       console.log('Value stored successfully');

@@ -47,27 +47,105 @@ const profile = new ProfileModule();
 
 ### fetchEmail()
 
-> **fetchEmail**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+> **fetchEmail**(): `Promise`\<[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)\>
+
+Fetches the user's email address from their Grab profile.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+`Promise`\<[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)\>
+
+Resolves with the user's email address on success, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Fetch the user's email
+```typescript
+const response = await profileModule.fetchEmail();
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, result, error } = await profileModule.fetchEmail();
+  switch (status_code) {
+    case 200:
+      console.log('User email:', result.email);
+      break;
+    case 403:
+      console.log('Feature not available: Requires Grab app version 5.399 or above');
+      break;
+    default:
+      console.log(`Could not fetch email${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (err) {
+  console.log(`Could not fetch email${err ? `: ${err}` : ''}`);
+}
+```
 
 ***
 
 ### verifyEmail()
 
-> **verifyEmail**(`verifyEmailDetails`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+> **verifyEmail**(`request`: [`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)): `Promise`\<[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)\>
+
+Verifies the user's email address using a one-time password (OTP).
 
 #### Parameters
 
-##### verifyEmailDetails
+##### request
 
-`any`
+[`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)
+
+The email address and OTP to verify.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\> \| `Promise`\<\{ `error`: `string`; `status_code`: `number`; \}\>
+`Promise`\<[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)\>
+
+Resolves when the email is verified successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Verify email with OTP
+```typescript
+const response = await profileModule.verifyEmail({
+  email: 'user@example.com',
+  otp: '123456'
+});
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await profileModule.verifyEmail({
+    email: 'user@example.com',
+    otp: '123456'
+  });
+  switch (status_code) {
+    case 204:
+      console.log('Email verified successfully');
+      break;
+    case 403:
+      console.log('Feature not available: Requires Grab app version 5.399 or above');
+      break;
+    default:
+      console.log(`Could not verify email${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (err) {
+  console.log(`Could not verify email${err ? `: ${err}` : ''}`);
+}
+```
 
 ***
 

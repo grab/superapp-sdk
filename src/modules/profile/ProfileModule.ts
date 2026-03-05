@@ -6,6 +6,13 @@
  */
 
 import { BaseModule } from '../../core/module';
+import {
+  FetchEmailResponse,
+  FetchEmailResult,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
+  VerifyEmailResult,
+} from './types';
 
 /**
  * JSBridge module for accessing user profile information.
@@ -80,23 +87,103 @@ export class ProfileModule extends BaseModule {
     return !ProfileModule.isVersionBelow(userAgentInfo, minimumVersion);
   }
 
-  fetchEmail() {
+  /**
+   * Fetches the user's email address from their Grab profile.
+   *
+   * @returns Resolves with the user's email address on success, or error information on failure.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * Fetch the user's email
+   * ```typescript
+   * const response = await profileModule.fetchEmail();
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, result, error } = await profileModule.fetchEmail();
+   *   switch (status_code) {
+   *     case 200:
+   *       console.log('User email:', result.email);
+   *       break;
+   *     case 403:
+   *       console.log('Feature not available: Requires Grab app version 5.399 or above');
+   *       break;
+   *     default:
+   *       console.log(`Could not fetch email${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (err) {
+   *   console.log(`Could not fetch email${err ? `: ${err}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  fetchEmail(): Promise<FetchEmailResponse> {
     if (!ProfileModule.isSupported()) {
       return Promise.resolve({
         status_code: 403,
         error: 'This feature requires Grab app version 5.399 or above.',
       });
     }
-    return this.wrappedModule.invoke('fetchEmail');
+    return this.wrappedModule.invoke<FetchEmailResult>('fetchEmail');
   }
 
-  verifyEmail(verifyEmailDetails) {
+  /**
+   * Verifies the user's email address using a one-time password (OTP).
+   *
+   * @param request - The email address and OTP to verify.
+   *
+   * @returns Resolves when the email is verified successfully, or error information on failure.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * Verify email with OTP
+   * ```typescript
+   * const response = await profileModule.verifyEmail({
+   *   email: 'user@example.com',
+   *   otp: '123456'
+   * });
+   * ```
+   *
+   * @example
+   * Handling the response
+   * ```typescript
+   * try {
+   *   const { status_code, error } = await profileModule.verifyEmail({
+   *     email: 'user@example.com',
+   *     otp: '123456'
+   *   });
+   *   switch (status_code) {
+   *     case 204:
+   *       console.log('Email verified successfully');
+   *       break;
+   *     case 403:
+   *       console.log('Feature not available: Requires Grab app version 5.399 or above');
+   *       break;
+   *     default:
+   *       console.log(`Could not verify email${error ? `: ${error}` : ''}`);
+   *       break;
+   *   }
+   * } catch (err) {
+   *   console.log(`Could not verify email${err ? `: ${err}` : ''}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  verifyEmail(request: VerifyEmailRequest): Promise<VerifyEmailResponse> {
     if (!ProfileModule.isSupported()) {
       return Promise.resolve({
         status_code: 403,
         error: 'This feature requires Grab app version 5.399 or above.',
       });
     }
-    return this.wrappedModule.invoke('verifyEmail', verifyEmailDetails);
+    return this.wrappedModule.invoke<VerifyEmailResult>('verifyEmail', request);
   }
 }

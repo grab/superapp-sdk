@@ -47,14 +47,52 @@ const webViewKit = new SystemWebViewKitModule();
 
 ### redirectToSystemWebView()
 
-> **redirectToSystemWebView**(`payload`: `any`): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **redirectToSystemWebView**(`request`: [`RedirectToSystemWebViewRequest`](../type-aliases/RedirectToSystemWebViewRequest.md)): `Promise`\<[`RedirectToSystemWebViewResponse`](../type-aliases/RedirectToSystemWebViewResponse.md)\>
+
+Opens a URL in the device's system web browser or web view.
 
 #### Parameters
 
-##### payload
+##### request
 
-`any`
+[`RedirectToSystemWebViewRequest`](../type-aliases/RedirectToSystemWebViewRequest.md)
+
+The URL to open in the system web view.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+`Promise`\<[`RedirectToSystemWebViewResponse`](../type-aliases/RedirectToSystemWebViewResponse.md)\>
+
+Resolves when the redirect is initiated successfully, or error information on failure.
+
+#### Throws
+
+Error when the JSBridge method fails unexpectedly.
+
+#### Examples
+
+Open a URL in system web view
+```typescript
+const response = await systemWebViewKitModule.redirectToSystemWebView({
+  url: 'https://www.example.com'
+});
+```
+
+Handling the response
+```typescript
+try {
+  const { status_code, error } = await systemWebViewKitModule.redirectToSystemWebView({
+    url: 'https://www.example.com'
+  });
+  switch (status_code) {
+    case 204:
+      console.log('Redirect initiated successfully');
+      break;
+    default:
+      console.log(`Could not redirect${error ? `: ${error}` : ''}`);
+      break;
+  }
+} catch (err) {
+  console.log(`Could not redirect${err ? `: ${err}` : ''}`);
+}
+```

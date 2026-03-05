@@ -6,3 +6,10 @@
  */
 
 export { ProfileModule } from './ProfileModule';
+export type {
+  FetchEmailResponse,
+  FetchEmailResult,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
+  VerifyEmailResult,
+} from './types';
