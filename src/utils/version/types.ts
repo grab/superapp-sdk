@@ -5,10 +5,13 @@
  * directory of this source tree.
  */
 
-export { ScopeModule } from './ScopeModule';
-export type {
-  HasAccessToResponse,
-  HasAccessToResult,
-  ReloadScopesResponse,
-  ReloadScopesResult,
-} from './types';
+/**
+ * Represents a semantic version with major, minor, and patch components.
+ *
+ * @internal
+ */
+export interface Version {
+  major: number;
+  minor: number;
+  patch: number;
+}

@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
+import { isRunningInGrabApp } from '../../utils/user-agent';
 import {
   SendAnalyticsEventRequest,
   SendAnalyticsEventResponse,
@@ -679,16 +680,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   isConnected(): Promise<IsConnectedResponse> {
-    const userAgent = window.navigator && window.navigator.userAgent;
-    if (!userAgent) {
-      return Promise.resolve({
-        status_code: 404,
-        result: null,
-        error: 'User agent not available',
-      });
-    }
-
-    const isConnected = /grab[a-z]*\//i.test(userAgent);
+    const isConnected = isRunningInGrabApp();
     return Promise.resolve(
       isConnected
         ? { status_code: 200, result: null, error: null }

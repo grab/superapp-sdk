@@ -5,10 +5,5 @@
  * directory of this source tree.
  */
 
-export { ScopeModule } from './ScopeModule';
-export type {
-  HasAccessToResponse,
-  HasAccessToResult,
-  ReloadScopesResponse,
-  ReloadScopesResult,
-} from './types';
+export type { GrabAppInfo, Platform } from './types';
+export { extractGrabAppInfo, isAndroid, isIOS } from './platform';

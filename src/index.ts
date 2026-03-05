@@ -100,7 +100,6 @@ export { MediaModule } from './modules/media/MediaModule';
 export { PlatformModule } from './modules/platform/PlatformModule';
 export { ScopeModule } from './modules/scope/ScopeModule';
 export type {
-  HasAccessToRequest,
   HasAccessToResponse,
   HasAccessToResult,
   ReloadScopesResponse,

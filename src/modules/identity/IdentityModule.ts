@@ -16,6 +16,8 @@ import {
   GetAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsResponse,
 } from './types';
+import { meetsMinimumVersion, Version } from '../../utils/version';
+import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
 
 /**
  * JSBridge module for authenticating users via GrabID.
@@ -290,40 +292,9 @@ export class IdentityModule extends BaseModule {
     return `${authorizationEndpoint}?${query}`;
   }
 
-  static parseGrabUserAgent(userAgent) {
-    if (!userAgent || typeof userAgent !== 'string') {
-      return null;
-    }
-
-    const match = userAgent.match(
-      /(Grab|GrabBeta|GrabBetaDebug|GrabTaxi|GrabEarlyAccess)\/v?([0-9]+)\.([0-9]+)\.([0-9]+) \(.*(Android|iOS).*\)/i
-    );
-    if (!match) {
-      return null;
-    }
-
-    return {
-      appName: match[1],
-      major: Number(match[2]),
-      minor: Number(match[3]),
-      patch: Number(match[4]),
-      platform: match[5],
-    };
-  }
-
-  static isVersionBelow(current, min) {
-    if (current.major !== min.major) {
-      return current.major < min.major;
-    }
-    if (current.minor !== min.minor) {
-      return current.minor < min.minor;
-    }
-    return current.patch < min.patch;
-  }
-
   static shouldUseWebConsent(request) {
-    const userAgentInfo = IdentityModule.parseGrabUserAgent(window.navigator.userAgent);
-    if (!userAgentInfo) {
+    const grabAppInfo = extractGrabAppInfoFromUserAgent();
+    if (!grabAppInfo) {
       return true;
     }
 
@@ -331,8 +302,8 @@ export class IdentityModule extends BaseModule {
       return false;
     }
 
-    const minimumVersion = { major: 5, minor: 396, patch: 0 };
-    return IdentityModule.isVersionBelow(userAgentInfo, minimumVersion);
+    const minimumVersion: Version = { major: 5, minor: 396, patch: 0 };
+    return !meetsMinimumVersion(grabAppInfo.version, minimumVersion);
   }
 
   async performWebAuthorization(params): Promise<AuthorizeResponse> {
