@@ -2,6 +2,6 @@
 
 # Type Alias: TriggerCheckoutResponse
 
-> **TriggerCheckoutResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`TriggerCheckoutResult`](TriggerCheckoutResult.md)\>
+> **TriggerCheckoutResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`TriggerCheckoutResult`](TriggerCheckoutResult.md), `200` \| `400`\>
 
 Response when triggering the checkout flow.

@@ -2,6 +2,6 @@
 
 # Type Alias: SetBackgroundColorResponse
 
-> **SetBackgroundColorResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`SetBackgroundColorResult`](SetBackgroundColorResult.md)\>
+> **SetBackgroundColorResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetBackgroundColorResult`](SetBackgroundColorResult.md), `200` \| `400`\>
 
 Response when setting the background color.

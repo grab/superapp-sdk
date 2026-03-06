@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Result object for setting a boolean value.
@@ -20,7 +20,7 @@ export type SetBooleanResult = void;
  *
  * @public
  */
-export type SetBooleanResponse = BridgeResponse<SetBooleanResult>;
+export type SetBooleanResponse = ConstrainedBridgeResponse<SetBooleanResult, 204 | 400>;
 
 /**
  * Request parameters for getting a boolean value from storage.
@@ -47,7 +47,7 @@ export type GetBooleanResult = {
  *
  * @public
  */
-export type GetBooleanResponse = BridgeResponse<boolean | null>;
+export type GetBooleanResponse = ConstrainedBridgeResponse<boolean | null, 200 | 400>;
 
 /**
  * Result object for setting an integer value.
@@ -62,7 +62,7 @@ export type SetIntResult = void;
  *
  * @public
  */
-export type SetIntResponse = BridgeResponse<SetIntResult>;
+export type SetIntResponse = ConstrainedBridgeResponse<SetIntResult, 204 | 400>;
 
 /**
  * Request parameters for getting an integer value from storage.
@@ -89,7 +89,7 @@ export type GetIntResult = {
  *
  * @public
  */
-export type GetIntResponse = BridgeResponse<number | null>;
+export type GetIntResponse = ConstrainedBridgeResponse<number | null, 200 | 400>;
 
 /**
  * Result object for setting a string value.
@@ -104,7 +104,7 @@ export type SetStringResult = void;
  *
  * @public
  */
-export type SetStringResponse = BridgeResponse<SetStringResult>;
+export type SetStringResponse = ConstrainedBridgeResponse<SetStringResult, 204 | 400>;
 
 /**
  * Request parameters for getting a string value from storage.
@@ -131,7 +131,7 @@ export type GetStringResult = {
  *
  * @public
  */
-export type GetStringResponse = BridgeResponse<string | null>;
+export type GetStringResponse = ConstrainedBridgeResponse<string | null, 200 | 400>;
 
 /**
  * Result object for setting a double value.
@@ -146,7 +146,7 @@ export type SetDoubleResult = void;
  *
  * @public
  */
-export type SetDoubleResponse = BridgeResponse<SetDoubleResult>;
+export type SetDoubleResponse = ConstrainedBridgeResponse<SetDoubleResult, 204 | 400>;
 
 /**
  * Request parameters for getting a double value from storage.
@@ -173,7 +173,7 @@ export type GetDoubleResult = {
  *
  * @public
  */
-export type GetDoubleResponse = BridgeResponse<number | null>;
+export type GetDoubleResponse = ConstrainedBridgeResponse<number | null, 200 | 400>;
 
 /**
  * Result object for removing a value.
@@ -188,7 +188,7 @@ export type RemoveResult = void;
  *
  * @public
  */
-export type RemoveResponse = BridgeResponse<RemoveResult>;
+export type RemoveResponse = ConstrainedBridgeResponse<RemoveResult, 204 | 400>;
 
 /**
  * Result object for removing all values.
@@ -203,4 +203,4 @@ export type RemoveAllResult = void;
  *
  * @public
  */
-export type RemoveAllResponse = BridgeResponse<RemoveAllResult>;
+export type RemoveAllResponse = ConstrainedBridgeResponse<RemoveAllResult, 204>;

@@ -14,7 +14,7 @@ import { BaseModule } from '../../core/module';
  *
  * @remarks
  * Provides methods to interact with the native platform navigation stack, such as triggering the back action.
- * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ * This code must run on the Grab SuperApp's webview to function correctly.
  *
  * @example
  * **ES Module:**
@@ -39,6 +39,39 @@ export class PlatformModule extends BaseModule {
     super('PlatformModule');
   }
 
+  /**
+   * Triggers the native platform back navigation.
+   * This navigates back in the native navigation stack.
+   *
+   * @returns A promise that resolves to a `204` status code when back navigation is triggered.
+   *
+   * @throws Error when the JSBridge method fails unexpectedly.
+   *
+   * @example
+   * **Simple usage**
+   * ```typescript
+   * // Imports using ES Module built
+   * import { PlatformModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { PlatformModule, isResponseNoContent } = window.SuperAppSDK;
+   *
+   * // Initialize the platform module
+   * const platformModule = new PlatformModule();
+   *
+   * // Trigger back navigation
+   * try {
+   *   const response = await platformModule.back();
+   *
+   *   if (isResponseNoContent(response)) {
+   *     console.log('Back navigation triggered');
+   *   }
+   * } catch (error) {
+   *   console.log('Unexpected error:', error);
+   * }
+   * ```
+   *
+   * @public
+   */
   back() {
     return this.wrappedModule.invoke('back');
   }

@@ -19,7 +19,7 @@ import {
  *
  * @remarks
  * Allows MiniApps to redirect users to external content using the native system webview.
- * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ * This code must run on the Grab SuperApp's webview to function correctly.
  *
  * @example
  * **ES Module:**
@@ -47,37 +47,39 @@ export class SystemWebViewKitModule extends BaseModule {
   /**
    * Opens a URL in the device's system web browser or web view.
    *
-   * @param request - The URL to open in the system web view.
+   * @param request - The URL configuration.
    *
-   * @returns Resolves when the redirect is initiated successfully, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `200`: Redirect initiated successfully
+   * - `400`: Invalid URL, domain not whitelisted, or missing callback URL
+   * - `424`: ASWebAuthenticationSession error
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Open a URL in system web view
+   * **Simple usage**
    * ```typescript
-   * const response = await systemWebViewKitModule.redirectToSystemWebView({
-   *   url: 'https://www.example.com'
-   * });
-   * ```
+   * // Imports using ES Module built
+   * import { SystemWebViewKitModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { SystemWebViewKitModule, isResponseOk, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the system web view kit module
+   * const systemWebViewKitModule = new SystemWebViewKitModule();
+   *
+   * // Open a URL in system web view
    * try {
-   *   const { status_code, error } = await systemWebViewKitModule.redirectToSystemWebView({
+   *   const response = await systemWebViewKitModule.redirectToSystemWebView({
    *     url: 'https://www.example.com'
    *   });
-   *   switch (status_code) {
-   *     case 204:
-   *       console.log('Redirect initiated successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not redirect${error ? `: ${error}` : ''}`);
-   *       break;
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not redirect:', response.error);
+   *   } else if (isResponseOk(response)) {
+   *     console.log('Redirect initiated successfully');
    *   }
    * } catch (err) {
-   *   console.log(`Could not redirect${err ? `: ${err}` : ''}`);
+   *   console.log('Unexpected error:', err);
    * }
    * ```
    *
@@ -86,9 +88,6 @@ export class SystemWebViewKitModule extends BaseModule {
   redirectToSystemWebView(
     request: RedirectToSystemWebViewRequest
   ): Promise<RedirectToSystemWebViewResponse> {
-    return this.wrappedModule.invoke<RedirectToSystemWebViewResult>(
-      'redirectToSystemWebView',
-      request
-    );
+    return this.wrappedModule.invoke('redirectToSystemWebView', request);
   }
 }

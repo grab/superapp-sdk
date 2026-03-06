@@ -2,6 +2,6 @@
 
 # Type Alias: FetchEmailResponse
 
-> **FetchEmailResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`FetchEmailResult`](FetchEmailResult.md)\>
+> **FetchEmailResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`FetchEmailResult`](FetchEmailResult.md), `200` \| `400` \| `403`\>
 
 Response when fetching the user's email.

@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Request parameters for redirecting to the system web view.
@@ -30,4 +30,7 @@ export type RedirectToSystemWebViewResult = void;
  *
  * @public
  */
-export type RedirectToSystemWebViewResponse = BridgeResponse<RedirectToSystemWebViewResult>;
+export type RedirectToSystemWebViewResponse = ConstrainedBridgeResponse<
+  RedirectToSystemWebViewResult,
+  200 | 400 | 424
+>;

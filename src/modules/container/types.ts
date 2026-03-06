@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Request parameters for setting the background color.
@@ -26,7 +26,10 @@ export type SetBackgroundColorResult = void;
  *
  * @public
  */
-export type SetBackgroundColorResponse = BridgeResponse<SetBackgroundColorResult>;
+export type SetBackgroundColorResponse = ConstrainedBridgeResponse<
+  SetBackgroundColorResult,
+  200 | 400
+>;
 
 /**
  * Request parameters for setting the title.
@@ -47,7 +50,7 @@ export type SetTitleResult = void;
  *
  * @public
  */
-export type SetTitleResponse = BridgeResponse<SetTitleResult>;
+export type SetTitleResponse = ConstrainedBridgeResponse<SetTitleResult, 200 | 400>;
 
 /**
  * Result when hiding the back button.
@@ -61,7 +64,7 @@ export type HideBackButtonResult = void;
  *
  * @public
  */
-export type HideBackButtonResponse = BridgeResponse<HideBackButtonResult>;
+export type HideBackButtonResponse = ConstrainedBridgeResponse<HideBackButtonResult, 200>;
 
 /**
  * Result when showing the back button.
@@ -75,7 +78,7 @@ export type ShowBackButtonResult = void;
  *
  * @public
  */
-export type ShowBackButtonResponse = BridgeResponse<ShowBackButtonResult>;
+export type ShowBackButtonResponse = ConstrainedBridgeResponse<ShowBackButtonResult, 200>;
 
 /**
  * Result when hiding the refresh button.
@@ -89,7 +92,7 @@ export type HideRefreshButtonResult = void;
  *
  * @public
  */
-export type HideRefreshButtonResponse = BridgeResponse<HideRefreshButtonResult>;
+export type HideRefreshButtonResponse = ConstrainedBridgeResponse<HideRefreshButtonResult, 200>;
 
 /**
  * Result when showing the refresh button.
@@ -103,7 +106,7 @@ export type ShowRefreshButtonResult = void;
  *
  * @public
  */
-export type ShowRefreshButtonResponse = BridgeResponse<ShowRefreshButtonResult>;
+export type ShowRefreshButtonResponse = ConstrainedBridgeResponse<ShowRefreshButtonResult, 200>;
 
 /**
  * Result when closing the container.
@@ -117,7 +120,7 @@ export type CloseResult = void;
  *
  * @public
  */
-export type CloseResponse = BridgeResponse<CloseResult>;
+export type CloseResponse = ConstrainedBridgeResponse<CloseResult, 200>;
 
 /**
  * Result when notifying content loaded.
@@ -131,7 +134,7 @@ export type OnContentLoadedResult = void;
  *
  * @public
  */
-export type OnContentLoadedResponse = BridgeResponse<OnContentLoadedResult>;
+export type OnContentLoadedResponse = ConstrainedBridgeResponse<OnContentLoadedResult, 200>;
 
 /**
  * Result when showing the loader.
@@ -145,7 +148,7 @@ export type ShowLoaderResult = void;
  *
  * @public
  */
-export type ShowLoaderResponse = BridgeResponse<ShowLoaderResult>;
+export type ShowLoaderResponse = ConstrainedBridgeResponse<ShowLoaderResult, 200>;
 
 /**
  * Result when hiding the loader.
@@ -159,7 +162,7 @@ export type HideLoaderResult = void;
  *
  * @public
  */
-export type HideLoaderResponse = BridgeResponse<HideLoaderResult>;
+export type HideLoaderResponse = ConstrainedBridgeResponse<HideLoaderResult, 200>;
 
 /**
  * Request parameters for opening an external link.
@@ -180,7 +183,7 @@ export type OpenExternalLinkResult = void;
  *
  * @public
  */
-export type OpenExternalLinkResponse = BridgeResponse<OpenExternalLinkResult>;
+export type OpenExternalLinkResponse = ConstrainedBridgeResponse<OpenExternalLinkResult, 200 | 400>;
 
 /**
  * Request parameters for notifying CTA tap.
@@ -201,19 +204,24 @@ export type OnCtaTapResult = void;
  *
  * @public
  */
-export type OnCtaTapResponse = BridgeResponse<OnCtaTapResult>;
+export type OnCtaTapResponse = ConstrainedBridgeResponse<OnCtaTapResult, 200>;
 
 /**
  * Request parameters for sending analytics events.
  *
+ * @remarks
+ * Use predefined constants to ensure consistency across the platform:
+ * - **States:** {@link ContainerAnalyticsEventState}
+ * - **Names:** {@link ContainerAnalyticsEventName}
+ *
  * @public
  */
 export type SendAnalyticsEventRequest = {
-  /** Analytics event state (e.g., "HOMEPAGE", "CHECKOUT_PAGE"). */
+  /** The analytics event state (e.g., "HOMEPAGE", "CHECKOUT_PAGE"). */
   state: string;
-  /** Analytics event name (e.g., "DEFAULT", "BOOK"). */
+  /** The analytics event name (e.g., "DEFAULT", "BOOK"). */
   name: string;
-  /** Optional additional data for the analytics event. */
+  /** Optional additional data for the analytics event as key-value pairs. */
   data?: Record<string, any>;
 };
 
@@ -229,7 +237,10 @@ export type SendAnalyticsEventResult = void;
  *
  * @public
  */
-export type SendAnalyticsEventResponse = BridgeResponse<SendAnalyticsEventResult>;
+export type SendAnalyticsEventResponse = ConstrainedBridgeResponse<
+  SendAnalyticsEventResult,
+  200 | 400
+>;
 
 /**
  * Result object containing the connection status.
@@ -237,7 +248,7 @@ export type SendAnalyticsEventResponse = BridgeResponse<SendAnalyticsEventResult
  * @public
  */
 export type IsConnectedResult = {
-  /** Whether the MiniApp is connected to the Grab app. */
+  /** Whether the MiniApp is connected to the Grab SuperApp. */
   connected: boolean;
 };
 
@@ -246,15 +257,20 @@ export type IsConnectedResult = {
  *
  * @public
  */
-export type IsConnectedResponse = BridgeResponse<IsConnectedResult>;
+export type IsConnectedResponse = ConstrainedBridgeResponse<IsConnectedResult, 200 | 404>;
 
 /**
  * Result object containing session parameters as a JSON string.
  *
+ * @remarks
+ * The `result` field contains a JSON string that must be parsed with `JSON.parse()` to use as an object.
+ * Session parameters can contain primitives, base64 encoded strings, or nested objects depending on the
+ * SuperApp's configuration.
+ *
  * @public
  */
 export type GetSessionParamsResult = {
-  /** JSON string containing session parameters. Parse with `JSON.parse(result)` to use as an object. */
+  /** JSON string containing session parameters. */
   result: string;
 };
 
@@ -263,4 +279,4 @@ export type GetSessionParamsResult = {
  *
  * @public
  */
-export type GetSessionParamsResponse = BridgeResponse<GetSessionParamsResult>;
+export type GetSessionParamsResponse = ConstrainedBridgeResponse<GetSessionParamsResult, 200>;

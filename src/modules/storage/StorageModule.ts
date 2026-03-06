@@ -32,7 +32,7 @@ import {
  *
  * @remarks
  * Stores data in the native app's persistent storage, allowing data to survive webview restarts.
- * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ * This code must run on the Grab SuperApp's webview to function correctly.
  *
  * @example
  * **ES Module:**
@@ -63,38 +63,41 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The boolean value to store.
    *
-   * @returns Resolves when the value is stored successfully, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `204`: Value stored successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Set a boolean value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.setBoolean('isDarkMode', true);
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Set a boolean value
    * try {
-   *   const { status_code, error } = await storageModule.setBoolean('isDarkMode', true);
-   *   switch (status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not store value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.setBoolean('isDarkMode', true);
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not store value:', response.error);
+   *   } else if (isResponseNoContent(response)) {
+   *     console.log('Value stored successfully');
    *   }
    * } catch (error) {
-   *   console.log(`Could not store value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   setBoolean(key: string, value: boolean): Promise<SetBooleanResponse> {
-    return this.wrappedModule.invoke<SetBooleanResult>('setBoolean', {
+    return this.wrappedModule.invoke('setBoolean', {
       key,
       value,
     });
@@ -105,38 +108,41 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns Resolves with the stored boolean value on success, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `200`: Value retrieved successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Get a boolean value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.getBoolean('isDarkMode');
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Get a boolean value
    * try {
-   *   const { status_code, result, error } = await storageModule.getBoolean('isDarkMode');
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Stored value:', result);
-   *       break;
-   *     default:
-   *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.getBoolean('isDarkMode');
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not retrieve value:', response.error);
+   *   } else if (isResponseOk(response)) {
+   *     console.log('Stored value:', response.result);
    *   }
    * } catch (error) {
-   *   console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   getBoolean(key: string): Promise<GetBooleanResponse> {
-    return this.wrappedModule.invoke<boolean | null>('getBoolean', { key });
+    return this.wrappedModule.invoke('getBoolean', { key });
   }
 
   /**
@@ -145,38 +151,41 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The integer value to store.
    *
-   * @returns Resolves when the value is stored successfully, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `204`: Value stored successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Set an integer value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.setInt('userCount', 42);
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Set an integer value
    * try {
-   *   const { status_code, error } = await storageModule.setInt('userCount', 42);
-   *   switch (status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not store value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.setInt('userCount', 42);
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not store value:', response.error);
+   *   } else if (isResponseNoContent(response)) {
+   *     console.log('Value stored successfully');
    *   }
    * } catch (error) {
-   *   console.log(`Could not store value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   setInt(key: string, value: number): Promise<SetIntResponse> {
-    return this.wrappedModule.invoke<SetIntResult>('setInt', { key, value });
+    return this.wrappedModule.invoke('setInt', { key, value });
   }
 
   /**
@@ -184,38 +193,41 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns Resolves with the stored integer value on success, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `200`: Value retrieved successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Get an integer value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.getInt('userCount');
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Get an integer value
    * try {
-   *   const { status_code, result, error } = await storageModule.getInt('userCount');
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Stored value:', result);
-   *       break;
-   *     default:
-   *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.getInt('userCount');
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not retrieve value:', response.error);
+   *   } else if (isResponseOk(response)) {
+   *     console.log('Stored value:', response.result);
    *   }
    * } catch (error) {
-   *   console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   getInt(key: string): Promise<GetIntResponse> {
-    return this.wrappedModule.invoke<number | null>('getInt', { key });
+    return this.wrappedModule.invoke('getInt', { key });
   }
 
   /**
@@ -224,38 +236,41 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The string value to store.
    *
-   * @returns Resolves when the value is stored successfully, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `204`: Value stored successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Set a string value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.setString('username', 'john_doe');
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Set a string value
    * try {
-   *   const { status_code, error } = await storageModule.setString('username', 'john_doe');
-   *   switch (status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not store value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.setString('username', 'john_doe');
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not store value:', response.error);
+   *   } else if (isResponseNoContent(response)) {
+   *     console.log('Value stored successfully');
    *   }
    * } catch (error) {
-   *   console.log(`Could not store value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   setString(key: string, value: string): Promise<SetStringResponse> {
-    return this.wrappedModule.invoke<SetStringResult>('setString', {
+    return this.wrappedModule.invoke('setString', {
       key,
       value,
     });
@@ -266,38 +281,41 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns Resolves with the stored string value on success, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `200`: Value retrieved successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Get a string value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.getString('username');
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Get a string value
    * try {
-   *   const { status_code, result, error } = await storageModule.getString('username');
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Stored value:', result);
-   *       break;
-   *     default:
-   *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.getString('username');
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not retrieve value:', response.error);
+   *   } else if (isResponseOk(response)) {
+   *     console.log('Stored value:', response.result);
    *   }
    * } catch (error) {
-   *   console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   getString(key: string): Promise<GetStringResponse> {
-    return this.wrappedModule.invoke<string | null>('getString', { key });
+    return this.wrappedModule.invoke('getString', { key });
   }
 
   /**
@@ -306,38 +324,41 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The double value to store.
    *
-   * @returns Resolves when the value is stored successfully, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `204`: Value stored successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Set a double value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.setDouble('price', 19.99);
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Set a double value
    * try {
-   *   const { status_code, error } = await storageModule.setDouble('price', 19.99);
-   *   switch (status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not store value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.setDouble('price', 19.99);
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not store value:', response.error);
+   *   } else if (isResponseNoContent(response)) {
+   *     console.log('Value stored successfully');
    *   }
    * } catch (error) {
-   *   console.log(`Could not store value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   setDouble(key: string, value: number): Promise<SetDoubleResponse> {
-    return this.wrappedModule.invoke<SetDoubleResult>('setDouble', {
+    return this.wrappedModule.invoke('setDouble', {
       key,
       value,
     });
@@ -348,38 +369,41 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns Resolves with the stored double value on success, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `200`: Value retrieved successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Get a double value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.getDouble('price');
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Get a double value
    * try {
-   *   const { status_code, result, error } = await storageModule.getDouble('price');
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Stored value:', result);
-   *       break;
-   *     default:
-   *       console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.getDouble('price');
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not retrieve value:', response.error);
+   *   } else if (isResponseOk(response)) {
+   *     console.log('Stored value:', response.result);
    *   }
    * } catch (error) {
-   *   console.log(`Could not retrieve value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   getDouble(key: string): Promise<GetDoubleResponse> {
-    return this.wrappedModule.invoke<number | null>('getDouble', { key });
+    return this.wrappedModule.invoke('getDouble', { key });
   }
 
   /**
@@ -387,74 +411,76 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to remove from storage.
    *
-   * @returns Resolves when the value is removed successfully, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `204`: Value removed successfully
+   * - `400`: Missing required parameters
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Remove a value
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.remove('username');
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Remove a value
    * try {
-   *   const { status_code, error } = await storageModule.remove('username');
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Value removed successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not remove value${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.remove('username');
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not remove value:', response.error);
+   *   } else if (isResponseNoContent(response)) {
+   *     console.log('Value removed successfully');
    *   }
    * } catch (error) {
-   *   console.log(`Could not remove value${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   remove(key: string): Promise<RemoveResponse> {
-    return this.wrappedModule.invoke<RemoveResult>('remove', { key });
+    return this.wrappedModule.invoke('remove', { key });
   }
 
   /**
    * Removes all values from the native storage.
    *
-   * @returns Resolves when all values are removed successfully, or error information on failure.
+   * @returns A promise that resolves to a `204` status code when all values are removed.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Remove all values
+   * **Simple usage**
    * ```typescript
-   * const response = await storageModule.removeAll();
-   * ```
+   * // Imports using ES Module built
+   * import { StorageModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { StorageModule, isResponseNoContent } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the storage module
+   * const storageModule = new StorageModule();
+   *
+   * // Remove all values
    * try {
-   *   const { status_code, error } = await storageModule.removeAll();
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('All values removed successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not remove values${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await storageModule.removeAll();
+   *
+   *   if (isResponseNoContent(response)) {
+   *     console.log('All values removed successfully');
    *   }
    * } catch (error) {
-   *   console.log(`Could not remove values${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   removeAll(): Promise<RemoveAllResponse> {
-    return this.wrappedModule.invoke<RemoveAllResult>('removeAll');
+    return this.wrappedModule.invoke('removeAll');
   }
 }

@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response';
 
 /**
  * Request parameters for scanning QR codes
@@ -22,7 +22,7 @@ export type ScanQRCodeRequest = {
  *
  * @public
  */
-export type ScanQRCodeResponse = BridgeResponse<ScanQRCodeResult>;
+export type ScanQRCodeResponse = ConstrainedBridgeResponse<ScanQRCodeResult, 200 | 204 | 400 | 403>;
 
 /**
  * Result object containing the scanned QR code data

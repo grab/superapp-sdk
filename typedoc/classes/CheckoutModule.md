@@ -7,7 +7,7 @@ JSBridge module for triggering native payment flows.
 ## Remarks
 
 Invokes the native Grab checkout/pay component to process payments.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 
@@ -57,39 +57,53 @@ Triggers the native checkout flow for payment processing.
 
 [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)
 
-The response from Grab payment charge init endpoint.
+The checkout configuration.
 
 #### Returns
 
 `Promise`\<[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)\>
 
-Resolves with the transaction details on success, or error information on failure.
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Checkout completed
+- `400`: Bad request
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Trigger checkout with response params
+**Simple usage**
 ```typescript
-const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
-const checkoutResponse = await checkoutModule.triggerCheckout(transactionResponse);
-```
+// Imports using ES Module built
+import { CheckoutModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { CheckoutModule, isResponseOk, isResponseError } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the checkout module
+const checkoutModule = new CheckoutModule();
+
+// Trigger checkout with response params
 try {
-  const { status_code, result, error } = await checkoutModule.triggerCheckout(request);
-  switch (status_code) {
-    case 200:
-      console.log('Transaction successful:', result.transactionID, result.status);
-      break;
-    default:
-      console.log(`Transaction failed${error ? `: ${error}` : ''}`);
-      break;
+  const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
+  const response = await checkoutModule.triggerCheckout(transactionResponse);
+
+  if (isResponseError(response)) {
+    console.log('Transaction failed:', response.status_code, response.error);
+  } else {
+    if (isResponseOk(response)) {
+      if (response.result.status === 'success') {
+        console.log('Transaction successful:', response.result.transactionID);
+      } else if (response.result.status === 'failure') {
+        console.log('Transaction failed:', response.result.errorMessage, response.result.errorCode);
+      } else if (response.result.status === 'pending') {
+        console.log('Transaction pending:', response.result.transactionID);
+      } else if (response.result.status === 'userInitiatedCancel') {
+        console.log('User cancelled the checkout');
+      }
+    }
   }
 } catch (error) {
-  console.log(`Could not trigger checkout${error ? `: ${error}` : ''}`);
+  console.log('Could not trigger checkout:', error);
 }
 ```

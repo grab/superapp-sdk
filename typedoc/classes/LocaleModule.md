@@ -7,7 +7,7 @@ JSBridge module for accessing device locale settings.
 ## Remarks
 
 Provides the user's preferred language and region settings from the native device.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 
@@ -47,40 +47,40 @@ const locale = new LocaleModule();
 
 ### getLanguageLocaleIdentifier()
 
-> **getLanguageLocaleIdentifier**(): `Promise`\<[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)\>
+> **getLanguageLocaleIdentifier**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`string`\>\>
 
 Retrieves the current language locale identifier from the device.
 
 #### Returns
 
-`Promise`\<[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)\>
+`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`string`\>\>
 
-Resolves with the locale identifier on success, or error information on failure.
+A promise that resolves to a `200` status code with the locale identifier.
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Get the current locale
+**Simple usage**
 ```typescript
-const response = await localeModule.getLanguageLocaleIdentifier();
-```
+// Imports using ES Module built
+import { LocaleModule, isResponseOk } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { LocaleModule, isResponseOk } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the locale module
+const localeModule = new LocaleModule();
+
+// Get the current locale
 try {
-  const { status_code, result, error } = await localeModule.getLanguageLocaleIdentifier({});
-  switch (status_code) {
-    case 200:
-      console.log('Current locale:', result.locale);
-      break;
-    default:
-      console.log(`Could not get locale${error ? `: ${error}` : ''}`);
-      break;
+  const response = await localeModule.getLanguageLocaleIdentifier();
+
+  if (isResponseOk(response)) {
+    console.log('Current locale:', response.result);
   }
 } catch (error) {
-  console.log(`Could not get locale${error ? `: ${error}` : ''}`);
+  console.log('Unexpected error:', error);
 }
 ```

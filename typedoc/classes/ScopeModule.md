@@ -7,7 +7,7 @@ JSBridge module for checking and refreshing API access permissions.
 ## Remarks
 
 Manages OAuth scope permissions, allowing the MiniApp to check access rights and reload scopes from the server.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 
@@ -47,49 +47,60 @@ const scope = new ScopeModule();
 
 ### hasAccessTo()
 
-> **hasAccessTo**(`request`: [`HasAccessToRequest`](../type-aliases/HasAccessToRequest.md)): `Promise`\<[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)\>
+> **hasAccessTo**(`module`: `string`, `method`: `string`): `Promise`\<[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)\>
 
 Checks if the current client has access to a specific JSBridge API method.
 
 #### Parameters
 
-##### request
+##### module
 
-[`HasAccessToRequest`](../type-aliases/HasAccessToRequest.md)
+`string`
 
-The module and method to check access for.
+The name of the bridge module to check access for (e.g., 'CameraModule').
+
+##### method
+
+`string`
+
+The method name within the module to check access for (e.g., 'scanQRCode').
 
 #### Returns
 
 `Promise`\<[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)\>
 
-Resolves with the access check result on success, or error information on failure.
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Access check completed successfully
+- `400`: Missing required parameters
+- `424`: ScopeKit error
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Check access to CameraModule.scanQRCode
+**Simple usage**
 ```typescript
-const response = await scopeModule.hasAccessTo({ module: 'CameraModule', method: 'scanQRCode' });
-```
+// Imports using ES Module built
+import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the scope module
+const scopeModule = new ScopeModule();
+
+// Check access to CameraModule.scanQRCode
 try {
-  const { status_code, result, error } = await scopeModule.hasAccessTo(request);
-  switch (status_code) {
-    case 200:
-      console.log('Has access:', result.hasAccess);
-      break;
-    default:
-      console.log(`Could not check access${error ? `: ${error}` : ''}`);
-      break;
+  const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
+
+  if (isResponseError(response)) {
+    console.log('Could not check access:', response.error);
+  } else if (isResponseOk(response)) {
+    console.log('Has access:', response.result.hasAccess);
   }
 } catch (error) {
-  console.log(`Could not check access${error ? `: ${error}` : ''}`);
+  console.log('Unexpected error:', error);
 }
 ```
 
@@ -106,32 +117,36 @@ This refreshes the permissions from the server.
 
 `Promise`\<[`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)\>
 
-Resolves when scopes are reloaded successfully, or error information on failure.
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Scopes reloaded successfully
+- `424`: ScopeKit error
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Reload scopes
+**Simple usage**
 ```typescript
-const response = await scopeModule.reloadScopes();
-```
+// Imports using ES Module built
+import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the scope module
+const scopeModule = new ScopeModule();
+
+// Reload scopes
 try {
-  const { status_code, error } = await scopeModule.reloadScopes();
-  switch (status_code) {
-    case 200:
-      console.log('Scopes reloaded successfully');
-      break;
-    default:
-      console.log(`Could not reload scopes${error ? `: ${error}` : ''}`);
-      break;
+  const response = await scopeModule.reloadScopes();
+
+  if (isResponseError(response)) {
+    console.log('Could not reload scopes:', response.error);
+  } else if (isResponseOk(response)) {
+    console.log('Scopes reloaded successfully');
   }
 } catch (error) {
-  console.log(`Could not reload scopes${error ? `: ${error}` : ''}`);
+  console.log('Unexpected error:', error);
 }
 ```

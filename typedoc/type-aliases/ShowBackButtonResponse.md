@@ -2,6 +2,6 @@
 
 # Type Alias: ShowBackButtonResponse
 
-> **ShowBackButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`ShowBackButtonResult`](ShowBackButtonResult.md)\>
+> **ShowBackButtonResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ShowBackButtonResult`](ShowBackButtonResult.md), `200`\>
 
 Response when showing the back button.

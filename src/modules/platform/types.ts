@@ -5,6 +5,4 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
-
 export {};

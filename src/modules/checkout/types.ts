@@ -5,10 +5,14 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response';
 
 /**
  * Request parameters for triggering the checkout flow.
+ *
+ * @remarks
+ * This type is intentionally flexible as the checkout parameters vary depending on the specific payment flow and partner requirements.
+ * Consult the Grab SuperApp SDK documentation for the specific parameters required for your use case.
  *
  * @public
  */
@@ -22,10 +26,10 @@ export type TriggerCheckoutRequest = Record<string, unknown>;
 export type TriggerCheckoutResult = {
   /** Unique identifier for the transaction at Grab side. */
   transactionID: string;
-  /** Status of the transaction. */
+  /** Status of the transaction: "success", "failure", "pending", or "userInitiatedCancel". */
   status: string;
-  /** The reason why the transaction failed. */
-  errorReason?: string;
+  /** Error message if the transaction failed. */
+  errorMessage?: string;
   /** Error code associated with the failed transaction. */
   errorCode?: string;
 };
@@ -35,4 +39,4 @@ export type TriggerCheckoutResult = {
  *
  * @public
  */
-export type TriggerCheckoutResponse = BridgeResponse<TriggerCheckoutResult>;
+export type TriggerCheckoutResponse = ConstrainedBridgeResponse<TriggerCheckoutResult, 200 | 400>;

@@ -2,6 +2,6 @@
 
 # Type Alias: CloseResponse
 
-> **CloseResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`CloseResult`](CloseResult.md)\>
+> **CloseResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`CloseResult`](CloseResult.md), `200`\>
 
 Response when closing the container.
