@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.12] - 2026-03-06
+
+### Added
+
+- TypeScript ESLint support with `typescript-eslint` for type-aware linting
+- Add ESLint rule to check copyrights
+
+### Changed
+
+- `SendAnalyticsEventRequest.data` type changed from `Record<string, any>` to `Record<string, unknown>`
+- `BaseModule` initialization errors now include the original error as `cause`
+
+### Removed
+
+- Unused `*Result` type imports from Camera, Checkout, Identity, Profile, Scope, Storage, and SystemWebViewKit modules
+- Window interface extensions for Wrapped modules (moved to consumer side)
+
 ## [2.0.0-beta.11] - 2026-03-06
 
 ### Added

@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -6,14 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import {
-  isResponseClientError,
-  isResponseError,
-  isResponseForbidden,
-  isResponseNoContent,
-  isResponseOk,
-} from '../../core/response';
-import { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types';
+import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
  * JSBridge module for accessing the device camera.

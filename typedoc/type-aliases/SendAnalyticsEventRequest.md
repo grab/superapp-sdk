@@ -2,7 +2,7 @@
 
 # Type Alias: SendAnalyticsEventRequest
 
-> **SendAnalyticsEventRequest** = \{ `data?`: `Record`\<`string`, `any`\>; `name`: `string`; `state`: `string`; \}
+> **SendAnalyticsEventRequest** = \{ `data?`: `Record`\<`string`, `unknown`\>; `name`: `string`; `state`: `string`; \}
 
 Request parameters for sending analytics events.
 
@@ -16,7 +16,7 @@ Use predefined constants to ensure consistency across the platform:
 
 ### data?
 
-> `optional` **data**: `Record`\<`string`, `any`\>
+> `optional` **data**: `Record`\<`string`, `unknown`\>
 
 Optional additional data for the analytics event as key-value pairs.
 
