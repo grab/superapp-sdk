@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Request parameters for checking if the current client has access to a specific API.
@@ -34,7 +34,7 @@ export type HasAccessToResult = {
  *
  * @public
  */
-export type HasAccessToResponse = BridgeResponse<HasAccessToResult>;
+export type HasAccessToResponse = ConstrainedBridgeResponse<HasAccessToResult, 200 | 400 | 424>;
 
 /**
  * Result object for reloading scopes.
@@ -49,4 +49,4 @@ export type ReloadScopesResult = void;
  *
  * @public
  */
-export type ReloadScopesResponse = BridgeResponse<ReloadScopesResult>;
+export type ReloadScopesResponse = ConstrainedBridgeResponse<ReloadScopesResult, 200 | 424>;

@@ -2,6 +2,6 @@
 
 # Type Alias: HideRefreshButtonResponse
 
-> **HideRefreshButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`HideRefreshButtonResult`](HideRefreshButtonResult.md)\>
+> **HideRefreshButtonResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`HideRefreshButtonResult`](HideRefreshButtonResult.md), `200`\>
 
 Response when hiding the refresh button.

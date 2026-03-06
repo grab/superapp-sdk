@@ -7,10 +7,34 @@
 
 export { BaseModule } from './core/module';
 export {
+  StatusCodeMap,
   BridgeResponse,
+  ConstrainedBridgeResponse,
   BridgeSuccessResponse,
-  BridgeNoResultResponse,
+  BridgeRedirectResponse,
   BridgeErrorResponse,
+  BridgeClientErrorResponse,
+  BridgeServerErrorResponse,
+  BridgeStatusCode200Response,
+  BridgeStatusCode204Response,
+  BridgeStatusCode302Response,
+  BridgeStatusCode400Response,
+  BridgeStatusCode403Response,
+  BridgeStatusCode404Response,
+  BridgeStatusCode424Response,
+  BridgeStatusCode500Response,
+  isResponseSuccess,
+  isResponseOk,
+  isResponseRedirect,
+  isResponseNoContent,
+  isResponseError,
+  isResponseClientError,
+  isResponseServerError,
+  isResponseBadRequest,
+  isResponseForbidden,
+  isResponseNotFound,
+  isResponseFailedDependency,
+  isResponseInternalServerError,
 } from './core/response';
 export { DataStream, DataStreamHandlers, Subscription } from './core/stream';
 export { CameraModule } from './modules/camera/CameraModule';
@@ -97,6 +121,13 @@ export type {
   GetCountryCodeResponse,
 } from './modules/location/types';
 export { MediaModule } from './modules/media/MediaModule';
+export type {
+  DRMContentConfig,
+  DRMPlaybackEvent,
+  PlayDRMContentResponse,
+  PlayDRMContentResult,
+  ObserveDRMPlaybackResponse,
+} from './modules/media/types';
 export { PlatformModule } from './modules/platform/PlatformModule';
 export { ScopeModule } from './modules/scope/ScopeModule';
 export type {

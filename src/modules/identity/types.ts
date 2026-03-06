@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
@@ -48,7 +48,7 @@ export type AuthorizeResult = {
  *
  * @public
  */
-export type AuthorizeResponse = BridgeResponse<AuthorizeResult>;
+export type AuthorizeResponse = ConstrainedBridgeResponse<AuthorizeResult, 200 | 302 | 204 | 400>;
 
 /**
  * Result object containing the stored PKCE authorization artifacts.
@@ -72,7 +72,10 @@ export type GetAuthorizationArtifactsResult = {
  *
  * @public
  */
-export type GetAuthorizationArtifactsResponse = BridgeResponse<GetAuthorizationArtifactsResult>;
+export type GetAuthorizationArtifactsResponse = ConstrainedBridgeResponse<
+  GetAuthorizationArtifactsResult,
+  200 | 204 | 400
+>;
 
 /**
  * Result object for clearing authorization artifacts.
@@ -87,4 +90,7 @@ export type ClearAuthorizationArtifactsResult = void;
  *
  * @public
  */
-export type ClearAuthorizationArtifactsResponse = BridgeResponse<ClearAuthorizationArtifactsResult>;
+export type ClearAuthorizationArtifactsResponse = ConstrainedBridgeResponse<
+  ClearAuthorizationArtifactsResult,
+  204
+>;

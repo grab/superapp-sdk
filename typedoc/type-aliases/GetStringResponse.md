@@ -2,6 +2,6 @@
 
 # Type Alias: GetStringResponse
 
-> **GetStringResponse** = [`BridgeResponse`](BridgeResponse.md)\<`string` \| `null`\>
+> **GetStringResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<`string` \| `null`, `200` \| `400`\>
 
 Response when getting a string value.

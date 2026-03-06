@@ -2,6 +2,6 @@
 
 # Type Alias: GetIntResponse
 
-> **GetIntResponse** = [`BridgeResponse`](BridgeResponse.md)\<`number` \| `null`\>
+> **GetIntResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<`number` \| `null`, `200` \| `400`\>
 
 Response when getting an integer value.

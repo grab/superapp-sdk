@@ -12,4 +12,4 @@ Result object containing the connection status.
 
 > **connected**: `boolean`
 
-Whether the MiniApp is connected to the Grab app.
+Whether the MiniApp is connected to the Grab SuperApp.

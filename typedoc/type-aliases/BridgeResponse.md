@@ -2,7 +2,7 @@
 
 # Type Alias: BridgeResponse\<T\>
 
-> **BridgeResponse**\<`T`\> = [`BridgeSuccessResponse`](BridgeSuccessResponse.md)\<`T`\> \| [`BridgeNoResultResponse`](BridgeNoResultResponse.md) \| [`BridgeErrorResponse`](BridgeErrorResponse.md)
+> **BridgeResponse**\<`T`\> = [`BridgeSuccessResponse`](BridgeSuccessResponse.md)\<`T`\> \| [`BridgeRedirectResponse`](BridgeRedirectResponse.md) \| [`BridgeClientErrorResponse`](BridgeClientErrorResponse.md) \| [`BridgeServerErrorResponse`](BridgeServerErrorResponse.md)
 
 Universal response format for all JSBridge methods.
 
@@ -14,4 +14,5 @@ Universal response format for all JSBridge methods.
 
 ## Remarks
 
-All JSBridge method calls resolve to this union type.
+All JSBridge method calls resolve to this type. After destructuring,
+use type guards (e.g., if (error), if (status_code === 200)) to narrow the type.

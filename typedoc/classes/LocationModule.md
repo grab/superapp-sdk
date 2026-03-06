@@ -7,7 +7,7 @@ JSBridge module for accessing device location services.
 ## Remarks
 
 Provides access to the device's geolocation data including coordinates and country code.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 
@@ -55,33 +55,37 @@ Get the current geographic coordinates of the device.
 
 `Promise`\<[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)\>
 
-Resolves with the device's latitude and longitude coordinates, or error information if the request fails.
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Coordinates retrieved successfully
+- `424`: GeoKit error
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Get current coordinates
+**Simple usage**
 ```typescript
-const response = await locationModule.getCoordinate();
-```
+// Imports using ES Module built
+import { LocationModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { LocationModule, isResponseOk, isResponseError } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the location module
+const locationModule = new LocationModule();
+
+// Get current coordinates
 try {
-  const { status_code, result, error } = await locationModule.getCoordinate();
-  switch (status_code) {
-    case 200:
-      console.log('Coordinates:', result.lat, result.lng);
-      break;
-    default:
-      console.log(`Could not get coordinates${error ? `: ${error}` : ''}`);
-      break;
+  const response = await locationModule.getCoordinate();
+
+  if (isResponseError(response)) {
+    console.log('Could not get coordinates:', response.error);
+  } else if (isResponseOk(response)) {
+    console.log('Coordinates:', response.result.lat, response.result.lng);
   }
 } catch (error) {
-  console.log(`Could not get coordinates${error ? `: ${error}` : ''}`);
+  console.log('Unexpected error:', error);
 }
 ```
 
@@ -97,33 +101,37 @@ Get the country code based on the device's current location.
 
 `Promise`\<[`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)\>
 
-Resolves with the ISO country code (e.g., "SG", "ID", "MY"), or error information if the request fails.
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Country code retrieved successfully
+- `424`: GeoKit/Resolver error
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Get country code
+**Simple usage**
 ```typescript
-const response = await locationModule.getCountryCode();
-```
+// Imports using ES Module built
+import { LocationModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { LocationModule, isResponseOk, isResponseError } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the location module
+const locationModule = new LocationModule();
+
+// Get country code
 try {
-  const { status_code, result, error } = await locationModule.getCountryCode();
-  switch (status_code) {
-    case 200:
-      console.log('Country code:', result.countryCode);
-      break;
-    default:
-      console.log(`Could not get country code${error ? `: ${error}` : ''}`);
-      break;
+  const response = await locationModule.getCountryCode();
+
+  if (isResponseError(response)) {
+    console.log('Could not get country code:', response.error);
+  } else if (isResponseOk(response)) {
+    console.log('Country code:', response.result.countryCode);
   }
 } catch (error) {
-  console.log(`Could not get country code${error ? `: ${error}` : ''}`);
+  console.log('Unexpected error:', error);
 }
 ```
 
@@ -146,13 +154,22 @@ Use `subscribe()` to listen for updates, or `await` to get the first value only.
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Subscribe to location changes
+**Simple usage**
 ```typescript
+// Imports using ES Module built
+import { LocationModule, isResponseOk } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { LocationModule, isResponseOk } = window.SuperAppSDK;
+
+// Initialize the location module
+const locationModule = new LocationModule();
+
+// Subscribe to location changes
 const subscription = locationModule.observeLocationChange().subscribe({
   next: (response) => {
-    if (response.status_code === 200) {
+    if (isResponseOk(response)) {
       console.log('Location updated:', response.result.lat, response.result.lng);
     }
   },
@@ -161,12 +178,4 @@ const subscription = locationModule.observeLocationChange().subscribe({
 
 // Later, to stop receiving updates:
 subscription.unsubscribe();
-```
-
-Get only the first location update
-```typescript
-const response = await locationModule.observeLocationChange();
-if (response.status_code === 200) {
-  console.log('First location:', response.result.lat, response.result.lng);
-}
 ```

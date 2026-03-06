@@ -2,7 +2,7 @@
 
 # Type Alias: TriggerCheckoutResult
 
-> **TriggerCheckoutResult** = \{ `errorCode?`: `string`; `errorReason?`: `string`; `status`: `string`; `transactionID`: `string`; \}
+> **TriggerCheckoutResult** = \{ `errorCode?`: `string`; `errorMessage?`: `string`; `status`: `string`; `transactionID`: `string`; \}
 
 Result object containing the checkout transaction details.
 
@@ -16,11 +16,11 @@ Error code associated with the failed transaction.
 
 ***
 
-### errorReason?
+### errorMessage?
 
-> `optional` **errorReason**: `string`
+> `optional` **errorMessage**: `string`
 
-The reason why the transaction failed.
+Error message if the transaction failed.
 
 ***
 
@@ -28,7 +28,7 @@ The reason why the transaction failed.
 
 > **status**: `string`
 
-Status of the transaction.
+Status of the transaction: "success", "failure", "pending", or "userInitiatedCancel".
 
 ***
 

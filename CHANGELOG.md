@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.11] - 2026-03-06
+
+### Added
+
+- Core response type guard functions (`isResponseOk`, `isResponseError`, `isResponseSuccess`, `isResponseClientError`, `isResponseServerError`, etc.) for runtime response type checking
+- Response type definitions for all remaining modules: Camera, Checkout, Container, Locale, Location, Media, Platform, Scope, Storage, SystemWebViewKit
+
+### Changed
+
+- Exported all new response types and type guards from main entry point
+- All module methods now return typed `Promise<Response>` instead of `Promise<any>`
+
 ## [2.0.0-beta.10] - 2026-03-05
 
 ### Added
@@ -15,9 +27,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exported all new types from main entry point (`src/index.ts`) and module barrel exports
 - Generated updated TypeDoc documentation with new type aliases for Identity, Profile, and SystemWebViewKit modules
 
+### Changed
+
+- `ScopeModule.hasAccessTo()` now accepts separate `(module, method)` parameters instead of `HasAccessToRequest` object
+- `ContainerModule.isConnected()` refactored to use `isRunningInGrabApp()` utility
+- `IdentityModule.shouldUseWebConsent()` and `ProfileModule.isSupported()` refactored to use new platform utilities
+
 ### Fixed
 
 - `StorageModule` methods now accept individual parameters `(key, value)` instead of object parameters `({key, value})` to match the existing public API
+
+### Removed
+
+- `HasAccessToRequest` type (replaced by direct parameters)
+- `SetBooleanRequest`, `SetIntRequest`, `SetStringRequest`, `SetDoubleRequest` types (methods now use direct parameters)
+- `IdentityModule.parseGrabUserAgent()` and `isVersionBelow()` static methods
+- `ProfileModule.parseGrabUserAgent()` and `isVersionBelow()` static methods
+- Related TypeDoc documentation for removed methods
 
 ## [2.0.0-beta.9] - 2026-03-04
 

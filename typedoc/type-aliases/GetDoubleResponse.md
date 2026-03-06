@@ -2,6 +2,6 @@
 
 # Type Alias: GetDoubleResponse
 
-> **GetDoubleResponse** = [`BridgeResponse`](BridgeResponse.md)\<`number` \| `null`\>
+> **GetDoubleResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<`number` \| `null`, `200` \| `400`\>
 
 Response when getting a double value.

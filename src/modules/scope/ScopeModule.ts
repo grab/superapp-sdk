@@ -20,7 +20,7 @@ import {
  *
  * @remarks
  * Manages OAuth scope permissions, allowing the MiniApp to check access rights and reload scopes from the server.
- * Requires the MiniApp to be running within the Grab SuperApp's webview.
+ * This code must run on the Grab SuperApp's webview to function correctly.
  *
  * @example
  * **ES Module:**
@@ -48,78 +48,85 @@ export class ScopeModule extends BaseModule {
   /**
    * Checks if the current client has access to a specific JSBridge API method.
    *
-   * @param module - The bridge module name to check access for.
-   * @param method - The method name within the module to check access for.
+   * @param module - The name of the bridge module to check access for (e.g., 'CameraModule').
+   * @param method - The method name within the module to check access for (e.g., 'scanQRCode').
    *
-   * @returns Resolves with the access check result on success, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `200`: Access check completed successfully
+   * - `400`: Missing required parameters
+   * - `424`: ScopeKit error
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Check access to CameraModule.scanQRCode
+   * **Simple usage**
    * ```typescript
-   * const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
-   * ```
+   * // Imports using ES Module built
+   * import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the scope module
+   * const scopeModule = new ScopeModule();
+   *
+   * // Check access to CameraModule.scanQRCode
    * try {
-   *   const { status_code, result, error } = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Has access:', result.hasAccess);
-   *       break;
-   *     default:
-   *       console.log(`Could not check access${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not check access:', response.error);
+   *   } else if (isResponseOk(response)) {
+   *     console.log('Has access:', response.result.hasAccess);
    *   }
    * } catch (error) {
-   *   console.log(`Could not check access${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   hasAccessTo(module: string, method: string): Promise<HasAccessToResponse> {
-    return this.wrappedModule.invoke<HasAccessToResult>('hasAccessTo', { module, method });
+    return this.wrappedModule.invoke('hasAccessTo', { module, method });
   }
 
   /**
    * Requests to reload the consented OAuth scopes for the current client.
    * This refreshes the permissions from the server.
    *
-   * @returns Resolves when scopes are reloaded successfully, or error information on failure.
+   * @returns A promise that resolves to a response with one of the following possible status codes:
+   * - `200`: Scopes reloaded successfully
+   * - `424`: ScopeKit error
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
-   * Reload scopes
+   * **Simple usage**
    * ```typescript
-   * const response = await scopeModule.reloadScopes();
-   * ```
+   * // Imports using ES Module built
+   * import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * // Imports using UMD built (via CDN)
+   * const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
    *
-   * @example
-   * Handling the response
-   * ```typescript
+   * // Initialize the scope module
+   * const scopeModule = new ScopeModule();
+   *
+   * // Reload scopes
    * try {
-   *   const { status_code, error } = await scopeModule.reloadScopes();
-   *   switch (status_code) {
-   *     case 200:
-   *       console.log('Scopes reloaded successfully');
-   *       break;
-   *     default:
-   *       console.log(`Could not reload scopes${error ? `: ${error}` : ''}`);
-   *       break;
+   *   const response = await scopeModule.reloadScopes();
+   *
+   *   if (isResponseError(response)) {
+   *     console.log('Could not reload scopes:', response.error);
+   *   } else if (isResponseOk(response)) {
+   *     console.log('Scopes reloaded successfully');
    *   }
    * } catch (error) {
-   *   console.log(`Could not reload scopes${error ? `: ${error}` : ''}`);
+   *   console.log('Unexpected error:', error);
    * }
    * ```
    *
    * @public
    */
   reloadScopes(): Promise<ReloadScopesResponse> {
-    return this.wrappedModule.invoke<ReloadScopesResult>('reloadScopes');
+    return this.wrappedModule.invoke('reloadScopes');
   }
 }

@@ -7,7 +7,7 @@ JSBridge module for accessing user profile information.
 ## Remarks
 
 Provides access to user profile data such as email verification.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 
@@ -55,33 +55,36 @@ Fetches the user's email address from their Grab profile.
 
 `Promise`\<[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)\>
 
-Resolves with the user's email address on success, or error information on failure.
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Email fetched successfully
+- `400`: Invalid request
+- `403`: Feature requires Grab app version 5.399 or above (returned client-side, not from JSBridge)
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Fetch the user's email
+**Simple usage**
 ```typescript
-const response = await profileModule.fetchEmail();
-```
+// Imports using ES Module built
+import { ProfileModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { ProfileModule, isResponseOk, isResponseError } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the profile module
+const profileModule = new ProfileModule();
+
+// Fetch the user's email
 try {
-  const { status_code, result, error } = await profileModule.fetchEmail();
-  switch (status_code) {
-    case 200:
-      console.log('User email:', result.email);
-      break;
-    case 403:
-      console.log('Feature not available: Requires Grab app version 5.399 or above');
-      break;
-    default:
-      console.log(`Could not fetch email${error ? `: ${error}` : ''}`);
-      break;
+  const response = await profileModule.fetchEmail();
+
+  if (isResponseError(response)) {
+    // Feature not available or other error
+    console.log('Could not fetch email:', response.error);
+  } else if (isResponseOk(response)) {
+    console.log('User email:', response.result.email);
   }
 } catch (err) {
   console.log(`Could not fetch email${err ? `: ${err}` : ''}`);
@@ -102,45 +105,45 @@ Verifies the user's email address using a one-time password (OTP).
 
 [`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)
 
-The email address and OTP to verify.
+The email verification configuration.
 
 #### Returns
 
 `Promise`\<[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)\>
 
-Resolves when the email is verified successfully, or error information on failure.
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Email verified successfully
+- `400`: Invalid request
+- `403`: Feature requires Grab app version 5.399 or above (returned client-side, not from JSBridge)
 
 #### Throws
 
 Error when the JSBridge method fails unexpectedly.
 
-#### Examples
+#### Example
 
-Verify email with OTP
+**Simple usage**
 ```typescript
-const response = await profileModule.verifyEmail({
-  email: 'user@example.com',
-  otp: '123456'
-});
-```
+// Imports using ES Module built
+import { ProfileModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { ProfileModule, isResponseOk, isResponseError } = window.SuperAppSDK;
 
-Handling the response
-```typescript
+// Initialize the profile module
+const profileModule = new ProfileModule();
+
+// Verify email with OTP
 try {
-  const { status_code, error } = await profileModule.verifyEmail({
+  const response = await profileModule.verifyEmail({
     email: 'user@example.com',
     otp: '123456'
   });
-  switch (status_code) {
-    case 204:
-      console.log('Email verified successfully');
-      break;
-    case 403:
-      console.log('Feature not available: Requires Grab app version 5.399 or above');
-      break;
-    default:
-      console.log(`Could not verify email${error ? `: ${error}` : ''}`);
-      break;
+
+  if (isResponseError(response)) {
+    // Feature not available or other error
+    console.log('Could not verify email:', response.error);
+  } else if (isResponseOk(response)) {
+    console.log('Email verified successfully');
   }
 } catch (err) {
   console.log(`Could not verify email${err ? `: ${err}` : ''}`);

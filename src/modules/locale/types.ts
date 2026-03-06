@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Response when getting the language locale identifier from the device.
@@ -25,4 +25,4 @@ import { BridgeResponse } from '../../core/response';
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = BridgeResponse<string>;
+export type GetLanguageLocaleIdentifierResponse = ConstrainedBridgeResponse<string, 200>;

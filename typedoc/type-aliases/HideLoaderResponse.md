@@ -2,6 +2,6 @@
 
 # Type Alias: HideLoaderResponse
 
-> **HideLoaderResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`HideLoaderResult`](HideLoaderResult.md)\>
+> **HideLoaderResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`HideLoaderResult`](HideLoaderResult.md), `200`\>
 
 Response when hiding the loader.

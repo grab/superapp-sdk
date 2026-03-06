@@ -2,6 +2,6 @@
 
 # Type Alias: SetDoubleResponse
 
-> **SetDoubleResponse** = [`BridgeResponse`](BridgeResponse.md)\<[`SetDoubleResult`](SetDoubleResult.md)\>
+> **SetDoubleResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetDoubleResult`](SetDoubleResult.md), `204` \| `400`\>
 
 Response when setting a double value.

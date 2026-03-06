@@ -8,7 +8,7 @@ JSBridge module for authenticating users via GrabID.
 
 Handles OAuth2/OIDC authentication flows with PKCE support, enabling MiniApps to obtain user identity tokens.
 Supports both native in-app consent and web-based fallback flows.
-Requires the MiniApp to be running within the Grab SuperApp's webview.
+This code must run on the Grab SuperApp's webview to function correctly.
 
 ## Examples
 
@@ -146,11 +146,11 @@ The authorization request parameters including client ID, redirect URI,
 
 `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
-Resolves when the authorization flow is initiated.
-         - Status 200: Authorization completed successfully (native in_place flow)
-         - Status 302: Redirect initiated (web flow or redirect response mode)
-         - Status 204: User cancelled the authorization
-         - Status 400/401/403: Authorization failed with error details
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: Authorization completed successfully (native in_place flow)
+- `302`: Redirect in progress (web redirect flow). The page will
+  be redirected to the authorization URL. This response has no result data.
+- `400`: Missing required OAuth parameters, redirect mismatch, or no webview URL
 
 #### Throws
 
@@ -181,42 +181,42 @@ after authorization completes.
 - For supported versions, the SDK attempts native consent first and falls back to
   web on specific native errors (400, 401, 403)
 
-#### Examples
+#### Example
 
-Initiate authorization with redirect mode
+**Simple usage**
 ```typescript
-const response = await identityModule.authorize({
-  clientId: 'your-client-id',
-  redirectUri: 'https://your-app.com/callback',
-  scope: 'openid profile',
-  environment: 'production',
-  responseMode: 'redirect'
-});
-```
+// Imports using ES Module built
+import { IdentityModule, isResponseOk, isResponseError, isResponseRedirect } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { IdentityModule, isResponseOk, isResponseError, isResponseRedirect } = window.SuperAppSDK;
 
-Handling the response
-```typescript
-const { result, error, status_code } = await identityModule.authorize({
-  clientId: 'your-client-id',
-  redirectUri: 'https://your-app.com/callback',
-  scope: 'openid profile',
-  environment: 'production',
-  responseMode: 'redirect'
-});
+// Initialize the identity module
+const identityModule = new IdentityModule();
 
-if (status_code === 200 && result) {
-  // Authorization successful (in_place mode with native flow)
-  console.log('Auth Code:', result.code);
-  console.log('State:', result.state);
-} else if (status_code === 302) {
-  // Authorization redirect initiated (web flow or redirect response mode)
-  // The page will redirect to the authorization server
-} else if (status_code === 204) {
-  // User cancelled the authorization
-  console.log('User cancelled');
-} else if (error) {
-  // Authorization failed
-  console.error('Auth error:', error);
+// Initiate authorization with redirect mode
+try {
+  const response = await identityModule.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-app.com/callback',
+    scope: 'openid profile',
+    environment: 'production',
+    responseMode: 'redirect'
+  });
+
+  if (isResponseError(response)) {
+    // Authorization failed
+    console.error('Auth error:', response.error);
+  } else if (isResponseOk(response)) {
+    // Authorization successful (in_place mode with native flow)
+    console.log('Auth Code:', response.result.code);
+    console.log('State:', response.result.state);
+  } else if (isResponseRedirect(response)) {
+    // Redirect in progress (web flow with responseMode: 'redirect')
+    // The page will be redirected to the authorization URL
+    console.log('Redirecting to authorization...');
+  }
+} catch (error) {
+  console.log('Unexpected error:', error);
 }
 ```
 
@@ -224,7 +224,7 @@ if (status_code === 200 && result) {
 
 ### clearAuthorizationArtifacts()
 
-> **clearAuthorizationArtifacts**(): `Promise`\<[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)\>
+> **clearAuthorizationArtifacts**(): `Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
 
 Clears all stored PKCE authorization artifacts from local storage.
 This should be called after a successful token exchange or when you need to
@@ -232,66 +232,33 @@ reset the authorization state (e.g., on error or logout).
 
 #### Returns
 
-`Promise`\<[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)\>
+`Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
 
-Resolves with status 204 when artifacts are cleared successfully.
-         The result and error fields will always be null for this operation.
+A promise that resolves to a `204` status code when artifacts are cleared.
 
 #### Example
 
-Clear stored authorization artifacts after successful token exchange
+**Simple usage**
 ```typescript
-const { status_code } = await identityModule.clearAuthorizationArtifacts();
-if (status_code === 204) {
-  console.log('Authorization artifacts cleared');
+// Imports using ES Module built
+import { IdentityModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { IdentityModule, isResponseNoContent } = window.SuperAppSDK;
+
+// Initialize the identity module
+const identityModule = new IdentityModule();
+
+// Clear stored authorization artifacts after successful token exchange
+try {
+  const response = await identityModule.clearAuthorizationArtifacts();
+
+  if (isResponseNoContent(response)) {
+    console.log('Authorization artifacts cleared');
+  }
+} catch (error) {
+  console.log('Unexpected error:', error);
 }
 ```
-
-***
-
-### fetchAuthorizationEndpoint()
-
-> **fetchAuthorizationEndpoint**(`environment`: `any`): `Promise`\<`any`\>
-
-#### Parameters
-
-##### environment
-
-`any`
-
-#### Returns
-
-`Promise`\<`any`\>
-
-***
-
-### generatePKCEArtifacts()
-
-> **generatePKCEArtifacts**(): \{ `codeChallenge`: `any`; `codeChallengeMethod`: `string`; `codeVerifier`: `any`; `nonce`: `string`; `state`: `string`; \}
-
-#### Returns
-
-\{ `codeChallenge`: `any`; `codeChallengeMethod`: `string`; `codeVerifier`: `any`; `nonce`: `string`; `state`: `string`; \}
-
-##### codeChallenge
-
-> **codeChallenge**: `any`
-
-##### codeChallengeMethod
-
-> **codeChallengeMethod**: `string`
-
-##### codeVerifier
-
-> **codeVerifier**: `any`
-
-##### nonce
-
-> **nonce**: `string`
-
-##### state
-
-> **state**: `string`
 
 ***
 
@@ -306,9 +273,10 @@ These artifacts are used to complete the OAuth2 authorization code exchange.
 
 `Promise`\<[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)\>
 
-Resolves with the stored artifacts if all are present (status 200),
-         no content if none are present (status 204),
-         or an error if artifacts are inconsistent (status 400).
+A promise that resolves to a response with one of the following possible status codes:
+- `200`: All artifacts present - proceed with token exchange
+- `204`: No artifacts yet - user hasn't authorized
+- `400`: Inconsistent state - possible data corruption
 
 #### Remarks
 
@@ -319,109 +287,38 @@ You must use this returned `redirectUri` for token exchange to ensure OAuth comp
 
 #### Example
 
-Retrieve stored authorization artifacts after authorization redirect
+**Simple usage**
 ```typescript
-const { result, status_code, error } = await identityModule.getAuthorizationArtifacts();
+// Imports using ES Module built
+import { IdentityModule, isResponseOk, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+// Imports using UMD built (via CDN)
+const { IdentityModule, isResponseOk, isResponseNoContent, isResponseError } = window.SuperAppSDK;
 
-if (status_code === 200 && result) {
-  // All artifacts present - proceed with token exchange
-  const { state, codeVerifier, nonce, redirectUri } = result;
-  console.log('State:', state);
-  console.log('Code Verifier:', codeVerifier);
-  console.log('Nonce:', nonce);
-  console.log('Redirect URI:', redirectUri);
-} else if (status_code === 204) {
-  // No artifacts yet - user hasn't authorized
-  console.log('No authorization artifacts found. Authorization has not been initiated.');
-} else if (status_code === 400) {
-  // Inconsistent state - possible data corruption
-  console.error('Authorization artifacts error:', error);
+// Initialize the identity module
+const identityModule = new IdentityModule();
+
+// Retrieve stored authorization artifacts after authorization redirect
+try {
+  const response = await identityModule.getAuthorizationArtifacts();
+
+  if (isResponseError(response)) {
+    // Inconsistent state - possible data corruption
+    console.error('Authorization artifacts error:', response.error);
+  } else if (isResponseOk(response)) {
+    // All artifacts present - proceed with token exchange
+    const { state, codeVerifier, nonce, redirectUri } = response.result;
+    console.log('State:', state);
+    console.log('Code Verifier:', codeVerifier);
+    console.log('Nonce:', nonce);
+    console.log('Redirect URI:', redirectUri);
+  } else if (isResponseNoContent(response)) {
+    // No artifacts yet - user hasn't authorized
+    console.log('No authorization artifacts found. Authorization has not been initiated.');
+  }
+} catch (error) {
+  console.log('Unexpected error:', error);
 }
 ```
-
-***
-
-### getStorageItem()
-
-> **getStorageItem**(`key`: `any`): `string`
-
-#### Parameters
-
-##### key
-
-`any`
-
-#### Returns
-
-`string`
-
-***
-
-### performNativeAuthorization()
-
-> **performNativeAuthorization**(`invokeParams`: `any`): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
-
-#### Parameters
-
-##### invokeParams
-
-`any`
-
-#### Returns
-
-`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
-
-***
-
-### performWebAuthorization()
-
-> **performWebAuthorization**(`params`: `any`): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
-
-#### Parameters
-
-##### params
-
-`any`
-
-#### Returns
-
-`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
-
-***
-
-### setStorageItem()
-
-> **setStorageItem**(`key`: `any`, `value`: `any`): `void`
-
-#### Parameters
-
-##### key
-
-`any`
-
-##### value
-
-`any`
-
-#### Returns
-
-`void`
-
-***
-
-### storePKCEArtifacts()
-
-> **storePKCEArtifacts**(`artifacts`: `any`): `void`
-
-#### Parameters
-
-##### artifacts
-
-`any`
-
-#### Returns
-
-`void`
 
 ***
 

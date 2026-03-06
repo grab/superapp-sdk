@@ -2,6 +2,6 @@
 
 # Type Alias: GetBooleanResponse
 
-> **GetBooleanResponse** = [`BridgeResponse`](BridgeResponse.md)\<`boolean` \| `null`\>
+> **GetBooleanResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<`boolean` \| `null`, `200` \| `400`\>
 
 Response when getting a boolean value.

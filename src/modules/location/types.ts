@@ -6,7 +6,7 @@
  */
 
 import { DataStream } from '@grabjs/mobile-kit-bridge-sdk';
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Result object containing the geographic coordinates.
@@ -25,7 +25,7 @@ export type GetCoordinateResult = {
  *
  * @public
  */
-export type GetCoordinateResponse = BridgeResponse<GetCoordinateResult>;
+export type GetCoordinateResponse = ConstrainedBridgeResponse<GetCoordinateResult, 200 | 424>;
 
 /**
  * Response when observing the device coordinates.
@@ -49,4 +49,4 @@ export type GetCountryCodeResult = {
  *
  * @public
  */
-export type GetCountryCodeResponse = BridgeResponse<GetCountryCodeResult>;
+export type GetCountryCodeResponse = ConstrainedBridgeResponse<GetCountryCodeResult, 200 | 424>;

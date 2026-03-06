@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core/response';
+import { ConstrainedBridgeResponse } from '../../core/response/types';
 
 /**
  * Result object containing the user's email address.
@@ -22,7 +22,7 @@ export type FetchEmailResult = {
  *
  * @public
  */
-export type FetchEmailResponse = BridgeResponse<FetchEmailResult>;
+export type FetchEmailResponse = ConstrainedBridgeResponse<FetchEmailResult, 200 | 400 | 403>;
 
 /**
  * Request parameters for verifying the user's email with an OTP.
@@ -49,4 +49,4 @@ export type VerifyEmailResult = void;
  *
  * @public
  */
-export type VerifyEmailResponse = BridgeResponse<VerifyEmailResult>;
+export type VerifyEmailResponse = ConstrainedBridgeResponse<VerifyEmailResult, 200 | 400 | 403>;

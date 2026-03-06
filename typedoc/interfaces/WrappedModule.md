@@ -28,13 +28,21 @@ export interface WrappedProfileModule extends WrappedModule {
 
 ### invoke()
 
-> **invoke**\<`T`, `M`\>(`method`: `M`, `params?`: `unknown`): `M` *extends* `` `observe${string}` `` ? [`DataStream`](../type-aliases/DataStream.md)\<`T`\> : `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\>
+> **invoke**\<`T`, `P`, `R`, `M`\>(`method`: `M`, `params?`: `P`): `M` *extends* `` `observe${string}` `` ? [`DataStream`](../type-aliases/DataStream.md)\<`T`\> : `Promise`\<`R`\>
 
 #### Type Parameters
 
 ##### T
 
 `T`
+
+##### P
+
+`P` = `unknown`
+
+##### R
+
+`R` = [`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>
 
 ##### M
 
@@ -48,8 +56,8 @@ export interface WrappedProfileModule extends WrappedModule {
 
 ##### params?
 
-`unknown`
+`P`
 
 #### Returns
 
-`M` *extends* `` `observe${string}` `` ? [`DataStream`](../type-aliases/DataStream.md)\<`T`\> : `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\>
+`M` *extends* `` `observe${string}` `` ? [`DataStream`](../type-aliases/DataStream.md)\<`T`\> : `Promise`\<`R`\>
