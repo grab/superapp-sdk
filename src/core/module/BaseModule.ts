@@ -51,7 +51,7 @@ export class BaseModule {
     try {
       wrapModule(window, this.name);
     } catch (error) {
-      throw new Error(`Failed to initialize ${this.name}: ${error.message}`);
+      throw new Error(`Failed to initialize ${this.name}: ${error.message}`, { cause: error });
     }
   }
 }

@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import globals from 'globals';
 import json from '@eslint/json';
 import markdown from '@eslint/markdown';
@@ -7,6 +8,15 @@ import { defineConfig } from 'eslint/config';
 export default defineConfig([
   {
     ignores: ['build/', 'dist/', 'package-lock.json', 'docs/', 'typedoc/', 'temp/'],
+  },
+  {
+    files: ['**/*.ts'],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'error',
+    },
+    languageOptions: { globals: globals.browser },
   },
   {
     files: ['**/*.{js,mjs,cjs}'],

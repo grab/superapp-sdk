@@ -6,11 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import {
-  RedirectToSystemWebViewRequest,
-  RedirectToSystemWebViewResponse,
-  RedirectToSystemWebViewResult,
-} from './types';
+import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
  * JSBridge module for opening URLs in the device's system browser.

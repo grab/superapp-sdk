@@ -12,7 +12,6 @@ import { isResponseError } from '../../core/response';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
-  AuthorizeResult,
   GetAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsResponse,
 } from './types';

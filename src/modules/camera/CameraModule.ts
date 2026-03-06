@@ -6,14 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import {
-  isResponseClientError,
-  isResponseError,
-  isResponseForbidden,
-  isResponseNoContent,
-  isResponseOk,
-} from '../../core/response';
-import { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types';
+import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
  * JSBridge module for accessing the device camera.

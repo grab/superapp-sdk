@@ -222,7 +222,7 @@ export type SendAnalyticsEventRequest = {
   /** The analytics event name (e.g., "DEFAULT", "BOOK"). */
   name: string;
   /** Optional additional data for the analytics event as key-value pairs. */
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 };
 
 /**

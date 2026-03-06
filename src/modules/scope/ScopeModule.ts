@@ -6,12 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import {
-  HasAccessToResponse,
-  HasAccessToResult,
-  ReloadScopesResponse,
-  ReloadScopesResult,
-} from './types';
+import { HasAccessToResponse, ReloadScopesResponse } from './types';
 
 /**
  * JSBridge module for checking and refreshing API access permissions.

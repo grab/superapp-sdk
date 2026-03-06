@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import { TriggerCheckoutRequest, TriggerCheckoutResponse, TriggerCheckoutResult } from './types';
+import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
 /**
  * JSBridge module for triggering native payment flows.

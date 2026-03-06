@@ -6,13 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import {
-  FetchEmailResponse,
-  FetchEmailResult,
-  VerifyEmailRequest,
-  VerifyEmailResponse,
-  VerifyEmailResult,
-} from './types';
+import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
 

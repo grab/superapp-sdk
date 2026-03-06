@@ -8,21 +8,15 @@
 import { BaseModule } from '../../core/module';
 import {
   SetBooleanResponse,
-  SetBooleanResult,
   GetBooleanResponse,
   SetIntResponse,
-  SetIntResult,
   GetIntResponse,
   SetStringResponse,
-  SetStringResult,
   GetStringResponse,
   SetDoubleResponse,
-  SetDoubleResult,
   GetDoubleResponse,
   RemoveResponse,
-  RemoveResult,
   RemoveAllResponse,
-  RemoveAllResult,
 } from './types';
 
 /**
