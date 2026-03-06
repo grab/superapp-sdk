@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -8,21 +8,15 @@
 import { BaseModule } from '../../core/module';
 import {
   SetBooleanResponse,
-  SetBooleanResult,
   GetBooleanResponse,
   SetIntResponse,
-  SetIntResult,
   GetIntResponse,
   SetStringResponse,
-  SetStringResult,
   GetStringResponse,
   SetDoubleResponse,
-  SetDoubleResult,
   GetDoubleResponse,
   RemoveResponse,
-  RemoveResult,
   RemoveAllResponse,
-  RemoveAllResult,
 } from './types';
 
 /**

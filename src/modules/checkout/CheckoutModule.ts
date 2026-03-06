@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import { TriggerCheckoutRequest, TriggerCheckoutResponse, TriggerCheckoutResult } from './types';
+import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
 /**
  * JSBridge module for triggering native payment flows.

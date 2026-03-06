@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -51,7 +51,7 @@ export class BaseModule {
     try {
       wrapModule(window, this.name);
     } catch (error) {
-      throw new Error(`Failed to initialize ${this.name}: ${error.message}`);
+      throw new Error(`Failed to initialize ${this.name}: ${error.message}`, { cause: error });
     }
   }
 }

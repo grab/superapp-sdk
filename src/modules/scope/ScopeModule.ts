@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -6,12 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import {
-  HasAccessToResponse,
-  HasAccessToResult,
-  ReloadScopesResponse,
-  ReloadScopesResult,
-} from './types';
+import { HasAccessToResponse, ReloadScopesResponse } from './types';
 
 /**
  * JSBridge module for checking and refreshing API access permissions.

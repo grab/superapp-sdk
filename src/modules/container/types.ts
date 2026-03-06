@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -222,7 +222,7 @@ export type SendAnalyticsEventRequest = {
   /** The analytics event name (e.g., "DEFAULT", "BOOK"). */
   name: string;
   /** Optional additional data for the analytics event as key-value pairs. */
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 };
 
 /**

@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -12,7 +12,6 @@ import { isResponseError } from '../../core/response';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
-  AuthorizeResult,
   GetAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsResponse,
 } from './types';

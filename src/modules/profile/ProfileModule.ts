@@ -1,4 +1,4 @@
-/**
+/*!
  * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
  *
  * This source code is licensed under the MIT license found in the LICENSE file in the root
@@ -6,13 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import {
-  FetchEmailResponse,
-  FetchEmailResult,
-  VerifyEmailRequest,
-  VerifyEmailResponse,
-  VerifyEmailResult,
-} from './types';
+import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
 
