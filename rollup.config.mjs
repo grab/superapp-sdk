@@ -9,7 +9,9 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
-import { COPYRIGHT_BANNER } from './scripts/constants.mjs';
+import fs from 'fs';
+
+const COPYRIGHT_BANNER = fs.readFileSync('./resources/copyright.txt', 'utf8').toString();
 
 export default {
   input: 'src/index.ts',

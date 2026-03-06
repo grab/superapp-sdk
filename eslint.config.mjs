@@ -12,7 +12,6 @@ import json from '@eslint/json';
 import markdown from '@eslint/markdown';
 import { defineConfig } from 'eslint/config';
 import licenseHeader from 'eslint-plugin-license-header';
-import { COPYRIGHT_BANNER } from './scripts/constants.mjs';
 
 export default defineConfig([
   {
@@ -25,7 +24,7 @@ export default defineConfig([
     rules: {
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
-      'license-header/header': ['error', [COPYRIGHT_BANNER]],
+      'license-header/header': ['error', 'resources/copyright.txt'],
     },
     languageOptions: { globals: globals.browser },
   },
@@ -34,7 +33,7 @@ export default defineConfig([
     plugins: { js, 'license-header': licenseHeader },
     extends: ['js/recommended'],
     rules: {
-      'license-header/header': ['error', [COPYRIGHT_BANNER]],
+      'license-header/header': ['error', 'resources/copyright.txt'],
     },
     languageOptions: { globals: globals.browser },
   },
@@ -43,7 +42,7 @@ export default defineConfig([
     plugins: { js, 'license-header': licenseHeader },
     extends: ['js/recommended'],
     rules: {
-      'license-header/header': ['error', [COPYRIGHT_BANNER]],
+      'license-header/header': ['error', 'resources/copyright.txt'],
     },
     languageOptions: { globals: globals.node },
   },
