@@ -46,10 +46,7 @@ export class ScopeModule extends BaseModule {
    * @param module - The name of the bridge module to check access for (e.g., 'CameraModule').
    * @param method - The method name within the module to check access for (e.g., 'scanQRCode').
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Access check completed successfully
-   * - `400`: Missing required parameters
-   * - `424`: ScopeKit error
+   * @returns Whether the MiniApp has permission to access the specified method.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -57,9 +54,9 @@ export class ScopeModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * import { ScopeModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+   * const { ScopeModule } = window.SuperAppSDK;
    *
    * // Initialize the scope module
    * const scopeModule = new ScopeModule();
@@ -68,10 +65,19 @@ export class ScopeModule extends BaseModule {
    * try {
    *   const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
    *
-   *   if (isResponseError(response)) {
-   *     console.log('Could not check access:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     console.log('Has access:', response.result.hasAccess);
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Has access:', response.result.hasAccess);
+   *       break;
+   *     case 400:
+   *     case 424:
+   *       console.log('Could not check access:', response.error);
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -80,17 +86,15 @@ export class ScopeModule extends BaseModule {
    *
    * @public
    */
-  hasAccessTo(module: string, method: string): Promise<HasAccessToResponse> {
-    return this.wrappedModule.invoke('hasAccessTo', { module, method });
+  hasAccessTo(module: string, method: string): HasAccessToResponse {
+    return this.invoke('hasAccessTo', { module, method });
   }
 
   /**
    * Requests to reload the consented OAuth scopes for the current client.
    * This refreshes the permissions from the server.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Scopes reloaded successfully
-   * - `424`: ScopeKit error
+   * @returns Confirmation that the scopes have been reloaded from the server.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -98,9 +102,9 @@ export class ScopeModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * import { ScopeModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+   * const { ScopeModule } = window.SuperAppSDK;
    *
    * // Initialize the scope module
    * const scopeModule = new ScopeModule();
@@ -109,10 +113,18 @@ export class ScopeModule extends BaseModule {
    * try {
    *   const response = await scopeModule.reloadScopes();
    *
-   *   if (isResponseError(response)) {
-   *     console.log('Could not reload scopes:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     console.log('Scopes reloaded successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Scopes reloaded successfully');
+   *       break;
+   *     case 424:
+   *       console.log('Could not reload scopes:', response.error);
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -121,7 +133,7 @@ export class ScopeModule extends BaseModule {
    *
    * @public
    */
-  reloadScopes(): Promise<ReloadScopesResponse> {
-    return this.wrappedModule.invoke('reloadScopes');
+  reloadScopes(): ReloadScopesResponse {
+    return this.invoke('reloadScopes');
   }
 }

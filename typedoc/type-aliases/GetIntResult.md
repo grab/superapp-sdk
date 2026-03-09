@@ -6,6 +6,18 @@
 
 Result object containing the integer value.
 
+## Examples
+
+**Value exists:**
+```typescript
+{ value: 42 }
+```
+
+**Value not found:**
+```typescript
+{ value: null }
+```
+
 ## Properties
 
 ### value

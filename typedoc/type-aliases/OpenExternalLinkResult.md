@@ -5,3 +5,4 @@
 > **OpenExternalLinkResult** = `void`
 
 Result when opening an external link.
+This operation returns no data on success.

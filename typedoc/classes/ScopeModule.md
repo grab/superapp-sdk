@@ -47,7 +47,7 @@ const scope = new ScopeModule();
 
 ### hasAccessTo()
 
-> **hasAccessTo**(`module`: `string`, `method`: `string`): `Promise`\<[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)\>
+> **hasAccessTo**(`module`: `string`, `method`: `string`): [`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)
 
 Checks if the current client has access to a specific JSBridge API method.
 
@@ -67,12 +67,9 @@ The method name within the module to check access for (e.g., 'scanQRCode').
 
 #### Returns
 
-`Promise`\<[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)\>
+[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Access check completed successfully
-- `400`: Missing required parameters
-- `424`: ScopeKit error
+Whether the MiniApp has permission to access the specified method.
 
 #### Throws
 
@@ -83,9 +80,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ScopeModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ScopeModule } = window.SuperAppSDK;
 
 // Initialize the scope module
 const scopeModule = new ScopeModule();
@@ -94,10 +91,19 @@ const scopeModule = new ScopeModule();
 try {
   const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
 
-  if (isResponseError(response)) {
-    console.log('Could not check access:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Has access:', response.result.hasAccess);
+  switch (response.status_code) {
+    case 200:
+      console.log('Has access:', response.result.hasAccess);
+      break;
+    case 400:
+    case 424:
+      console.log('Could not check access:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -108,18 +114,16 @@ try {
 
 ### reloadScopes()
 
-> **reloadScopes**(): `Promise`\<[`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)\>
+> **reloadScopes**(): [`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)
 
 Requests to reload the consented OAuth scopes for the current client.
 This refreshes the permissions from the server.
 
 #### Returns
 
-`Promise`\<[`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)\>
+[`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Scopes reloaded successfully
-- `424`: ScopeKit error
+Confirmation that the scopes have been reloaded from the server.
 
 #### Throws
 
@@ -130,9 +134,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ScopeModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ScopeModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ScopeModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ScopeModule } = window.SuperAppSDK;
 
 // Initialize the scope module
 const scopeModule = new ScopeModule();
@@ -141,10 +145,18 @@ const scopeModule = new ScopeModule();
 try {
   const response = await scopeModule.reloadScopes();
 
-  if (isResponseError(response)) {
-    console.log('Could not reload scopes:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Scopes reloaded successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Scopes reloaded successfully');
+      break;
+    case 424:
+      console.log('Could not reload scopes:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);

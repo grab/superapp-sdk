@@ -47,15 +47,15 @@ const locale = new LocaleModule();
 
 ### getLanguageLocaleIdentifier()
 
-> **getLanguageLocaleIdentifier**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`string`\>\>
+> **getLanguageLocaleIdentifier**(): [`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)
 
 Retrieves the current language locale identifier from the device.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`string`\>\>
+[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)
 
-A promise that resolves to a `200` status code with the locale identifier.
+The user's preferred language locale string (e.g., 'en-SG', 'id-ID').
 
 #### Throws
 
@@ -66,9 +66,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { LocaleModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { LocaleModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { LocaleModule, isResponseOk } = window.SuperAppSDK;
+const { LocaleModule } = window.SuperAppSDK;
 
 // Initialize the locale module
 const localeModule = new LocaleModule();
@@ -77,8 +77,15 @@ const localeModule = new LocaleModule();
 try {
   const response = await localeModule.getLanguageLocaleIdentifier();
 
-  if (isResponseOk(response)) {
-    console.log('Current locale:', response.result);
+  switch (response.status_code) {
+    case 200:
+      console.log('Current locale:', response.result);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);

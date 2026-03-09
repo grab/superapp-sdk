@@ -5,3 +5,4 @@
 > **OnCtaTapResult** = `void`
 
 Result when notifying CTA tap.
+This operation returns no data on success.

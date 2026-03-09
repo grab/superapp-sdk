@@ -10,8 +10,8 @@ export type {
   AuthorizeRequest,
   AuthorizeResponse,
   AuthorizeResult,
-  GetAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsResult,
   ClearAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsResult,
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResult,
 } from './types';

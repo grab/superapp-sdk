@@ -6,9 +6,9 @@
  */
 
 export {
-  generateRandomString,
-  base64URLEncodeString,
   base64URLEncodeFromBytes,
-  generateCodeVerifier,
+  base64URLEncodeString,
   generateCodeChallenge,
+  generateCodeVerifier,
+  generateRandomString,
 } from './crypto';

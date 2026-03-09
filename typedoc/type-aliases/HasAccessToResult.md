@@ -6,6 +6,18 @@
 
 Result object containing the access check result.
 
+## Examples
+
+**Has access:**
+```typescript
+{ hasAccess: true }
+```
+
+**No access:**
+```typescript
+{ hasAccess: false }
+```
+
 ## Properties
 
 ### hasAccess

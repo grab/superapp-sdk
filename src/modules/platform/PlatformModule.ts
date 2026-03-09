@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
+import { BackResponse } from './types';
 
 /**
  * JSBridge module for controlling platform navigation.
@@ -43,7 +44,7 @@ export class PlatformModule extends BaseModule {
    * Triggers the native platform back navigation.
    * This navigates back in the native navigation stack.
    *
-   * @returns A promise that resolves to a `204` status code when back navigation is triggered.
+   * @returns Confirmation that the back navigation was triggered.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -51,9 +52,9 @@ export class PlatformModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { PlatformModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+   * import { PlatformModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { PlatformModule, isResponseNoContent } = window.SuperAppSDK;
+   * const { PlatformModule } = window.SuperAppSDK;
    *
    * // Initialize the platform module
    * const platformModule = new PlatformModule();
@@ -62,8 +63,15 @@ export class PlatformModule extends BaseModule {
    * try {
    *   const response = await platformModule.back();
    *
-   *   if (isResponseNoContent(response)) {
-   *     console.log('Back navigation triggered');
+   *   switch (response.status_code) {
+   *     case 204:
+   *       console.log('Back navigation triggered');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -72,7 +80,7 @@ export class PlatformModule extends BaseModule {
    *
    * @public
    */
-  back() {
-    return this.wrappedModule.invoke('back');
+  back(): BackResponse {
+    return this.invoke('back');
   }
 }

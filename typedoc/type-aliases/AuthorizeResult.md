@@ -7,6 +7,15 @@
 Result object for the authorization flow.
 Contains the authorization code and state when native in_place flow completes successfully.
 
+## Example
+
+```typescript
+{
+  code: 'auth-code-abc123',
+  state: 'csrf-state-xyz789'
+}
+```
+
 ## Properties
 
 ### code

@@ -5,3 +5,9 @@
 > **SetTitleRequest** = `string`
 
 Request parameters for setting the title.
+
+## Example
+
+```typescript
+'Home Page'
+```

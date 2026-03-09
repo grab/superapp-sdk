@@ -6,6 +6,18 @@
 
 Result object containing the connection status.
 
+## Examples
+
+**Connected to Grab SuperApp:**
+```typescript
+{ connected: true }
+```
+
+**Not connected:**
+```typescript
+{ connected: false }
+```
+
 ## Properties
 
 ### connected

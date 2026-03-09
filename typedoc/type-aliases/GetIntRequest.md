@@ -6,6 +6,12 @@
 
 Request parameters for getting an integer value from storage.
 
+## Example
+
+```typescript
+{ key: 'userCount' }
+```
+
 ## Properties
 
 ### key

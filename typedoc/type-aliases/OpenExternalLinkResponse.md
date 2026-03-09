@@ -2,6 +2,36 @@
 
 # Type Alias: OpenExternalLinkResponse
 
-> **OpenExternalLinkResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`OpenExternalLinkResult`](OpenExternalLinkResult.md), `200` \| `400`\>
+> **OpenExternalLinkResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`OpenExternalLinkResult`](OpenExternalLinkResult.md), `200` \| `400` \| `501`\>\>
 
 Response when opening an external link.
+
+## Remarks
+
+This response can have the following status codes:
+- `200`: External link opened successfully.
+- `400`: Invalid URL parameter.
+- `501`: Not implemented - this method requires the Grab app environment.
+
+## Examples
+
+**Success response (200):**
+```typescript
+{ status_code: 200 }
+```
+
+**Bad request response (400):**
+```typescript
+{
+  status_code: 400,
+  error: 'URL parameter not found'
+}
+```
+
+**Not implemented response (501) - outside Grab app:**
+```typescript
+{
+  status_code: 501,
+  error: 'Not implemented: This method requires the Grab app environment'
+}
+```

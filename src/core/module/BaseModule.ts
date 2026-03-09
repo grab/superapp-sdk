@@ -6,7 +6,10 @@
  */
 
 import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
+
 import { WrappedModule } from '../../types/global';
+import { getErrorMessage } from '../../utils/error';
+import { isRunningInGrabApp } from '../../utils/user-agent';
 
 /**
  * Base class for all JSBridge modules.
@@ -31,7 +34,7 @@ export class BaseModule {
    * @internal
    */
   protected get wrappedModule(): WrappedModule {
-    return window[`Wrapped${this.name}`] as WrappedModule;
+    return (window as unknown as Record<string, WrappedModule>)[`Wrapped${this.name}`];
   }
 
   /**
@@ -51,7 +54,35 @@ export class BaseModule {
     try {
       wrapModule(window, this.name);
     } catch (error) {
-      throw new Error(`Failed to initialize ${this.name}: ${error.message}`, { cause: error });
+      throw new Error(`Failed to initialize ${this.name}: ${getErrorMessage(error)}`, {
+        cause: error,
+      });
     }
+  }
+
+  /**
+   * Invokes a JSBridge method with automatic environment checking.
+   *
+   * @remarks
+   * This method checks if the code is running in the Grab app before invoking the JSBridge.
+   * If not running in the Grab app, it returns a 501 (Not Implemented) response.
+   * For methods that need to work outside the Grab app, use `this.wrappedModule.invoke()` directly.
+   *
+   * @param method - The name of the JSBridge method to invoke.
+   * @param params - The parameters to pass to the method.
+   * @returns A promise resolving to the JSBridge response, or a 501 error if not in Grab app.
+   *
+   * @internal
+   */
+  invoke<T>(method: string, params?: unknown): Promise<T> {
+    if (isRunningInGrabApp()) {
+      return this.wrappedModule.invoke(method, params);
+    }
+
+    return Promise.resolve({
+      status_code: 501,
+      result: undefined,
+      error: 'Not implemented: This method requires the Grab app environment',
+    } as T);
   }
 }

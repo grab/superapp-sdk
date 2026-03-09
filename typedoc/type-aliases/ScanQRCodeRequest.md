@@ -4,7 +4,19 @@
 
 > **ScanQRCodeRequest** = \{ `title?`: `string`; \}
 
-Request parameters for scanning QR codes
+Request parameters for scanning QR codes.
+
+## Examples
+
+**Request with custom title:**
+```typescript
+{ title: 'Scan Payment QR' }
+```
+
+**Minimal request (uses default title):**
+```typescript
+{}
+```
 
 ## Properties
 

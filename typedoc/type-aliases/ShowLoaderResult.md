@@ -5,3 +5,4 @@
 > **ShowLoaderResult** = `void`
 
 Result when showing the loader.
+This operation returns no data on success.
