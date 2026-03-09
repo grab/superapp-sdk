@@ -12,6 +12,25 @@ Use predefined constants to ensure consistency across the platform:
 - **States:** [ContainerAnalyticsEventState](../variables/ContainerAnalyticsEventState.md)
 - **Names:** [ContainerAnalyticsEventName](../variables/ContainerAnalyticsEventName.md)
 
+## Examples
+
+**Analytics event with state and name:**
+```typescript
+{
+  state: 'HOMEPAGE',
+  name: 'DEFAULT'
+}
+```
+
+**Analytics event with additional data:**
+```typescript
+{
+  state: 'CHECKOUT_PAGE',
+  name: 'BOOK',
+  data: { itemId: '123', quantity: 2 }
+}
+```
+
 ## Properties
 
 ### data?

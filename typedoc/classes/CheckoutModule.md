@@ -47,7 +47,7 @@ const checkoutModule = new CheckoutModule();
 
 ### triggerCheckout()
 
-> **triggerCheckout**(`request`: [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)): `Promise`\<[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)\>
+> **triggerCheckout**(`request`: [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)): [`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)
 
 Triggers the native checkout flow for payment processing.
 
@@ -57,15 +57,13 @@ Triggers the native checkout flow for payment processing.
 
 [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)
 
-The checkout configuration.
+Payment transaction details, including the transaction ID and amount.
 
 #### Returns
 
-`Promise`\<[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)\>
+[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Checkout completed
-- `400`: Bad request
+The checkout result, containing transaction status (success, failure, or pending) and transaction details.
 
 #### Throws
 
@@ -76,9 +74,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { CheckoutModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { CheckoutModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { CheckoutModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { CheckoutModule } = window.SuperAppSDK;
 
 // Initialize the checkout module
 const checkoutModule = new CheckoutModule();
@@ -88,10 +86,8 @@ try {
   const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
   const response = await checkoutModule.triggerCheckout(transactionResponse);
 
-  if (isResponseError(response)) {
-    console.log('Transaction failed:', response.status_code, response.error);
-  } else {
-    if (isResponseOk(response)) {
+  switch (response.status_code) {
+    case 200:
       if (response.result.status === 'success') {
         console.log('Transaction successful:', response.result.transactionID);
       } else if (response.result.status === 'failure') {
@@ -101,7 +97,15 @@ try {
       } else if (response.result.status === 'userInitiatedCancel') {
         console.log('User cancelled the checkout');
       }
-    }
+      break;
+    case 400:
+      console.log('Transaction failed:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Could not trigger checkout:', error);

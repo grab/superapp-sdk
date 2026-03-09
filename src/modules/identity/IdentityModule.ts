@@ -6,28 +6,28 @@
  */
 
 import { BaseModule } from '../../core/module';
-import { isResponseError } from '../../core/response';
+import {
+  generateCodeChallenge,
+  generateCodeVerifier,
+  generateRandomString,
+} from '../../utils/crypto';
+import { errorHasMessage, getErrorMessage } from '../../utils/error';
+import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
+import { meetsMinimumVersion, Version } from '../../utils/version';
+import {
+  CODE_CHALLENGE_METHOD,
+  CODE_VERIFIER_LENGTH,
+  NAMESPACE,
+  NONCE_LENGTH,
+  OPENID_CONFIG_ENDPOINTS,
+  STATE_LENGTH,
+} from './constants';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
-  GetAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResponse,
 } from './types';
-import { meetsMinimumVersion, Version } from '../../utils/version';
-import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
-import {
-  generateRandomString,
-  generateCodeVerifier,
-  generateCodeChallenge,
-} from '../../utils/crypto';
-import {
-  NAMESPACE,
-  CODE_CHALLENGE_METHOD,
-  NONCE_LENGTH,
-  STATE_LENGTH,
-  CODE_VERIFIER_LENGTH,
-  OPENID_CONFIG_ENDPOINTS,
-} from './constants';
 
 /**
  * JSBridge module for authenticating users via GrabID.
@@ -86,7 +86,7 @@ export class IdentityModule extends BaseModule {
         throw new Error('Failed to fetch authorization configuration');
       }
 
-      const config = await response.json();
+      const config = (await response.json()) as { authorization_endpoint: string };
       if (!config.authorization_endpoint) {
         console.error('authorization_endpoint not found in OpenID configuration response');
         throw new Error('Invalid authorization configuration');
@@ -97,8 +97,8 @@ export class IdentityModule extends BaseModule {
       console.error('Error fetching authorization endpoint:', error);
 
       if (
-        error.message === 'Failed to fetch authorization configuration' ||
-        error.message === 'Invalid authorization configuration'
+        errorHasMessage(error, 'Failed to fetch authorization configuration') ||
+        errorHasMessage(error, 'Invalid authorization configuration')
       ) {
         throw error;
       }
@@ -116,7 +116,13 @@ export class IdentityModule extends BaseModule {
    *
    * @internal
    */
-  private async generatePKCEArtifacts() {
+  private async generatePKCEArtifacts(): Promise<{
+    nonce: string;
+    state: string;
+    codeVerifier: string;
+    codeChallenge: string;
+    codeChallengeMethod: string;
+  }> {
     const nonce = generateRandomString(NONCE_LENGTH);
     const state = generateRandomString(STATE_LENGTH);
     const codeVerifier = generateCodeVerifier(CODE_VERIFIER_LENGTH);
@@ -154,10 +160,7 @@ export class IdentityModule extends BaseModule {
    * Retrieves stored PKCE authorization artifacts from local storage.
    * These artifacts are used to complete the OAuth2 authorization code exchange.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: All artifacts present - proceed with token exchange
-   * - `204`: No artifacts yet - user hasn't authorized
-   * - `400`: Inconsistent state - possible data corruption
+   * @returns The stored PKCE artifacts including state, code verifier, nonce, and redirect URI.
    *
    * @remarks
    * **Important:** The `redirectUri` returned by this method is the actual redirect URI
@@ -169,9 +172,9 @@ export class IdentityModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { IdentityModule, isResponseOk, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+   * import { IdentityModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { IdentityModule, isResponseOk, isResponseNoContent, isResponseError } = window.SuperAppSDK;
+   * const { IdentityModule } = window.SuperAppSDK;
    *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
@@ -180,19 +183,25 @@ export class IdentityModule extends BaseModule {
    * try {
    *   const response = await identityModule.getAuthorizationArtifacts();
    *
-   *   if (isResponseError(response)) {
-   *     // Inconsistent state - possible data corruption
-   *     console.error('Authorization artifacts error:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     // All artifacts present - proceed with token exchange
-   *     const { state, codeVerifier, nonce, redirectUri } = response.result;
-   *     console.log('State:', state);
-   *     console.log('Code Verifier:', codeVerifier);
-   *     console.log('Nonce:', nonce);
-   *     console.log('Redirect URI:', redirectUri);
-   *   } else if (isResponseNoContent(response)) {
-   *     // No artifacts yet - user hasn't authorized
-   *     console.log('No authorization artifacts found. Authorization has not been initiated.');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       // All artifacts present - proceed with token exchange
+   *       const { state, codeVerifier, nonce, redirectUri } = response.result;
+   *       console.log('State:', state);
+   *       console.log('Code Verifier:', codeVerifier);
+   *       console.log('Nonce:', nonce);
+   *       console.log('Redirect URI:', redirectUri);
+   *       break;
+   *     case 204:
+   *       // No artifacts yet - user hasn't authorized
+   *       console.log('No authorization artifacts found. Authorization has not been initiated.');
+   *       break;
+   *     case 400:
+   *       // Inconsistent state - possible data corruption
+   *       console.error('Authorization artifacts error:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -201,7 +210,7 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
+  async getAuthorizationArtifacts(): GetAuthorizationArtifactsResponse {
     const state = this.getStorageItem('state');
     const codeVerifier = this.getStorageItem('code_verifier');
     const nonce = this.getStorageItem('nonce');
@@ -214,7 +223,12 @@ export class IdentityModule extends BaseModule {
     if (existingCount === 4) {
       return Promise.resolve({
         status_code: 200,
-        result: { state, codeVerifier, nonce, redirectUri },
+        result: {
+          state: state!,
+          codeVerifier: codeVerifier!,
+          nonce: nonce!,
+          redirectUri: redirectUri!,
+        },
         error: null,
       });
     }
@@ -239,15 +253,15 @@ export class IdentityModule extends BaseModule {
    * This should be called after a successful token exchange or when you need to
    * reset the authorization state (e.g., on error or logout).
    *
-   * @returns A promise that resolves to a `204` status code when artifacts are cleared.
+   * @returns Confirmation that the authorization artifacts have been cleared.
    *
    * @example
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { IdentityModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+   * import { IdentityModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { IdentityModule, isResponseNoContent } = window.SuperAppSDK;
+   * const { IdentityModule } = window.SuperAppSDK;
    *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
@@ -256,7 +270,7 @@ export class IdentityModule extends BaseModule {
    * try {
    *   const response = await identityModule.clearAuthorizationArtifacts();
    *
-   *   if (isResponseNoContent(response)) {
+   *   if (response.status_code === 204) {
    *     console.log('Authorization artifacts cleared');
    *   }
    * } catch (error) {
@@ -266,7 +280,7 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
+  async clearAuthorizationArtifacts(): ClearAuthorizationArtifactsResponse {
     window.localStorage.removeItem(`${NAMESPACE}:nonce`);
     window.localStorage.removeItem(`${NAMESPACE}:state`);
     window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);
@@ -367,7 +381,8 @@ export class IdentityModule extends BaseModule {
    * Performs web-based OAuth2 authorization by redirecting to the authorization server.
    *
    * @param params - The authorization parameters.
-   * @returns A promise that resolves to a 302 redirect response or a 400 error response.
+   *
+   * @returns The authorization result, including status and redirect information.
    *
    * @internal
    */
@@ -380,7 +395,7 @@ export class IdentityModule extends BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     environment: 'staging' | 'production';
-  }): Promise<AuthorizeResponse> {
+  }): AuthorizeResponse {
     // Store the current page URL for potential return navigation
     this.setStorageItem('login_return_uri', window.location.href);
 
@@ -395,7 +410,7 @@ export class IdentityModule extends BaseModule {
     } catch (error) {
       return Promise.resolve({
         status_code: 400,
-        error: error.message,
+        error: getErrorMessage(error),
         result: undefined,
       });
     }
@@ -424,7 +439,8 @@ export class IdentityModule extends BaseModule {
    * Performs native in-app OAuth2 authorization using the JSBridge.
    *
    * @param invokeParams - The authorization parameters.
-   * @returns A promise that resolves to the native authorization response.
+   *
+   * @returns The authorization result, including status and authorization code.
    *
    * @internal
    */
@@ -437,7 +453,7 @@ export class IdentityModule extends BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     responseMode: 'redirect' | 'in_place';
-  }): Promise<AuthorizeResponse> {
+  }): AuthorizeResponse {
     return this.wrappedModule.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
@@ -454,14 +470,9 @@ export class IdentityModule extends BaseModule {
    * Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
    * This method handles both native in-app consent and web-based fallback flows.
    *
-   * @param request - The authorization request parameters including client ID, redirect URI,
-   *                  scopes, and environment.
+   * @param request - Authorization parameters including client ID, redirect URI, scope, and environment.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Authorization completed successfully (native in_place flow)
-   * - `302`: Redirect in progress (web redirect flow). The page will
-   *   be redirected to the authorization URL. This response has no result data.
-   * - `400`: Missing required OAuth parameters, redirect mismatch, or no webview URL
+   * @returns The authorization result, containing the authorization code on success or redirect status.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -493,9 +504,9 @@ export class IdentityModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { IdentityModule, isResponseOk, isResponseError, isResponseRedirect } from '@grabjs/superapp-sdk';
+   * import { IdentityModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { IdentityModule, isResponseOk, isResponseError, isResponseRedirect } = window.SuperAppSDK;
+   * const { IdentityModule } = window.SuperAppSDK;
    *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
@@ -510,17 +521,27 @@ export class IdentityModule extends BaseModule {
    *     responseMode: 'redirect'
    *   });
    *
-   *   if (isResponseError(response)) {
-   *     // Authorization failed
-   *     console.error('Auth error:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     // Authorization successful (in_place mode with native flow)
-   *     console.log('Auth Code:', response.result.code);
-   *     console.log('State:', response.result.state);
-   *   } else if (isResponseRedirect(response)) {
-   *     // Redirect in progress (web flow with responseMode: 'redirect')
-   *     // The page will be redirected to the authorization URL
-   *     console.log('Redirecting to authorization...');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       // Authorization successful (in_place mode with native flow)
+   *       console.log('Auth Code:', response.result.code);
+   *       console.log('State:', response.result.state);
+   *       break;
+   *     case 302:
+   *       // Redirect in progress (web flow with responseMode: 'redirect')
+   *       // The page will be redirected to the authorization URL
+   *       console.log('Redirecting to authorization...');
+   *       break;
+   *     case 204:
+   *       // User cancelled or flow completed without result data
+   *       console.log('Authorization cancelled or no content');
+   *       break;
+   *     case 400:
+   *       // Authorization failed
+   *       console.error('Auth error:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -529,7 +550,7 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
+  async authorize(request: AuthorizeRequest): AuthorizeResponse {
     const validationError = IdentityModule.validateAuthorizeRequest(request);
     if (validationError) {
       return Promise.resolve({ status_code: 400, result: undefined, error: validationError });
@@ -576,7 +597,11 @@ export class IdentityModule extends BaseModule {
       });
 
       // Check if native authorization returned error - only fallback to web for specific status codes
-      if (isResponseError(nativeResult) && [400, 401, 403].includes(nativeResult.status_code)) {
+      if (
+        nativeResult.status_code === 400 ||
+        nativeResult.status_code === 401 ||
+        nativeResult.status_code === 403
+      ) {
         console.error(
           `Native authorization returned ${nativeResult.status_code}, falling back to web flow:`,
           nativeResult.error

@@ -6,6 +6,42 @@
 
 Result object containing the checkout transaction details.
 
+## Examples
+
+**Successful transaction:**
+```typescript
+{
+  transactionID: 'grab-txn-abc123',
+  status: 'success'
+}
+```
+
+**Failed transaction:**
+```typescript
+{
+  transactionID: 'grab-txn-abc123',
+  status: 'failure',
+  errorMessage: 'Insufficient funds',
+  errorCode: 'PAYMENT_FAILED'
+}
+```
+
+**Pending transaction:**
+```typescript
+{
+  transactionID: 'grab-txn-abc123',
+  status: 'pending'
+}
+```
+
+**User cancelled:**
+```typescript
+{
+  transactionID: 'grab-txn-abc123',
+  status: 'userInitiatedCancel'
+}
+```
+
 ## Properties
 
 ### errorCode?

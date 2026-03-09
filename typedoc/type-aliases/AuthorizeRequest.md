@@ -6,6 +6,30 @@
 
 Request parameters for initiating an OAuth2 authorization flow with PKCE.
 
+## Examples
+
+**Production environment with redirect mode:**
+```typescript
+{
+  clientId: 'your-client-id',
+  redirectUri: 'https://your-app.com/callback',
+  scope: 'openid profile',
+  environment: 'production',
+  responseMode: 'redirect'
+}
+```
+
+**Staging environment with in_place mode:**
+```typescript
+{
+  clientId: 'staging-client-id',
+  redirectUri: 'https://staging-app.com/callback',
+  scope: 'openid',
+  environment: 'staging',
+  responseMode: 'in_place'
+}
+```
+
 ## Properties
 
 ### clientId

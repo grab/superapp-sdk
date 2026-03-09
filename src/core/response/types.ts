@@ -78,6 +78,18 @@ export type BridgeStatusCode400Response = {
 };
 
 /**
+ * Error response with status code 401
+ *
+ * @public
+ */
+export type BridgeStatusCode401Response = {
+  /** HTTP-style status code indicating the outcome of the JSBridge method call */
+  status_code: 401;
+  /** Error message if the call failed */
+  error: string;
+};
+
+/**
  * Error response with status code 403
  *
  * @public
@@ -121,6 +133,7 @@ export type BridgeStatusCode424Response = {
  */
 export type BridgeClientErrorResponse =
   | BridgeStatusCode400Response
+  | BridgeStatusCode401Response
   | BridgeStatusCode403Response
   | BridgeStatusCode404Response
   | BridgeStatusCode424Response;
@@ -138,12 +151,28 @@ export type BridgeStatusCode500Response = {
 };
 
 /**
- * Union type representing server error JSBridge responses (5xx status codes).
- * Currently only includes status code 500 (Internal Server Error).
+ * Error response with status code 501
+ *
+ * @remarks
+ * Returned when a JSBridge method is called outside the Grab app environment.
+ * This indicates the method is not implemented in the current environment.
  *
  * @public
  */
-export type BridgeServerErrorResponse = BridgeStatusCode500Response;
+export type BridgeStatusCode501Response = {
+  /** HTTP-style status code indicating the outcome of the JSBridge method call */
+  status_code: 501;
+  /** Error message indicating the method is not available in this environment */
+  error: string;
+};
+
+/**
+ * Union type representing server error JSBridge responses (5xx status codes).
+ * Includes status codes 500 (Internal Server Error) and 501 (Not Implemented).
+ *
+ * @public
+ */
+export type BridgeServerErrorResponse = BridgeStatusCode500Response | BridgeStatusCode501Response;
 
 /**
  * Union type representing all error JSBridge responses (4xx and 5xx status codes).
@@ -179,10 +208,12 @@ export type StatusCodeMap<T> = {
   204: BridgeStatusCode204Response;
   302: BridgeStatusCode302Response;
   400: BridgeStatusCode400Response;
+  401: BridgeStatusCode401Response;
   403: BridgeStatusCode403Response;
   404: BridgeStatusCode404Response;
   424: BridgeStatusCode424Response;
   500: BridgeStatusCode500Response;
+  501: BridgeStatusCode501Response;
 };
 
 /**
@@ -206,252 +237,3 @@ export type ConstrainedBridgeResponse<
   T,
   Codes extends keyof StatusCodeMap<T>,
 > = StatusCodeMap<T>[Codes];
-
-/**
- * Type guard that checks if the response is a success (status code 200 or 204).
- * Narrows the type to BridgeSuccessResponse<T> | BridgeNoResultResponse, excluding errors and redirects.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseSuccess(response)) {
- *   // Response is not an error, check isResponseOk() to access result
- * }
- * ```
- *
- * @public
- */
-export function isResponseSuccess<T>(
-  response: BridgeResponse<T>
-): response is BridgeSuccessResponse<T> {
-  return response.status_code === 200 || response.status_code === 204;
-}
-
-/**
- * Type guard that checks if the response is OK (status code 200).
- * Narrows the type to BridgeSuccessResponse<T>, giving access to the result.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseOk(response)) {
- *   console.log('QR Code:', response.result.qrCode);
- * }
- * ```
- *
- * @public
- */
-export function isResponseOk<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode200Response<T> {
-  return response.status_code === 200;
-}
-
-/**
- * Type guard that checks if the response has no content (status code 204).
- * This typically means the operation completed with no content to return.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseNoContent(response)) {
- *   console.log('No content available');
- * }
- * ```
- *
- * @public
- */
-export function isResponseNoContent<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode204Response {
-  return response.status_code === 204;
-}
-
-/**
- * Type guard that checks if the response is a redirect (status code 302).
- * This typically means a redirect occurred.
- *
- * @example
- * ```typescript
- * const response = await someModule.someMethod(request);
- * if (isResponseRedirect(response)) {
- *   console.log('Redirect occurred');
- * }
- * ```
- *
- * @public
- */
-export function isResponseRedirect<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode302Response {
-  return response.status_code === 302;
-}
-
-/**
- * Type guard that checks if the response is an error (status code 4xx or 5xx).
- * Narrows the type to BridgeErrorResponse, giving access to the error message.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseError(response)) {
- *   console.log('Error:', response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseError<T>(response: BridgeResponse<T>): response is BridgeErrorResponse {
-  return (
-    response.status_code === 400 ||
-    response.status_code === 403 ||
-    response.status_code === 404 ||
-    response.status_code === 424 ||
-    response.status_code === 500
-  );
-}
-
-/**
- * Type guard that checks if the response is a client error (status code 400, 403, 404, or 424).
- * Narrows the type to client error responses.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseClientError(response)) {
- *   console.log('Client error:', response.status_code, response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseClientError<T>(
-  response: BridgeResponse<T>
-): response is BridgeClientErrorResponse {
-  return (
-    response.status_code === 400 ||
-    response.status_code === 403 ||
-    response.status_code === 404 ||
-    response.status_code === 424
-  );
-}
-
-/**
- * Type guard that checks if the response is a server error (status code 500).
- * Narrows the type to server error response.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseServerError(response)) {
- *   console.log('Server error - retry later:', response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseServerError<T>(
-  response: BridgeResponse<T>
-): response is BridgeServerErrorResponse {
-  return response.status_code === 500;
-}
-
-/**
- * Type guard that checks if the response is a bad request error (status code 400).
- * Narrows the type to BridgeErrorResponse400.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseBadRequest(response)) {
- *   console.log('Bad request:', response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseBadRequest<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode400Response {
-  return response.status_code === 400;
-}
-
-/**
- * Type guard that checks if the response is a forbidden error (status code 403).
- * Narrows the type to BridgeErrorResponse403.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseForbidden(response)) {
- *   console.log('Forbidden:', response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseForbidden<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode403Response {
-  return response.status_code === 403;
-}
-
-/**
- * Type guard that checks if the response is a not found error (status code 404).
- * Narrows the type to BridgeErrorResponse404.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseNotFound(response)) {
- *   console.log('Not found:', response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseNotFound<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode404Response {
-  return response.status_code === 404;
-}
-
-/**
- * Type guard that checks if the response is a failed dependency error (status code 424).
- * Narrows the type to BridgeErrorResponse424.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseFailedDependency(response)) {
- *   console.log('Failed dependency:', response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseFailedDependency<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode424Response {
-  return response.status_code === 424;
-}
-
-/**
- * Type guard that checks if the response is an internal server error (status code 500).
- * Narrows the type to BridgeErrorResponse500.
- *
- * @example
- * ```typescript
- * const response = await cameraModule.scanQRCode(request);
- * if (isResponseInternalServerError(response)) {
- *   console.log('Internal server error:', response.error);
- * }
- * ```
- *
- * @public
- */
-export function isResponseInternalServerError<T>(
-  response: BridgeResponse<T>
-): response is BridgeStatusCode500Response {
-  return response.status_code === 500;
-}

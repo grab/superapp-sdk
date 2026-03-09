@@ -5,4 +5,39 @@
  * directory of this source tree.
  */
 
-export {};
+import { ConstrainedBridgeResponse } from '../../core/response';
+
+/**
+ * Result when triggering platform back navigation.
+ * This operation returns no data on success.
+ *
+ * @public
+ */
+export type BackResult = void;
+
+/**
+ * Response when triggering platform back navigation.
+ *
+ * @remarks
+ * This response can have the following status codes:
+ * - `204`: Back navigation triggered successfully.
+ * - `501`: Not implemented - this method requires the Grab app environment.
+ *
+ * @example
+ * **Success response (204):**
+ * ```typescript
+ * { status_code: 204 }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @public
+ */
+export type BackResponse = Promise<ConstrainedBridgeResponse<BackResult, 204 | 501>>;

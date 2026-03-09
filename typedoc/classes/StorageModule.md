@@ -47,7 +47,7 @@ const storage = new StorageModule();
 
 ### getBoolean()
 
-> **getBoolean**(`key`: `string`): `Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
+> **getBoolean**(`key`: `string`): [`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)
 
 Retrieves a boolean value from the native storage.
 
@@ -61,11 +61,9 @@ The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
+[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Value retrieved successfully
-- `400`: Missing required parameters
+The stored boolean value.
 
 #### Throws
 
@@ -76,9 +74,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -87,10 +85,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.getBoolean('isDarkMode');
 
-  if (isResponseError(response)) {
-    console.log('Could not retrieve value:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Stored value:', response.result);
+  switch (response.status_code) {
+    case 200:
+      console.log('Stored value:', response.result.value);
+      break;
+    case 400:
+      console.log('Could not retrieve value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -101,7 +107,7 @@ try {
 
 ### getDouble()
 
-> **getDouble**(`key`: `string`): `Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
+> **getDouble**(`key`: `string`): [`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)
 
 Retrieves a double (floating point) value from the native storage.
 
@@ -115,11 +121,9 @@ The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
+[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Value retrieved successfully
-- `400`: Missing required parameters
+The stored double value.
 
 #### Throws
 
@@ -130,9 +134,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -141,10 +145,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.getDouble('price');
 
-  if (isResponseError(response)) {
-    console.log('Could not retrieve value:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Stored value:', response.result);
+  switch (response.status_code) {
+    case 200:
+      console.log('Stored value:', response.result.value);
+      break;
+    case 400:
+      console.log('Could not retrieve value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -155,7 +167,7 @@ try {
 
 ### getInt()
 
-> **getInt**(`key`: `string`): `Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
+> **getInt**(`key`: `string`): [`GetIntResponse`](../type-aliases/GetIntResponse.md)
 
 Retrieves an integer value from the native storage.
 
@@ -169,11 +181,9 @@ The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
+[`GetIntResponse`](../type-aliases/GetIntResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Value retrieved successfully
-- `400`: Missing required parameters
+The stored integer value.
 
 #### Throws
 
@@ -184,9 +194,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -195,10 +205,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.getInt('userCount');
 
-  if (isResponseError(response)) {
-    console.log('Could not retrieve value:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Stored value:', response.result);
+  switch (response.status_code) {
+    case 200:
+      console.log('Stored value:', response.result.value);
+      break;
+    case 400:
+      console.log('Could not retrieve value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -209,7 +227,7 @@ try {
 
 ### getString()
 
-> **getString**(`key`: `string`): `Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
+> **getString**(`key`: `string`): [`GetStringResponse`](../type-aliases/GetStringResponse.md)
 
 Retrieves a string value from the native storage.
 
@@ -223,11 +241,9 @@ The key to retrieve the value for.
 
 #### Returns
 
-`Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
+[`GetStringResponse`](../type-aliases/GetStringResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Value retrieved successfully
-- `400`: Missing required parameters
+The stored string value.
 
 #### Throws
 
@@ -238,9 +254,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -249,10 +265,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.getString('username');
 
-  if (isResponseError(response)) {
-    console.log('Could not retrieve value:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Stored value:', response.result);
+  switch (response.status_code) {
+    case 200:
+      console.log('Stored value:', response.result.value);
+      break;
+    case 400:
+      console.log('Could not retrieve value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -263,7 +287,7 @@ try {
 
 ### remove()
 
-> **remove**(`key`: `string`): `Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
+> **remove**(`key`: `string`): [`RemoveResponse`](../type-aliases/RemoveResponse.md)
 
 Removes a single value from the native storage by key.
 
@@ -277,11 +301,9 @@ The key to remove from storage.
 
 #### Returns
 
-`Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
+[`RemoveResponse`](../type-aliases/RemoveResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `204`: Value removed successfully
-- `400`: Missing required parameters
+Confirmation that the value was removed.
 
 #### Throws
 
@@ -292,9 +314,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -303,10 +325,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.remove('username');
 
-  if (isResponseError(response)) {
-    console.log('Could not remove value:', response.error);
-  } else if (isResponseNoContent(response)) {
-    console.log('Value removed successfully');
+  switch (response.status_code) {
+    case 204:
+      console.log('Value removed successfully');
+      break;
+    case 400:
+      console.log('Could not remove value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -317,15 +347,15 @@ try {
 
 ### removeAll()
 
-> **removeAll**(): `Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
+> **removeAll**(): [`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)
 
 Removes all values from the native storage.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
+[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)
 
-A promise that resolves to a `204` status code when all values are removed.
+Confirmation that all values were removed.
 
 #### Throws
 
@@ -336,9 +366,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseNoContent } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -347,8 +377,15 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.removeAll();
 
-  if (isResponseNoContent(response)) {
-    console.log('All values removed successfully');
+  switch (response.status_code) {
+    case 204:
+      console.log('All values removed successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -359,7 +396,7 @@ try {
 
 ### setBoolean()
 
-> **setBoolean**(`key`: `string`, `value`: `boolean`): `Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
+> **setBoolean**(`key`: `string`, `value`: `boolean`): [`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)
 
 Stores a boolean value in the native storage.
 
@@ -379,11 +416,9 @@ The boolean value to store.
 
 #### Returns
 
-`Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
+[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `204`: Value stored successfully
-- `400`: Missing required parameters
+Confirmation that the boolean value was stored.
 
 #### Throws
 
@@ -394,9 +429,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -405,10 +440,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.setBoolean('isDarkMode', true);
 
-  if (isResponseError(response)) {
-    console.log('Could not store value:', response.error);
-  } else if (isResponseNoContent(response)) {
-    console.log('Value stored successfully');
+  switch (response.status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    case 400:
+      console.log('Could not store value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -419,7 +462,7 @@ try {
 
 ### setDouble()
 
-> **setDouble**(`key`: `string`, `value`: `number`): `Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
+> **setDouble**(`key`: `string`, `value`: `number`): [`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)
 
 Stores a double (floating point) value in the native storage.
 
@@ -439,11 +482,9 @@ The double value to store.
 
 #### Returns
 
-`Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
+[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `204`: Value stored successfully
-- `400`: Missing required parameters
+Confirmation that the double value was stored.
 
 #### Throws
 
@@ -454,9 +495,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -465,10 +506,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.setDouble('price', 19.99);
 
-  if (isResponseError(response)) {
-    console.log('Could not store value:', response.error);
-  } else if (isResponseNoContent(response)) {
-    console.log('Value stored successfully');
+  switch (response.status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    case 400:
+      console.log('Could not store value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -479,7 +528,7 @@ try {
 
 ### setInt()
 
-> **setInt**(`key`: `string`, `value`: `number`): `Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
+> **setInt**(`key`: `string`, `value`: `number`): [`SetIntResponse`](../type-aliases/SetIntResponse.md)
 
 Stores an integer value in the native storage.
 
@@ -499,11 +548,9 @@ The integer value to store.
 
 #### Returns
 
-`Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
+[`SetIntResponse`](../type-aliases/SetIntResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `204`: Value stored successfully
-- `400`: Missing required parameters
+Confirmation that the integer value was stored.
 
 #### Throws
 
@@ -514,9 +561,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -525,10 +572,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.setInt('userCount', 42);
 
-  if (isResponseError(response)) {
-    console.log('Could not store value:', response.error);
-  } else if (isResponseNoContent(response)) {
-    console.log('Value stored successfully');
+  switch (response.status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    case 400:
+      console.log('Could not store value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -539,7 +594,7 @@ try {
 
 ### setString()
 
-> **setString**(`key`: `string`, `value`: `string`): `Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
+> **setString**(`key`: `string`, `value`: `string`): [`SetStringResponse`](../type-aliases/SetStringResponse.md)
 
 Stores a string value in the native storage.
 
@@ -559,11 +614,9 @@ The string value to store.
 
 #### Returns
 
-`Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
+[`SetStringResponse`](../type-aliases/SetStringResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `204`: Value stored successfully
-- `400`: Missing required parameters
+Confirmation that the string value was stored.
 
 #### Throws
 
@@ -574,9 +627,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { StorageModule, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+import { StorageModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { StorageModule, isResponseNoContent, isResponseError } = window.SuperAppSDK;
+const { StorageModule } = window.SuperAppSDK;
 
 // Initialize the storage module
 const storageModule = new StorageModule();
@@ -585,10 +638,18 @@ const storageModule = new StorageModule();
 try {
   const response = await storageModule.setString('username', 'john_doe');
 
-  if (isResponseError(response)) {
-    console.log('Could not store value:', response.error);
-  } else if (isResponseNoContent(response)) {
-    console.log('Value stored successfully');
+  switch (response.status_code) {
+    case 204:
+      console.log('Value stored successfully');
+      break;
+    case 400:
+      console.log('Could not store value:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);

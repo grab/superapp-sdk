@@ -6,6 +6,12 @@
 
 Request parameters for getting a double value from storage.
 
+## Example
+
+```typescript
+{ key: 'price' }
+```
+
 ## Properties
 
 ### key

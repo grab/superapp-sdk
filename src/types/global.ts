@@ -5,8 +5,8 @@
  * directory of this source tree.
  */
 
-import { DataStream } from '../core/stream';
 import { BridgeResponse } from '../core/response';
+import { DataStream } from '../core/stream';
 
 /**
  * Generic interface for all native JSBridge module wrappers.

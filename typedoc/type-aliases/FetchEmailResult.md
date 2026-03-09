@@ -6,6 +6,12 @@
 
 Result object containing the user's email address.
 
+## Example
+
+```typescript
+{ email: 'user@example.com' }
+```
+
 ## Properties
 
 ### email

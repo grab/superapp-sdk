@@ -47,17 +47,15 @@ const location = new LocationModule();
 
 ### getCoordinate()
 
-> **getCoordinate**(): `Promise`\<[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)\>
+> **getCoordinate**(): [`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)
 
 Get the current geographic coordinates of the device.
 
 #### Returns
 
-`Promise`\<[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)\>
+[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Coordinates retrieved successfully
-- `424`: GeoKit error
+The device's current latitude and longitude coordinates.
 
 #### Throws
 
@@ -68,9 +66,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { LocationModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { LocationModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { LocationModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { LocationModule } = window.SuperAppSDK;
 
 // Initialize the location module
 const locationModule = new LocationModule();
@@ -79,10 +77,18 @@ const locationModule = new LocationModule();
 try {
   const response = await locationModule.getCoordinate();
 
-  if (isResponseError(response)) {
-    console.log('Could not get coordinates:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Coordinates:', response.result.lat, response.result.lng);
+  switch (response.status_code) {
+    case 200:
+      console.log('Coordinates:', response.result.lat, response.result.lng);
+      break;
+    case 424:
+      console.log('Could not get coordinates:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -93,17 +99,15 @@ try {
 
 ### getCountryCode()
 
-> **getCountryCode**(): `Promise`\<[`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)\>
+> **getCountryCode**(): [`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)
 
 Get the country code based on the device's current location.
 
 #### Returns
 
-`Promise`\<[`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)\>
+[`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Country code retrieved successfully
-- `424`: GeoKit/Resolver error
+The ISO country code (e.g., 'SG', 'ID') based on the device's location.
 
 #### Throws
 
@@ -114,9 +118,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { LocationModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { LocationModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { LocationModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { LocationModule } = window.SuperAppSDK;
 
 // Initialize the location module
 const locationModule = new LocationModule();
@@ -125,10 +129,18 @@ const locationModule = new LocationModule();
 try {
   const response = await locationModule.getCountryCode();
 
-  if (isResponseError(response)) {
-    console.log('Could not get country code:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Country code:', response.result.countryCode);
+  switch (response.status_code) {
+    case 200:
+      console.log('Country code:', response.result.countryCode);
+      break;
+    case 424:
+      console.log('Could not get country code:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -159,9 +171,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { LocationModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { LocationModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { LocationModule, isResponseOk } = window.SuperAppSDK;
+const { LocationModule } = window.SuperAppSDK;
 
 // Initialize the location module
 const locationModule = new LocationModule();
@@ -169,7 +181,7 @@ const locationModule = new LocationModule();
 // Subscribe to location changes
 const subscription = locationModule.observeLocationChange().subscribe({
   next: (response) => {
-    if (isResponseOk(response)) {
+    if (response.status_code === 200) {
       console.log('Location updated:', response.result.lat, response.result.lng);
     }
   },

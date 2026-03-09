@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import { DRMContentConfig, PlayDRMContentResponse, ObserveDRMPlaybackResponse } from './types';
+import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
 /**
  * JSBridge module for playing DRM-protected media content.
@@ -43,11 +43,9 @@ export class MediaModule extends BaseModule {
   /**
    * Plays DRM-protected media content in the native media player.
    *
-   * @param data - The DRM content configuration.
+   * @param data - Configuration for the DRM content including license URL and content metadata.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Playback initiated (streaming)
-   * - `204`: Invalid parameters
+   * @returns The playback initiation result, indicating if the DRM content started playing.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -55,9 +53,9 @@ export class MediaModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { MediaModule, isResponseOk, isResponseNoContent } from '@grabjs/superapp-sdk';
+   * import { MediaModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { MediaModule, isResponseOk, isResponseNoContent } = window.SuperAppSDK;
+   * const { MediaModule } = window.SuperAppSDK;
    *
    * // Initialize the media module
    * const mediaModule = new MediaModule();
@@ -68,10 +66,18 @@ export class MediaModule extends BaseModule {
    *     // DRM content configuration
    *   });
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Playback initiated');
-   *   } else if (isResponseNoContent(response)) {
-   *     console.log('Invalid parameters');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Playback initiated');
+   *       break;
+   *     case 204:
+   *       console.log('Invalid parameters');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -80,18 +86,16 @@ export class MediaModule extends BaseModule {
    *
    * @public
    */
-  playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse> {
-    return this.wrappedModule.invoke('playDRMContent', { data });
+  playDRMContent(data: DRMContentConfig): PlayDRMContentResponse {
+    return this.invoke('playDRMContent', { data });
   }
 
   /**
    * Observes DRM-protected media content playback events.
    *
-   * @param data - The DRM content configuration.
+   * @param data - Configuration for the DRM content to observe.
    *
-   * @returns A `DataStream` that emits playback events as the media plays.
-   * Emits `200` responses with video player events.
-   * Use `subscribe()` to listen for events.
+   * @returns A stream that emits playback events as the media plays.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -99,9 +103,9 @@ export class MediaModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { MediaModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { MediaModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { MediaModule, isResponseOk } = window.SuperAppSDK;
+   * const { MediaModule } = window.SuperAppSDK;
    *
    * // Initialize the media module
    * const mediaModule = new MediaModule();
@@ -111,7 +115,7 @@ export class MediaModule extends BaseModule {
    *   // DRM content configuration
    * }).subscribe({
    *   next: (response) => {
-   *     if (isResponseOk(response)) {
+   *     if (response.status_code === 200) {
    *       console.log('Playback event:', response.result);
    *     }
    *   },
@@ -125,6 +129,7 @@ export class MediaModule extends BaseModule {
    * @public
    */
   observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse {
+    // Streaming methods need direct access to wrappedModule
     return this.wrappedModule.invoke('observePlayDRMContent', {
       data,
     }) as ObserveDRMPlaybackResponse;

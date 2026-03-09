@@ -36,3 +36,20 @@ The redirect URI used in the authorization request.
 The state parameter used in the authorization request.
 
 `null`
+
+## Examples
+
+**All artifacts present:**
+```typescript
+{
+  state: 'csrf-state-xyz789',
+  codeVerifier: 'code-verifier-123',
+  nonce: 'nonce-abc',
+  redirectUri: 'https://your-app.com/callback'
+}
+```
+
+**No artifacts (null):**
+```typescript
+null
+```

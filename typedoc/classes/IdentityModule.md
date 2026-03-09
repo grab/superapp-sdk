@@ -48,7 +48,7 @@ const identity = new IdentityModule();
 
 ### authorize()
 
-> **authorize**(`request`: [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
+> **authorize**(`request`: [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)): [`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)
 
 Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
 This method handles both native in-app consent and web-based fallback flows.
@@ -59,18 +59,13 @@ This method handles both native in-app consent and web-based fallback flows.
 
 [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)
 
-The authorization request parameters including client ID, redirect URI,
-                 scopes, and environment.
+Authorization parameters including client ID, redirect URI, scope, and environment.
 
 #### Returns
 
-`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
+[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Authorization completed successfully (native in_place flow)
-- `302`: Redirect in progress (web redirect flow). The page will
-  be redirected to the authorization URL. This response has no result data.
-- `400`: Missing required OAuth parameters, redirect mismatch, or no webview URL
+The authorization result, containing the authorization code on success or redirect status.
 
 #### Throws
 
@@ -106,9 +101,9 @@ after authorization completes.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { IdentityModule, isResponseOk, isResponseError, isResponseRedirect } from '@grabjs/superapp-sdk';
+import { IdentityModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { IdentityModule, isResponseOk, isResponseError, isResponseRedirect } = window.SuperAppSDK;
+const { IdentityModule } = window.SuperAppSDK;
 
 // Initialize the identity module
 const identityModule = new IdentityModule();
@@ -123,17 +118,27 @@ try {
     responseMode: 'redirect'
   });
 
-  if (isResponseError(response)) {
-    // Authorization failed
-    console.error('Auth error:', response.error);
-  } else if (isResponseOk(response)) {
-    // Authorization successful (in_place mode with native flow)
-    console.log('Auth Code:', response.result.code);
-    console.log('State:', response.result.state);
-  } else if (isResponseRedirect(response)) {
-    // Redirect in progress (web flow with responseMode: 'redirect')
-    // The page will be redirected to the authorization URL
-    console.log('Redirecting to authorization...');
+  switch (response.status_code) {
+    case 200:
+      // Authorization successful (in_place mode with native flow)
+      console.log('Auth Code:', response.result.code);
+      console.log('State:', response.result.state);
+      break;
+    case 302:
+      // Redirect in progress (web flow with responseMode: 'redirect')
+      // The page will be redirected to the authorization URL
+      console.log('Redirecting to authorization...');
+      break;
+    case 204:
+      // User cancelled or flow completed without result data
+      console.log('Authorization cancelled or no content');
+      break;
+    case 400:
+      // Authorization failed
+      console.error('Auth error:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -144,7 +149,7 @@ try {
 
 ### clearAuthorizationArtifacts()
 
-> **clearAuthorizationArtifacts**(): `Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
+> **clearAuthorizationArtifacts**(): [`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)
 
 Clears all stored PKCE authorization artifacts from local storage.
 This should be called after a successful token exchange or when you need to
@@ -152,18 +157,18 @@ reset the authorization state (e.g., on error or logout).
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
+[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)
 
-A promise that resolves to a `204` status code when artifacts are cleared.
+Confirmation that the authorization artifacts have been cleared.
 
 #### Example
 
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { IdentityModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+import { IdentityModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { IdentityModule, isResponseNoContent } = window.SuperAppSDK;
+const { IdentityModule } = window.SuperAppSDK;
 
 // Initialize the identity module
 const identityModule = new IdentityModule();
@@ -172,7 +177,7 @@ const identityModule = new IdentityModule();
 try {
   const response = await identityModule.clearAuthorizationArtifacts();
 
-  if (isResponseNoContent(response)) {
+  if (response.status_code === 204) {
     console.log('Authorization artifacts cleared');
   }
 } catch (error) {
@@ -184,19 +189,16 @@ try {
 
 ### getAuthorizationArtifacts()
 
-> **getAuthorizationArtifacts**(): `Promise`\<[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)\>
+> **getAuthorizationArtifacts**(): [`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)
 
 Retrieves stored PKCE authorization artifacts from local storage.
 These artifacts are used to complete the OAuth2 authorization code exchange.
 
 #### Returns
 
-`Promise`\<[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)\>
+[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: All artifacts present - proceed with token exchange
-- `204`: No artifacts yet - user hasn't authorized
-- `400`: Inconsistent state - possible data corruption
+The stored PKCE artifacts including state, code verifier, nonce, and redirect URI.
 
 #### Remarks
 
@@ -210,9 +212,9 @@ You must use this returned `redirectUri` for token exchange to ensure OAuth comp
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { IdentityModule, isResponseOk, isResponseNoContent, isResponseError } from '@grabjs/superapp-sdk';
+import { IdentityModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { IdentityModule, isResponseOk, isResponseNoContent, isResponseError } = window.SuperAppSDK;
+const { IdentityModule } = window.SuperAppSDK;
 
 // Initialize the identity module
 const identityModule = new IdentityModule();
@@ -221,19 +223,25 @@ const identityModule = new IdentityModule();
 try {
   const response = await identityModule.getAuthorizationArtifacts();
 
-  if (isResponseError(response)) {
-    // Inconsistent state - possible data corruption
-    console.error('Authorization artifacts error:', response.error);
-  } else if (isResponseOk(response)) {
-    // All artifacts present - proceed with token exchange
-    const { state, codeVerifier, nonce, redirectUri } = response.result;
-    console.log('State:', state);
-    console.log('Code Verifier:', codeVerifier);
-    console.log('Nonce:', nonce);
-    console.log('Redirect URI:', redirectUri);
-  } else if (isResponseNoContent(response)) {
-    // No artifacts yet - user hasn't authorized
-    console.log('No authorization artifacts found. Authorization has not been initiated.');
+  switch (response.status_code) {
+    case 200:
+      // All artifacts present - proceed with token exchange
+      const { state, codeVerifier, nonce, redirectUri } = response.result;
+      console.log('State:', state);
+      console.log('Code Verifier:', codeVerifier);
+      console.log('Nonce:', nonce);
+      console.log('Redirect URI:', redirectUri);
+      break;
+    case 204:
+      // No artifacts yet - user hasn't authorized
+      console.log('No authorization artifacts found. Authorization has not been initiated.');
+      break;
+    case 400:
+      // Inconsistent state - possible data corruption
+      console.error('Authorization artifacts error:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);

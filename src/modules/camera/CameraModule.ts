@@ -43,13 +43,9 @@ export class CameraModule extends BaseModule {
   /**
    * Opens the native camera to scan a QR code.
    *
-   * @param request - Configuration for the QR code scan.
+   * @param request - Configuration for the QR code scanning, including the title to display.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Successfully scanned QR code
-   * - `204`: User cancelled the QR code scanning
-   * - `400`: Bad request
-   * - `403`: Camera permission is not enabled for the Grab app
+   * @returns The QR code scanning result, containing the scanned code on success or status information.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -57,9 +53,9 @@ export class CameraModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { CameraModule, isResponseOk, isResponseNoContent, isResponseError, isResponseForbidden, isResponseClientError } from '@grabjs/superapp-sdk';
+   * import { CameraModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { CameraModule, isResponseOk, isResponseNoContent, isResponseError, isResponseForbidden, isResponseClientError } = window.SuperAppSDK;
+   * const { CameraModule } = window.SuperAppSDK;
    *
    * // Initialize the camera module
    * const cameraModule = new CameraModule();
@@ -67,18 +63,24 @@ export class CameraModule extends BaseModule {
    * // Scan the QR code
    * try {
    *   const response = await cameraModule.scanQRCode({ title: 'Scan Payment QR' });
-   *   if (isResponseError(response)) {
-   *     if (isResponseForbidden(response)) {
-   *       console.log('User has not granted camera permission for the Grab app');
-   *     } else if (isResponseClientError(response)) {
-   *       console.log('Client error:', response.status_code, response.error);
-   *     }
-   *   } else {
-   *     if (isResponseOk(response)) {
+   *   switch (response.status_code) {
+   *     case 200:
    *       console.log('QR Code scanned:', response.result.qrCode);
-   *     } else if (isResponseNoContent(response)) {
+   *       break;
+   *     case 204:
    *       console.log('User cancelled QR code scanning');
-   *     }
+   *       break;
+   *     case 400:
+   *       console.log('Bad request:', response.error);
+   *       break;
+   *     case 403:
+   *       console.log('Camera permission is not enabled for the Grab app');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -86,7 +88,7 @@ export class CameraModule extends BaseModule {
    * ```
    * @public
    */
-  scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse> {
-    return this.wrappedModule.invoke('scanQRCode', request);
+  scanQRCode(request: ScanQRCodeRequest): ScanQRCodeResponse {
+    return this.invoke('scanQRCode', request);
   }
 }

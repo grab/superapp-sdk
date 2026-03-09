@@ -57,15 +57,13 @@ Observes DRM-protected media content playback events.
 
 [`DRMContentConfig`](../type-aliases/DRMContentConfig.md)
 
-The DRM content configuration.
+Configuration for the DRM content to observe.
 
 #### Returns
 
 [`ObserveDRMPlaybackResponse`](../type-aliases/ObserveDRMPlaybackResponse.md)
 
-A `DataStream` that emits playback events as the media plays.
-Emits `200` responses with video player events.
-Use `subscribe()` to listen for events.
+A stream that emits playback events as the media plays.
 
 #### Throws
 
@@ -76,9 +74,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { MediaModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { MediaModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { MediaModule, isResponseOk } = window.SuperAppSDK;
+const { MediaModule } = window.SuperAppSDK;
 
 // Initialize the media module
 const mediaModule = new MediaModule();
@@ -88,7 +86,7 @@ const subscription = mediaModule.observePlayDRMContent({
   // DRM content configuration
 }).subscribe({
   next: (response) => {
-    if (isResponseOk(response)) {
+    if (response.status_code === 200) {
       console.log('Playback event:', response.result);
     }
   },
@@ -103,7 +101,7 @@ subscription.unsubscribe();
 
 ### playDRMContent()
 
-> **playDRMContent**(`data`: [`DRMContentConfig`](../type-aliases/DRMContentConfig.md)): `Promise`\<[`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)\>
+> **playDRMContent**(`data`: [`DRMContentConfig`](../type-aliases/DRMContentConfig.md)): [`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)
 
 Plays DRM-protected media content in the native media player.
 
@@ -113,15 +111,13 @@ Plays DRM-protected media content in the native media player.
 
 [`DRMContentConfig`](../type-aliases/DRMContentConfig.md)
 
-The DRM content configuration.
+Configuration for the DRM content including license URL and content metadata.
 
 #### Returns
 
-`Promise`\<[`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)\>
+[`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Playback initiated (streaming)
-- `204`: Invalid parameters
+The playback initiation result, indicating if the DRM content started playing.
 
 #### Throws
 
@@ -132,9 +128,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { MediaModule, isResponseOk, isResponseNoContent } from '@grabjs/superapp-sdk';
+import { MediaModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { MediaModule, isResponseOk, isResponseNoContent } = window.SuperAppSDK;
+const { MediaModule } = window.SuperAppSDK;
 
 // Initialize the media module
 const mediaModule = new MediaModule();
@@ -145,10 +141,18 @@ try {
     // DRM content configuration
   });
 
-  if (isResponseOk(response)) {
-    console.log('Playback initiated');
-  } else if (isResponseNoContent(response)) {
-    console.log('Invalid parameters');
+  switch (response.status_code) {
+    case 200:
+      console.log('Playback initiated');
+      break;
+    case 204:
+      console.log('Invalid parameters');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);

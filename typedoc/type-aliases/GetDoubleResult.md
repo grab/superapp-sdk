@@ -6,6 +6,18 @@
 
 Result object containing the double value.
 
+## Examples
+
+**Value exists:**
+```typescript
+{ value: 19.99 }
+```
+
+**Value not found:**
+```typescript
+{ value: null }
+```
+
 ## Properties
 
 ### value

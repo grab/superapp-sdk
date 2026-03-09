@@ -57,6 +57,7 @@ export type DataStreamHandlers<T> = Readonly<{
 export type DataStream<T> = Readonly<{
   /**
    * Subscribe to receive stream data.
+   *
    * @param handlers - Optional callbacks for data (`next`) and completion (`complete`).
    * @returns A `Subscription` to terminate the stream when needed.
    */

@@ -5,3 +5,4 @@
 > **HideRefreshButtonResult** = `void`
 
 Result when hiding the refresh button.
+This operation returns no data on success.

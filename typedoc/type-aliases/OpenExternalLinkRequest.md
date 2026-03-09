@@ -5,3 +5,9 @@
 > **OpenExternalLinkRequest** = `string`
 
 Request parameters for opening an external link.
+
+## Example
+
+```typescript
+'https://example.com'
+```

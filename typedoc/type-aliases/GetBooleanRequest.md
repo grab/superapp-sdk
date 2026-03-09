@@ -6,6 +6,12 @@
 
 Request parameters for getting a boolean value from storage.
 
+## Example
+
+```typescript
+{ key: 'isDarkMode' }
+```
+
 ## Properties
 
 ### key

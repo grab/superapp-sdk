@@ -47,16 +47,16 @@ const platform = new PlatformModule();
 
 ### back()
 
-> **back**(): `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+> **back**(): [`BackResponse`](../type-aliases/BackResponse.md)
 
 Triggers the native platform back navigation.
 This navigates back in the native navigation stack.
 
 #### Returns
 
-`Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`unknown`\>\>
+[`BackResponse`](../type-aliases/BackResponse.md)
 
-A promise that resolves to a `204` status code when back navigation is triggered.
+Confirmation that the back navigation was triggered.
 
 #### Throws
 
@@ -67,9 +67,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { PlatformModule, isResponseNoContent } from '@grabjs/superapp-sdk';
+import { PlatformModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { PlatformModule, isResponseNoContent } = window.SuperAppSDK;
+const { PlatformModule } = window.SuperAppSDK;
 
 // Initialize the platform module
 const platformModule = new PlatformModule();
@@ -78,8 +78,15 @@ const platformModule = new PlatformModule();
 try {
   const response = await platformModule.back();
 
-  if (isResponseNoContent(response)) {
-    console.log('Back navigation triggered');
+  switch (response.status_code) {
+    case 204:
+      console.log('Back navigation triggered');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);

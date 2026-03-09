@@ -7,9 +7,9 @@
 
 export { LocationModule } from './LocationModule';
 export type {
-  GetCoordinateResult,
   GetCoordinateResponse,
-  ObserveLocationChangeResponse,
-  GetCountryCodeResult,
+  GetCoordinateResult,
   GetCountryCodeResponse,
+  GetCountryCodeResult,
+  ObserveLocationChangeResponse,
 } from './types';

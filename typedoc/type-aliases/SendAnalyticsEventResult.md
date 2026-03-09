@@ -5,3 +5,4 @@
 > **SendAnalyticsEventResult** = `void`
 
 Result when sending analytics events.
+This operation returns no data on success.

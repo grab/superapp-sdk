@@ -6,6 +6,12 @@
 
 Request parameters for getting a string value from storage.
 
+## Example
+
+```typescript
+{ key: 'username' }
+```
+
 ## Properties
 
 ### key

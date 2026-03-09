@@ -6,6 +6,15 @@
 
 Request parameters for verifying the user's email with an OTP.
 
+## Example
+
+```typescript
+{
+  email: 'user@example.com',
+  otp: '123456'
+}
+```
+
 ## Properties
 
 ### email

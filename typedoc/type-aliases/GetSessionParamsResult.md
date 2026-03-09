@@ -12,6 +12,12 @@ The `result` field contains a JSON string that must be parsed with `JSON.parse()
 Session parameters can contain primitives, base64 encoded strings, or nested objects depending on the
 SuperApp's configuration.
 
+## Example
+
+```typescript
+{ result: '{"userId": "123", "sessionToken": "abc"}' }
+```
+
 ## Properties
 
 ### result

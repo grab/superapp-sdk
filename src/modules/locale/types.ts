@@ -5,24 +5,75 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response/types';
+import { ConstrainedBridgeResponse } from '../../core/response';
+
+/**
+ * Result object containing the language locale identifier.
+ *
+ * @remarks
+ * The locale identifier is the language code of the device's language settings.
+ * Common values include:
+ * - "en" (English)
+ * - "id" (Indonesian)
+ * - "zh" (Chinese)
+ * - "ms" (Malay)
+ * - "th" (Thai)
+ * - "vi" (Vietnamese)
+ * - "zg" (Burmese Zawgyi)
+ * - "my" (Burmese Unicode)
+ * - "km" (Khmer)
+ *
+ * @example
+ * ```typescript
+ * 'en'
+ * ```
+ *
+ * @example
+ * ```typescript
+ * 'id'
+ * ```
+ *
+ * @public
+ */
+export type GetLanguageLocaleIdentifierResult = string;
 
 /**
  * Response when getting the language locale identifier from the device.
  *
  * @remarks
- * The locale identifier is the language and region code of the device's language settings.
- * Examples:
- * - "en" (English),
- * - "id" (Indonesia),
- * - "zh" (Chinese),
- * - "ms" (Malaysia),
- * - "th" (Thai),
- * - "vi" (Vietnamese),
- * - "zg" (Burmese Zawgyi),
- * - "my" (Burmese Unicode),
- * - "km" (Khmer)
+ * This response can have the following status codes:
+ * - `200`: Locale identifier retrieved successfully.
+ * - `501`: Not implemented - this method requires the Grab app environment.
+ *
+ * @example
+ * **Success response (200) - English locale:**
+ * ```typescript
+ * {
+ *   status_code: 200,
+ *   result: 'en'
+ * }
+ * ```
+ *
+ * @example
+ * **Success response (200) - Indonesian locale:**
+ * ```typescript
+ * {
+ *   status_code: 200,
+ *   result: 'id'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = ConstrainedBridgeResponse<string, 200>;
+export type GetLanguageLocaleIdentifierResponse = Promise<
+  ConstrainedBridgeResponse<GetLanguageLocaleIdentifierResult, 200 | 501>
+>;
