@@ -5,3 +5,4 @@
 > **ShowBackButtonResult** = `void`
 
 Result when showing the back button.
+This operation returns no data on success.

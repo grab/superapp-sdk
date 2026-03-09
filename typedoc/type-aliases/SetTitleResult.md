@@ -5,3 +5,4 @@
 > **SetTitleResult** = `void`
 
 Result when setting the title.
+This operation returns no data on success.

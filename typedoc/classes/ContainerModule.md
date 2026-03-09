@@ -47,15 +47,15 @@ const containerModule = new ContainerModule();
 
 ### close()
 
-> **close**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **close**(): [`CloseResponse`](../type-aliases/CloseResponse.md)
 
 Close the container and return to the previous screen.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`CloseResponse`](../type-aliases/CloseResponse.md)
 
-A promise that resolves to a `200` status code when the container closes.
+Confirmation that the container is closing.
 
 #### Throws
 
@@ -66,9 +66,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -77,8 +77,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.close();
 
-  if (isResponseOk(response)) {
-    console.log('Container closed successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Container closed successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -89,15 +94,15 @@ try {
 
 ### getSessionParams()
 
-> **getSessionParams**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<[`GetSessionParamsResult`](../type-aliases/GetSessionParamsResult.md)\>\>
+> **getSessionParams**(): [`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)
 
 Get the session parameters from the container.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<[`GetSessionParamsResult`](../type-aliases/GetSessionParamsResult.md)\>\>
+[`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)
 
-A promise that resolves to a `200` status code with session parameters.
+The session parameters as a JSON string that can be parsed into an object.
 
 #### Remarks
 
@@ -114,9 +119,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -125,9 +130,15 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.getSessionParams();
 
-  if (isResponseOk(response)) {
-    const sessionParams = JSON.parse(response.result?.result || '{}');
-    console.log('Session params retrieved:', sessionParams);
+  switch (response.status_code) {
+    case 200: {
+      const sessionParams = JSON.parse(response.result?.result || '{}');
+      console.log('Session params retrieved:', sessionParams);
+      break;
+    }
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -138,15 +149,15 @@ try {
 
 ### hideBackButton()
 
-> **hideBackButton**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **hideBackButton**(): [`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)
 
 Hide the back button on the container header.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)
 
-A promise that resolves to a `200` status code when the back button is hidden.
+Confirmation that the back button is now hidden.
 
 #### Throws
 
@@ -157,9 +168,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -168,8 +179,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.hideBackButton();
 
-  if (isResponseOk(response)) {
-    console.log('Back button hidden successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Back button hidden successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -180,15 +196,15 @@ try {
 
 ### hideLoader()
 
-> **hideLoader**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **hideLoader**(): [`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)
 
 Hide the full-screen loading indicator.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)
 
-A promise that resolves to a `200` status code when the loading indicator is hidden.
+Confirmation that the loader is now hidden.
 
 #### Remarks
 
@@ -203,9 +219,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -214,8 +230,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.hideLoader();
 
-  if (isResponseOk(response)) {
-    console.log('Loader hidden successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Loader hidden successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -226,15 +247,15 @@ try {
 
 ### hideRefreshButton()
 
-> **hideRefreshButton**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **hideRefreshButton**(): [`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)
 
 Hide the refresh button on the container header.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)
 
-A promise that resolves to a `200` status code when the refresh button is hidden.
+Confirmation that the refresh button is now hidden.
 
 #### Throws
 
@@ -245,9 +266,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -256,8 +277,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.hideRefreshButton();
 
-  if (isResponseOk(response)) {
-    console.log('Refresh button hidden successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Refresh button hidden successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -268,17 +294,15 @@ try {
 
 ### isConnected()
 
-> **isConnected**(): `Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
+> **isConnected**(): [`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)
 
 Check if the web app is connected to the Grab SuperApp via JSBridge.
 
 #### Returns
 
-`Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
+[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Connected to Grab SuperApp
-- `404`: Not connected to Grab SuperApp
+The connection status, indicating whether the MiniApp is running inside the Grab SuperApp.
 
 #### Remarks
 
@@ -293,9 +317,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -304,10 +328,15 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.isConnected();
 
-  if (isResponseError(response)) {
-    console.log('Not connected to Grab SuperApp');
-  } else if (isResponseOk(response)) {
-    console.log('Connected to Grab SuperApp');
+  switch (response.status_code) {
+    case 200:
+      console.log('Connected to Grab SuperApp');
+      break;
+    case 404:
+      console.log('Not connected to Grab SuperApp');
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -318,15 +347,15 @@ try {
 
 ### onContentLoaded()
 
-> **onContentLoaded**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **onContentLoaded**(): [`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)
 
 Notify the Grab SuperApp that the page content has loaded.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)
 
-A promise that resolves to a `200` status code when the notification is sent.
+Confirmation that the content loaded notification was sent.
 
 #### Throws
 
@@ -337,9 +366,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -348,8 +377,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.onContentLoaded();
 
-  if (isResponseOk(response)) {
-    console.log('Content loaded notification sent successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Content loaded notification sent successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -360,7 +394,7 @@ try {
 
 ### onCtaTap()
 
-> **onCtaTap**(`request`: `string`): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **onCtaTap**(`request`: `string`): [`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)
 
 Notify the client that the user has tapped a call-to-action (CTA).
 
@@ -370,13 +404,13 @@ Notify the client that the user has tapped a call-to-action (CTA).
 
 `string`
 
-The CTA action configuration.
+The action identifier for the CTA that was tapped.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)
 
-A promise that resolves to a `200` response when the CTA tap notification is sent.
+Confirmation that the CTA tap was notified.
 
 #### Throws
 
@@ -387,9 +421,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -398,8 +432,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
 
-  if (isResponseOk(response)) {
-    console.log('CTA tap notified successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('CTA tap notified successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -410,7 +449,7 @@ try {
 
 ### openExternalLink()
 
-> **openExternalLink**(`request`: `string`): `Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
+> **openExternalLink**(`request`: `string`): [`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)
 
 Open a link in the external browser.
 
@@ -420,15 +459,13 @@ Open a link in the external browser.
 
 `string`
 
-The URL configuration.
+The URL to open in the external browser.
 
 #### Returns
 
-`Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
+[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: External link opened successfully
-- `400`: URL parameter not found
+Confirmation of whether the external link was opened successfully.
 
 #### Remarks
 
@@ -443,9 +480,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -454,10 +491,18 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.openExternalLink('https://grab.com');
 
-  if (isResponseError(response)) {
-    console.log('Could not open external link:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('External link opened successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('External link opened successfully');
+      break;
+    case 400:
+      console.log('Could not open external link:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -468,7 +513,7 @@ try {
 
 ### sendAnalyticsEvent()
 
-> **sendAnalyticsEvent**(`request`: [`SendAnalyticsEventRequest`](../type-aliases/SendAnalyticsEventRequest.md)): `Promise`\<[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)\>
+> **sendAnalyticsEvent**(`request`: [`SendAnalyticsEventRequest`](../type-aliases/SendAnalyticsEventRequest.md)): [`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)
 
 Use this method to track user interactions and page transitions.
 
@@ -478,13 +523,13 @@ Use this method to track user interactions and page transitions.
 
 [`SendAnalyticsEventRequest`](../type-aliases/SendAnalyticsEventRequest.md)
 
-The analytics event configuration.
+Analytics event details including state, name, and optional data.
 
 #### Returns
 
-`Promise`\<[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)\>
+[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)
 
-A promise that resolves to a `200` response when the analytics event is sent.
+Confirmation of whether the analytics event was sent successfully.
 
 #### Remarks
 
@@ -493,7 +538,6 @@ You can use predefined constants to ensure consistency across the platform.
 **Predefined Values:**
 - **States:** [ContainerAnalyticsEventState](../variables/ContainerAnalyticsEventState.md)
 - **Names:** [ContainerAnalyticsEventName](../variables/ContainerAnalyticsEventName.md)
-- **Data Keys:** [ContainerAnalyticsEventData](../variables/ContainerAnalyticsEventData.md)
 
 #### Throws
 
@@ -501,7 +545,7 @@ Error when the JSBridge method fails unexpectedly.
 
 #### See
 
-[ContainerAnalyticsEventState](../variables/ContainerAnalyticsEventState.md), [ContainerAnalyticsEventName](../variables/ContainerAnalyticsEventName.md), [ContainerAnalyticsEventData](../variables/ContainerAnalyticsEventData.md)
+[ContainerAnalyticsEventState](../variables/ContainerAnalyticsEventState.md), [ContainerAnalyticsEventName](../variables/ContainerAnalyticsEventName.md)
 
 #### Example
 
@@ -512,14 +556,12 @@ import {
   ContainerModule,
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
-  isResponseOk
 } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
 const {
   ContainerModule,
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
-  isResponseOk
 } = window.SuperAppSDK;
 
 // Initialize the container module
@@ -532,8 +574,18 @@ try {
     name: ContainerAnalyticsEventName.DEFAULT,
   });
 
-  if (isResponseOk(response)) {
-    console.log('Analytics event sent successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Analytics event sent successfully');
+      break;
+    case 400:
+      console.log('Invalid analytics event parameters:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -544,7 +596,7 @@ try {
 
 ### setBackgroundColor()
 
-> **setBackgroundColor**(`request`: `string`): `Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
+> **setBackgroundColor**(`request`: `string`): [`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)
 
 Set the background color of the container header.
 
@@ -554,15 +606,13 @@ Set the background color of the container header.
 
 `string`
 
-The background color configuration.
+The background color to set (hex format, e.g., '#ffffff').
 
 #### Returns
 
-`Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
+[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Background color set successfully
-- `400`: Invalid background color
+Confirmation that the background color was set.
 
 #### Throws
 
@@ -573,9 +623,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -584,10 +634,18 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.setBackgroundColor('#ffffff');
 
-  if (isResponseError(response)) {
-    console.log('Could not set background color:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Background color set successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Background color set successfully');
+      break;
+    case 400:
+      console.log('Could not set background color:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -598,7 +656,7 @@ try {
 
 ### setTitle()
 
-> **setTitle**(`request`: `string`): `Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
+> **setTitle**(`request`: `string`): [`SetTitleResponse`](../type-aliases/SetTitleResponse.md)
 
 Set the title of the container header.
 
@@ -608,15 +666,13 @@ Set the title of the container header.
 
 `string`
 
-The title configuration.
+The title text to display in the header.
 
 #### Returns
 
-`Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
+[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Title set successfully
-- `400`: Invalid title parameter
+Confirmation that the title was set.
 
 #### Throws
 
@@ -627,9 +683,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -638,10 +694,18 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.setTitle('Home');
 
-  if (isResponseError(response)) {
-    console.log('Could not set title:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Title set successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Title set successfully');
+      break;
+    case 400:
+      console.log('Could not set title:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -652,15 +716,15 @@ try {
 
 ### showBackButton()
 
-> **showBackButton**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **showBackButton**(): [`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)
 
 Show the back button on the container header.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)
 
-A promise that resolves to a `200` status code when the back button is shown.
+Confirmation that the back button is now visible.
 
 #### Throws
 
@@ -671,9 +735,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -682,8 +746,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.showBackButton();
 
-  if (isResponseOk(response)) {
-    console.log('Back button shown successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Back button shown successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -694,15 +763,15 @@ try {
 
 ### showLoader()
 
-> **showLoader**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **showLoader**(): [`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)
 
 Show the full-screen loading indicator.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)
 
-A promise that resolves to a `200` status code when the loading indicator is displayed.
+Confirmation that the loader is now visible.
 
 #### Remarks
 
@@ -717,9 +786,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -728,8 +797,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.showLoader();
 
-  if (isResponseOk(response)) {
-    console.log('Loader shown successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Loader shown successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);
@@ -740,15 +814,15 @@ try {
 
 ### showRefreshButton()
 
-> **showRefreshButton**(): `Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+> **showRefreshButton**(): [`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)
 
 Show the refresh button on the container header.
 
 #### Returns
 
-`Promise`\<[`BridgeStatusCode200Response`](../type-aliases/BridgeStatusCode200Response.md)\<`void`\>\>
+[`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)
 
-A promise that resolves to a `200` status code when the refresh button is shown.
+Confirmation that the refresh button is now visible.
 
 #### Throws
 
@@ -759,9 +833,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+import { ContainerModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+const { ContainerModule } = window.SuperAppSDK;
 
 // Initialize the container module
 const containerModule = new ContainerModule();
@@ -770,8 +844,13 @@ const containerModule = new ContainerModule();
 try {
   const response = await containerModule.showRefreshButton();
 
-  if (isResponseOk(response)) {
-    console.log('Refresh button shown successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Refresh button shown successfully');
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
   }
 } catch (error) {
   console.log('Unexpected error:', error);

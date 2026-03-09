@@ -5,3 +5,4 @@
 > **HideLoaderResult** = `void`
 
 Result when hiding the loader.
+This operation returns no data on success.

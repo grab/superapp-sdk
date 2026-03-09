@@ -2,6 +2,36 @@
 
 # Type Alias: SetTitleResponse
 
-> **SetTitleResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetTitleResult`](SetTitleResult.md), `200` \| `400`\>
+> **SetTitleResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetTitleResult`](SetTitleResult.md), `200` \| `400` \| `501`\>\>
 
 Response when setting the title.
+
+## Remarks
+
+This response can have the following status codes:
+- `200`: Title set successfully.
+- `400`: Invalid title parameter.
+- `501`: Not implemented - this method requires the Grab app environment.
+
+## Examples
+
+**Success response (200):**
+```typescript
+{ status_code: 200 }
+```
+
+**Bad request response (400):**
+```typescript
+{
+  status_code: 400,
+  error: 'Invalid title parameter'
+}
+```
+
+**Not implemented response (501) - outside Grab app:**
+```typescript
+{
+  status_code: 501,
+  error: 'Not implemented: This method requires the Grab app environment'
+}
+```

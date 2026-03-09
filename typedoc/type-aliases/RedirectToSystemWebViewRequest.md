@@ -6,6 +6,14 @@
 
 Request parameters for redirecting to the system web view.
 
+## Example
+
+```typescript
+{
+  url: 'https://www.example.com'
+}
+```
+
 ## Properties
 
 ### url

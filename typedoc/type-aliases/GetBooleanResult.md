@@ -6,6 +6,18 @@
 
 Result object containing the boolean value.
 
+## Examples
+
+**Value exists:**
+```typescript
+{ value: true }
+```
+
+**Value not found:**
+```typescript
+{ value: null }
+```
+
 ## Properties
 
 ### value

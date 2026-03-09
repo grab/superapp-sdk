@@ -5,3 +5,9 @@
 > **SetBackgroundColorRequest** = `string`
 
 Request parameters for setting the background color.
+
+## Example
+
+```typescript
+'#ffffff'
+```

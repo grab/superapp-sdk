@@ -12,6 +12,8 @@ import json from '@eslint/json';
 import markdown from '@eslint/markdown';
 import { defineConfig } from 'eslint/config';
 import licenseHeader from 'eslint-plugin-license-header';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import jsdocPlugin from 'eslint-plugin-jsdoc';
 
 export default defineConfig([
   {
@@ -19,14 +21,59 @@ export default defineConfig([
   },
   {
     files: ['**/*.ts'],
-    extends: [js.configs.recommended, tseslint.configs.recommended],
-    plugins: { 'license-header': licenseHeader },
-    rules: {
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'error',
-      'license-header/header': ['error', 'resources/copyright.txt'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+      globals: {
+        ...globals.browser,
+      },
     },
-    languageOptions: { globals: globals.browser },
+    extends: [js.configs.recommended, tseslint.configs.recommended],
+    plugins: {
+      'license-header': licenseHeader,
+      'simple-import-sort': simpleImportSort,
+      jsdoc: jsdocPlugin,
+    },
+    rules: {
+      // License header
+      'license-header/header': ['error', 'resources/copyright.txt'],
+
+      // General rules
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'object-shorthand': 'error',
+      'prefer-template': 'error',
+      'prefer-arrow-callback': 'error',
+      'no-param-reassign': 'warn',
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      'no-throw-literal': 'error',
+
+      // TypeScript specific rules
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+
+      // Import order
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+
+      // JSDoc consistency
+      'jsdoc/check-param-names': 'off',
+      'jsdoc/check-types': 'error',
+      'jsdoc/require-param': 'off',
+      'jsdoc/require-returns': 'error',
+      'jsdoc/require-description': 'error',
+      'jsdoc/tag-lines': ['warn', 'any', { startLines: 1 }],
+    },
   },
   {
     files: ['**/*.{js,mjs,cjs}'],

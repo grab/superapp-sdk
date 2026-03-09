@@ -5,3 +5,4 @@
 > **OnContentLoadedResult** = `void`
 
 Result when notifying content loaded.
+This operation returns no data on success.

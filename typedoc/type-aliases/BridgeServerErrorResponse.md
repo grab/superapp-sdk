@@ -2,7 +2,7 @@
 
 # Type Alias: BridgeServerErrorResponse
 
-> **BridgeServerErrorResponse** = [`BridgeStatusCode500Response`](BridgeStatusCode500Response.md)
+> **BridgeServerErrorResponse** = [`BridgeStatusCode500Response`](BridgeStatusCode500Response.md) \| [`BridgeStatusCode501Response`](BridgeStatusCode501Response.md)
 
 Union type representing server error JSBridge responses (5xx status codes).
-Currently only includes status code 500 (Internal Server Error).
+Includes status codes 500 (Internal Server Error) and 501 (Not Implemented).

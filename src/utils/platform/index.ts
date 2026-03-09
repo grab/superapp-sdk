@@ -5,5 +5,5 @@
  * directory of this source tree.
  */
 
-export type { GrabAppInfo, Platform } from './types';
 export { extractGrabAppInfo, isAndroid, isIOS } from './platform';
+export type { GrabAppInfo, Platform } from './types';

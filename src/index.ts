@@ -7,34 +7,24 @@
 
 export { BaseModule } from './core/module';
 export {
-  StatusCodeMap,
-  BridgeResponse,
-  ConstrainedBridgeResponse,
-  BridgeSuccessResponse,
-  BridgeRedirectResponse,
-  BridgeErrorResponse,
   BridgeClientErrorResponse,
+  BridgeErrorResponse,
+  BridgeRedirectResponse,
+  BridgeResponse,
   BridgeServerErrorResponse,
   BridgeStatusCode200Response,
   BridgeStatusCode204Response,
   BridgeStatusCode302Response,
   BridgeStatusCode400Response,
+  BridgeStatusCode401Response,
   BridgeStatusCode403Response,
   BridgeStatusCode404Response,
   BridgeStatusCode424Response,
   BridgeStatusCode500Response,
-  isResponseSuccess,
-  isResponseOk,
-  isResponseRedirect,
-  isResponseNoContent,
-  isResponseError,
-  isResponseClientError,
-  isResponseServerError,
-  isResponseBadRequest,
-  isResponseForbidden,
-  isResponseNotFound,
-  isResponseFailedDependency,
-  isResponseInternalServerError,
+  BridgeStatusCode501Response,
+  BridgeSuccessResponse,
+  ConstrainedBridgeResponse,
+  StatusCodeMap,
 } from './core/response';
 export { DataStream, DataStreamHandlers, Subscription } from './core/stream';
 export { CameraModule } from './modules/camera/CameraModule';
@@ -49,59 +39,82 @@ export type {
   TriggerCheckoutResponse,
   TriggerCheckoutResult,
 } from './modules/checkout/types';
-export { ContainerModule } from './modules/container/ContainerModule';
 export {
-  ContainerAnalyticsEventState,
-  ContainerAnalyticsEventName,
   ContainerAnalyticsEventData,
+  ContainerAnalyticsEventName,
+  ContainerAnalyticsEventState,
 } from './modules/container/constants';
+export { ContainerModule } from './modules/container/ContainerModule';
 export type {
-  SetBackgroundColorRequest,
-  SetBackgroundColorResult,
-  SetBackgroundColorResponse,
-  SetTitleRequest,
-  SetTitleResult,
-  SetTitleResponse,
-  HideBackButtonResult,
-  HideBackButtonResponse,
-  ShowBackButtonResult,
-  ShowBackButtonResponse,
-  HideRefreshButtonResult,
-  HideRefreshButtonResponse,
-  ShowRefreshButtonResult,
-  ShowRefreshButtonResponse,
-  CloseResult,
   CloseResponse,
-  OnContentLoadedResult,
-  OnContentLoadedResponse,
-  ShowLoaderResult,
-  ShowLoaderResponse,
-  HideLoaderResult,
-  HideLoaderResponse,
-  OpenExternalLinkRequest,
-  OpenExternalLinkResult,
-  OpenExternalLinkResponse,
-  OnCtaTapRequest,
-  OnCtaTapResult,
-  OnCtaTapResponse,
-  SendAnalyticsEventRequest,
-  SendAnalyticsEventResult,
-  SendAnalyticsEventResponse,
-  IsConnectedResult,
-  IsConnectedResponse,
-  GetSessionParamsResult,
+  CloseResult,
   GetSessionParamsResponse,
+  GetSessionParamsResult,
+  HideBackButtonResponse,
+  HideBackButtonResult,
+  HideLoaderResponse,
+  HideLoaderResult,
+  HideRefreshButtonResponse,
+  HideRefreshButtonResult,
+  IsConnectedResponse,
+  IsConnectedResult,
+  OnContentLoadedResponse,
+  OnContentLoadedResult,
+  OnCtaTapRequest,
+  OnCtaTapResponse,
+  OnCtaTapResult,
+  OpenExternalLinkRequest,
+  OpenExternalLinkResponse,
+  OpenExternalLinkResult,
+  SendAnalyticsEventRequest,
+  SendAnalyticsEventResponse,
+  SendAnalyticsEventResult,
+  SetBackgroundColorRequest,
+  SetBackgroundColorResponse,
+  SetBackgroundColorResult,
+  SetTitleRequest,
+  SetTitleResponse,
+  SetTitleResult,
+  ShowBackButtonResponse,
+  ShowBackButtonResult,
+  ShowLoaderResponse,
+  ShowLoaderResult,
+  ShowRefreshButtonResponse,
+  ShowRefreshButtonResult,
 } from './modules/container/types';
 export { IdentityModule } from './modules/identity/IdentityModule';
 export type {
   AuthorizeRequest,
   AuthorizeResponse,
   AuthorizeResult,
-  GetAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsResult,
   ClearAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsResult,
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResult,
 } from './modules/identity/types';
+export { LocaleModule } from './modules/locale/LocaleModule';
+export type {
+  GetLanguageLocaleIdentifierResponse,
+  GetLanguageLocaleIdentifierResult,
+} from './modules/locale/types';
+export { LocationModule } from './modules/location/LocationModule';
+export type {
+  GetCoordinateResponse,
+  GetCoordinateResult,
+  GetCountryCodeResponse,
+  GetCountryCodeResult,
+  ObserveLocationChangeResponse,
+} from './modules/location/types';
+export { MediaModule } from './modules/media/MediaModule';
+export type {
+  DRMContentConfig,
+  DRMPlaybackEvent,
+  ObserveDRMPlaybackResponse,
+  PlayDRMContentResponse,
+  PlayDRMContentResult,
+} from './modules/media/types';
+export { PlatformModule } from './modules/platform/PlatformModule';
+export type { BackResponse, BackResult } from './modules/platform/types';
 export { ProfileModule } from './modules/profile/ProfileModule';
 export type {
   FetchEmailResponse,
@@ -110,25 +123,6 @@ export type {
   VerifyEmailResponse,
   VerifyEmailResult,
 } from './modules/profile/types';
-export { LocaleModule } from './modules/locale/LocaleModule';
-export type { GetLanguageLocaleIdentifierResponse } from './modules/locale/types';
-export { LocationModule } from './modules/location/LocationModule';
-export type {
-  GetCoordinateResult,
-  GetCoordinateResponse,
-  ObserveLocationChangeResponse,
-  GetCountryCodeResult,
-  GetCountryCodeResponse,
-} from './modules/location/types';
-export { MediaModule } from './modules/media/MediaModule';
-export type {
-  DRMContentConfig,
-  DRMPlaybackEvent,
-  PlayDRMContentResponse,
-  PlayDRMContentResult,
-  ObserveDRMPlaybackResponse,
-} from './modules/media/types';
-export { PlatformModule } from './modules/platform/PlatformModule';
 export { ScopeModule } from './modules/scope/ScopeModule';
 export type {
   HasAccessToResponse,
@@ -138,30 +132,30 @@ export type {
 } from './modules/scope/types';
 export { StorageModule } from './modules/storage/StorageModule';
 export type {
-  SetBooleanResponse,
-  SetBooleanResult,
   GetBooleanRequest,
   GetBooleanResponse,
   GetBooleanResult,
-  SetIntResponse,
-  SetIntResult,
-  GetIntRequest,
-  GetIntResponse,
-  GetIntResult,
-  SetStringResponse,
-  SetStringResult,
-  GetStringRequest,
-  GetStringResponse,
-  GetStringResult,
-  SetDoubleResponse,
-  SetDoubleResult,
   GetDoubleRequest,
   GetDoubleResponse,
   GetDoubleResult,
-  RemoveResponse,
-  RemoveResult,
+  GetIntRequest,
+  GetIntResponse,
+  GetIntResult,
+  GetStringRequest,
+  GetStringResponse,
+  GetStringResult,
   RemoveAllResponse,
   RemoveAllResult,
+  RemoveResponse,
+  RemoveResult,
+  SetBooleanResponse,
+  SetBooleanResult,
+  SetDoubleResponse,
+  SetDoubleResult,
+  SetIntResponse,
+  SetIntResult,
+  SetStringResponse,
+  SetStringResult,
 } from './modules/storage/types';
 export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
 export type {

@@ -8,26 +8,26 @@
 import { BaseModule } from '../../core/module';
 import { isRunningInGrabApp } from '../../utils/user-agent';
 import {
+  CloseResponse,
+  GetSessionParamsResponse,
+  HideBackButtonResponse,
+  HideLoaderResponse,
+  HideRefreshButtonResponse,
+  IsConnectedResponse,
+  OnContentLoadedResponse,
+  OnCtaTapRequest,
+  OnCtaTapResponse,
+  OpenExternalLinkRequest,
+  OpenExternalLinkResponse,
   SendAnalyticsEventRequest,
   SendAnalyticsEventResponse,
   SetBackgroundColorRequest,
   SetBackgroundColorResponse,
   SetTitleRequest,
   SetTitleResponse,
-  HideBackButtonResponse,
   ShowBackButtonResponse,
-  HideRefreshButtonResponse,
-  ShowRefreshButtonResponse,
-  CloseResponse,
-  OnContentLoadedResponse,
   ShowLoaderResponse,
-  HideLoaderResponse,
-  OpenExternalLinkRequest,
-  OpenExternalLinkResponse,
-  OnCtaTapRequest,
-  OnCtaTapResponse,
-  IsConnectedResponse,
-  GetSessionParamsResponse,
+  ShowRefreshButtonResponse,
 } from './types';
 
 /**
@@ -65,11 +65,9 @@ export class ContainerModule extends BaseModule {
   /**
    * Set the background color of the container header.
    *
-   * @param request - The background color configuration.
+   * @param request - The background color to set (hex format, e.g., '#ffffff').
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Background color set successfully
-   * - `400`: Invalid background color
+   * @returns Confirmation that the background color was set.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -77,9 +75,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -88,10 +86,18 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.setBackgroundColor('#ffffff');
    *
-   *   if (isResponseError(response)) {
-   *     console.log('Could not set background color:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     console.log('Background color set successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Background color set successfully');
+   *       break;
+   *     case 400:
+   *       console.log('Could not set background color:', response.error);
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -100,8 +106,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  setBackgroundColor(request: SetBackgroundColorRequest): Promise<SetBackgroundColorResponse> {
-    return this.wrappedModule.invoke('setBackgroundColor', {
+  setBackgroundColor(request: SetBackgroundColorRequest): SetBackgroundColorResponse {
+    return this.invoke('setBackgroundColor', {
       backgroundColor: request,
     });
   }
@@ -109,11 +115,9 @@ export class ContainerModule extends BaseModule {
   /**
    * Set the title of the container header.
    *
-   * @param request - The title configuration.
+   * @param request - The title text to display in the header.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Title set successfully
-   * - `400`: Invalid title parameter
+   * @returns Confirmation that the title was set.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -121,9 +125,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -132,10 +136,18 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.setTitle('Home');
    *
-   *   if (isResponseError(response)) {
-   *     console.log('Could not set title:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     console.log('Title set successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Title set successfully');
+   *       break;
+   *     case 400:
+   *       console.log('Could not set title:', response.error);
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -144,14 +156,14 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
-    return this.wrappedModule.invoke('setTitle', { title: request });
+  setTitle(request: SetTitleRequest): SetTitleResponse {
+    return this.invoke('setTitle', { title: request });
   }
 
   /**
    * Hide the back button on the container header.
    *
-   * @returns A promise that resolves to a `200` status code when the back button is hidden.
+   * @returns Confirmation that the back button is now hidden.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -159,9 +171,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -170,8 +182,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.hideBackButton();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Back button hidden successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Back button hidden successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -180,14 +197,14 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  hideBackButton(): Promise<HideBackButtonResponse> {
-    return this.wrappedModule.invoke('hideBackButton');
+  hideBackButton(): HideBackButtonResponse {
+    return this.invoke('hideBackButton');
   }
 
   /**
    * Show the back button on the container header.
    *
-   * @returns A promise that resolves to a `200` status code when the back button is shown.
+   * @returns Confirmation that the back button is now visible.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -195,9 +212,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -206,8 +223,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.showBackButton();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Back button shown successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Back button shown successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -216,14 +238,14 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  showBackButton(): Promise<ShowBackButtonResponse> {
-    return this.wrappedModule.invoke('showBackButton');
+  showBackButton(): ShowBackButtonResponse {
+    return this.invoke('showBackButton');
   }
 
   /**
    * Hide the refresh button on the container header.
    *
-   * @returns A promise that resolves to a `200` status code when the refresh button is hidden.
+   * @returns Confirmation that the refresh button is now hidden.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -231,9 +253,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -242,8 +264,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.hideRefreshButton();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Refresh button hidden successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Refresh button hidden successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -252,14 +279,14 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    return this.wrappedModule.invoke('hideRefreshButton');
+  hideRefreshButton(): HideRefreshButtonResponse {
+    return this.invoke('hideRefreshButton');
   }
 
   /**
    * Show the refresh button on the container header.
    *
-   * @returns A promise that resolves to a `200` status code when the refresh button is shown.
+   * @returns Confirmation that the refresh button is now visible.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -267,9 +294,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -278,8 +305,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.showRefreshButton();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Refresh button shown successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Refresh button shown successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -288,14 +320,14 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    return this.wrappedModule.invoke('showRefreshButton');
+  showRefreshButton(): ShowRefreshButtonResponse {
+    return this.invoke('showRefreshButton');
   }
 
   /**
    * Close the container and return to the previous screen.
    *
-   * @returns A promise that resolves to a `200` status code when the container closes.
+   * @returns Confirmation that the container is closing.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -303,9 +335,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -314,8 +346,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.close();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Container closed successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Container closed successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -324,14 +361,14 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  close(): Promise<CloseResponse> {
-    return this.wrappedModule.invoke('close');
+  close(): CloseResponse {
+    return this.invoke('close');
   }
 
   /**
    * Notify the Grab SuperApp that the page content has loaded.
    *
-   * @returns A promise that resolves to a `200` status code when the notification is sent.
+   * @returns Confirmation that the content loaded notification was sent.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -339,9 +376,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -350,8 +387,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.onContentLoaded();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Content loaded notification sent successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Content loaded notification sent successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -360,8 +402,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  onContentLoaded(): Promise<OnContentLoadedResponse> {
-    return this.wrappedModule.invoke('onContentLoaded');
+  onContentLoaded(): OnContentLoadedResponse {
+    return this.invoke('onContentLoaded');
   }
 
   /**
@@ -370,7 +412,7 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Remember to call {@link ContainerModule.hideLoader} when the operation completes.
    *
-   * @returns A promise that resolves to a `200` status code when the loading indicator is displayed.
+   * @returns Confirmation that the loader is now visible.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -378,9 +420,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -389,8 +431,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.showLoader();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Loader shown successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Loader shown successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -399,8 +446,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  showLoader(): Promise<ShowLoaderResponse> {
-    return this.wrappedModule.invoke('showLoader');
+  showLoader(): ShowLoaderResponse {
+    return this.invoke('showLoader');
   }
 
   /**
@@ -409,7 +456,7 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Should be called when the entry point has finished loading.
    *
-   * @returns A promise that resolves to a `200` status code when the loading indicator is hidden.
+   * @returns Confirmation that the loader is now hidden.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -417,9 +464,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -428,8 +475,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.hideLoader();
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Loader hidden successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Loader hidden successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -438,8 +490,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  hideLoader(): Promise<HideLoaderResponse> {
-    return this.wrappedModule.invoke('hideLoader');
+  hideLoader(): HideLoaderResponse {
+    return this.invoke('hideLoader');
   }
 
   /**
@@ -448,11 +500,9 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to open the specified URL in an external browser (outside of the Grab app).
    *
-   * @param request - The URL configuration.
+   * @param request - The URL to open in the external browser.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: External link opened successfully
-   * - `400`: URL parameter not found
+   * @returns Confirmation of whether the external link was opened successfully.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -460,9 +510,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -471,10 +521,18 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.openExternalLink('https://grab.com');
    *
-   *   if (isResponseError(response)) {
-   *     console.log('Could not open external link:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     console.log('External link opened successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('External link opened successfully');
+   *       break;
+   *     case 400:
+   *       console.log('Could not open external link:', response.error);
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -483,8 +541,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
-    return this.wrappedModule.invoke('openExternalLink', {
+  openExternalLink(request: OpenExternalLinkRequest): OpenExternalLinkResponse {
+    return this.invoke('openExternalLink', {
       url: request,
     });
   }
@@ -492,9 +550,9 @@ export class ContainerModule extends BaseModule {
   /**
    * Notify the client that the user has tapped a call-to-action (CTA).
    *
-   * @param request - The CTA action configuration.
+   * @param request - The action identifier for the CTA that was tapped.
    *
-   * @returns A promise that resolves to a `200` response when the CTA tap notification is sent.
+   * @returns Confirmation that the CTA tap was notified.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -502,9 +560,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -513,8 +571,13 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('CTA tap notified successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('CTA tap notified successfully');
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -523,8 +586,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  onCtaTap(request: OnCtaTapRequest): Promise<OnCtaTapResponse> {
-    return this.wrappedModule.invoke('onCtaTap', { action: request });
+  onCtaTap(request: OnCtaTapRequest): OnCtaTapResponse {
+    return this.invoke('onCtaTap', { action: request });
   }
 
   /**
@@ -536,15 +599,14 @@ export class ContainerModule extends BaseModule {
    * **Predefined Values:**
    * - **States:** {@link ContainerAnalyticsEventState}
    * - **Names:** {@link ContainerAnalyticsEventName}
-   * - **Data Keys:** {@link ContainerAnalyticsEventData}
    *
-   *   @param request - The analytics event configuration.
+   * @param request - Analytics event details including state, name, and optional data.
    *
-   * @returns A promise that resolves to a `200` response when the analytics event is sent.
+   * @returns Confirmation of whether the analytics event was sent successfully.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
-   * @see {@link ContainerAnalyticsEventState}, {@link ContainerAnalyticsEventName}, {@link ContainerAnalyticsEventData}
+   * @see {@link ContainerAnalyticsEventState}, {@link ContainerAnalyticsEventName}
    *
    * @example
    * **Simple usage**
@@ -554,14 +616,12 @@ export class ContainerModule extends BaseModule {
    *   ContainerModule,
    *   ContainerAnalyticsEventState,
    *   ContainerAnalyticsEventName,
-   *   isResponseOk
    * } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
    * const {
    *   ContainerModule,
    *   ContainerAnalyticsEventState,
    *   ContainerAnalyticsEventName,
-   *   isResponseOk
    * } = window.SuperAppSDK;
    *
    * // Initialize the container module
@@ -574,8 +634,18 @@ export class ContainerModule extends BaseModule {
    *     name: ContainerAnalyticsEventName.DEFAULT,
    *   });
    *
-   *   if (isResponseOk(response)) {
-   *     console.log('Analytics event sent successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Analytics event sent successfully');
+   *       break;
+   *     case 400:
+   *       console.log('Invalid analytics event parameters:', response.error);
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -584,12 +654,12 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  sendAnalyticsEvent(request: SendAnalyticsEventRequest): Promise<SendAnalyticsEventResponse> {
+  sendAnalyticsEvent(request: SendAnalyticsEventRequest): SendAnalyticsEventResponse {
     const validationError = this.validateAnalyticsEvent(request);
     if (validationError) {
       return Promise.resolve({ status_code: 400, result: undefined, error: validationError });
     }
-    return this.wrappedModule.invoke('sendAnalyticsEvent', {
+    return this.invoke('sendAnalyticsEvent', {
       state: request.state,
       name: request.name,
       data: request.data ? JSON.stringify(request.data) : null,
@@ -602,9 +672,7 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to verify the connection status before using other features.
    *
-   *   @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Connected to Grab SuperApp
-   * - `404`: Not connected to Grab SuperApp
+   * @returns The connection status, indicating whether the MiniApp is running inside the Grab SuperApp.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -612,9 +680,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -623,10 +691,15 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.isConnected();
    *
-   *   if (isResponseError(response)) {
-   *     console.log('Not connected to Grab SuperApp');
-   *   } else if (isResponseOk(response)) {
-   *     console.log('Connected to Grab SuperApp');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Connected to Grab SuperApp');
+   *       break;
+   *     case 404:
+   *       console.log('Not connected to Grab SuperApp');
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -635,11 +708,11 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  isConnected(): Promise<IsConnectedResponse> {
+  isConnected(): IsConnectedResponse {
     const isConnected = isRunningInGrabApp();
     return Promise.resolve(
       isConnected
-        ? { status_code: 200, result: null, error: null }
+        ? { status_code: 200, result: { connected: true }, error: null }
         : { status_code: 404, error: 'Not connected to Grab app', result: null }
     );
   }
@@ -652,7 +725,7 @@ export class ContainerModule extends BaseModule {
    * Parse with `JSON.parse(result.result)` to use as an object.
    * Session parameters can contain primitives, base64 encoded strings, or nested objects.
    *
-   * @returns A promise that resolves to a `200` status code with session parameters.
+   * @returns The session parameters as a JSON string that can be parsed into an object.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -660,9 +733,9 @@ export class ContainerModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { ContainerModule, isResponseOk } from '@grabjs/superapp-sdk';
+   * import { ContainerModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { ContainerModule, isResponseOk } = window.SuperAppSDK;
+   * const { ContainerModule } = window.SuperAppSDK;
    *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
@@ -671,9 +744,15 @@ export class ContainerModule extends BaseModule {
    * try {
    *   const response = await containerModule.getSessionParams();
    *
-   *   if (isResponseOk(response)) {
-   *     const sessionParams = JSON.parse(response.result?.result || '{}');
-   *     console.log('Session params retrieved:', sessionParams);
+   *   switch (response.status_code) {
+   *     case 200: {
+   *       const sessionParams = JSON.parse(response.result?.result || '{}');
+   *       console.log('Session params retrieved:', sessionParams);
+   *       break;
+   *     }
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
    *   }
    * } catch (error) {
    *   console.log('Unexpected error:', error);
@@ -682,8 +761,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  getSessionParams(): Promise<GetSessionParamsResponse> {
-    return this.wrappedModule.invoke('getSessionParams');
+  getSessionParams(): GetSessionParamsResponse {
+    return this.invoke('getSessionParams');
   }
 
   /**
@@ -693,7 +772,7 @@ export class ContainerModule extends BaseModule {
    * @returns Error message if invalid, `null` if valid.
    * @internal
    */
-  private validateAnalyticsEvent(request: SendAnalyticsEventRequest) {
+  private validateAnalyticsEvent(request: SendAnalyticsEventRequest): string | null {
     if (request.name == null) {
       return 'name is required';
     }

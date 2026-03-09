@@ -43,12 +43,9 @@ export class SystemWebViewKitModule extends BaseModule {
   /**
    * Opens a URL in the device's system web browser or web view.
    *
-   * @param request - The URL configuration.
+   * @param request - The URL to open in the system web view.
    *
-   * @returns A promise that resolves to a response with one of the following possible status codes:
-   * - `200`: Redirect initiated successfully
-   * - `400`: Invalid URL, domain not whitelisted, or missing callback URL
-   * - `424`: ASWebAuthenticationSession error
+   * @returns Confirmation of whether the redirect to system web view was successful.
    *
    * @throws Error when the JSBridge method fails unexpectedly.
    *
@@ -56,9 +53,9 @@ export class SystemWebViewKitModule extends BaseModule {
    * **Simple usage**
    * ```typescript
    * // Imports using ES Module built
-   * import { SystemWebViewKitModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+   * import { SystemWebViewKitModule } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
-   * const { SystemWebViewKitModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+   * const { SystemWebViewKitModule } = window.SuperAppSDK;
    *
    * // Initialize the system web view kit module
    * const systemWebViewKitModule = new SystemWebViewKitModule();
@@ -69,10 +66,21 @@ export class SystemWebViewKitModule extends BaseModule {
    *     url: 'https://www.example.com'
    *   });
    *
-   *   if (isResponseError(response)) {
-   *     console.log('Could not redirect:', response.error);
-   *   } else if (isResponseOk(response)) {
-   *     console.log('Redirect initiated successfully');
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Redirect initiated successfully');
+   *       break;
+   *     case 400:
+   *       console.log('Could not redirect:', response.error);
+   *       break;
+   *     case 424:
+   *       console.log('Dependency error:', response.error);
+   *       break;
+   *     case 501:
+   *       console.log('Not in Grab app:', response.error);
+   *       break;
+   *     default:
+   *       console.log('Unexpected status code:', response);
    *   }
    * } catch (err) {
    *   console.log('Unexpected error:', err);
@@ -83,7 +91,7 @@ export class SystemWebViewKitModule extends BaseModule {
    */
   redirectToSystemWebView(
     request: RedirectToSystemWebViewRequest
-  ): Promise<RedirectToSystemWebViewResponse> {
-    return this.wrappedModule.invoke('redirectToSystemWebView', request);
+  ): RedirectToSystemWebViewResponse {
+    return this.invoke('redirectToSystemWebView', request);
   }
 }

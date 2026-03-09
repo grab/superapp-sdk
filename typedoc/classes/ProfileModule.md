@@ -47,18 +47,15 @@ const profile = new ProfileModule();
 
 ### fetchEmail()
 
-> **fetchEmail**(): `Promise`\<[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)\>
+> **fetchEmail**(): [`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)
 
 Fetches the user's email address from their Grab profile.
 
 #### Returns
 
-`Promise`\<[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)\>
+[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Email fetched successfully
-- `400`: Invalid request
-- `403`: Feature requires Grab app version 5.399 or above (returned client-side, not from JSBridge)
+The user's email address if available.
 
 #### Throws
 
@@ -69,9 +66,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ProfileModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ProfileModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ProfileModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ProfileModule } = window.SuperAppSDK;
 
 // Initialize the profile module
 const profileModule = new ProfileModule();
@@ -80,11 +77,20 @@ const profileModule = new ProfileModule();
 try {
   const response = await profileModule.fetchEmail();
 
-  if (isResponseError(response)) {
-    // Feature not available or other error
-    console.log('Could not fetch email:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('User email:', response.result.email);
+  switch (response.status_code) {
+    case 200:
+      console.log('User email:', response.result.email);
+      break;
+    case 400:
+    case 403:
+      // Feature not available or other error
+      console.log('Could not fetch email:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (err) {
   console.log(`Could not fetch email${err ? `: ${err}` : ''}`);
@@ -95,7 +101,7 @@ try {
 
 ### verifyEmail()
 
-> **verifyEmail**(`request`: [`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)): `Promise`\<[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)\>
+> **verifyEmail**(`request`: [`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)): [`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)
 
 Verifies the user's email address using a one-time password (OTP).
 
@@ -105,16 +111,13 @@ Verifies the user's email address using a one-time password (OTP).
 
 [`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)
 
-The email verification configuration.
+The email and OTP to verify.
 
 #### Returns
 
-`Promise`\<[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)\>
+[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)
 
-A promise that resolves to a response with one of the following possible status codes:
-- `200`: Email verified successfully
-- `400`: Invalid request
-- `403`: Feature requires Grab app version 5.399 or above (returned client-side, not from JSBridge)
+Confirmation of whether the email verification was successful.
 
 #### Throws
 
@@ -125,9 +128,9 @@ Error when the JSBridge method fails unexpectedly.
 **Simple usage**
 ```typescript
 // Imports using ES Module built
-import { ProfileModule, isResponseOk, isResponseError } from '@grabjs/superapp-sdk';
+import { ProfileModule } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
-const { ProfileModule, isResponseOk, isResponseError } = window.SuperAppSDK;
+const { ProfileModule } = window.SuperAppSDK;
 
 // Initialize the profile module
 const profileModule = new ProfileModule();
@@ -139,11 +142,20 @@ try {
     otp: '123456'
   });
 
-  if (isResponseError(response)) {
-    // Feature not available or other error
-    console.log('Could not verify email:', response.error);
-  } else if (isResponseOk(response)) {
-    console.log('Email verified successfully');
+  switch (response.status_code) {
+    case 200:
+      console.log('Email verified successfully');
+      break;
+    case 400:
+    case 403:
+      // Feature not available or other error
+      console.log('Could not verify email:', response.error);
+      break;
+    case 501:
+      console.log('Not in Grab app:', response.error);
+      break;
+    default:
+      console.log('Unexpected status code:', response);
   }
 } catch (err) {
   console.log(`Could not verify email${err ? `: ${err}` : ''}`);

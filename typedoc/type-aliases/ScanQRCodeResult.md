@@ -4,7 +4,13 @@
 
 > **ScanQRCodeResult** = \{ `qrCode`: `string`; \}
 
-Result object containing the scanned QR code data
+Result object containing the scanned QR code data.
+
+## Example
+
+```typescript
+{ qrCode: 'https://example.com/payment/123' }
+```
 
 ## Properties
 

@@ -5,3 +5,4 @@
 > **ShowRefreshButtonResult** = `void`
 
 Result when showing the refresh button.
+This operation returns no data on success.

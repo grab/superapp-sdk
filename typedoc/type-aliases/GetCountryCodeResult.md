@@ -6,6 +6,16 @@
 
 Result object containing the country code.
 
+## Examples
+
+```typescript
+{ countryCode: 'SG' }
+```
+
+```typescript
+{ countryCode: 'ID' }
+```
+
 ## Properties
 
 ### countryCode
