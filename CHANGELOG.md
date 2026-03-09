@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.13] - 2026-03-06
+
+### Added
+
+- New crypto utilities (`src/utils/crypto/`) using native Web Crypto API for PKCE operations
+- Centralized Identity constants in `src/modules/identity/constants.ts`
+- `resources/copyright.txt` for shared license header content
+
+### Changed
+
+- `IdentityModule` refactored to use new crypto utilities and centralized constants
+- `generatePKCEArtifacts()` is now async to support native crypto.subtle digest
+- ESLint config references `resources/copyright.txt` directly instead of JS import
+- Rollup config reads copyright banner from file directly
+- Moved `@grabjs/mobile-kit-bridge-sdk` from dependencies to devDependencies
+
+### Removed
+
+- `crypto-js` dependency (replaced by native Web Crypto API)
+- `scripts/constants.mjs` (superseded by `resources/copyright.txt`)
+- Auto-generated TypeDoc documentation for `IdentityModule`
+
+### Security
+
+- Replaced `crypto-js` with native Web Crypto API for improved security and reduced bundle size
+
 ## [2.0.0-beta.12] - 2026-03-06
 
 ### Added

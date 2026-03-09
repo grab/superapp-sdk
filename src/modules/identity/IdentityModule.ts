@@ -5,8 +5,6 @@
  * directory of this source tree.
  */
 
-import sha256 from 'crypto-js/sha256';
-import Base64 from 'crypto-js/enc-base64';
 import { BaseModule } from '../../core/module';
 import { isResponseError } from '../../core/response';
 import {
@@ -17,6 +15,19 @@ import {
 } from './types';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
+import {
+  generateRandomString,
+  generateCodeVerifier,
+  generateCodeChallenge,
+} from '../../utils/crypto';
+import {
+  NAMESPACE,
+  CODE_CHALLENGE_METHOD,
+  NONCE_LENGTH,
+  STATE_LENGTH,
+  CODE_VERIFIER_LENGTH,
+  OPENID_CONFIG_ENDPOINTS,
+} from './constants';
 
 /**
  * JSBridge module for authenticating users via GrabID.
@@ -51,34 +62,6 @@ export class IdentityModule extends BaseModule {
     super('IdentityModule');
   }
 
-  get NAMESPACE() {
-    return 'grabid';
-  }
-
-  get CODE_CHALLENGE_METHOD() {
-    return 'S256';
-  }
-
-  get NONCE_LENGTH() {
-    return 16;
-  }
-
-  get STATE_LENGTH() {
-    return 7;
-  }
-
-  get CODE_VERIFIER_LENGTH() {
-    return 64;
-  }
-
-  get OPENID_CONFIG_ENDPOINTS() {
-    return {
-      staging:
-        'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration',
-      production: 'https://partner-api.grab.com/grabid/v1/oauth2/.well-known/openid-configuration',
-    };
-  }
-
   /**
    * Fetches the authorization endpoint URL from the OpenID configuration.
    *
@@ -88,8 +71,8 @@ export class IdentityModule extends BaseModule {
    *
    * @internal
    */
-  async fetchAuthorizationEndpoint(environment) {
-    const configUrl = this.OPENID_CONFIG_ENDPOINTS[environment];
+  private async fetchAuthorizationEndpoint(environment: 'staging' | 'production'): Promise<string> {
+    const configUrl = OPENID_CONFIG_ENDPOINTS[environment];
     if (!configUrl) {
       throw new Error(`Invalid environment: ${environment}. Must be 'staging' or 'production'`);
     }
@@ -126,30 +109,6 @@ export class IdentityModule extends BaseModule {
     }
   }
 
-  static generateRandomString(length) {
-    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const randomValues = new Uint32Array(length);
-    crypto.getRandomValues(randomValues);
-
-    let result = '';
-    for (let i = 0; i < length; i += 1) {
-      result += charset.charAt(randomValues[i] % charset.length);
-    }
-    return result;
-  }
-
-  static base64URLEncode(str) {
-    return str.toString(Base64).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-  }
-
-  static generateCodeVerifier(len) {
-    return IdentityModule.base64URLEncode(IdentityModule.generateRandomString(len));
-  }
-
-  static generateCodeChallenge(codeVerifier) {
-    return IdentityModule.base64URLEncode(sha256(codeVerifier));
-  }
-
   /**
    * Generates PKCE (Proof Key for Code Exchange) artifacts for the OAuth2 authorization flow.
    *
@@ -157,18 +116,18 @@ export class IdentityModule extends BaseModule {
    *
    * @internal
    */
-  generatePKCEArtifacts() {
-    const nonce = IdentityModule.generateRandomString(this.NONCE_LENGTH);
-    const state = IdentityModule.generateRandomString(this.STATE_LENGTH);
-    const codeVerifier = IdentityModule.generateCodeVerifier(this.CODE_VERIFIER_LENGTH);
-    const codeChallenge = IdentityModule.generateCodeChallenge(codeVerifier);
+  private async generatePKCEArtifacts() {
+    const nonce = generateRandomString(NONCE_LENGTH);
+    const state = generateRandomString(STATE_LENGTH);
+    const codeVerifier = generateCodeVerifier(CODE_VERIFIER_LENGTH);
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
 
     return {
       nonce,
       state,
       codeVerifier,
       codeChallenge,
-      codeChallengeMethod: this.CODE_CHALLENGE_METHOD,
+      codeChallengeMethod: CODE_CHALLENGE_METHOD,
     };
   }
 
@@ -179,7 +138,12 @@ export class IdentityModule extends BaseModule {
    *
    * @internal
    */
-  storePKCEArtifacts(artifacts) {
+  private storePKCEArtifacts(artifacts: {
+    nonce: string;
+    state: string;
+    codeVerifier: string;
+    redirectUri: string;
+  }): void {
     this.setStorageItem('nonce', artifacts.nonce);
     this.setStorageItem('state', artifacts.state);
     this.setStorageItem('code_verifier', artifacts.codeVerifier);
@@ -303,11 +267,11 @@ export class IdentityModule extends BaseModule {
    * @public
    */
   async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
-    window.localStorage.removeItem(`${this.NAMESPACE}:nonce`);
-    window.localStorage.removeItem(`${this.NAMESPACE}:state`);
-    window.localStorage.removeItem(`${this.NAMESPACE}:code_verifier`);
-    window.localStorage.removeItem(`${this.NAMESPACE}:redirect_uri`);
-    window.localStorage.removeItem(`${this.NAMESPACE}:login_return_uri`);
+    window.localStorage.removeItem(`${NAMESPACE}:nonce`);
+    window.localStorage.removeItem(`${NAMESPACE}:state`);
+    window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);
+    window.localStorage.removeItem(`${NAMESPACE}:redirect_uri`);
+    window.localStorage.removeItem(`${NAMESPACE}:login_return_uri`);
 
     return Promise.resolve({
       status_code: 204,
@@ -324,8 +288,8 @@ export class IdentityModule extends BaseModule {
    *
    * @internal
    */
-  setStorageItem(key, value) {
-    window.localStorage.setItem(`${this.NAMESPACE}:${key}`, value);
+  private setStorageItem(key: string, value: string): void {
+    window.localStorage.setItem(`${NAMESPACE}:${key}`, value);
   }
 
   /**
@@ -336,16 +300,36 @@ export class IdentityModule extends BaseModule {
    *
    * @internal
    */
-  getStorageItem(key) {
-    return window.localStorage.getItem(`${this.NAMESPACE}:${key}`);
+  private getStorageItem(key: string): string | null {
+    return window.localStorage.getItem(`${NAMESPACE}:${key}`);
   }
 
-  static normalizeUrl(urlString) {
+  /**
+   * Normalizes a URL string to its origin and pathname (without query params or hash).
+   *
+   * @param urlString - The URL string to normalize.
+   * @returns The normalized URL containing only origin and pathname.
+   *
+   * @internal
+   */
+  private static normalizeUrl(urlString: string): string {
     const parsedUrl = new URL(urlString);
     return `${parsedUrl.origin}${parsedUrl.pathname}`;
   }
 
-  static buildAuthorizeUrl(authorizationEndpoint, requestMap) {
+  /**
+   * Builds the authorization URL with query parameters.
+   *
+   * @param authorizationEndpoint - The authorization endpoint URL.
+   * @param requestMap - An object containing the request parameters.
+   * @returns The complete authorization URL with query string.
+   *
+   * @internal
+   */
+  private static buildAuthorizeUrl(
+    authorizationEndpoint: string,
+    requestMap: Record<string, string | number | boolean | undefined>
+  ): string {
     const query = Object.entries(requestMap)
       .filter(
         (entry): entry is [string, string | number | boolean] =>
@@ -357,7 +341,15 @@ export class IdentityModule extends BaseModule {
     return `${authorizationEndpoint}?${query}`;
   }
 
-  static shouldUseWebConsent(request) {
+  /**
+   * Determines whether to use web-based consent flow based on app version and environment.
+   *
+   * @param request - The authorization request containing the environment setting.
+   * @returns True if web consent should be used, false for native consent.
+   *
+   * @internal
+   */
+  private static shouldUseWebConsent(request: AuthorizeRequest): boolean {
     const grabAppInfo = extractGrabAppInfoFromUserAgent();
     if (!grabAppInfo) {
       return true;
@@ -374,12 +366,21 @@ export class IdentityModule extends BaseModule {
   /**
    * Performs web-based OAuth2 authorization by redirecting to the authorization server.
    *
-   * @param params - The authorization parameters including client ID, redirect URI, scope, and PKCE artifacts.
+   * @param params - The authorization parameters.
    * @returns A promise that resolves to a 302 redirect response or a 400 error response.
    *
    * @internal
    */
-  async performWebAuthorization(params): Promise<AuthorizeResponse> {
+  private async performWebAuthorization(params: {
+    clientId: string;
+    redirectUri: string;
+    scope: string;
+    nonce: string;
+    state: string;
+    codeChallenge: string;
+    codeChallengeMethod: string;
+    environment: 'staging' | 'production';
+  }): Promise<AuthorizeResponse> {
     // Store the current page URL for potential return navigation
     this.setStorageItem('login_return_uri', window.location.href);
 
@@ -422,12 +423,21 @@ export class IdentityModule extends BaseModule {
   /**
    * Performs native in-app OAuth2 authorization using the JSBridge.
    *
-   * @param invokeParams - The authorization parameters including client ID, redirect URI, scope, and PKCE artifacts.
+   * @param invokeParams - The authorization parameters.
    * @returns A promise that resolves to the native authorization response.
    *
    * @internal
    */
-  async performNativeAuthorization(invokeParams): Promise<AuthorizeResponse> {
+  private async performNativeAuthorization(invokeParams: {
+    clientId: string;
+    actualRedirectUri: string;
+    scope: string;
+    nonce: string;
+    state: string;
+    codeChallenge: string;
+    codeChallengeMethod: string;
+    responseMode: 'redirect' | 'in_place';
+  }): Promise<AuthorizeResponse> {
     return this.wrappedModule.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
@@ -525,7 +535,7 @@ export class IdentityModule extends BaseModule {
       return Promise.resolve({ status_code: 400, result: undefined, error: validationError });
     }
 
-    const pkceArtifacts = this.generatePKCEArtifacts();
+    const pkceArtifacts = await this.generatePKCEArtifacts();
 
     const responseMode = request.responseMode || 'redirect';
 
@@ -590,14 +600,33 @@ export class IdentityModule extends BaseModule {
     }
   }
 
-  static validateRequiredString(value, fieldName) {
+  /**
+   * Validates that a required string field is present and non-empty.
+   *
+   * @param value - The value to validate.
+   * @param fieldName - The name of the field being validated (for error messages).
+   * @returns An error message string if invalid, null if valid.
+   *
+   * @internal
+   */
+  private static validateRequiredString(value: unknown, fieldName: string): string | null {
     if (!value || typeof value !== 'string' || value.trim() === '') {
       return `${fieldName} is required and must be a non-empty string`;
     }
     return null;
   }
 
-  static validateAuthorizeRequest(request) {
+  /**
+   * Validates the authorization request parameters.
+   *
+   * @param request - The authorization request to validate.
+   * @returns An error message string if invalid, null if valid.
+   *
+   * @internal
+   */
+  private static validateAuthorizeRequest(
+    request: AuthorizeRequest | null | undefined
+  ): string | null {
     if (request == null) {
       return 'request is required';
     }
