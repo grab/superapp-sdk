@@ -47,13 +47,13 @@ const profile = new ProfileModule();
 
 ### fetchEmail()
 
-> **fetchEmail**(): [`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)
+> **fetchEmail**(): `Promise`\<[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)\>
 
 Fetches the user's email address from their Grab profile.
 
 #### Returns
 
-[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)
+`Promise`\<[`FetchEmailResponse`](../type-aliases/FetchEmailResponse.md)\>
 
 The user's email address if available.
 
@@ -65,11 +65,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ProfileModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ProfileModule } = window.SuperAppSDK;
-
 // Initialize the profile module
 const profileModule = new ProfileModule();
 
@@ -101,7 +96,7 @@ try {
 
 ### verifyEmail()
 
-> **verifyEmail**(`request`: [`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)): [`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)
+> **verifyEmail**(`request`: [`VerifyEmailRequest`](../type-aliases/VerifyEmailRequest.md)): `Promise`\<[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)\>
 
 Verifies the user's email address using a one-time password (OTP).
 
@@ -115,7 +110,7 @@ The email and OTP to verify.
 
 #### Returns
 
-[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)
+`Promise`\<[`VerifyEmailResponse`](../type-aliases/VerifyEmailResponse.md)\>
 
 Confirmation of whether the email verification was successful.
 
@@ -127,11 +122,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ProfileModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ProfileModule } = window.SuperAppSDK;
-
 // Initialize the profile module
 const profileModule = new ProfileModule();
 

@@ -2,7 +2,7 @@
 
 # Type Alias: GetStringResponse
 
-> **GetStringResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetStringResult`](GetStringResult.md), `200` \| `400` \| `501`\>\>
+> **GetStringResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetStringResult`](GetStringResult.md), `200` \| `400` \| `501`\>
 
 Response when getting a string value.
 

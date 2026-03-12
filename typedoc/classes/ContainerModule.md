@@ -47,13 +47,13 @@ const containerModule = new ContainerModule();
 
 ### close()
 
-> **close**(): [`CloseResponse`](../type-aliases/CloseResponse.md)
+> **close**(): `Promise`\<[`CloseResponse`](../type-aliases/CloseResponse.md)\>
 
 Close the container and return to the previous screen.
 
 #### Returns
 
-[`CloseResponse`](../type-aliases/CloseResponse.md)
+`Promise`\<[`CloseResponse`](../type-aliases/CloseResponse.md)\>
 
 Confirmation that the container is closing.
 
@@ -65,11 +65,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -94,13 +89,13 @@ try {
 
 ### getSessionParams()
 
-> **getSessionParams**(): [`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)
+> **getSessionParams**(): `Promise`\<[`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)\>
 
 Get the session parameters from the container.
 
 #### Returns
 
-[`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)
+`Promise`\<[`GetSessionParamsResponse`](../type-aliases/GetSessionParamsResponse.md)\>
 
 The session parameters as a JSON string that can be parsed into an object.
 
@@ -118,11 +113,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -149,13 +139,13 @@ try {
 
 ### hideBackButton()
 
-> **hideBackButton**(): [`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)
+> **hideBackButton**(): `Promise`\<[`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)\>
 
 Hide the back button on the container header.
 
 #### Returns
 
-[`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)
+`Promise`\<[`HideBackButtonResponse`](../type-aliases/HideBackButtonResponse.md)\>
 
 Confirmation that the back button is now hidden.
 
@@ -167,11 +157,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -196,13 +181,13 @@ try {
 
 ### hideLoader()
 
-> **hideLoader**(): [`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)
+> **hideLoader**(): `Promise`\<[`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)\>
 
 Hide the full-screen loading indicator.
 
 #### Returns
 
-[`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)
+`Promise`\<[`HideLoaderResponse`](../type-aliases/HideLoaderResponse.md)\>
 
 Confirmation that the loader is now hidden.
 
@@ -218,11 +203,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -247,13 +227,13 @@ try {
 
 ### hideRefreshButton()
 
-> **hideRefreshButton**(): [`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)
+> **hideRefreshButton**(): `Promise`\<[`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)\>
 
 Hide the refresh button on the container header.
 
 #### Returns
 
-[`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)
+`Promise`\<[`HideRefreshButtonResponse`](../type-aliases/HideRefreshButtonResponse.md)\>
 
 Confirmation that the refresh button is now hidden.
 
@@ -265,11 +245,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -294,13 +269,13 @@ try {
 
 ### isConnected()
 
-> **isConnected**(): [`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)
+> **isConnected**(): `Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
 
 Check if the web app is connected to the Grab SuperApp via JSBridge.
 
 #### Returns
 
-[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)
+`Promise`\<[`IsConnectedResponse`](../type-aliases/IsConnectedResponse.md)\>
 
 The connection status, indicating whether the MiniApp is running inside the Grab SuperApp.
 
@@ -316,11 +291,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -347,13 +317,13 @@ try {
 
 ### onContentLoaded()
 
-> **onContentLoaded**(): [`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)
+> **onContentLoaded**(): `Promise`\<[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)\>
 
 Notify the Grab SuperApp that the page content has loaded.
 
 #### Returns
 
-[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)
+`Promise`\<[`OnContentLoadedResponse`](../type-aliases/OnContentLoadedResponse.md)\>
 
 Confirmation that the content loaded notification was sent.
 
@@ -365,11 +335,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -394,7 +359,7 @@ try {
 
 ### onCtaTap()
 
-> **onCtaTap**(`request`: `string`): [`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)
+> **onCtaTap**(`request`: `string`): `Promise`\<[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)\>
 
 Notify the client that the user has tapped a call-to-action (CTA).
 
@@ -408,7 +373,7 @@ The action identifier for the CTA that was tapped.
 
 #### Returns
 
-[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)
+`Promise`\<[`OnCtaTapResponse`](../type-aliases/OnCtaTapResponse.md)\>
 
 Confirmation that the CTA tap was notified.
 
@@ -420,11 +385,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -449,7 +409,7 @@ try {
 
 ### openExternalLink()
 
-> **openExternalLink**(`request`: `string`): [`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)
+> **openExternalLink**(`request`: `string`): `Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
 
 Open a link in the external browser.
 
@@ -463,7 +423,7 @@ The URL to open in the external browser.
 
 #### Returns
 
-[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)
+`Promise`\<[`OpenExternalLinkResponse`](../type-aliases/OpenExternalLinkResponse.md)\>
 
 Confirmation of whether the external link was opened successfully.
 
@@ -479,11 +439,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -513,7 +468,7 @@ try {
 
 ### sendAnalyticsEvent()
 
-> **sendAnalyticsEvent**(`request`: [`SendAnalyticsEventRequest`](../type-aliases/SendAnalyticsEventRequest.md)): [`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)
+> **sendAnalyticsEvent**(`request`: [`SendAnalyticsEventRequest`](../type-aliases/SendAnalyticsEventRequest.md)): `Promise`\<[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)\>
 
 Use this method to track user interactions and page transitions.
 
@@ -527,7 +482,7 @@ Analytics event details including state, name, and optional data.
 
 #### Returns
 
-[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)
+`Promise`\<[`SendAnalyticsEventResponse`](../type-aliases/SendAnalyticsEventResponse.md)\>
 
 Confirmation of whether the analytics event was sent successfully.
 
@@ -553,13 +508,11 @@ Error when the JSBridge method fails unexpectedly.
 ```typescript
 // Imports using ES Module built
 import {
-  ContainerModule,
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
 } from '@grabjs/superapp-sdk';
 // Imports using UMD built (via CDN)
 const {
-  ContainerModule,
   ContainerAnalyticsEventState,
   ContainerAnalyticsEventName,
 } = window.SuperAppSDK;
@@ -596,7 +549,7 @@ try {
 
 ### setBackgroundColor()
 
-> **setBackgroundColor**(`request`: `string`): [`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)
+> **setBackgroundColor**(`request`: `string`): `Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
 
 Set the background color of the container header.
 
@@ -610,7 +563,7 @@ The background color to set (hex format, e.g., '#ffffff').
 
 #### Returns
 
-[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)
+`Promise`\<[`SetBackgroundColorResponse`](../type-aliases/SetBackgroundColorResponse.md)\>
 
 Confirmation that the background color was set.
 
@@ -622,11 +575,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -656,7 +604,7 @@ try {
 
 ### setTitle()
 
-> **setTitle**(`request`: `string`): [`SetTitleResponse`](../type-aliases/SetTitleResponse.md)
+> **setTitle**(`request`: `string`): `Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
 
 Set the title of the container header.
 
@@ -670,7 +618,7 @@ The title text to display in the header.
 
 #### Returns
 
-[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)
+`Promise`\<[`SetTitleResponse`](../type-aliases/SetTitleResponse.md)\>
 
 Confirmation that the title was set.
 
@@ -682,11 +630,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -716,13 +659,13 @@ try {
 
 ### showBackButton()
 
-> **showBackButton**(): [`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)
+> **showBackButton**(): `Promise`\<[`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)\>
 
 Show the back button on the container header.
 
 #### Returns
 
-[`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)
+`Promise`\<[`ShowBackButtonResponse`](../type-aliases/ShowBackButtonResponse.md)\>
 
 Confirmation that the back button is now visible.
 
@@ -734,11 +677,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -763,13 +701,13 @@ try {
 
 ### showLoader()
 
-> **showLoader**(): [`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)
+> **showLoader**(): `Promise`\<[`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)\>
 
 Show the full-screen loading indicator.
 
 #### Returns
 
-[`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)
+`Promise`\<[`ShowLoaderResponse`](../type-aliases/ShowLoaderResponse.md)\>
 
 Confirmation that the loader is now visible.
 
@@ -785,11 +723,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 
@@ -814,13 +747,13 @@ try {
 
 ### showRefreshButton()
 
-> **showRefreshButton**(): [`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)
+> **showRefreshButton**(): `Promise`\<[`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)\>
 
 Show the refresh button on the container header.
 
 #### Returns
 
-[`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)
+`Promise`\<[`ShowRefreshButtonResponse`](../type-aliases/ShowRefreshButtonResponse.md)\>
 
 Confirmation that the refresh button is now visible.
 
@@ -832,11 +765,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ContainerModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ContainerModule } = window.SuperAppSDK;
-
 // Initialize the container module
 const containerModule = new ContainerModule();
 

@@ -2,7 +2,7 @@
 
 # Type Alias: SetBackgroundColorResponse
 
-> **SetBackgroundColorResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetBackgroundColorResult`](SetBackgroundColorResult.md), `200` \| `400` \| `501`\>\>
+> **SetBackgroundColorResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetBackgroundColorResult`](SetBackgroundColorResult.md), `204` \| `400` \| `501`\>
 
 Response when setting the background color.
 

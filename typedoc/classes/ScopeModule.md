@@ -47,7 +47,7 @@ const scope = new ScopeModule();
 
 ### hasAccessTo()
 
-> **hasAccessTo**(`module`: `string`, `method`: `string`): [`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)
+> **hasAccessTo**(`module`: `string`, `method`: `string`): `Promise`\<[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)\>
 
 Checks if the current client has access to a specific JSBridge API method.
 
@@ -67,7 +67,7 @@ The method name within the module to check access for (e.g., 'scanQRCode').
 
 #### Returns
 
-[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)
+`Promise`\<[`HasAccessToResponse`](../type-aliases/HasAccessToResponse.md)\>
 
 Whether the MiniApp has permission to access the specified method.
 
@@ -79,11 +79,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ScopeModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ScopeModule } = window.SuperAppSDK;
-
 // Initialize the scope module
 const scopeModule = new ScopeModule();
 
@@ -114,14 +109,14 @@ try {
 
 ### reloadScopes()
 
-> **reloadScopes**(): [`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)
+> **reloadScopes**(): `Promise`\<[`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)\>
 
 Requests to reload the consented OAuth scopes for the current client.
 This refreshes the permissions from the server.
 
 #### Returns
 
-[`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)
+`Promise`\<[`ReloadScopesResponse`](../type-aliases/ReloadScopesResponse.md)\>
 
 Confirmation that the scopes have been reloaded from the server.
 
@@ -133,11 +128,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { ScopeModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { ScopeModule } = window.SuperAppSDK;
-
 // Initialize the scope module
 const scopeModule = new ScopeModule();
 

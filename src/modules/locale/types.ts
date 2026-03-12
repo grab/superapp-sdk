@@ -74,6 +74,7 @@ export type GetLanguageLocaleIdentifierResult = string;
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = Promise<
-  ConstrainedBridgeResponse<GetLanguageLocaleIdentifierResult, 200 | 501>
+export type GetLanguageLocaleIdentifierResponse = ConstrainedBridgeResponse<
+  GetLanguageLocaleIdentifierResult,
+  200 | 501
 >;

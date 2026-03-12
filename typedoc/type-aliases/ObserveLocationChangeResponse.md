@@ -2,6 +2,6 @@
 
 # Type Alias: ObserveLocationChangeResponse
 
-> **ObserveLocationChangeResponse** = `DataStream`\<[`GetCoordinateResult`](GetCoordinateResult.md)\>
+> **ObserveLocationChangeResponse** = [`DataStream`](DataStream.md)\<[`GetCoordinateResult`](GetCoordinateResult.md)\>
 
 Response when observing the device coordinates.

@@ -32,7 +32,7 @@
 - [BackResult](type-aliases/BackResult.md)
 - [BridgeClientErrorResponse](type-aliases/BridgeClientErrorResponse.md)
 - [BridgeErrorResponse](type-aliases/BridgeErrorResponse.md)
-- [BridgeRedirectResponse](type-aliases/BridgeRedirectResponse.md)
+- [BridgeRedirectionResponse](type-aliases/BridgeRedirectionResponse.md)
 - [BridgeResponse](type-aliases/BridgeResponse.md)
 - [BridgeServerErrorResponse](type-aliases/BridgeServerErrorResponse.md)
 - [BridgeStatusCode200Response](type-aliases/BridgeStatusCode200Response.md)

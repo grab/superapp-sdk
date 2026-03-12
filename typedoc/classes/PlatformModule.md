@@ -47,14 +47,14 @@ const platform = new PlatformModule();
 
 ### back()
 
-> **back**(): [`BackResponse`](../type-aliases/BackResponse.md)
+> **back**(): `Promise`\<[`BackResponse`](../type-aliases/BackResponse.md)\>
 
 Triggers the native platform back navigation.
 This navigates back in the native navigation stack.
 
 #### Returns
 
-[`BackResponse`](../type-aliases/BackResponse.md)
+`Promise`\<[`BackResponse`](../type-aliases/BackResponse.md)\>
 
 Confirmation that the back navigation was triggered.
 
@@ -66,11 +66,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { PlatformModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { PlatformModule } = window.SuperAppSDK;
-
 // Initialize the platform module
 const platformModule = new PlatformModule();
 

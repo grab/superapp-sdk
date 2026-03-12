@@ -2,7 +2,7 @@
 
 # Type Alias: GetBooleanResponse
 
-> **GetBooleanResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetBooleanResult`](GetBooleanResult.md), `200` \| `400` \| `501`\>\>
+> **GetBooleanResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetBooleanResult`](GetBooleanResult.md), `200` \| `400` \| `501`\>
 
 Response when getting a boolean value.
 

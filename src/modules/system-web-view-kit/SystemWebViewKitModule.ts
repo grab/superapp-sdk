@@ -52,11 +52,6 @@ export class SystemWebViewKitModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { SystemWebViewKitModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { SystemWebViewKitModule } = window.SuperAppSDK;
-   *
    * // Initialize the system web view kit module
    * const systemWebViewKitModule = new SystemWebViewKitModule();
    *
@@ -89,9 +84,12 @@ export class SystemWebViewKitModule extends BaseModule {
    *
    * @public
    */
-  redirectToSystemWebView(
+  async redirectToSystemWebView(
     request: RedirectToSystemWebViewRequest
-  ): RedirectToSystemWebViewResponse {
-    return this.invoke('redirectToSystemWebView', request);
+  ): Promise<RedirectToSystemWebViewResponse> {
+    return (await this.invoke(
+      'redirectToSystemWebView',
+      request
+    )) as RedirectToSystemWebViewResponse;
   }
 }

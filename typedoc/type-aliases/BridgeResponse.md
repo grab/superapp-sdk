@@ -2,7 +2,7 @@
 
 # Type Alias: BridgeResponse\<T\>
 
-> **BridgeResponse**\<`T`\> = [`BridgeSuccessResponse`](BridgeSuccessResponse.md)\<`T`\> \| [`BridgeRedirectResponse`](BridgeRedirectResponse.md) \| [`BridgeClientErrorResponse`](BridgeClientErrorResponse.md) \| [`BridgeServerErrorResponse`](BridgeServerErrorResponse.md)
+> **BridgeResponse**\<`T`\> = [`BridgeSuccessResponse`](BridgeSuccessResponse.md)\<`T`\> \| [`BridgeRedirectionResponse`](BridgeRedirectionResponse.md) \| [`BridgeClientErrorResponse`](BridgeClientErrorResponse.md) \| [`BridgeServerErrorResponse`](BridgeServerErrorResponse.md)
 
 Universal response format for all JSBridge methods.
 

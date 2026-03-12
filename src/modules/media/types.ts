@@ -81,8 +81,9 @@ export type PlayDRMContentResult = void;
  *
  * @public
  */
-export type PlayDRMContentResponse = Promise<
-  ConstrainedBridgeResponse<PlayDRMContentResult, 200 | 204 | 501>
+export type PlayDRMContentResponse = ConstrainedBridgeResponse<
+  PlayDRMContentResult,
+  200 | 204 | 501
 >;
 
 /**

@@ -47,7 +47,7 @@ const cameraModule = new CameraModule();
 
 ### scanQRCode()
 
-> **scanQRCode**(`request`: [`ScanQRCodeRequest`](../type-aliases/ScanQRCodeRequest.md)): [`ScanQRCodeResponse`](../type-aliases/ScanQRCodeResponse.md)
+> **scanQRCode**(`request`: [`ScanQRCodeRequest`](../type-aliases/ScanQRCodeRequest.md)): `Promise`\<[`ScanQRCodeResponse`](../type-aliases/ScanQRCodeResponse.md)\>
 
 Opens the native camera to scan a QR code.
 
@@ -61,7 +61,7 @@ Configuration for the QR code scanning, including the title to display.
 
 #### Returns
 
-[`ScanQRCodeResponse`](../type-aliases/ScanQRCodeResponse.md)
+`Promise`\<[`ScanQRCodeResponse`](../type-aliases/ScanQRCodeResponse.md)\>
 
 The QR code scanning result, containing the scanned code on success or status information.
 
@@ -73,11 +73,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { CameraModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { CameraModule } = window.SuperAppSDK;
-
 // Initialize the camera module
 const cameraModule = new CameraModule();
 

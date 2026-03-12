@@ -2,7 +2,7 @@
 
 # Type Alias: ShowBackButtonResponse
 
-> **ShowBackButtonResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ShowBackButtonResult`](ShowBackButtonResult.md), `200` \| `501`\>\>
+> **ShowBackButtonResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ShowBackButtonResult`](ShowBackButtonResult.md), `200` \| `501`\>
 
 Response when showing the back button.
 

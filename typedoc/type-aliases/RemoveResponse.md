@@ -2,7 +2,7 @@
 
 # Type Alias: RemoveResponse
 
-> **RemoveResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`RemoveResult`](RemoveResult.md), `204` \| `400` \| `501`\>\>
+> **RemoveResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`RemoveResult`](RemoveResult.md), `204` \| `400` \| `501`\>
 
 Response when removing a value.
 

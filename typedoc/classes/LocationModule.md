@@ -47,13 +47,13 @@ const location = new LocationModule();
 
 ### getCoordinate()
 
-> **getCoordinate**(): [`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)
+> **getCoordinate**(): `Promise`\<[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)\>
 
 Get the current geographic coordinates of the device.
 
 #### Returns
 
-[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)
+`Promise`\<[`GetCoordinateResponse`](../type-aliases/GetCoordinateResponse.md)\>
 
 The device's current latitude and longitude coordinates.
 
@@ -65,11 +65,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { LocationModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { LocationModule } = window.SuperAppSDK;
-
 // Initialize the location module
 const locationModule = new LocationModule();
 
@@ -99,13 +94,13 @@ try {
 
 ### getCountryCode()
 
-> **getCountryCode**(): [`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)
+> **getCountryCode**(): `Promise`\<[`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)\>
 
 Get the country code based on the device's current location.
 
 #### Returns
 
-[`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)
+`Promise`\<[`GetCountryCodeResponse`](../type-aliases/GetCountryCodeResponse.md)\>
 
 The ISO country code (e.g., 'SG', 'ID') based on the device's location.
 
@@ -117,11 +112,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { LocationModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { LocationModule } = window.SuperAppSDK;
-
 // Initialize the location module
 const locationModule = new LocationModule();
 
@@ -170,11 +160,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { LocationModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { LocationModule } = window.SuperAppSDK;
-
 // Initialize the location module
 const locationModule = new LocationModule();
 

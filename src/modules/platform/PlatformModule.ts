@@ -51,11 +51,6 @@ export class PlatformModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { PlatformModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { PlatformModule } = window.SuperAppSDK;
-   *
    * // Initialize the platform module
    * const platformModule = new PlatformModule();
    *
@@ -80,7 +75,7 @@ export class PlatformModule extends BaseModule {
    *
    * @public
    */
-  back(): BackResponse {
-    return this.invoke('back');
+  async back(): Promise<BackResponse> {
+    return (await this.invoke('back')) as BackResponse;
   }
 }

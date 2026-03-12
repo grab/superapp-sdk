@@ -2,7 +2,7 @@
 
 # Type Alias: GetCoordinateResponse
 
-> **GetCoordinateResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetCoordinateResult`](GetCoordinateResult.md), `200` \| `424` \| `501`\>\>
+> **GetCoordinateResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetCoordinateResult`](GetCoordinateResult.md), `200` \| `424` \| `501`\>
 
 Response when getting the device coordinates.
 

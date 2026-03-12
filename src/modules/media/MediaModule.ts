@@ -52,11 +52,6 @@ export class MediaModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { MediaModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { MediaModule } = window.SuperAppSDK;
-   *
    * // Initialize the media module
    * const mediaModule = new MediaModule();
    *
@@ -86,8 +81,8 @@ export class MediaModule extends BaseModule {
    *
    * @public
    */
-  playDRMContent(data: DRMContentConfig): PlayDRMContentResponse {
-    return this.invoke('playDRMContent', { data });
+  async playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse> {
+    return (await this.invoke('playDRMContent', { data })) as PlayDRMContentResponse;
   }
 
   /**
@@ -102,11 +97,6 @@ export class MediaModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { MediaModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { MediaModule } = window.SuperAppSDK;
-   *
    * // Initialize the media module
    * const mediaModule = new MediaModule();
    *
@@ -129,7 +119,6 @@ export class MediaModule extends BaseModule {
    * @public
    */
   observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse {
-    // Streaming methods need direct access to wrappedModule
     return this.wrappedModule.invoke('observePlayDRMContent', {
       data,
     }) as ObserveDRMPlaybackResponse;

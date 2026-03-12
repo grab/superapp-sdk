@@ -47,7 +47,7 @@ const checkoutModule = new CheckoutModule();
 
 ### triggerCheckout()
 
-> **triggerCheckout**(`request`: [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)): [`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)
+> **triggerCheckout**(`request`: [`TriggerCheckoutRequest`](../type-aliases/TriggerCheckoutRequest.md)): `Promise`\<[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)\>
 
 Triggers the native checkout flow for payment processing.
 
@@ -61,7 +61,7 @@ Payment transaction details, including the transaction ID and amount.
 
 #### Returns
 
-[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)
+`Promise`\<[`TriggerCheckoutResponse`](../type-aliases/TriggerCheckoutResponse.md)\>
 
 The checkout result, containing transaction status (success, failure, or pending) and transaction details.
 
@@ -73,11 +73,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { CheckoutModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { CheckoutModule } = window.SuperAppSDK;
-
 // Initialize the checkout module
 const checkoutModule = new CheckoutModule();
 

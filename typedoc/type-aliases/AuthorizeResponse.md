@@ -2,7 +2,7 @@
 
 # Type Alias: AuthorizeResponse
 
-> **AuthorizeResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`AuthorizeResult`](AuthorizeResult.md), `200` \| `302` \| `204` \| `400` \| `401` \| `403`\>\>
+> **AuthorizeResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`AuthorizeResult`](AuthorizeResult.md), `200` \| `302` \| `204` \| `400` \| `401` \| `403`\>
 
 Response when initiating an authorization flow.
 

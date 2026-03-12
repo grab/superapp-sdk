@@ -2,7 +2,7 @@
 
 # Type Alias: FetchEmailResponse
 
-> **FetchEmailResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`FetchEmailResult`](FetchEmailResult.md), `200` \| `400` \| `403` \| `501`\>\>
+> **FetchEmailResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`FetchEmailResult`](FetchEmailResult.md), `200` \| `400` \| `403` \| `501`\>
 
 Response when fetching the user's email.
 

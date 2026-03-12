@@ -73,11 +73,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { MediaModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { MediaModule } = window.SuperAppSDK;
-
 // Initialize the media module
 const mediaModule = new MediaModule();
 
@@ -101,7 +96,7 @@ subscription.unsubscribe();
 
 ### playDRMContent()
 
-> **playDRMContent**(`data`: [`DRMContentConfig`](../type-aliases/DRMContentConfig.md)): [`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)
+> **playDRMContent**(`data`: [`DRMContentConfig`](../type-aliases/DRMContentConfig.md)): `Promise`\<[`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)\>
 
 Plays DRM-protected media content in the native media player.
 
@@ -115,7 +110,7 @@ Configuration for the DRM content including license URL and content metadata.
 
 #### Returns
 
-[`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)
+`Promise`\<[`PlayDRMContentResponse`](../type-aliases/PlayDRMContentResponse.md)\>
 
 The playback initiation result, indicating if the DRM content started playing.
 
@@ -127,11 +122,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { MediaModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { MediaModule } = window.SuperAppSDK;
-
 // Initialize the media module
 const mediaModule = new MediaModule();
 

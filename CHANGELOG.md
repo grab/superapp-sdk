@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.15] - 2026-03-12
+
+### Added
+
+- Type guard functions (`isSuccess`, `isRedirection`, `isClientError`, `isServerError`, `isErrorResponse`) for runtime `BridgeResponse` type checking
+
+### Changed
+
+- `BaseModule.invoke()` now returns `Promise<BridgeResponse<T>> | DataStream<T>` with proper error handling
+- All module methods refactored to be async with typed Promise return values
+- Renamed `BridgeRedirectResponse` to `BridgeRedirectionResponse` for naming consistency
+- Simplified success response structure by omitting `error: null` fields
+- Cleaned up redundant import examples from JSDoc comments across all modules
+- `WrappedModule.invoke()` signature simplified for better type inference
+
 ## [2.0.0-beta.14] - 2026-03-09
 
 ### Added

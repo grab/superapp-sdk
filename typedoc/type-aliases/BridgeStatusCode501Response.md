@@ -17,7 +17,7 @@ This indicates the method is not implemented in the current environment.
 
 > **error**: `string`
 
-Error message indicating the method is not available in this environment
+Error message if the call failed
 
 ***
 
