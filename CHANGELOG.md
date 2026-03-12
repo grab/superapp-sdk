@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.16] - 2026-03-12
+
+### Added
+
+- Vitest testing framework with jsdom environment for unit testing
+- Test coverage configuration (v8 provider with text and html reporters)
+- First unit test suite for `CameraModule.scanQRCode()` method
+- npm scripts: `test`, `test:check`, and `test:watch` for running tests
+- `build:watch` npm script for development workflow
+
+### Changed
+
+- ESLint config now includes rules for test files (`**/*.test.ts`) with relaxed type safety for mocks
+- ESLint config now applies copyright header checks to config files
+- Updated `.prettierignore` and ESLint ignore patterns to exclude `coverage/` directory
+- Updated `check` npm script to include `test:check`
+
 ## [2.0.0-beta.15] - 2026-03-12
 
 ### Added
