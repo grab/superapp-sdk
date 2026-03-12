@@ -79,5 +79,5 @@ export type RedirectToSystemWebViewResult = void;
  */
 export type RedirectToSystemWebViewResponse = ConstrainedBridgeResponse<
   RedirectToSystemWebViewResult,
-  200 | 400 | 424 | 501
+  200 | 400 | 424 | 500 | 501
 >;

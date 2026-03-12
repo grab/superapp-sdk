@@ -154,5 +154,5 @@ export type TriggerCheckoutResult = {
  */
 export type TriggerCheckoutResponse = ConstrainedBridgeResponse<
   TriggerCheckoutResult,
-  200 | 400 | 501
+  200 | 400 | 500 | 501
 >;

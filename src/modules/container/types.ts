@@ -64,7 +64,7 @@ export type SetBackgroundColorResult = void;
  */
 export type SetBackgroundColorResponse = ConstrainedBridgeResponse<
   SetBackgroundColorResult,
-  204 | 400 | 501
+  204 | 400 | 500 | 501
 >;
 
 /**
@@ -122,7 +122,7 @@ export type SetTitleResult = void;
  *
  * @public
  */
-export type SetTitleResponse = ConstrainedBridgeResponse<SetTitleResult, 200 | 400 | 501>;
+export type SetTitleResponse = ConstrainedBridgeResponse<SetTitleResult, 200 | 400 | 500 | 501>;
 
 /**
  * Result when hiding the back button.
@@ -157,7 +157,10 @@ export type HideBackButtonResult = void;
  *
  * @public
  */
-export type HideBackButtonResponse = ConstrainedBridgeResponse<HideBackButtonResult, 200 | 501>;
+export type HideBackButtonResponse = ConstrainedBridgeResponse<
+  HideBackButtonResult,
+  200 | 500 | 501
+>;
 
 /**
  * Result when showing the back button.
@@ -192,7 +195,10 @@ export type ShowBackButtonResult = void;
  *
  * @public
  */
-export type ShowBackButtonResponse = ConstrainedBridgeResponse<ShowBackButtonResult, 200 | 501>;
+export type ShowBackButtonResponse = ConstrainedBridgeResponse<
+  ShowBackButtonResult,
+  200 | 500 | 501
+>;
 
 /**
  * Result when hiding the refresh button.
@@ -229,7 +235,7 @@ export type HideRefreshButtonResult = void;
  */
 export type HideRefreshButtonResponse = ConstrainedBridgeResponse<
   HideRefreshButtonResult,
-  200 | 501
+  200 | 500 | 501
 >;
 
 /**
@@ -267,7 +273,7 @@ export type ShowRefreshButtonResult = void;
  */
 export type ShowRefreshButtonResponse = ConstrainedBridgeResponse<
   ShowRefreshButtonResult,
-  200 | 501
+  200 | 500 | 501
 >;
 
 /**
@@ -303,7 +309,7 @@ export type CloseResult = void;
  *
  * @public
  */
-export type CloseResponse = ConstrainedBridgeResponse<CloseResult, 200 | 501>;
+export type CloseResponse = ConstrainedBridgeResponse<CloseResult, 200 | 500 | 501>;
 
 /**
  * Result when notifying content loaded.
@@ -338,7 +344,10 @@ export type OnContentLoadedResult = void;
  *
  * @public
  */
-export type OnContentLoadedResponse = ConstrainedBridgeResponse<OnContentLoadedResult, 200 | 501>;
+export type OnContentLoadedResponse = ConstrainedBridgeResponse<
+  OnContentLoadedResult,
+  200 | 500 | 501
+>;
 
 /**
  * Result when showing the loader.
@@ -373,7 +382,7 @@ export type ShowLoaderResult = void;
  *
  * @public
  */
-export type ShowLoaderResponse = ConstrainedBridgeResponse<ShowLoaderResult, 200 | 501>;
+export type ShowLoaderResponse = ConstrainedBridgeResponse<ShowLoaderResult, 200 | 500 | 501>;
 
 /**
  * Result when hiding the loader.
@@ -408,7 +417,7 @@ export type HideLoaderResult = void;
  *
  * @public
  */
-export type HideLoaderResponse = ConstrainedBridgeResponse<HideLoaderResult, 200 | 501>;
+export type HideLoaderResponse = ConstrainedBridgeResponse<HideLoaderResult, 200 | 500 | 501>;
 
 /**
  * Request parameters for opening an external link.
@@ -467,7 +476,7 @@ export type OpenExternalLinkResult = void;
  */
 export type OpenExternalLinkResponse = ConstrainedBridgeResponse<
   OpenExternalLinkResult,
-  200 | 400 | 501
+  200 | 400 | 500 | 501
 >;
 
 /**
@@ -515,7 +524,7 @@ export type OnCtaTapResult = void;
  *
  * @public
  */
-export type OnCtaTapResponse = ConstrainedBridgeResponse<OnCtaTapResult, 200 | 501>;
+export type OnCtaTapResponse = ConstrainedBridgeResponse<OnCtaTapResult, 200 | 500 | 501>;
 
 /**
  * Request parameters for sending analytics events.
@@ -600,7 +609,7 @@ export type SendAnalyticsEventResult = void;
  */
 export type SendAnalyticsEventResponse = ConstrainedBridgeResponse<
   SendAnalyticsEventResult,
-  200 | 400 | 501
+  200 | 400 | 500 | 501
 >;
 
 /**
@@ -703,4 +712,7 @@ export type GetSessionParamsResult = {
  *
  * @public
  */
-export type GetSessionParamsResponse = ConstrainedBridgeResponse<GetSessionParamsResult, 200 | 501>;
+export type GetSessionParamsResponse = ConstrainedBridgeResponse<
+  GetSessionParamsResult,
+  200 | 500 | 501
+>;

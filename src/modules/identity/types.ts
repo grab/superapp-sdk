@@ -158,7 +158,7 @@ export type GetAuthorizationArtifactsResult = {
   nonce: string;
   /** The redirect URI used in the authorization request. */
   redirectUri: string;
-} | null;
+};
 
 /**
  * Response when retrieving stored authorization artifacts.

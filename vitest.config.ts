@@ -13,9 +13,12 @@ export default defineConfig({
     globals: true,
     include: ['src/**/*.test.ts'],
     coverage: {
+      enabled: true,
       provider: 'v8',
       reporter: ['text', 'html'],
       exclude: ['node_modules/', 'dist/', 'build/', '**/*.d.ts', '**/*.test.ts'],
     },
+    silent: false,
+    onConsoleLog: () => false,
   },
 });

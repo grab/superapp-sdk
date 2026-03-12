@@ -40,4 +40,4 @@ export type BackResult = void;
  *
  * @public
  */
-export type BackResponse = ConstrainedBridgeResponse<BackResult, 204 | 501>;
+export type BackResponse = ConstrainedBridgeResponse<BackResult, 204 | 500 | 501>;
