@@ -76,5 +76,5 @@ export type GetLanguageLocaleIdentifierResult = string;
  */
 export type GetLanguageLocaleIdentifierResponse = ConstrainedBridgeResponse<
   GetLanguageLocaleIdentifierResult,
-  200 | 501
+  200 | 500 | 501
 >;

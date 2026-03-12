@@ -109,7 +109,7 @@ export default defineConfig([
   {
     files: ['**/*.test.ts'],
     plugins: { vitest },
-    extends: [tseslint.configs.recommended],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

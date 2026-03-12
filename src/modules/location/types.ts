@@ -63,7 +63,10 @@ export type GetCoordinateResult = {
  *
  * @public
  */
-export type GetCoordinateResponse = ConstrainedBridgeResponse<GetCoordinateResult, 200 | 424 | 501>;
+export type GetCoordinateResponse = ConstrainedBridgeResponse<
+  GetCoordinateResult,
+  200 | 424 | 500 | 501
+>;
 
 /**
  * Response when observing the device coordinates.
@@ -141,5 +144,5 @@ export type GetCountryCodeResult = {
  */
 export type GetCountryCodeResponse = ConstrainedBridgeResponse<
   GetCountryCodeResult,
-  200 | 424 | 501
+  200 | 424 | 500 | 501
 >;

@@ -83,7 +83,7 @@ export type PlayDRMContentResult = void;
  */
 export type PlayDRMContentResponse = ConstrainedBridgeResponse<
   PlayDRMContentResult,
-  200 | 204 | 501
+  200 | 204 | 500 | 501
 >;
 
 /**

@@ -108,7 +108,7 @@ export type HasAccessToResult = {
  */
 export type HasAccessToResponse = ConstrainedBridgeResponse<
   HasAccessToResult,
-  200 | 400 | 424 | 501
+  200 | 400 | 424 | 500 | 501
 >;
 
 /**
@@ -154,4 +154,7 @@ export type ReloadScopesResult = void;
  *
  * @public
  */
-export type ReloadScopesResponse = ConstrainedBridgeResponse<ReloadScopesResult, 200 | 424 | 501>;
+export type ReloadScopesResponse = ConstrainedBridgeResponse<
+  ReloadScopesResult,
+  200 | 424 | 500 | 501
+>;

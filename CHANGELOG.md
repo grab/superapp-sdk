@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.17] - 2026-03-12
+
+### Added
+
+- Comprehensive unit test suites for all SDK modules with 100% coverage
+- Test configuration for streaming methods with DataStream assertions
+
+### Changed
+
+- All module response types now include HTTP 500 status code for internal server errors
+- `GetAuthorizationArtifactsResult` type no longer nullable, always returns object structure
+
+### Fixed
+
+- ESLint configuration to properly handle test file patterns
+
 ## [2.0.0-beta.16] - 2026-03-12
 
 ### Added
