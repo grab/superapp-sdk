@@ -99,6 +99,7 @@ export type ScanQRCodeResult = {
  *
  * @public
  */
-export type ScanQRCodeResponse = Promise<
-  ConstrainedBridgeResponse<ScanQRCodeResult, 200 | 204 | 400 | 403 | 501>
+export type ScanQRCodeResponse = ConstrainedBridgeResponse<
+  ScanQRCodeResult,
+  200 | 204 | 400 | 403 | 500 | 501
 >;

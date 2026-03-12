@@ -52,11 +52,6 @@ export class CameraModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { CameraModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { CameraModule } = window.SuperAppSDK;
-   *
    * // Initialize the camera module
    * const cameraModule = new CameraModule();
    *
@@ -88,7 +83,7 @@ export class CameraModule extends BaseModule {
    * ```
    * @public
    */
-  scanQRCode(request: ScanQRCodeRequest): ScanQRCodeResponse {
-    return this.invoke('scanQRCode', request);
+  async scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse> {
+    return (await this.invoke('scanQRCode', request)) as ScanQRCodeResponse;
   }
 }

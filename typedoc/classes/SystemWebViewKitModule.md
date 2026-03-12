@@ -47,7 +47,7 @@ const webViewKit = new SystemWebViewKitModule();
 
 ### redirectToSystemWebView()
 
-> **redirectToSystemWebView**(`request`: [`RedirectToSystemWebViewRequest`](../type-aliases/RedirectToSystemWebViewRequest.md)): [`RedirectToSystemWebViewResponse`](../type-aliases/RedirectToSystemWebViewResponse.md)
+> **redirectToSystemWebView**(`request`: [`RedirectToSystemWebViewRequest`](../type-aliases/RedirectToSystemWebViewRequest.md)): `Promise`\<[`RedirectToSystemWebViewResponse`](../type-aliases/RedirectToSystemWebViewResponse.md)\>
 
 Opens a URL in the device's system web browser or web view.
 
@@ -61,7 +61,7 @@ The URL to open in the system web view.
 
 #### Returns
 
-[`RedirectToSystemWebViewResponse`](../type-aliases/RedirectToSystemWebViewResponse.md)
+`Promise`\<[`RedirectToSystemWebViewResponse`](../type-aliases/RedirectToSystemWebViewResponse.md)\>
 
 Confirmation of whether the redirect to system web view was successful.
 
@@ -73,11 +73,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { SystemWebViewKitModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { SystemWebViewKitModule } = window.SuperAppSDK;
-
 // Initialize the system web view kit module
 const systemWebViewKitModule = new SystemWebViewKitModule();
 

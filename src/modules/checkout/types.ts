@@ -152,6 +152,7 @@ export type TriggerCheckoutResult = {
  *
  * @public
  */
-export type TriggerCheckoutResponse = Promise<
-  ConstrainedBridgeResponse<TriggerCheckoutResult, 200 | 400 | 501>
+export type TriggerCheckoutResponse = ConstrainedBridgeResponse<
+  TriggerCheckoutResult,
+  200 | 400 | 501
 >;

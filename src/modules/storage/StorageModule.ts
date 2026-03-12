@@ -64,11 +64,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -96,11 +91,11 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setBoolean(key: string, value: boolean): SetBooleanResponse {
-    return this.invoke('setBoolean', {
+  async setBoolean(key: string, value: boolean): Promise<SetBooleanResponse> {
+    return (await this.invoke('setBoolean', {
       key,
       value,
-    });
+    })) as SetBooleanResponse;
   }
 
   /**
@@ -115,11 +110,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -147,8 +137,8 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getBoolean(key: string): GetBooleanResponse {
-    return this.invoke('getBoolean', { key });
+  async getBoolean(key: string): Promise<GetBooleanResponse> {
+    return (await this.invoke('getBoolean', { key })) as GetBooleanResponse;
   }
 
   /**
@@ -164,11 +154,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -196,8 +181,8 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setInt(key: string, value: number): SetIntResponse {
-    return this.invoke('setInt', { key, value });
+  async setInt(key: string, value: number): Promise<SetIntResponse> {
+    return (await this.invoke('setInt', { key, value })) as SetIntResponse;
   }
 
   /**
@@ -212,11 +197,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -244,8 +224,8 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getInt(key: string): GetIntResponse {
-    return this.invoke('getInt', { key });
+  async getInt(key: string): Promise<GetIntResponse> {
+    return (await this.invoke('getInt', { key })) as GetIntResponse;
   }
 
   /**
@@ -261,11 +241,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -293,11 +268,11 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setString(key: string, value: string): SetStringResponse {
-    return this.invoke('setString', {
+  async setString(key: string, value: string): Promise<SetStringResponse> {
+    return (await this.invoke('setString', {
       key,
       value,
-    });
+    })) as SetStringResponse;
   }
 
   /**
@@ -312,11 +287,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -344,8 +314,8 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getString(key: string): GetStringResponse {
-    return this.invoke('getString', { key });
+  async getString(key: string): Promise<GetStringResponse> {
+    return (await this.invoke('getString', { key })) as GetStringResponse;
   }
 
   /**
@@ -361,11 +331,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -393,11 +358,11 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  setDouble(key: string, value: number): SetDoubleResponse {
-    return this.invoke('setDouble', {
+  async setDouble(key: string, value: number): Promise<SetDoubleResponse> {
+    return (await this.invoke('setDouble', {
       key,
       value,
-    });
+    })) as SetDoubleResponse;
   }
 
   /**
@@ -412,11 +377,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -444,8 +404,8 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  getDouble(key: string): GetDoubleResponse {
-    return this.invoke('getDouble', { key });
+  async getDouble(key: string): Promise<GetDoubleResponse> {
+    return (await this.invoke('getDouble', { key })) as GetDoubleResponse;
   }
 
   /**
@@ -460,11 +420,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -492,8 +447,8 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  remove(key: string): RemoveResponse {
-    return this.invoke('remove', { key });
+  async remove(key: string): Promise<RemoveResponse> {
+    return (await this.invoke('remove', { key })) as RemoveResponse;
   }
 
   /**
@@ -506,11 +461,6 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { StorageModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { StorageModule } = window.SuperAppSDK;
-   *
    * // Initialize the storage module
    * const storageModule = new StorageModule();
    *
@@ -535,7 +485,7 @@ export class StorageModule extends BaseModule {
    *
    * @public
    */
-  removeAll(): RemoveAllResponse {
-    return this.invoke('removeAll');
+  async removeAll(): Promise<RemoveAllResponse> {
+    return (await this.invoke('removeAll')) as RemoveAllResponse;
   }
 }

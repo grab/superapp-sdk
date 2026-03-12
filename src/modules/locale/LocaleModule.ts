@@ -50,11 +50,6 @@ export class LocaleModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { LocaleModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { LocaleModule } = window.SuperAppSDK;
-   *
    * // Initialize the locale module
    * const localeModule = new LocaleModule();
    *
@@ -79,7 +74,9 @@ export class LocaleModule extends BaseModule {
    *
    * @public
    */
-  getLanguageLocaleIdentifier(): GetLanguageLocaleIdentifierResponse {
-    return this.invoke('getLanguageLocaleIdentifier');
+  async getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse> {
+    return (await this.invoke(
+      'getLanguageLocaleIdentifier'
+    )) as GetLanguageLocaleIdentifierResponse;
   }
 }

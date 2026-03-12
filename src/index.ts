@@ -9,7 +9,7 @@ export { BaseModule } from './core/module';
 export {
   BridgeClientErrorResponse,
   BridgeErrorResponse,
-  BridgeRedirectResponse,
+  BridgeRedirectionResponse,
   BridgeResponse,
   BridgeServerErrorResponse,
   BridgeStatusCode200Response,

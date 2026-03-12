@@ -2,7 +2,7 @@
 
 # Type Alias: GetCountryCodeResponse
 
-> **GetCountryCodeResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetCountryCodeResult`](GetCountryCodeResult.md), `200` \| `424` \| `501`\>\>
+> **GetCountryCodeResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetCountryCodeResult`](GetCountryCodeResult.md), `200` \| `424` \| `501`\>
 
 Response when getting the country code.
 

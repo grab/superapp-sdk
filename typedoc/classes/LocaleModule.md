@@ -47,13 +47,13 @@ const locale = new LocaleModule();
 
 ### getLanguageLocaleIdentifier()
 
-> **getLanguageLocaleIdentifier**(): [`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)
+> **getLanguageLocaleIdentifier**(): `Promise`\<[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)\>
 
 Retrieves the current language locale identifier from the device.
 
 #### Returns
 
-[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)
+`Promise`\<[`GetLanguageLocaleIdentifierResponse`](../type-aliases/GetLanguageLocaleIdentifierResponse.md)\>
 
 The user's preferred language locale string (e.g., 'en-SG', 'id-ID').
 
@@ -65,11 +65,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { LocaleModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { LocaleModule } = window.SuperAppSDK;
-
 // Initialize the locale module
 const localeModule = new LocaleModule();
 

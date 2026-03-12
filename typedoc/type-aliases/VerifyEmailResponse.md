@@ -2,7 +2,7 @@
 
 # Type Alias: VerifyEmailResponse
 
-> **VerifyEmailResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`VerifyEmailResult`](VerifyEmailResult.md), `200` \| `400` \| `403` \| `501`\>\>
+> **VerifyEmailResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`VerifyEmailResult`](VerifyEmailResult.md), `200` \| `400` \| `403` \| `501`\>
 
 Response when verifying the user's email.
 

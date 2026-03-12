@@ -47,7 +47,7 @@ const storage = new StorageModule();
 
 ### getBoolean()
 
-> **getBoolean**(`key`: `string`): [`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)
+> **getBoolean**(`key`: `string`): `Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
 
 Retrieves a boolean value from the native storage.
 
@@ -61,7 +61,7 @@ The key to retrieve the value for.
 
 #### Returns
 
-[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)
+`Promise`\<[`GetBooleanResponse`](../type-aliases/GetBooleanResponse.md)\>
 
 The stored boolean value.
 
@@ -73,11 +73,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -107,7 +102,7 @@ try {
 
 ### getDouble()
 
-> **getDouble**(`key`: `string`): [`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)
+> **getDouble**(`key`: `string`): `Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
 
 Retrieves a double (floating point) value from the native storage.
 
@@ -121,7 +116,7 @@ The key to retrieve the value for.
 
 #### Returns
 
-[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)
+`Promise`\<[`GetDoubleResponse`](../type-aliases/GetDoubleResponse.md)\>
 
 The stored double value.
 
@@ -133,11 +128,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -167,7 +157,7 @@ try {
 
 ### getInt()
 
-> **getInt**(`key`: `string`): [`GetIntResponse`](../type-aliases/GetIntResponse.md)
+> **getInt**(`key`: `string`): `Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
 
 Retrieves an integer value from the native storage.
 
@@ -181,7 +171,7 @@ The key to retrieve the value for.
 
 #### Returns
 
-[`GetIntResponse`](../type-aliases/GetIntResponse.md)
+`Promise`\<[`GetIntResponse`](../type-aliases/GetIntResponse.md)\>
 
 The stored integer value.
 
@@ -193,11 +183,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -227,7 +212,7 @@ try {
 
 ### getString()
 
-> **getString**(`key`: `string`): [`GetStringResponse`](../type-aliases/GetStringResponse.md)
+> **getString**(`key`: `string`): `Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
 
 Retrieves a string value from the native storage.
 
@@ -241,7 +226,7 @@ The key to retrieve the value for.
 
 #### Returns
 
-[`GetStringResponse`](../type-aliases/GetStringResponse.md)
+`Promise`\<[`GetStringResponse`](../type-aliases/GetStringResponse.md)\>
 
 The stored string value.
 
@@ -253,11 +238,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -287,7 +267,7 @@ try {
 
 ### remove()
 
-> **remove**(`key`: `string`): [`RemoveResponse`](../type-aliases/RemoveResponse.md)
+> **remove**(`key`: `string`): `Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
 
 Removes a single value from the native storage by key.
 
@@ -301,7 +281,7 @@ The key to remove from storage.
 
 #### Returns
 
-[`RemoveResponse`](../type-aliases/RemoveResponse.md)
+`Promise`\<[`RemoveResponse`](../type-aliases/RemoveResponse.md)\>
 
 Confirmation that the value was removed.
 
@@ -313,11 +293,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -347,13 +322,13 @@ try {
 
 ### removeAll()
 
-> **removeAll**(): [`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)
+> **removeAll**(): `Promise`\<[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)\>
 
 Removes all values from the native storage.
 
 #### Returns
 
-[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)
+`Promise`\<[`RemoveAllResponse`](../type-aliases/RemoveAllResponse.md)\>
 
 Confirmation that all values were removed.
 
@@ -365,11 +340,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -396,7 +366,7 @@ try {
 
 ### setBoolean()
 
-> **setBoolean**(`key`: `string`, `value`: `boolean`): [`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)
+> **setBoolean**(`key`: `string`, `value`: `boolean`): `Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
 
 Stores a boolean value in the native storage.
 
@@ -416,7 +386,7 @@ The boolean value to store.
 
 #### Returns
 
-[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)
+`Promise`\<[`SetBooleanResponse`](../type-aliases/SetBooleanResponse.md)\>
 
 Confirmation that the boolean value was stored.
 
@@ -428,11 +398,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -462,7 +427,7 @@ try {
 
 ### setDouble()
 
-> **setDouble**(`key`: `string`, `value`: `number`): [`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)
+> **setDouble**(`key`: `string`, `value`: `number`): `Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
 
 Stores a double (floating point) value in the native storage.
 
@@ -482,7 +447,7 @@ The double value to store.
 
 #### Returns
 
-[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)
+`Promise`\<[`SetDoubleResponse`](../type-aliases/SetDoubleResponse.md)\>
 
 Confirmation that the double value was stored.
 
@@ -494,11 +459,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -528,7 +488,7 @@ try {
 
 ### setInt()
 
-> **setInt**(`key`: `string`, `value`: `number`): [`SetIntResponse`](../type-aliases/SetIntResponse.md)
+> **setInt**(`key`: `string`, `value`: `number`): `Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
 
 Stores an integer value in the native storage.
 
@@ -548,7 +508,7 @@ The integer value to store.
 
 #### Returns
 
-[`SetIntResponse`](../type-aliases/SetIntResponse.md)
+`Promise`\<[`SetIntResponse`](../type-aliases/SetIntResponse.md)\>
 
 Confirmation that the integer value was stored.
 
@@ -560,11 +520,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 
@@ -594,7 +549,7 @@ try {
 
 ### setString()
 
-> **setString**(`key`: `string`, `value`: `string`): [`SetStringResponse`](../type-aliases/SetStringResponse.md)
+> **setString**(`key`: `string`, `value`: `string`): `Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
 
 Stores a string value in the native storage.
 
@@ -614,7 +569,7 @@ The string value to store.
 
 #### Returns
 
-[`SetStringResponse`](../type-aliases/SetStringResponse.md)
+`Promise`\<[`SetStringResponse`](../type-aliases/SetStringResponse.md)\>
 
 Confirmation that the string value was stored.
 
@@ -626,11 +581,6 @@ Error when the JSBridge method fails unexpectedly.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { StorageModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { StorageModule } = window.SuperAppSDK;
-
 // Initialize the storage module
 const storageModule = new StorageModule();
 

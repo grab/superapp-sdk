@@ -77,6 +77,7 @@ export type RedirectToSystemWebViewResult = void;
  *
  * @public
  */
-export type RedirectToSystemWebViewResponse = Promise<
-  ConstrainedBridgeResponse<RedirectToSystemWebViewResult, 200 | 400 | 424 | 501>
+export type RedirectToSystemWebViewResponse = ConstrainedBridgeResponse<
+  RedirectToSystemWebViewResult,
+  200 | 400 | 424 | 501
 >;

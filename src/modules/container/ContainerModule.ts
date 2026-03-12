@@ -74,11 +74,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -106,10 +101,12 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  setBackgroundColor(request: SetBackgroundColorRequest): SetBackgroundColorResponse {
-    return this.invoke('setBackgroundColor', {
+  async setBackgroundColor(
+    request: SetBackgroundColorRequest
+  ): Promise<SetBackgroundColorResponse> {
+    return (await this.invoke('setBackgroundColor', {
       backgroundColor: request,
-    });
+    })) as SetBackgroundColorResponse;
   }
 
   /**
@@ -124,11 +121,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -156,8 +148,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  setTitle(request: SetTitleRequest): SetTitleResponse {
-    return this.invoke('setTitle', { title: request });
+  async setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
+    return (await this.invoke('setTitle', { title: request })) as SetTitleResponse;
   }
 
   /**
@@ -170,11 +162,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -197,8 +184,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  hideBackButton(): HideBackButtonResponse {
-    return this.invoke('hideBackButton');
+  async hideBackButton(): Promise<HideBackButtonResponse> {
+    return (await this.invoke('hideBackButton')) as HideBackButtonResponse;
   }
 
   /**
@@ -211,11 +198,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -238,8 +220,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  showBackButton(): ShowBackButtonResponse {
-    return this.invoke('showBackButton');
+  async showBackButton(): Promise<ShowBackButtonResponse> {
+    return (await this.invoke('showBackButton')) as ShowBackButtonResponse;
   }
 
   /**
@@ -252,11 +234,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -279,8 +256,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  hideRefreshButton(): HideRefreshButtonResponse {
-    return this.invoke('hideRefreshButton');
+  async hideRefreshButton(): Promise<HideRefreshButtonResponse> {
+    return (await this.invoke('hideRefreshButton')) as HideRefreshButtonResponse;
   }
 
   /**
@@ -293,11 +270,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -320,8 +292,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  showRefreshButton(): ShowRefreshButtonResponse {
-    return this.invoke('showRefreshButton');
+  async showRefreshButton(): Promise<ShowRefreshButtonResponse> {
+    return (await this.invoke('showRefreshButton')) as ShowRefreshButtonResponse;
   }
 
   /**
@@ -334,11 +306,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -361,8 +328,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  close(): CloseResponse {
-    return this.invoke('close');
+  async close(): Promise<CloseResponse> {
+    return (await this.invoke('close')) as CloseResponse;
   }
 
   /**
@@ -375,11 +342,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -402,8 +364,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  onContentLoaded(): OnContentLoadedResponse {
-    return this.invoke('onContentLoaded');
+  async onContentLoaded(): Promise<OnContentLoadedResponse> {
+    return (await this.invoke('onContentLoaded')) as OnContentLoadedResponse;
   }
 
   /**
@@ -419,11 +381,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -446,8 +403,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  showLoader(): ShowLoaderResponse {
-    return this.invoke('showLoader');
+  async showLoader(): Promise<ShowLoaderResponse> {
+    return (await this.invoke('showLoader')) as ShowLoaderResponse;
   }
 
   /**
@@ -463,11 +420,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -490,8 +442,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  hideLoader(): HideLoaderResponse {
-    return this.invoke('hideLoader');
+  async hideLoader(): Promise<HideLoaderResponse> {
+    return (await this.invoke('hideLoader')) as HideLoaderResponse;
   }
 
   /**
@@ -509,11 +461,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -541,10 +488,10 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  openExternalLink(request: OpenExternalLinkRequest): OpenExternalLinkResponse {
-    return this.invoke('openExternalLink', {
+  async openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
+    return (await this.invoke('openExternalLink', {
       url: request,
-    });
+    })) as OpenExternalLinkResponse;
   }
 
   /**
@@ -559,11 +506,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -586,8 +528,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  onCtaTap(request: OnCtaTapRequest): OnCtaTapResponse {
-    return this.invoke('onCtaTap', { action: request });
+  async onCtaTap(request: OnCtaTapRequest): Promise<OnCtaTapResponse> {
+    return (await this.invoke('onCtaTap', { action: request })) as OnCtaTapResponse;
   }
 
   /**
@@ -613,13 +555,11 @@ export class ContainerModule extends BaseModule {
    * ```typescript
    * // Imports using ES Module built
    * import {
-   *   ContainerModule,
    *   ContainerAnalyticsEventState,
    *   ContainerAnalyticsEventName,
    * } from '@grabjs/superapp-sdk';
    * // Imports using UMD built (via CDN)
    * const {
-   *   ContainerModule,
    *   ContainerAnalyticsEventState,
    *   ContainerAnalyticsEventName,
    * } = window.SuperAppSDK;
@@ -654,16 +594,18 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  sendAnalyticsEvent(request: SendAnalyticsEventRequest): SendAnalyticsEventResponse {
+  async sendAnalyticsEvent(
+    request: SendAnalyticsEventRequest
+  ): Promise<SendAnalyticsEventResponse> {
     const validationError = this.validateAnalyticsEvent(request);
     if (validationError) {
-      return Promise.resolve({ status_code: 400, result: undefined, error: validationError });
+      return { status_code: 400, error: validationError };
     }
-    return this.invoke('sendAnalyticsEvent', {
+    return (await this.invoke('sendAnalyticsEvent', {
       state: request.state,
       name: request.name,
       data: request.data ? JSON.stringify(request.data) : null,
-    });
+    })) as SendAnalyticsEventResponse;
   }
 
   /**
@@ -679,11 +621,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -708,13 +645,11 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  isConnected(): IsConnectedResponse {
+  async isConnected(): Promise<IsConnectedResponse> {
     const isConnected = isRunningInGrabApp();
-    return Promise.resolve(
-      isConnected
-        ? { status_code: 200, result: { connected: true }, error: null }
-        : { status_code: 404, error: 'Not connected to Grab app', result: null }
-    );
+    return isConnected
+      ? { status_code: 200, result: { connected: true } }
+      : { status_code: 404, error: 'Not connected to Grab app' };
   }
 
   /**
@@ -732,11 +667,6 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ContainerModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ContainerModule } = window.SuperAppSDK;
-   *
    * // Initialize the container module
    * const containerModule = new ContainerModule();
    *
@@ -761,8 +691,8 @@ export class ContainerModule extends BaseModule {
    *
    * @public
    */
-  getSessionParams(): GetSessionParamsResponse {
-    return this.invoke('getSessionParams');
+  async getSessionParams(): Promise<GetSessionParamsResponse> {
+    return (await this.invoke('getSessionParams')) as GetSessionParamsResponse;
   }
 
   /**

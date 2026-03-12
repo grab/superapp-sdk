@@ -2,7 +2,7 @@
 
 # Type Alias: GetSessionParamsResponse
 
-> **GetSessionParamsResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetSessionParamsResult`](GetSessionParamsResult.md), `200` \| `501`\>\>
+> **GetSessionParamsResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetSessionParamsResult`](GetSessionParamsResult.md), `200` \| `501`\>
 
 Response when getting session parameters.
 

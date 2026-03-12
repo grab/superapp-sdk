@@ -2,7 +2,7 @@
 
 # Type Alias: ShowLoaderResponse
 
-> **ShowLoaderResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ShowLoaderResult`](ShowLoaderResult.md), `200` \| `501`\>\>
+> **ShowLoaderResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ShowLoaderResult`](ShowLoaderResult.md), `200` \| `501`\>
 
 Response when showing the loader.
 

@@ -2,7 +2,7 @@
 
 # Type Alias: SetIntResponse
 
-> **SetIntResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetIntResult`](SetIntResult.md), `204` \| `400` \| `501`\>\>
+> **SetIntResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetIntResult`](SetIntResult.md), `204` \| `400` \| `501`\>
 
 Response when setting an integer value.
 

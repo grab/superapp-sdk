@@ -2,7 +2,7 @@
 
 # Type Alias: SendAnalyticsEventResponse
 
-> **SendAnalyticsEventResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SendAnalyticsEventResult`](SendAnalyticsEventResult.md), `200` \| `400` \| `501`\>\>
+> **SendAnalyticsEventResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SendAnalyticsEventResult`](SendAnalyticsEventResult.md), `200` \| `400` \| `501`\>
 
 Response when sending analytics events.
 

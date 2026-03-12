@@ -2,7 +2,7 @@
 
 # Type Alias: SetStringResponse
 
-> **SetStringResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetStringResult`](SetStringResult.md), `204` \| `400` \| `501`\>\>
+> **SetStringResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetStringResult`](SetStringResult.md), `204` \| `400` \| `501`\>
 
 Response when setting a string value.
 

@@ -54,11 +54,6 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { LocationModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { LocationModule } = window.SuperAppSDK;
-   *
    * // Initialize the location module
    * const locationModule = new LocationModule();
    *
@@ -86,8 +81,8 @@ export class LocationModule extends BaseModule {
    *
    * @public
    */
-  getCoordinate(): GetCoordinateResponse {
-    return this.invoke('getCoordinate');
+  async getCoordinate(): Promise<GetCoordinateResponse> {
+    return (await this.invoke('getCoordinate')) as GetCoordinateResponse;
   }
 
   /**
@@ -101,11 +96,6 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { LocationModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { LocationModule } = window.SuperAppSDK;
-   *
    * // Initialize the location module
    * const locationModule = new LocationModule();
    *
@@ -126,7 +116,6 @@ export class LocationModule extends BaseModule {
    * @public
    */
   observeLocationChange(): ObserveLocationChangeResponse {
-    // Streaming methods need direct access to wrappedModule
     return this.wrappedModule.invoke('observeLocationChange') as ObserveLocationChangeResponse;
   }
 
@@ -140,11 +129,6 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { LocationModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { LocationModule } = window.SuperAppSDK;
-   *
    * // Initialize the location module
    * const locationModule = new LocationModule();
    *
@@ -172,7 +156,7 @@ export class LocationModule extends BaseModule {
    *
    * @public
    */
-  getCountryCode(): GetCountryCodeResponse {
-    return this.invoke('getCountryCode');
+  async getCountryCode(): Promise<GetCountryCodeResponse> {
+    return (await this.invoke('getCountryCode')) as GetCountryCodeResponse;
   }
 }

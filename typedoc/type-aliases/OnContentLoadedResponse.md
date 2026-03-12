@@ -2,7 +2,7 @@
 
 # Type Alias: OnContentLoadedResponse
 
-> **OnContentLoadedResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`OnContentLoadedResult`](OnContentLoadedResult.md), `200` \| `501`\>\>
+> **OnContentLoadedResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`OnContentLoadedResult`](OnContentLoadedResult.md), `200` \| `501`\>
 
 Response when notifying content loaded.
 

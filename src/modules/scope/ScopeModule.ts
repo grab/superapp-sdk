@@ -53,11 +53,6 @@ export class ScopeModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ScopeModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ScopeModule } = window.SuperAppSDK;
-   *
    * // Initialize the scope module
    * const scopeModule = new ScopeModule();
    *
@@ -86,8 +81,8 @@ export class ScopeModule extends BaseModule {
    *
    * @public
    */
-  hasAccessTo(module: string, method: string): HasAccessToResponse {
-    return this.invoke('hasAccessTo', { module, method });
+  async hasAccessTo(module: string, method: string): Promise<HasAccessToResponse> {
+    return (await this.invoke('hasAccessTo', { module, method })) as HasAccessToResponse;
   }
 
   /**
@@ -101,11 +96,6 @@ export class ScopeModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ScopeModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ScopeModule } = window.SuperAppSDK;
-   *
    * // Initialize the scope module
    * const scopeModule = new ScopeModule();
    *
@@ -133,7 +123,7 @@ export class ScopeModule extends BaseModule {
    *
    * @public
    */
-  reloadScopes(): ReloadScopesResponse {
-    return this.invoke('reloadScopes');
+  async reloadScopes(): Promise<ReloadScopesResponse> {
+    return (await this.invoke('reloadScopes')) as ReloadScopesResponse;
   }
 }

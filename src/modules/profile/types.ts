@@ -70,9 +70,7 @@ export type FetchEmailResult = {
  *
  * @public
  */
-export type FetchEmailResponse = Promise<
-  ConstrainedBridgeResponse<FetchEmailResult, 200 | 400 | 403 | 501>
->;
+export type FetchEmailResponse = ConstrainedBridgeResponse<FetchEmailResult, 200 | 400 | 403 | 501>;
 
 /**
  * Request parameters for verifying the user's email with an OTP.
@@ -147,6 +145,7 @@ export type VerifyEmailResult = void;
  *
  * @public
  */
-export type VerifyEmailResponse = Promise<
-  ConstrainedBridgeResponse<VerifyEmailResult, 200 | 400 | 403 | 501>
+export type VerifyEmailResponse = ConstrainedBridgeResponse<
+  VerifyEmailResult,
+  200 | 400 | 403 | 501
 >;

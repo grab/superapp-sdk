@@ -62,11 +62,6 @@ export class ProfileModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ProfileModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ProfileModule } = window.SuperAppSDK;
-   *
    * // Initialize the profile module
    * const profileModule = new ProfileModule();
    *
@@ -96,15 +91,14 @@ export class ProfileModule extends BaseModule {
    *
    * @public
    */
-  fetchEmail(): FetchEmailResponse {
+  async fetchEmail(): Promise<FetchEmailResponse> {
     if (!ProfileModule.isSupported()) {
-      return Promise.resolve({
+      return {
         status_code: 403,
-        result: undefined,
         error: 'This feature requires Grab app version 5.399 or above.',
-      });
+      };
     }
-    return this.invoke('fetchEmail');
+    return (await this.invoke('fetchEmail')) as FetchEmailResponse;
   }
 
   /**
@@ -119,11 +113,6 @@ export class ProfileModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { ProfileModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { ProfileModule } = window.SuperAppSDK;
-   *
    * // Initialize the profile module
    * const profileModule = new ProfileModule();
    *
@@ -156,14 +145,13 @@ export class ProfileModule extends BaseModule {
    *
    * @public
    */
-  verifyEmail(request: VerifyEmailRequest): VerifyEmailResponse {
+  async verifyEmail(request: VerifyEmailRequest): Promise<VerifyEmailResponse> {
     if (!ProfileModule.isSupported()) {
-      return Promise.resolve({
+      return {
         status_code: 403,
-        result: undefined,
         error: 'This feature requires Grab app version 5.399 or above.',
-      });
+      };
     }
-    return this.invoke('verifyEmail', request);
+    return (await this.invoke('verifyEmail', request)) as VerifyEmailResponse;
   }
 }

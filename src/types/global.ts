@@ -33,8 +33,5 @@ import { DataStream } from '../core/stream';
  * @public
  */
 export interface WrappedModule {
-  invoke<T, P = unknown, R = BridgeResponse<T>, M extends string = string>(
-    method: M,
-    params?: P
-  ): M extends `observe${string}` ? DataStream<T> : Promise<R>;
+  invoke<T>(method: string, params?: unknown): DataStream<T> | Promise<BridgeResponse<T>>;
 }

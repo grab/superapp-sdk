@@ -63,7 +63,7 @@ export type BridgeStatusCode302Response = {
  *
  * @public
  */
-export type BridgeRedirectResponse = BridgeStatusCode302Response;
+export type BridgeRedirectionResponse = BridgeStatusCode302Response;
 
 /**
  * Error response with status code 400
@@ -162,7 +162,7 @@ export type BridgeStatusCode500Response = {
 export type BridgeStatusCode501Response = {
   /** HTTP-style status code indicating the outcome of the JSBridge method call */
   status_code: 501;
-  /** Error message indicating the method is not available in this environment */
+  /** Error message if the call failed */
   error: string;
 };
 
@@ -193,7 +193,7 @@ export type BridgeErrorResponse = BridgeClientErrorResponse | BridgeServerErrorR
  */
 export type BridgeResponse<T> =
   | BridgeSuccessResponse<T>
-  | BridgeRedirectResponse
+  | BridgeRedirectionResponse
   | BridgeClientErrorResponse
   | BridgeServerErrorResponse;
 

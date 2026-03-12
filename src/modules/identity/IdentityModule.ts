@@ -171,11 +171,6 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { IdentityModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { IdentityModule } = window.SuperAppSDK;
-   *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
    *
@@ -210,7 +205,7 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async getAuthorizationArtifacts(): GetAuthorizationArtifactsResponse {
+  async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
     const state = this.getStorageItem('state');
     const codeVerifier = this.getStorageItem('code_verifier');
     const nonce = this.getStorageItem('nonce');
@@ -221,7 +216,7 @@ export class IdentityModule extends BaseModule {
     ).length;
 
     if (existingCount === 4) {
-      return Promise.resolve({
+      return {
         status_code: 200,
         result: {
           state: state!,
@@ -229,23 +224,19 @@ export class IdentityModule extends BaseModule {
           nonce: nonce!,
           redirectUri: redirectUri!,
         },
-        error: null,
-      });
+      };
     }
 
     if (existingCount === 0) {
-      return Promise.resolve({
+      return {
         status_code: 204,
-        result: null,
-        error: null,
-      });
+      };
     }
 
-    return Promise.resolve({
+    return {
       status_code: 400,
-      result: null,
       error: 'Inconsistent authorization artifacts in storage',
-    });
+    };
   }
 
   /**
@@ -258,11 +249,6 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { IdentityModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { IdentityModule } = window.SuperAppSDK;
-   *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
    *
@@ -280,18 +266,16 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async clearAuthorizationArtifacts(): ClearAuthorizationArtifactsResponse {
+  async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
     window.localStorage.removeItem(`${NAMESPACE}:nonce`);
     window.localStorage.removeItem(`${NAMESPACE}:state`);
     window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);
     window.localStorage.removeItem(`${NAMESPACE}:redirect_uri`);
     window.localStorage.removeItem(`${NAMESPACE}:login_return_uri`);
 
-    return Promise.resolve({
+    return {
       status_code: 204,
-      result: null,
-      error: null,
-    });
+    };
   }
 
   /**
@@ -395,7 +379,7 @@ export class IdentityModule extends BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     environment: 'staging' | 'production';
-  }): AuthorizeResponse {
+  }): Promise<AuthorizeResponse> {
     // Store the current page URL for potential return navigation
     this.setStorageItem('login_return_uri', window.location.href);
 
@@ -408,11 +392,10 @@ export class IdentityModule extends BaseModule {
     try {
       authorizationEndpoint = await this.fetchAuthorizationEndpoint(params.environment);
     } catch (error) {
-      return Promise.resolve({
+      return {
         status_code: 400,
         error: getErrorMessage(error),
-        result: undefined,
-      });
+      };
     }
 
     const requestMap = {
@@ -429,10 +412,9 @@ export class IdentityModule extends BaseModule {
     const authorizeUrl = IdentityModule.buildAuthorizeUrl(authorizationEndpoint, requestMap);
     window.location.assign(authorizeUrl);
 
-    return Promise.resolve({
+    return {
       status_code: 302,
-      result: null,
-    });
+    };
   }
 
   /**
@@ -453,8 +435,8 @@ export class IdentityModule extends BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     responseMode: 'redirect' | 'in_place';
-  }): AuthorizeResponse {
-    return this.wrappedModule.invoke('authorize', {
+  }): Promise<AuthorizeResponse> {
+    return (await this.wrappedModule.invoke('authorize', {
       clientId: invokeParams.clientId,
       redirectUri: invokeParams.actualRedirectUri,
       scope: invokeParams.scope,
@@ -463,7 +445,7 @@ export class IdentityModule extends BaseModule {
       codeChallenge: invokeParams.codeChallenge,
       codeChallengeMethod: invokeParams.codeChallengeMethod,
       responseMode: invokeParams.responseMode,
-    });
+    })) as AuthorizeResponse;
   }
 
   /**
@@ -503,11 +485,6 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { IdentityModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { IdentityModule } = window.SuperAppSDK;
-   *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
    *
@@ -550,10 +527,10 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async authorize(request: AuthorizeRequest): AuthorizeResponse {
+  async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
     const validationError = IdentityModule.validateAuthorizeRequest(request);
     if (validationError) {
-      return Promise.resolve({ status_code: 400, result: undefined, error: validationError });
+      return { status_code: 400, error: validationError };
     }
 
     const pkceArtifacts = await this.generatePKCEArtifacts();

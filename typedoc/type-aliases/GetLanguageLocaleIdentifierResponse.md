@@ -2,7 +2,7 @@
 
 # Type Alias: GetLanguageLocaleIdentifierResponse
 
-> **GetLanguageLocaleIdentifierResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetLanguageLocaleIdentifierResult`](GetLanguageLocaleIdentifierResult.md), `200` \| `501`\>\>
+> **GetLanguageLocaleIdentifierResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetLanguageLocaleIdentifierResult`](GetLanguageLocaleIdentifierResult.md), `200` \| `501`\>
 
 Response when getting the language locale identifier from the device.
 

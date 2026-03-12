@@ -2,7 +2,7 @@
 
 # Type Alias: GetDoubleResponse
 
-> **GetDoubleResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetDoubleResult`](GetDoubleResult.md), `200` \| `400` \| `501`\>\>
+> **GetDoubleResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetDoubleResult`](GetDoubleResult.md), `200` \| `400` \| `501`\>
 
 Response when getting a double value.
 

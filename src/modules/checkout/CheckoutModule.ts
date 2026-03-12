@@ -52,11 +52,6 @@ export class CheckoutModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
-   * import { CheckoutModule } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const { CheckoutModule } = window.SuperAppSDK;
-   *
    * // Initialize the checkout module
    * const checkoutModule = new CheckoutModule();
    *
@@ -93,7 +88,7 @@ export class CheckoutModule extends BaseModule {
    *
    * @public
    */
-  triggerCheckout(request: TriggerCheckoutRequest): TriggerCheckoutResponse {
-    return this.invoke('triggerCheckout', request);
+  async triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse> {
+    return (await this.invoke('triggerCheckout', request)) as TriggerCheckoutResponse;
   }
 }

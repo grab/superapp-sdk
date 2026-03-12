@@ -121,8 +121,9 @@ export type AuthorizeResult = {
  *
  * @public
  */
-export type AuthorizeResponse = Promise<
-  ConstrainedBridgeResponse<AuthorizeResult, 200 | 302 | 204 | 400 | 401 | 403>
+export type AuthorizeResponse = ConstrainedBridgeResponse<
+  AuthorizeResult,
+  200 | 302 | 204 | 400 | 401 | 403
 >;
 
 /**
@@ -199,8 +200,9 @@ export type GetAuthorizationArtifactsResult = {
  *
  * @public
  */
-export type GetAuthorizationArtifactsResponse = Promise<
-  ConstrainedBridgeResponse<GetAuthorizationArtifactsResult, 200 | 204 | 400>
+export type GetAuthorizationArtifactsResponse = ConstrainedBridgeResponse<
+  GetAuthorizationArtifactsResult,
+  200 | 204 | 400
 >;
 
 /**
@@ -225,6 +227,7 @@ export type ClearAuthorizationArtifactsResult = void;
  *
  * @public
  */
-export type ClearAuthorizationArtifactsResponse = Promise<
-  ConstrainedBridgeResponse<ClearAuthorizationArtifactsResult, 204>
+export type ClearAuthorizationArtifactsResponse = ConstrainedBridgeResponse<
+  ClearAuthorizationArtifactsResult,
+  204
 >;

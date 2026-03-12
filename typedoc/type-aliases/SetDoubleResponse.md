@@ -2,7 +2,7 @@
 
 # Type Alias: SetDoubleResponse
 
-> **SetDoubleResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetDoubleResult`](SetDoubleResult.md), `204` \| `400` \| `501`\>\>
+> **SetDoubleResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetDoubleResult`](SetDoubleResult.md), `204` \| `400` \| `501`\>
 
 Response when setting a double value.
 

@@ -48,7 +48,7 @@ const identity = new IdentityModule();
 
 ### authorize()
 
-> **authorize**(`request`: [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)): [`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)
+> **authorize**(`request`: [`AuthorizeRequest`](../type-aliases/AuthorizeRequest.md)): `Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
 This method handles both native in-app consent and web-based fallback flows.
@@ -63,7 +63,7 @@ Authorization parameters including client ID, redirect URI, scope, and environme
 
 #### Returns
 
-[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)
+`Promise`\<[`AuthorizeResponse`](../type-aliases/AuthorizeResponse.md)\>
 
 The authorization result, containing the authorization code on success or redirect status.
 
@@ -100,11 +100,6 @@ after authorization completes.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { IdentityModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { IdentityModule } = window.SuperAppSDK;
-
 // Initialize the identity module
 const identityModule = new IdentityModule();
 
@@ -149,7 +144,7 @@ try {
 
 ### clearAuthorizationArtifacts()
 
-> **clearAuthorizationArtifacts**(): [`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)
+> **clearAuthorizationArtifacts**(): `Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
 
 Clears all stored PKCE authorization artifacts from local storage.
 This should be called after a successful token exchange or when you need to
@@ -157,7 +152,7 @@ reset the authorization state (e.g., on error or logout).
 
 #### Returns
 
-[`ClearAuthorizationArtifactsResponse`](../type-aliases/ClearAuthorizationArtifactsResponse.md)
+`Promise`\<[`BridgeStatusCode204Response`](../type-aliases/BridgeStatusCode204Response.md)\>
 
 Confirmation that the authorization artifacts have been cleared.
 
@@ -165,11 +160,6 @@ Confirmation that the authorization artifacts have been cleared.
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { IdentityModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { IdentityModule } = window.SuperAppSDK;
-
 // Initialize the identity module
 const identityModule = new IdentityModule();
 
@@ -189,14 +179,14 @@ try {
 
 ### getAuthorizationArtifacts()
 
-> **getAuthorizationArtifacts**(): [`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)
+> **getAuthorizationArtifacts**(): `Promise`\<[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)\>
 
 Retrieves stored PKCE authorization artifacts from local storage.
 These artifacts are used to complete the OAuth2 authorization code exchange.
 
 #### Returns
 
-[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)
+`Promise`\<[`GetAuthorizationArtifactsResponse`](../type-aliases/GetAuthorizationArtifactsResponse.md)\>
 
 The stored PKCE artifacts including state, code verifier, nonce, and redirect URI.
 
@@ -211,11 +201,6 @@ You must use this returned `redirectUri` for token exchange to ensure OAuth comp
 
 **Simple usage**
 ```typescript
-// Imports using ES Module built
-import { IdentityModule } from '@grabjs/superapp-sdk';
-// Imports using UMD built (via CDN)
-const { IdentityModule } = window.SuperAppSDK;
-
 // Initialize the identity module
 const identityModule = new IdentityModule();
 

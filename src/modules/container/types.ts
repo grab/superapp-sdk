@@ -62,8 +62,9 @@ export type SetBackgroundColorResult = void;
  *
  * @public
  */
-export type SetBackgroundColorResponse = Promise<
-  ConstrainedBridgeResponse<SetBackgroundColorResult, 200 | 400 | 501>
+export type SetBackgroundColorResponse = ConstrainedBridgeResponse<
+  SetBackgroundColorResult,
+  204 | 400 | 501
 >;
 
 /**
@@ -121,7 +122,7 @@ export type SetTitleResult = void;
  *
  * @public
  */
-export type SetTitleResponse = Promise<ConstrainedBridgeResponse<SetTitleResult, 200 | 400 | 501>>;
+export type SetTitleResponse = ConstrainedBridgeResponse<SetTitleResult, 200 | 400 | 501>;
 
 /**
  * Result when hiding the back button.
@@ -156,9 +157,7 @@ export type HideBackButtonResult = void;
  *
  * @public
  */
-export type HideBackButtonResponse = Promise<
-  ConstrainedBridgeResponse<HideBackButtonResult, 200 | 501>
->;
+export type HideBackButtonResponse = ConstrainedBridgeResponse<HideBackButtonResult, 200 | 501>;
 
 /**
  * Result when showing the back button.
@@ -193,9 +192,7 @@ export type ShowBackButtonResult = void;
  *
  * @public
  */
-export type ShowBackButtonResponse = Promise<
-  ConstrainedBridgeResponse<ShowBackButtonResult, 200 | 501>
->;
+export type ShowBackButtonResponse = ConstrainedBridgeResponse<ShowBackButtonResult, 200 | 501>;
 
 /**
  * Result when hiding the refresh button.
@@ -230,8 +227,9 @@ export type HideRefreshButtonResult = void;
  *
  * @public
  */
-export type HideRefreshButtonResponse = Promise<
-  ConstrainedBridgeResponse<HideRefreshButtonResult, 200 | 501>
+export type HideRefreshButtonResponse = ConstrainedBridgeResponse<
+  HideRefreshButtonResult,
+  200 | 501
 >;
 
 /**
@@ -267,8 +265,9 @@ export type ShowRefreshButtonResult = void;
  *
  * @public
  */
-export type ShowRefreshButtonResponse = Promise<
-  ConstrainedBridgeResponse<ShowRefreshButtonResult, 200 | 501>
+export type ShowRefreshButtonResponse = ConstrainedBridgeResponse<
+  ShowRefreshButtonResult,
+  200 | 501
 >;
 
 /**
@@ -304,7 +303,7 @@ export type CloseResult = void;
  *
  * @public
  */
-export type CloseResponse = Promise<ConstrainedBridgeResponse<CloseResult, 200 | 501>>;
+export type CloseResponse = ConstrainedBridgeResponse<CloseResult, 200 | 501>;
 
 /**
  * Result when notifying content loaded.
@@ -339,9 +338,7 @@ export type OnContentLoadedResult = void;
  *
  * @public
  */
-export type OnContentLoadedResponse = Promise<
-  ConstrainedBridgeResponse<OnContentLoadedResult, 200 | 501>
->;
+export type OnContentLoadedResponse = ConstrainedBridgeResponse<OnContentLoadedResult, 200 | 501>;
 
 /**
  * Result when showing the loader.
@@ -376,7 +373,7 @@ export type ShowLoaderResult = void;
  *
  * @public
  */
-export type ShowLoaderResponse = Promise<ConstrainedBridgeResponse<ShowLoaderResult, 200 | 501>>;
+export type ShowLoaderResponse = ConstrainedBridgeResponse<ShowLoaderResult, 200 | 501>;
 
 /**
  * Result when hiding the loader.
@@ -411,7 +408,7 @@ export type HideLoaderResult = void;
  *
  * @public
  */
-export type HideLoaderResponse = Promise<ConstrainedBridgeResponse<HideLoaderResult, 200 | 501>>;
+export type HideLoaderResponse = ConstrainedBridgeResponse<HideLoaderResult, 200 | 501>;
 
 /**
  * Request parameters for opening an external link.
@@ -468,8 +465,9 @@ export type OpenExternalLinkResult = void;
  *
  * @public
  */
-export type OpenExternalLinkResponse = Promise<
-  ConstrainedBridgeResponse<OpenExternalLinkResult, 200 | 400 | 501>
+export type OpenExternalLinkResponse = ConstrainedBridgeResponse<
+  OpenExternalLinkResult,
+  200 | 400 | 501
 >;
 
 /**
@@ -517,7 +515,7 @@ export type OnCtaTapResult = void;
  *
  * @public
  */
-export type OnCtaTapResponse = Promise<ConstrainedBridgeResponse<OnCtaTapResult, 200 | 501>>;
+export type OnCtaTapResponse = ConstrainedBridgeResponse<OnCtaTapResult, 200 | 501>;
 
 /**
  * Request parameters for sending analytics events.
@@ -600,8 +598,9 @@ export type SendAnalyticsEventResult = void;
  *
  * @public
  */
-export type SendAnalyticsEventResponse = Promise<
-  ConstrainedBridgeResponse<SendAnalyticsEventResult, 200 | 400 | 501>
+export type SendAnalyticsEventResponse = ConstrainedBridgeResponse<
+  SendAnalyticsEventResult,
+  200 | 400 | 501
 >;
 
 /**
@@ -654,7 +653,7 @@ export type IsConnectedResult = {
  *
  * @public
  */
-export type IsConnectedResponse = Promise<ConstrainedBridgeResponse<IsConnectedResult, 200 | 404>>;
+export type IsConnectedResponse = ConstrainedBridgeResponse<IsConnectedResult, 200 | 404>;
 
 /**
  * Result object containing session parameters as a JSON string.
@@ -704,6 +703,4 @@ export type GetSessionParamsResult = {
  *
  * @public
  */
-export type GetSessionParamsResponse = Promise<
-  ConstrainedBridgeResponse<GetSessionParamsResult, 200 | 501>
->;
+export type GetSessionParamsResponse = ConstrainedBridgeResponse<GetSessionParamsResult, 200 | 501>;

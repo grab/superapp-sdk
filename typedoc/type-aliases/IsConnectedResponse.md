@@ -2,7 +2,7 @@
 
 # Type Alias: IsConnectedResponse
 
-> **IsConnectedResponse** = `Promise`\<[`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`IsConnectedResult`](IsConnectedResult.md), `200` \| `404`\>\>
+> **IsConnectedResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`IsConnectedResult`](IsConnectedResult.md), `200` \| `404`\>
 
 Response when checking connection status.
 

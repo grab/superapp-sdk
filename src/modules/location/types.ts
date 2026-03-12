@@ -5,9 +5,8 @@
  * directory of this source tree.
  */
 
-import { DataStream } from '@grabjs/mobile-kit-bridge-sdk';
-
 import { ConstrainedBridgeResponse } from '../../core/response';
+import { DataStream } from '../../core/stream';
 
 /**
  * Result object containing the geographic coordinates.
@@ -64,9 +63,7 @@ export type GetCoordinateResult = {
  *
  * @public
  */
-export type GetCoordinateResponse = Promise<
-  ConstrainedBridgeResponse<GetCoordinateResult, 200 | 424 | 501>
->;
+export type GetCoordinateResponse = ConstrainedBridgeResponse<GetCoordinateResult, 200 | 424 | 501>;
 
 /**
  * Response when observing the device coordinates.
@@ -142,6 +139,7 @@ export type GetCountryCodeResult = {
  *
  * @public
  */
-export type GetCountryCodeResponse = Promise<
-  ConstrainedBridgeResponse<GetCountryCodeResult, 200 | 424 | 501>
+export type GetCountryCodeResponse = ConstrainedBridgeResponse<
+  GetCountryCodeResult,
+  200 | 424 | 501
 >;

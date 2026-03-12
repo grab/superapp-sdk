@@ -10,6 +10,8 @@ import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
 import { WrappedModule } from '../../types/global';
 import { getErrorMessage } from '../../utils/error';
 import { isRunningInGrabApp } from '../../utils/user-agent';
+import { BridgeResponse } from '../response/types';
+import { DataStream } from '../stream';
 
 /**
  * Base class for all JSBridge modules.
@@ -74,15 +76,20 @@ export class BaseModule {
    *
    * @internal
    */
-  invoke<T>(method: string, params?: unknown): Promise<T> {
-    if (isRunningInGrabApp()) {
+  invoke<T>(method: string, params?: unknown): Promise<BridgeResponse<T>> | DataStream<T> {
+    try {
+      if (!isRunningInGrabApp()) {
+        return Promise.resolve({
+          status_code: 501,
+          error: 'Not implemented: This method requires the Grab app environment',
+        });
+      }
       return this.wrappedModule.invoke(method, params);
+    } catch {
+      return Promise.resolve({
+        status_code: 500,
+        error: `Failed to invoke method`,
+      });
     }
-
-    return Promise.resolve({
-      status_code: 501,
-      result: undefined,
-      error: 'Not implemented: This method requires the Grab app environment',
-    } as T);
   }
 }

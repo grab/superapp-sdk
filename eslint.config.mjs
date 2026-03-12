@@ -61,6 +61,7 @@ export default defineConfig([
       '@typescript-eslint/no-unsafe-return': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
       // Import order
       'simple-import-sort/imports': 'error',
