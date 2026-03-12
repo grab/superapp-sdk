@@ -5,3 +5,4 @@ docs/
 package-lock.json
 typedoc/
 temp/
+coverage/

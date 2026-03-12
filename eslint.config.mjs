@@ -14,13 +14,25 @@ import { defineConfig } from 'eslint/config';
 import licenseHeader from 'eslint-plugin-license-header';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
+import vitest from '@vitest/eslint-plugin';
 
 export default defineConfig([
   {
-    ignores: ['build/', 'dist/', 'package-lock.json', 'docs/', 'typedoc/', 'temp/'],
+    ignores: ['build/', 'dist/', 'package-lock.json', 'docs/', 'typedoc/', 'temp/', 'coverage/'],
   },
   {
-    files: ['**/*.ts'],
+    files: ['*.config.{ts,mjs,js}', '**/*.config.{ts,mjs,js}'],
+    plugins: { js, 'license-header': licenseHeader },
+    extends: [js.configs.recommended],
+    languageOptions: {
+      globals: globals.node,
+    },
+    rules: {
+      'license-header/header': ['error', 'resources/copyright.txt'],
+    },
+  },
+  {
+    files: ['src/**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -93,6 +105,34 @@ export default defineConfig([
       'license-header/header': ['error', 'resources/copyright.txt'],
     },
     languageOptions: { globals: globals.node },
+  },
+  {
+    files: ['**/*.test.ts'],
+    plugins: { vitest },
+    extends: [tseslint.configs.recommended],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+      globals: {
+        ...globals.browser,
+        ...vitest.environments.env.globals,
+      },
+    },
+    rules: {
+      'license-header/header': ['error', 'resources/copyright.txt'],
+      // Allow any for test mocks
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      // Vitest specific rules
+      'vitest/expect-expect': 'error',
+      'vitest/no-identical-title': 'error',
+    },
   },
   { files: ['**/*.json'], plugins: { json }, language: 'json/json', extends: ['json/recommended'] },
   {
