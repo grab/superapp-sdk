@@ -46,8 +46,6 @@ export class PlatformModule extends BaseModule {
    *
    * @returns Confirmation that the back navigation was triggered.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -55,21 +53,17 @@ export class PlatformModule extends BaseModule {
    * const platformModule = new PlatformModule();
    *
    * // Trigger back navigation
-   * try {
-   *   const response = await platformModule.back();
+   * const response = await platformModule.back();
    *
-   *   switch (response.status_code) {
-   *     case 204:
-   *       console.log('Back navigation triggered');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 204:
+   *     console.log('Back navigation triggered');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *

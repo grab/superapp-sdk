@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.19] - 2026-03-13
+
+### Added
+
+- `FileModule` for downloading files via the native bridge (`downloadFile` method)
+- `DownloadFileRequest` and `DownloadFileResponse` types for file operations
+- Unit tests for `FileModule`
+
+### Changed
+
+- `BaseModule.invoke()` now returns errors via `status_code` instead of throwing
+- Updated all module JSDoc examples to remove try-catch patterns
+- Removed `@throws` annotations from all module methods
+
 ## [2.0.0-beta.18] - 2026-03-13
 
 ### Added

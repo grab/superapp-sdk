@@ -82,6 +82,8 @@ export type {
   ShowRefreshButtonResponse,
   ShowRefreshButtonResult,
 } from './modules/container/types';
+export { FileModule } from './modules/file/FileModule';
+export type { DownloadFileRequest, DownloadFileResponse } from './modules/file/types';
 export { IdentityModule } from './modules/identity/IdentityModule';
 export type {
   AuthorizeRequest,

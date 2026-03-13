@@ -67,10 +67,6 @@ Authorization parameters including client ID, redirect URI, scope, and environme
 
 The authorization result, containing the authorization code on success or redirect status.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Remarks
 
 **Important Note on redirectUri and responseMode:**
@@ -104,39 +100,35 @@ after authorization completes.
 const identityModule = new IdentityModule();
 
 // Initiate authorization with redirect mode
-try {
-  const response = await identityModule.authorize({
-    clientId: 'your-client-id',
-    redirectUri: 'https://your-app.com/callback',
-    scope: 'openid profile',
-    environment: 'production',
-    responseMode: 'redirect'
+const response = await identityModule.authorize({
+  clientId: 'your-client-id',
+  redirectUri: 'https://your-app.com/callback',
+  scope: 'openid profile',
+  environment: 'production',
+  responseMode: 'redirect'
   });
 
-  switch (response.status_code) {
-    case 200:
-      // Authorization successful (in_place mode with native flow)
-      console.log('Auth Code:', response.result.code);
-      console.log('State:', response.result.state);
-      break;
-    case 302:
-      // Redirect in progress (web flow with responseMode: 'redirect')
-      // The page will be redirected to the authorization URL
-      console.log('Redirecting to authorization...');
-      break;
-    case 204:
-      // User cancelled or flow completed without result data
-      console.log('Authorization cancelled or no content');
-      break;
-    case 400:
-      // Authorization failed
-      console.error('Auth error:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    // Authorization successful (in_place mode with native flow)
+    console.log('Auth Code:', response.result.code);
+    console.log('State:', response.result.state);
+    break;
+  case 302:
+    // Redirect in progress (web flow with responseMode: 'redirect')
+    // The page will be redirected to the authorization URL
+    console.log('Redirecting to authorization...');
+    break;
+  case 204:
+    // User cancelled or flow completed without result data
+    console.log('Authorization cancelled or no content');
+    break;
+  case 400:
+    // Authorization failed
+    console.error('Auth error:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -164,14 +156,10 @@ Confirmation that the authorization artifacts have been cleared.
 const identityModule = new IdentityModule();
 
 // Clear stored authorization artifacts after successful token exchange
-try {
-  const response = await identityModule.clearAuthorizationArtifacts();
+const response = await identityModule.clearAuthorizationArtifacts();
 
-  if (response.status_code === 204) {
-    console.log('Authorization artifacts cleared');
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+if (response.status_code === 204) {
+  console.log('Authorization artifacts cleared');
 }
 ```
 
@@ -205,30 +193,26 @@ You must use this returned `redirectUri` for token exchange to ensure OAuth comp
 const identityModule = new IdentityModule();
 
 // Retrieve stored authorization artifacts after authorization redirect
-try {
-  const response = await identityModule.getAuthorizationArtifacts();
+const response = await identityModule.getAuthorizationArtifacts();
 
-  switch (response.status_code) {
-    case 200:
-      // All artifacts present - proceed with token exchange
-      const { state, codeVerifier, nonce, redirectUri } = response.result;
-      console.log('State:', state);
-      console.log('Code Verifier:', codeVerifier);
-      console.log('Nonce:', nonce);
-      console.log('Redirect URI:', redirectUri);
-      break;
-    case 204:
-      // No artifacts yet - user hasn't authorized
-      console.log('No authorization artifacts found. Authorization has not been initiated.');
-      break;
-    case 400:
-      // Inconsistent state - possible data corruption
-      console.error('Authorization artifacts error:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    // All artifacts present - proceed with token exchange
+    const { state, codeVerifier, nonce, redirectUri } = response.result;
+    console.log('State:', state);
+    console.log('Code Verifier:', codeVerifier);
+    console.log('Nonce:', nonce);
+    console.log('Redirect URI:', redirectUri);
+    break;
+  case 204:
+    // No artifacts yet - user hasn't authorized
+    console.log('No authorization artifacts found. Authorization has not been initiated.');
+    break;
+  case 400:
+    // Inconsistent state - possible data corruption
+    console.error('Authorization artifacts error:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```

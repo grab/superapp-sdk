@@ -34,6 +34,7 @@ export type SetBackgroundColorResult = void;
  * This response can have the following status codes:
  * - `200`: Background color set successfully.
  * - `400`: Invalid background color format.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -57,6 +58,15 @@ export type SetBackgroundColorResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -94,6 +104,7 @@ export type SetTitleResult = void;
  * This response can have the following status codes:
  * - `200`: Title set successfully.
  * - `400`: Invalid title parameter.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -120,6 +131,15 @@ export type SetTitleResult = void;
  * }
  * ```
  *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
+ * }
+ * ```
+ *
  * @public
  */
 export type SetTitleResponse = ConstrainedBridgeResponse<SetTitleResult, 200 | 400 | 500 | 501>;
@@ -138,6 +158,7 @@ export type HideBackButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Back button hidden successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -152,6 +173,15 @@ export type HideBackButtonResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -176,6 +206,7 @@ export type ShowBackButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Back button shown successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -190,6 +221,15 @@ export type ShowBackButtonResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -214,6 +254,7 @@ export type HideRefreshButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Refresh button hidden successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -228,6 +269,15 @@ export type HideRefreshButtonResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -252,6 +302,7 @@ export type ShowRefreshButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Refresh button shown successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -266,6 +317,15 @@ export type ShowRefreshButtonResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -290,6 +350,7 @@ export type CloseResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Container closed successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -304,6 +365,15 @@ export type CloseResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -325,6 +395,7 @@ export type OnContentLoadedResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Notification sent successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -339,6 +410,15 @@ export type OnContentLoadedResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -363,6 +443,7 @@ export type ShowLoaderResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Loader shown successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -377,6 +458,15 @@ export type ShowLoaderResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -398,6 +488,7 @@ export type HideLoaderResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Loader hidden successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -412,6 +503,15 @@ export type HideLoaderResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -446,6 +546,7 @@ export type OpenExternalLinkResult = void;
  * This response can have the following status codes:
  * - `200`: External link opened successfully.
  * - `400`: Invalid URL parameter.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -469,6 +570,15 @@ export type OpenExternalLinkResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -505,6 +615,7 @@ export type OnCtaTapResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: CTA tap notification sent successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -519,6 +630,15 @@ export type OnCtaTapResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -579,6 +699,7 @@ export type SendAnalyticsEventResult = void;
  * This response can have the following status codes:
  * - `200`: Analytics event sent successfully.
  * - `400`: Invalid analytics event parameters.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -602,6 +723,15 @@ export type SendAnalyticsEventResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -690,6 +820,7 @@ export type GetSessionParamsResult = {
  * @remarks
  * This response can have the following status codes:
  * - `200`: Session parameters retrieved successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -707,6 +838,15 @@ export type GetSessionParamsResult = {
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *

@@ -71,10 +71,6 @@ The method name within the module to check access for (e.g., 'scanQRCode').
 
 Whether the MiniApp has permission to access the specified method.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -83,25 +79,21 @@ Error when the JSBridge method fails unexpectedly.
 const scopeModule = new ScopeModule();
 
 // Check access to CameraModule.scanQRCode
-try {
-  const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
+const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Has access:', response.result.hasAccess);
-      break;
-    case 400:
-    case 424:
-      console.log('Could not check access:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Has access:', response.result.hasAccess);
+    break;
+  case 400:
+  case 424:
+    console.log('Could not check access:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -120,10 +112,6 @@ This refreshes the permissions from the server.
 
 Confirmation that the scopes have been reloaded from the server.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -132,23 +120,19 @@ Error when the JSBridge method fails unexpectedly.
 const scopeModule = new ScopeModule();
 
 // Reload scopes
-try {
-  const response = await scopeModule.reloadScopes();
+const response = await scopeModule.reloadScopes();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Scopes reloaded successfully');
-      break;
-    case 424:
-      console.log('Could not reload scopes:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Scopes reloaded successfully');
+    break;
+  case 424:
+    console.log('Could not reload scopes:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```

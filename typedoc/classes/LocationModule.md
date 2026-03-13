@@ -57,10 +57,6 @@ Get the current geographic coordinates of the device.
 
 The device's current latitude and longitude coordinates.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -69,24 +65,20 @@ Error when the JSBridge method fails unexpectedly.
 const locationModule = new LocationModule();
 
 // Get current coordinates
-try {
-  const response = await locationModule.getCoordinate();
+const response = await locationModule.getCoordinate();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Coordinates:', response.result.lat, response.result.lng);
-      break;
-    case 424:
-      console.log('Could not get coordinates:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Coordinates:', response.result.lat, response.result.lng);
+    break;
+  case 424:
+    console.log('Could not get coordinates:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -104,10 +96,6 @@ Get the country code based on the device's current location.
 
 The ISO country code (e.g., 'SG', 'ID') based on the device's location.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -116,24 +104,20 @@ Error when the JSBridge method fails unexpectedly.
 const locationModule = new LocationModule();
 
 // Get country code
-try {
-  const response = await locationModule.getCountryCode();
+const response = await locationModule.getCountryCode();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Country code:', response.result.countryCode);
-      break;
-    case 424:
-      console.log('Could not get country code:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Country code:', response.result.countryCode);
+    break;
+  case 424:
+    console.log('Could not get country code:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -151,10 +135,6 @@ Subscribe to location change updates from the device.
 
 A `DataStream` that emits location updates as the device location changes.
 Use `subscribe()` to listen for updates, or `await` to get the first value only.
-
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
 
 #### Example
 

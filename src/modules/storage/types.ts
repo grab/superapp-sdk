@@ -22,6 +22,7 @@ export type SetBooleanResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -45,6 +46,15 @@ export type SetBooleanResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -96,6 +106,7 @@ export type GetBooleanResult = {
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the boolean value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -134,6 +145,15 @@ export type GetBooleanResult = {
  * }
  * ```
  *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
+ * }
+ * ```
+ *
  * @public
  */
 export type GetBooleanResponse = ConstrainedBridgeResponse<GetBooleanResult, 200 | 400 | 500 | 501>;
@@ -153,6 +173,7 @@ export type SetIntResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -176,6 +197,15 @@ export type SetIntResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -227,6 +257,7 @@ export type GetIntResult = {
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the integer value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -265,6 +296,15 @@ export type GetIntResult = {
  * }
  * ```
  *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
+ * }
+ * ```
+ *
  * @public
  */
 export type GetIntResponse = ConstrainedBridgeResponse<GetIntResult, 200 | 400 | 500 | 501>;
@@ -284,6 +324,7 @@ export type SetStringResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -307,6 +348,15 @@ export type SetStringResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -358,6 +408,7 @@ export type GetStringResult = {
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the string value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -396,6 +447,15 @@ export type GetStringResult = {
  * }
  * ```
  *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
+ * }
+ * ```
+ *
  * @public
  */
 export type GetStringResponse = ConstrainedBridgeResponse<GetStringResult, 200 | 400 | 500 | 501>;
@@ -415,6 +475,7 @@ export type SetDoubleResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -438,6 +499,15 @@ export type SetDoubleResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -489,6 +559,7 @@ export type GetDoubleResult = {
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the double value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -527,6 +598,15 @@ export type GetDoubleResult = {
  * }
  * ```
  *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
+ * }
+ * ```
+ *
  * @public
  */
 export type GetDoubleResponse = ConstrainedBridgeResponse<GetDoubleResult, 200 | 400 | 500 | 501>;
@@ -546,6 +626,7 @@ export type RemoveResult = void;
  * This response can have the following status codes:
  * - `204`: Value removed successfully.
  * - `400`: Missing required parameters - key not provided.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -572,6 +653,15 @@ export type RemoveResult = void;
  * }
  * ```
  *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
+ * }
+ * ```
+ *
  * @public
  */
 export type RemoveResponse = ConstrainedBridgeResponse<RemoveResult, 204 | 400 | 500 | 501>;
@@ -590,6 +680,7 @@ export type RemoveAllResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `204`: All values removed successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -604,6 +695,15 @@ export type RemoveAllResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *

@@ -57,10 +57,6 @@ Close the container and return to the previous screen.
 
 Confirmation that the container is closing.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -69,19 +65,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Close the container
-try {
-  const response = await containerModule.close();
+const response = await containerModule.close();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Container closed successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Container closed successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -105,10 +97,6 @@ The native layer returns session parameters as a JSON string.
 Parse with `JSON.parse(result.result)` to use as an object.
 Session parameters can contain primitives, base64 encoded strings, or nested objects.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -117,21 +105,17 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Get session parameters
-try {
-  const response = await containerModule.getSessionParams();
+const response = await containerModule.getSessionParams();
 
-  switch (response.status_code) {
-    case 200: {
-      const sessionParams = JSON.parse(response.result?.result || '{}');
-      console.log('Session params retrieved:', sessionParams);
-      break;
-    }
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
+switch (response.status_code) {
+  case 200: {
+    const sessionParams = JSON.parse(response.result?.result || '{}');
+    console.log('Session params retrieved:', sessionParams);
+    break;
   }
-} catch (error) {
-  console.log('Unexpected error:', error);
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -149,10 +133,6 @@ Hide the back button on the container header.
 
 Confirmation that the back button is now hidden.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -161,19 +141,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Hide back button
-try {
-  const response = await containerModule.hideBackButton();
+const response = await containerModule.hideBackButton();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Back button hidden successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Back button hidden successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -195,10 +171,6 @@ Confirmation that the loader is now hidden.
 
 Should be called when the entry point has finished loading.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -207,19 +179,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Hide loader
-try {
-  const response = await containerModule.hideLoader();
+const response = await containerModule.hideLoader();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Loader hidden successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Loader hidden successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -237,10 +205,6 @@ Hide the refresh button on the container header.
 
 Confirmation that the refresh button is now hidden.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -249,19 +213,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Hide refresh button
-try {
-  const response = await containerModule.hideRefreshButton();
+const response = await containerModule.hideRefreshButton();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Refresh button hidden successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Refresh button hidden successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -283,10 +243,6 @@ The connection status, indicating whether the MiniApp is running inside the Grab
 
 Call this method to verify the connection status before using other features.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -295,21 +251,17 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Check connection status
-try {
-  const response = await containerModule.isConnected();
+const response = await containerModule.isConnected();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Connected to Grab SuperApp');
-      break;
-    case 404:
-      console.log('Not connected to Grab SuperApp');
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Connected to Grab SuperApp');
+    break;
+  case 404:
+    console.log('Not connected to Grab SuperApp');
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -327,10 +279,6 @@ Notify the Grab SuperApp that the page content has loaded.
 
 Confirmation that the content loaded notification was sent.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -339,19 +287,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Notify content loaded
-try {
-  const response = await containerModule.onContentLoaded();
+const response = await containerModule.onContentLoaded();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Content loaded notification sent successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Content loaded notification sent successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -377,10 +321,6 @@ The action identifier for the CTA that was tapped.
 
 Confirmation that the CTA tap was notified.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -389,19 +329,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Notify CTA tap
-try {
-  const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
+const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
 
-  switch (response.status_code) {
-    case 200:
-      console.log('CTA tap notified successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('CTA tap notified successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -431,10 +367,6 @@ Confirmation of whether the external link was opened successfully.
 
 Call this method to open the specified URL in an external browser (outside of the Grab app).
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -443,24 +375,20 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Open external link
-try {
-  const response = await containerModule.openExternalLink('https://grab.com');
+const response = await containerModule.openExternalLink('https://grab.com');
 
-  switch (response.status_code) {
-    case 200:
-      console.log('External link opened successfully');
-      break;
-    case 400:
-      console.log('Could not open external link:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('External link opened successfully');
+    break;
+  case 400:
+    console.log('Could not open external link:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -521,27 +449,23 @@ const {
 const containerModule = new ContainerModule();
 
 // Send analytics event
-try {
-  const response = await containerModule.sendAnalyticsEvent({
-    state: ContainerAnalyticsEventState.HOMEPAGE,
-    name: ContainerAnalyticsEventName.DEFAULT,
-  });
+const response = await containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: ContainerAnalyticsEventName.DEFAULT,
+});
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Analytics event sent successfully');
-      break;
-    case 400:
-      console.log('Invalid analytics event parameters:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Analytics event sent successfully');
+    break;
+  case 400:
+    console.log('Invalid analytics event parameters:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -567,10 +491,6 @@ The background color to set (hex format, e.g., '#ffffff').
 
 Confirmation that the background color was set.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -579,24 +499,20 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Set background color
-try {
-  const response = await containerModule.setBackgroundColor('#ffffff');
+const response = await containerModule.setBackgroundColor('#ffffff');
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Background color set successfully');
-      break;
-    case 400:
-      console.log('Could not set background color:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Background color set successfully');
+    break;
+  case 400:
+    console.log('Could not set background color:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -622,10 +538,6 @@ The title text to display in the header.
 
 Confirmation that the title was set.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -634,24 +546,20 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Set title
-try {
-  const response = await containerModule.setTitle('Home');
+const response = await containerModule.setTitle('Home');
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Title set successfully');
-      break;
-    case 400:
-      console.log('Could not set title:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Title set successfully');
+    break;
+  case 400:
+    console.log('Could not set title:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```
 
@@ -669,10 +577,6 @@ Show the back button on the container header.
 
 Confirmation that the back button is now visible.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -681,19 +585,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Show back button
-try {
-  const response = await containerModule.showBackButton();
+const response = await containerModule.showBackButton();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Back button shown successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Back button shown successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -715,10 +615,6 @@ Confirmation that the loader is now visible.
 
 Remember to call [ContainerModule.hideLoader](#hideloader) when the operation completes.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -727,19 +623,15 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Show loader
-try {
-  const response = await containerModule.showLoader();
+const response = await containerModule.showLoader();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Loader shown successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Loader shown successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
 
@@ -757,10 +649,6 @@ Show the refresh button on the container header.
 
 Confirmation that the refresh button is now visible.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -769,18 +657,14 @@ Error when the JSBridge method fails unexpectedly.
 const containerModule = new ContainerModule();
 
 // Show refresh button
-try {
-  const response = await containerModule.showRefreshButton();
+const response = await containerModule.showRefreshButton();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Refresh button shown successfully');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Refresh button shown successfully');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
 }
 ```
