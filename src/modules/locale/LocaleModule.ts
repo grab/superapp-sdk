@@ -45,8 +45,6 @@ export class LocaleModule extends BaseModule {
    *
    * @returns The user's preferred language locale string (e.g., 'en-SG', 'id-ID').
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -54,21 +52,17 @@ export class LocaleModule extends BaseModule {
    * const localeModule = new LocaleModule();
    *
    * // Get the current locale
-   * try {
-   *   const response = await localeModule.getLanguageLocaleIdentifier();
+   * const response = await localeModule.getLanguageLocaleIdentifier();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Current locale:', response.result);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Current locale:', response.result);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *

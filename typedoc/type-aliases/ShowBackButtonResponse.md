@@ -10,6 +10,7 @@ Response when showing the back button.
 
 This response can have the following status codes:
 - `200`: Back button shown successfully.
+- `500`: Internal server error - an unexpected error occurred on the native side.
 - `501`: Not implemented - this method requires the Grab app environment.
 
 ## Examples
@@ -24,5 +25,13 @@ This response can have the following status codes:
 {
   status_code: 501,
   error: 'Not implemented: This method requires the Grab app environment'
+}
+```
+
+**Internal server error response (500):**
+```typescript
+{
+  status_code: 500,
+  error: 'Internal server error'
 }
 ```

@@ -47,8 +47,6 @@ export class CheckoutModule extends BaseModule {
    *
    * @returns The checkout result, containing transaction status (success, failure, or pending) and transaction details.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -56,33 +54,29 @@ export class CheckoutModule extends BaseModule {
    * const checkoutModule = new CheckoutModule();
    *
    * // Trigger checkout with response params
-   * try {
-   *   const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
-   *   const response = await checkoutModule.triggerCheckout(transactionResponse);
+   * const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
+   * const response = await checkoutModule.triggerCheckout(transactionResponse);
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       if (response.result.status === 'success') {
-   *         console.log('Transaction successful:', response.result.transactionID);
-   *       } else if (response.result.status === 'failure') {
-   *         console.log('Transaction failed:', response.result.errorMessage, response.result.errorCode);
-   *       } else if (response.result.status === 'pending') {
-   *         console.log('Transaction pending:', response.result.transactionID);
-   *       } else if (response.result.status === 'userInitiatedCancel') {
-   *         console.log('User cancelled the checkout');
-   *       }
-   *       break;
-   *     case 400:
-   *       console.log('Transaction failed:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Could not trigger checkout:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     if (response.result.status === 'success') {
+   *       console.log('Transaction successful:', response.result.transactionID);
+   *     } else if (response.result.status === 'failure') {
+   *       console.log('Transaction failed:', response.result.errorMessage, response.result.errorCode);
+   *     } else if (response.result.status === 'pending') {
+   *       console.log('Transaction pending:', response.result.transactionID);
+   *     } else if (response.result.status === 'userInitiatedCancel') {
+   *       console.log('User cancelled the checkout');
+   *     }
+   *     break;
+   *   case 400:
+   *     console.log('Transaction failed:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *

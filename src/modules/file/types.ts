@@ -8,59 +8,49 @@
 import { ConstrainedBridgeResponse } from '../../core/response';
 
 /**
- * Result object containing the language locale identifier.
- *
- * @remarks
- * The locale identifier is the language code of the device's language settings.
- * Common values include:
- * - "en" (English)
- * - "id" (Indonesian)
- * - "zh" (Chinese)
- * - "ms" (Malay)
- * - "th" (Thai)
- * - "vi" (Vietnamese)
- * - "zg" (Burmese Zawgyi)
- * - "my" (Burmese Unicode)
- * - "km" (Khmer)
+ * Request parameters for downloading a file via native bridge.
  *
  * @example
  * ```typescript
- * 'en'
- * ```
- *
- * @example
- * ```typescript
- * 'id'
+ * {
+ *   fileUrl: 'https://example.com/report.pdf',
+ *   fileName: 'report.pdf'
+ * }
  * ```
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResult = string;
+export type DownloadFileRequest = {
+  /** The URL of the file to download. */
+  fileUrl: string;
+  /** The desired name for the downloaded file. */
+  fileName: string;
+};
 
 /**
- * Response when getting the language locale identifier from the device.
+ * Response when requesting a native file download.
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Locale identifier retrieved successfully.
+ * - `204`: File downloaded successfully.
+ * - `400`: Invalid request parameters such as invalid file URL, invalid domain, or missing file name.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
- * **Success response (200) - English locale:**
+ * **Success response (204):**
  * ```typescript
  * {
- *   status_code: 200,
- *   result: 'en'
+ *   status_code: 204
  * }
  * ```
  *
  * @example
- * **Success response (200) - Indonesian locale:**
+ * **Bad request response (400):**
  * ```typescript
  * {
- *   status_code: 200,
- *   result: 'id'
+ *   status_code: 400,
+ *   error: 'Invalid request'
  * }
  * ```
  *
@@ -84,7 +74,4 @@ export type GetLanguageLocaleIdentifierResult = string;
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = ConstrainedBridgeResponse<
-  GetLanguageLocaleIdentifierResult,
-  200 | 500 | 501
->;
+export type DownloadFileResponse = ConstrainedBridgeResponse<void, 204 | 400 | 500 | 501>;

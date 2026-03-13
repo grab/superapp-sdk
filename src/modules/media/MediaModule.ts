@@ -47,8 +47,6 @@ export class MediaModule extends BaseModule {
    *
    * @returns The playback initiation result, indicating if the DRM content started playing.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -56,26 +54,22 @@ export class MediaModule extends BaseModule {
    * const mediaModule = new MediaModule();
    *
    * // Play DRM content
-   * try {
-   *   const response = await mediaModule.playDRMContent({
-   *     // DRM content configuration
-   *   });
+   * const response = await mediaModule.playDRMContent({
+   *   // DRM content configuration
+   * });
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Playback initiated');
-   *       break;
-   *     case 204:
-   *       console.log('Invalid parameters');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Playback initiated');
+   *     break;
+   *   case 204:
+   *     console.log('Invalid parameters');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -91,8 +85,6 @@ export class MediaModule extends BaseModule {
    * @param data - Configuration for the DRM content to observe.
    *
    * @returns A stream that emits playback events as the media plays.
-   *
-   * @throws Error when the JSBridge method fails unexpectedly.
    *
    * @example
    * **Simple usage**

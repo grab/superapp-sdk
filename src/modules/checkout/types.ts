@@ -92,6 +92,7 @@ export type TriggerCheckoutResult = {
  * This response can have the following status codes:
  * - `200`: Checkout completed successfully. The `result` contains transaction details.
  * - `400`: Bad request - invalid checkout parameters.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -147,6 +148,15 @@ export type TriggerCheckoutResult = {
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *

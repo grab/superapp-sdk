@@ -59,8 +59,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns Confirmation that the boolean value was stored.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -68,24 +66,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Set a boolean value
-   * try {
-   *   const response = await storageModule.setBoolean('isDarkMode', true);
+   * const response = await storageModule.setBoolean('isDarkMode', true);
    *
-   *   switch (response.status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not store value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 204:
+   *     console.log('Value stored successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not store value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -105,8 +99,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns The stored boolean value.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -114,24 +106,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Get a boolean value
-   * try {
-   *   const response = await storageModule.getBoolean('isDarkMode');
+   * const response = await storageModule.getBoolean('isDarkMode');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Stored value:', response.result.value);
-   *       break;
-   *     case 400:
-   *       console.log('Could not retrieve value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Stored value:', response.result.value);
+   *     break;
+   *   case 400:
+   *     console.log('Could not retrieve value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -149,8 +137,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns Confirmation that the integer value was stored.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -158,24 +144,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Set an integer value
-   * try {
-   *   const response = await storageModule.setInt('userCount', 42);
+   * const response = await storageModule.setInt('userCount', 42);
    *
-   *   switch (response.status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not store value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 204:
+   *     console.log('Value stored successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not store value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -192,8 +174,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns The stored integer value.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -201,24 +181,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Get an integer value
-   * try {
-   *   const response = await storageModule.getInt('userCount');
+   * const response = await storageModule.getInt('userCount');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Stored value:', response.result.value);
-   *       break;
-   *     case 400:
-   *       console.log('Could not retrieve value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Stored value:', response.result.value);
+   *     break;
+   *   case 400:
+   *     console.log('Could not retrieve value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -236,8 +212,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns Confirmation that the string value was stored.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -245,24 +219,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Set a string value
-   * try {
-   *   const response = await storageModule.setString('username', 'john_doe');
+   * const response = await storageModule.setString('username', 'john_doe');
    *
-   *   switch (response.status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not store value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 204:
+   *     console.log('Value stored successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not store value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -282,8 +252,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns The stored string value.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -291,24 +259,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Get a string value
-   * try {
-   *   const response = await storageModule.getString('username');
+   * const response = await storageModule.getString('username');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Stored value:', response.result.value);
-   *       break;
-   *     case 400:
-   *       console.log('Could not retrieve value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Stored value:', response.result.value);
+   *     break;
+   *   case 400:
+   *     console.log('Could not retrieve value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -326,8 +290,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns Confirmation that the double value was stored.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -335,24 +297,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Set a double value
-   * try {
-   *   const response = await storageModule.setDouble('price', 19.99);
+   * const response = await storageModule.setDouble('price', 19.99);
    *
-   *   switch (response.status_code) {
-   *     case 204:
-   *       console.log('Value stored successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not store value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 204:
+   *     console.log('Value stored successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not store value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -372,8 +330,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns The stored double value.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -381,24 +337,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Get a double value
-   * try {
-   *   const response = await storageModule.getDouble('price');
+   * const response = await storageModule.getDouble('price');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Stored value:', response.result.value);
-   *       break;
-   *     case 400:
-   *       console.log('Could not retrieve value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Stored value:', response.result.value);
+   *     break;
+   *   case 400:
+   *     console.log('Could not retrieve value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -415,8 +367,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns Confirmation that the value was removed.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -424,24 +374,20 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Remove a value
-   * try {
-   *   const response = await storageModule.remove('username');
+   * const response = await storageModule.remove('username');
    *
-   *   switch (response.status_code) {
-   *     case 204:
-   *       console.log('Value removed successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not remove value:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 204:
+   *     console.log('Value removed successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not remove value:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -456,8 +402,6 @@ export class StorageModule extends BaseModule {
    *
    * @returns Confirmation that all values were removed.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -465,21 +409,17 @@ export class StorageModule extends BaseModule {
    * const storageModule = new StorageModule();
    *
    * // Remove all values
-   * try {
-   *   const response = await storageModule.removeAll();
+   * const response = await storageModule.removeAll();
    *
-   *   switch (response.status_code) {
-   *     case 204:
-   *       console.log('All values removed successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 204:
+   *     console.log('All values removed successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *

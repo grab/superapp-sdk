@@ -69,13 +69,12 @@ export class BaseModule {
    * Invokes a JSBridge method with automatic environment checking.
    *
    * @remarks
-   * This method checks if the code is running in the Grab app before invoking the JSBridge.
-   * If not running in the Grab app, it returns a 501 (Not Implemented) response.
-   * For methods that need to work outside the Grab app, use `this.wrappedModule.invoke()` directly.
+   * - Outside the Grab app, this returns a 501 (Not Implemented) response instead of throwing.
+   * - All errors are reported via the `status_code` field; this method never rejects.
    *
    * @param method - The name of the JSBridge method to invoke.
    * @param params - The parameters to pass to the method.
-   * @returns A promise resolving to the JSBridge response, or a 501 error if not in Grab app.
+   * @returns A promise resolving to the JSBridge response.
    *
    * @internal
    */
