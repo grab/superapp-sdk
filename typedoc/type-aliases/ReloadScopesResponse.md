@@ -2,7 +2,7 @@
 
 # Type Alias: ReloadScopesResponse
 
-> **ReloadScopesResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ReloadScopesResult`](ReloadScopesResult.md), `200` \| `424` \| `501`\>
+> **ReloadScopesResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ReloadScopesResult`](ReloadScopesResult.md), `200` \| `424` \| `500` \| `501`\>
 
 Response when reloading consented scopes.
 

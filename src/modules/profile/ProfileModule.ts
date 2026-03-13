@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
+import { detectGrabApp } from '../../utils/platform';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 
@@ -43,13 +43,13 @@ export class ProfileModule extends BaseModule {
   }
 
   static isSupported(): boolean {
-    const grapAppInfo = extractGrabAppInfoFromUserAgent();
-    if (!grapAppInfo) {
+    const appInfo = detectGrabApp();
+    if (!appInfo) {
       return false;
     }
 
     const minimumVersion: Version = { major: 5, minor: 399, patch: 0 };
-    return meetsMinimumVersion(grapAppInfo.version, minimumVersion);
+    return meetsMinimumVersion(appInfo.version, minimumVersion);
   }
 
   /**

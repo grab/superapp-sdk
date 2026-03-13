@@ -2,7 +2,7 @@
 
 # Type Alias: GetIntResponse
 
-> **GetIntResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetIntResult`](GetIntResult.md), `200` \| `400` \| `501`\>
+> **GetIntResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetIntResult`](GetIntResult.md), `200` \| `400` \| `500` \| `501`\>
 
 Response when getting an integer value.
 
