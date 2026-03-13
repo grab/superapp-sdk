@@ -65,10 +65,6 @@ The URL to open in the system web view.
 
 Confirmation of whether the redirect to system web view was successful.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -77,28 +73,24 @@ Error when the JSBridge method fails unexpectedly.
 const systemWebViewKitModule = new SystemWebViewKitModule();
 
 // Open a URL in system web view
-try {
-  const response = await systemWebViewKitModule.redirectToSystemWebView({
-    url: 'https://www.example.com'
-  });
+const response = await systemWebViewKitModule.redirectToSystemWebView({
+  url: 'https://www.example.com'
+});
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Redirect initiated successfully');
-      break;
-    case 400:
-      console.log('Could not redirect:', response.error);
-      break;
-    case 424:
-      console.log('Dependency error:', response.error);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (err) {
-  console.log('Unexpected error:', err);
+switch (response.status_code) {
+  case 200:
+    console.log('Redirect initiated successfully');
+    break;
+  case 400:
+    console.log('Could not redirect:', response.error);
+    break;
+  case 424:
+    console.log('Dependency error:', response.error);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```

@@ -65,10 +65,6 @@ Configuration for the DRM content to observe.
 
 A stream that emits playback events as the media plays.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -114,10 +110,6 @@ Configuration for the DRM content including license URL and content metadata.
 
 The playback initiation result, indicating if the DRM content started playing.
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -126,25 +118,21 @@ Error when the JSBridge method fails unexpectedly.
 const mediaModule = new MediaModule();
 
 // Play DRM content
-try {
-  const response = await mediaModule.playDRMContent({
-    // DRM content configuration
-  });
+const response = await mediaModule.playDRMContent({
+  // DRM content configuration
+});
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Playback initiated');
-      break;
-    case 204:
-      console.log('Invalid parameters');
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Playback initiated');
+    break;
+  case 204:
+    console.log('Invalid parameters');
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```

@@ -57,8 +57,6 @@ export class ProfileModule extends BaseModule {
    *
    * @returns The user's email address if available.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -66,26 +64,22 @@ export class ProfileModule extends BaseModule {
    * const profileModule = new ProfileModule();
    *
    * // Fetch the user's email
-   * try {
-   *   const response = await profileModule.fetchEmail();
+   * const response = await profileModule.fetchEmail();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('User email:', response.result.email);
-   *       break;
-   *     case 400:
-   *     case 403:
-   *       // Feature not available or other error
-   *       console.log('Could not fetch email:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (err) {
-   *   console.log(`Could not fetch email${err ? `: ${err}` : ''}`);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('User email:', response.result.email);
+   *     break;
+   *   case 400:
+   *   case 403:
+   *     // Feature not available or other error
+   *     console.log('Could not fetch email:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -108,8 +102,6 @@ export class ProfileModule extends BaseModule {
    *
    * @returns Confirmation of whether the email verification was successful.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -117,29 +109,25 @@ export class ProfileModule extends BaseModule {
    * const profileModule = new ProfileModule();
    *
    * // Verify email with OTP
-   * try {
-   *   const response = await profileModule.verifyEmail({
-   *     email: 'user@example.com',
-   *     otp: '123456'
-   *   });
+   * const response = await profileModule.verifyEmail({
+   *   email: 'user@example.com',
+   *   otp: '123456'
+   * });
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Email verified successfully');
-   *       break;
-   *     case 400:
-   *     case 403:
-   *       // Feature not available or other error
-   *       console.log('Could not verify email:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (err) {
-   *   console.log(`Could not verify email${err ? `: ${err}` : ''}`);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Email verified successfully');
+   *     break;
+   *   case 400:
+   *   case 403:
+   *     // Feature not available or other error
+   *     console.log('Could not verify email:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *

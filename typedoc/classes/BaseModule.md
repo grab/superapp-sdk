@@ -14,6 +14,7 @@ This code must run on the Grab SuperApp's webview to function correctly.
 - [`CameraModule`](CameraModule.md)
 - [`CheckoutModule`](CheckoutModule.md)
 - [`ContainerModule`](ContainerModule.md)
+- [`FileModule`](FileModule.md)
 - [`IdentityModule`](IdentityModule.md)
 - [`LocaleModule`](LocaleModule.md)
 - [`LocationModule`](LocationModule.md)

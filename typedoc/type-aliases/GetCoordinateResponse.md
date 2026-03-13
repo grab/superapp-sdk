@@ -11,6 +11,7 @@ Response when getting the device coordinates.
 This response can have the following status codes:
 - `200`: Coordinates retrieved successfully. The `result` contains latitude and longitude.
 - `424`: GeoKit error - location services unavailable or permission denied.
+- `500`: Internal server error - an unexpected error occurred on the native side.
 - `501`: Not implemented - this method requires the Grab app environment.
 
 ## Examples
@@ -36,5 +37,13 @@ This response can have the following status codes:
 {
   status_code: 501,
   error: 'Not implemented: This method requires the Grab app environment'
+}
+```
+
+**Internal server error response (500):**
+```typescript
+{
+  status_code: 500,
+  error: 'Internal server error'
 }
 ```

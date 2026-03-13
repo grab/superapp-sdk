@@ -1,31 +1,33 @@
-[@grabjs/superapp-sdk](../README.md) / SetTitleResponse
+[@grabjs/superapp-sdk](../README.md) / DownloadFileResponse
 
-# Type Alias: SetTitleResponse
+# Type Alias: DownloadFileResponse
 
-> **SetTitleResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetTitleResult`](SetTitleResult.md), `200` \| `400` \| `500` \| `501`\>
+> **DownloadFileResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<`void`, `204` \| `400` \| `500` \| `501`\>
 
-Response when setting the title.
+Response when requesting a native file download.
 
 ## Remarks
 
 This response can have the following status codes:
-- `200`: Title set successfully.
-- `400`: Invalid title parameter.
+- `204`: File downloaded successfully.
+- `400`: Invalid request parameters such as invalid file URL, invalid domain, or missing file name.
 - `500`: Internal server error - an unexpected error occurred on the native side.
 - `501`: Not implemented - this method requires the Grab app environment.
 
 ## Examples
 
-**Success response (200):**
+**Success response (204):**
 ```typescript
-{ status_code: 200 }
+{
+  status_code: 204
+}
 ```
 
 **Bad request response (400):**
 ```typescript
 {
   status_code: 400,
-  error: 'Invalid title parameter'
+  error: 'Invalid request'
 }
 ```
 

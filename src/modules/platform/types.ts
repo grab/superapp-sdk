@@ -21,6 +21,7 @@ export type BackResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `204`: Back navigation triggered successfully.
+ * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
@@ -35,6 +36,15 @@ export type BackResult = void;
  * {
  *   status_code: 501,
  *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *

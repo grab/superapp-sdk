@@ -57,10 +57,6 @@ Retrieves the current language locale identifier from the device.
 
 The user's preferred language locale string (e.g., 'en-SG', 'id-ID').
 
-#### Throws
-
-Error when the JSBridge method fails unexpectedly.
-
 #### Example
 
 **Simple usage**
@@ -69,20 +65,16 @@ Error when the JSBridge method fails unexpectedly.
 const localeModule = new LocaleModule();
 
 // Get the current locale
-try {
-  const response = await localeModule.getLanguageLocaleIdentifier();
+const response = await localeModule.getLanguageLocaleIdentifier();
 
-  switch (response.status_code) {
-    case 200:
-      console.log('Current locale:', response.result);
-      break;
-    case 501:
-      console.log('Not in Grab app:', response.error);
-      break;
-    default:
-      console.log('Unexpected status code:', response);
-  }
-} catch (error) {
-  console.log('Unexpected error:', error);
+switch (response.status_code) {
+  case 200:
+    console.log('Current locale:', response.result);
+    break;
+  case 501:
+    console.log('Not in Grab app:', response.error);
+    break;
+  default:
+    console.log('Unexpected status code:', response);
 }
 ```

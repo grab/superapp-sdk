@@ -69,8 +69,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the background color was set.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -78,24 +76,20 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Set background color
-   * try {
-   *   const response = await containerModule.setBackgroundColor('#ffffff');
+   * const response = await containerModule.setBackgroundColor('#ffffff');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Background color set successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not set background color:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Background color set successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not set background color:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -116,8 +110,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the title was set.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -125,24 +117,20 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Set title
-   * try {
-   *   const response = await containerModule.setTitle('Home');
+   * const response = await containerModule.setTitle('Home');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Title set successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not set title:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Title set successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not set title:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -157,8 +145,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the back button is now hidden.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -166,19 +152,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Hide back button
-   * try {
-   *   const response = await containerModule.hideBackButton();
+   * const response = await containerModule.hideBackButton();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Back button hidden successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Back button hidden successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -193,8 +175,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the back button is now visible.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -202,19 +182,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Show back button
-   * try {
-   *   const response = await containerModule.showBackButton();
+   * const response = await containerModule.showBackButton();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Back button shown successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Back button shown successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -229,8 +205,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the refresh button is now hidden.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -238,19 +212,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Hide refresh button
-   * try {
-   *   const response = await containerModule.hideRefreshButton();
+   * const response = await containerModule.hideRefreshButton();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Refresh button hidden successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Refresh button hidden successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -265,8 +235,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the refresh button is now visible.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -274,19 +242,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Show refresh button
-   * try {
-   *   const response = await containerModule.showRefreshButton();
+   * const response = await containerModule.showRefreshButton();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Refresh button shown successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Refresh button shown successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -301,8 +265,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the container is closing.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -310,19 +272,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Close the container
-   * try {
-   *   const response = await containerModule.close();
+   * const response = await containerModule.close();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Container closed successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Container closed successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -337,8 +295,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the content loaded notification was sent.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -346,19 +302,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Notify content loaded
-   * try {
-   *   const response = await containerModule.onContentLoaded();
+   * const response = await containerModule.onContentLoaded();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Content loaded notification sent successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Content loaded notification sent successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -376,8 +328,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the loader is now visible.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -385,19 +335,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Show loader
-   * try {
-   *   const response = await containerModule.showLoader();
+   * const response = await containerModule.showLoader();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Loader shown successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Loader shown successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -415,8 +361,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the loader is now hidden.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -424,19 +368,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Hide loader
-   * try {
-   *   const response = await containerModule.hideLoader();
+   * const response = await containerModule.hideLoader();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Loader hidden successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Loader hidden successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -456,8 +396,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation of whether the external link was opened successfully.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -465,24 +403,20 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Open external link
-   * try {
-   *   const response = await containerModule.openExternalLink('https://grab.com');
+   * const response = await containerModule.openExternalLink('https://grab.com');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('External link opened successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Could not open external link:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('External link opened successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Could not open external link:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -501,8 +435,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation that the CTA tap was notified.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -510,19 +442,15 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Notify CTA tap
-   * try {
-   *   const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
+   * const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('CTA tap notified successfully');
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('CTA tap notified successfully');
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
@@ -568,27 +496,23 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Send analytics event
-   * try {
-   *   const response = await containerModule.sendAnalyticsEvent({
-   *     state: ContainerAnalyticsEventState.HOMEPAGE,
-   *     name: ContainerAnalyticsEventName.DEFAULT,
-   *   });
+   * const response = await containerModule.sendAnalyticsEvent({
+   *   state: ContainerAnalyticsEventState.HOMEPAGE,
+   *   name: ContainerAnalyticsEventName.DEFAULT,
+   * });
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Analytics event sent successfully');
-   *       break;
-   *     case 400:
-   *       console.log('Invalid analytics event parameters:', response.error);
-   *       break;
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Analytics event sent successfully');
+   *     break;
+   *   case 400:
+   *     console.log('Invalid analytics event parameters:', response.error);
+   *     break;
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -616,8 +540,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns The connection status, indicating whether the MiniApp is running inside the Grab SuperApp.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -625,21 +547,17 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Check connection status
-   * try {
-   *   const response = await containerModule.isConnected();
+   * const response = await containerModule.isConnected();
    *
-   *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Connected to Grab SuperApp');
-   *       break;
-   *     case 404:
-   *       console.log('Not connected to Grab SuperApp');
-   *       break;
-   *     default:
-   *       console.log('Unexpected status code:', response);
-   *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   * switch (response.status_code) {
+   *   case 200:
+   *     console.log('Connected to Grab SuperApp');
+   *     break;
+   *   case 404:
+   *     console.log('Not connected to Grab SuperApp');
+   *     break;
+   *   default:
+   *     console.log('Unexpected status code:', response);
    * }
    * ```
    *
@@ -662,8 +580,6 @@ export class ContainerModule extends BaseModule {
    *
    * @returns The session parameters as a JSON string that can be parsed into an object.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @example
    * **Simple usage**
    * ```typescript
@@ -671,21 +587,17 @@ export class ContainerModule extends BaseModule {
    * const containerModule = new ContainerModule();
    *
    * // Get session parameters
-   * try {
-   *   const response = await containerModule.getSessionParams();
+   * const response = await containerModule.getSessionParams();
    *
-   *   switch (response.status_code) {
-   *     case 200: {
-   *       const sessionParams = JSON.parse(response.result?.result || '{}');
-   *       console.log('Session params retrieved:', sessionParams);
-   *       break;
-   *     }
-   *     case 501:
-   *       console.log('Not in Grab app:', response.error);
-   *       break;
+   * switch (response.status_code) {
+   *   case 200: {
+   *     const sessionParams = JSON.parse(response.result?.result || '{}');
+   *     console.log('Session params retrieved:', sessionParams);
+   *     break;
    *   }
-   * } catch (error) {
-   *   console.log('Unexpected error:', error);
+   *   case 501:
+   *     console.log('Not in Grab app:', response.error);
+   *     break;
    * }
    * ```
    *
