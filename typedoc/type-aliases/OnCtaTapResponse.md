@@ -2,7 +2,7 @@
 
 # Type Alias: OnCtaTapResponse
 
-> **OnCtaTapResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`OnCtaTapResult`](OnCtaTapResult.md), `200` \| `501`\>
+> **OnCtaTapResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`OnCtaTapResult`](OnCtaTapResult.md), `200` \| `500` \| `501`\>
 
 Response when notifying CTA tap.
 
