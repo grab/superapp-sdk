@@ -8,8 +8,8 @@
 import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
 
 import { WrappedModule } from '../../types/global';
-import { getErrorMessage } from '../../utils/error';
-import { isRunningInGrabApp } from '../../utils/user-agent';
+import { isErrorWithMessage } from '../../utils/error';
+import { isRunningInGrabApp } from '../../utils/platform';
 import { BridgeResponse } from '../response/types';
 import { DataStream } from '../stream';
 
@@ -56,9 +56,12 @@ export class BaseModule {
     try {
       wrapModule(window, this.name);
     } catch (error) {
-      throw new Error(`Failed to initialize ${this.name}: ${getErrorMessage(error)}`, {
-        cause: error,
-      });
+      throw new Error(
+        `Failed to initialize ${this.name}${isErrorWithMessage(error) && `: ${error.message}`}`,
+        {
+          cause: error,
+        }
+      );
     }
   }
 
