@@ -2,7 +2,7 @@
 
 # Type Alias: PlayDRMContentResponse
 
-> **PlayDRMContentResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`PlayDRMContentResult`](PlayDRMContentResult.md), `200` \| `204` \| `501`\>
+> **PlayDRMContentResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`PlayDRMContentResult`](PlayDRMContentResult.md), `200` \| `204` \| `500` \| `501`\>
 
 Response when initiating DRM content playback.
 

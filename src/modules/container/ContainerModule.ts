@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core/module';
-import { isRunningInGrabApp } from '../../utils/user-agent';
+import { isRunningInGrabApp } from '../../utils/platform';
 import {
   CloseResponse,
   GetSessionParamsResponse,

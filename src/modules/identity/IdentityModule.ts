@@ -11,8 +11,8 @@ import {
   generateCodeVerifier,
   generateRandomString,
 } from '../../utils/crypto';
-import { errorHasMessage, getErrorMessage } from '../../utils/error';
-import { extractGrabAppInfoFromUserAgent } from '../../utils/user-agent';
+import { isErrorWithMessage } from '../../utils/error';
+import { detectGrabApp } from '../../utils/platform';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import {
   CODE_CHALLENGE_METHOD,
@@ -22,6 +22,7 @@ import {
   OPENID_CONFIG_ENDPOINTS,
   STATE_LENGTH,
 } from './constants';
+import { AuthorizationConfigurationError } from './errors';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
@@ -83,23 +84,20 @@ export class IdentityModule extends BaseModule {
         console.error(
           `Failed to fetch OpenID configuration from ${configUrl}: ${response.status} ${response.statusText}`
         );
-        throw new Error('Failed to fetch authorization configuration');
+        throw new AuthorizationConfigurationError('Failed to fetch authorization configuration');
       }
 
       const config = (await response.json()) as { authorization_endpoint: string };
       if (!config.authorization_endpoint) {
         console.error('authorization_endpoint not found in OpenID configuration response');
-        throw new Error('Invalid authorization configuration');
+        throw new AuthorizationConfigurationError('Invalid authorization configuration');
       }
 
       return config.authorization_endpoint;
     } catch (error) {
       console.error('Error fetching authorization endpoint:', error);
 
-      if (
-        errorHasMessage(error, 'Failed to fetch authorization configuration') ||
-        errorHasMessage(error, 'Invalid authorization configuration')
-      ) {
+      if (error instanceof AuthorizationConfigurationError) {
         throw error;
       }
 
@@ -348,7 +346,7 @@ export class IdentityModule extends BaseModule {
    * @internal
    */
   private static shouldUseWebConsent(request: AuthorizeRequest): boolean {
-    const grabAppInfo = extractGrabAppInfoFromUserAgent();
+    const grabAppInfo = detectGrabApp();
     if (!grabAppInfo) {
       return true;
     }
@@ -394,7 +392,7 @@ export class IdentityModule extends BaseModule {
     } catch (error) {
       return {
         status_code: 400,
-        error: getErrorMessage(error),
+        error: isErrorWithMessage(error) ? error.message : 'Could not fetch authorization endpoint',
       };
     }
 

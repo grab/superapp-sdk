@@ -5,4 +5,4 @@
  * directory of this source tree.
  */
 
-export { errorHasMessage, getErrorMessage } from './error';
+export { isErrorWithMessage } from './error';

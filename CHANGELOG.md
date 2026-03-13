@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.18] - 2026-03-13
+
+### Added
+
+- `AuthorizationConfigurationError` class for identity authorization failures
+- `detectGrabApp()` utility for automatic Grab app detection from user agent
+- `isRunningInGrabApp()` utility to check if code runs inside Grab app webview
+- Unit test suites for `platform`, `error`, and `version` utilities
+
+### Changed
+
+- Refactored error utilities: replaced `getErrorMessage()` and `errorHasMessage()` with `isErrorWithMessage()` type guard
+- Platform utilities now auto-detect user agent from `window.navigator`
+- `IdentityModule` uses `AuthorizationConfigurationError` for configuration failures
+
+### Removed
+
+- `user-agent` utility directory (replaced by platform utilities)
+- `getErrorMessage()` and `errorHasMessage()` functions (use `isErrorWithMessage()` instead)
+
 ## [2.0.0-beta.17] - 2026-03-12
 
 ### Added

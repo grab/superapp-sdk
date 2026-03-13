@@ -6,31 +6,30 @@
  */
 
 /**
- * Safely extracts an error message from an unknown error value.
- * Handles cases where error might not be an Error instance.
+ * Type guard to check if an error has a message property.
+ * Use this to safely narrow `unknown` errors in catch blocks.
  *
  * @param error - The error value (typically from a catch block)
- * @returns The error message string
+ * @returns True if the error has a string message property
+ *
+ * @example
+ * ```typescript
+ * try {
+ *   await riskyOperation();
+ * } catch (error) {
+ *   if (isErrorWithMessage(error)) {
+ *     console.error(error.message); // TypeScript knows error has message
+ *   }
+ * }
+ * ```
  *
  * @internal
  */
-export function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return String(error);
-}
-
-/**
- * Checks if an unknown error has a specific message.
- * Useful for error message comparisons in catch blocks.
- *
- * @param error - The error value (typically from a catch block)
- * @param message - The message to compare against
- * @returns True if the error is an Error with the specified message
- *
- * @internal
- */
-export function errorHasMessage(error: unknown, message: string): boolean {
-  return error instanceof Error && error.message === message;
+export function isErrorWithMessage(error: unknown): error is { message: string } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string'
+  );
 }
