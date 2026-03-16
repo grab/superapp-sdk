@@ -92,6 +92,11 @@ export type {
   ShowRefreshButtonResponse,
   ShowRefreshButtonResult,
 } from './modules/container/types';
+export { DeviceCapabilityModule } from './modules/device-capability/DeviceCapabilityModule';
+export type {
+  IsEsimSupportedResponse,
+  IsEsimSupportedResult,
+} from './modules/device-capability/types';
 export { FileModule } from './modules/file/FileModule';
 export type {
   DownloadFileRequest,
@@ -179,5 +184,10 @@ export type {
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewResult,
 } from './modules/system-web-view-kit/types';
+export type {
+  GetSelectedTravelDestinationResponse,
+  GetSelectedTravelDestinationResult,
+} from './modules/user-attributes/types';
+export { UserAttributesModule } from './modules/user-attributes/UserAttributesModule';
 export type { GrabAppInfo, Platform } from './utils/platform';
 export type { Version } from './utils/version';
