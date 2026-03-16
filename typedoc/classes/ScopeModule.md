@@ -141,7 +141,7 @@ A promise resolving to the JSBridge response.
 
 ### invokeStream()
 
-> **invokeStream**\<`T`\>(`options`: `Omit`\<[`InvokeOptions`](../interfaces/InvokeOptions.md)\<`T`\>, `"transformResponse"`\>): [`BridgeStream`](../type-aliases/BridgeStream.md)\<keyof [`StatusCodeMap`](../type-aliases/StatusCodeMap.md)\<`unknown`\>, `T`\>
+> **invokeStream**\<`T`\>(`options`: [`InvokeOptions`](../interfaces/InvokeOptions.md)\<`T`\>): [`BridgeStream`](../type-aliases/BridgeStream.md)\<keyof [`StatusCodeMap`](../type-aliases/StatusCodeMap.md)\<`unknown`\>, `T`\>
 
 Invokes a JSBridge streaming method that returns a `BridgeStream`.
 
@@ -155,7 +155,7 @@ Invokes a JSBridge streaming method that returns a `BridgeStream`.
 
 ##### options
 
-`Omit`\<[`InvokeOptions`](../interfaces/InvokeOptions.md)\<`T`\>, `"transformResponse"`\>
+[`InvokeOptions`](../interfaces/InvokeOptions.md)\<`T`\>
 
 The invoke options including method name, params, and validation.
 
