@@ -2,7 +2,7 @@
 
 # Type Alias: HasAccessToResponse
 
-> **HasAccessToResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`HasAccessToResult`](HasAccessToResult.md), `200` \| `400` \| `424` \| `500` \| `501`\>
+> **HasAccessToResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `400` \| `424` \| `500` \| `501`, [`HasAccessToResult`](HasAccessToResult.md)\>
 
 Response when checking API access permissions.
 

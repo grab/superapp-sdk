@@ -2,7 +2,7 @@
 
 # Type Alias: RemoveAllResponse
 
-> **RemoveAllResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`RemoveAllResult`](RemoveAllResult.md), `204` \| `500` \| `501`\>
+> **RemoveAllResponse** = [`BridgeResponse`](BridgeResponse.md)\<`204` \| `500` \| `501`, [`RemoveAllResult`](RemoveAllResult.md)\>
 
 Response when removing all values.
 

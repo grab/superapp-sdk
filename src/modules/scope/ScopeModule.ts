@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { HasAccessToResponse, ReloadScopesResponse } from './types';
 
 /**
@@ -76,7 +76,10 @@ export class ScopeModule extends BaseModule {
    * @public
    */
   async hasAccessTo(module: string, method: string): Promise<HasAccessToResponse> {
-    return (await this.invoke('hasAccessTo', { module, method })) as HasAccessToResponse;
+    return (await this.invoke({
+      method: 'hasAccessTo',
+      params: { module, method },
+    })) as HasAccessToResponse;
   }
 
   /**
@@ -112,6 +115,6 @@ export class ScopeModule extends BaseModule {
    * @public
    */
   async reloadScopes(): Promise<ReloadScopesResponse> {
-    return (await this.invoke('reloadScopes')) as ReloadScopesResponse;
+    return (await this.invoke({ method: 'reloadScopes' })) as ReloadScopesResponse;
   }
 }

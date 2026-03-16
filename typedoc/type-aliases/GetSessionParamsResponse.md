@@ -2,7 +2,7 @@
 
 # Type Alias: GetSessionParamsResponse
 
-> **GetSessionParamsResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetSessionParamsResult`](GetSessionParamsResult.md), `200` \| `500` \| `501`\>
+> **GetSessionParamsResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `500` \| `501`, [`GetSessionParamsResult`](GetSessionParamsResult.md)\>
 
 Response when getting session parameters.
 

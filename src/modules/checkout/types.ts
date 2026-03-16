@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response';
+import { BridgeResponse } from '../../core';
 
 /**
  * Request parameters for triggering the checkout flow.
@@ -77,8 +77,8 @@ export type TriggerCheckoutRequest = Record<string, unknown>;
 export type TriggerCheckoutResult = {
   /** Unique identifier for the transaction at Grab side. */
   transactionID: string;
-  /** Status of the transaction: "success", "failure", "pending", or "userInitiatedCancel". */
-  status: string;
+  /** Status of the transaction. */
+  status: 'success' | 'failure' | 'pending' | 'userInitiatedCancel';
   /** Error message if the transaction failed. */
   errorMessage?: string;
   /** Error code associated with the failed transaction. */
@@ -162,7 +162,4 @@ export type TriggerCheckoutResult = {
  *
  * @public
  */
-export type TriggerCheckoutResponse = ConstrainedBridgeResponse<
-  TriggerCheckoutResult,
-  200 | 400 | 500 | 501
->;
+export type TriggerCheckoutResponse = BridgeResponse<200 | 400 | 500 | 501, TriggerCheckoutResult>;

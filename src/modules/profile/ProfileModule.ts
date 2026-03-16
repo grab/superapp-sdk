@@ -5,8 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
-import { detectGrabApp } from '../../utils/platform';
+import { BaseModule } from '../../core';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 
@@ -42,15 +41,7 @@ export class ProfileModule extends BaseModule {
     super('ProfileModule');
   }
 
-  static isSupported(): boolean {
-    const appInfo = detectGrabApp();
-    if (!appInfo) {
-      return false;
-    }
-
-    const minimumVersion: Version = { major: 5, minor: 399, patch: 0 };
-    return meetsMinimumVersion(appInfo.version, minimumVersion);
-  }
+  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 399, patch: 0 };
 
   /**
    * Fetches the user's email address from their Grab profile.
@@ -86,13 +77,10 @@ export class ProfileModule extends BaseModule {
    * @public
    */
   async fetchEmail(): Promise<FetchEmailResponse> {
-    if (!ProfileModule.isSupported()) {
-      return {
-        status_code: 403,
-        error: 'This feature requires Grab app version 5.399 or above.',
-      };
-    }
-    return (await this.invoke('fetchEmail')) as FetchEmailResponse;
+    return (await this.invoke({
+      method: 'fetchEmail',
+      isSupported: (appInfo) => meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION),
+    })) as FetchEmailResponse;
   }
 
   /**
@@ -134,12 +122,10 @@ export class ProfileModule extends BaseModule {
    * @public
    */
   async verifyEmail(request: VerifyEmailRequest): Promise<VerifyEmailResponse> {
-    if (!ProfileModule.isSupported()) {
-      return {
-        status_code: 403,
-        error: 'This feature requires Grab app version 5.399 or above.',
-      };
-    }
-    return (await this.invoke('verifyEmail', request)) as VerifyEmailResponse;
+    return (await this.invoke({
+      method: 'verifyEmail',
+      params: request,
+      isSupported: (appInfo) => meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION),
+    })) as VerifyEmailResponse;
   }
 }

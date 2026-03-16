@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
 /**
@@ -76,7 +76,10 @@ export class MediaModule extends BaseModule {
    * @public
    */
   async playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse> {
-    return (await this.invoke('playDRMContent', { data })) as PlayDRMContentResponse;
+    return (await this.invoke({
+      method: 'playDRMContent',
+      params: { data },
+    })) as PlayDRMContentResponse;
   }
 
   /**
@@ -111,8 +114,9 @@ export class MediaModule extends BaseModule {
    * @public
    */
   observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse {
-    return this.wrappedModule.invoke('observePlayDRMContent', {
-      data,
+    return this.invokeStream({
+      method: 'observePlayDRMContent',
+      params: { data },
     }) as ObserveDRMPlaybackResponse;
   }
 }

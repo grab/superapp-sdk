@@ -2,7 +2,7 @@
 
 # Type Alias: SetIntResponse
 
-> **SetIntResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetIntResult`](SetIntResult.md), `204` \| `400` \| `500` \| `501`\>
+> **SetIntResponse** = [`BridgeResponse`](BridgeResponse.md)\<`204` \| `400` \| `500` \| `501`, [`SetIntResult`](SetIntResult.md)\>
 
 Response when setting an integer value.
 

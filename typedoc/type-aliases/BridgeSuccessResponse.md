@@ -2,7 +2,7 @@
 
 # Type Alias: BridgeSuccessResponse\<T\>
 
-> **BridgeSuccessResponse**\<`T`\> = [`BridgeStatusCode200Response`](BridgeStatusCode200Response.md)\<`T`\> \| [`BridgeStatusCode204Response`](BridgeStatusCode204Response.md)
+> **BridgeSuccessResponse**\<`T`\> = [`ResponseStatusCode200`](ResponseStatusCode200.md)\<`T`\> \| [`ResponseStatusCode204`](ResponseStatusCode204.md)
 
 Union type representing all successful JSBridge responses.
 Includes status codes 200 (with result data) and 204 (no content).

@@ -2,7 +2,7 @@
 
 # Type Alias: GetLanguageLocaleIdentifierResponse
 
-> **GetLanguageLocaleIdentifierResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetLanguageLocaleIdentifierResult`](GetLanguageLocaleIdentifierResult.md), `200` \| `500` \| `501`\>
+> **GetLanguageLocaleIdentifierResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `500` \| `501`, [`GetLanguageLocaleIdentifierResult`](GetLanguageLocaleIdentifierResult.md)\>
 
 Response when getting the language locale identifier from the device.
 

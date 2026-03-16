@@ -2,7 +2,7 @@
 
 # Type Alias: FetchEmailResponse
 
-> **FetchEmailResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`FetchEmailResult`](FetchEmailResult.md), `200` \| `400` \| `403` \| `500` \| `501`\>
+> **FetchEmailResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `400` \| `426` \| `500` \| `501`, [`FetchEmailResult`](FetchEmailResult.md)\>
 
 Response when fetching the user's email.
 
@@ -11,7 +11,7 @@ Response when fetching the user's email.
 This response can have the following status codes:
 - `200`: Email fetched successfully. The `result` contains the email address.
 - `400`: Invalid request - the request was malformed.
-- `403`: Forbidden - feature requires Grab app version 5.399 or above.
+- `426`: Upgrade Required - feature requires Grab app version 5.399 or above.
 - `500`: Internal server error - an unexpected error occurred on the native side.
 - `501`: Not implemented - this method requires the Grab app environment.
 
@@ -33,11 +33,11 @@ This response can have the following status codes:
 }
 ```
 
-**Forbidden response (403):**
+**Upgrade Required response (426):**
 ```typescript
 {
-  status_code: 403,
-  error: 'This feature requires Grab app version 5.399 or above.'
+  status_code: 426,
+  error: 'Upgrade Required: This method requires Grab app version 5.399.0 or above on iOS'
 }
 ```
 

@@ -8,7 +8,7 @@
 /**
  * Represents a semantic version with major, minor, and patch components.
  *
- * @internal
+ * @public
  */
 export interface Version {
   major: number;

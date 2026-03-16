@@ -5,8 +5,7 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response';
-import { DataStream } from '../../core/stream';
+import { BridgeResponse, BridgeStream } from '../../core';
 
 /**
  * Result object containing the geographic coordinates.
@@ -73,17 +72,24 @@ export type GetCoordinateResult = {
  *
  * @public
  */
-export type GetCoordinateResponse = ConstrainedBridgeResponse<
-  GetCoordinateResult,
-  200 | 424 | 500 | 501
->;
+export type GetCoordinateResponse = BridgeResponse<200 | 424 | 500 | 501, GetCoordinateResult>;
 
 /**
  * Response when observing the device coordinates.
  *
+ * @remarks
+ * This is a `BridgeStream` that can be:
+ * - Subscribed to via `.subscribe()` for continuous updates
+ * - Awaited via `await` to get the first value only
+ *
+ * The stream can emit the same status codes as {@link GetCoordinateResponse}.
+ *
  * @public
  */
-export type ObserveLocationChangeResponse = DataStream<GetCoordinateResult>;
+export type ObserveLocationChangeResponse = BridgeStream<
+  200 | 424 | 500 | 501,
+  GetCoordinateResult
+>;
 
 /**
  * Result object containing the country code.
@@ -162,7 +168,4 @@ export type GetCountryCodeResult = {
  *
  * @public
  */
-export type GetCountryCodeResponse = ConstrainedBridgeResponse<
-  GetCountryCodeResult,
-  200 | 424 | 500 | 501
->;
+export type GetCountryCodeResponse = BridgeResponse<200 | 424 | 500 | 501, GetCountryCodeResult>;

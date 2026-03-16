@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
 /**
@@ -83,6 +83,9 @@ export class CheckoutModule extends BaseModule {
    * @public
    */
   async triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse> {
-    return (await this.invoke('triggerCheckout', request)) as TriggerCheckoutResponse;
+    return (await this.invoke({
+      method: 'triggerCheckout',
+      params: request,
+    })) as TriggerCheckoutResponse;
   }
 }

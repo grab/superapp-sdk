@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import {
   GetBooleanResponse,
   GetDoubleResponse,
@@ -86,9 +86,9 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async setBoolean(key: string, value: boolean): Promise<SetBooleanResponse> {
-    return (await this.invoke('setBoolean', {
-      key,
-      value,
+    return (await this.invoke({
+      method: 'setBoolean',
+      params: { key, value },
     })) as SetBooleanResponse;
   }
 
@@ -126,7 +126,10 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async getBoolean(key: string): Promise<GetBooleanResponse> {
-    return (await this.invoke('getBoolean', { key })) as GetBooleanResponse;
+    return (await this.invoke({
+      method: 'getBoolean',
+      params: { key },
+    })) as GetBooleanResponse;
   }
 
   /**
@@ -164,7 +167,10 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async setInt(key: string, value: number): Promise<SetIntResponse> {
-    return (await this.invoke('setInt', { key, value })) as SetIntResponse;
+    return (await this.invoke({
+      method: 'setInt',
+      params: { key, value },
+    })) as SetIntResponse;
   }
 
   /**
@@ -201,7 +207,10 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async getInt(key: string): Promise<GetIntResponse> {
-    return (await this.invoke('getInt', { key })) as GetIntResponse;
+    return (await this.invoke({
+      method: 'getInt',
+      params: { key },
+    })) as GetIntResponse;
   }
 
   /**
@@ -239,9 +248,9 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async setString(key: string, value: string): Promise<SetStringResponse> {
-    return (await this.invoke('setString', {
-      key,
-      value,
+    return (await this.invoke({
+      method: 'setString',
+      params: { key, value },
     })) as SetStringResponse;
   }
 
@@ -279,7 +288,10 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async getString(key: string): Promise<GetStringResponse> {
-    return (await this.invoke('getString', { key })) as GetStringResponse;
+    return (await this.invoke({
+      method: 'getString',
+      params: { key },
+    })) as GetStringResponse;
   }
 
   /**
@@ -317,9 +329,9 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async setDouble(key: string, value: number): Promise<SetDoubleResponse> {
-    return (await this.invoke('setDouble', {
-      key,
-      value,
+    return (await this.invoke({
+      method: 'setDouble',
+      params: { key, value },
     })) as SetDoubleResponse;
   }
 
@@ -357,7 +369,10 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async getDouble(key: string): Promise<GetDoubleResponse> {
-    return (await this.invoke('getDouble', { key })) as GetDoubleResponse;
+    return (await this.invoke({
+      method: 'getDouble',
+      params: { key },
+    })) as GetDoubleResponse;
   }
 
   /**
@@ -394,7 +409,10 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async remove(key: string): Promise<RemoveResponse> {
-    return (await this.invoke('remove', { key })) as RemoveResponse;
+    return (await this.invoke({
+      method: 'remove',
+      params: { key },
+    })) as RemoveResponse;
   }
 
   /**
@@ -426,6 +444,6 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async removeAll(): Promise<RemoveAllResponse> {
-    return (await this.invoke('removeAll')) as RemoveAllResponse;
+    return (await this.invoke({ method: 'removeAll' })) as RemoveAllResponse;
   }
 }

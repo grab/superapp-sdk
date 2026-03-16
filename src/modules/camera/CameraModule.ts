@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
@@ -78,6 +78,9 @@ export class CameraModule extends BaseModule {
    * @public
    */
   async scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse> {
-    return (await this.invoke('scanQRCode', request)) as ScanQRCodeResponse;
+    return (await this.invoke({
+      method: 'scanQRCode',
+      params: request,
+    })) as ScanQRCodeResponse;
   }
 }

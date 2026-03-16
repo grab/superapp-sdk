@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response';
+import { BridgeResponse } from '../../core';
 
 /**
  * Result object containing the language locale identifier.
@@ -84,7 +84,7 @@ export type GetLanguageLocaleIdentifierResult = string;
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = ConstrainedBridgeResponse<
-  GetLanguageLocaleIdentifierResult,
-  200 | 500 | 501
+export type GetLanguageLocaleIdentifierResponse = BridgeResponse<
+  200 | 500 | 501,
+  GetLanguageLocaleIdentifierResult
 >;
