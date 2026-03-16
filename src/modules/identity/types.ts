@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response';
+import { BridgeResponse } from '../../core';
 
 /**
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
@@ -85,6 +85,10 @@ export type AuthorizeResult = {
  * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
  * - `204`: No content - user cancelled or flow completed without result data.
  * - `400`: Bad request - missing required OAuth parameters or invalid configuration.
+ * - `401`: Unauthorized - user not authenticated or session expired.
+ * - `403`: Forbidden - client not authorized for the requested scope.
+ * - `500`: Internal server error - unexpected error during native authorization.
+ * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
  * **Success response (200) - native in_place flow:**
@@ -119,11 +123,20 @@ export type AuthorizeResult = {
  * }
  * ```
  *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
  * @public
  */
-export type AuthorizeResponse = ConstrainedBridgeResponse<
-  AuthorizeResult,
-  200 | 302 | 204 | 400 | 401 | 403
+export type AuthorizeResponse = BridgeResponse<
+  200 | 302 | 204 | 400 | 401 | 403 | 500 | 501,
+  AuthorizeResult
 >;
 
 /**
@@ -200,9 +213,9 @@ export type GetAuthorizationArtifactsResult = {
  *
  * @public
  */
-export type GetAuthorizationArtifactsResponse = ConstrainedBridgeResponse<
-  GetAuthorizationArtifactsResult,
-  200 | 204 | 400
+export type GetAuthorizationArtifactsResponse = BridgeResponse<
+  200 | 204 | 400,
+  GetAuthorizationArtifactsResult
 >;
 
 /**
@@ -227,7 +240,7 @@ export type ClearAuthorizationArtifactsResult = void;
  *
  * @public
  */
-export type ClearAuthorizationArtifactsResponse = ConstrainedBridgeResponse<
-  ClearAuthorizationArtifactsResult,
-  204
+export type ClearAuthorizationArtifactsResponse = BridgeResponse<
+  204,
+  ClearAuthorizationArtifactsResult
 >;

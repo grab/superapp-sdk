@@ -1,8 +1,8 @@
-[@grabjs/superapp-sdk](../README.md) / BridgeStatusCode302Response
+[@grabjs/superapp-sdk](../README.md) / ResponseStatusCode302
 
-# Type Alias: BridgeStatusCode302Response
+# Type Alias: ResponseStatusCode302
 
-> **BridgeStatusCode302Response** = \{ `status_code`: `302`; \}
+> **ResponseStatusCode302** = \{ `status_code`: `302`; \}
 
 Redirect response with status code 302.
 

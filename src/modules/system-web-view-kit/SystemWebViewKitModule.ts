@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
@@ -81,9 +81,9 @@ export class SystemWebViewKitModule extends BaseModule {
   async redirectToSystemWebView(
     request: RedirectToSystemWebViewRequest
   ): Promise<RedirectToSystemWebViewResponse> {
-    return (await this.invoke(
-      'redirectToSystemWebView',
-      request
-    )) as RedirectToSystemWebViewResponse;
+    return (await this.invoke({
+      method: 'redirectToSystemWebView',
+      params: request,
+    })) as RedirectToSystemWebViewResponse;
   }
 }

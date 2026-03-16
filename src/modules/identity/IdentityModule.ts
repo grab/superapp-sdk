@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import {
   generateCodeChallenge,
   generateCodeVerifier,
@@ -425,15 +425,18 @@ export class IdentityModule extends BaseModule {
     codeChallengeMethod: string;
     responseMode: 'redirect' | 'in_place';
   }): Promise<AuthorizeResponse> {
-    return (await this.wrappedModule.invoke('authorize', {
-      clientId: invokeParams.clientId,
-      redirectUri: invokeParams.actualRedirectUri,
-      scope: invokeParams.scope,
-      nonce: invokeParams.nonce,
-      state: invokeParams.state,
-      codeChallenge: invokeParams.codeChallenge,
-      codeChallengeMethod: invokeParams.codeChallengeMethod,
-      responseMode: invokeParams.responseMode,
+    return (await this.invoke({
+      method: 'authorize',
+      params: {
+        clientId: invokeParams.clientId,
+        redirectUri: invokeParams.actualRedirectUri,
+        scope: invokeParams.scope,
+        nonce: invokeParams.nonce,
+        state: invokeParams.state,
+        codeChallenge: invokeParams.codeChallenge,
+        codeChallengeMethod: invokeParams.codeChallengeMethod,
+        responseMode: invokeParams.responseMode,
+      },
     })) as AuthorizeResponse;
   }
 
@@ -550,17 +553,20 @@ export class IdentityModule extends BaseModule {
     // Always try native consent first, fallback to web consent if unavailable
     // Note: Native respects responseMode; web always redirects
     try {
-      const nativeResult = await this.performNativeAuthorization({
+      const nativeResult: AuthorizeResponse = await this.performNativeAuthorization({
         ...invokeParams,
         actualRedirectUri,
         responseMode,
       });
 
-      // Check if native authorization returned error - only fallback to web for specific status codes
+      // Check if native authorization returned error - fallback to web for specific status codes
+      // including server errors (500) and not implemented (501) when native is unavailable
       if (
         nativeResult.status_code === 400 ||
         nativeResult.status_code === 401 ||
-        nativeResult.status_code === 403
+        nativeResult.status_code === 403 ||
+        nativeResult.status_code === 500 ||
+        nativeResult.status_code === 501
       ) {
         console.error(
           `Native authorization returned ${nativeResult.status_code}, falling back to web flow:`,

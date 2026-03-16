@@ -2,7 +2,7 @@
 
 # Type Alias: GetAuthorizationArtifactsResponse
 
-> **GetAuthorizationArtifactsResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetAuthorizationArtifactsResult`](GetAuthorizationArtifactsResult.md), `200` \| `204` \| `400`\>
+> **GetAuthorizationArtifactsResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `204` \| `400`, [`GetAuthorizationArtifactsResult`](GetAuthorizationArtifactsResult.md)\>
 
 Response when retrieving stored authorization artifacts.
 

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.20] - 2026-03-16
+
+### Added
+
+- New `InvokeOptions` interface for flexible method invocation configuration
+- Type guard functions in `guards.ts` for runtime `BridgeResponse` type narrowing
+- HTTP 426 status code support for upgrade required responses
+
+### Changed
+
+- Consolidated core types into single `src/core/types.ts` file
+- Renamed response types for consistency
+- Renamed stream types for consistency
+- Simplified status code type names
+
 ## [2.0.0-beta.19] - 2026-03-13
 
 ### Added

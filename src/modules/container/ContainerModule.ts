@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { isRunningInGrabApp } from '../../utils/platform';
 import {
   CloseResponse,
@@ -98,8 +98,9 @@ export class ContainerModule extends BaseModule {
   async setBackgroundColor(
     request: SetBackgroundColorRequest
   ): Promise<SetBackgroundColorResponse> {
-    return (await this.invoke('setBackgroundColor', {
-      backgroundColor: request,
+    return (await this.invoke({
+      method: 'setBackgroundColor',
+      params: { backgroundColor: request },
     })) as SetBackgroundColorResponse;
   }
 
@@ -137,7 +138,10 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
-    return (await this.invoke('setTitle', { title: request })) as SetTitleResponse;
+    return (await this.invoke({
+      method: 'setTitle',
+      params: { title: request },
+    })) as SetTitleResponse;
   }
 
   /**
@@ -167,7 +171,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideBackButton(): Promise<HideBackButtonResponse> {
-    return (await this.invoke('hideBackButton')) as HideBackButtonResponse;
+    return (await this.invoke({ method: 'hideBackButton' })) as HideBackButtonResponse;
   }
 
   /**
@@ -197,7 +201,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showBackButton(): Promise<ShowBackButtonResponse> {
-    return (await this.invoke('showBackButton')) as ShowBackButtonResponse;
+    return (await this.invoke({ method: 'showBackButton' })) as ShowBackButtonResponse;
   }
 
   /**
@@ -227,7 +231,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    return (await this.invoke('hideRefreshButton')) as HideRefreshButtonResponse;
+    return (await this.invoke({ method: 'hideRefreshButton' })) as HideRefreshButtonResponse;
   }
 
   /**
@@ -257,7 +261,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    return (await this.invoke('showRefreshButton')) as ShowRefreshButtonResponse;
+    return (await this.invoke({ method: 'showRefreshButton' })) as ShowRefreshButtonResponse;
   }
 
   /**
@@ -287,7 +291,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async close(): Promise<CloseResponse> {
-    return (await this.invoke('close')) as CloseResponse;
+    return (await this.invoke({ method: 'close' })) as CloseResponse;
   }
 
   /**
@@ -317,7 +321,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async onContentLoaded(): Promise<OnContentLoadedResponse> {
-    return (await this.invoke('onContentLoaded')) as OnContentLoadedResponse;
+    return (await this.invoke({ method: 'onContentLoaded' })) as OnContentLoadedResponse;
   }
 
   /**
@@ -350,7 +354,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showLoader(): Promise<ShowLoaderResponse> {
-    return (await this.invoke('showLoader')) as ShowLoaderResponse;
+    return (await this.invoke({ method: 'showLoader' })) as ShowLoaderResponse;
   }
 
   /**
@@ -383,7 +387,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideLoader(): Promise<HideLoaderResponse> {
-    return (await this.invoke('hideLoader')) as HideLoaderResponse;
+    return (await this.invoke({ method: 'hideLoader' })) as HideLoaderResponse;
   }
 
   /**
@@ -423,8 +427,9 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
-    return (await this.invoke('openExternalLink', {
-      url: request,
+    return (await this.invoke({
+      method: 'openExternalLink',
+      params: { url: request },
     })) as OpenExternalLinkResponse;
   }
 
@@ -457,7 +462,10 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async onCtaTap(request: OnCtaTapRequest): Promise<OnCtaTapResponse> {
-    return (await this.invoke('onCtaTap', { action: request })) as OnCtaTapResponse;
+    return (await this.invoke({
+      method: 'onCtaTap',
+      params: { action: request },
+    })) as OnCtaTapResponse;
   }
 
   /**
@@ -525,10 +533,13 @@ export class ContainerModule extends BaseModule {
     if (validationError) {
       return { status_code: 400, error: validationError };
     }
-    return (await this.invoke('sendAnalyticsEvent', {
-      state: request.state,
-      name: request.name,
-      data: request.data ? JSON.stringify(request.data) : null,
+    return (await this.invoke({
+      method: 'sendAnalyticsEvent',
+      params: {
+        state: request.state,
+        name: request.name,
+        data: request.data ? JSON.stringify(request.data) : null,
+      },
     })) as SendAnalyticsEventResponse;
   }
 
@@ -604,7 +615,7 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async getSessionParams(): Promise<GetSessionParamsResponse> {
-    return (await this.invoke('getSessionParams')) as GetSessionParamsResponse;
+    return (await this.invoke({ method: 'getSessionParams' })) as GetSessionParamsResponse;
   }
 
   /**

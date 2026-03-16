@@ -2,7 +2,7 @@
 
 # Type Alias: TriggerCheckoutResult
 
-> **TriggerCheckoutResult** = \{ `errorCode?`: `string`; `errorMessage?`: `string`; `status`: `string`; `transactionID`: `string`; \}
+> **TriggerCheckoutResult** = \{ `errorCode?`: `string`; `errorMessage?`: `string`; `status`: `"success"` \| `"failure"` \| `"pending"` \| `"userInitiatedCancel"`; `transactionID`: `string`; \}
 
 Result object containing the checkout transaction details.
 
@@ -62,9 +62,9 @@ Error message if the transaction failed.
 
 ### status
 
-> **status**: `string`
+> **status**: `"success"` \| `"failure"` \| `"pending"` \| `"userInitiatedCancel"`
 
-Status of the transaction: "success", "failure", "pending", or "userInitiatedCancel".
+Status of the transaction.
 
 ***
 

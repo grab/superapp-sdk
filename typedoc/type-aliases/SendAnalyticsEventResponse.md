@@ -2,7 +2,7 @@
 
 # Type Alias: SendAnalyticsEventResponse
 
-> **SendAnalyticsEventResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SendAnalyticsEventResult`](SendAnalyticsEventResult.md), `200` \| `400` \| `500` \| `501`\>
+> **SendAnalyticsEventResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `400` \| `500` \| `501`, [`SendAnalyticsEventResult`](SendAnalyticsEventResult.md)\>
 
 Response when sending analytics events.
 

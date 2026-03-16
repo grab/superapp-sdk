@@ -2,7 +2,7 @@
 
 # Type Alias: ShowRefreshButtonResponse
 
-> **ShowRefreshButtonResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ShowRefreshButtonResult`](ShowRefreshButtonResult.md), `200` \| `500` \| `501`\>
+> **ShowRefreshButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `500` \| `501`, [`ShowRefreshButtonResult`](ShowRefreshButtonResult.md)\>
 
 Response when showing the refresh button.
 

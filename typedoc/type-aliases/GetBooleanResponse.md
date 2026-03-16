@@ -2,7 +2,7 @@
 
 # Type Alias: GetBooleanResponse
 
-> **GetBooleanResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetBooleanResult`](GetBooleanResult.md), `200` \| `400` \| `500` \| `501`\>
+> **GetBooleanResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `400` \| `500` \| `501`, [`GetBooleanResult`](GetBooleanResult.md)\>
 
 Response when getting a boolean value.
 

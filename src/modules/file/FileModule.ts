@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { DownloadFileRequest, DownloadFileResponse } from './types';
 
 /**
@@ -80,6 +80,9 @@ export class FileModule extends BaseModule {
    * @public
    */
   async downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse> {
-    return (await this.invoke('downloadFile', request)) as DownloadFileResponse;
+    return (await this.invoke({
+      method: 'downloadFile',
+      params: request,
+    })) as DownloadFileResponse;
   }
 }

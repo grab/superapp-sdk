@@ -20,7 +20,7 @@ invoke<ScanQRCodeResult>('scanQRCode', request)
 Extending with method overloads (ProfileModule, LocationModule):
 ```typescript
 export interface WrappedProfileModule extends WrappedModule {
-  invoke(method: 'fetchEmail', params?: any): Promise<BridgeResponse<string>>;
+  invoke(method: 'fetchEmail', params?: any): Promise<BridgeResponse<BridgeStatusCode, string>>;
 }
 ```
 
@@ -28,7 +28,7 @@ export interface WrappedProfileModule extends WrappedModule {
 
 ### invoke()
 
-> **invoke**\<`T`\>(`method`: `string`, `params?`: `unknown`): [`DataStream`](../type-aliases/DataStream.md)\<`T`\> \| `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\>
+> **invoke**\<`T`\>(`method`: `string`, `params?`: `unknown`): [`BridgeStream`](../type-aliases/BridgeStream.md)\<keyof [`StatusCodeMap`](../type-aliases/StatusCodeMap.md)\<`unknown`\>, `T`\> \| `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<keyof [`StatusCodeMap`](../type-aliases/StatusCodeMap.md)\<`unknown`\>, `T`\>\>
 
 #### Type Parameters
 
@@ -48,4 +48,4 @@ export interface WrappedProfileModule extends WrappedModule {
 
 #### Returns
 
-[`DataStream`](../type-aliases/DataStream.md)\<`T`\> \| `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<`T`\>\>
+[`BridgeStream`](../type-aliases/BridgeStream.md)\<keyof [`StatusCodeMap`](../type-aliases/StatusCodeMap.md)\<`unknown`\>, `T`\> \| `Promise`\<[`BridgeResponse`](../type-aliases/BridgeResponse.md)\<keyof [`StatusCodeMap`](../type-aliases/StatusCodeMap.md)\<`unknown`\>, `T`\>\>

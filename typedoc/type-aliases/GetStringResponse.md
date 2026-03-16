@@ -2,7 +2,7 @@
 
 # Type Alias: GetStringResponse
 
-> **GetStringResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetStringResult`](GetStringResult.md), `200` \| `400` \| `500` \| `501`\>
+> **GetStringResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `400` \| `500` \| `501`, [`GetStringResult`](GetStringResult.md)\>
 
 Response when getting a string value.
 

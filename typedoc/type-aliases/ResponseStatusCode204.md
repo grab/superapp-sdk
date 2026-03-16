@@ -1,8 +1,8 @@
-[@grabjs/superapp-sdk](../README.md) / BridgeStatusCode204Response
+[@grabjs/superapp-sdk](../README.md) / ResponseStatusCode204
 
-# Type Alias: BridgeStatusCode204Response
+# Type Alias: ResponseStatusCode204
 
-> **BridgeStatusCode204Response** = \{ `status_code`: `204`; \}
+> **ResponseStatusCode204** = \{ `status_code`: `204`; \}
 
 No result response with status code 204.
 

@@ -2,7 +2,7 @@
 
 # Type Alias: GetCoordinateResponse
 
-> **GetCoordinateResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetCoordinateResult`](GetCoordinateResult.md), `200` \| `424` \| `500` \| `501`\>
+> **GetCoordinateResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `424` \| `500` \| `501`, [`GetCoordinateResult`](GetCoordinateResult.md)\>
 
 Response when getting the device coordinates.
 

@@ -2,7 +2,7 @@
 
 # Type Alias: RemoveResponse
 
-> **RemoveResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`RemoveResult`](RemoveResult.md), `204` \| `400` \| `500` \| `501`\>
+> **RemoveResponse** = [`BridgeResponse`](BridgeResponse.md)\<`204` \| `400` \| `500` \| `501`, [`RemoveResult`](RemoveResult.md)\>
 
 Response when removing a value.
 

@@ -2,7 +2,7 @@
 
 # Type Alias: BackResponse
 
-> **BackResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`BackResult`](BackResult.md), `204` \| `500` \| `501`\>
+> **BackResponse** = [`BridgeResponse`](BridgeResponse.md)\<`204` \| `500` \| `501`, [`BackResult`](BackResult.md)\>
 
 Response when triggering platform back navigation.
 

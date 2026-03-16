@@ -5,28 +5,38 @@
  * directory of this source tree.
  */
 
-export { BaseModule } from './core/module';
+export type { WrappedModule } from './core';
 export {
-  BridgeClientErrorResponse,
-  BridgeErrorResponse,
-  BridgeRedirectionResponse,
+  BridgeClientError,
+  BridgeError,
+  BridgeRedirection,
   BridgeResponse,
-  BridgeServerErrorResponse,
-  BridgeStatusCode200Response,
-  BridgeStatusCode204Response,
-  BridgeStatusCode302Response,
-  BridgeStatusCode400Response,
-  BridgeStatusCode401Response,
-  BridgeStatusCode403Response,
-  BridgeStatusCode404Response,
-  BridgeStatusCode424Response,
-  BridgeStatusCode500Response,
-  BridgeStatusCode501Response,
+  BridgeServerError,
+  BridgeStatusCode,
+  BridgeStream,
+  BridgeStreamHandlers,
   BridgeSuccessResponse,
-  ConstrainedBridgeResponse,
+  ErrorResponse,
+  isClientError,
+  isErrorResponse,
+  isRedirection,
+  isServerError,
+  isSuccess,
+  ResponseStatusCode200,
+  ResponseStatusCode204,
+  ResponseStatusCode302,
+  ResponseStatusCode400,
+  ResponseStatusCode401,
+  ResponseStatusCode403,
+  ResponseStatusCode404,
+  ResponseStatusCode424,
+  ResponseStatusCode426,
+  ResponseStatusCode500,
+  ResponseStatusCode501,
   StatusCodeMap,
-} from './core/response';
-export { DataStream, DataStreamHandlers, Subscription } from './core/stream';
+  Subscription,
+} from './core';
+export { BaseModule, InvokeOptions } from './core';
 export { CameraModule } from './modules/camera/CameraModule';
 export type {
   ScanQRCodeRequest,
@@ -83,7 +93,11 @@ export type {
   ShowRefreshButtonResult,
 } from './modules/container/types';
 export { FileModule } from './modules/file/FileModule';
-export type { DownloadFileRequest, DownloadFileResponse } from './modules/file/types';
+export type {
+  DownloadFileRequest,
+  DownloadFileResponse,
+  DownloadFileResult,
+} from './modules/file/types';
 export { IdentityModule } from './modules/identity/IdentityModule';
 export type {
   AuthorizeRequest,
@@ -165,4 +179,5 @@ export type {
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewResult,
 } from './modules/system-web-view-kit/types';
-export type { WrappedModule } from './types/global';
+export type { GrabAppInfo, Platform } from './utils/platform';
+export type { Version } from './utils/version';
