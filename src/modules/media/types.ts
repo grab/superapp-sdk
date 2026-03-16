@@ -5,8 +5,7 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response';
-import { DataStream } from '../../core/stream';
+import { BridgeResponse, BridgeStream } from '../../core';
 
 /**
  * DRM content configuration for playback.
@@ -91,10 +90,7 @@ export type PlayDRMContentResult = void;
  *
  * @public
  */
-export type PlayDRMContentResponse = ConstrainedBridgeResponse<
-  PlayDRMContentResult,
-  200 | 204 | 500 | 501
->;
+export type PlayDRMContentResponse = BridgeResponse<200 | 204 | 500 | 501, PlayDRMContentResult>;
 
 /**
  * Result object for DRM playback events.
@@ -123,8 +119,8 @@ export type PlayDRMContentResponse = ConstrainedBridgeResponse<
  * @public
  */
 export type DRMPlaybackEvent = {
-  /** The type of playback event (e.g., 'started', 'paused', 'ended', 'error'). */
-  eventType: string;
+  /** The type of playback event. */
+  eventType: 'started' | 'paused' | 'ended' | 'error';
   /** Additional event data as key-value pairs. */
   data?: Record<string, unknown>;
 };
@@ -132,6 +128,13 @@ export type DRMPlaybackEvent = {
 /**
  * Response stream for observing DRM playback events.
  *
+ * @remarks
+ * This is a `BridgeStream` that can be:
+ * - Subscribed to via `.subscribe()` for continuous updates
+ * - Awaited via `await` to get the first value only
+ *
+ * The stream can emit status codes 200 (event data), 500 (server error), or 501 (not implemented).
+ *
  * @public
  */
-export type ObserveDRMPlaybackResponse = DataStream<DRMPlaybackEvent>;
+export type ObserveDRMPlaybackResponse = BridgeStream<200 | 500 | 501, DRMPlaybackEvent>;

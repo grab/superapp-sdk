@@ -2,7 +2,7 @@
 
 # Type Alias: DRMPlaybackEvent
 
-> **DRMPlaybackEvent** = \{ `data?`: `Record`\<`string`, `unknown`\>; `eventType`: `string`; \}
+> **DRMPlaybackEvent** = \{ `data?`: `Record`\<`string`, `unknown`\>; `eventType`: `"started"` \| `"paused"` \| `"ended"` \| `"error"`; \}
 
 Result object for DRM playback events.
 
@@ -38,6 +38,6 @@ Additional event data as key-value pairs.
 
 ### eventType
 
-> **eventType**: `string`
+> **eventType**: `"started"` \| `"paused"` \| `"ended"` \| `"error"`
 
-The type of playback event (e.g., 'started', 'paused', 'ended', 'error').
+The type of playback event.

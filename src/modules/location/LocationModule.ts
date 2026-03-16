@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import {
   GetCoordinateResponse,
   GetCountryCodeResponse,
@@ -76,13 +76,13 @@ export class LocationModule extends BaseModule {
    * @public
    */
   async getCoordinate(): Promise<GetCoordinateResponse> {
-    return (await this.invoke('getCoordinate')) as GetCoordinateResponse;
+    return (await this.invoke({ method: 'getCoordinate' })) as GetCoordinateResponse;
   }
 
   /**
    * Subscribe to location change updates from the device.
    *
-   * @returns A `DataStream` that emits location updates as the device location changes.
+   * @returns A `BridgeStream` that emits location updates as the device location changes.
    * Use `subscribe()` to listen for updates, or `await` to get the first value only.
    *
    * @example
@@ -108,7 +108,7 @@ export class LocationModule extends BaseModule {
    * @public
    */
   observeLocationChange(): ObserveLocationChangeResponse {
-    return this.wrappedModule.invoke('observeLocationChange') as ObserveLocationChangeResponse;
+    return this.invokeStream({ method: 'observeLocationChange' }) as ObserveLocationChangeResponse;
   }
 
   /**
@@ -143,6 +143,6 @@ export class LocationModule extends BaseModule {
    * @public
    */
   async getCountryCode(): Promise<GetCountryCodeResponse> {
-    return (await this.invoke('getCountryCode')) as GetCountryCodeResponse;
+    return (await this.invoke({ method: 'getCountryCode' })) as GetCountryCodeResponse;
   }
 }

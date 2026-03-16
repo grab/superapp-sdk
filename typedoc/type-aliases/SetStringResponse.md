@@ -2,7 +2,7 @@
 
 # Type Alias: SetStringResponse
 
-> **SetStringResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`SetStringResult`](SetStringResult.md), `204` \| `400` \| `500` \| `501`\>
+> **SetStringResponse** = [`BridgeResponse`](BridgeResponse.md)\<`204` \| `400` \| `500` \| `501`, [`SetStringResult`](SetStringResult.md)\>
 
 Response when setting a string value.
 

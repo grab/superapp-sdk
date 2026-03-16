@@ -2,10 +2,10 @@
 
 # Type Alias: StatusCodeMap\<T\>
 
-> **StatusCodeMap**\<`T`\> = \{ `200`: [`BridgeStatusCode200Response`](BridgeStatusCode200Response.md)\<`T`\>; `204`: [`BridgeStatusCode204Response`](BridgeStatusCode204Response.md); `302`: [`BridgeStatusCode302Response`](BridgeStatusCode302Response.md); `400`: [`BridgeStatusCode400Response`](BridgeStatusCode400Response.md); `401`: [`BridgeStatusCode401Response`](BridgeStatusCode401Response.md); `403`: [`BridgeStatusCode403Response`](BridgeStatusCode403Response.md); `404`: [`BridgeStatusCode404Response`](BridgeStatusCode404Response.md); `424`: [`BridgeStatusCode424Response`](BridgeStatusCode424Response.md); `500`: [`BridgeStatusCode500Response`](BridgeStatusCode500Response.md); `501`: [`BridgeStatusCode501Response`](BridgeStatusCode501Response.md); \}
+> **StatusCodeMap**\<`T`\> = \{ `200`: [`ResponseStatusCode200`](ResponseStatusCode200.md)\<`T`\>; `204`: [`ResponseStatusCode204`](ResponseStatusCode204.md); `302`: [`ResponseStatusCode302`](ResponseStatusCode302.md); `400`: [`ResponseStatusCode400`](ResponseStatusCode400.md); `401`: [`ResponseStatusCode401`](ResponseStatusCode401.md); `403`: [`ResponseStatusCode403`](ResponseStatusCode403.md); `404`: [`ResponseStatusCode404`](ResponseStatusCode404.md); `424`: [`ResponseStatusCode424`](ResponseStatusCode424.md); `426`: [`ResponseStatusCode426`](ResponseStatusCode426.md); `500`: [`ResponseStatusCode500`](ResponseStatusCode500.md); `501`: [`ResponseStatusCode501`](ResponseStatusCode501.md); \}
 
 Map of individual status codes to their JSBridge response types.
-Used internally by ConstrainedBridgeResponse to select specific response types.
+Used internally by BridgeResponse to select specific response types.
 
 ## Type Parameters
 
@@ -17,58 +17,64 @@ Used internally by ConstrainedBridgeResponse to select specific response types.
 
 ### 200
 
-> **200**: [`BridgeStatusCode200Response`](BridgeStatusCode200Response.md)\<`T`\>
+> **200**: [`ResponseStatusCode200`](ResponseStatusCode200.md)\<`T`\>
 
 ***
 
 ### 204
 
-> **204**: [`BridgeStatusCode204Response`](BridgeStatusCode204Response.md)
+> **204**: [`ResponseStatusCode204`](ResponseStatusCode204.md)
 
 ***
 
 ### 302
 
-> **302**: [`BridgeStatusCode302Response`](BridgeStatusCode302Response.md)
+> **302**: [`ResponseStatusCode302`](ResponseStatusCode302.md)
 
 ***
 
 ### 400
 
-> **400**: [`BridgeStatusCode400Response`](BridgeStatusCode400Response.md)
+> **400**: [`ResponseStatusCode400`](ResponseStatusCode400.md)
 
 ***
 
 ### 401
 
-> **401**: [`BridgeStatusCode401Response`](BridgeStatusCode401Response.md)
+> **401**: [`ResponseStatusCode401`](ResponseStatusCode401.md)
 
 ***
 
 ### 403
 
-> **403**: [`BridgeStatusCode403Response`](BridgeStatusCode403Response.md)
+> **403**: [`ResponseStatusCode403`](ResponseStatusCode403.md)
 
 ***
 
 ### 404
 
-> **404**: [`BridgeStatusCode404Response`](BridgeStatusCode404Response.md)
+> **404**: [`ResponseStatusCode404`](ResponseStatusCode404.md)
 
 ***
 
 ### 424
 
-> **424**: [`BridgeStatusCode424Response`](BridgeStatusCode424Response.md)
+> **424**: [`ResponseStatusCode424`](ResponseStatusCode424.md)
+
+***
+
+### 426
+
+> **426**: [`ResponseStatusCode426`](ResponseStatusCode426.md)
 
 ***
 
 ### 500
 
-> **500**: [`BridgeStatusCode500Response`](BridgeStatusCode500Response.md)
+> **500**: [`ResponseStatusCode500`](ResponseStatusCode500.md)
 
 ***
 
 ### 501
 
-> **501**: [`BridgeStatusCode501Response`](BridgeStatusCode501Response.md)
+> **501**: [`ResponseStatusCode501`](ResponseStatusCode501.md)

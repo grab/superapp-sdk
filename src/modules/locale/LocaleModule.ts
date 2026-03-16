@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { GetLanguageLocaleIdentifierResponse } from './types';
 
 /**
@@ -69,8 +69,8 @@ export class LocaleModule extends BaseModule {
    * @public
    */
   async getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse> {
-    return (await this.invoke(
-      'getLanguageLocaleIdentifier'
-    )) as GetLanguageLocaleIdentifierResponse;
+    return (await this.invoke({
+      method: 'getLanguageLocaleIdentifier',
+    })) as GetLanguageLocaleIdentifierResponse;
   }
 }

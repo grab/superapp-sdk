@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response';
+import { BridgeResponse } from '../../core';
 
 /**
  * Result when triggering platform back navigation.
@@ -50,4 +50,4 @@ export type BackResult = void;
  *
  * @public
  */
-export type BackResponse = ConstrainedBridgeResponse<BackResult, 204 | 500 | 501>;
+export type BackResponse = BridgeResponse<204 | 500 | 501, BackResult>;

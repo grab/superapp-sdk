@@ -17,7 +17,7 @@ describe('ProfileModule', () => {
       delete (window as unknown as Record<string, unknown>).WrappedProfileModule;
     });
 
-    it('should return 403 when not running in Grab app', async () => {
+    it('should return 501 when not running in Grab app', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
       });
@@ -25,13 +25,15 @@ describe('ProfileModule', () => {
       const module = new ProfileModule();
       const response = await module.fetchEmail();
 
-      expect(response.status_code).toBe(403);
-      if (response.status_code === 403) {
-        expect(response.error).toBe('This feature requires Grab app version 5.399 or above.');
+      expect(response.status_code).toBe(501);
+      if (response.status_code === 501) {
+        expect(response.error).toBe(
+          'Not implemented: This method requires the Grab app environment'
+        );
       }
     });
 
-    it('should return 403 when app version is below 5.399', async () => {
+    it('should return 426 when app version is below 5.399', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.398.0 (iPhone; iOS 16.0)',
       });
@@ -39,9 +41,11 @@ describe('ProfileModule', () => {
       const module = new ProfileModule();
       const response = await module.fetchEmail();
 
-      expect(response.status_code).toBe(403);
-      if (response.status_code === 403) {
-        expect(response.error).toBe('This feature requires Grab app version 5.399 or above.');
+      expect(response.status_code).toBe(426);
+      if (response.status_code === 426) {
+        expect(response.error).toBe(
+          'Upgrade Required: This method requires a newer version of the Grab app'
+        );
       }
     });
 
@@ -151,7 +155,7 @@ describe('ProfileModule', () => {
       delete (window as unknown as Record<string, unknown>).WrappedProfileModule;
     });
 
-    it('should return 403 when not running in Grab app', async () => {
+    it('should return 501 when not running in Grab app', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
       });
@@ -162,13 +166,15 @@ describe('ProfileModule', () => {
         otp: '123456',
       });
 
-      expect(response.status_code).toBe(403);
-      if (response.status_code === 403) {
-        expect(response.error).toBe('This feature requires Grab app version 5.399 or above.');
+      expect(response.status_code).toBe(501);
+      if (response.status_code === 501) {
+        expect(response.error).toBe(
+          'Not implemented: This method requires the Grab app environment'
+        );
       }
     });
 
-    it('should return 403 when app version is below 5.399', async () => {
+    it('should return 426 when app version is below 5.399', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.398.0 (iPhone; iOS 16.0)',
       });
@@ -179,9 +185,11 @@ describe('ProfileModule', () => {
         otp: '123456',
       });
 
-      expect(response.status_code).toBe(403);
-      if (response.status_code === 403) {
-        expect(response.error).toBe('This feature requires Grab app version 5.399 or above.');
+      expect(response.status_code).toBe(426);
+      if (response.status_code === 426) {
+        expect(response.error).toBe(
+          'Upgrade Required: This method requires a newer version of the Grab app'
+        );
       }
     });
 

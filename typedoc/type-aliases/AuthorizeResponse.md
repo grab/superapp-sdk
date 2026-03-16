@@ -2,7 +2,7 @@
 
 # Type Alias: AuthorizeResponse
 
-> **AuthorizeResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`AuthorizeResult`](AuthorizeResult.md), `200` \| `302` \| `204` \| `400` \| `401` \| `403`\>
+> **AuthorizeResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `302` \| `204` \| `400` \| `401` \| `403` \| `500` \| `501`, [`AuthorizeResult`](AuthorizeResult.md)\>
 
 Response when initiating an authorization flow.
 
@@ -13,6 +13,10 @@ This response can have the following status codes:
 - `302`: Redirect in progress (web redirect flow). The page will navigate away.
 - `204`: No content - user cancelled or flow completed without result data.
 - `400`: Bad request - missing required OAuth parameters or invalid configuration.
+- `401`: Unauthorized - user not authenticated or session expired.
+- `403`: Forbidden - client not authorized for the requested scope.
+- `500`: Internal server error - unexpected error during native authorization.
+- `501`: Not implemented - this method requires the Grab app environment.
 
 ## Examples
 
@@ -42,5 +46,13 @@ This response can have the following status codes:
 {
   status_code: 400,
   error: 'Missing required OAuth parameters'
+}
+```
+
+**Not implemented response (501) - outside Grab app:**
+```typescript
+{
+  status_code: 501,
+  error: 'Not implemented: This method requires the Grab app environment'
 }
 ```

@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { ConstrainedBridgeResponse } from '../../core/response';
+import { BridgeResponse } from '../../core';
 
 /**
  * Request parameters for downloading a file via native bridge.
@@ -26,6 +26,16 @@ export type DownloadFileRequest = {
   /** The desired name for the downloaded file. */
   fileName: string;
 };
+
+/**
+ * Result data structure for file download operations.
+ *
+ * @remarks
+ * This is a void result type as successful downloads return status code 204 with no content.
+ *
+ * @public
+ */
+export type DownloadFileResult = void;
 
 /**
  * Response when requesting a native file download.
@@ -74,4 +84,4 @@ export type DownloadFileRequest = {
  *
  * @public
  */
-export type DownloadFileResponse = ConstrainedBridgeResponse<void, 204 | 400 | 500 | 501>;
+export type DownloadFileResponse = BridgeResponse<204 | 400 | 500 | 501, DownloadFileResult>;

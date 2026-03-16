@@ -2,7 +2,7 @@
 
 # Type Alias: ClearAuthorizationArtifactsResponse
 
-> **ClearAuthorizationArtifactsResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ClearAuthorizationArtifactsResult`](ClearAuthorizationArtifactsResult.md), `204`\>
+> **ClearAuthorizationArtifactsResponse** = [`BridgeResponse`](BridgeResponse.md)\<`204`, [`ClearAuthorizationArtifactsResult`](ClearAuthorizationArtifactsResult.md)\>
 
 Response when clearing stored authorization artifacts.
 

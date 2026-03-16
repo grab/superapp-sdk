@@ -2,7 +2,7 @@
 
 # Type Alias: RedirectToSystemWebViewResponse
 
-> **RedirectToSystemWebViewResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`RedirectToSystemWebViewResult`](RedirectToSystemWebViewResult.md), `200` \| `400` \| `424` \| `500` \| `501`\>
+> **RedirectToSystemWebViewResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `400` \| `424` \| `500` \| `501`, [`RedirectToSystemWebViewResult`](RedirectToSystemWebViewResult.md)\>
 
 Response when redirecting to the system web view.
 

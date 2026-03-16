@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core/module';
+import { BaseModule } from '../../core';
 import { BackResponse } from './types';
 
 /**
@@ -70,6 +70,6 @@ export class PlatformModule extends BaseModule {
    * @public
    */
   async back(): Promise<BackResponse> {
-    return (await this.invoke('back')) as BackResponse;
+    return (await this.invoke({ method: 'back' })) as BackResponse;
   }
 }

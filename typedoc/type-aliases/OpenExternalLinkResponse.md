@@ -2,7 +2,7 @@
 
 # Type Alias: OpenExternalLinkResponse
 
-> **OpenExternalLinkResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`OpenExternalLinkResult`](OpenExternalLinkResult.md), `200` \| `400` \| `500` \| `501`\>
+> **OpenExternalLinkResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `400` \| `500` \| `501`, [`OpenExternalLinkResult`](OpenExternalLinkResult.md)\>
 
 Response when opening an external link.
 

@@ -2,7 +2,7 @@
 
 # Type Alias: ScanQRCodeResponse
 
-> **ScanQRCodeResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`ScanQRCodeResult`](ScanQRCodeResult.md), `200` \| `204` \| `400` \| `403` \| `500` \| `501`\>
+> **ScanQRCodeResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `204` \| `400` \| `403` \| `500` \| `501`, [`ScanQRCodeResult`](ScanQRCodeResult.md)\>
 
 Response when scanning a QR code.
 

@@ -2,7 +2,7 @@
 
 # Type Alias: GetCountryCodeResponse
 
-> **GetCountryCodeResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`GetCountryCodeResult`](GetCountryCodeResult.md), `200` \| `424` \| `500` \| `501`\>
+> **GetCountryCodeResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `424` \| `500` \| `501`, [`GetCountryCodeResult`](GetCountryCodeResult.md)\>
 
 Response when getting the country code.
 

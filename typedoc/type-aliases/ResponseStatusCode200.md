@@ -1,8 +1,8 @@
-[@grabjs/superapp-sdk](../README.md) / BridgeStatusCode200Response
+[@grabjs/superapp-sdk](../README.md) / ResponseStatusCode200
 
-# Type Alias: BridgeStatusCode200Response\<T\>
+# Type Alias: ResponseStatusCode200\<T\>
 
-> **BridgeStatusCode200Response**\<`T`\> = \{ `result`: `T`; `status_code`: `200`; \}
+> **ResponseStatusCode200**\<`T`\> = \{ `result`: `T`; `status_code`: `200`; \}
 
 Success response from the bridge SDK.
 

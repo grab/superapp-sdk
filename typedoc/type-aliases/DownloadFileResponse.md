@@ -2,7 +2,7 @@
 
 # Type Alias: DownloadFileResponse
 
-> **DownloadFileResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<`void`, `204` \| `400` \| `500` \| `501`\>
+> **DownloadFileResponse** = [`BridgeResponse`](BridgeResponse.md)\<`204` \| `400` \| `500` \| `501`, [`DownloadFileResult`](DownloadFileResult.md)\>
 
 Response when requesting a native file download.
 

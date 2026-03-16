@@ -2,7 +2,7 @@
 
 # Type Alias: HideBackButtonResponse
 
-> **HideBackButtonResponse** = [`ConstrainedBridgeResponse`](ConstrainedBridgeResponse.md)\<[`HideBackButtonResult`](HideBackButtonResult.md), `200` \| `500` \| `501`\>
+> **HideBackButtonResponse** = [`BridgeResponse`](BridgeResponse.md)\<`200` \| `500` \| `501`, [`HideBackButtonResult`](HideBackButtonResult.md)\>
 
 Response when hiding the back button.
 
