@@ -6,9 +6,21 @@
       "tagName": "@group",
       "syntaxKind": "block",
       "allowMultiple": true
+    },
+    {
+      "tagName": "@noInheritDoc",
+      "syntaxKind": "block",
+      "allowMultiple": false
+    },
+    {
+      "tagName": "@hidden",
+      "syntaxKind": "block",
+      "allowMultiple": false
     }
   ],
   "supportForTags": {
-    "@group": true
+    "@group": true,
+    "@noInheritDoc": true,
+    "@hidden": true
   }
 }

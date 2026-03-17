@@ -34,6 +34,7 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class FileModule extends BaseModule {
   constructor() {

@@ -34,6 +34,7 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class ScopeModule extends BaseModule {
   constructor() {

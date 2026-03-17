@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.22] - 2026-03-17
+
+### Added
+
+- `typedoc-plugin-no-inherit` dev dependency for cleaner API documentation
+- `@noInheritDoc` and `@hidden` TSDoc tags support in `tsdoc.json`
+
+### Changed
+
+- Generate documentation HTML static website in `/docs`
+- All module classes now use `@noInheritDoc` to exclude inherited `BaseModule` documentation
+- `BaseModule` class marked with `@hidden` to exclude from public API docs
+
 ## [2.0.0-beta.21] - 2026-03-16
 
 ### Added

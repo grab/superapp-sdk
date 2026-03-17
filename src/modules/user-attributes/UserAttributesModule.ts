@@ -34,6 +34,7 @@ import { GetSelectedTravelDestinationResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class UserAttributesModule extends BaseModule {
   constructor() {

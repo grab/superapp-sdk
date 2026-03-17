@@ -56,6 +56,7 @@ import {
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class ContainerModule extends BaseModule {
   constructor() {

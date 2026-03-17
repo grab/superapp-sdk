@@ -34,6 +34,7 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class SystemWebViewKitModule extends BaseModule {
   constructor() {

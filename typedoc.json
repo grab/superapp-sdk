@@ -1,8 +1,8 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts"],
-  "plugin": ["typedoc-plugin-markdown"],
-  "out": "./typedoc",
+  "plugin": ["typedoc-plugin-no-inherit"],
+  "out": "./docs",
   "readme": "none",
   "excludeExternals": true,
   "excludePrivate": true,
@@ -10,12 +10,12 @@
   "excludeProtected": true,
   "categorizeByGroup": true,
   "disableSources": true,
-  "hidePageHeader": true,
-  "hidePageTitle": false,
-  "hideBreadcrumbs": false,
-  "expandObjects": true,
-  "expandParameters": true,
-  "parametersFormat": "list",
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "searchInComments": true,
+  "searchInDocuments": true,
   "validation": {
     "notExported": true
   }
