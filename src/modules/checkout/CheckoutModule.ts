@@ -34,6 +34,7 @@ import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class CheckoutModule extends BaseModule {
   constructor() {

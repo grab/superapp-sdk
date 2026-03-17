@@ -34,6 +34,7 @@ import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } 
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class MediaModule extends BaseModule {
   constructor() {

@@ -35,6 +35,7 @@ import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './t
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class ProfileModule extends BaseModule {
   constructor() {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts"],
-  "plugin": ["typedoc-plugin-markdown"],
+  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-no-inherit"],
   "out": "./typedoc",
   "readme": "none",
   "excludeExternals": true,

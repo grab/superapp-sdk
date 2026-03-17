@@ -38,6 +38,7 @@ import {
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class LocationModule extends BaseModule {
   constructor() {

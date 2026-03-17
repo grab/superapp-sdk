@@ -34,6 +34,7 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class CameraModule extends BaseModule {
   constructor() {
