@@ -25,7 +25,6 @@ import { InvokeOptions } from './types';
  * On construction, the class wraps the JSBridge module on `window` (e.g., `WrappedContainerModule`).
  * This code must run on the Grab SuperApp's webview to function correctly.
  *
- * @hidden
  * @public
  */
 export class BaseModule {

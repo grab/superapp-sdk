@@ -9,8 +9,6 @@ Base class for all JSBridge modules.
 On construction, the class wraps the JSBridge module on `window` (e.g., `WrappedContainerModule`).
 This code must run on the Grab SuperApp's webview to function correctly.
 
-## Hidden
-
 ## Extended by
 
 - [`CameraModule`](CameraModule.md)
