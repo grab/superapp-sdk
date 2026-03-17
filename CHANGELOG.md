@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Generate documentation HTML static website in `/docs`
 - All module classes now use `@noInheritDoc` to exclude inherited `BaseModule` documentation
 - `BaseModule` class marked with `@hidden` to exclude from public API docs
 
