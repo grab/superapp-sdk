@@ -10,6 +10,7 @@ response object must have a structure defined in this document.
 - [Camera Module](https://github.com/grab/superapp-sdk/blob/master/docs/CameraModule.md)
 - [Checkout Module](https://github.com/grab/superapp-sdk/blob/master/docs/CheckoutModule.md).
 - [Container Module](https://github.com/grab/superapp-sdk/blob/master/docs/ContainerModule.md).
+- [DeviceCapability Module](https://github.com/grab/superapp-sdk/blob/master/docs/DeviceCapabilityModule.md)
 - [Identity Module](https://github.com/grab/superapp-sdk/blob/master/docs/IdentityModule.md).
 - [Location Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocationModule.md).
 - [Media Module](https://github.com/grab/superapp-sdk/blob/master/docs/MediaModule.md).
@@ -18,6 +19,7 @@ response object must have a structure defined in this document.
 - [Storage Module](https://github.com/grab/superapp-sdk/blob/master/docs/StorageModule.md)
 - [Platform Module](https://github.com/grab/superapp-sdk/blob/master/docs/PlatformModule.md)
 - [SystemWebViewKit Module](https://github.com/grab/superapp-sdk/blob/master/docs/SystemWebViewKitModule.md)
+- [UserAttributes Module](https://github.com/grab/superapp-sdk/blob/master/docs/UserAttributesModule.md)
 
 One point to note is that partner engineers need to call `ScopeModule.reloadScopes` after redirection to partner website to load permissions from `GrabID`:
 

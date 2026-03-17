@@ -5,6 +5,7 @@
 - [CameraModule](classes/CameraModule.md)
 - [CheckoutModule](classes/CheckoutModule.md)
 - [ContainerModule](classes/ContainerModule.md)
+- [DeviceCapabilityModule](classes/DeviceCapabilityModule.md)
 - [FileModule](classes/FileModule.md)
 - [IdentityModule](classes/IdentityModule.md)
 - [LocaleModule](classes/LocaleModule.md)
@@ -15,6 +16,7 @@
 - [ScopeModule](classes/ScopeModule.md)
 - [StorageModule](classes/StorageModule.md)
 - [SystemWebViewKitModule](classes/SystemWebViewKitModule.md)
+- [UserAttributesModule](classes/UserAttributesModule.md)
 
 ## Classes
 
@@ -72,6 +74,8 @@
 - [GetIntResult](type-aliases/GetIntResult.md)
 - [GetLanguageLocaleIdentifierResponse](type-aliases/GetLanguageLocaleIdentifierResponse.md)
 - [GetLanguageLocaleIdentifierResult](type-aliases/GetLanguageLocaleIdentifierResult.md)
+- [GetSelectedTravelDestinationResponse](type-aliases/GetSelectedTravelDestinationResponse.md)
+- [GetSelectedTravelDestinationResult](type-aliases/GetSelectedTravelDestinationResult.md)
 - [GetSessionParamsResponse](type-aliases/GetSessionParamsResponse.md)
 - [GetSessionParamsResult](type-aliases/GetSessionParamsResult.md)
 - [GetStringRequest](type-aliases/GetStringRequest.md)
@@ -87,6 +91,8 @@
 - [HideRefreshButtonResult](type-aliases/HideRefreshButtonResult.md)
 - [IsConnectedResponse](type-aliases/IsConnectedResponse.md)
 - [IsConnectedResult](type-aliases/IsConnectedResult.md)
+- [IsEsimSupportedResponse](type-aliases/IsEsimSupportedResponse.md)
+- [IsEsimSupportedResult](type-aliases/IsEsimSupportedResult.md)
 - [ObserveDRMPlaybackResponse](type-aliases/ObserveDRMPlaybackResponse.md)
 - [ObserveLocationChangeResponse](type-aliases/ObserveLocationChangeResponse.md)
 - [OnContentLoadedResponse](type-aliases/OnContentLoadedResponse.md)
