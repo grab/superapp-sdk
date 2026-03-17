@@ -34,6 +34,7 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class LocaleModule extends BaseModule {
   constructor() {

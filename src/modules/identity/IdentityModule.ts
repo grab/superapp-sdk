@@ -57,6 +57,7 @@ import {
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class IdentityModule extends BaseModule {
   constructor() {

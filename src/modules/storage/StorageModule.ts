@@ -45,6 +45,7 @@ import {
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class StorageModule extends BaseModule {
   constructor() {

@@ -34,6 +34,7 @@ import { IsEsimSupportedResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class DeviceCapabilityModule extends BaseModule {
   constructor() {

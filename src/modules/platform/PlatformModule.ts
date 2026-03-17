@@ -34,6 +34,7 @@ import { BackResponse } from './types';
  * ```
  *
  * @public
+ * @noInheritDoc
  */
 export class PlatformModule extends BaseModule {
   constructor() {
