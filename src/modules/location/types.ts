@@ -63,20 +63,20 @@ export type GetCoordinateResult = {
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -172,20 +172,20 @@ export type GetCountryCodeResult = {
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
