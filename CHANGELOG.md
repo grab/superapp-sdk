@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.23] - 2026-03-18
+
+### Added
+
+- Markdown API reference generation to `api-reference/markdown/` directory
+- `typedoc-plugin-markdown` dev dependency for Markdown documentation output
+- `typedoc.md.json` configuration for Markdown doc generation
+- `api-reference` directory included in npm package files
+
+### Changed
+
+- Complete README.md rewrite with modern structure, installation guides, and usage examples
+- Updated maintainers list in package.json
+- TypeDoc JSON output moved to `api-reference/json/api.json`
+- Build process now generates both JSON and Markdown API documentation
+- Regenerated HTML documentation in `/docs`
+
 ## [2.0.0-beta.22] - 2026-03-17
 
 ### Added
