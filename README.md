@@ -1,81 +1,194 @@
-# JavaScript to Native bridge communication
-
 ## Overview
 
-Communication between web-app and native Grab app happens via web bridge. Each request and
-response object must have a structure defined in this document.
+The SuperApp SDK enables web developers to build MiniApps that run within the Grab SuperApp WebView. It provides a type-safe bridge for communication between web applications and native Android/iOS capabilities.
 
-## Currently available modules
+Each module encapsulates a specific domain of functionality, offering strongly-typed APIs with consistent response patterns.
 
-- [Camera Module](https://github.com/grab/superapp-sdk/blob/master/docs/CameraModule.md)
-- [Checkout Module](https://github.com/grab/superapp-sdk/blob/master/docs/CheckoutModule.md).
-- [Container Module](https://github.com/grab/superapp-sdk/blob/master/docs/ContainerModule.md).
-- [DeviceCapability Module](https://github.com/grab/superapp-sdk/blob/master/docs/DeviceCapabilityModule.md)
-- [Identity Module](https://github.com/grab/superapp-sdk/blob/master/docs/IdentityModule.md).
-- [Location Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocationModule.md).
-- [Media Module](https://github.com/grab/superapp-sdk/blob/master/docs/MediaModule.md).
-- [Scope Module](https://github.com/grab/superapp-sdk/blob/master/docs/ScopeModule.md).
-- [Locale Module](https://github.com/grab/superapp-sdk/blob/master/docs/LocaleModule.md).
-- [Storage Module](https://github.com/grab/superapp-sdk/blob/master/docs/StorageModule.md)
-- [Platform Module](https://github.com/grab/superapp-sdk/blob/master/docs/PlatformModule.md)
-- [SystemWebViewKit Module](https://github.com/grab/superapp-sdk/blob/master/docs/SystemWebViewKitModule.md)
-- [UserAttributes Module](https://github.com/grab/superapp-sdk/blob/master/docs/UserAttributesModule.md)
+### Key Features
 
-One point to note is that partner engineers need to call `ScopeModule.reloadScopes` after redirection to partner website to load permissions from `GrabID`:
+- **Type-Safe APIs** — Full TypeScript support with comprehensive type definitions
+- **Modular Architecture** — Import only the modules you need
+- **Consistent Response Pattern** — All methods return standardized bridge responses with HTTP-style status codes
+- **Streaming Support** — Real-time data streams for location updates and media events
+- **Automatic Fallbacks** — Graceful degradation when native features are unavailable
 
-```javascript
-const scopeModule = new ScopeModule();
-await scopeModule.reloadScopes();
+## Installation
+
+### NPM (ES Modules)
+
+```bash
+npm install @grabjs/superapp-sdk
 ```
 
-Afterwards, calls to module methods will reflect actual permissions.
+```typescript
+import { ContainerModule, LocationModule } from '@grabjs/superapp-sdk';
+```
 
-## Request
+### CDN (UMD Bundle)
 
-Each request to native API should be done through JavaScript bridge provided by Grab. Please refer to specific Module API documentation for more details
+```html
+<script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+<script>
+  const { ContainerModule, LocationModule } = window.SuperAppSDK;
+</script>
+```
 
-## Response
+## Usage
 
-Each response from the native bridge follows the same structure described bellow.
+### Basic Module Initialization
 
-| Key         | Type                     | Description                                                                        |
-| ----------- | ------------------------ | ---------------------------------------------------------------------------------- |
-| status_code | Integer                  | Response status code (see list of codes below)                                     |
-| result      | Object or primitive type | Result object according to method specification (required for **200** status code) |
-| error       | String                   | Error message (required for **non-200** status codes)                              |
+All modules are instantiated with a simple constructor call:
 
-### Response status codes
+```typescript
+import { ContainerModule, LocationModule, IdentityModule } from '@grabjs/superapp-sdk';
 
-| Code | Type              | Description                                                                     |
-| ---- | ----------------- | ------------------------------------------------------------------------------- |
-| 200  | OK                | Request successful, **result** value contains response data                     |
-| 204  | No Content        | Request successful, **result** value doesn't contain data                       |
-| 400  | Bad Request       | The request is malformed (e.g. missing **parameters**, missing **method** name) |
-| 403  | Forbidden         | The client doesn't have permission to access this method                        |
-| 424  | Failed Dependency | Underlying request returned an error                                            |
-| 500  | Internal Error    | Unexpected internal error (e.g. failed to serialize response object)            |
+// Initialize modules
+const container = new ContainerModule();
+const location = new LocationModule();
+const identity = new IdentityModule();
+```
 
-### Success response example
+### Handling Responses
 
-```json
-{
-  "status_code": 200,
-  "result": {
-    "latitude": 1.234567,
-    "longitude": -1.234567
-  }
+All SDK methods return a standardized response with HTTP-style status codes:
+
+```typescript
+import { CameraModule } from '@grabjs/superapp-sdk';
+
+const camera = new CameraModule();
+const response = await camera.scanQRCode({ title: 'Scan Payment QR' });
+
+switch (response.status_code) {
+  case 200:
+    // Successfully scanned - result contains the QR code data
+    console.log('QR Code scanned:', response.result.qrCode);
+    break;
+  case 204:
+    // User cancelled the scanning operation
+    console.log('Scanning cancelled');
+    break;
+  case 400:
+    // Bad request - invalid request parameters
+    console.error('Invalid request:', response.error);
+    break;
+  case 403:
+    // Camera permission not granted to the Grab app
+    console.error('Camera permission denied:', response.error);
+    break;
+  case 501:
+    // Not implemented - not running in Grab app
+    console.error('Requires Grab SuperApp environment');
+    break;
+  default:
+    console.error('Unexpected error:', response);
 }
 ```
 
-### Failure response example
+### Working with Streams
 
-```json
-{
-  "status_code": 403,
-  "error": "Client doesn't have access to method \"getLocation\" in module \"LocationModule\""
+Some modules provide streaming methods for real-time data:
+
+```typescript
+import { LocationModule } from '@grabjs/superapp-sdk';
+
+const location = new LocationModule();
+
+// Subscribe to location updates
+const stream = location.observeLocationChange();
+
+const subscription = stream.subscribe({
+  next: (response) => {
+    if (response.status_code === 200) {
+      console.log('Location:', response.result);
+    }
+  },
+  complete: () => {
+    console.log('Stream ended');
+  },
+});
+
+// Unsubscribe when done
+subscription.unsubscribe();
+```
+
+## Available Modules
+
+- **[ContainerModule](https://grab.github.io/superapp-sdk/classes/ContainerModule.html)** — Control the WebView container UI and lifecycle (header, loading indicators, analytics, connection verification)
+
+- **[IdentityModule](https://grab.github.io/superapp-sdk/classes/IdentityModule.html)** — Authenticate users via GrabID OAuth2/OIDC with PKCE support
+
+- **[LocationModule](https://grab.github.io/superapp-sdk/classes/LocationModule.html)** — Access device location services and subscribe to location updates
+
+- **[StorageModule](https://grab.github.io/superapp-sdk/classes/StorageModule.html)** — Persist key-value data locally with type-safe storage
+
+- **[CameraModule](https://grab.github.io/superapp-sdk/classes/CameraModule.html)** — Access device camera capabilities for QR code scanning
+
+- **[CheckoutModule](https://grab.github.io/superapp-sdk/classes/CheckoutModule.html)** — Trigger native checkout flows for payment processing
+
+- **[DeviceCapabilityModule](https://grab.github.io/superapp-sdk/classes/DeviceCapabilityModule.html)** — Query device hardware capabilities
+
+- **[FileModule](https://grab.github.io/superapp-sdk/classes/FileModule.html)** — Handle file operations including downloading from remote URLs
+
+- **[LocaleModule](https://grab.github.io/superapp-sdk/classes/LocaleModule.html)** — Access device locale and localization settings
+
+- **[MediaModule](https://grab.github.io/superapp-sdk/classes/MediaModule.html)** — Handle media playback including DRM-protected content
+
+- **[PlatformModule](https://grab.github.io/superapp-sdk/classes/PlatformModule.html)** — Access platform information and navigation controls
+
+- **[ProfileModule](https://grab.github.io/superapp-sdk/classes/ProfileModule.html)** — Access user profile information including email
+
+- **[ScopeModule](https://grab.github.io/superapp-sdk/classes/ScopeModule.html)** — Manage permission scopes from GrabID
+
+- **[SystemWebViewKitModule](https://grab.github.io/superapp-sdk/classes/SystemWebViewKitModule.html)** — Handle system WebView operations and external browser redirections
+
+- **[UserAttributesModule](https://grab.github.io/superapp-sdk/classes/UserAttributesModule.html)** — Access user attribute data
+
+> **Important:** Always call `ScopeModule.reloadScopes()` after an OAuth redirect to load the latest permissions from GrabID. Without this, module methods may return 403 errors even when permissions have been granted.
+
+## Response Status Codes
+
+The SDK uses HTTP-style status codes for all responses:
+
+| Code  | Type              | Description                                         |
+| ----- | ----------------- | --------------------------------------------------- |
+| `200` | OK                | Request successful, `result` contains response data |
+| `204` | No Content        | Request successful, no data returned                |
+| `302` | Redirect          | OAuth redirect in progress                          |
+| `400` | Bad Request       | Invalid request parameters                          |
+| `401` | Unauthorized      | Authentication required                             |
+| `403` | Forbidden         | Insufficient permissions for this operation         |
+| `404` | Not Found         | Resource not found                                  |
+| `424` | Failed Dependency | Underlying native request failed                    |
+| `426` | Upgrade Required  | Requires newer Grab app version                     |
+| `500` | Internal Error    | Unexpected SDK error                                |
+| `501` | Not Implemented   | Method requires Grab SuperApp environment           |
+
+## Type Guards
+
+The SDK provides type guards for response validation:
+
+```typescript
+import { isSuccess, isErrorResponse, isClientError, isServerError } from '@grabjs/superapp-sdk';
+
+const response = await someModule.someMethod();
+
+if (isSuccess(response)) {
+  // TypeScript knows response.result is available
+  console.log(response.result);
+}
+
+if (isErrorResponse(response)) {
+  // TypeScript knows response.error is available
+  console.error(response.error);
 }
 ```
 
----
+## Best Practices
 
-- **GDMCOMMENT:** Latitudes and longitudes used in this file are either sourced from GrabPlaces, GrabMaps, OSM or randomly created by the developer and are not obtained from other external sources.
+2. **Handle all status codes** in your switch statements, including unexpected ones.
+
+3. **Use type guards** for cleaner response handling and better type inference.
+
+4. **Call `reloadScopes()` when your MiniApp launches and after OAuth** before accessing protected resources.
+
+5. **Unsubscribe from streams** when your component unmounts or you no longer need updates.

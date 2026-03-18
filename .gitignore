@@ -88,3 +88,4 @@ build/
 .vscode
 *yarn.lock
 temp/
+api-reference/
