@@ -64,7 +64,18 @@ export class ProfileModule extends BaseModule {
    * if (isSuccess(response)) {
    *   console.log('User email:', response.result.email);
    * } else if (isErrorResponse(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to access user profile');
+   *       // Trigger IdentityModule.authorize() for scope 'profile email', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     case 426:
+   *       console.log('User needs to upgrade the app');
+   *       // Advise user to upgrade app
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }
@@ -104,7 +115,18 @@ export class ProfileModule extends BaseModule {
    * if (isSuccess(response)) {
    *   console.log('Email verified successfully');
    * } else if (isErrorResponse(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to access user profile');
+   *       // Trigger IdentityModule.authorize() for scope 'profile email', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     case 426:
+   *       console.log('User needs to upgrade the app');
+   *       // Advise user to upgrade app
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }

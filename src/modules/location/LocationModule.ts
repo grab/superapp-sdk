@@ -65,7 +65,14 @@ export class LocationModule extends BaseModule {
    * if (isSuccess(response)) {
    *   console.log('Coordinates:', response.result.lat, response.result.lng);
    * } else if (isErrorResponse(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to access location');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.geolocation', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }
@@ -97,7 +104,14 @@ export class LocationModule extends BaseModule {
    *     if (isSuccess(response)) {
    *       console.log('Location updated:', response.result.lat, response.result.lng);
    *     } else if (isErrorResponse(response)) {
-   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *       switch (response.status_code) {
+   *         case 403:
+   *           console.log('No permission to access location');
+   *           // Trigger IdentityModule.authorize() for scope 'mobile.geolocation', then reload via ScopeModule.reloadScopes() and try again
+   *           break;
+   *         default:
+   *           console.error(`Error ${response.status_code}: ${response.error}`);
+   *       }
    *     }
    *   },
    *   complete: () => console.log('Location stream completed')
@@ -133,7 +147,14 @@ export class LocationModule extends BaseModule {
    * if (isSuccess(response)) {
    *   console.log('Country code:', response.result.countryCode);
    * } else if (isErrorResponse(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to access location');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.geolocation', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }

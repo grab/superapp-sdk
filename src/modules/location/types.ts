@@ -30,7 +30,8 @@ export type GetCoordinateResult = {
  * @remarks
  * This response can have the following status codes:
  * - `200`: Coordinates retrieved successfully. The `result` contains latitude and longitude.
- * - `424`: GeoKit error - location services unavailable or permission denied.
+ * - `403`: Forbidden - client not authorized to access location data.
+ * - `424`: GeoKit error - location services unavailable.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -40,6 +41,15 @@ export type GetCoordinateResult = {
  * {
  *   status_code: 200,
  *   result: { lat: 1.3521, lng: 103.8198 }
+ * }
+ * ```
+ *
+ * @example
+ * **Forbidden response (403):**
+ * ```typescript
+ * {
+ *   status_code: 403,
+ *   error: 'Forbidden: Client not authorized to access location data'
  * }
  * ```
  *
@@ -72,7 +82,10 @@ export type GetCoordinateResult = {
  *
  * @public
  */
-export type GetCoordinateResponse = BridgeResponse<200 | 424 | 500 | 501, GetCoordinateResult>;
+export type GetCoordinateResponse = BridgeResponse<
+  200 | 403 | 424 | 500 | 501,
+  GetCoordinateResult
+>;
 
 /**
  * Response when observing the device coordinates.
@@ -87,7 +100,7 @@ export type GetCoordinateResponse = BridgeResponse<200 | 424 | 500 | 501, GetCoo
  * @public
  */
 export type ObserveLocationChangeResponse = BridgeStream<
-  200 | 424 | 500 | 501,
+  200 | 403 | 424 | 500 | 501,
   GetCoordinateResult
 >;
 
@@ -117,6 +130,7 @@ export type GetCountryCodeResult = {
  * @remarks
  * This response can have the following status codes:
  * - `200`: Country code retrieved successfully. The `result` contains the ISO country code.
+ * - `403`: Forbidden - client not authorized to access location data.
  * - `424`: GeoKit/Resolver error - location services unavailable.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
@@ -136,6 +150,15 @@ export type GetCountryCodeResult = {
  * {
  *   status_code: 200,
  *   result: { countryCode: 'ID' }
+ * }
+ * ```
+ *
+ * @example
+ * **Forbidden response (403):**
+ * ```typescript
+ * {
+ *   status_code: 403,
+ *   error: 'Forbidden: Client not authorized to access location data'
  * }
  * ```
  *
@@ -168,4 +191,7 @@ export type GetCountryCodeResult = {
  *
  * @public
  */
-export type GetCountryCodeResponse = BridgeResponse<200 | 424 | 500 | 501, GetCountryCodeResult>;
+export type GetCountryCodeResponse = BridgeResponse<
+  200 | 403 | 424 | 500 | 501,
+  GetCountryCodeResult
+>;

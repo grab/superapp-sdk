@@ -499,7 +499,14 @@ export class IdentityModule extends BaseModule {
    * } else if (isRedirection(response)) {
    *   console.log('Redirecting to authorization...');
    * } else if (isErrorResponse(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('Client not authorized for requested scope');
+   *       // Check OAuth client configuration and requested scopes
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }

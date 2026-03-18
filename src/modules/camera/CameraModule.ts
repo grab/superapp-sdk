@@ -70,7 +70,14 @@ export class CameraModule extends BaseModule {
    *       break;
    *   }
    * } else if (isErrorResponse(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('Camera permission not enabled');
+   *       // Advise user to enable camera permission in device settings
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }
