@@ -62,7 +62,7 @@ export class BaseModule {
       wrapModule(window, this.name);
     } catch (error) {
       throw new Error(
-        `Failed to initialize ${this.name}${isErrorWithMessage(error) && `: ${error.message}`}`,
+        `Failed to initialize ${this.name}${isErrorWithMessage(error) ? `: ${error.message}` : ''}`,
         {
           cause: error,
         }
@@ -85,7 +85,9 @@ export class BaseModule {
    *
    * @public
    */
-  async invoke<T>(options: InvokeOptions<T>): Promise<BridgeResponse<BridgeStatusCode, T>> {
+  protected async invoke<T>(
+    options: InvokeOptions<T>
+  ): Promise<BridgeResponse<BridgeStatusCode, T>> {
     const { method, params, isSupported, transformResponse } = options;
 
     try {
@@ -116,10 +118,10 @@ export class BaseModule {
       }
 
       return response;
-    } catch {
+    } catch (error) {
       return {
         status_code: 500,
-        error: 'Failed to invoke method',
+        error: `Failed to invoke method: ${isErrorWithMessage(error) ? error.message : 'Unknown error'}`,
       };
     }
   }
@@ -200,10 +202,10 @@ export class BaseModule {
               : (transformResponse(value) as unknown)
           ),
       } as BridgeStream<BridgeStatusCode, T>;
-    } catch {
+    } catch (error) {
       return this.createErrorStream({
         status_code: 500,
-        error: 'Failed to invoke method',
+        error: `Failed to invoke method: ${isErrorWithMessage(error) ? error.message : 'Unknown error'}`,
       } as BridgeResponse<BridgeStatusCode, T>);
     }
   }

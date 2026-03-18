@@ -52,26 +52,21 @@ export class ProfileModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ProfileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the profile module
    * const profileModule = new ProfileModule();
    *
    * // Fetch the user's email
    * const response = await profileModule.fetchEmail();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('User email:', response.result.email);
-   *     break;
-   *   case 400:
-   *   case 403:
-   *     // Feature not available or other error
-   *     console.log('Could not fetch email:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('User email:', response.result.email);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -94,6 +89,8 @@ export class ProfileModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ProfileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the profile module
    * const profileModule = new ProfileModule();
    *
@@ -103,20 +100,13 @@ export class ProfileModule extends BaseModule {
    *   otp: '123456'
    * });
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Email verified successfully');
-   *     break;
-   *   case 400:
-   *   case 403:
-   *     // Feature not available or other error
-   *     console.log('Could not verify email:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Email verified successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

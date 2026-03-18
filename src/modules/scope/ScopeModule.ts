@@ -52,25 +52,21 @@ export class ScopeModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ScopeModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the scope module
    * const scopeModule = new ScopeModule();
    *
    * // Check access to CameraModule.scanQRCode
    * const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Has access:', response.result.hasAccess);
-   *     break;
-   *   case 400:
-   *   case 424:
-   *     console.log('Could not check access:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Has access:', response.result.hasAccess);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -92,24 +88,21 @@ export class ScopeModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ScopeModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the scope module
    * const scopeModule = new ScopeModule();
    *
    * // Reload scopes
    * const response = await scopeModule.reloadScopes();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Scopes reloaded successfully');
-   *     break;
-   *   case 424:
-   *     console.log('Could not reload scopes:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Scopes reloaded successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

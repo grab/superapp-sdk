@@ -51,6 +51,8 @@ export class MediaModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { MediaModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the media module
    * const mediaModule = new MediaModule();
    *
@@ -59,18 +61,20 @@ export class MediaModule extends BaseModule {
    *   // DRM content configuration
    * });
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Playback initiated');
-   *     break;
-   *   case 204:
-   *     console.log('Invalid parameters');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Playback initiated');
+   *       break;
+   *     case 204:
+   *       console.log('Invalid parameters');
+   *       break;
+   *   }
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -93,6 +97,8 @@ export class MediaModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { MediaModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the media module
    * const mediaModule = new MediaModule();
    *
@@ -101,8 +107,10 @@ export class MediaModule extends BaseModule {
    *   // DRM content configuration
    * }).subscribe({
    *   next: (response) => {
-   *     if (response.status_code === 200) {
+   *     if (isSuccess(response)) {
    *       console.log('Playback event:', response.result);
+   *     } else if (isErrorResponse(response)) {
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
    *     }
    *   },
    *   complete: () => console.log('Playback completed')

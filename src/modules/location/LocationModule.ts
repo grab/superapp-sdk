@@ -53,24 +53,21 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the location module
    * const locationModule = new LocationModule();
    *
    * // Get current coordinates
    * const response = await locationModule.getCoordinate();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Coordinates:', response.result.lat, response.result.lng);
-   *     break;
-   *   case 424:
-   *     console.log('Could not get coordinates:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Coordinates:', response.result.lat, response.result.lng);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -89,14 +86,18 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the location module
    * const locationModule = new LocationModule();
    *
    * // Subscribe to location changes
    * const subscription = locationModule.observeLocationChange().subscribe({
    *   next: (response) => {
-   *     if (response.status_code === 200) {
+   *     if (isSuccess(response)) {
    *       console.log('Location updated:', response.result.lat, response.result.lng);
+   *     } else if (isErrorResponse(response)) {
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
    *     }
    *   },
    *   complete: () => console.log('Location stream completed')
@@ -120,24 +121,21 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the location module
    * const locationModule = new LocationModule();
    *
    * // Get country code
    * const response = await locationModule.getCountryCode();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Country code:', response.result.countryCode);
-   *     break;
-   *   case 424:
-   *     console.log('Could not get country code:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Country code:', response.result.countryCode);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

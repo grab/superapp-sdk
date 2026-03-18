@@ -50,21 +50,21 @@ export class PlatformModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { PlatformModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the platform module
    * const platformModule = new PlatformModule();
    *
    * // Trigger back navigation
    * const response = await platformModule.back();
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('Back navigation triggered');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Back navigation triggered');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

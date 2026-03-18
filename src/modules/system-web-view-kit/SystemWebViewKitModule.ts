@@ -51,6 +51,8 @@ export class SystemWebViewKitModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { SystemWebViewKitModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the system web view kit module
    * const systemWebViewKitModule = new SystemWebViewKitModule();
    *
@@ -59,21 +61,13 @@ export class SystemWebViewKitModule extends BaseModule {
    *   url: 'https://www.example.com'
    * });
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Redirect initiated successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not redirect:', response.error);
-   *     break;
-   *   case 424:
-   *     console.log('Dependency error:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Redirect initiated successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

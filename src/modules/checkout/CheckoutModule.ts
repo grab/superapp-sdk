@@ -51,6 +51,8 @@ export class CheckoutModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { CheckoutModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the checkout module
    * const checkoutModule = new CheckoutModule();
    *
@@ -58,26 +60,27 @@ export class CheckoutModule extends BaseModule {
    * const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
    * const response = await checkoutModule.triggerCheckout(transactionResponse);
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     if (response.result.status === 'success') {
-   *       console.log('Transaction successful:', response.result.transactionID);
-   *     } else if (response.result.status === 'failure') {
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Transaction ID:', response.result.transactionID);
+   *   switch (response.result.status) {
+   *     case 'success':
+   *       console.log('Transaction successful');
+   *       break;
+   *     case 'failure':
    *       console.log('Transaction failed:', response.result.errorMessage, response.result.errorCode);
-   *     } else if (response.result.status === 'pending') {
-   *       console.log('Transaction pending:', response.result.transactionID);
-   *     } else if (response.result.status === 'userInitiatedCancel') {
+   *       break;
+   *     case 'pending':
+   *       console.log('Transaction pending');
+   *       break;
+   *     case 'userInitiatedCancel':
    *       console.log('User cancelled the checkout');
-   *     }
-   *     break;
-   *   case 400:
-   *     console.log('Transaction failed:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   *       break;
+   *   }
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

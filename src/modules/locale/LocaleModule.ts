@@ -49,21 +49,21 @@ export class LocaleModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { LocaleModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the locale module
    * const localeModule = new LocaleModule();
    *
    * // Get the current locale
    * const response = await localeModule.getLanguageLocaleIdentifier();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Current locale:', response.result);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Current locale:', response.result);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

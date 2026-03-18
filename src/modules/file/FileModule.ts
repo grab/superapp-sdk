@@ -51,6 +51,8 @@ export class FileModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { FileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the file module
    * const fileModule = new FileModule();
    *
@@ -60,21 +62,13 @@ export class FileModule extends BaseModule {
    *   fileName: 'report.pdf',
    * });
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('File downloaded successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Bad request:', response.error);
-   *     break;
-   *   case 500:
-   *     console.log('Internal server error:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('File downloaded successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

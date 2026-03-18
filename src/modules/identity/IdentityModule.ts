@@ -169,31 +169,34 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { IdentityModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
    *
    * // Retrieve stored authorization artifacts after authorization redirect
    * const response = await identityModule.getAuthorizationArtifacts();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     // All artifacts present - proceed with token exchange
-   *     const { state, codeVerifier, nonce, redirectUri } = response.result;
-   *     console.log('State:', state);
-   *     console.log('Code Verifier:', codeVerifier);
-   *     console.log('Nonce:', nonce);
-   *     console.log('Redirect URI:', redirectUri);
-   *     break;
-   *   case 204:
-   *     // No artifacts yet - user hasn't authorized
-   *     console.log('No authorization artifacts found. Authorization has not been initiated.');
-   *     break;
-   *   case 400:
-   *     // Inconsistent state - possible data corruption
-   *     console.error('Authorization artifacts error:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   switch (response.status_code) {
+   *     case 200:
+   *       // All artifacts present - proceed with token exchange
+   *       const { state, codeVerifier, nonce, redirectUri } = response.result;
+   *       console.log('State:', state);
+   *       console.log('Code Verifier:', codeVerifier);
+   *       console.log('Nonce:', nonce);
+   *       console.log('Redirect URI:', redirectUri);
+   *       break;
+   *     case 204:
+   *       // No artifacts yet - user hasn't authorized
+   *       console.log('No authorization artifacts found');
+   *       break;
+   *   }
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -205,25 +208,14 @@ export class IdentityModule extends BaseModule {
     const nonce = this.getStorageItem('nonce');
     const redirectUri = this.getStorageItem('redirect_uri');
 
-    const existingCount = [state, codeVerifier, nonce, redirectUri].filter(
-      (item) => item !== null
-    ).length;
-
-    if (existingCount === 4) {
-      return {
-        status_code: 200,
-        result: {
-          state: state!,
-          codeVerifier: codeVerifier!,
-          nonce: nonce!,
-          redirectUri: redirectUri!,
-        },
-      };
+    if (state === null && codeVerifier === null && nonce === null && redirectUri === null) {
+      return { status_code: 204 };
     }
 
-    if (existingCount === 0) {
+    if (state !== null && codeVerifier !== null && nonce !== null && redirectUri !== null) {
       return {
-        status_code: 204,
+        status_code: 200,
+        result: { state, codeVerifier, nonce, redirectUri },
       };
     }
 
@@ -243,13 +235,16 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { IdentityModule, isSuccess } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
    *
    * // Clear stored authorization artifacts after successful token exchange
    * const response = await identityModule.clearAuthorizationArtifacts();
    *
-   * if (response.status_code === 204) {
+   * // Handle the response
+   * if (isSuccess(response)) {
    *   console.log('Authorization artifacts cleared');
    * }
    * ```
@@ -476,6 +471,8 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { IdentityModule, isSuccess, isRedirection, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the identity module
    * const identityModule = new IdentityModule();
    *
@@ -486,29 +483,25 @@ export class IdentityModule extends BaseModule {
    *   scope: 'openid profile',
    *   environment: 'production',
    *   responseMode: 'redirect'
-   *   });
+   * });
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     // Authorization successful (in_place mode with native flow)
-   *     console.log('Auth Code:', response.result.code);
-   *     console.log('State:', response.result.state);
-   *     break;
-   *   case 302:
-   *     // Redirect in progress (web flow with responseMode: 'redirect')
-   *     // The page will be redirected to the authorization URL
-   *     console.log('Redirecting to authorization...');
-   *     break;
-   *   case 204:
-   *     // User cancelled or flow completed without result data
-   *     console.log('Authorization cancelled or no content');
-   *     break;
-   *   case 400:
-   *     // Authorization failed
-   *     console.error('Auth error:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Auth Code:', response.result.code);
+   *       console.log('State:', response.result.state);
+   *       break;
+   *     case 204:
+   *       console.log('Authorization cancelled');
+   *       break;
+   *   }
+   * } else if (isRedirection(response)) {
+   *   console.log('Redirecting to authorization...');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -636,10 +629,7 @@ export class IdentityModule extends BaseModule {
     if (redirectUriError) return redirectUriError;
 
     try {
-      const url = new URL(request.redirectUri);
-      if (!url) {
-        return 'redirectUri must be a valid URL';
-      }
+      new URL(request.redirectUri);
     } catch {
       return 'redirectUri must be a valid URL';
     }

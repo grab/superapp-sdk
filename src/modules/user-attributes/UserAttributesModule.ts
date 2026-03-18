@@ -49,24 +49,28 @@ export class UserAttributesModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { UserAttributesModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the user attributes module
    * const userAttributesModule = new UserAttributesModule();
    *
    * // Read the selected travel destination
    * const response = await userAttributesModule.getSelectedTravelDestination();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Selected travel destination code:', response.result);
-   *     break;
-   *   case 204:
-   *     console.log('Selected travel destination is not available');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   switch (response.status_code) {
+   *     case 200:
+   *       console.log('Selected travel destination code:', response.result);
+   *       break;
+   *     case 204:
+   *       console.log('Selected travel destination is not available');
+   *       break;
+   *   }
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

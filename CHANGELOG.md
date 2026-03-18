@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.24] - 2026-03-18
+
+### Changed
+
+- Updated all JSDoc examples across modules to use `isSuccess()` and `isErrorResponse()` type guards instead of switch-case patterns
+- `BaseModule.invoke()` changed from public to protected visibility
+- Enhanced error messages in `BaseModule.invoke()` and `BaseModule.invokeStream()` to include actual error details
+
+### Fixed
+
+- Fixed template literal syntax in `BaseModule` constructor error message
+
+### Removed
+
+- Legacy TypeDoc markdown documentation files from `typedoc/` directory
+
+### Added
+
+- Exported `isErrorWithMessage()` utility from main entry point
+- Exported `InvokeOptions` type from main entry point
+
 ## [2.0.0-beta.23] - 2026-03-18
 
 ### Added
