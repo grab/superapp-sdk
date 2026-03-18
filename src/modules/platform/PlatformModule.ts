@@ -15,7 +15,7 @@ import { BackResponse } from './types';
  *
  * @remarks
  * Provides methods to interact with the native platform navigation stack, such as triggering the back action.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -53,10 +53,10 @@ export class PlatformModule extends BaseModule {
    * import { PlatformModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the platform module
-   * const platformModule = new PlatformModule();
+   * const platform = new PlatformModule();
    *
    * // Trigger back navigation
-   * const response = await platformModule.back();
+   * const response = await platform.back();
    *
    * // Handle the response
    * if (isSuccess(response)) {

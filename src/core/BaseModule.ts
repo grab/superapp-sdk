@@ -83,7 +83,7 @@ export class BaseModule {
    * @param options - The invoke options including method name, params, validation, and transformation.
    * @returns A promise resolving to the JSBridge response.
    *
-   * @public
+   * @protected
    */
   protected async invoke<T>(
     options: InvokeOptions<T>
@@ -131,6 +131,8 @@ export class BaseModule {
    * Used for 501, 426, and 500 error scenarios in invokeStream.
    *
    * @returns A BridgeStream that emits the error and immediately completes.
+   *
+   * @private
    */
   private createErrorStream<T>(
     errorResponse: BridgeResponse<BridgeStatusCode, T>
@@ -160,7 +162,7 @@ export class BaseModule {
    * @param options - The invoke options including method name, params, and validation.
    * @returns A `BridgeStream` for receiving continuous data from the JSBridge.
    *
-   * @public
+   * @protected
    */
   protected invokeStream<T>(options: InvokeOptions<T>): BridgeStream<BridgeStatusCode, T> {
     const { method, params, isSupported, transformResponse } = options;

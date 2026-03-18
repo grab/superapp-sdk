@@ -31,13 +31,13 @@ import {
 } from './types';
 
 /**
- * JSBridge module for controlling the webview container.
+ * JSBridge module for controlling the WebView container.
  *
  * @group Modules
  *
  * @remarks
- * Provides methods to interact with the webview container.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * Provides methods to interact with the WebView container.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -76,10 +76,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Set background color
-   * const response = await containerModule.setBackgroundColor('#ffffff');
+   * const response = await container.setBackgroundColor('#ffffff');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -115,10 +115,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Set title
-   * const response = await containerModule.setTitle('Home');
+   * const response = await container.setTitle('Home');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -150,10 +150,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Hide back button
-   * const response = await containerModule.hideBackButton();
+   * const response = await container.hideBackButton();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -182,10 +182,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Show back button
-   * const response = await containerModule.showBackButton();
+   * const response = await container.showBackButton();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -214,10 +214,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Hide refresh button
-   * const response = await containerModule.hideRefreshButton();
+   * const response = await container.hideRefreshButton();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -246,10 +246,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Show refresh button
-   * const response = await containerModule.showRefreshButton();
+   * const response = await container.showRefreshButton();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -278,10 +278,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Close the container
-   * const response = await containerModule.close();
+   * const response = await container.close();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -310,10 +310,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Notify content loaded
-   * const response = await containerModule.onContentLoaded();
+   * const response = await container.onContentLoaded();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -345,10 +345,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Show loader
-   * const response = await containerModule.showLoader();
+   * const response = await container.showLoader();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -380,10 +380,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Hide loader
-   * const response = await containerModule.hideLoader();
+   * const response = await container.hideLoader();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -417,10 +417,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Open external link
-   * const response = await containerModule.openExternalLink('https://grab.com');
+   * const response = await container.openExternalLink('https://grab.com');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -454,10 +454,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Notify CTA tap
-   * const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
+   * const response = await container.onCtaTap('AV_LANDING_PAGE_CONTINUE');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -506,10 +506,10 @@ export class ContainerModule extends BaseModule {
    * } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Send analytics event
-   * const response = await containerModule.sendAnalyticsEvent({
+   * const response = await container.sendAnalyticsEvent({
    *   state: ContainerAnalyticsEventState.HOMEPAGE,
    *   name: ContainerAnalyticsEventName.DEFAULT,
    * });
@@ -557,10 +557,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Check connection status
-   * const response = await containerModule.isConnected();
+   * const response = await container.isConnected();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -597,10 +597,10 @@ export class ContainerModule extends BaseModule {
    * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Get session parameters
-   * const response = await containerModule.getSessionParams();
+   * const response = await container.getSessionParams();
    *
    * // Handle the response
    * if (isSuccess(response)) {

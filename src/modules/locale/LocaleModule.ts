@@ -15,7 +15,7 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
  *
  * @remarks
  * Provides the user's preferred language and region settings from the native device.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -52,10 +52,10 @@ export class LocaleModule extends BaseModule {
    * import { LocaleModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the locale module
-   * const localeModule = new LocaleModule();
+   * const locale = new LocaleModule();
    *
    * // Get the current locale
-   * const response = await localeModule.getLanguageLocaleIdentifier();
+   * const response = await locale.getLanguageLocaleIdentifier();
    *
    * // Handle the response
    * if (isSuccess(response)) {

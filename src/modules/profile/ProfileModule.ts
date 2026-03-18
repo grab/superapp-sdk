@@ -16,7 +16,7 @@ import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './t
  *
  * @remarks
  * Provides access to user profile data such as email verification.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -47,6 +47,10 @@ export class ProfileModule extends BaseModule {
   /**
    * Fetches the user's email address from their Grab profile.
    *
+   * @remarks
+   * This method requires Grab app version 5.399 or above. If called on an older version,
+   * it will return a 426 (Upgrade Required) response.
+   *
    * @returns The user's email address if available.
    *
    * @example
@@ -55,10 +59,10 @@ export class ProfileModule extends BaseModule {
    * import { ProfileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the profile module
-   * const profileModule = new ProfileModule();
+   * const profile = new ProfileModule();
    *
    * // Fetch the user's email
-   * const response = await profileModule.fetchEmail();
+   * const response = await profile.fetchEmail();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -93,6 +97,10 @@ export class ProfileModule extends BaseModule {
   /**
    * Verifies the user's email address using a one-time password (OTP).
    *
+   * @remarks
+   * This method requires Grab app version 5.399 or above. If called on an older version,
+   * it will return a 426 (Upgrade Required) response.
+   *
    * @param request - The email and OTP to verify.
    *
    * @returns Confirmation of whether the email verification was successful.
@@ -103,10 +111,10 @@ export class ProfileModule extends BaseModule {
    * import { ProfileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the profile module
-   * const profileModule = new ProfileModule();
+   * const profile = new ProfileModule();
    *
    * // Verify email with OTP
-   * const response = await profileModule.verifyEmail({
+   * const response = await profile.verifyEmail({
    *   email: 'user@example.com',
    *   otp: '123456'
    * });

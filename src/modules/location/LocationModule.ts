@@ -19,7 +19,7 @@ import {
  *
  * @remarks
  * Provides access to the device's geolocation data including coordinates and country code.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -56,10 +56,10 @@ export class LocationModule extends BaseModule {
    * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the location module
-   * const locationModule = new LocationModule();
+   * const location = new LocationModule();
    *
    * // Get current coordinates
-   * const response = await locationModule.getCoordinate();
+   * const response = await location.getCoordinate();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -87,6 +87,11 @@ export class LocationModule extends BaseModule {
   /**
    * Subscribe to location change updates from the device.
    *
+   * @remarks
+   * This method returns a `BridgeStream` that continuously emits location updates.
+   * Remember to call `unsubscribe()` on the subscription when you no longer need updates
+   * to conserve battery and free resources.
+   *
    * @returns A `BridgeStream` that emits location updates as the device location changes.
    * Use `subscribe()` to listen for updates, or `await` to get the first value only.
    *
@@ -96,10 +101,10 @@ export class LocationModule extends BaseModule {
    * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the location module
-   * const locationModule = new LocationModule();
+   * const location = new LocationModule();
    *
    * // Subscribe to location changes
-   * const subscription = locationModule.observeLocationChange().subscribe({
+   * const subscription = location.observeLocationChange().subscribe({
    *   next: (response) => {
    *     if (isSuccess(response)) {
    *       console.log('Location updated:', response.result.lat, response.result.lng);
@@ -138,10 +143,10 @@ export class LocationModule extends BaseModule {
    * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the location module
-   * const locationModule = new LocationModule();
+   * const location = new LocationModule();
    *
    * // Get country code
-   * const response = await locationModule.getCountryCode();
+   * const response = await location.getCountryCode();
    *
    * // Handle the response
    * if (isSuccess(response)) {

@@ -15,7 +15,7 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  *
  * @remarks
  * Manages OAuth scope permissions, allowing the MiniApp to check access rights and reload scopes from the server.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -55,10 +55,10 @@ export class ScopeModule extends BaseModule {
    * import { ScopeModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the scope module
-   * const scopeModule = new ScopeModule();
+   * const scope = new ScopeModule();
    *
    * // Check access to CameraModule.scanQRCode
-   * const response = await scopeModule.hasAccessTo('CameraModule', 'scanQRCode');
+   * const response = await scope.hasAccessTo('CameraModule', 'scanQRCode');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -91,10 +91,10 @@ export class ScopeModule extends BaseModule {
    * import { ScopeModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the scope module
-   * const scopeModule = new ScopeModule();
+   * const scope = new ScopeModule();
    *
    * // Reload scopes
-   * const response = await scopeModule.reloadScopes();
+   * const response = await scope.reloadScopes();
    *
    * // Handle the response
    * if (isSuccess(response)) {

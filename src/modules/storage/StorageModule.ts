@@ -25,8 +25,8 @@ import {
  * @group Modules
  *
  * @remarks
- * Stores data in the native app's persistent storage, allowing data to survive webview restarts.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * Stores data in the native app's persistent storage, allowing data to survive WebView restarts.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -66,10 +66,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set a boolean value
-   * const response = await storageModule.setBoolean('isDarkMode', true);
+   * const response = await storage.setBoolean('isDarkMode', true);
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -103,10 +103,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get a boolean value
-   * const response = await storageModule.getBoolean('isDarkMode');
+   * const response = await storage.getBoolean('isDarkMode');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -141,10 +141,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set an integer value
-   * const response = await storageModule.setInt('userCount', 42);
+   * const response = await storage.setInt('userCount', 42);
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -178,10 +178,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get an integer value
-   * const response = await storageModule.getInt('userCount');
+   * const response = await storage.getInt('userCount');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -216,10 +216,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set a string value
-   * const response = await storageModule.setString('username', 'john_doe');
+   * const response = await storage.setString('username', 'john_doe');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -253,10 +253,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get a string value
-   * const response = await storageModule.getString('username');
+   * const response = await storage.getString('username');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -291,10 +291,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set a double value
-   * const response = await storageModule.setDouble('price', 19.99);
+   * const response = await storage.setDouble('price', 19.99);
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -328,10 +328,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get a double value
-   * const response = await storageModule.getDouble('price');
+   * const response = await storage.getDouble('price');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -365,10 +365,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Remove a value
-   * const response = await storageModule.remove('username');
+   * const response = await storage.remove('username');
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -400,10 +400,10 @@ export class StorageModule extends BaseModule {
    * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Remove all values
-   * const response = await storageModule.removeAll();
+   * const response = await storage.removeAll();
    *
    * // Handle the response
    * if (isSuccess(response)) {

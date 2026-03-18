@@ -15,7 +15,7 @@ import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  *
  * @remarks
  * Invokes the native Grab checkout/pay component to process payments.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -54,11 +54,11 @@ export class CheckoutModule extends BaseModule {
    * import { CheckoutModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the checkout module
-   * const checkoutModule = new CheckoutModule();
+   * const checkout = new CheckoutModule();
    *
    * // Trigger checkout with response params
    * const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
-   * const response = await checkoutModule.triggerCheckout(transactionResponse);
+   * const response = await checkout.triggerCheckout(transactionResponse);
    *
    * // Handle the response
    * if (isSuccess(response)) {

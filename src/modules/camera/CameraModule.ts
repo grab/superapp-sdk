@@ -15,7 +15,7 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  *
  * @remarks
  * Provides access to native camera functionality including QR code scanning.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -54,10 +54,10 @@ export class CameraModule extends BaseModule {
    * import { CameraModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the camera module
-   * const cameraModule = new CameraModule();
+   * const camera = new CameraModule();
    *
    * // Scan the QR code
-   * const response = await cameraModule.scanQRCode({ title: 'Scan Payment QR' });
+   * const response = await camera.scanQRCode({ title: 'Scan Payment QR' });
    *
    * // Handle the response
    * if (isSuccess(response)) {

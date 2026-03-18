@@ -15,7 +15,7 @@ import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } 
  *
  * @remarks
  * Provides access to the native media player with DRM support for secure content playback.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -44,6 +44,10 @@ export class MediaModule extends BaseModule {
   /**
    * Plays DRM-protected media content in the native media player.
    *
+   * @remarks
+   * Requires proper DRM content configuration including license URL and content metadata.
+   * For playback events and status updates, use {@link MediaModule.observePlayDRMContent}.
+   *
    * @param data - Configuration for the DRM content including license URL and content metadata.
    *
    * @returns The playback initiation result, indicating if the DRM content started playing.
@@ -54,10 +58,10 @@ export class MediaModule extends BaseModule {
    * import { MediaModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the media module
-   * const mediaModule = new MediaModule();
+   * const media = new MediaModule();
    *
    * // Play DRM content
-   * const response = await mediaModule.playDRMContent({
+   * const response = await media.playDRMContent({
    *   // DRM content configuration
    * });
    *
@@ -90,6 +94,10 @@ export class MediaModule extends BaseModule {
   /**
    * Observes DRM-protected media content playback events.
    *
+   * @remarks
+   * Subscribe to this stream to receive real-time playback events such as progress,
+   * completion, and errors. Remember to call `unsubscribe()` when done to free resources.
+   *
    * @param data - Configuration for the DRM content to observe.
    *
    * @returns A stream that emits playback events as the media plays.
@@ -100,10 +108,10 @@ export class MediaModule extends BaseModule {
    * import { MediaModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the media module
-   * const mediaModule = new MediaModule();
+   * const media = new MediaModule();
    *
    * // Observe DRM content playback
-   * const subscription = mediaModule.observePlayDRMContent({
+   * const subscription = media.observePlayDRMContent({
    *   // DRM content configuration
    * }).subscribe({
    *   next: (response) => {

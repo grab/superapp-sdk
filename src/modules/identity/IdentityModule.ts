@@ -38,7 +38,7 @@ import {
  * @remarks
  * Handles OAuth2/OIDC authentication flows with PKCE support, enabling MiniApps to obtain user identity tokens.
  * Supports both native in-app consent and web-based fallback flows.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -172,10 +172,10 @@ export class IdentityModule extends BaseModule {
    * import { IdentityModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
-   * const identityModule = new IdentityModule();
+   * const identity = new IdentityModule();
    *
    * // Retrieve stored authorization artifacts after authorization redirect
-   * const response = await identityModule.getAuthorizationArtifacts();
+   * const response = await identity.getAuthorizationArtifacts();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -238,10 +238,10 @@ export class IdentityModule extends BaseModule {
    * import { IdentityModule, isSuccess } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
-   * const identityModule = new IdentityModule();
+   * const identity = new IdentityModule();
    *
    * // Clear stored authorization artifacts after successful token exchange
-   * const response = await identityModule.clearAuthorizationArtifacts();
+   * const response = await identity.clearAuthorizationArtifacts();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -474,10 +474,10 @@ export class IdentityModule extends BaseModule {
    * import { IdentityModule, isSuccess, isRedirection, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
-   * const identityModule = new IdentityModule();
+   * const identity = new IdentityModule();
    *
    * // Initiate authorization with redirect mode
-   * const response = await identityModule.authorize({
+   * const response = await identity.authorize({
    *   clientId: 'your-client-id',
    *   redirectUri: 'https://your-app.com/callback',
    *   scope: 'openid profile',

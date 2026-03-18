@@ -15,7 +15,7 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  *
  * @remarks
  * Initiates native file download handling in the Grab app using a file URL and file name.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -54,10 +54,10 @@ export class FileModule extends BaseModule {
    * import { FileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the file module
-   * const fileModule = new FileModule();
+   * const file = new FileModule();
    *
    * // Download the file
-   * const response = await fileModule.downloadFile({
+   * const response = await file.downloadFile({
    *   fileUrl: 'https://example.com/report.pdf',
    *   fileName: 'report.pdf',
    * });

@@ -15,7 +15,7 @@ import { GetSelectedTravelDestinationResponse } from './types';
  *
  * @remarks
  * Provides access to user and traveller attributes exposed by the native Grab app bridge.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -52,10 +52,10 @@ export class UserAttributesModule extends BaseModule {
    * import { UserAttributesModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the user attributes module
-   * const userAttributesModule = new UserAttributesModule();
+   * const userAttributes = new UserAttributesModule();
    *
    * // Read the selected travel destination
-   * const response = await userAttributesModule.getSelectedTravelDestination();
+   * const response = await userAttributes.getSelectedTravelDestination();
    *
    * // Handle the response
    * if (isSuccess(response)) {

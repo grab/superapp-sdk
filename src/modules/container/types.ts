@@ -32,15 +32,15 @@ export type SetBackgroundColorResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Background color set successfully.
+ * - `204`: Background color set successfully.
  * - `400`: Invalid background color format.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @example
- * **Success response (200):**
+ * **Success response (204):**
  * ```typescript
- * { status_code: 200 }
+ * { status_code: 204 }
  * ```
  *
  * @example

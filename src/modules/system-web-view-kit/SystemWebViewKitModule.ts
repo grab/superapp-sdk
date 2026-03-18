@@ -14,8 +14,8 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  * @group Modules
  *
  * @remarks
- * Allows MiniApps to redirect users to external content using the native system webview.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * Allows MiniApps to redirect users to external content using the native system browser.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -54,10 +54,10 @@ export class SystemWebViewKitModule extends BaseModule {
    * import { SystemWebViewKitModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
    *
    * // Initialize the system web view kit module
-   * const systemWebViewKitModule = new SystemWebViewKitModule();
+   * const webViewKit = new SystemWebViewKitModule();
    *
    * // Open a URL in system web view
-   * const response = await systemWebViewKitModule.redirectToSystemWebView({
+   * const response = await webViewKit.redirectToSystemWebView({
    *   url: 'https://www.example.com'
    * });
    *
