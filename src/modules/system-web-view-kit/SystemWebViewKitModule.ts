@@ -14,8 +14,8 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  * @group Modules
  *
  * @remarks
- * Allows MiniApps to redirect users to external content using the native system webview.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * Allows MiniApps to redirect users to external content using the native system browser.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -51,29 +51,23 @@ export class SystemWebViewKitModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { SystemWebViewKitModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the system web view kit module
-   * const systemWebViewKitModule = new SystemWebViewKitModule();
+   * const webViewKit = new SystemWebViewKitModule();
    *
    * // Open a URL in system web view
-   * const response = await systemWebViewKitModule.redirectToSystemWebView({
+   * const response = await webViewKit.redirectToSystemWebView({
    *   url: 'https://www.example.com'
    * });
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Redirect initiated successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not redirect:', response.error);
-   *     break;
-   *   case 424:
-   *     console.log('Dependency error:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Redirect initiated successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

@@ -30,7 +30,8 @@ export type GetCoordinateResult = {
  * @remarks
  * This response can have the following status codes:
  * - `200`: Coordinates retrieved successfully. The `result` contains latitude and longitude.
- * - `424`: GeoKit error - location services unavailable or permission denied.
+ * - `403`: Forbidden - client not authorized to access location data.
+ * - `424`: GeoKit error - location services unavailable.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -44,20 +45,20 @@ export type GetCoordinateResult = {
  * ```
  *
  * @example
+ * **Forbidden response (403):**
+ * ```typescript
+ * {
+ *   status_code: 403,
+ *   error: 'Forbidden: Client not authorized to access location data'
+ * }
+ * ```
+ *
+ * @example
  * **Failed dependency response (424) - GeoKit error:**
  * ```typescript
  * {
  *   status_code: 424,
  *   error: 'GeoKit error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -70,9 +71,21 @@ export type GetCoordinateResult = {
  * }
  * ```
  *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
  * @public
  */
-export type GetCoordinateResponse = BridgeResponse<200 | 424 | 500 | 501, GetCoordinateResult>;
+export type GetCoordinateResponse = BridgeResponse<
+  200 | 403 | 424 | 500 | 501,
+  GetCoordinateResult
+>;
 
 /**
  * Response when observing the device coordinates.
@@ -87,7 +100,7 @@ export type GetCoordinateResponse = BridgeResponse<200 | 424 | 500 | 501, GetCoo
  * @public
  */
 export type ObserveLocationChangeResponse = BridgeStream<
-  200 | 424 | 500 | 501,
+  200 | 403 | 424 | 500 | 501,
   GetCoordinateResult
 >;
 
@@ -117,6 +130,7 @@ export type GetCountryCodeResult = {
  * @remarks
  * This response can have the following status codes:
  * - `200`: Country code retrieved successfully. The `result` contains the ISO country code.
+ * - `403`: Forbidden - client not authorized to access location data.
  * - `424`: GeoKit/Resolver error - location services unavailable.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
@@ -140,20 +154,20 @@ export type GetCountryCodeResult = {
  * ```
  *
  * @example
+ * **Forbidden response (403):**
+ * ```typescript
+ * {
+ *   status_code: 403,
+ *   error: 'Forbidden: Client not authorized to access location data'
+ * }
+ * ```
+ *
+ * @example
  * **Failed dependency response (424):**
  * ```typescript
  * {
  *   status_code: 424,
  *   error: 'GeoKit/Resolver error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -166,6 +180,18 @@ export type GetCountryCodeResult = {
  * }
  * ```
  *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
  * @public
  */
-export type GetCountryCodeResponse = BridgeResponse<200 | 424 | 500 | 501, GetCountryCodeResult>;
+export type GetCountryCodeResponse = BridgeResponse<
+  200 | 403 | 424 | 500 | 501,
+  GetCountryCodeResult
+>;

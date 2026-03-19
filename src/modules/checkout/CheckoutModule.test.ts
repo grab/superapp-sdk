@@ -218,7 +218,7 @@ describe('CheckoutModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('triggerCheckout', { partnerTxID: 'txn-error' });
       expect(response.status_code).toBe(500);
       if (response.status_code === 500) {
-        expect(response.error).toBe('Failed to invoke method');
+        expect(response.error).toBe('Failed to invoke method: Unexpected bridge error');
       }
     });
   });

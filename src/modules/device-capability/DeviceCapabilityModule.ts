@@ -15,7 +15,7 @@ import { IsEsimSupportedResponse } from './types';
  *
  * @remarks
  * Provides access to device capability checks exposed by the native Grab app bridge.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -49,21 +49,21 @@ export class DeviceCapabilityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { DeviceCapabilityModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the device capability module
-   * const deviceCapabilityModule = new DeviceCapabilityModule();
+   * const deviceCapability = new DeviceCapabilityModule();
    *
    * // Check eSIM support
-   * const response = await deviceCapabilityModule.isEsimSupported();
+   * const response = await deviceCapability.isEsimSupported();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('eSIM supported:', response.result);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('eSIM supported:', response.result);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

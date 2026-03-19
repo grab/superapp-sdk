@@ -25,8 +25,8 @@ import {
  * @group Modules
  *
  * @remarks
- * Stores data in the native app's persistent storage, allowing data to survive webview restarts.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * Stores data in the native app's persistent storage, allowing data to survive WebView restarts.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -63,24 +63,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set a boolean value
-   * const response = await storageModule.setBoolean('isDarkMode', true);
+   * const response = await storage.setBoolean('isDarkMode', true);
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('Value stored successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not store value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Value stored successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -103,24 +100,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get a boolean value
-   * const response = await storageModule.getBoolean('isDarkMode');
+   * const response = await storage.getBoolean('isDarkMode');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Stored value:', response.result.value);
-   *     break;
-   *   case 400:
-   *     console.log('Could not retrieve value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Stored value:', response.result.value);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -144,24 +138,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set an integer value
-   * const response = await storageModule.setInt('userCount', 42);
+   * const response = await storage.setInt('userCount', 42);
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('Value stored successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not store value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Value stored successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -184,24 +175,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get an integer value
-   * const response = await storageModule.getInt('userCount');
+   * const response = await storage.getInt('userCount');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Stored value:', response.result.value);
-   *     break;
-   *   case 400:
-   *     console.log('Could not retrieve value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Stored value:', response.result.value);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -225,24 +213,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set a string value
-   * const response = await storageModule.setString('username', 'john_doe');
+   * const response = await storage.setString('username', 'john_doe');
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('Value stored successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not store value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Value stored successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -265,24 +250,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get a string value
-   * const response = await storageModule.getString('username');
+   * const response = await storage.getString('username');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Stored value:', response.result.value);
-   *     break;
-   *   case 400:
-   *     console.log('Could not retrieve value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Stored value:', response.result.value);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -306,24 +288,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Set a double value
-   * const response = await storageModule.setDouble('price', 19.99);
+   * const response = await storage.setDouble('price', 19.99);
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('Value stored successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not store value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Value stored successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -346,24 +325,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Get a double value
-   * const response = await storageModule.getDouble('price');
+   * const response = await storage.getDouble('price');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Stored value:', response.result.value);
-   *     break;
-   *   case 400:
-   *     console.log('Could not retrieve value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Stored value:', response.result.value);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -386,24 +362,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Remove a value
-   * const response = await storageModule.remove('username');
+   * const response = await storage.remove('username');
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('Value removed successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not remove value:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Value removed successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -424,21 +397,21 @@ export class StorageModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the storage module
-   * const storageModule = new StorageModule();
+   * const storage = new StorageModule();
    *
    * // Remove all values
-   * const response = await storageModule.removeAll();
+   * const response = await storage.removeAll();
    *
-   * switch (response.status_code) {
-   *   case 204:
-   *     console.log('All values removed successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('All values removed successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

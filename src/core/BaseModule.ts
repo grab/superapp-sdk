@@ -62,7 +62,7 @@ export class BaseModule {
       wrapModule(window, this.name);
     } catch (error) {
       throw new Error(
-        `Failed to initialize ${this.name}${isErrorWithMessage(error) && `: ${error.message}`}`,
+        `Failed to initialize ${this.name}${isErrorWithMessage(error) ? `: ${error.message}` : ''}`,
         {
           cause: error,
         }
@@ -83,9 +83,11 @@ export class BaseModule {
    * @param options - The invoke options including method name, params, validation, and transformation.
    * @returns A promise resolving to the JSBridge response.
    *
-   * @public
+   * @protected
    */
-  async invoke<T>(options: InvokeOptions<T>): Promise<BridgeResponse<BridgeStatusCode, T>> {
+  protected async invoke<T>(
+    options: InvokeOptions<T>
+  ): Promise<BridgeResponse<BridgeStatusCode, T>> {
     const { method, params, isSupported, transformResponse } = options;
 
     try {
@@ -116,10 +118,10 @@ export class BaseModule {
       }
 
       return response;
-    } catch {
+    } catch (error) {
       return {
         status_code: 500,
-        error: 'Failed to invoke method',
+        error: `Failed to invoke method: ${isErrorWithMessage(error) ? error.message : 'Unknown error'}`,
       };
     }
   }
@@ -129,6 +131,8 @@ export class BaseModule {
    * Used for 501, 426, and 500 error scenarios in invokeStream.
    *
    * @returns A BridgeStream that emits the error and immediately completes.
+   *
+   * @private
    */
   private createErrorStream<T>(
     errorResponse: BridgeResponse<BridgeStatusCode, T>
@@ -158,7 +162,7 @@ export class BaseModule {
    * @param options - The invoke options including method name, params, and validation.
    * @returns A `BridgeStream` for receiving continuous data from the JSBridge.
    *
-   * @public
+   * @protected
    */
   protected invokeStream<T>(options: InvokeOptions<T>): BridgeStream<BridgeStatusCode, T> {
     const { method, params, isSupported, transformResponse } = options;
@@ -200,10 +204,10 @@ export class BaseModule {
               : (transformResponse(value) as unknown)
           ),
       } as BridgeStream<BridgeStatusCode, T>;
-    } catch {
+    } catch (error) {
       return this.createErrorStream({
         status_code: 500,
-        error: 'Failed to invoke method',
+        error: `Failed to invoke method: ${isErrorWithMessage(error) ? error.message : 'Unknown error'}`,
       } as BridgeResponse<BridgeStatusCode, T>);
     }
   }

@@ -29,6 +29,7 @@ export type FetchEmailResult = {
  * This response can have the following status codes:
  * - `200`: Email fetched successfully. The `result` contains the email address.
  * - `400`: Invalid request - the request was malformed.
+ * - `403`: Forbidden - client not authorized to access user profile data.
  * - `426`: Upgrade Required - feature requires Grab app version 5.399 or above.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
@@ -52,20 +53,20 @@ export type FetchEmailResult = {
  * ```
  *
  * @example
+ * **Forbidden response (403):**
+ * ```typescript
+ * {
+ *   status_code: 403,
+ *   error: 'Forbidden: Client not authorized to access user profile data'
+ * }
+ * ```
+ *
+ * @example
  * **Upgrade Required response (426):**
  * ```typescript
  * {
  *   status_code: 426,
  *   error: 'Upgrade Required: This method requires Grab app version 5.399.0 or above on iOS'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -78,9 +79,21 @@ export type FetchEmailResult = {
  * }
  * ```
  *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
  * @public
  */
-export type FetchEmailResponse = BridgeResponse<200 | 400 | 426 | 500 | 501, FetchEmailResult>;
+export type FetchEmailResponse = BridgeResponse<
+  200 | 400 | 403 | 426 | 500 | 501,
+  FetchEmailResult
+>;
 
 /**
  * Request parameters for verifying the user's email with an OTP.
@@ -117,6 +130,7 @@ export type VerifyEmailResult = void;
  * This response can have the following status codes:
  * - `200`: Email verified successfully.
  * - `400`: Invalid request - OTP is incorrect or expired.
+ * - `403`: Forbidden - client not authorized to access user profile data.
  * - `426`: Upgrade Required - feature requires Grab app version 5.399 or above.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
@@ -137,20 +151,20 @@ export type VerifyEmailResult = void;
  * ```
  *
  * @example
+ * **Forbidden response (403):**
+ * ```typescript
+ * {
+ *   status_code: 403,
+ *   error: 'Forbidden: Client not authorized to access user profile data'
+ * }
+ * ```
+ *
+ * @example
  * **Upgrade Required response (426):**
  * ```typescript
  * {
  *   status_code: 426,
  *   error: 'Upgrade Required: This method requires Grab app version 5.399.0 or above on iOS'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -163,6 +177,18 @@ export type VerifyEmailResult = void;
  * }
  * ```
  *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
+ * }
+ * ```
+ *
  * @public
  */
-export type VerifyEmailResponse = BridgeResponse<200 | 400 | 426 | 500 | 501, VerifyEmailResult>;
+export type VerifyEmailResponse = BridgeResponse<
+  200 | 400 | 403 | 426 | 500 | 501,
+  VerifyEmailResult
+>;

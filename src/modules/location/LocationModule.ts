@@ -19,7 +19,7 @@ import {
  *
  * @remarks
  * Provides access to the device's geolocation data including coordinates and country code.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -53,24 +53,28 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the location module
-   * const locationModule = new LocationModule();
+   * const location = new LocationModule();
    *
    * // Get current coordinates
-   * const response = await locationModule.getCoordinate();
+   * const response = await location.getCoordinate();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Coordinates:', response.result.lat, response.result.lng);
-   *     break;
-   *   case 424:
-   *     console.log('Could not get coordinates:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Coordinates:', response.result.lat, response.result.lng);
+   * } else if (isErrorResponse(response)) {
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to access location');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.geolocation', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -83,20 +87,36 @@ export class LocationModule extends BaseModule {
   /**
    * Subscribe to location change updates from the device.
    *
+   * @remarks
+   * This method returns a `BridgeStream` that continuously emits location updates.
+   * Remember to call `unsubscribe()` on the subscription when you no longer need updates
+   * to conserve battery and free resources.
+   *
    * @returns A `BridgeStream` that emits location updates as the device location changes.
    * Use `subscribe()` to listen for updates, or `await` to get the first value only.
    *
    * @example
    * **Simple usage**
    * ```typescript
+   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the location module
-   * const locationModule = new LocationModule();
+   * const location = new LocationModule();
    *
    * // Subscribe to location changes
-   * const subscription = locationModule.observeLocationChange().subscribe({
+   * const subscription = location.observeLocationChange().subscribe({
    *   next: (response) => {
-   *     if (response.status_code === 200) {
+   *     if (isSuccess(response)) {
    *       console.log('Location updated:', response.result.lat, response.result.lng);
+   *     } else if (isErrorResponse(response)) {
+   *       switch (response.status_code) {
+   *         case 403:
+   *           console.log('No permission to access location');
+   *           // Trigger IdentityModule.authorize() for scope 'mobile.geolocation', then reload via ScopeModule.reloadScopes() and try again
+   *           break;
+   *         default:
+   *           console.error(`Error ${response.status_code}: ${response.error}`);
+   *       }
    *     }
    *   },
    *   complete: () => console.log('Location stream completed')
@@ -120,24 +140,28 @@ export class LocationModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the location module
-   * const locationModule = new LocationModule();
+   * const location = new LocationModule();
    *
    * // Get country code
-   * const response = await locationModule.getCountryCode();
+   * const response = await location.getCountryCode();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Country code:', response.result.countryCode);
-   *     break;
-   *   case 424:
-   *     console.log('Could not get country code:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Country code:', response.result.countryCode);
+   * } else if (isErrorResponse(response)) {
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to access location');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.geolocation', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *

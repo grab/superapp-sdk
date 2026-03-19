@@ -31,13 +31,13 @@ import {
 } from './types';
 
 /**
- * JSBridge module for controlling the webview container.
+ * JSBridge module for controlling the WebView container.
  *
  * @group Modules
  *
  * @remarks
- * Provides methods to interact with the webview container.
- * This code must run on the Grab SuperApp's webview to function correctly.
+ * Provides methods to interact with the WebView container.
+ * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
@@ -73,24 +73,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Set background color
-   * const response = await containerModule.setBackgroundColor('#ffffff');
+   * const response = await container.setBackgroundColor('#ffffff');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Background color set successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not set background color:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Background color set successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -115,24 +112,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Set title
-   * const response = await containerModule.setTitle('Home');
+   * const response = await container.setTitle('Home');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Title set successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not set title:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Title set successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -153,19 +147,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Hide back button
-   * const response = await containerModule.hideBackButton();
+   * const response = await container.hideBackButton();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Back button hidden successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Back button hidden successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -183,19 +179,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Show back button
-   * const response = await containerModule.showBackButton();
+   * const response = await container.showBackButton();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Back button shown successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Back button shown successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -213,19 +211,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Hide refresh button
-   * const response = await containerModule.hideRefreshButton();
+   * const response = await container.hideRefreshButton();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Refresh button hidden successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Refresh button hidden successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -243,19 +243,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Show refresh button
-   * const response = await containerModule.showRefreshButton();
+   * const response = await container.showRefreshButton();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Refresh button shown successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Refresh button shown successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -273,19 +275,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Close the container
-   * const response = await containerModule.close();
+   * const response = await container.close();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Container closed successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Container closed successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -303,19 +307,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Notify content loaded
-   * const response = await containerModule.onContentLoaded();
+   * const response = await container.onContentLoaded();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Content loaded notification sent successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Content loaded notification sent successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -336,19 +342,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Show loader
-   * const response = await containerModule.showLoader();
+   * const response = await container.showLoader();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Loader shown successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Loader shown successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -369,19 +377,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Hide loader
-   * const response = await containerModule.hideLoader();
+   * const response = await container.hideLoader();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Loader hidden successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Loader hidden successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -404,24 +414,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Open external link
-   * const response = await containerModule.openExternalLink('https://grab.com');
+   * const response = await container.openExternalLink('https://grab.com');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('External link opened successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Could not open external link:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('External link opened successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -444,19 +451,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Notify CTA tap
-   * const response = await containerModule.onCtaTap('AV_LANDING_PAGE_CONTINUE');
+   * const response = await container.onCtaTap('AV_LANDING_PAGE_CONTINUE');
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('CTA tap notified successfully');
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('CTA tap notified successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -483,45 +492,35 @@ export class ContainerModule extends BaseModule {
    *
    * @returns Confirmation of whether the analytics event was sent successfully.
    *
-   * @throws Error when the JSBridge method fails unexpectedly.
-   *
    * @see {@link ContainerAnalyticsEventState}, {@link ContainerAnalyticsEventName}
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * // Imports using ES Module built
    * import {
+   *   ContainerModule,
+   *   isSuccess,
+   *   isErrorResponse,
    *   ContainerAnalyticsEventState,
    *   ContainerAnalyticsEventName,
    * } from '@grabjs/superapp-sdk';
-   * // Imports using UMD built (via CDN)
-   * const {
-   *   ContainerAnalyticsEventState,
-   *   ContainerAnalyticsEventName,
-   * } = window.SuperAppSDK;
    *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Send analytics event
-   * const response = await containerModule.sendAnalyticsEvent({
+   * const response = await container.sendAnalyticsEvent({
    *   state: ContainerAnalyticsEventState.HOMEPAGE,
    *   name: ContainerAnalyticsEventName.DEFAULT,
    * });
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Analytics event sent successfully');
-   *     break;
-   *   case 400:
-   *     console.log('Invalid analytics event parameters:', response.error);
-   *     break;
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Analytics event sent successfully');
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -555,21 +554,21 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Check connection status
-   * const response = await containerModule.isConnected();
+   * const response = await container.isConnected();
    *
-   * switch (response.status_code) {
-   *   case 200:
-   *     console.log('Connected to Grab SuperApp');
-   *     break;
-   *   case 404:
-   *     console.log('Not connected to Grab SuperApp');
-   *     break;
-   *   default:
-   *     console.log('Unexpected status code:', response);
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Connected to Grab SuperApp:', response.result.connected);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -595,21 +594,22 @@ export class ContainerModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
+   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   *
    * // Initialize the container module
-   * const containerModule = new ContainerModule();
+   * const container = new ContainerModule();
    *
    * // Get session parameters
-   * const response = await containerModule.getSessionParams();
+   * const response = await container.getSessionParams();
    *
-   * switch (response.status_code) {
-   *   case 200: {
-   *     const sessionParams = JSON.parse(response.result?.result || '{}');
-   *     console.log('Session params retrieved:', sessionParams);
-   *     break;
-   *   }
-   *   case 501:
-   *     console.log('Not in Grab app:', response.error);
-   *     break;
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   const sessionParams = JSON.parse(response.result?.result || '{}');
+   *   console.log('Session params retrieved:', sessionParams);
+   * } else if (isErrorResponse(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
