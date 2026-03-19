@@ -41,20 +41,20 @@ export type SetBooleanResult = void;
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -137,20 +137,20 @@ export type GetBooleanResult = {
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -192,20 +192,20 @@ export type SetIntResult = void;
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -288,20 +288,20 @@ export type GetIntResult = {
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -343,20 +343,20 @@ export type SetStringResult = void;
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -439,20 +439,20 @@ export type GetStringResult = {
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -494,20 +494,20 @@ export type SetDoubleResult = void;
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -590,20 +590,20 @@ export type GetDoubleResult = {
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -645,20 +645,20 @@ export type RemoveResult = void;
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *
@@ -690,20 +690,20 @@ export type RemoveAllResult = void;
  * ```
  *
  * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
- * @example
  * **Internal server error response (500):**
  * ```typescript
  * {
  *   status_code: 500,
  *   error: 'Internal server error'
+ * }
+ * ```
+ *
+ * @example
+ * **Not implemented response (501) - outside Grab app:**
+ * ```typescript
+ * {
+ *   status_code: 501,
+ *   error: 'Not implemented: This method requires the Grab app environment'
  * }
  * ```
  *

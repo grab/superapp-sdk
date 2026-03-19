@@ -6,6 +6,7 @@
  */
 
 export type { WrappedModule } from './core';
+export type { InvokeOptions } from './core';
 export {
   BridgeClientError,
   BridgeError,
@@ -36,7 +37,7 @@ export {
   StatusCodeMap,
   Subscription,
 } from './core';
-export { BaseModule, InvokeOptions } from './core';
+export { BaseModule } from './core';
 export { CameraModule } from './modules/camera/CameraModule';
 export type {
   ScanQRCodeRequest,
@@ -189,5 +190,6 @@ export type {
   GetSelectedTravelDestinationResult,
 } from './modules/user-attributes/types';
 export { UserAttributesModule } from './modules/user-attributes/UserAttributesModule';
+export { isErrorWithMessage } from './utils/error';
 export type { GrabAppInfo, Platform } from './utils/platform';
 export type { Version } from './utils/version';

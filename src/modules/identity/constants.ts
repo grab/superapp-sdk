@@ -31,7 +31,7 @@ export const NONCE_LENGTH = 16;
  *
  * @internal
  */
-export const STATE_LENGTH = 7;
+export const STATE_LENGTH = 32;
 
 /**
  * Length of the PKCE code verifier.

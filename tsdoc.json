@@ -16,11 +16,23 @@
       "tagName": "@hidden",
       "syntaxKind": "block",
       "allowMultiple": false
+    },
+    {
+      "tagName": "@protected",
+      "syntaxKind": "block",
+      "allowMultiple": false
+    },
+    {
+      "tagName": "@private",
+      "syntaxKind": "block",
+      "allowMultiple": false
     }
   ],
   "supportForTags": {
     "@group": true,
     "@noInheritDoc": true,
-    "@hidden": true
+    "@hidden": true,
+    "@protected": true,
+    "@private": true
   }
 }

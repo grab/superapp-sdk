@@ -82,8 +82,8 @@ export type AuthorizeResult = {
  * @remarks
  * This response can have the following status codes:
  * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code and state.
- * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
  * - `204`: No content - user cancelled or flow completed without result data.
+ * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
  * - `400`: Bad request - missing required OAuth parameters or invalid configuration.
  * - `401`: Unauthorized - user not authenticated or session expired.
  * - `403`: Forbidden - client not authorized for the requested scope.
@@ -103,15 +103,15 @@ export type AuthorizeResult = {
  * ```
  *
  * @example
- * **Redirect response (302) - web flow:**
- * ```typescript
- * { status_code: 302 }
- * ```
- *
- * @example
  * **Cancelled response (204):**
  * ```typescript
  * { status_code: 204 }
+ * ```
+ *
+ * @example
+ * **Redirect response (302) - web flow:**
+ * ```typescript
+ * { status_code: 302 }
  * ```
  *
  * @example
@@ -120,6 +120,33 @@ export type AuthorizeResult = {
  * {
  *   status_code: 400,
  *   error: 'Missing required OAuth parameters'
+ * }
+ * ```
+ *
+ * @example
+ * **Unauthorized response (401):**
+ * ```typescript
+ * {
+ *   status_code: 401,
+ *   error: 'Unauthorized: User not authenticated or session expired'
+ * }
+ * ```
+ *
+ * @example
+ * **Forbidden response (403):**
+ * ```typescript
+ * {
+ *   status_code: 403,
+ *   error: 'Forbidden: Client not authorized for the requested scope'
+ * }
+ * ```
+ *
+ * @example
+ * **Internal server error response (500):**
+ * ```typescript
+ * {
+ *   status_code: 500,
+ *   error: 'Internal server error'
  * }
  * ```
  *
@@ -135,7 +162,7 @@ export type AuthorizeResult = {
  * @public
  */
 export type AuthorizeResponse = BridgeResponse<
-  200 | 302 | 204 | 400 | 401 | 403 | 500 | 501,
+  200 | 204 | 302 | 400 | 401 | 403 | 500 | 501,
   AuthorizeResult
 >;
 
