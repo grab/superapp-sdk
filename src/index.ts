@@ -152,6 +152,11 @@ export type {
   ReloadScopesResponse,
   ReloadScopesResult,
 } from './modules/scope/types';
+export type {
+  DismissSplashScreenResponse,
+  DismissSplashScreenResult,
+} from './modules/splash-screen';
+export { SplashScreenBridgeModule } from './modules/splash-screen';
 export { StorageModule } from './modules/storage/StorageModule';
 export type {
   GetBooleanRequest,
@@ -179,12 +184,12 @@ export type {
   SetStringResponse,
   SetStringResult,
 } from './modules/storage/types';
-export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
 export type {
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewResult,
-} from './modules/system-web-view-kit/types';
+} from './modules/system-web-view-kit';
+export { SystemWebViewKitModule } from './modules/system-web-view-kit';
 export type {
   GetSelectedTravelDestinationResponse,
   GetSelectedTravelDestinationResult,
