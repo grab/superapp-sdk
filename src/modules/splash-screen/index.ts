@@ -5,5 +5,5 @@
  * directory of this source tree.
  */
 
-export { SplashScreenBridgeModule } from './SplashScreenBridgeModule';
+export { SplashScreenModule } from './SplashScreenModule';
 export type { DismissSplashScreenResponse, DismissSplashScreenResult } from './types';

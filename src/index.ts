@@ -152,7 +152,7 @@ export type {
   ReloadScopesResponse,
   ReloadScopesResult,
 } from './modules/scope/types';
-export { SplashScreenBridgeModule } from './modules/splash-screen';
+export { SplashScreenModule } from './modules/splash-screen';
 export type {
   DismissSplashScreenResponse,
   DismissSplashScreenResult,
