@@ -1,4 +1,4 @@
-# SplashScreenBridgeModule
+# SplashScreenModule
 
 ## Description
 
@@ -26,10 +26,10 @@ Native bridge responses use `status_code`:
 **Code example**
 
 ```javascript
-import { SplashScreenBridgeModule } from '@grabjs/superapp-sdk';
+import { SplashScreenModule } from '@grabjs/superapp-sdk';
 
 // Initialize once and reuse
-const splashScreen = new SplashScreenBridgeModule();
+const splashScreen = new SplashScreenModule();
 
 splashScreen.dismiss().then((response) => {
   if (response.status_code === 204) {

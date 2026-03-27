@@ -20,6 +20,6 @@ export { LocationModule } from './LocationModule';
 export { MediaModule } from './MediaModule';
 export { PlatformModule } from './PlatformModule';
 export { ScopeModule } from './ScopeModule';
-export { SplashScreenBridgeModule } from './SplashScreenBridgeModule';
+export { SplashScreenModule } from './SplashScreenModule';
 export { StorageModule } from './StorageModule';
 export { SystemWebViewKitModule } from './SystemWebViewKitModule';

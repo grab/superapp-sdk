@@ -7,12 +7,12 @@
 
 import bridgeSDK from '@grabjs/mobile-kit-bridge-sdk';
 
-export class SplashScreenBridgeModule {
+export class SplashScreenModule {
   constructor() {
-    bridgeSDK.wrapModule(window, 'SplashScreenBridgeModule');
+    bridgeSDK.wrapModule(window, 'SplashScreenModule');
   }
 
   dismiss() {
-    return window.WrappedSplashScreenBridgeModule.invoke('dismiss');
+    return window.WrappedSplashScreenModule.invoke('dismiss');
   }
 }
