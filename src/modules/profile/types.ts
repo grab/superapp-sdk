@@ -5,7 +5,14 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import type { InferOutput } from 'valibot';
+
+import {
+  FetchEmailResponseSchema,
+  FetchEmailResultSchema,
+  VerifyEmailRequestSchema,
+  VerifyEmailResponseSchema,
+} from './schemas';
 
 /**
  * Result object containing the user's email address.
@@ -17,10 +24,7 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type FetchEmailResult = {
-  /** The user's email address. */
-  email: string;
-};
+export type FetchEmailResult = InferOutput<typeof FetchEmailResultSchema>;
 
 /**
  * Response when fetching the user's email.
@@ -34,66 +38,9 @@ export type FetchEmailResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200):**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { email: 'user@example.com' }
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Invalid request'
- * }
- * ```
- *
- * @example
- * **Forbidden response (403):**
- * ```typescript
- * {
- *   status_code: 403,
- *   error: 'Forbidden: Client not authorized to access user profile data'
- * }
- * ```
- *
- * @example
- * **Upgrade Required response (426):**
- * ```typescript
- * {
- *   status_code: 426,
- *   error: 'Upgrade Required: This method requires Grab app version 5.399.0 or above on iOS'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type FetchEmailResponse = BridgeResponse<
-  200 | 400 | 403 | 426 | 500 | 501,
-  FetchEmailResult
->;
+export type FetchEmailResponse = InferOutput<typeof FetchEmailResponseSchema>;
 
 /**
  * Request parameters for verifying the user's email with an OTP.
@@ -108,12 +55,7 @@ export type FetchEmailResponse = BridgeResponse<
  *
  * @public
  */
-export type VerifyEmailRequest = {
-  /** The email address to verify. */
-  email: string;
-  /** The one-time password (OTP) entered by the user. */
-  otp: string;
-};
+export type VerifyEmailRequest = InferOutput<typeof VerifyEmailRequestSchema>;
 
 /**
  * Result object for verifying the user's email.
@@ -135,60 +77,6 @@ export type VerifyEmailResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200):**
- * ```typescript
- * { status_code: 200 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Invalid OTP'
- * }
- * ```
- *
- * @example
- * **Forbidden response (403):**
- * ```typescript
- * {
- *   status_code: 403,
- *   error: 'Forbidden: Client not authorized to access user profile data'
- * }
- * ```
- *
- * @example
- * **Upgrade Required response (426):**
- * ```typescript
- * {
- *   status_code: 426,
- *   error: 'Upgrade Required: This method requires Grab app version 5.399.0 or above on iOS'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type VerifyEmailResponse = BridgeResponse<
-  200 | 400 | 403 | 426 | 500 | 501,
-  VerifyEmailResult
->;
+export type VerifyEmailResponse = InferOutput<typeof VerifyEmailResponseSchema>;

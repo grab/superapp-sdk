@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { ObserveDRMPlaybackResponseSchema, PlayDRMContentResponseSchema } from './schemas';
 import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
 /**
@@ -48,14 +49,14 @@ export class MediaModule extends BaseModule {
    * Requires proper DRM content configuration including license URL and content metadata.
    * For playback events and status updates, use {@link MediaModule.observePlayDRMContent}.
    *
-   * @param data - Configuration for the DRM content including license URL and content metadata.
+   * @param data - Configuration for the DRM content including license URL and content metadata. See {@link DRMContentConfig}.
    *
-   * @returns The playback initiation result, indicating if the DRM content started playing.
+   * @returns The playback initiation result, indicating if the DRM content started playing. See {@link PlayDRMContentResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { MediaModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the media module
    * const media = new MediaModule();
@@ -75,7 +76,7 @@ export class MediaModule extends BaseModule {
    *       console.log('Invalid parameters');
    *       break;
    *   }
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -88,6 +89,7 @@ export class MediaModule extends BaseModule {
     return (await this.invoke({
       method: 'playDRMContent',
       params: { data },
+      responseSchema: PlayDRMContentResponseSchema,
     })) as PlayDRMContentResponse;
   }
 
@@ -98,14 +100,14 @@ export class MediaModule extends BaseModule {
    * Subscribe to this stream to receive real-time playback events such as progress,
    * completion, and errors. Remember to call `unsubscribe()` when done to free resources.
    *
-   * @param data - Configuration for the DRM content to observe.
+   * @param data - Configuration for the DRM content to observe. See {@link DRMContentConfig}.
    *
-   * @returns A stream that emits playback events as the media plays.
+   * @returns A stream that emits playback events as the media plays. See {@link ObserveDRMPlaybackResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { MediaModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the media module
    * const media = new MediaModule();
@@ -117,7 +119,7 @@ export class MediaModule extends BaseModule {
    *   next: (response) => {
    *     if (isSuccess(response)) {
    *       console.log('Playback event:', response.result);
-   *     } else if (isErrorResponse(response)) {
+   *     } else if (isError(response)) {
    *       console.error(`Error ${response.status_code}: ${response.error}`);
    *     }
    *   },
@@ -134,6 +136,7 @@ export class MediaModule extends BaseModule {
     return this.invokeStream({
       method: 'observePlayDRMContent',
       params: { data },
+      responseSchema: ObserveDRMPlaybackResponseSchema,
     }) as ObserveDRMPlaybackResponse;
   }
 }

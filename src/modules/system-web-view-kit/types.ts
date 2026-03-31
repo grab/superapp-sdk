@@ -5,7 +5,12 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import * as v from 'valibot';
+
+import {
+  RedirectToSystemWebViewRequestSchema,
+  RedirectToSystemWebViewResponseSchema,
+} from './schemas';
 
 /**
  * Request parameters for redirecting to the system web view.
@@ -19,10 +24,9 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type RedirectToSystemWebViewRequest = {
-  /** The URL to open in the system web view. */
-  url: string;
-};
+export type RedirectToSystemWebViewRequest = v.InferOutput<
+  typeof RedirectToSystemWebViewRequestSchema
+>;
 
 /**
  * Result object for redirecting to the system web view.
@@ -43,51 +47,8 @@ export type RedirectToSystemWebViewResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200):**
- * ```typescript
- * { status_code: 200 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Invalid URL or domain not whitelisted'
- * }
- * ```
- *
- * @example
- * **Failed dependency response (424):**
- * ```typescript
- * {
- *   status_code: 424,
- *   error: 'ASWebAuthenticationSession error'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type RedirectToSystemWebViewResponse = BridgeResponse<
-  200 | 400 | 424 | 500 | 501,
-  RedirectToSystemWebViewResult
+export type RedirectToSystemWebViewResponse = v.InferOutput<
+  typeof RedirectToSystemWebViewResponseSchema
 >;

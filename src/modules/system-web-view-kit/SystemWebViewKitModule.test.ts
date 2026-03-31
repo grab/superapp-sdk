@@ -42,7 +42,6 @@ describe('SystemWebViewKitModule', () => {
 
       const mockResponse: RedirectToSystemWebViewResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -71,7 +70,6 @@ describe('SystemWebViewKitModule', () => {
 
       const mockResponse: RedirectToSystemWebViewResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -116,12 +114,10 @@ describe('SystemWebViewKitModule', () => {
         url: 'not-a-valid-url',
       });
 
-      expect(mockInvoke).toHaveBeenCalledWith('redirectToSystemWebView', {
-        url: 'not-a-valid-url',
-      });
+      expect(mockInvoke).not.toHaveBeenCalled();
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('Invalid URL or domain not whitelisted');
+        expect(response.error).toBe('url: Invalid URL: Received "not-a-valid-url"');
       }
     });
 

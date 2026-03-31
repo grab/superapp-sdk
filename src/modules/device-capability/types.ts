@@ -5,7 +5,9 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import * as v from 'valibot';
+
+import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './schemas';
 
 /**
  * Result indicating whether the current device supports eSIM.
@@ -22,7 +24,7 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type IsEsimSupportedResult = boolean;
+export type IsEsimSupportedResult = v.InferOutput<typeof IsEsimSupportedResultSchema>;
 
 /**
  * Response when checking whether the current device supports eSIM.
@@ -33,42 +35,6 @@ export type IsEsimSupportedResult = boolean;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - eSIM supported:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: true
- * }
- * ```
- *
- * @example
- * **Success response (200) - eSIM not supported:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: false
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type IsEsimSupportedResponse = BridgeResponse<200 | 500 | 501, IsEsimSupportedResult>;
+export type IsEsimSupportedResponse = v.InferOutput<typeof IsEsimSupportedResponseSchema>;

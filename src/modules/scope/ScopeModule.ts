@@ -6,6 +6,11 @@
  */
 
 import { BaseModule } from '../../core';
+import {
+  HasAccessToRequestSchema,
+  HasAccessToResponseSchema,
+  ReloadScopesResponseSchema,
+} from './schemas';
 import { HasAccessToResponse, ReloadScopesResponse } from './types';
 
 /**
@@ -47,12 +52,12 @@ export class ScopeModule extends BaseModule {
    * @param module - The name of the bridge module to check access for (e.g., 'CameraModule').
    * @param method - The method name within the module to check access for (e.g., 'scanQRCode').
    *
-   * @returns Whether the MiniApp has permission to access the specified method.
+   * @returns Whether the MiniApp has permission to access the specified method. See {@link HasAccessToResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ScopeModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the scope module
    * const scope = new ScopeModule();
@@ -63,7 +68,7 @@ export class ScopeModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Has access:', response.result.hasAccess);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -76,6 +81,8 @@ export class ScopeModule extends BaseModule {
     return (await this.invoke({
       method: 'hasAccessTo',
       params: { module, method },
+      requestSchema: HasAccessToRequestSchema,
+      responseSchema: HasAccessToResponseSchema,
     })) as HasAccessToResponse;
   }
 
@@ -83,12 +90,12 @@ export class ScopeModule extends BaseModule {
    * Requests to reload the consented OAuth scopes for the current client.
    * This refreshes the permissions from the server.
    *
-   * @returns Confirmation that the scopes have been reloaded from the server.
+   * @returns Confirmation that the scopes have been reloaded from the server. See {@link ReloadScopesResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ScopeModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the scope module
    * const scope = new ScopeModule();
@@ -99,7 +106,7 @@ export class ScopeModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Scopes reloaded successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -109,6 +116,9 @@ export class ScopeModule extends BaseModule {
    * @public
    */
   async reloadScopes(): Promise<ReloadScopesResponse> {
-    return (await this.invoke({ method: 'reloadScopes' })) as ReloadScopesResponse;
+    return (await this.invoke({
+      method: 'reloadScopes',
+      responseSchema: ReloadScopesResponseSchema,
+    })) as ReloadScopesResponse;
   }
 }

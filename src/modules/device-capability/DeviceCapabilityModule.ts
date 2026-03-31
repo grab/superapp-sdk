@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { IsEsimSupportedResponseSchema } from './schemas';
 import { IsEsimSupportedResponse } from './types';
 
 /**
@@ -44,12 +45,12 @@ export class DeviceCapabilityModule extends BaseModule {
   /**
    * Checks whether the current device supports eSIM.
    *
-   * @returns Whether eSIM is supported on the current device.
+   * @returns Whether eSIM is supported on the current device. See {@link IsEsimSupportedResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { DeviceCapabilityModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { DeviceCapabilityModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the device capability module
    * const deviceCapability = new DeviceCapabilityModule();
@@ -60,7 +61,7 @@ export class DeviceCapabilityModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('eSIM supported:', response.result);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -72,6 +73,7 @@ export class DeviceCapabilityModule extends BaseModule {
   async isEsimSupported(): Promise<IsEsimSupportedResponse> {
     return (await this.invoke({
       method: 'isEsimSupported',
+      responseSchema: IsEsimSupportedResponseSchema,
     })) as IsEsimSupportedResponse;
   }
 }

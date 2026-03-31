@@ -7,6 +7,11 @@
 
 import { BaseModule } from '../../core';
 import { meetsMinimumVersion, Version } from '../../utils/version';
+import {
+  FetchEmailResponseSchema,
+  VerifyEmailRequestSchema,
+  VerifyEmailResponseSchema,
+} from './schemas';
 import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 
 /**
@@ -51,12 +56,12 @@ export class ProfileModule extends BaseModule {
    * This method requires Grab app version 5.399 or above. If called on an older version,
    * it will return a 426 (Upgrade Required) response.
    *
-   * @returns The user's email address if available.
+   * @returns The user's email address if available. See {@link FetchEmailResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ProfileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the profile module
    * const profile = new ProfileModule();
@@ -67,7 +72,7 @@ export class ProfileModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('User email:', response.result.email);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
    *       console.log('No permission to access user profile');
@@ -91,6 +96,7 @@ export class ProfileModule extends BaseModule {
     return (await this.invoke({
       method: 'fetchEmail',
       isSupported: (appInfo) => meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION),
+      responseSchema: FetchEmailResponseSchema,
     })) as FetchEmailResponse;
   }
 
@@ -101,14 +107,14 @@ export class ProfileModule extends BaseModule {
    * This method requires Grab app version 5.399 or above. If called on an older version,
    * it will return a 426 (Upgrade Required) response.
    *
-   * @param request - The email and OTP to verify.
+   * @param request - The email and OTP to verify. See {@link VerifyEmailRequest}.
    *
-   * @returns Confirmation of whether the email verification was successful.
+   * @returns Confirmation of whether the email verification was successful. See {@link VerifyEmailResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ProfileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the profile module
    * const profile = new ProfileModule();
@@ -122,7 +128,7 @@ export class ProfileModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Email verified successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
    *       console.log('No permission to access user profile');
@@ -147,6 +153,8 @@ export class ProfileModule extends BaseModule {
       method: 'verifyEmail',
       params: request,
       isSupported: (appInfo) => meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION),
+      requestSchema: VerifyEmailRequestSchema,
+      responseSchema: VerifyEmailResponseSchema,
     })) as VerifyEmailResponse;
   }
 }

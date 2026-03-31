@@ -5,7 +5,9 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import * as v from 'valibot';
+
+import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
 
 /**
  * Request parameters for downloading a file via native bridge.
@@ -20,12 +22,7 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type DownloadFileRequest = {
-  /** The URL of the file to download. */
-  fileUrl: string;
-  /** The desired name for the downloaded file. */
-  fileName: string;
-};
+export type DownloadFileRequest = v.InferOutput<typeof DownloadFileRequestSchema>;
 
 /**
  * Result data structure for file download operations.
@@ -47,41 +44,6 @@ export type DownloadFileResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * {
- *   status_code: 204
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Invalid request'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type DownloadFileResponse = BridgeResponse<204 | 400 | 500 | 501, DownloadFileResult>;
+export type DownloadFileResponse = v.InferOutput<typeof DownloadFileResponseSchema>;

@@ -5,6 +5,8 @@
  * directory of this source tree.
  */
 
+import { safeParse } from 'valibot';
+
 import { BaseModule } from '../../core';
 import {
   generateCodeChallenge,
@@ -13,6 +15,7 @@ import {
 } from '../../utils/crypto';
 import { isErrorWithMessage } from '../../utils/error';
 import { detectGrabApp } from '../../utils/platform';
+import { formatIssues } from '../../utils/schema';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import {
   CODE_CHALLENGE_METHOD,
@@ -23,6 +26,7 @@ import {
   STATE_LENGTH,
 } from './constants';
 import { AuthorizationConfigurationError } from './errors';
+import { AuthorizeRequestSchema, AuthorizeResponseSchema } from './schemas';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
@@ -158,7 +162,7 @@ export class IdentityModule extends BaseModule {
    * Retrieves stored PKCE authorization artifacts from local storage.
    * These artifacts are used to complete the OAuth2 authorization code exchange.
    *
-   * @returns The stored PKCE artifacts including state, code verifier, nonce, and redirect URI.
+   * @returns The stored PKCE artifacts including state, code verifier, nonce, and redirect URI. See {@link GetAuthorizationArtifactsResponse}.
    *
    * @remarks
    * **Important:** The `redirectUri` returned by this method is the actual redirect URI
@@ -169,7 +173,7 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * import { IdentityModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { IdentityModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
    * const identity = new IdentityModule();
@@ -193,7 +197,7 @@ export class IdentityModule extends BaseModule {
    *       console.log('No authorization artifacts found');
    *       break;
    *   }
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -230,7 +234,7 @@ export class IdentityModule extends BaseModule {
    * This should be called after a successful token exchange or when you need to
    * reset the authorization state (e.g., on error or logout).
    *
-   * @returns Confirmation that the authorization artifacts have been cleared.
+   * @returns Confirmation that the authorization artifacts have been cleared. See {@link ClearAuthorizationArtifactsResponse}.
    *
    * @example
    * **Simple usage**
@@ -433,6 +437,7 @@ export class IdentityModule extends BaseModule {
         codeChallengeMethod: invokeParams.codeChallengeMethod,
         responseMode: invokeParams.responseMode,
       },
+      responseSchema: AuthorizeResponseSchema,
     })) as AuthorizeResponse;
   }
 
@@ -440,9 +445,9 @@ export class IdentityModule extends BaseModule {
    * Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
    * This method handles both native in-app consent and web-based fallback flows.
    *
-   * @param request - Authorization parameters including client ID, redirect URI, scope, and environment.
+   * @param request - Authorization parameters including client ID, redirect URI, scope, and environment. See {@link AuthorizeRequest}.
    *
-   * @returns The authorization result, containing the authorization code on success or redirect status.
+   * @returns The authorization result, containing the authorization code on success or redirect status. See {@link AuthorizeResponse}.
    *
    * @remarks
    * **Important Note on redirectUri and responseMode:**
@@ -471,7 +476,7 @@ export class IdentityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * import { IdentityModule, isSuccess, isRedirection, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { IdentityModule, isSuccess, isRedirection, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
    * const identity = new IdentityModule();
@@ -498,7 +503,7 @@ export class IdentityModule extends BaseModule {
    *   }
    * } else if (isRedirection(response)) {
    *   console.log('Redirecting to authorization...');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
    *       console.log('Client not authorized for requested scope');
@@ -515,9 +520,9 @@ export class IdentityModule extends BaseModule {
    * @public
    */
   async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
-    const validationError = IdentityModule.validateAuthorizeRequest(request);
-    if (validationError) {
-      return { status_code: 400, error: validationError };
+    const parseResult = safeParse(AuthorizeRequestSchema, request);
+    if (!parseResult.success) {
+      return { status_code: 400, error: formatIssues(parseResult.issues) };
     }
 
     const pkceArtifacts = await this.generatePKCEArtifacts();
@@ -590,67 +595,5 @@ export class IdentityModule extends BaseModule {
         environment: request.environment,
       });
     }
-  }
-
-  /**
-   * Validates that a required string field is present and non-empty.
-   *
-   * @param value - The value to validate.
-   * @param fieldName - The name of the field being validated (for error messages).
-   * @returns An error message string if invalid, null if valid.
-   *
-   * @internal
-   */
-  private static validateRequiredString(value: unknown, fieldName: string): string | null {
-    if (!value || typeof value !== 'string' || value.trim() === '') {
-      return `${fieldName} is required and must be a non-empty string`;
-    }
-    return null;
-  }
-
-  /**
-   * Validates the authorization request parameters.
-   *
-   * @param request - The authorization request to validate.
-   * @returns An error message string if invalid, null if valid.
-   *
-   * @internal
-   */
-  private static validateAuthorizeRequest(
-    request: AuthorizeRequest | null | undefined
-  ): string | null {
-    if (request == null) {
-      return 'request is required';
-    }
-
-    const scopeError = IdentityModule.validateRequiredString(request.scope, 'scope');
-    if (scopeError) return scopeError;
-
-    const clientIdError = IdentityModule.validateRequiredString(request.clientId, 'clientId');
-    if (clientIdError) return clientIdError;
-
-    const redirectUriError = IdentityModule.validateRequiredString(
-      request.redirectUri,
-      'redirectUri'
-    );
-    if (redirectUriError) return redirectUriError;
-
-    try {
-      new URL(request.redirectUri);
-    } catch {
-      return 'redirectUri must be a valid URL';
-    }
-
-    const environmentError = IdentityModule.validateRequiredString(
-      request.environment,
-      'environment'
-    );
-    if (environmentError) return environmentError;
-
-    if (request.environment !== 'staging' && request.environment !== 'production') {
-      return "environment must be either 'staging' or 'production'";
-    }
-
-    return null;
   }
 }

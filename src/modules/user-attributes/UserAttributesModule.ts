@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { GetSelectedTravelDestinationResponseSchema } from './schemas';
 import { GetSelectedTravelDestinationResponse } from './types';
 
 /**
@@ -44,12 +45,12 @@ export class UserAttributesModule extends BaseModule {
   /**
    * Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
    *
-   * @returns The selected travel destination lowercase ISO 3166-1 alpha-2 country code when available.
+   * @returns The selected travel destination lowercase ISO 3166-1 alpha-2 country code when available. See {@link GetSelectedTravelDestinationResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { UserAttributesModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { UserAttributesModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the user attributes module
    * const userAttributes = new UserAttributesModule();
@@ -67,7 +68,7 @@ export class UserAttributesModule extends BaseModule {
    *       console.log('Selected travel destination is not available');
    *       break;
    *   }
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -79,6 +80,7 @@ export class UserAttributesModule extends BaseModule {
   async getSelectedTravelDestination(): Promise<GetSelectedTravelDestinationResponse> {
     return (await this.invoke({
       method: 'getSelectedTravelDestination',
+      responseSchema: GetSelectedTravelDestinationResponseSchema,
     })) as GetSelectedTravelDestinationResponse;
   }
 }

@@ -5,7 +5,13 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import * as v from 'valibot';
+
+import {
+  ScanQRCodeRequestSchema,
+  ScanQRCodeResponseSchema,
+  ScanQRCodeResultSchema,
+} from './schemas';
 
 /**
  * Request parameters for scanning QR codes.
@@ -24,10 +30,7 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type ScanQRCodeRequest = {
-  /** Optional title shown in the camera view header. */
-  title?: string;
-};
+export type ScanQRCodeRequest = v.InferOutput<typeof ScanQRCodeRequestSchema>;
 
 /**
  * Result object containing the scanned QR code data.
@@ -39,10 +42,7 @@ export type ScanQRCodeRequest = {
  *
  * @public
  */
-export type ScanQRCodeResult = {
-  /** The raw string content decoded from the scanned QR code. */
-  qrCode: string;
-};
+export type ScanQRCodeResult = v.InferOutput<typeof ScanQRCodeResultSchema>;
 
 /**
  * Response when scanning a QR code.
@@ -56,60 +56,6 @@ export type ScanQRCodeResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200):**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { qrCode: 'https://example.com/payment/123' }
- * }
- * ```
- *
- * @example
- * **Cancelled response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Invalid request parameters'
- * }
- * ```
- *
- * @example
- * **Permission denied response (403):**
- * ```typescript
- * {
- *   status_code: 403,
- *   error: 'Camera permission is not enabled for the Grab app'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type ScanQRCodeResponse = BridgeResponse<
-  200 | 204 | 400 | 403 | 500 | 501,
-  ScanQRCodeResult
->;
+export type ScanQRCodeResponse = v.InferOutput<typeof ScanQRCodeResponseSchema>;

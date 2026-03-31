@@ -143,7 +143,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('request is required');
+        expect(response.error).toBe('Invalid type: Expected Object but received null');
       }
     });
 
@@ -158,7 +158,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('clientId is required and must be a non-empty string');
+        expect(response.error).toBe('clientId: Invalid length: Expected >=1 but received 0');
       }
     });
 
@@ -173,7 +173,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('redirectUri is required and must be a non-empty string');
+        expect(response.error).toBe('redirectUri: Invalid URL: Received ""');
       }
     });
 
@@ -188,7 +188,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('redirectUri must be a valid URL');
+        expect(response.error).toBe('redirectUri: Invalid URL: Received "not-a-valid-url"');
       }
     });
 
@@ -203,7 +203,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('scope is required and must be a non-empty string');
+        expect(response.error).toBe('scope: Invalid length: Expected >=1 but received 0');
       }
     });
 
@@ -218,7 +218,9 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe("environment must be either 'staging' or 'production'");
+        expect(response.error).toBe(
+          'environment: Invalid type: Expected ("staging" | "production") but received "invalid"'
+        );
       }
     });
 

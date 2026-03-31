@@ -5,46 +5,32 @@
  * directory of this source tree.
  */
 
-export type { WrappedModule } from './core';
-export type { InvokeOptions } from './core';
-export {
-  BridgeClientError,
-  BridgeError,
-  BridgeRedirection,
+export type {
   BridgeResponse,
-  BridgeServerError,
-  BridgeStatusCode,
   BridgeStream,
   BridgeStreamHandlers,
-  BridgeSuccessResponse,
-  ErrorResponse,
-  isClientError,
-  isErrorResponse,
-  isRedirection,
-  isServerError,
-  isSuccess,
-  ResponseStatusCode200,
-  ResponseStatusCode204,
-  ResponseStatusCode302,
-  ResponseStatusCode400,
-  ResponseStatusCode401,
-  ResponseStatusCode403,
-  ResponseStatusCode404,
-  ResponseStatusCode424,
-  ResponseStatusCode426,
-  ResponseStatusCode500,
-  ResponseStatusCode501,
-  StatusCodeMap,
+  InvokeOptions,
   Subscription,
+  WrappedModule,
 } from './core';
+export { isClientError, isError, isRedirection, isServerError, isSuccess } from './core';
 export { BaseModule } from './core';
 export { CameraModule } from './modules/camera/CameraModule';
+export {
+  ScanQRCodeRequestSchema,
+  ScanQRCodeResponseSchema,
+  ScanQRCodeResultSchema,
+} from './modules/camera/schemas';
 export type {
   ScanQRCodeRequest,
   ScanQRCodeResponse,
   ScanQRCodeResult,
 } from './modules/camera/types';
 export { CheckoutModule } from './modules/checkout/CheckoutModule';
+export {
+  TriggerCheckoutResponseSchema,
+  TriggerCheckoutResultSchema,
+} from './modules/checkout/schemas';
 export type {
   TriggerCheckoutRequest,
   TriggerCheckoutResponse,
@@ -56,6 +42,26 @@ export {
   ContainerAnalyticsEventState,
 } from './modules/container/constants';
 export { ContainerModule } from './modules/container/ContainerModule';
+export {
+  CloseResponseSchema,
+  GetSessionParamsResponseSchema,
+  GetSessionParamsResultSchema,
+  HideBackButtonResponseSchema,
+  HideLoaderResponseSchema,
+  HideRefreshButtonResponseSchema,
+  IsConnectedResponseSchema,
+  IsConnectedResultSchema,
+  OnContentLoadedResponseSchema,
+  OnCtaTapResponseSchema,
+  OpenExternalLinkResponseSchema,
+  SendAnalyticsEventRequestSchema,
+  SendAnalyticsEventResponseSchema,
+  SetBackgroundColorResponseSchema,
+  SetTitleResponseSchema,
+  ShowBackButtonResponseSchema,
+  ShowLoaderResponseSchema,
+  ShowRefreshButtonResponseSchema,
+} from './modules/container/schemas';
 export type {
   CloseResponse,
   CloseResult,
@@ -94,17 +100,30 @@ export type {
   ShowRefreshButtonResult,
 } from './modules/container/types';
 export { DeviceCapabilityModule } from './modules/device-capability/DeviceCapabilityModule';
+export {
+  IsEsimSupportedResponseSchema,
+  IsEsimSupportedResultSchema,
+} from './modules/device-capability/schemas';
 export type {
   IsEsimSupportedResponse,
   IsEsimSupportedResult,
 } from './modules/device-capability/types';
 export { FileModule } from './modules/file/FileModule';
+export { DownloadFileRequestSchema, DownloadFileResponseSchema } from './modules/file/schemas';
 export type {
   DownloadFileRequest,
   DownloadFileResponse,
   DownloadFileResult,
 } from './modules/file/types';
 export { IdentityModule } from './modules/identity/IdentityModule';
+export {
+  AuthorizeRequestSchema,
+  AuthorizeResponseSchema,
+  AuthorizeResultSchema,
+  ClearAuthorizationArtifactsResponseSchema,
+  GetAuthorizationArtifactsResponseSchema,
+  GetAuthorizationArtifactsResultSchema,
+} from './modules/identity/schemas';
 export type {
   AuthorizeRequest,
   AuthorizeResponse,
@@ -115,11 +134,21 @@ export type {
   GetAuthorizationArtifactsResult,
 } from './modules/identity/types';
 export { LocaleModule } from './modules/locale/LocaleModule';
+export {
+  GetLanguageLocaleIdentifierResponseSchema,
+  GetLanguageLocaleIdentifierResultSchema,
+} from './modules/locale/schemas';
 export type {
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResult,
 } from './modules/locale/types';
 export { LocationModule } from './modules/location/LocationModule';
+export {
+  GetCoordinateResponseSchema,
+  GetCoordinateResultSchema,
+  GetCountryCodeResponseSchema,
+  GetCountryCodeResultSchema,
+} from './modules/location/schemas';
 export type {
   GetCoordinateResponse,
   GetCoordinateResult,
@@ -128,6 +157,7 @@ export type {
   ObserveLocationChangeResponse,
 } from './modules/location/types';
 export { MediaModule } from './modules/media/MediaModule';
+export { DRMPlaybackEventSchema, PlayDRMContentResponseSchema } from './modules/media/schemas';
 export type {
   DRMContentConfig,
   DRMPlaybackEvent,
@@ -136,8 +166,15 @@ export type {
   PlayDRMContentResult,
 } from './modules/media/types';
 export { PlatformModule } from './modules/platform/PlatformModule';
+export { BackResponseSchema } from './modules/platform/schemas';
 export type { BackResponse, BackResult } from './modules/platform/types';
 export { ProfileModule } from './modules/profile/ProfileModule';
+export {
+  FetchEmailResponseSchema,
+  FetchEmailResultSchema,
+  VerifyEmailRequestSchema,
+  VerifyEmailResponseSchema,
+} from './modules/profile/schemas';
 export type {
   FetchEmailResponse,
   FetchEmailResult,
@@ -145,13 +182,40 @@ export type {
   VerifyEmailResponse,
   VerifyEmailResult,
 } from './modules/profile/types';
+export {
+  HasAccessToRequestSchema,
+  HasAccessToResponseSchema,
+  HasAccessToResultSchema,
+  ReloadScopesResponseSchema,
+} from './modules/scope/schemas';
 export { ScopeModule } from './modules/scope/ScopeModule';
 export type {
+  HasAccessToRequest,
   HasAccessToResponse,
   HasAccessToResult,
   ReloadScopesResponse,
   ReloadScopesResult,
 } from './modules/scope/types';
+export {
+  GetBooleanRequestSchema,
+  GetBooleanResponseSchema,
+  GetBooleanResultSchema,
+  GetDoubleRequestSchema,
+  GetDoubleResponseSchema,
+  GetDoubleResultSchema,
+  GetIntRequestSchema,
+  GetIntResponseSchema,
+  GetIntResultSchema,
+  GetStringRequestSchema,
+  GetStringResponseSchema,
+  GetStringResultSchema,
+  RemoveAllResponseSchema,
+  RemoveResponseSchema,
+  SetBooleanResponseSchema,
+  SetDoubleResponseSchema,
+  SetIntResponseSchema,
+  SetStringResponseSchema,
+} from './modules/storage/schemas';
 export { StorageModule } from './modules/storage/StorageModule';
 export type {
   GetBooleanRequest,
@@ -179,12 +243,20 @@ export type {
   SetStringResponse,
   SetStringResult,
 } from './modules/storage/types';
+export {
+  RedirectToSystemWebViewRequestSchema,
+  RedirectToSystemWebViewResponseSchema,
+} from './modules/system-web-view-kit/schemas';
 export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
 export type {
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewResult,
 } from './modules/system-web-view-kit/types';
+export {
+  GetSelectedTravelDestinationResponseSchema,
+  GetSelectedTravelDestinationResultSchema,
+} from './modules/user-attributes/schemas';
 export type {
   GetSelectedTravelDestinationResponse,
   GetSelectedTravelDestinationResult,

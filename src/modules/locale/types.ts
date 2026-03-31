@@ -5,7 +5,12 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import * as v from 'valibot';
+
+import {
+  GetLanguageLocaleIdentifierResponseSchema,
+  GetLanguageLocaleIdentifierResultSchema,
+} from './schemas';
 
 /**
  * Result object containing the language locale identifier.
@@ -35,7 +40,9 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResult = string;
+export type GetLanguageLocaleIdentifierResult = v.InferOutput<
+  typeof GetLanguageLocaleIdentifierResultSchema
+>;
 
 /**
  * Response when getting the language locale identifier from the device.
@@ -46,45 +53,8 @@ export type GetLanguageLocaleIdentifierResult = string;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - English locale:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: 'en'
- * }
- * ```
- *
- * @example
- * **Success response (200) - Indonesian locale:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: 'id'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = BridgeResponse<
-  200 | 500 | 501,
-  GetLanguageLocaleIdentifierResult
+export type GetLanguageLocaleIdentifierResponse = v.InferOutput<
+  typeof GetLanguageLocaleIdentifierResponseSchema
 >;

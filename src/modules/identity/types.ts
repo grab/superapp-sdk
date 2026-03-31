@@ -5,7 +5,16 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import * as v from 'valibot';
+
+import {
+  AuthorizeRequestSchema,
+  AuthorizeResponseSchema,
+  AuthorizeResultSchema,
+  ClearAuthorizationArtifactsResponseSchema,
+  GetAuthorizationArtifactsResponseSchema,
+  GetAuthorizationArtifactsResultSchema,
+} from './schemas';
 
 /**
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
@@ -36,24 +45,7 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type AuthorizeRequest = {
-  /** The OAuth2 client ID for your MiniApp. */
-  clientId: string;
-  /** The redirect URI registered for your MiniApp. */
-  redirectUri: string;
-  /** The OAuth2 scopes to request (space-separated string). */
-  scope: string;
-  /** The environment to use for authorization ('staging' or 'production'). */
-  environment: 'staging' | 'production';
-  /**
-   * The response mode for the authorization flow.
-   * - 'redirect': User is redirected to the redirect URI after authorization
-   * - 'in_place': Authorization happens within the current page context
-   *
-   * @defaultValue 'redirect'
-   */
-  responseMode?: 'redirect' | 'in_place';
-};
+export type AuthorizeRequest = v.InferOutput<typeof AuthorizeRequestSchema>;
 
 /**
  * Result object for the authorization flow.
@@ -69,12 +61,7 @@ export type AuthorizeRequest = {
  *
  * @public
  */
-export type AuthorizeResult = {
-  /** The authorization code returned from the server. */
-  code: string;
-  /** The state parameter returned from the server for CSRF protection. */
-  state: string;
-};
+export type AuthorizeResult = v.InferOutput<typeof AuthorizeResultSchema>;
 
 /**
  * Response when initiating an authorization flow.
@@ -90,81 +77,9 @@ export type AuthorizeResult = {
  * - `500`: Internal server error - unexpected error during native authorization.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - native in_place flow:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: {
- *     code: 'auth-code-abc123',
- *     state: 'csrf-state-xyz789'
- *   }
- * }
- * ```
- *
- * @example
- * **Cancelled response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Redirect response (302) - web flow:**
- * ```typescript
- * { status_code: 302 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required OAuth parameters'
- * }
- * ```
- *
- * @example
- * **Unauthorized response (401):**
- * ```typescript
- * {
- *   status_code: 401,
- *   error: 'Unauthorized: User not authenticated or session expired'
- * }
- * ```
- *
- * @example
- * **Forbidden response (403):**
- * ```typescript
- * {
- *   status_code: 403,
- *   error: 'Forbidden: Client not authorized for the requested scope'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type AuthorizeResponse = BridgeResponse<
-  200 | 204 | 302 | 400 | 401 | 403 | 500 | 501,
-  AuthorizeResult
->;
+export type AuthorizeResponse = v.InferOutput<typeof AuthorizeResponseSchema>;
 
 /**
  * Result object containing the stored PKCE authorization artifacts.
@@ -181,24 +96,11 @@ export type AuthorizeResponse = BridgeResponse<
  * }
  * ```
  *
- * @example
- * **No artifacts (null):**
- * ```typescript
- * null
- * ```
- *
  * @public
  */
-export type GetAuthorizationArtifactsResult = {
-  /** The state parameter used in the authorization request. */
-  state: string;
-  /** The code verifier for PKCE. */
-  codeVerifier: string;
-  /** The nonce used in the authorization request. */
-  nonce: string;
-  /** The redirect URI used in the authorization request. */
-  redirectUri: string;
-};
+export type GetAuthorizationArtifactsResult = v.InferOutput<
+  typeof GetAuthorizationArtifactsResultSchema
+>;
 
 /**
  * Response when retrieving stored authorization artifacts.
@@ -209,40 +111,10 @@ export type GetAuthorizationArtifactsResult = {
  * - `204`: No artifacts yet - authorization has not been initiated.
  * - `400`: Inconsistent state - possible data corruption in storage.
  *
- * @example
- * **Success response (200) - all artifacts present:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: {
- *     state: 'csrf-state-xyz789',
- *     codeVerifier: 'code-verifier-123',
- *     nonce: 'nonce-abc',
- *     redirectUri: 'https://your-app.com/callback'
- *   }
- * }
- * ```
- *
- * @example
- * **No content response (204) - no artifacts:**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request response (400) - inconsistent state:**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Inconsistent authorization artifacts in storage'
- * }
- * ```
- *
  * @public
  */
-export type GetAuthorizationArtifactsResponse = BridgeResponse<
-  200 | 204 | 400,
-  GetAuthorizationArtifactsResult
+export type GetAuthorizationArtifactsResponse = v.InferOutput<
+  typeof GetAuthorizationArtifactsResponseSchema
 >;
 
 /**
@@ -259,15 +131,8 @@ export type ClearAuthorizationArtifactsResult = void;
  * @remarks
  * This response returns status code `204` when artifacts are successfully cleared.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
  * @public
  */
-export type ClearAuthorizationArtifactsResponse = BridgeResponse<
-  204,
-  ClearAuthorizationArtifactsResult
+export type ClearAuthorizationArtifactsResponse = v.InferOutput<
+  typeof ClearAuthorizationArtifactsResponseSchema
 >;

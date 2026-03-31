@@ -112,7 +112,9 @@ describe('ScopeModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('Missing required parameters');
+        expect(response.error).toBe(
+          'module: Invalid length: Expected >=1 but received 0, method: Invalid length: Expected >=1 but received 0'
+        );
       }
     });
 
@@ -201,7 +203,6 @@ describe('ScopeModule', () => {
 
       const mockResponse: ReloadScopesResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -224,7 +225,6 @@ describe('ScopeModule', () => {
 
       const mockResponse: ReloadScopesResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);

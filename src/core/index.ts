@@ -6,31 +6,18 @@
  */
 
 export { BaseModule } from './BaseModule';
-export { isClientError, isErrorResponse, isRedirection, isServerError, isSuccess } from './guards';
+export { isClientError, isError, isRedirection, isServerError, isSuccess } from './guards';
+export {
+  bridgeErrorSchema,
+  bridgeNoContentSchema,
+  bridgeRedirectSchema,
+  bridgeSuccessSchema,
+} from './schemas';
 export type {
-  BridgeClientError,
-  BridgeError,
-  BridgeRedirection,
   BridgeResponse,
-  BridgeServerError,
-  BridgeStatusCode,
   BridgeStream,
   BridgeStreamHandlers,
-  BridgeSuccessResponse,
-  ErrorResponse,
   InvokeOptions,
-  ResponseStatusCode200,
-  ResponseStatusCode204,
-  ResponseStatusCode302,
-  ResponseStatusCode400,
-  ResponseStatusCode401,
-  ResponseStatusCode403,
-  ResponseStatusCode404,
-  ResponseStatusCode424,
-  ResponseStatusCode426,
-  ResponseStatusCode500,
-  ResponseStatusCode501,
-  StatusCodeMap,
   Subscription,
   WrappedModule,
 } from './types';

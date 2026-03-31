@@ -8,6 +8,23 @@
 import { BaseModule } from '../../core';
 import { isRunningInGrabApp } from '../../utils/platform';
 import {
+  CloseResponseSchema,
+  GetSessionParamsResponseSchema,
+  HideBackButtonResponseSchema,
+  HideLoaderResponseSchema,
+  HideRefreshButtonResponseSchema,
+  OnContentLoadedResponseSchema,
+  OnCtaTapResponseSchema,
+  OpenExternalLinkResponseSchema,
+  SendAnalyticsEventRequestSchema,
+  SendAnalyticsEventResponseSchema,
+  SetBackgroundColorResponseSchema,
+  SetTitleResponseSchema,
+  ShowBackButtonResponseSchema,
+  ShowLoaderResponseSchema,
+  ShowRefreshButtonResponseSchema,
+} from './schemas';
+import {
   CloseResponse,
   GetSessionParamsResponse,
   HideBackButtonResponse,
@@ -66,14 +83,14 @@ export class ContainerModule extends BaseModule {
   /**
    * Set the background color of the container header.
    *
-   * @param request - The background color to set (hex format, e.g., '#ffffff').
+   * @param request - The background color to set (hex format, e.g., '#ffffff'). See {@link SetBackgroundColorRequest}.
    *
-   * @returns Confirmation that the background color was set.
+   * @returns Confirmation that the background color was set. See {@link SetBackgroundColorResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -84,7 +101,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Background color set successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -99,20 +116,21 @@ export class ContainerModule extends BaseModule {
     return (await this.invoke({
       method: 'setBackgroundColor',
       params: { backgroundColor: request },
+      responseSchema: SetBackgroundColorResponseSchema,
     })) as SetBackgroundColorResponse;
   }
 
   /**
    * Set the title of the container header.
    *
-   * @param request - The title text to display in the header.
+   * @param request - The title text to display in the header. See {@link SetTitleRequest}.
    *
-   * @returns Confirmation that the title was set.
+   * @returns Confirmation that the title was set. See {@link SetTitleResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -123,7 +141,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Title set successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -136,18 +154,19 @@ export class ContainerModule extends BaseModule {
     return (await this.invoke({
       method: 'setTitle',
       params: { title: request },
+      responseSchema: SetTitleResponseSchema,
     })) as SetTitleResponse;
   }
 
   /**
    * Hide the back button on the container header.
    *
-   * @returns Confirmation that the back button is now hidden.
+   * @returns Confirmation that the back button is now hidden. See {@link HideBackButtonResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -158,7 +177,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Back button hidden successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -168,18 +187,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideBackButton(): Promise<HideBackButtonResponse> {
-    return (await this.invoke({ method: 'hideBackButton' })) as HideBackButtonResponse;
+    return (await this.invoke({
+      method: 'hideBackButton',
+      responseSchema: HideBackButtonResponseSchema,
+    })) as HideBackButtonResponse;
   }
 
   /**
    * Show the back button on the container header.
    *
-   * @returns Confirmation that the back button is now visible.
+   * @returns Confirmation that the back button is now visible. See {@link ShowBackButtonResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -190,7 +212,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Back button shown successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -200,18 +222,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showBackButton(): Promise<ShowBackButtonResponse> {
-    return (await this.invoke({ method: 'showBackButton' })) as ShowBackButtonResponse;
+    return (await this.invoke({
+      method: 'showBackButton',
+      responseSchema: ShowBackButtonResponseSchema,
+    })) as ShowBackButtonResponse;
   }
 
   /**
    * Hide the refresh button on the container header.
    *
-   * @returns Confirmation that the refresh button is now hidden.
+   * @returns Confirmation that the refresh button is now hidden. See {@link HideRefreshButtonResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -222,7 +247,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Refresh button hidden successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -232,18 +257,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    return (await this.invoke({ method: 'hideRefreshButton' })) as HideRefreshButtonResponse;
+    return (await this.invoke({
+      method: 'hideRefreshButton',
+      responseSchema: HideRefreshButtonResponseSchema,
+    })) as HideRefreshButtonResponse;
   }
 
   /**
    * Show the refresh button on the container header.
    *
-   * @returns Confirmation that the refresh button is now visible.
+   * @returns Confirmation that the refresh button is now visible. See {@link ShowRefreshButtonResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -254,7 +282,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Refresh button shown successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -264,18 +292,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    return (await this.invoke({ method: 'showRefreshButton' })) as ShowRefreshButtonResponse;
+    return (await this.invoke({
+      method: 'showRefreshButton',
+      responseSchema: ShowRefreshButtonResponseSchema,
+    })) as ShowRefreshButtonResponse;
   }
 
   /**
    * Close the container and return to the previous screen.
    *
-   * @returns Confirmation that the container is closing.
+   * @returns Confirmation that the container is closing. See {@link CloseResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -286,7 +317,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Container closed successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -296,18 +327,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async close(): Promise<CloseResponse> {
-    return (await this.invoke({ method: 'close' })) as CloseResponse;
+    return (await this.invoke({
+      method: 'close',
+      responseSchema: CloseResponseSchema,
+    })) as CloseResponse;
   }
 
   /**
    * Notify the Grab SuperApp that the page content has loaded.
    *
-   * @returns Confirmation that the content loaded notification was sent.
+   * @returns Confirmation that the content loaded notification was sent. See {@link OnContentLoadedResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -318,7 +352,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Content loaded notification sent successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -328,7 +362,10 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async onContentLoaded(): Promise<OnContentLoadedResponse> {
-    return (await this.invoke({ method: 'onContentLoaded' })) as OnContentLoadedResponse;
+    return (await this.invoke({
+      method: 'onContentLoaded',
+      responseSchema: OnContentLoadedResponseSchema,
+    })) as OnContentLoadedResponse;
   }
 
   /**
@@ -337,12 +374,12 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Remember to call {@link ContainerModule.hideLoader} when the operation completes.
    *
-   * @returns Confirmation that the loader is now visible.
+   * @returns Confirmation that the loader is now visible. See {@link ShowLoaderResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -353,7 +390,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Loader shown successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -363,7 +400,10 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showLoader(): Promise<ShowLoaderResponse> {
-    return (await this.invoke({ method: 'showLoader' })) as ShowLoaderResponse;
+    return (await this.invoke({
+      method: 'showLoader',
+      responseSchema: ShowLoaderResponseSchema,
+    })) as ShowLoaderResponse;
   }
 
   /**
@@ -372,12 +412,12 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Should be called when the entry point has finished loading.
    *
-   * @returns Confirmation that the loader is now hidden.
+   * @returns Confirmation that the loader is now hidden. See {@link HideLoaderResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -388,7 +428,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Loader hidden successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -398,7 +438,10 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideLoader(): Promise<HideLoaderResponse> {
-    return (await this.invoke({ method: 'hideLoader' })) as HideLoaderResponse;
+    return (await this.invoke({
+      method: 'hideLoader',
+      responseSchema: HideLoaderResponseSchema,
+    })) as HideLoaderResponse;
   }
 
   /**
@@ -407,14 +450,14 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to open the specified URL in an external browser (outside of the Grab app).
    *
-   * @param request - The URL to open in the external browser.
+   * @param request - The URL to open in the external browser. See {@link OpenExternalLinkRequest}.
    *
-   * @returns Confirmation of whether the external link was opened successfully.
+   * @returns Confirmation of whether the external link was opened successfully. See {@link OpenExternalLinkResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -425,7 +468,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('External link opened successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -438,20 +481,21 @@ export class ContainerModule extends BaseModule {
     return (await this.invoke({
       method: 'openExternalLink',
       params: { url: request },
+      responseSchema: OpenExternalLinkResponseSchema,
     })) as OpenExternalLinkResponse;
   }
 
   /**
    * Notify the client that the user has tapped a call-to-action (CTA).
    *
-   * @param request - The action identifier for the CTA that was tapped.
+   * @param request - The action identifier for the CTA that was tapped. See {@link OnCtaTapRequest}.
    *
-   * @returns Confirmation that the CTA tap was notified.
+   * @returns Confirmation that the CTA tap was notified. See {@link OnCtaTapResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -462,7 +506,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('CTA tap notified successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -475,6 +519,7 @@ export class ContainerModule extends BaseModule {
     return (await this.invoke({
       method: 'onCtaTap',
       params: { action: request },
+      responseSchema: OnCtaTapResponseSchema,
     })) as OnCtaTapResponse;
   }
 
@@ -488,9 +533,9 @@ export class ContainerModule extends BaseModule {
    * - **States:** {@link ContainerAnalyticsEventState}
    * - **Names:** {@link ContainerAnalyticsEventName}
    *
-   * @param request - Analytics event details including state, name, and optional data.
+   * @param request - Analytics event details including state, name, and optional data. See {@link SendAnalyticsEventRequest}.
    *
-   * @returns Confirmation of whether the analytics event was sent successfully.
+   * @returns Confirmation of whether the analytics event was sent successfully. See {@link SendAnalyticsEventResponse}.
    *
    * @see {@link ContainerAnalyticsEventState}, {@link ContainerAnalyticsEventName}
    *
@@ -500,7 +545,7 @@ export class ContainerModule extends BaseModule {
    * import {
    *   ContainerModule,
    *   isSuccess,
-   *   isErrorResponse,
+   *   isError,
    *   ContainerAnalyticsEventState,
    *   ContainerAnalyticsEventName,
    * } from '@grabjs/superapp-sdk';
@@ -517,7 +562,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Analytics event sent successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -529,10 +574,8 @@ export class ContainerModule extends BaseModule {
   async sendAnalyticsEvent(
     request: SendAnalyticsEventRequest
   ): Promise<SendAnalyticsEventResponse> {
-    const validationError = this.validateAnalyticsEvent(request);
-    if (validationError) {
-      return { status_code: 400, error: validationError };
-    }
+    const validationError = this.validateRequest(SendAnalyticsEventRequestSchema, request);
+    if (validationError) return validationError;
     return (await this.invoke({
       method: 'sendAnalyticsEvent',
       params: {
@@ -540,6 +583,7 @@ export class ContainerModule extends BaseModule {
         name: request.name,
         data: request.data ? JSON.stringify(request.data) : null,
       },
+      responseSchema: SendAnalyticsEventResponseSchema,
     })) as SendAnalyticsEventResponse;
   }
 
@@ -549,12 +593,12 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to verify the connection status before using other features.
    *
-   * @returns The connection status, indicating whether the MiniApp is running inside the Grab SuperApp.
+   * @returns The connection status, indicating whether the MiniApp is running inside the Grab SuperApp. See {@link IsConnectedResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -565,7 +609,7 @@ export class ContainerModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Connected to Grab SuperApp:', response.result.connected);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -589,12 +633,12 @@ export class ContainerModule extends BaseModule {
    * Parse with `JSON.parse(result.result)` to use as an object.
    * Session parameters can contain primitives, base64 encoded strings, or nested objects.
    *
-   * @returns The session parameters as a JSON string that can be parsed into an object.
+   * @returns The session parameters as a JSON string that can be parsed into an object. See {@link GetSessionParamsResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { ContainerModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the container module
    * const container = new ContainerModule();
@@ -606,7 +650,7 @@ export class ContainerModule extends BaseModule {
    * if (isSuccess(response)) {
    *   const sessionParams = JSON.parse(response.result?.result || '{}');
    *   console.log('Session params retrieved:', sessionParams);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -616,35 +660,9 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async getSessionParams(): Promise<GetSessionParamsResponse> {
-    return (await this.invoke({ method: 'getSessionParams' })) as GetSessionParamsResponse;
-  }
-
-  /**
-   * Validate the analytics event details.
-   *
-   * @param request - Analytics event details to be validated.
-   * @returns Error message if invalid, `null` if valid.
-   * @internal
-   */
-  private validateAnalyticsEvent(request: SendAnalyticsEventRequest): string | null {
-    if (request.name == null) {
-      return 'name is required';
-    }
-    if (typeof request.name !== 'string') {
-      return 'name must be a string';
-    }
-
-    if (request.state == null) {
-      return 'state is required';
-    }
-    if (typeof request.state !== 'string') {
-      return 'state must be a string';
-    }
-
-    if (request.data != null && typeof request.data !== 'object') {
-      return `data must be undefined or an object`;
-    }
-
-    return null;
+    return (await this.invoke({
+      method: 'getSessionParams',
+      responseSchema: GetSessionParamsResponseSchema,
+    })) as GetSessionParamsResponse;
   }
 }

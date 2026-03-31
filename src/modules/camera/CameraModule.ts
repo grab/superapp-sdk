@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { ScanQRCodeRequestSchema, ScanQRCodeResponseSchema } from './schemas';
 import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
@@ -44,14 +45,14 @@ export class CameraModule extends BaseModule {
   /**
    * Opens the native camera to scan a QR code.
    *
-   * @param request - Configuration for the QR code scanning, including the title to display.
+   * @param request - Configuration for the QR code scanning, including the title to display. See {@link ScanQRCodeRequest}.
    *
-   * @returns The QR code scanning result, containing the scanned code on success or status information.
+   * @returns The QR code scanning result, containing the scanned code on success or status information. See {@link ScanQRCodeResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { CameraModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { CameraModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the camera module
    * const camera = new CameraModule();
@@ -69,7 +70,7 @@ export class CameraModule extends BaseModule {
    *       console.log('User cancelled QR code scanning');
    *       break;
    *   }
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
    *       console.log('Camera permission not enabled');
@@ -88,6 +89,8 @@ export class CameraModule extends BaseModule {
     return (await this.invoke({
       method: 'scanQRCode',
       params: request,
+      requestSchema: ScanQRCodeRequestSchema,
+      responseSchema: ScanQRCodeResponseSchema,
     })) as ScanQRCodeResponse;
   }
 }

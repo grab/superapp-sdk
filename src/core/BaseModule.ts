@@ -6,17 +6,12 @@
  */
 
 import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
+import { type GenericSchema, safeParse } from 'valibot';
 
 import { isErrorWithMessage } from '../utils/error';
 import { detectGrabApp } from '../utils/platform';
-import {
-  BridgeResponse,
-  BridgeStatusCode,
-  BridgeStream,
-  Subscription,
-  WrappedModule,
-} from './types';
-import { InvokeOptions } from './types';
+import { formatIssues } from '../utils/schema';
+import { BridgeResponse, BridgeStream, InvokeOptions, Subscription, WrappedModule } from './types';
 
 /**
  * Base class for all JSBridge modules.
@@ -71,6 +66,31 @@ export class BaseModule {
   }
 
   /**
+   * Validates user input against a schema before it is transformed for a bridge call.
+   *
+   * @remarks
+   * Use this when the params passed to `invoke` differ from the user-facing request object
+   * (i.e., when a transform is applied before the bridge call). For straightforward cases
+   * where no transform is needed, pass `requestSchema` directly to `invoke` instead.
+   *
+   * @param schema - The valibot schema to validate against.
+   * @param params - The value to validate.
+   * @returns A 400 error response if validation fails, or `null` if valid.
+   *
+   * @protected
+   */
+  protected validateRequest(
+    schema: GenericSchema,
+    params: unknown
+  ): { status_code: 400; error: string } | null {
+    const parsed = safeParse(schema, params);
+    if (!parsed.success) {
+      return { status_code: 400, error: formatIssues(parsed.issues) };
+    }
+    return null;
+  }
+
+  /**
    * Invokes a JSBridge method with optional app validation and response transformation.
    *
    * @remarks
@@ -85,12 +105,21 @@ export class BaseModule {
    *
    * @protected
    */
-  protected async invoke<T>(
-    options: InvokeOptions<T>
-  ): Promise<BridgeResponse<BridgeStatusCode, T>> {
-    const { method, params, isSupported, transformResponse } = options;
+  protected async invoke(options: InvokeOptions): Promise<BridgeResponse> {
+    const { method, params, isSupported, transformResponse, requestSchema, responseSchema } =
+      options;
 
     try {
+      if (requestSchema !== undefined && params !== undefined) {
+        const parsed = safeParse(requestSchema, params);
+        if (!parsed.success) {
+          return {
+            status_code: 400,
+            error: formatIssues(parsed.issues),
+          };
+        }
+      }
+
       const appInfo = detectGrabApp();
       if (!appInfo) {
         return {
@@ -108,10 +137,14 @@ export class BaseModule {
         }
       }
 
-      const response = (await this.wrappedModule.invoke(method, params)) as BridgeResponse<
-        BridgeStatusCode,
-        T
-      >;
+      const response = (await this.wrappedModule.invoke(method, params)) as BridgeResponse;
+
+      if (responseSchema !== undefined) {
+        const parsed = safeParse(responseSchema, response);
+        if (!parsed.success) {
+          console.warn(`[SDK:${method}] Unexpected response shape:`, parsed.issues);
+        }
+      }
 
       if (transformResponse) {
         return transformResponse(response);
@@ -134,9 +167,7 @@ export class BaseModule {
    *
    * @private
    */
-  private createErrorStream<T>(
-    errorResponse: BridgeResponse<BridgeStatusCode, T>
-  ): BridgeStream<BridgeStatusCode, T> {
+  private createErrorStream(errorResponse: BridgeResponse): BridgeStream {
     return {
       subscribe: (handlers) => {
         handlers?.next?.(errorResponse);
@@ -147,7 +178,7 @@ export class BaseModule {
         } as Subscription;
       },
       then: (onfulfilled) => Promise.resolve(errorResponse).then(onfulfilled),
-    } as BridgeStream<BridgeStatusCode, T>;
+    } as BridgeStream;
   }
 
   /**
@@ -164,16 +195,27 @@ export class BaseModule {
    *
    * @protected
    */
-  protected invokeStream<T>(options: InvokeOptions<T>): BridgeStream<BridgeStatusCode, T> {
-    const { method, params, isSupported, transformResponse } = options;
+  protected invokeStream(options: InvokeOptions): BridgeStream {
+    const { method, params, isSupported, transformResponse, requestSchema, responseSchema } =
+      options;
 
     try {
+      if (requestSchema !== undefined && params !== undefined) {
+        const parsed = safeParse(requestSchema, params);
+        if (!parsed.success) {
+          return this.createErrorStream({
+            status_code: 400,
+            error: formatIssues(parsed.issues),
+          });
+        }
+      }
+
       const appInfo = detectGrabApp();
       if (!appInfo) {
         return this.createErrorStream({
           status_code: 501,
           error: 'Not implemented: This method requires the Grab app environment',
-        } as BridgeResponse<BridgeStatusCode, T>);
+        });
       }
 
       if (isSupported) {
@@ -181,34 +223,47 @@ export class BaseModule {
           return this.createErrorStream({
             status_code: 426,
             error: 'Upgrade Required: This method requires a newer version of the Grab app',
-          } as BridgeResponse<BridgeStatusCode, T>);
+          });
         }
       }
 
-      const stream = this.wrappedModule.invoke(method, params) as BridgeStream<BridgeStatusCode, T>;
+      const stream = this.wrappedModule.invoke(method, params) as BridgeStream;
 
-      if (!transformResponse) {
+      if (!transformResponse && !responseSchema) {
         return stream;
       }
 
       return {
         subscribe: (handlers) =>
           stream.subscribe({
-            next: (value) => handlers?.next?.(transformResponse(value)),
+            next: (value) => {
+              if (responseSchema !== undefined) {
+                const parsed = safeParse(responseSchema, value);
+                if (!parsed.success) {
+                  console.warn(`[SDK:${method}] Unexpected response shape:`, parsed.issues);
+                }
+              }
+              handlers?.next?.(transformResponse ? transformResponse(value) : value);
+            },
             complete: handlers?.complete,
           }),
         then: (onfulfilled) =>
-          stream.then((value) =>
-            onfulfilled
-              ? onfulfilled(transformResponse(value))
-              : (transformResponse(value) as unknown)
-          ),
-      } as BridgeStream<BridgeStatusCode, T>;
+          stream.then((value) => {
+            if (responseSchema !== undefined) {
+              const parsed = safeParse(responseSchema, value);
+              if (!parsed.success) {
+                console.warn(`[SDK:${method}] Unexpected response shape:`, parsed.issues);
+              }
+            }
+            const transformed = transformResponse ? transformResponse(value) : value;
+            return onfulfilled ? onfulfilled(transformed) : (transformed as unknown);
+          }),
+      } as BridgeStream;
     } catch (error) {
       return this.createErrorStream({
         status_code: 500,
         error: `Failed to invoke method: ${isErrorWithMessage(error) ? error.message : 'Unknown error'}`,
-      } as BridgeResponse<BridgeStatusCode, T>);
+      });
     }
   }
 }

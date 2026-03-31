@@ -7,6 +7,23 @@
 
 import { BaseModule } from '../../core';
 import {
+  GetBooleanRequestSchema,
+  GetBooleanResponseSchema,
+  GetDoubleRequestSchema,
+  GetDoubleResponseSchema,
+  GetIntRequestSchema,
+  GetIntResponseSchema,
+  GetStringRequestSchema,
+  GetStringResponseSchema,
+  RemoveAllResponseSchema,
+  RemoveRequestSchema,
+  RemoveResponseSchema,
+  SetBooleanResponseSchema,
+  SetDoubleResponseSchema,
+  SetIntResponseSchema,
+  SetStringResponseSchema,
+} from './schemas';
+import {
   GetBooleanResponse,
   GetDoubleResponse,
   GetIntResponse,
@@ -58,12 +75,12 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The boolean value to store.
    *
-   * @returns Confirmation that the boolean value was stored.
+   * @returns Confirmation that the boolean value was stored. See {@link SetBooleanResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -74,7 +91,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Value stored successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -87,6 +104,7 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'setBoolean',
       params: { key, value },
+      responseSchema: SetBooleanResponseSchema,
     })) as SetBooleanResponse;
   }
 
@@ -95,12 +113,12 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored boolean value.
+   * @returns The stored boolean value. See {@link GetBooleanResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -111,7 +129,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Stored value:', response.result.value);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -124,6 +142,8 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'getBoolean',
       params: { key },
+      requestSchema: GetBooleanRequestSchema,
+      responseSchema: GetBooleanResponseSchema,
     })) as GetBooleanResponse;
   }
 
@@ -133,12 +153,12 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The integer value to store.
    *
-   * @returns Confirmation that the integer value was stored.
+   * @returns Confirmation that the integer value was stored. See {@link SetIntResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -149,7 +169,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Value stored successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -162,6 +182,7 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'setInt',
       params: { key, value },
+      responseSchema: SetIntResponseSchema,
     })) as SetIntResponse;
   }
 
@@ -170,12 +191,12 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored integer value.
+   * @returns The stored integer value. See {@link GetIntResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -186,7 +207,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Stored value:', response.result.value);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -199,6 +220,8 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'getInt',
       params: { key },
+      requestSchema: GetIntRequestSchema,
+      responseSchema: GetIntResponseSchema,
     })) as GetIntResponse;
   }
 
@@ -208,12 +231,12 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The string value to store.
    *
-   * @returns Confirmation that the string value was stored.
+   * @returns Confirmation that the string value was stored. See {@link SetStringResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -224,7 +247,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Value stored successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -237,6 +260,7 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'setString',
       params: { key, value },
+      responseSchema: SetStringResponseSchema,
     })) as SetStringResponse;
   }
 
@@ -245,12 +269,12 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored string value.
+   * @returns The stored string value. See {@link GetStringResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -261,7 +285,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Stored value:', response.result.value);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -274,6 +298,8 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'getString',
       params: { key },
+      requestSchema: GetStringRequestSchema,
+      responseSchema: GetStringResponseSchema,
     })) as GetStringResponse;
   }
 
@@ -283,12 +309,12 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The double value to store.
    *
-   * @returns Confirmation that the double value was stored.
+   * @returns Confirmation that the double value was stored. See {@link SetDoubleResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -299,7 +325,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Value stored successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -312,6 +338,7 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'setDouble',
       params: { key, value },
+      responseSchema: SetDoubleResponseSchema,
     })) as SetDoubleResponse;
   }
 
@@ -320,12 +347,12 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored double value.
+   * @returns The stored double value. See {@link GetDoubleResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -336,7 +363,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Stored value:', response.result.value);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -349,6 +376,8 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'getDouble',
       params: { key },
+      requestSchema: GetDoubleRequestSchema,
+      responseSchema: GetDoubleResponseSchema,
     })) as GetDoubleResponse;
   }
 
@@ -357,12 +386,12 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to remove from storage.
    *
-   * @returns Confirmation that the value was removed.
+   * @returns Confirmation that the value was removed. See {@link RemoveResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -373,7 +402,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Value removed successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -386,18 +415,20 @@ export class StorageModule extends BaseModule {
     return (await this.invoke({
       method: 'remove',
       params: { key },
+      requestSchema: RemoveRequestSchema,
+      responseSchema: RemoveResponseSchema,
     })) as RemoveResponse;
   }
 
   /**
    * Removes all values from the native storage.
    *
-   * @returns Confirmation that all values were removed.
+   * @returns Confirmation that all values were removed. See {@link RemoveAllResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { StorageModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
@@ -408,7 +439,7 @@ export class StorageModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('All values removed successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -418,6 +449,9 @@ export class StorageModule extends BaseModule {
    * @public
    */
   async removeAll(): Promise<RemoveAllResponse> {
-    return (await this.invoke({ method: 'removeAll' })) as RemoveAllResponse;
+    return (await this.invoke({
+      method: 'removeAll',
+      responseSchema: RemoveAllResponseSchema,
+    })) as RemoveAllResponse;
   }
 }

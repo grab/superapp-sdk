@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { TriggerCheckoutResponseSchema } from './schemas';
 import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
 /**
@@ -44,14 +45,14 @@ export class CheckoutModule extends BaseModule {
   /**
    * Triggers the native checkout flow for payment processing.
    *
-   * @param request - Payment transaction details, including the transaction ID and amount.
+   * @param request - Payment transaction details, including the transaction ID and amount. See {@link TriggerCheckoutRequest}.
    *
-   * @returns The checkout result, containing transaction status (success, failure, or pending) and transaction details.
+   * @returns The checkout result, containing transaction status (success, failure, or pending) and transaction details. See {@link TriggerCheckoutResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { CheckoutModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { CheckoutModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the checkout module
    * const checkout = new CheckoutModule();
@@ -77,7 +78,7 @@ export class CheckoutModule extends BaseModule {
    *       console.log('User cancelled the checkout');
    *       break;
    *   }
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -90,6 +91,7 @@ export class CheckoutModule extends BaseModule {
     return (await this.invoke({
       method: 'triggerCheckout',
       params: request,
+      responseSchema: TriggerCheckoutResponseSchema,
     })) as TriggerCheckoutResponse;
   }
 }

@@ -122,7 +122,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: SetTitleResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -190,7 +189,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: HideBackButtonResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -232,7 +230,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: ShowBackButtonResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -274,7 +271,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: HideRefreshButtonResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -316,7 +312,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: ShowRefreshButtonResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -358,7 +353,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: CloseResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -400,7 +394,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: OnContentLoadedResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -442,7 +435,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: ShowLoaderResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -484,7 +476,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: HideLoaderResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -526,7 +517,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: OpenExternalLinkResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -594,7 +584,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: OnCtaTapResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -639,7 +628,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: SendAnalyticsEventResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -670,7 +658,6 @@ describe('ContainerModule', () => {
 
       const mockResponse: SendAnalyticsEventResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -708,7 +695,7 @@ describe('ContainerModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('name is required');
+        expect(response.error).toBe('name: Invalid type: Expected string but received null');
       }
     });
 
@@ -725,7 +712,7 @@ describe('ContainerModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('state is required');
+        expect(response.error).toBe('state: Invalid type: Expected string but received null');
       }
     });
 
@@ -743,7 +730,7 @@ describe('ContainerModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('data must be undefined or an object');
+        expect(response.error).toBe('data: Invalid type: Expected Object but received "invalid"');
       }
     });
   });
