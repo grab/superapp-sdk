@@ -14,7 +14,11 @@ import {
   bridgeSuccessSchema,
 } from '../../core';
 
-/** Valibot schema for {@link AuthorizeRequest}. @public */
+/**
+ * Valibot schema for {@link AuthorizeRequest}.
+ *
+ * @public
+ */
 export const AuthorizeRequestSchema = v.object({
   clientId: v.pipe(v.string(), v.minLength(1)),
   redirectUri: v.pipe(v.string(), v.url()),
@@ -23,10 +27,18 @@ export const AuthorizeRequestSchema = v.object({
   responseMode: v.optional(v.picklist(['redirect', 'in_place'])),
 });
 
-/** Valibot schema for {@link AuthorizeResult}. @public */
+/**
+ * Valibot schema for {@link AuthorizeResult}.
+ *
+ * @public
+ */
 export const AuthorizeResultSchema = v.object({ code: v.string(), state: v.string() });
 
-/** Valibot schema for {@link AuthorizeResponse}. @public */
+/**
+ * Valibot schema for {@link AuthorizeResponse}.
+ *
+ * @public
+ */
 export const AuthorizeResponseSchema = v.union([
   bridgeSuccessSchema(AuthorizeResultSchema),
   bridgeNoContentSchema,
@@ -38,7 +50,11 @@ export const AuthorizeResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link GetAuthorizationArtifactsResult}. @public */
+/**
+ * Valibot schema for {@link GetAuthorizationArtifactsResult}.
+ *
+ * @public
+ */
 export const GetAuthorizationArtifactsResultSchema = v.object({
   state: v.string(),
   codeVerifier: v.string(),
@@ -46,12 +62,20 @@ export const GetAuthorizationArtifactsResultSchema = v.object({
   redirectUri: v.string(),
 });
 
-/** Valibot schema for {@link GetAuthorizationArtifactsResponse}. @public */
+/**
+ * Valibot schema for {@link GetAuthorizationArtifactsResponse}.
+ *
+ * @public
+ */
 export const GetAuthorizationArtifactsResponseSchema = v.union([
   bridgeSuccessSchema(GetAuthorizationArtifactsResultSchema),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
 ]);
 
-/** Valibot schema for {@link ClearAuthorizationArtifactsResponse}. @public */
+/**
+ * Valibot schema for {@link ClearAuthorizationArtifactsResponse}.
+ *
+ * @public
+ */
 export const ClearAuthorizationArtifactsResponseSchema = bridgeNoContentSchema;

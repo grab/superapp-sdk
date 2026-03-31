@@ -9,7 +9,11 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link PlayDRMContentResponse}. @public */
+/**
+ * Valibot schema for {@link PlayDRMContentResponse}.
+ *
+ * @public
+ */
 export const PlayDRMContentResponseSchema = v.union([
   v.object({ status_code: v.literal(200) }),
   bridgeNoContentSchema,
@@ -17,7 +21,11 @@ export const PlayDRMContentResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link DRMPlaybackEvent}. @public */
+/**
+ * Valibot schema for {@link DRMPlaybackEvent}.
+ *
+ * @public
+ */
 export const DRMPlaybackEventSchema = v.object({
   eventType: v.picklist(['started', 'paused', 'ended', 'error']),
   data: v.optional(v.record(v.string(), v.unknown())),

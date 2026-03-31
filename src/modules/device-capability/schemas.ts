@@ -9,10 +9,18 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link IsEsimSupportedResult}. @public */
+/**
+ * Valibot schema for {@link IsEsimSupportedResult}.
+ *
+ * @public
+ */
 export const IsEsimSupportedResultSchema = v.boolean();
 
-/** Valibot schema for {@link IsEsimSupportedResponse}. @public */
+/**
+ * Valibot schema for {@link IsEsimSupportedResponse}.
+ *
+ * @public
+ */
 export const IsEsimSupportedResponseSchema = v.union([
   bridgeSuccessSchema(IsEsimSupportedResultSchema),
   bridgeErrorSchema(500),

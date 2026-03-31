@@ -9,10 +9,18 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link GetLanguageLocaleIdentifierResult}. @public */
+/**
+ * Valibot schema for {@link GetLanguageLocaleIdentifierResult}.
+ *
+ * @public
+ */
 export const GetLanguageLocaleIdentifierResultSchema = v.string();
 
-/** Valibot schema for {@link GetLanguageLocaleIdentifierResponse}. @public */
+/**
+ * Valibot schema for {@link GetLanguageLocaleIdentifierResponse}.
+ *
+ * @public
+ */
 export const GetLanguageLocaleIdentifierResponseSchema = v.union([
   bridgeSuccessSchema(GetLanguageLocaleIdentifierResultSchema),
   bridgeErrorSchema(500),

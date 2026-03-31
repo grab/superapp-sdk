@@ -9,7 +9,11 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link SetBackgroundColorResponse}. @public */
+/**
+ * Valibot schema for {@link SetBackgroundColorResponse}.
+ *
+ * @public
+ */
 export const SetBackgroundColorResponseSchema = v.union([
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
@@ -19,7 +23,11 @@ export const SetBackgroundColorResponseSchema = v.union([
 
 const noResultSchema = v.object({ status_code: v.literal(200) });
 
-/** Valibot schema for {@link SetTitleResponse}. @public */
+/**
+ * Valibot schema for {@link SetTitleResponse}.
+ *
+ * @public
+ */
 export const SetTitleResponseSchema = v.union([
   noResultSchema,
   bridgeErrorSchema(400),
@@ -27,29 +35,65 @@ export const SetTitleResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link HideBackButtonResponse}. @public */
+/**
+ * Valibot schema for {@link HideBackButtonResponse}.
+ *
+ * @public
+ */
 export const HideBackButtonResponseSchema = v.union([
   noResultSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link ShowBackButtonResponse}. @public */
+/**
+ * Valibot schema for {@link ShowBackButtonResponse}.
+ *
+ * @public
+ */
 export const ShowBackButtonResponseSchema = HideBackButtonResponseSchema;
-/** Valibot schema for {@link HideRefreshButtonResponse}. @public */
+/**
+ * Valibot schema for {@link HideRefreshButtonResponse}.
+ *
+ * @public
+ */
 export const HideRefreshButtonResponseSchema = HideBackButtonResponseSchema;
-/** Valibot schema for {@link ShowRefreshButtonResponse}. @public */
+/**
+ * Valibot schema for {@link ShowRefreshButtonResponse}.
+ *
+ * @public
+ */
 export const ShowRefreshButtonResponseSchema = HideBackButtonResponseSchema;
-/** Valibot schema for {@link CloseResponse}. @public */
+/**
+ * Valibot schema for {@link CloseResponse}.
+ *
+ * @public
+ */
 export const CloseResponseSchema = HideBackButtonResponseSchema;
-/** Valibot schema for {@link OnContentLoadedResponse}. @public */
+/**
+ * Valibot schema for {@link OnContentLoadedResponse}.
+ *
+ * @public
+ */
 export const OnContentLoadedResponseSchema = HideBackButtonResponseSchema;
-/** Valibot schema for {@link ShowLoaderResponse}. @public */
+/**
+ * Valibot schema for {@link ShowLoaderResponse}.
+ *
+ * @public
+ */
 export const ShowLoaderResponseSchema = HideBackButtonResponseSchema;
-/** Valibot schema for {@link HideLoaderResponse}. @public */
+/**
+ * Valibot schema for {@link HideLoaderResponse}.
+ *
+ * @public
+ */
 export const HideLoaderResponseSchema = HideBackButtonResponseSchema;
 
-/** Valibot schema for {@link OpenExternalLinkResponse}. @public */
+/**
+ * Valibot schema for {@link OpenExternalLinkResponse}.
+ *
+ * @public
+ */
 export const OpenExternalLinkResponseSchema = v.union([
   noResultSchema,
   bridgeErrorSchema(400),
@@ -57,21 +101,33 @@ export const OpenExternalLinkResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link OnCtaTapResponse}. @public */
+/**
+ * Valibot schema for {@link OnCtaTapResponse}.
+ *
+ * @public
+ */
 export const OnCtaTapResponseSchema = v.union([
   noResultSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link SendAnalyticsEventRequest}. @public */
+/**
+ * Valibot schema for {@link SendAnalyticsEventRequest}.
+ *
+ * @public
+ */
 export const SendAnalyticsEventRequestSchema = v.object({
   state: v.pipe(v.string(), v.minLength(1)),
   name: v.pipe(v.string(), v.minLength(1)),
   data: v.optional(v.record(v.string(), v.unknown())),
 });
 
-/** Valibot schema for {@link SendAnalyticsEventResponse}. @public */
+/**
+ * Valibot schema for {@link SendAnalyticsEventResponse}.
+ *
+ * @public
+ */
 export const SendAnalyticsEventResponseSchema = v.union([
   noResultSchema,
   bridgeErrorSchema(400),
@@ -79,19 +135,35 @@ export const SendAnalyticsEventResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link IsConnectedResult}. @public */
+/**
+ * Valibot schema for {@link IsConnectedResult}.
+ *
+ * @public
+ */
 export const IsConnectedResultSchema = v.object({ connected: v.boolean() });
 
-/** Valibot schema for {@link IsConnectedResponse}. @public */
+/**
+ * Valibot schema for {@link IsConnectedResponse}.
+ *
+ * @public
+ */
 export const IsConnectedResponseSchema = v.union([
   bridgeSuccessSchema(IsConnectedResultSchema),
   bridgeErrorSchema(404),
 ]);
 
-/** Valibot schema for {@link GetSessionParamsResult}. @public */
+/**
+ * Valibot schema for {@link GetSessionParamsResult}.
+ *
+ * @public
+ */
 export const GetSessionParamsResultSchema = v.object({ result: v.string() });
 
-/** Valibot schema for {@link GetSessionParamsResponse}. @public */
+/**
+ * Valibot schema for {@link GetSessionParamsResponse}.
+ *
+ * @public
+ */
 export const GetSessionParamsResponseSchema = v.union([
   bridgeSuccessSchema(GetSessionParamsResultSchema),
   bridgeErrorSchema(500),

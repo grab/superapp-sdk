@@ -9,10 +9,18 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link GetSelectedTravelDestinationResult}. @public */
+/**
+ * Valibot schema for {@link GetSelectedTravelDestinationResult}.
+ *
+ * @public
+ */
 export const GetSelectedTravelDestinationResultSchema = v.string();
 
-/** Valibot schema for {@link GetSelectedTravelDestinationResponse}. @public */
+/**
+ * Valibot schema for {@link GetSelectedTravelDestinationResponse}.
+ *
+ * @public
+ */
 export const GetSelectedTravelDestinationResponseSchema = v.union([
   bridgeSuccessSchema(GetSelectedTravelDestinationResultSchema),
   bridgeNoContentSchema,

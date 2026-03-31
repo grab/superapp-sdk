@@ -20,13 +20,29 @@ export const storageErrorResponseSchema = v.union([
 /** @internal */
 export const storageKeySchema = v.object({ key: v.pipe(v.string(), v.minLength(1)) });
 
-/** Valibot schema for {@link SetBooleanResponse}. @public */
+/**
+ * Valibot schema for {@link SetBooleanResponse}.
+ *
+ * @public
+ */
 export const SetBooleanResponseSchema = storageErrorResponseSchema;
-/** Valibot schema for {@link GetBooleanRequest}. @public */
+/**
+ * Valibot schema for {@link GetBooleanRequest}.
+ *
+ * @public
+ */
 export const GetBooleanRequestSchema = storageKeySchema;
-/** Valibot schema for {@link GetBooleanResult}. @public */
+/**
+ * Valibot schema for {@link GetBooleanResult}.
+ *
+ * @public
+ */
 export const GetBooleanResultSchema = v.object({ value: v.nullable(v.boolean()) });
-/** Valibot schema for {@link GetBooleanResponse}. @public */
+/**
+ * Valibot schema for {@link GetBooleanResponse}.
+ *
+ * @public
+ */
 export const GetBooleanResponseSchema = v.union([
   bridgeSuccessSchema(GetBooleanResultSchema),
   bridgeErrorSchema(400),
@@ -34,13 +50,29 @@ export const GetBooleanResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link SetIntResponse}. @public */
+/**
+ * Valibot schema for {@link SetIntResponse}.
+ *
+ * @public
+ */
 export const SetIntResponseSchema = storageErrorResponseSchema;
-/** Valibot schema for {@link GetIntRequest}. @public */
+/**
+ * Valibot schema for {@link GetIntRequest}.
+ *
+ * @public
+ */
 export const GetIntRequestSchema = storageKeySchema;
-/** Valibot schema for {@link GetIntResult}. @public */
+/**
+ * Valibot schema for {@link GetIntResult}.
+ *
+ * @public
+ */
 export const GetIntResultSchema = v.object({ value: v.nullable(v.number()) });
-/** Valibot schema for {@link GetIntResponse}. @public */
+/**
+ * Valibot schema for {@link GetIntResponse}.
+ *
+ * @public
+ */
 export const GetIntResponseSchema = v.union([
   bridgeSuccessSchema(GetIntResultSchema),
   bridgeErrorSchema(400),
@@ -48,13 +80,29 @@ export const GetIntResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link SetStringResponse}. @public */
+/**
+ * Valibot schema for {@link SetStringResponse}.
+ *
+ * @public
+ */
 export const SetStringResponseSchema = storageErrorResponseSchema;
-/** Valibot schema for {@link GetStringRequest}. @public */
+/**
+ * Valibot schema for {@link GetStringRequest}.
+ *
+ * @public
+ */
 export const GetStringRequestSchema = storageKeySchema;
-/** Valibot schema for {@link GetStringResult}. @public */
+/**
+ * Valibot schema for {@link GetStringResult}.
+ *
+ * @public
+ */
 export const GetStringResultSchema = v.object({ value: v.nullable(v.string()) });
-/** Valibot schema for {@link GetStringResponse}. @public */
+/**
+ * Valibot schema for {@link GetStringResponse}.
+ *
+ * @public
+ */
 export const GetStringResponseSchema = v.union([
   bridgeSuccessSchema(GetStringResultSchema),
   bridgeErrorSchema(400),
@@ -62,13 +110,29 @@ export const GetStringResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link SetDoubleResponse}. @public */
+/**
+ * Valibot schema for {@link SetDoubleResponse}.
+ *
+ * @public
+ */
 export const SetDoubleResponseSchema = storageErrorResponseSchema;
-/** Valibot schema for {@link GetDoubleRequest}. @public */
+/**
+ * Valibot schema for {@link GetDoubleRequest}.
+ *
+ * @public
+ */
 export const GetDoubleRequestSchema = storageKeySchema;
-/** Valibot schema for {@link GetDoubleResult}. @public */
+/**
+ * Valibot schema for {@link GetDoubleResult}.
+ *
+ * @public
+ */
 export const GetDoubleResultSchema = v.object({ value: v.nullable(v.number()) });
-/** Valibot schema for {@link GetDoubleResponse}. @public */
+/**
+ * Valibot schema for {@link GetDoubleResponse}.
+ *
+ * @public
+ */
 export const GetDoubleResponseSchema = v.union([
   bridgeSuccessSchema(GetDoubleResultSchema),
   bridgeErrorSchema(400),
@@ -78,10 +142,18 @@ export const GetDoubleResponseSchema = v.union([
 
 /** @internal */
 export const RemoveRequestSchema = storageKeySchema;
-/** Valibot schema for {@link RemoveResponse}. @public */
+/**
+ * Valibot schema for {@link RemoveResponse}.
+ *
+ * @public
+ */
 export const RemoveResponseSchema = storageErrorResponseSchema;
 
-/** Valibot schema for {@link RemoveAllResponse}. @public */
+/**
+ * Valibot schema for {@link RemoveAllResponse}.
+ *
+ * @public
+ */
 export const RemoveAllResponseSchema = v.union([
   bridgeNoContentSchema,
   bridgeErrorSchema(500),

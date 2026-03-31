@@ -9,7 +9,11 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link TriggerCheckoutResult}. @public */
+/**
+ * Valibot schema for {@link TriggerCheckoutResult}.
+ *
+ * @public
+ */
 export const TriggerCheckoutResultSchema = v.object({
   transactionID: v.string(),
   status: v.picklist(['success', 'failure', 'pending', 'userInitiatedCancel']),
@@ -17,7 +21,11 @@ export const TriggerCheckoutResultSchema = v.object({
   errorCode: v.optional(v.string()),
 });
 
-/** Valibot schema for {@link TriggerCheckoutResponse}. @public */
+/**
+ * Valibot schema for {@link TriggerCheckoutResponse}.
+ *
+ * @public
+ */
 export const TriggerCheckoutResponseSchema = v.union([
   bridgeSuccessSchema(TriggerCheckoutResultSchema),
   bridgeErrorSchema(400),

@@ -9,7 +9,11 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
 
-/** Valibot schema for {@link BackResponse}. @public */
+/**
+ * Valibot schema for {@link BackResponse}.
+ *
+ * @public
+ */
 export const BackResponseSchema = v.union([
   bridgeNoContentSchema,
   bridgeErrorSchema(500),

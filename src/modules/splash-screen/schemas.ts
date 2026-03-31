@@ -9,7 +9,11 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
 
-/** Valibot schema for {@link DismissSplashScreenResponse}. @public */
+/**
+ * Valibot schema for {@link DismissSplashScreenResponse}.
+ *
+ * @public
+ */
 export const DismissSplashScreenResponseSchema = v.union([
   bridgeNoContentSchema,
   bridgeErrorSchema(400),

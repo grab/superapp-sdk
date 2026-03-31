@@ -9,12 +9,20 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema } from '../../core';
 
-/** Valibot schema for {@link RedirectToSystemWebViewRequest}. @public */
+/**
+ * Valibot schema for {@link RedirectToSystemWebViewRequest}.
+ *
+ * @public
+ */
 export const RedirectToSystemWebViewRequestSchema = v.object({
   url: v.pipe(v.string(), v.url()),
 });
 
-/** Valibot schema for {@link RedirectToSystemWebViewResponse}. @public */
+/**
+ * Valibot schema for {@link RedirectToSystemWebViewResponse}.
+ *
+ * @public
+ */
 export const RedirectToSystemWebViewResponseSchema = v.union([
   v.object({ status_code: v.literal(200) }),
   bridgeErrorSchema(400),

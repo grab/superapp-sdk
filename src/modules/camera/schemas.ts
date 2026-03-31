@@ -9,13 +9,25 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link ScanQRCodeRequest}. @public */
+/**
+ * Valibot schema for {@link ScanQRCodeRequest}.
+ *
+ * @public
+ */
 export const ScanQRCodeRequestSchema = v.object({ title: v.optional(v.string()) });
 
-/** Valibot schema for {@link ScanQRCodeResult}. @public */
+/**
+ * Valibot schema for {@link ScanQRCodeResult}.
+ *
+ * @public
+ */
 export const ScanQRCodeResultSchema = v.object({ qrCode: v.string() });
 
-/** Valibot schema for {@link ScanQRCodeResponse}. @public */
+/**
+ * Valibot schema for {@link ScanQRCodeResponse}.
+ *
+ * @public
+ */
 export const ScanQRCodeResponseSchema = v.union([
   bridgeSuccessSchema(ScanQRCodeResultSchema),
   bridgeNoContentSchema,

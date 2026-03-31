@@ -9,16 +9,28 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link HasAccessToRequest}. @public */
+/**
+ * Valibot schema for {@link HasAccessToRequest}.
+ *
+ * @public
+ */
 export const HasAccessToRequestSchema = v.object({
   module: v.pipe(v.string(), v.minLength(1)),
   method: v.pipe(v.string(), v.minLength(1)),
 });
 
-/** Valibot schema for {@link HasAccessToResult}. @public */
+/**
+ * Valibot schema for {@link HasAccessToResult}.
+ *
+ * @public
+ */
 export const HasAccessToResultSchema = v.object({ hasAccess: v.boolean() });
 
-/** Valibot schema for {@link HasAccessToResponse}. @public */
+/**
+ * Valibot schema for {@link HasAccessToResponse}.
+ *
+ * @public
+ */
 export const HasAccessToResponseSchema = v.union([
   bridgeSuccessSchema(HasAccessToResultSchema),
   bridgeErrorSchema(400),
@@ -27,7 +39,11 @@ export const HasAccessToResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link ReloadScopesResponse}. @public */
+/**
+ * Valibot schema for {@link ReloadScopesResponse}.
+ *
+ * @public
+ */
 export const ReloadScopesResponseSchema = v.union([
   v.object({ status_code: v.literal(200) }),
   bridgeErrorSchema(424),

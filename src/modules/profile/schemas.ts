@@ -9,10 +9,18 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
 
-/** Valibot schema for {@link FetchEmailResult}. @public */
+/**
+ * Valibot schema for {@link FetchEmailResult}.
+ *
+ * @public
+ */
 export const FetchEmailResultSchema = v.object({ email: v.string() });
 
-/** Valibot schema for {@link FetchEmailResponse}. @public */
+/**
+ * Valibot schema for {@link FetchEmailResponse}.
+ *
+ * @public
+ */
 export const FetchEmailResponseSchema = v.union([
   bridgeSuccessSchema(FetchEmailResultSchema),
   bridgeErrorSchema(400),
@@ -22,13 +30,21 @@ export const FetchEmailResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** Valibot schema for {@link VerifyEmailRequest}. @public */
+/**
+ * Valibot schema for {@link VerifyEmailRequest}.
+ *
+ * @public
+ */
 export const VerifyEmailRequestSchema = v.object({
   email: v.pipe(v.string(), v.minLength(1)),
   otp: v.pipe(v.string(), v.minLength(1)),
 });
 
-/** Valibot schema for {@link VerifyEmailResponse}. @public */
+/**
+ * Valibot schema for {@link VerifyEmailResponse}.
+ *
+ * @public
+ */
 export const VerifyEmailResponseSchema = v.union([
   v.object({ status_code: v.literal(200) }),
   bridgeErrorSchema(400),
