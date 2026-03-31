@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0-beta.25] - 2026-03-25
+## [2.0.0-beta.26] - 2026-03-31
 
 ### Added
 
@@ -30,6 +30,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Legacy status code type definitions (`BridgeStatusCode`, `BridgeError`, `BridgeSuccessResponse`, etc.)
 - Redundant response type aliases (`ResponseStatusCode200`, `ResponseStatusCode204`, etc.)
 - Complex generic type hierarchies in favor of schema-driven validation
+
+## [2.0.0-beta.25] - 2026-03-31
+
+### Added
+
+- `SplashScreenModule`, the native splash / Lottie loading screen
 
 ## [2.0.0-beta.24] - 2026-03-18
 
