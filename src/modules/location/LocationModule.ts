@@ -9,7 +9,6 @@ import { BaseModule } from '../../core';
 import {
   GetCoordinateResponseSchema,
   GetCountryCodeResponseSchema,
-  ObserveLocationChangeResponseSchema,
 } from './schemas';
 import {
   GetCoordinateResponse,
@@ -86,10 +85,15 @@ export class LocationModule extends BaseModule {
    * @public
    */
   async getCoordinate(): Promise<GetCoordinateResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'getCoordinate',
-      responseSchema: GetCoordinateResponseSchema,
     })) as GetCoordinateResponse;
+
+    const responseError = this.validate(GetCoordinateResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getCoordinate] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -139,7 +143,6 @@ export class LocationModule extends BaseModule {
   observeLocationChange(): ObserveLocationChangeResponse {
     return this.invokeStream({
       method: 'observeLocationChange',
-      responseSchema: ObserveLocationChangeResponseSchema,
     }) as ObserveLocationChangeResponse;
   }
 
@@ -179,9 +182,14 @@ export class LocationModule extends BaseModule {
    * @public
    */
   async getCountryCode(): Promise<GetCountryCodeResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'getCountryCode',
-      responseSchema: GetCountryCodeResponseSchema,
     })) as GetCountryCodeResponse;
+
+    const responseError = this.validate(GetCountryCodeResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getCountryCode] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

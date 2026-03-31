@@ -5,8 +5,6 @@
  * directory of this source tree.
  */
 
-import { safeParse } from 'valibot';
-
 import { BaseModule } from '../../core';
 import {
   generateCodeChallenge,
@@ -15,7 +13,6 @@ import {
 } from '../../utils/crypto';
 import { isErrorWithMessage } from '../../utils/error';
 import { detectGrabApp } from '../../utils/platform';
-import { formatIssues } from '../../utils/schema';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import {
   CODE_CHALLENGE_METHOD,
@@ -425,7 +422,7 @@ export class IdentityModule extends BaseModule {
     codeChallengeMethod: string;
     responseMode: 'redirect' | 'in_place';
   }): Promise<AuthorizeResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'authorize',
       params: {
         clientId: invokeParams.clientId,
@@ -437,8 +434,13 @@ export class IdentityModule extends BaseModule {
         codeChallengeMethod: invokeParams.codeChallengeMethod,
         responseMode: invokeParams.responseMode,
       },
-      responseSchema: AuthorizeResponseSchema,
     })) as AuthorizeResponse;
+
+    const responseError = this.validate(AuthorizeResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:authorize] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -520,10 +522,8 @@ export class IdentityModule extends BaseModule {
    * @public
    */
   async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
-    const parseResult = safeParse(AuthorizeRequestSchema, request);
-    if (!parseResult.success) {
-      return { status_code: 400, error: formatIssues(parseResult.issues) };
-    }
+    const requestError = this.validate(AuthorizeRequestSchema, request);
+    if (requestError) return { status_code: 400, error: requestError };
 
     const pkceArtifacts = await this.generatePKCEArtifacts();
 

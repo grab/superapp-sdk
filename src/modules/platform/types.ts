@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import { BackResponseSchema } from './schemas';
 
@@ -28,4 +28,4 @@ export type BackResult = void;
  *
  * @public
  */
-export type BackResponse = v.InferOutput<typeof BackResponseSchema>;
+export type BackResponse = InferOutput<typeof BackResponseSchema>;

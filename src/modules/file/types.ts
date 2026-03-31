@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
 
@@ -22,7 +22,7 @@ import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas
  *
  * @public
  */
-export type DownloadFileRequest = v.InferOutput<typeof DownloadFileRequestSchema>;
+export type DownloadFileRequest = InferOutput<typeof DownloadFileRequestSchema>;
 
 /**
  * Result data structure for file download operations.
@@ -46,4 +46,4 @@ export type DownloadFileResult = void;
  *
  * @public
  */
-export type DownloadFileResponse = v.InferOutput<typeof DownloadFileResponseSchema>;
+export type DownloadFileResponse = InferOutput<typeof DownloadFileResponseSchema>;

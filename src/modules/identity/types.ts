@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import {
   AuthorizeRequestSchema,
@@ -45,7 +45,7 @@ import {
  *
  * @public
  */
-export type AuthorizeRequest = v.InferOutput<typeof AuthorizeRequestSchema>;
+export type AuthorizeRequest = InferOutput<typeof AuthorizeRequestSchema>;
 
 /**
  * Result object for the authorization flow.
@@ -61,7 +61,7 @@ export type AuthorizeRequest = v.InferOutput<typeof AuthorizeRequestSchema>;
  *
  * @public
  */
-export type AuthorizeResult = v.InferOutput<typeof AuthorizeResultSchema>;
+export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
 
 /**
  * Response when initiating an authorization flow.
@@ -79,7 +79,7 @@ export type AuthorizeResult = v.InferOutput<typeof AuthorizeResultSchema>;
  *
  * @public
  */
-export type AuthorizeResponse = v.InferOutput<typeof AuthorizeResponseSchema>;
+export type AuthorizeResponse = InferOutput<typeof AuthorizeResponseSchema>;
 
 /**
  * Result object containing the stored PKCE authorization artifacts.
@@ -98,7 +98,7 @@ export type AuthorizeResponse = v.InferOutput<typeof AuthorizeResponseSchema>;
  *
  * @public
  */
-export type GetAuthorizationArtifactsResult = v.InferOutput<
+export type GetAuthorizationArtifactsResult = InferOutput<
   typeof GetAuthorizationArtifactsResultSchema
 >;
 
@@ -113,7 +113,7 @@ export type GetAuthorizationArtifactsResult = v.InferOutput<
  *
  * @public
  */
-export type GetAuthorizationArtifactsResponse = v.InferOutput<
+export type GetAuthorizationArtifactsResponse = InferOutput<
   typeof GetAuthorizationArtifactsResponseSchema
 >;
 
@@ -133,6 +133,6 @@ export type ClearAuthorizationArtifactsResult = void;
  *
  * @public
  */
-export type ClearAuthorizationArtifactsResponse = v.InferOutput<
+export type ClearAuthorizationArtifactsResponse = InferOutput<
   typeof ClearAuthorizationArtifactsResponseSchema
 >;

@@ -72,9 +72,13 @@ export class PlatformModule extends BaseModule {
    * @public
    */
   async back(): Promise<BackResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'back',
-      responseSchema: BackResponseSchema,
     })) as BackResponse;
+
+    const responseError = this.validate(BackResponseSchema, response);
+    if (responseError) console.warn(`[SDK:back] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

@@ -113,11 +113,16 @@ export class ContainerModule extends BaseModule {
   async setBackgroundColor(
     request: SetBackgroundColorRequest
   ): Promise<SetBackgroundColorResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'setBackgroundColor',
       params: { backgroundColor: request },
-      responseSchema: SetBackgroundColorResponseSchema,
     })) as SetBackgroundColorResponse;
+
+    const responseError = this.validate(SetBackgroundColorResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:setBackgroundColor] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -151,11 +156,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'setTitle',
       params: { title: request },
-      responseSchema: SetTitleResponseSchema,
     })) as SetTitleResponse;
+
+    const responseError = this.validate(SetTitleResponseSchema, response);
+    if (responseError) console.warn(`[SDK:setTitle] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -187,10 +196,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideBackButton(): Promise<HideBackButtonResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'hideBackButton',
-      responseSchema: HideBackButtonResponseSchema,
     })) as HideBackButtonResponse;
+
+    const responseError = this.validate(HideBackButtonResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:hideBackButton] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -222,10 +236,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showBackButton(): Promise<ShowBackButtonResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'showBackButton',
-      responseSchema: ShowBackButtonResponseSchema,
     })) as ShowBackButtonResponse;
+
+    const responseError = this.validate(ShowBackButtonResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:showBackButton] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -257,10 +276,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'hideRefreshButton',
-      responseSchema: HideRefreshButtonResponseSchema,
     })) as HideRefreshButtonResponse;
+
+    const responseError = this.validate(HideRefreshButtonResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:hideRefreshButton] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -292,10 +316,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'showRefreshButton',
-      responseSchema: ShowRefreshButtonResponseSchema,
     })) as ShowRefreshButtonResponse;
+
+    const responseError = this.validate(ShowRefreshButtonResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:showRefreshButton] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -327,10 +356,14 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async close(): Promise<CloseResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'close',
-      responseSchema: CloseResponseSchema,
     })) as CloseResponse;
+
+    const responseError = this.validate(CloseResponseSchema, response);
+    if (responseError) console.warn(`[SDK:close] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -362,10 +395,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async onContentLoaded(): Promise<OnContentLoadedResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'onContentLoaded',
-      responseSchema: OnContentLoadedResponseSchema,
     })) as OnContentLoadedResponse;
+
+    const responseError = this.validate(OnContentLoadedResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:onContentLoaded] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -400,10 +438,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showLoader(): Promise<ShowLoaderResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'showLoader',
-      responseSchema: ShowLoaderResponseSchema,
     })) as ShowLoaderResponse;
+
+    const responseError = this.validate(ShowLoaderResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:showLoader] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -438,10 +481,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideLoader(): Promise<HideLoaderResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'hideLoader',
-      responseSchema: HideLoaderResponseSchema,
     })) as HideLoaderResponse;
+
+    const responseError = this.validate(HideLoaderResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:hideLoader] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -478,11 +526,16 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'openExternalLink',
       params: { url: request },
-      responseSchema: OpenExternalLinkResponseSchema,
     })) as OpenExternalLinkResponse;
+
+    const responseError = this.validate(OpenExternalLinkResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:openExternalLink] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -516,11 +569,15 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async onCtaTap(request: OnCtaTapRequest): Promise<OnCtaTapResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'onCtaTap',
       params: { action: request },
-      responseSchema: OnCtaTapResponseSchema,
     })) as OnCtaTapResponse;
+
+    const responseError = this.validate(OnCtaTapResponseSchema, response);
+    if (responseError) console.warn(`[SDK:onCtaTap] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -574,17 +631,23 @@ export class ContainerModule extends BaseModule {
   async sendAnalyticsEvent(
     request: SendAnalyticsEventRequest
   ): Promise<SendAnalyticsEventResponse> {
-    const validationError = this.validateRequest(SendAnalyticsEventRequestSchema, request);
-    if (validationError) return validationError;
-    return (await this.invoke({
+    const requestError = this.validate(SendAnalyticsEventRequestSchema, request);
+    if (requestError) return { status_code: 400, error: requestError };
+
+    const response = (await this.invoke({
       method: 'sendAnalyticsEvent',
       params: {
         state: request.state,
         name: request.name,
         data: request.data ? JSON.stringify(request.data) : null,
       },
-      responseSchema: SendAnalyticsEventResponseSchema,
     })) as SendAnalyticsEventResponse;
+
+    const responseError = this.validate(SendAnalyticsEventResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:sendAnalyticsEvent] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -660,9 +723,14 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async getSessionParams(): Promise<GetSessionParamsResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'getSessionParams',
-      responseSchema: GetSessionParamsResponseSchema,
     })) as GetSessionParamsResponse;
+
+    const responseError = this.validate(GetSessionParamsResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getSessionParams] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

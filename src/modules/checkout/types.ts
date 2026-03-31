@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import { TriggerCheckoutResponseSchema, TriggerCheckoutResultSchema } from './schemas';
 
@@ -76,7 +76,7 @@ export type TriggerCheckoutRequest = Record<string, unknown>;
  *
  * @public
  */
-export type TriggerCheckoutResult = v.InferOutput<typeof TriggerCheckoutResultSchema>;
+export type TriggerCheckoutResult = InferOutput<typeof TriggerCheckoutResultSchema>;
 
 /**
  * Response when triggering the checkout flow.
@@ -90,4 +90,4 @@ export type TriggerCheckoutResult = v.InferOutput<typeof TriggerCheckoutResultSc
  *
  * @public
  */
-export type TriggerCheckoutResponse = v.InferOutput<typeof TriggerCheckoutResponseSchema>;
+export type TriggerCheckoutResponse = InferOutput<typeof TriggerCheckoutResponseSchema>;

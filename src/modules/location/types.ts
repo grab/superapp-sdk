@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import { BridgeStream } from '../../core';
 import {
@@ -25,7 +25,7 @@ import {
  *
  * @public
  */
-export type GetCoordinateResult = v.InferOutput<typeof GetCoordinateResultSchema>;
+export type GetCoordinateResult = InferOutput<typeof GetCoordinateResultSchema>;
 
 /**
  * Response when getting the device coordinates.
@@ -40,7 +40,7 @@ export type GetCoordinateResult = v.InferOutput<typeof GetCoordinateResultSchema
  *
  * @public
  */
-export type GetCoordinateResponse = v.InferOutput<typeof GetCoordinateResponseSchema>;
+export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSchema>;
 
 /**
  * Response when observing the device coordinates.
@@ -71,7 +71,7 @@ export type ObserveLocationChangeResponse = BridgeStream<GetCoordinateResponse>;
  *
  * @public
  */
-export type GetCountryCodeResult = v.InferOutput<typeof GetCountryCodeResultSchema>;
+export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema>;
 
 /**
  * Response when getting the country code.
@@ -86,4 +86,4 @@ export type GetCountryCodeResult = v.InferOutput<typeof GetCountryCodeResultSche
  *
  * @public
  */
-export type GetCountryCodeResponse = v.InferOutput<typeof GetCountryCodeResponseSchema>;
+export type GetCountryCodeResponse = InferOutput<typeof GetCountryCodeResponseSchema>;

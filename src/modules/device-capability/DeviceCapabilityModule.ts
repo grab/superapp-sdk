@@ -71,9 +71,14 @@ export class DeviceCapabilityModule extends BaseModule {
    * @public
    */
   async isEsimSupported(): Promise<IsEsimSupportedResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'isEsimSupported',
-      responseSchema: IsEsimSupportedResponseSchema,
     })) as IsEsimSupportedResponse;
+
+    const responseError = this.validate(IsEsimSupportedResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:isEsimSupported] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

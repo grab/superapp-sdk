@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import {
   ScanQRCodeRequestSchema,
@@ -30,7 +30,7 @@ import {
  *
  * @public
  */
-export type ScanQRCodeRequest = v.InferOutput<typeof ScanQRCodeRequestSchema>;
+export type ScanQRCodeRequest = InferOutput<typeof ScanQRCodeRequestSchema>;
 
 /**
  * Result object containing the scanned QR code data.
@@ -42,7 +42,7 @@ export type ScanQRCodeRequest = v.InferOutput<typeof ScanQRCodeRequestSchema>;
  *
  * @public
  */
-export type ScanQRCodeResult = v.InferOutput<typeof ScanQRCodeResultSchema>;
+export type ScanQRCodeResult = InferOutput<typeof ScanQRCodeResultSchema>;
 
 /**
  * Response when scanning a QR code.
@@ -58,4 +58,4 @@ export type ScanQRCodeResult = v.InferOutput<typeof ScanQRCodeResultSchema>;
  *
  * @public
  */
-export type ScanQRCodeResponse = v.InferOutput<typeof ScanQRCodeResponseSchema>;
+export type ScanQRCodeResponse = InferOutput<typeof ScanQRCodeResponseSchema>;

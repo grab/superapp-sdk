@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import {
   GetSelectedTravelDestinationResponseSchema,
@@ -27,7 +27,7 @@ import {
  *
  * @public
  */
-export type GetSelectedTravelDestinationResult = v.InferOutput<
+export type GetSelectedTravelDestinationResult = InferOutput<
   typeof GetSelectedTravelDestinationResultSchema
 >;
 
@@ -43,6 +43,6 @@ export type GetSelectedTravelDestinationResult = v.InferOutput<
  *
  * @public
  */
-export type GetSelectedTravelDestinationResponse = v.InferOutput<
+export type GetSelectedTravelDestinationResponse = InferOutput<
   typeof GetSelectedTravelDestinationResponseSchema
 >;

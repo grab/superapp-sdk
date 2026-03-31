@@ -5,10 +5,6 @@
  * directory of this source tree.
  */
 
-import type { GenericSchema } from 'valibot';
-
-import { GrabAppInfo } from '../utils/platform';
-
 /**
  * Base response type for all JSBridge calls.
  *
@@ -109,12 +105,4 @@ export interface InvokeOptions {
   method: string;
   /** The parameters to pass to the method */
   params?: unknown;
-  /** Validator function - returns false = 426 with default error */
-  isSupported?: (appInfo: GrabAppInfo) => boolean;
-  /** Optional response transformation function */
-  transformResponse?: (response: BridgeResponse) => BridgeResponse;
-  /** Schema to validate params before the bridge call — returns 400 on failure */
-  requestSchema?: GenericSchema;
-  /** Schema to validate the bridge response — logs a warning on mismatch */
-  responseSchema?: GenericSchema;
 }

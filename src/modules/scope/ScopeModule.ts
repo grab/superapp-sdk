@@ -78,12 +78,20 @@ export class ScopeModule extends BaseModule {
    * @public
    */
   async hasAccessTo(module: string, method: string): Promise<HasAccessToResponse> {
-    return (await this.invoke({
+    const params = { module, method };
+    const requestError = this.validate(HasAccessToRequestSchema, params);
+    if (requestError) return { status_code: 400, error: requestError };
+
+    const response = (await this.invoke({
       method: 'hasAccessTo',
-      params: { module, method },
-      requestSchema: HasAccessToRequestSchema,
-      responseSchema: HasAccessToResponseSchema,
+      params,
     })) as HasAccessToResponse;
+
+    const responseError = this.validate(HasAccessToResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:hasAccessTo] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -116,9 +124,14 @@ export class ScopeModule extends BaseModule {
    * @public
    */
   async reloadScopes(): Promise<ReloadScopesResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'reloadScopes',
-      responseSchema: ReloadScopesResponseSchema,
     })) as ReloadScopesResponse;
+
+    const responseError = this.validate(ReloadScopesResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:reloadScopes] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

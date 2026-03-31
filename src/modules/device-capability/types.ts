@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './schemas';
 
@@ -24,7 +24,7 @@ import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './sc
  *
  * @public
  */
-export type IsEsimSupportedResult = v.InferOutput<typeof IsEsimSupportedResultSchema>;
+export type IsEsimSupportedResult = InferOutput<typeof IsEsimSupportedResultSchema>;
 
 /**
  * Response when checking whether the current device supports eSIM.
@@ -37,4 +37,4 @@ export type IsEsimSupportedResult = v.InferOutput<typeof IsEsimSupportedResultSc
  *
  * @public
  */
-export type IsEsimSupportedResponse = v.InferOutput<typeof IsEsimSupportedResponseSchema>;
+export type IsEsimSupportedResponse = InferOutput<typeof IsEsimSupportedResponseSchema>;

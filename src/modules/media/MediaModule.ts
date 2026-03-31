@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { ObserveDRMPlaybackResponseSchema, PlayDRMContentResponseSchema } from './schemas';
+import { PlayDRMContentResponseSchema } from './schemas';
 import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
 /**
@@ -86,11 +86,16 @@ export class MediaModule extends BaseModule {
    * @public
    */
   async playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'playDRMContent',
       params: { data },
-      responseSchema: PlayDRMContentResponseSchema,
     })) as PlayDRMContentResponse;
+
+    const responseError = this.validate(PlayDRMContentResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:playDRMContent] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -136,7 +141,6 @@ export class MediaModule extends BaseModule {
     return this.invokeStream({
       method: 'observePlayDRMContent',
       params: { data },
-      responseSchema: ObserveDRMPlaybackResponseSchema,
     }) as ObserveDRMPlaybackResponse;
   }
 }

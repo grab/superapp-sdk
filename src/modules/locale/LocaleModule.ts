@@ -71,9 +71,14 @@ export class LocaleModule extends BaseModule {
    * @public
    */
   async getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'getLanguageLocaleIdentifier',
-      responseSchema: GetLanguageLocaleIdentifierResponseSchema,
     })) as GetLanguageLocaleIdentifierResponse;
+
+    const responseError = this.validate(GetLanguageLocaleIdentifierResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getLanguageLocaleIdentifier] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

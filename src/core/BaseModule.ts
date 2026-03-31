@@ -9,9 +9,15 @@ import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
 import { type GenericSchema, safeParse } from 'valibot';
 
 import { isErrorWithMessage } from '../utils/error';
-import { detectGrabApp } from '../utils/platform';
+import { detectGrabApp, GrabAppInfo } from '../utils/platform';
 import { formatIssues } from '../utils/schema';
-import { BridgeResponse, BridgeStream, InvokeOptions, Subscription, WrappedModule } from './types';
+import {
+  BridgeResponse,
+  BridgeStream,
+  InvokeOptions,
+  Subscription,
+  WrappedModule,
+} from './types';
 
 /**
  * Base class for all JSBridge modules.
@@ -66,60 +72,70 @@ export class BaseModule {
   }
 
   /**
-   * Validates user input against a schema before it is transformed for a bridge call.
-   *
-   * @remarks
-   * Use this when the params passed to `invoke` differ from the user-facing request object
-   * (i.e., when a transform is applied before the bridge call). For straightforward cases
-   * where no transform is needed, pass `requestSchema` directly to `invoke` instead.
+   * Validates a value against a schema.
    *
    * @param schema - The valibot schema to validate against.
-   * @param params - The value to validate.
-   * @returns A 400 error response if validation fails, or `null` if valid.
+   * @param value - The value to validate.
+   * @returns A formatted error string if validation fails, or `null` if valid.
    *
    * @protected
    */
-  protected validateRequest(
-    schema: GenericSchema,
-    params: unknown
-  ): { status_code: 400; error: string } | null {
-    const parsed = safeParse(schema, params);
+  protected validate(schema: GenericSchema, value: unknown): string | null {
+    const parsed = safeParse(schema, value);
     if (!parsed.success) {
-      return { status_code: 400, error: formatIssues(parsed.issues) };
+      return formatIssues(parsed.issues);
     }
     return null;
   }
 
   /**
-   * Invokes a JSBridge method with optional app validation and response transformation.
+   * Checks whether the current app version supports this method.
+   *
+   * @remarks
+   * Returns 501 if not running in the Grab app, 426 if the version check fails,
+   * or `null` if the method is supported.
+   *
+   * @param isSupported - A function receiving the detected app info, returning true if supported.
+   * @returns An error response, or `null` if supported.
+   *
+   * @protected
+   */
+  protected checkSupport(
+    isSupported: (appInfo: GrabAppInfo) => boolean
+  ): { status_code: 501; error: string } | { status_code: 426; error: string } | null {
+    const appInfo = detectGrabApp();
+    if (!appInfo) {
+      return {
+        status_code: 501,
+        error: 'Not implemented: This method requires the Grab app environment',
+      };
+    }
+    if (!isSupported(appInfo)) {
+      return {
+        status_code: 426,
+        error: 'Upgrade Required: This method requires a newer version of the Grab app',
+      };
+    }
+    return null;
+  }
+
+  /**
+   * Invokes a JSBridge method.
    *
    * @remarks
    * - Always checks if running in Grab app (returns 501 if not).
-   * - When `isSupported` returns false, returns 426 (Upgrade Required).
-   * - When `transformResponse` is provided, applies it to successful responses.
    * - All errors are reported via the `status_code` field; this method never rejects.
    * - For streaming methods, use `invokeStream` instead.
    *
-   * @param options - The invoke options including method name, params, validation, and transformation.
+   * @param options - The invoke options including method name and params.
    * @returns A promise resolving to the JSBridge response.
    *
    * @protected
    */
   protected async invoke(options: InvokeOptions): Promise<BridgeResponse> {
-    const { method, params, isSupported, transformResponse, requestSchema, responseSchema } =
-      options;
+    const { method, params } = options;
 
     try {
-      if (requestSchema !== undefined && params !== undefined) {
-        const parsed = safeParse(requestSchema, params);
-        if (!parsed.success) {
-          return {
-            status_code: 400,
-            error: formatIssues(parsed.issues),
-          };
-        }
-      }
-
       const appInfo = detectGrabApp();
       if (!appInfo) {
         return {
@@ -128,29 +144,7 @@ export class BaseModule {
         };
       }
 
-      if (isSupported) {
-        if (!isSupported(appInfo)) {
-          return {
-            status_code: 426,
-            error: 'Upgrade Required: This method requires a newer version of the Grab app',
-          };
-        }
-      }
-
-      const response = (await this.wrappedModule.invoke(method, params)) as BridgeResponse;
-
-      if (responseSchema !== undefined) {
-        const parsed = safeParse(responseSchema, response);
-        if (!parsed.success) {
-          console.warn(`[SDK:${method}] Unexpected response shape:`, parsed.issues);
-        }
-      }
-
-      if (transformResponse) {
-        return transformResponse(response);
-      }
-
-      return response;
+      return (await this.wrappedModule.invoke(method, params)) as BridgeResponse;
     } catch (error) {
       return {
         status_code: 500,
@@ -186,30 +180,18 @@ export class BaseModule {
    *
    * @remarks
    * - Always checks if running in Grab app (returns 501 error response if not).
-   * - When `isSupported` returns false, returns 426 error response.
    * - Returns a `BridgeStream` that can be subscribed to or awaited for the first value.
    * - All errors are reported via error responses in the stream; this method never rejects.
    *
-   * @param options - The invoke options including method name, params, and validation.
+   * @param options - The invoke options including method name and params.
    * @returns A `BridgeStream` for receiving continuous data from the JSBridge.
    *
    * @protected
    */
   protected invokeStream(options: InvokeOptions): BridgeStream {
-    const { method, params, isSupported, transformResponse, requestSchema, responseSchema } =
-      options;
+    const { method, params } = options;
 
     try {
-      if (requestSchema !== undefined && params !== undefined) {
-        const parsed = safeParse(requestSchema, params);
-        if (!parsed.success) {
-          return this.createErrorStream({
-            status_code: 400,
-            error: formatIssues(parsed.issues),
-          });
-        }
-      }
-
       const appInfo = detectGrabApp();
       if (!appInfo) {
         return this.createErrorStream({
@@ -218,47 +200,7 @@ export class BaseModule {
         });
       }
 
-      if (isSupported) {
-        if (!isSupported(appInfo)) {
-          return this.createErrorStream({
-            status_code: 426,
-            error: 'Upgrade Required: This method requires a newer version of the Grab app',
-          });
-        }
-      }
-
-      const stream = this.wrappedModule.invoke(method, params) as BridgeStream;
-
-      if (!transformResponse && !responseSchema) {
-        return stream;
-      }
-
-      return {
-        subscribe: (handlers) =>
-          stream.subscribe({
-            next: (value) => {
-              if (responseSchema !== undefined) {
-                const parsed = safeParse(responseSchema, value);
-                if (!parsed.success) {
-                  console.warn(`[SDK:${method}] Unexpected response shape:`, parsed.issues);
-                }
-              }
-              handlers?.next?.(transformResponse ? transformResponse(value) : value);
-            },
-            complete: handlers?.complete,
-          }),
-        then: (onfulfilled) =>
-          stream.then((value) => {
-            if (responseSchema !== undefined) {
-              const parsed = safeParse(responseSchema, value);
-              if (!parsed.success) {
-                console.warn(`[SDK:${method}] Unexpected response shape:`, parsed.issues);
-              }
-            }
-            const transformed = transformResponse ? transformResponse(value) : value;
-            return onfulfilled ? onfulfilled(transformed) : (transformed as unknown);
-          }),
-      } as BridgeStream;
+      return this.wrappedModule.invoke(method, params) as BridgeStream;
     } catch (error) {
       return this.createErrorStream({
         status_code: 500,

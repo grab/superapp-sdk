@@ -88,10 +88,15 @@ export class CheckoutModule extends BaseModule {
    * @public
    */
   async triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'triggerCheckout',
       params: request,
-      responseSchema: TriggerCheckoutResponseSchema,
     })) as TriggerCheckoutResponse;
+
+    const responseError = this.validate(TriggerCheckoutResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:triggerCheckout] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

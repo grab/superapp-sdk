@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import {
   GetLanguageLocaleIdentifierResponseSchema,
@@ -40,7 +40,7 @@ import {
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResult = v.InferOutput<
+export type GetLanguageLocaleIdentifierResult = InferOutput<
   typeof GetLanguageLocaleIdentifierResultSchema
 >;
 
@@ -55,6 +55,6 @@ export type GetLanguageLocaleIdentifierResult = v.InferOutput<
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = v.InferOutput<
+export type GetLanguageLocaleIdentifierResponse = InferOutput<
   typeof GetLanguageLocaleIdentifierResponseSchema
 >;

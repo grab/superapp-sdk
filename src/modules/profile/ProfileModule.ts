@@ -93,11 +93,18 @@ export class ProfileModule extends BaseModule {
    * @public
    */
   async fetchEmail(): Promise<FetchEmailResponse> {
-    return (await this.invoke({
-      method: 'fetchEmail',
-      isSupported: (appInfo) => meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION),
-      responseSchema: FetchEmailResponseSchema,
-    })) as FetchEmailResponse;
+    const supportError = this.checkSupport((appInfo) =>
+      meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION)
+    );
+    if (supportError) return supportError;
+
+    const response = (await this.invoke({ method: 'fetchEmail' })) as FetchEmailResponse;
+
+    const responseError = this.validate(FetchEmailResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:fetchEmail] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -149,12 +156,20 @@ export class ProfileModule extends BaseModule {
    * @public
    */
   async verifyEmail(request: VerifyEmailRequest): Promise<VerifyEmailResponse> {
-    return (await this.invoke({
-      method: 'verifyEmail',
-      params: request,
-      isSupported: (appInfo) => meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION),
-      requestSchema: VerifyEmailRequestSchema,
-      responseSchema: VerifyEmailResponseSchema,
-    })) as VerifyEmailResponse;
+    const supportError = this.checkSupport((appInfo) =>
+      meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION)
+    );
+    if (supportError) return supportError;
+
+    const requestError = this.validate(VerifyEmailRequestSchema, request);
+    if (requestError) return { status_code: 400, error: requestError };
+
+    const response = (await this.invoke({ method: 'verifyEmail', params: request })) as VerifyEmailResponse;
+
+    const responseError = this.validate(VerifyEmailResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:verifyEmail] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

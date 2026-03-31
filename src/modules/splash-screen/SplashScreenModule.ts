@@ -65,9 +65,14 @@ export class SplashScreenModule extends BaseModule {
    * @public
    */
   async dismiss(): Promise<DismissSplashScreenResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'dismiss',
-      responseSchema: DismissSplashScreenResponseSchema,
     })) as DismissSplashScreenResponse;
+
+    const responseError = this.validate(DismissSplashScreenResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:dismiss] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

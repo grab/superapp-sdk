@@ -76,11 +76,18 @@ export class FileModule extends BaseModule {
    * @public
    */
   async downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse> {
-    return (await this.invoke({
+    const requestError = this.validate(DownloadFileRequestSchema, request);
+    if (requestError) return { status_code: 400, error: requestError };
+
+    const response = (await this.invoke({
       method: 'downloadFile',
       params: request,
-      requestSchema: DownloadFileRequestSchema,
-      responseSchema: DownloadFileResponseSchema,
     })) as DownloadFileResponse;
+
+    const responseError = this.validate(DownloadFileResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:downloadFile] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

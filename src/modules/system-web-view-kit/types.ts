@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import * as v from 'valibot';
+import type { InferOutput } from 'valibot';
 
 import {
   RedirectToSystemWebViewRequestSchema,
@@ -24,7 +24,7 @@ import {
  *
  * @public
  */
-export type RedirectToSystemWebViewRequest = v.InferOutput<
+export type RedirectToSystemWebViewRequest = InferOutput<
   typeof RedirectToSystemWebViewRequestSchema
 >;
 
@@ -49,6 +49,6 @@ export type RedirectToSystemWebViewResult = void;
  *
  * @public
  */
-export type RedirectToSystemWebViewResponse = v.InferOutput<
+export type RedirectToSystemWebViewResponse = InferOutput<
   typeof RedirectToSystemWebViewResponseSchema
 >;

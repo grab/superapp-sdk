@@ -78,9 +78,14 @@ export class UserAttributesModule extends BaseModule {
    * @public
    */
   async getSelectedTravelDestination(): Promise<GetSelectedTravelDestinationResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'getSelectedTravelDestination',
-      responseSchema: GetSelectedTravelDestinationResponseSchema,
     })) as GetSelectedTravelDestinationResponse;
+
+    const responseError = this.validate(GetSelectedTravelDestinationResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getSelectedTravelDestination] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

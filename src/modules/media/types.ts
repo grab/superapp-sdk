@@ -8,7 +8,11 @@
 import type { InferOutput } from 'valibot';
 
 import { BridgeStream } from '../../core';
-import { DRMPlaybackEventSchema, PlayDRMContentResponseSchema } from './schemas';
+import {
+  DRMPlaybackEventSchema,
+  ObserveDRMPlaybackResponseSchema,
+  PlayDRMContentResponseSchema,
+} from './schemas';
 
 /**
  * DRM content configuration for playback.
@@ -106,7 +110,5 @@ export type DRMPlaybackEvent = InferOutput<typeof DRMPlaybackEventSchema>;
  * @public
  */
 export type ObserveDRMPlaybackResponse = BridgeStream<
-  | { status_code: 200; result: DRMPlaybackEvent }
-  | { status_code: 500; error: string }
-  | { status_code: 501; error: string }
+  InferOutput<typeof ObserveDRMPlaybackResponseSchema>
 >;
