@@ -9,16 +9,20 @@ import * as v from 'valibot';
 
 import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
 
-/** @internal */
-export const storageErrorResponseSchema = v.union([
+/**
+ * @internal
+ */
+const storageErrorResponseSchema = v.union([
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
 
-/** @internal */
-export const storageKeySchema = v.object({ key: v.pipe(v.string(), v.minLength(1)) });
+/**
+ * @internal
+ */
+const storageKeySchema = v.object({ key: v.pipe(v.string(), v.minLength(1)) });
 
 /**
  * Valibot schema for {@link SetBooleanResponse}.
@@ -140,7 +144,9 @@ export const GetDoubleResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** @internal */
+/**
+ * @internal
+ */
 export const RemoveRequestSchema = storageKeySchema;
 /**
  * Valibot schema for {@link RemoveResponse}.

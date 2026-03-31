@@ -10,6 +10,7 @@ export { isClientError, isError, isRedirection, isServerError, isSuccess } from 
 export {
   bridgeErrorSchema,
   bridgeNoContentSchema,
+  bridgeOkSchema,
   bridgeRedirectSchema,
   bridgeSuccessSchema,
 } from './schemas';

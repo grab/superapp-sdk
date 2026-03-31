@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeOkSchema, bridgeSuccessSchema } from '../../core';
 
 /**
  * Valibot schema for {@link FetchEmailResult}.
@@ -46,7 +46,7 @@ export const VerifyEmailRequestSchema = v.object({
  * @public
  */
 export const VerifyEmailResponseSchema = v.union([
-  v.object({ status_code: v.literal(200) }),
+  bridgeOkSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(403),
   bridgeErrorSchema(426),

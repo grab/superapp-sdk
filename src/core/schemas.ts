@@ -47,6 +47,13 @@ export const bridgeSuccessSchema = <T extends v.BaseSchema<unknown, unknown, v.B
 export const bridgeNoContentSchema = v.object({ status_code: v.literal(204) });
 
 /**
+ * Schema for bridge 200 OK responses without a result payload.
+ *
+ * @internal
+ */
+export const bridgeOkSchema = v.object({ status_code: v.literal(200) });
+
+/**
  * Schema for bridge 302 Redirect responses.
  *
  * @internal

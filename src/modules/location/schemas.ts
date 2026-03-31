@@ -29,7 +29,9 @@ export const GetCoordinateResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-/** @internal */
+/**
+ * @internal
+ */
 export const ObserveLocationChangeResponseSchema = GetCoordinateResponseSchema;
 
 /**

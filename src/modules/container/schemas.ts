@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema, bridgeSuccessSchema } from '../../core';
 
 /**
  * Valibot schema for {@link SetBackgroundColorResponse}.
@@ -21,15 +21,13 @@ export const SetBackgroundColorResponseSchema = v.union([
   bridgeErrorSchema(501),
 ]);
 
-const noResultSchema = v.object({ status_code: v.literal(200) });
-
 /**
  * Valibot schema for {@link SetTitleResponse}.
  *
  * @public
  */
 export const SetTitleResponseSchema = v.union([
-  noResultSchema,
+  bridgeOkSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
@@ -41,7 +39,7 @@ export const SetTitleResponseSchema = v.union([
  * @public
  */
 export const HideBackButtonResponseSchema = v.union([
-  noResultSchema,
+  bridgeOkSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -95,7 +93,7 @@ export const HideLoaderResponseSchema = HideBackButtonResponseSchema;
  * @public
  */
 export const OpenExternalLinkResponseSchema = v.union([
-  noResultSchema,
+  bridgeOkSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
@@ -107,7 +105,7 @@ export const OpenExternalLinkResponseSchema = v.union([
  * @public
  */
 export const OnCtaTapResponseSchema = v.union([
-  noResultSchema,
+  bridgeOkSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -129,7 +127,7 @@ export const SendAnalyticsEventRequestSchema = v.object({
  * @public
  */
 export const SendAnalyticsEventResponseSchema = v.union([
-  noResultSchema,
+  bridgeOkSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
