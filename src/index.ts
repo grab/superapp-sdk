@@ -152,6 +152,11 @@ export type {
   ReloadScopesResponse,
   ReloadScopesResult,
 } from './modules/scope/types';
+export { SplashScreenModule } from './modules/splash-screen';
+export type {
+  DismissSplashScreenResponse,
+  DismissSplashScreenResult,
+} from './modules/splash-screen/types';
 export { StorageModule } from './modules/storage/StorageModule';
 export type {
   GetBooleanRequest,
