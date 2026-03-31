@@ -158,6 +158,7 @@ export type {
 } from './modules/location/types';
 export { MediaModule } from './modules/media/MediaModule';
 export { DRMPlaybackEventSchema, PlayDRMContentResponseSchema } from './modules/media/schemas';
+export { ObserveDRMPlaybackResponseSchema } from './modules/media/schemas';
 export type {
   DRMContentConfig,
   DRMPlaybackEvent,

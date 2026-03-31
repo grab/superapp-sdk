@@ -437,8 +437,7 @@ export class IdentityModule extends BaseModule {
     })) as AuthorizeResponse;
 
     const responseError = this.validate(AuthorizeResponseSchema, response);
-    if (responseError)
-      console.warn(`[SDK:authorize] Unexpected response shape: ${responseError}`);
+    if (responseError) console.warn(`[SDK:authorize] Unexpected response shape: ${responseError}`);
 
     return response;
   }

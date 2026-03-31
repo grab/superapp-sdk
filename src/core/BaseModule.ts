@@ -11,13 +11,7 @@ import { type GenericSchema, safeParse } from 'valibot';
 import { isErrorWithMessage } from '../utils/error';
 import { detectGrabApp, GrabAppInfo } from '../utils/platform';
 import { formatIssues } from '../utils/schema';
-import {
-  BridgeResponse,
-  BridgeStream,
-  InvokeOptions,
-  Subscription,
-  WrappedModule,
-} from './types';
+import { BridgeResponse, BridgeStream, InvokeOptions, Subscription, WrappedModule } from './types';
 
 /**
  * Base class for all JSBridge modules.

@@ -443,8 +443,7 @@ export class ContainerModule extends BaseModule {
     })) as ShowLoaderResponse;
 
     const responseError = this.validate(ShowLoaderResponseSchema, response);
-    if (responseError)
-      console.warn(`[SDK:showLoader] Unexpected response shape: ${responseError}`);
+    if (responseError) console.warn(`[SDK:showLoader] Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -486,8 +485,7 @@ export class ContainerModule extends BaseModule {
     })) as HideLoaderResponse;
 
     const responseError = this.validate(HideLoaderResponseSchema, response);
-    if (responseError)
-      console.warn(`[SDK:hideLoader] Unexpected response shape: ${responseError}`);
+    if (responseError) console.warn(`[SDK:hideLoader] Unexpected response shape: ${responseError}`);
 
     return response;
   }

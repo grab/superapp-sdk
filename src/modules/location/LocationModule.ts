@@ -6,10 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import {
-  GetCoordinateResponseSchema,
-  GetCountryCodeResponseSchema,
-} from './schemas';
+import { GetCoordinateResponseSchema, GetCountryCodeResponseSchema } from './schemas';
 import {
   GetCoordinateResponse,
   GetCountryCodeResponse,

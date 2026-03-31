@@ -7,7 +7,12 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema, bridgeSuccessSchema } from '../../core';
+import {
+  bridgeErrorSchema,
+  bridgeNoContentSchema,
+  bridgeOkSchema,
+  bridgeSuccessSchema,
+} from '../../core';
 
 /**
  * Valibot schema for {@link PlayDRMContentResponse}.
