@@ -6,7 +6,7 @@
  */
 
 export { BaseModule } from './BaseModule';
-export { isClientError, isError, isRedirection, isServerError, isSuccess } from './guards';
+export { isClientError, isError, isFound, isNoContent, isOk, isRedirection, isServerError, isSuccess } from './guards';
 export {
   bridgeErrorSchema,
   bridgeNoContentSchema,

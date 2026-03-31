@@ -33,6 +33,34 @@ export function isSuccess<T extends BridgeResponse>(
 }
 
 /**
+ * Type guard to check if a JSBridge response is a 200 OK (operation succeeded with a result).
+ *
+ * @param response - The JSBridge response to check
+ * @returns True if the response has status code 200, false otherwise
+ *
+ * @public
+ */
+export function isOk<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 200 }> {
+  return response.status_code === 200;
+}
+
+/**
+ * Type guard to check if a JSBridge response is a 204 No Content (operation succeeded with no result).
+ *
+ * @param response - The JSBridge response to check
+ * @returns True if the response has status code 204, false otherwise
+ *
+ * @public
+ */
+export function isNoContent<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 204 }> {
+  return response.status_code === 204;
+}
+
+/**
  * Type guard to check if a JSBridge response is a redirect (status code 302).
  *
  * @param response - The JSBridge response to check
@@ -49,6 +77,20 @@ export function isSuccess<T extends BridgeResponse>(
  * @public
  */
 export function isRedirection<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 302 }> {
+  return response.status_code === 302;
+}
+
+/**
+ * Type guard to check if a JSBridge response is a 302 Found redirect.
+ *
+ * @param response - The JSBridge response to check
+ * @returns True if the response has status code 302, false otherwise
+ *
+ * @public
+ */
+export function isFound<T extends BridgeResponse>(
   response: T
 ): response is Extract<T, { status_code: 302 }> {
   return response.status_code === 302;
