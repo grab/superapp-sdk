@@ -11,10 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Runtime schema validation using `valibot` for all module requests and responses
 - Schema files (`schemas.ts`) for all modules with valibot validation schemas
-- `validateRequest()` protected method to `BaseModule` for pre-invocation validation
+- `validate()` protected method to `BaseModule` for pre-invocation validation
 - `requestSchema` and `responseSchema` options to `InvokeOptions` interface
 - `formatIssues()` utility for human-readable validation error formatting
 - `typedoc-plugin-valibot` dev dependency for schema documentation
+- `isOk()`, `isNoContent()`, `isFound()` type guards for granular status code narrowing
 
 ### Changed
 
