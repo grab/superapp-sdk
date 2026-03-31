@@ -37,7 +37,7 @@ export const DRMPlaybackEventSchema = v.object({
 });
 
 /**
- * @internal
+ * @public
  */
 export const ObserveDRMPlaybackResponseSchema = v.union([
   bridgeSuccessSchema(DRMPlaybackEventSchema),

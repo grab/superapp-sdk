@@ -10,6 +10,16 @@ import * as v from 'valibot';
 import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
 
 /**
+ * Valibot schema for {@link TriggerCheckoutRequest}.
+ *
+ * @remarks
+ * The checkout parameters vary depending on the specific payment flow and partner requirements.
+ *
+ * @public
+ */
+export const TriggerCheckoutRequestSchema = v.record(v.string(), v.unknown());
+
+/**
  * Valibot schema for {@link TriggerCheckoutResult}.
  *
  * @public

@@ -6,7 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
-import { TriggerCheckoutResponseSchema } from './schemas';
+import { TriggerCheckoutRequestSchema, TriggerCheckoutResponseSchema } from './schemas';
 import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
 /**
@@ -88,6 +88,9 @@ export class CheckoutModule extends BaseModule {
    * @public
    */
   async triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse> {
+    const requestError = this.validate(TriggerCheckoutRequestSchema, request);
+    if (requestError) return { status_code: 400, error: requestError };
+
     const response = (await this.invoke({
       method: 'triggerCheckout',
       params: request,

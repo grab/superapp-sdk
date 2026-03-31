@@ -7,7 +7,11 @@
 
 import type { InferOutput } from 'valibot';
 
-import { TriggerCheckoutResponseSchema, TriggerCheckoutResultSchema } from './schemas';
+import {
+  TriggerCheckoutRequestSchema,
+  TriggerCheckoutResponseSchema,
+  TriggerCheckoutResultSchema,
+} from './schemas';
 
 /**
  * Request parameters for triggering the checkout flow.
@@ -31,7 +35,7 @@ import { TriggerCheckoutResponseSchema, TriggerCheckoutResultSchema } from './sc
  *
  * @public
  */
-export type TriggerCheckoutRequest = Record<string, unknown>;
+export type TriggerCheckoutRequest = InferOutput<typeof TriggerCheckoutRequestSchema>;
 
 /**
  * Result object containing the checkout transaction details.

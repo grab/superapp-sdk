@@ -28,6 +28,7 @@ export type {
 } from './modules/camera/types';
 export { CheckoutModule } from './modules/checkout/CheckoutModule';
 export {
+  TriggerCheckoutRequestSchema,
   TriggerCheckoutResponseSchema,
   TriggerCheckoutResultSchema,
 } from './modules/checkout/schemas';
