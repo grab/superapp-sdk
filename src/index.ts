@@ -196,11 +196,8 @@ export type {
   ReloadScopesResponse,
   ReloadScopesResult,
 } from './modules/scope/types';
-export { SplashScreenModule } from './modules/splash-screen';
-export type {
-  DismissSplashScreenResponse,
-  DismissSplashScreenResult,
-} from './modules/splash-screen/types';
+export { DismissSplashScreenResponseSchema, SplashScreenModule } from './modules/splash-screen';
+export type { DismissSplashScreenResponse } from './modules/splash-screen/types';
 export {
   GetBooleanRequestSchema,
   GetBooleanResponseSchema,

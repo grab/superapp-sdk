@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { DismissSplashScreenResponseSchema } from './schemas';
 import { DismissSplashScreenResponse } from './types';
 
 /**
@@ -66,6 +67,7 @@ export class SplashScreenModule extends BaseModule {
   async dismiss(): Promise<DismissSplashScreenResponse> {
     return (await this.invoke({
       method: 'dismiss',
+      responseSchema: DismissSplashScreenResponseSchema,
     })) as DismissSplashScreenResponse;
   }
 }
