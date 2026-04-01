@@ -6,3 +6,4 @@
  */
 
 export { MediaModule } from './MediaModule';
+export { ObserveDRMPlaybackResponseSchema } from './schemas';

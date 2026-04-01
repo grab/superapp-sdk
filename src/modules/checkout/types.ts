@@ -5,7 +5,13 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import type { InferOutput } from 'valibot';
+
+import {
+  TriggerCheckoutRequestSchema,
+  TriggerCheckoutResponseSchema,
+  TriggerCheckoutResultSchema,
+} from './schemas';
 
 /**
  * Request parameters for triggering the checkout flow.
@@ -29,7 +35,7 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type TriggerCheckoutRequest = Record<string, unknown>;
+export type TriggerCheckoutRequest = InferOutput<typeof TriggerCheckoutRequestSchema>;
 
 /**
  * Result object containing the checkout transaction details.
@@ -74,16 +80,7 @@ export type TriggerCheckoutRequest = Record<string, unknown>;
  *
  * @public
  */
-export type TriggerCheckoutResult = {
-  /** Unique identifier for the transaction at Grab side. */
-  transactionID: string;
-  /** Status of the transaction. */
-  status: 'success' | 'failure' | 'pending' | 'userInitiatedCancel';
-  /** Error message if the transaction failed. */
-  errorMessage?: string;
-  /** Error code associated with the failed transaction. */
-  errorCode?: string;
-};
+export type TriggerCheckoutResult = InferOutput<typeof TriggerCheckoutResultSchema>;
 
 /**
  * Response when triggering the checkout flow.
@@ -95,71 +92,6 @@ export type TriggerCheckoutResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - payment successful:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: {
- *     transactionID: 'grab-txn-abc123',
- *     status: 'success'
- *   }
- * }
- * ```
- *
- * @example
- * **Success response (200) - payment failed:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: {
- *     transactionID: 'grab-txn-abc123',
- *     status: 'failure',
- *     errorMessage: 'Insufficient funds',
- *     errorCode: 'PAYMENT_FAILED'
- *   }
- * }
- * ```
- *
- * @example
- * **Success response (200) - user cancelled:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: {
- *     transactionID: 'grab-txn-abc123',
- *     status: 'userInitiatedCancel'
- *   }
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Invalid checkout parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type TriggerCheckoutResponse = BridgeResponse<200 | 400 | 500 | 501, TriggerCheckoutResult>;
+export type TriggerCheckoutResponse = InferOutput<typeof TriggerCheckoutResponseSchema>;

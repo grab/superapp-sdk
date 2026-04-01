@@ -5,15 +5,7 @@
  * directory of this source tree.
  */
 
-import type {
-  BridgeClientError,
-  BridgeError,
-  BridgeRedirection,
-  BridgeResponse,
-  BridgeServerError,
-  BridgeStatusCode,
-  BridgeSuccessResponse,
-} from './types';
+import type { BridgeResponse } from './types';
 
 /**
  * Type guard to check if a JSBridge response is successful (status codes 200 or 204).
@@ -25,7 +17,7 @@ import type {
  * ```typescript
  * const response = await someBridgeMethod();
  * if (isSuccess(response)) {
- *   // response is narrowed to BridgeSuccessResponse<T>
+ *   // response narrowed to the 200/204 variants of the response union
  *   if (response.status_code === 200) {
  *     console.log(response.result);
  *   }
@@ -34,10 +26,38 @@ import type {
  *
  * @public
  */
-export function isSuccess<T>(
-  response: BridgeResponse<BridgeStatusCode, T>
-): response is BridgeSuccessResponse<T> {
+export function isSuccess<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 200 | 204 }> {
   return response.status_code === 200 || response.status_code === 204;
+}
+
+/**
+ * Type guard to check if a JSBridge response is a 200 OK (operation succeeded with a result).
+ *
+ * @param response - The JSBridge response to check
+ * @returns True if the response has status code 200, false otherwise
+ *
+ * @public
+ */
+export function isOk<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 200 }> {
+  return response.status_code === 200;
+}
+
+/**
+ * Type guard to check if a JSBridge response is a 204 No Content (operation succeeded with no result).
+ *
+ * @param response - The JSBridge response to check
+ * @returns True if the response has status code 204, false otherwise
+ *
+ * @public
+ */
+export function isNoContent<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 204 }> {
+  return response.status_code === 204;
 }
 
 /**
@@ -50,16 +70,29 @@ export function isSuccess<T>(
  * ```typescript
  * const response = await someBridgeMethod();
  * if (isRedirection(response)) {
- *   // response is narrowed to BridgeRedirection
  *   console.log('Redirecting...');
  * }
  * ```
  *
  * @public
  */
-export function isRedirection<T>(
-  response: BridgeResponse<BridgeStatusCode, T>
-): response is BridgeRedirection {
+export function isRedirection<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 302 }> {
+  return response.status_code === 302;
+}
+
+/**
+ * Type guard to check if a JSBridge response is a 302 Found redirect.
+ *
+ * @param response - The JSBridge response to check
+ * @returns True if the response has status code 302, false otherwise
+ *
+ * @public
+ */
+export function isFound<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 302 }> {
   return response.status_code === 302;
 }
 
@@ -73,24 +106,17 @@ export function isRedirection<T>(
  * ```typescript
  * const response = await someBridgeMethod();
  * if (isClientError(response)) {
- *   // response is narrowed to BridgeClientError
  *   console.error('Client error:', response.error);
  * }
  * ```
  *
  * @public
  */
-export function isClientError<T>(
-  response: BridgeResponse<BridgeStatusCode, T>
-): response is BridgeClientError {
-  return (
-    response.status_code === 400 ||
-    response.status_code === 401 ||
-    response.status_code === 403 ||
-    response.status_code === 404 ||
-    response.status_code === 424 ||
-    response.status_code === 426
-  );
+export function isClientError<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 400 | 401 | 403 | 404 | 424 | 426 }> {
+  const c = response.status_code;
+  return c === 400 || c === 401 || c === 403 || c === 404 || c === 424 || c === 426;
 }
 
 /**
@@ -103,16 +129,15 @@ export function isClientError<T>(
  * ```typescript
  * const response = await someBridgeMethod();
  * if (isServerError(response)) {
- *   // response is narrowed to BridgeServerError
  *   console.error('Server error:', response.error);
  * }
  * ```
  *
  * @public
  */
-export function isServerError<T>(
-  response: BridgeResponse<BridgeStatusCode, T>
-): response is BridgeServerError {
+export function isServerError<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { status_code: 500 | 501 }> {
   return response.status_code === 500 || response.status_code === 501;
 }
 
@@ -125,19 +150,18 @@ export function isServerError<T>(
  * @example
  * ```typescript
  * const response = await someBridgeMethod();
- * if (isErrorResponse(response)) {
- *   // response is narrowed to BridgeError
+ * if (isError(response)) {
+ *   // response narrowed to error variants — error: string is guaranteed
  *   console.error('Error:', response.error);
  * } else {
- *   // response is successful or redirect
  *   console.log('Success!');
  * }
  * ```
  *
  * @public
  */
-export function isErrorResponse<T>(
-  response: BridgeResponse<BridgeStatusCode, T>
-): response is BridgeError {
-  return isClientError(response) || isServerError(response);
+export function isError<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { error: string }> {
+  return 'error' in response;
 }

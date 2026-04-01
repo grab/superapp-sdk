@@ -5,7 +5,28 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import type { InferOutput } from 'valibot';
+
+import {
+  GetBooleanRequestSchema,
+  GetBooleanResponseSchema,
+  GetBooleanResultSchema,
+  GetDoubleRequestSchema,
+  GetDoubleResponseSchema,
+  GetDoubleResultSchema,
+  GetIntRequestSchema,
+  GetIntResponseSchema,
+  GetIntResultSchema,
+  GetStringRequestSchema,
+  GetStringResponseSchema,
+  GetStringResultSchema,
+  RemoveAllResponseSchema,
+  RemoveResponseSchema,
+  SetBooleanResponseSchema,
+  SetDoubleResponseSchema,
+  SetIntResponseSchema,
+  SetStringResponseSchema,
+} from './schemas';
 
 /**
  * Result object for setting a boolean value.
@@ -25,42 +46,9 @@ export type SetBooleanResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type SetBooleanResponse = BridgeResponse<204 | 400 | 500 | 501, SetBooleanResult>;
+export type SetBooleanResponse = InferOutput<typeof SetBooleanResponseSchema>;
 
 /**
  * Request parameters for getting a boolean value from storage.
@@ -72,10 +60,7 @@ export type SetBooleanResponse = BridgeResponse<204 | 400 | 500 | 501, SetBoolea
  *
  * @public
  */
-export type GetBooleanRequest = {
-  /** The key to retrieve the value for. */
-  key: string;
-};
+export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
 
 /**
  * Result object containing the boolean value.
@@ -94,10 +79,7 @@ export type GetBooleanRequest = {
  *
  * @public
  */
-export type GetBooleanResult = {
-  /** The stored boolean value, or null if not found. */
-  value: boolean | null;
-};
+export type GetBooleanResult = InferOutput<typeof GetBooleanResultSchema>;
 
 /**
  * Response when getting a boolean value.
@@ -109,54 +91,9 @@ export type GetBooleanResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - value exists:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: true }
- * }
- * ```
- *
- * @example
- * **Success response (200) - value not found:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: null }
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type GetBooleanResponse = BridgeResponse<200 | 400 | 500 | 501, GetBooleanResult>;
+export type GetBooleanResponse = InferOutput<typeof GetBooleanResponseSchema>;
 
 /**
  * Result object for setting an integer value.
@@ -176,42 +113,9 @@ export type SetIntResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type SetIntResponse = BridgeResponse<204 | 400 | 500 | 501, SetIntResult>;
+export type SetIntResponse = InferOutput<typeof SetIntResponseSchema>;
 
 /**
  * Request parameters for getting an integer value from storage.
@@ -223,10 +127,7 @@ export type SetIntResponse = BridgeResponse<204 | 400 | 500 | 501, SetIntResult>
  *
  * @public
  */
-export type GetIntRequest = {
-  /** The key to retrieve the value for. */
-  key: string;
-};
+export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
 
 /**
  * Result object containing the integer value.
@@ -245,10 +146,7 @@ export type GetIntRequest = {
  *
  * @public
  */
-export type GetIntResult = {
-  /** The stored integer value, or null if not found. */
-  value: number | null;
-};
+export type GetIntResult = InferOutput<typeof GetIntResultSchema>;
 
 /**
  * Response when getting an integer value.
@@ -260,54 +158,9 @@ export type GetIntResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - value exists:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: 42 }
- * }
- * ```
- *
- * @example
- * **Success response (200) - value not found:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: null }
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type GetIntResponse = BridgeResponse<200 | 400 | 500 | 501, GetIntResult>;
+export type GetIntResponse = InferOutput<typeof GetIntResponseSchema>;
 
 /**
  * Result object for setting a string value.
@@ -327,42 +180,9 @@ export type SetStringResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type SetStringResponse = BridgeResponse<204 | 400 | 500 | 501, SetStringResult>;
+export type SetStringResponse = InferOutput<typeof SetStringResponseSchema>;
 
 /**
  * Request parameters for getting a string value from storage.
@@ -374,10 +194,7 @@ export type SetStringResponse = BridgeResponse<204 | 400 | 500 | 501, SetStringR
  *
  * @public
  */
-export type GetStringRequest = {
-  /** The key to retrieve the value for. */
-  key: string;
-};
+export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
 
 /**
  * Result object containing the string value.
@@ -396,10 +213,7 @@ export type GetStringRequest = {
  *
  * @public
  */
-export type GetStringResult = {
-  /** The stored string value, or null if not found. */
-  value: string | null;
-};
+export type GetStringResult = InferOutput<typeof GetStringResultSchema>;
 
 /**
  * Response when getting a string value.
@@ -411,54 +225,9 @@ export type GetStringResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - value exists:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: 'john_doe' }
- * }
- * ```
- *
- * @example
- * **Success response (200) - value not found:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: null }
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type GetStringResponse = BridgeResponse<200 | 400 | 500 | 501, GetStringResult>;
+export type GetStringResponse = InferOutput<typeof GetStringResponseSchema>;
 
 /**
  * Result object for setting a double value.
@@ -478,42 +247,9 @@ export type SetDoubleResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type SetDoubleResponse = BridgeResponse<204 | 400 | 500 | 501, SetDoubleResult>;
+export type SetDoubleResponse = InferOutput<typeof SetDoubleResponseSchema>;
 
 /**
  * Request parameters for getting a double value from storage.
@@ -525,10 +261,7 @@ export type SetDoubleResponse = BridgeResponse<204 | 400 | 500 | 501, SetDoubleR
  *
  * @public
  */
-export type GetDoubleRequest = {
-  /** The key to retrieve the value for. */
-  key: string;
-};
+export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
 
 /**
  * Result object containing the double value.
@@ -547,10 +280,7 @@ export type GetDoubleRequest = {
  *
  * @public
  */
-export type GetDoubleResult = {
-  /** The stored double value, or null if not found. */
-  value: number | null;
-};
+export type GetDoubleResult = InferOutput<typeof GetDoubleResultSchema>;
 
 /**
  * Response when getting a double value.
@@ -562,54 +292,9 @@ export type GetDoubleResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - value exists:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: 19.99 }
- * }
- * ```
- *
- * @example
- * **Success response (200) - value not found:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { value: null }
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type GetDoubleResponse = BridgeResponse<200 | 400 | 500 | 501, GetDoubleResult>;
+export type GetDoubleResponse = InferOutput<typeof GetDoubleResponseSchema>;
 
 /**
  * Result object for removing a value.
@@ -629,42 +314,9 @@ export type RemoveResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type RemoveResponse = BridgeResponse<204 | 400 | 500 | 501, RemoveResult>;
+export type RemoveResponse = InferOutput<typeof RemoveResponseSchema>;
 
 /**
  * Result object for removing all values.
@@ -683,30 +335,6 @@ export type RemoveAllResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type RemoveAllResponse = BridgeResponse<204 | 500 | 501, RemoveAllResult>;
+export type RemoveAllResponse = InferOutput<typeof RemoveAllResponseSchema>;

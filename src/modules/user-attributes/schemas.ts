@@ -1,0 +1,29 @@
+/*!
+ * Copyright (c) Grab Taxi Holdings PTE LTD (GRAB)
+ *
+ * This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
+ */
+
+import * as v from 'valibot';
+
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
+
+/**
+ * Valibot schema for {@link GetSelectedTravelDestinationResult}.
+ *
+ * @public
+ */
+export const GetSelectedTravelDestinationResultSchema = v.string();
+
+/**
+ * Valibot schema for {@link GetSelectedTravelDestinationResponse}.
+ *
+ * @public
+ */
+export const GetSelectedTravelDestinationResponseSchema = v.union([
+  bridgeSuccessSchema(GetSelectedTravelDestinationResultSchema),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);

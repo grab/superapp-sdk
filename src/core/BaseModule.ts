@@ -6,17 +6,12 @@
  */
 
 import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
+import { type GenericSchema, safeParse } from 'valibot';
 
 import { isErrorWithMessage } from '../utils/error';
-import { detectGrabApp } from '../utils/platform';
-import {
-  BridgeResponse,
-  BridgeStatusCode,
-  BridgeStream,
-  Subscription,
-  WrappedModule,
-} from './types';
-import { InvokeOptions } from './types';
+import { detectGrabApp, GrabAppInfo } from '../utils/platform';
+import { formatIssues } from '../utils/schema';
+import { BridgeResponse, BridgeStream, InvokeOptions, Subscription, WrappedModule } from './types';
 
 /**
  * Base class for all JSBridge modules.
@@ -71,24 +66,68 @@ export class BaseModule {
   }
 
   /**
-   * Invokes a JSBridge method with optional app validation and response transformation.
+   * Validates a value against a schema.
+   *
+   * @param schema - The valibot schema to validate against.
+   * @param value - The value to validate.
+   * @returns A formatted error string if validation fails, or `null` if valid.
+   *
+   * @protected
+   */
+  protected validate(schema: GenericSchema, value: unknown): string | null {
+    const parsed = safeParse(schema, value);
+    if (!parsed.success) {
+      return formatIssues(parsed.issues);
+    }
+    return null;
+  }
+
+  /**
+   * Checks whether the current app version supports this method.
+   *
+   * @remarks
+   * Returns 501 if not running in the Grab app, 426 if the version check fails,
+   * or `null` if the method is supported.
+   *
+   * @param isSupported - A function receiving the detected app info, returning true if supported.
+   * @returns An error response, or `null` if supported.
+   *
+   * @protected
+   */
+  protected checkSupport(
+    isSupported: (appInfo: GrabAppInfo) => boolean
+  ): { status_code: 501; error: string } | { status_code: 426; error: string } | null {
+    const appInfo = detectGrabApp();
+    if (!appInfo) {
+      return {
+        status_code: 501,
+        error: 'Not implemented: This method requires the Grab app environment',
+      };
+    }
+    if (!isSupported(appInfo)) {
+      return {
+        status_code: 426,
+        error: 'Upgrade Required: This method requires a newer version of the Grab app',
+      };
+    }
+    return null;
+  }
+
+  /**
+   * Invokes a JSBridge method.
    *
    * @remarks
    * - Always checks if running in Grab app (returns 501 if not).
-   * - When `isSupported` returns false, returns 426 (Upgrade Required).
-   * - When `transformResponse` is provided, applies it to successful responses.
    * - All errors are reported via the `status_code` field; this method never rejects.
    * - For streaming methods, use `invokeStream` instead.
    *
-   * @param options - The invoke options including method name, params, validation, and transformation.
+   * @param options - The invoke options including method name and params.
    * @returns A promise resolving to the JSBridge response.
    *
    * @protected
    */
-  protected async invoke<T>(
-    options: InvokeOptions<T>
-  ): Promise<BridgeResponse<BridgeStatusCode, T>> {
-    const { method, params, isSupported, transformResponse } = options;
+  protected async invoke(options: InvokeOptions): Promise<BridgeResponse> {
+    const { method, params } = options;
 
     try {
       const appInfo = detectGrabApp();
@@ -99,25 +138,7 @@ export class BaseModule {
         };
       }
 
-      if (isSupported) {
-        if (!isSupported(appInfo)) {
-          return {
-            status_code: 426,
-            error: 'Upgrade Required: This method requires a newer version of the Grab app',
-          };
-        }
-      }
-
-      const response = (await this.wrappedModule.invoke(method, params)) as BridgeResponse<
-        BridgeStatusCode,
-        T
-      >;
-
-      if (transformResponse) {
-        return transformResponse(response);
-      }
-
-      return response;
+      return (await this.wrappedModule.invoke(method, params)) as BridgeResponse;
     } catch (error) {
       return {
         status_code: 500,
@@ -134,9 +155,7 @@ export class BaseModule {
    *
    * @private
    */
-  private createErrorStream<T>(
-    errorResponse: BridgeResponse<BridgeStatusCode, T>
-  ): BridgeStream<BridgeStatusCode, T> {
+  private createErrorStream(errorResponse: BridgeResponse): BridgeStream {
     return {
       subscribe: (handlers) => {
         handlers?.next?.(errorResponse);
@@ -147,7 +166,7 @@ export class BaseModule {
         } as Subscription;
       },
       then: (onfulfilled) => Promise.resolve(errorResponse).then(onfulfilled),
-    } as BridgeStream<BridgeStatusCode, T>;
+    } as BridgeStream;
   }
 
   /**
@@ -155,17 +174,16 @@ export class BaseModule {
    *
    * @remarks
    * - Always checks if running in Grab app (returns 501 error response if not).
-   * - When `isSupported` returns false, returns 426 error response.
    * - Returns a `BridgeStream` that can be subscribed to or awaited for the first value.
    * - All errors are reported via error responses in the stream; this method never rejects.
    *
-   * @param options - The invoke options including method name, params, and validation.
+   * @param options - The invoke options including method name and params.
    * @returns A `BridgeStream` for receiving continuous data from the JSBridge.
    *
    * @protected
    */
-  protected invokeStream<T>(options: InvokeOptions<T>): BridgeStream<BridgeStatusCode, T> {
-    const { method, params, isSupported, transformResponse } = options;
+  protected invokeStream(options: InvokeOptions): BridgeStream {
+    const { method, params } = options;
 
     try {
       const appInfo = detectGrabApp();
@@ -173,42 +191,15 @@ export class BaseModule {
         return this.createErrorStream({
           status_code: 501,
           error: 'Not implemented: This method requires the Grab app environment',
-        } as BridgeResponse<BridgeStatusCode, T>);
+        });
       }
 
-      if (isSupported) {
-        if (!isSupported(appInfo)) {
-          return this.createErrorStream({
-            status_code: 426,
-            error: 'Upgrade Required: This method requires a newer version of the Grab app',
-          } as BridgeResponse<BridgeStatusCode, T>);
-        }
-      }
-
-      const stream = this.wrappedModule.invoke(method, params) as BridgeStream<BridgeStatusCode, T>;
-
-      if (!transformResponse) {
-        return stream;
-      }
-
-      return {
-        subscribe: (handlers) =>
-          stream.subscribe({
-            next: (value) => handlers?.next?.(transformResponse(value)),
-            complete: handlers?.complete,
-          }),
-        then: (onfulfilled) =>
-          stream.then((value) =>
-            onfulfilled
-              ? onfulfilled(transformResponse(value))
-              : (transformResponse(value) as unknown)
-          ),
-      } as BridgeStream<BridgeStatusCode, T>;
+      return this.wrappedModule.invoke(method, params) as BridgeStream;
     } catch (error) {
       return this.createErrorStream({
         status_code: 500,
         error: `Failed to invoke method: ${isErrorWithMessage(error) ? error.message : 'Unknown error'}`,
-      } as BridgeResponse<BridgeStatusCode, T>);
+      });
     }
   }
 }

@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
 import { DownloadFileRequest, DownloadFileResponse } from './types';
 
 /**
@@ -44,14 +45,14 @@ export class FileModule extends BaseModule {
   /**
    * Downloads a file via the native bridge.
    *
-   * @param request - File information, including URL and target file name.
+   * @param request - File information, including URL and target file name. See {@link DownloadFileRequest}.
    *
-   * @returns Download operation result.
+   * @returns Download operation result. See {@link DownloadFileResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { FileModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { FileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the file module
    * const file = new FileModule();
@@ -65,7 +66,7 @@ export class FileModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('File downloaded successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -75,9 +76,18 @@ export class FileModule extends BaseModule {
    * @public
    */
   async downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse> {
-    return (await this.invoke({
+    const requestError = this.validate(DownloadFileRequestSchema, request);
+    if (requestError) return { status_code: 400, error: requestError };
+
+    const response = (await this.invoke({
       method: 'downloadFile',
       params: request,
     })) as DownloadFileResponse;
+
+    const responseError = this.validate(DownloadFileResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:downloadFile] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }
