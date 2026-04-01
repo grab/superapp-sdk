@@ -5,7 +5,15 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse, BridgeStream } from '../../core';
+import type { InferOutput } from 'valibot';
+
+import { BridgeStream } from '../../core';
+import {
+  GetCoordinateResponseSchema,
+  GetCoordinateResultSchema,
+  GetCountryCodeResponseSchema,
+  GetCountryCodeResultSchema,
+} from './schemas';
 
 /**
  * Result object containing the geographic coordinates.
@@ -17,12 +25,7 @@ import { BridgeResponse, BridgeStream } from '../../core';
  *
  * @public
  */
-export type GetCoordinateResult = {
-  /** Latitude in degrees */
-  lat: number;
-  /** Longitude in degrees */
-  lng: number;
-};
+export type GetCoordinateResult = InferOutput<typeof GetCoordinateResultSchema>;
 
 /**
  * Response when getting the device coordinates.
@@ -35,57 +38,9 @@ export type GetCoordinateResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - Singapore coordinates:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { lat: 1.3521, lng: 103.8198 }
- * }
- * ```
- *
- * @example
- * **Forbidden response (403):**
- * ```typescript
- * {
- *   status_code: 403,
- *   error: 'Forbidden: Client not authorized to access location data'
- * }
- * ```
- *
- * @example
- * **Failed dependency response (424) - GeoKit error:**
- * ```typescript
- * {
- *   status_code: 424,
- *   error: 'GeoKit error'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type GetCoordinateResponse = BridgeResponse<
-  200 | 403 | 424 | 500 | 501,
-  GetCoordinateResult
->;
+export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSchema>;
 
 /**
  * Response when observing the device coordinates.
@@ -99,10 +54,7 @@ export type GetCoordinateResponse = BridgeResponse<
  *
  * @public
  */
-export type ObserveLocationChangeResponse = BridgeStream<
-  200 | 403 | 424 | 500 | 501,
-  GetCoordinateResult
->;
+export type ObserveLocationChangeResponse = BridgeStream<GetCoordinateResponse>;
 
 /**
  * Result object containing the country code.
@@ -119,10 +71,7 @@ export type ObserveLocationChangeResponse = BridgeStream<
  *
  * @public
  */
-export type GetCountryCodeResult = {
-  /** ISO country code (e.g., "SG", "ID", "MY") */
-  countryCode: string;
-};
+export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema>;
 
 /**
  * Response when getting the country code.
@@ -135,63 +84,6 @@ export type GetCountryCodeResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - Singapore:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { countryCode: 'SG' }
- * }
- * ```
- *
- * @example
- * **Success response (200) - Indonesia:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { countryCode: 'ID' }
- * }
- * ```
- *
- * @example
- * **Forbidden response (403):**
- * ```typescript
- * {
- *   status_code: 403,
- *   error: 'Forbidden: Client not authorized to access location data'
- * }
- * ```
- *
- * @example
- * **Failed dependency response (424):**
- * ```typescript
- * {
- *   status_code: 424,
- *   error: 'GeoKit/Resolver error'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type GetCountryCodeResponse = BridgeResponse<
-  200 | 403 | 424 | 500 | 501,
-  GetCountryCodeResult
->;
+export type GetCountryCodeResponse = InferOutput<typeof GetCountryCodeResponseSchema>;

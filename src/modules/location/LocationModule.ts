@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { GetCoordinateResponseSchema, GetCountryCodeResponseSchema } from './schemas';
 import {
   GetCoordinateResponse,
   GetCountryCodeResponse,
@@ -48,12 +49,12 @@ export class LocationModule extends BaseModule {
   /**
    * Get the current geographic coordinates of the device.
    *
-   * @returns The device's current latitude and longitude coordinates.
+   * @returns The device's current latitude and longitude coordinates. See {@link GetCoordinateResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the location module
    * const location = new LocationModule();
@@ -64,7 +65,7 @@ export class LocationModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Coordinates:', response.result.lat, response.result.lng);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
    *       console.log('No permission to access location');
@@ -81,7 +82,15 @@ export class LocationModule extends BaseModule {
    * @public
    */
   async getCoordinate(): Promise<GetCoordinateResponse> {
-    return (await this.invoke({ method: 'getCoordinate' })) as GetCoordinateResponse;
+    const response = (await this.invoke({
+      method: 'getCoordinate',
+    })) as GetCoordinateResponse;
+
+    const responseError = this.validate(GetCoordinateResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getCoordinate] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
@@ -93,12 +102,12 @@ export class LocationModule extends BaseModule {
    * to conserve battery and free resources.
    *
    * @returns A `BridgeStream` that emits location updates as the device location changes.
-   * Use `subscribe()` to listen for updates, or `await` to get the first value only.
+   * Use `subscribe()` to listen for updates, or `await` to get the first value only. See {@link ObserveLocationChangeResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the location module
    * const location = new LocationModule();
@@ -108,7 +117,7 @@ export class LocationModule extends BaseModule {
    *   next: (response) => {
    *     if (isSuccess(response)) {
    *       console.log('Location updated:', response.result.lat, response.result.lng);
-   *     } else if (isErrorResponse(response)) {
+   *     } else if (isError(response)) {
    *       switch (response.status_code) {
    *         case 403:
    *           console.log('No permission to access location');
@@ -129,18 +138,20 @@ export class LocationModule extends BaseModule {
    * @public
    */
   observeLocationChange(): ObserveLocationChangeResponse {
-    return this.invokeStream({ method: 'observeLocationChange' }) as ObserveLocationChangeResponse;
+    return this.invokeStream({
+      method: 'observeLocationChange',
+    }) as ObserveLocationChangeResponse;
   }
 
   /**
    * Get the country code based on the device's current location.
    *
-   * @returns The ISO country code (e.g., 'SG', 'ID') based on the device's location.
+   * @returns The ISO country code (e.g., 'SG', 'ID') based on the device's location. See {@link GetCountryCodeResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { LocationModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the location module
    * const location = new LocationModule();
@@ -151,7 +162,7 @@ export class LocationModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Country code:', response.result.countryCode);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
    *       console.log('No permission to access location');
@@ -168,6 +179,14 @@ export class LocationModule extends BaseModule {
    * @public
    */
   async getCountryCode(): Promise<GetCountryCodeResponse> {
-    return (await this.invoke({ method: 'getCountryCode' })) as GetCountryCodeResponse;
+    const response = (await this.invoke({
+      method: 'getCountryCode',
+    })) as GetCountryCodeResponse;
+
+    const responseError = this.validate(GetCountryCodeResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getCountryCode] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

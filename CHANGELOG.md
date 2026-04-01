@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.26] - 2026-03-31
+
+### Added
+
+- Runtime schema validation using `valibot` for all module requests and responses
+- Schema files (`schemas.ts`) for all modules with valibot validation schemas
+- `validate()` protected method to `BaseModule` for pre-invocation validation
+- `requestSchema` and `responseSchema` options to `InvokeOptions` interface
+- `formatIssues()` utility for human-readable validation error formatting
+- `typedoc-plugin-valibot` dev dependency for schema documentation
+- `isOk()`, `isNoContent()`, `isFound()` type guards for granular status code narrowing
+
+### Changed
+
+- `valibot` added as peer dependency (replaces `@grabjs/mobile-kit-bridge-sdk` peer dependency)
+- `@grabjs/mobile-kit-bridge-sdk` moved from peerDependencies to devDependencies
+- `invoke()` and `invokeStream()` methods now perform automatic request/response validation when schemas are provided
+- `isErrorResponse()` type guard renamed to `isError()` for consistency
+- Simplified core types by removing redundant status code type hierarchies
+- All modules updated to use schema-based validation with proper error responses on validation failures
+
+### Removed
+
+- Legacy status code type definitions (`BridgeStatusCode`, `BridgeError`, `BridgeSuccessResponse`, etc.)
+- Redundant response type aliases (`ResponseStatusCode200`, `ResponseStatusCode204`, etc.)
+- Complex generic type hierarchies in favor of schema-driven validation
+
+## [2.0.0-beta.25] - 2026-03-31
+
+### Added
+
+- `SplashScreenModule`, the native splash / Lottie loading screen
+
 ## [2.0.0-beta.24] - 2026-03-18
 
 ### Changed

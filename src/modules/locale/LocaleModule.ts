@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { GetLanguageLocaleIdentifierResponseSchema } from './schemas';
 import { GetLanguageLocaleIdentifierResponse } from './types';
 
 /**
@@ -44,12 +45,12 @@ export class LocaleModule extends BaseModule {
   /**
    * Retrieves the current language locale identifier from the device.
    *
-   * @returns The user's preferred language locale string (e.g., 'en-SG', 'id-ID').
+   * @returns The user's preferred language locale string (e.g., 'en-SG', 'id-ID'). See {@link GetLanguageLocaleIdentifierResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { LocaleModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { LocaleModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the locale module
    * const locale = new LocaleModule();
@@ -60,7 +61,7 @@ export class LocaleModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Current locale:', response.result);
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -70,8 +71,14 @@ export class LocaleModule extends BaseModule {
    * @public
    */
   async getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse> {
-    return (await this.invoke({
+    const response = (await this.invoke({
       method: 'getLanguageLocaleIdentifier',
     })) as GetLanguageLocaleIdentifierResponse;
+
+    const responseError = this.validate(GetLanguageLocaleIdentifierResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:getLanguageLocaleIdentifier] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

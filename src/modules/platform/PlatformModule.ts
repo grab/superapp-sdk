@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { BackResponseSchema } from './schemas';
 import { BackResponse } from './types';
 
 /**
@@ -45,12 +46,12 @@ export class PlatformModule extends BaseModule {
    * Triggers the native platform back navigation.
    * This navigates back in the native navigation stack.
    *
-   * @returns Confirmation that the back navigation was triggered.
+   * @returns Confirmation that the back navigation was triggered. See {@link BackResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { PlatformModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { PlatformModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the platform module
    * const platform = new PlatformModule();
@@ -61,7 +62,7 @@ export class PlatformModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Back navigation triggered');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -71,6 +72,13 @@ export class PlatformModule extends BaseModule {
    * @public
    */
   async back(): Promise<BackResponse> {
-    return (await this.invoke({ method: 'back' })) as BackResponse;
+    const response = (await this.invoke({
+      method: 'back',
+    })) as BackResponse;
+
+    const responseError = this.validate(BackResponseSchema, response);
+    if (responseError) console.warn(`[SDK:back] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

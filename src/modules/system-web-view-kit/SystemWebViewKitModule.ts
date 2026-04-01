@@ -6,6 +6,10 @@
  */
 
 import { BaseModule } from '../../core';
+import {
+  RedirectToSystemWebViewRequestSchema,
+  RedirectToSystemWebViewResponseSchema,
+} from './schemas';
 import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
@@ -44,14 +48,14 @@ export class SystemWebViewKitModule extends BaseModule {
   /**
    * Opens a URL in the device's system web browser or web view.
    *
-   * @param request - The URL to open in the system web view.
+   * @param request - The URL to open in the system web view. See {@link RedirectToSystemWebViewRequest}.
    *
-   * @returns Confirmation of whether the redirect to system web view was successful.
+   * @returns Confirmation of whether the redirect to system web view was successful. See {@link RedirectToSystemWebViewResponse}.
    *
    * @example
    * **Simple usage**
    * ```typescript
-   * import { SystemWebViewKitModule, isSuccess, isErrorResponse } from '@grabjs/superapp-sdk';
+   * import { SystemWebViewKitModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the system web view kit module
    * const webViewKit = new SystemWebViewKitModule();
@@ -64,7 +68,7 @@ export class SystemWebViewKitModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   console.log('Redirect initiated successfully');
-   * } else if (isErrorResponse(response)) {
+   * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
    *   console.error('Unhandled response');
@@ -76,9 +80,18 @@ export class SystemWebViewKitModule extends BaseModule {
   async redirectToSystemWebView(
     request: RedirectToSystemWebViewRequest
   ): Promise<RedirectToSystemWebViewResponse> {
-    return (await this.invoke({
+    const requestError = this.validate(RedirectToSystemWebViewRequestSchema, request);
+    if (requestError) return { status_code: 400, error: requestError };
+
+    const response = (await this.invoke({
       method: 'redirectToSystemWebView',
       params: request,
     })) as RedirectToSystemWebViewResponse;
+
+    const responseError = this.validate(RedirectToSystemWebViewResponseSchema, response);
+    if (responseError)
+      console.warn(`[SDK:redirectToSystemWebView] Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 }

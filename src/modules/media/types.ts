@@ -5,7 +5,14 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse, BridgeStream } from '../../core';
+import type { InferOutput } from 'valibot';
+
+import { BridgeStream } from '../../core';
+import {
+  DRMPlaybackEventSchema,
+  ObserveDRMPlaybackResponseSchema,
+  PlayDRMContentResponseSchema,
+} from './schemas';
 
 /**
  * DRM content configuration for playback.
@@ -58,39 +65,9 @@ export type PlayDRMContentResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200):**
- * ```typescript
- * { status_code: 200 }
- * ```
- *
- * @example
- * **Invalid parameters response (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type PlayDRMContentResponse = BridgeResponse<200 | 204 | 500 | 501, PlayDRMContentResult>;
+export type PlayDRMContentResponse = InferOutput<typeof PlayDRMContentResponseSchema>;
 
 /**
  * Result object for DRM playback events.
@@ -118,12 +95,7 @@ export type PlayDRMContentResponse = BridgeResponse<200 | 204 | 500 | 501, PlayD
  *
  * @public
  */
-export type DRMPlaybackEvent = {
-  /** The type of playback event. */
-  eventType: 'started' | 'paused' | 'ended' | 'error';
-  /** Additional event data as key-value pairs. */
-  data?: Record<string, unknown>;
-};
+export type DRMPlaybackEvent = InferOutput<typeof DRMPlaybackEventSchema>;
 
 /**
  * Response stream for observing DRM playback events.
@@ -137,4 +109,6 @@ export type DRMPlaybackEvent = {
  *
  * @public
  */
-export type ObserveDRMPlaybackResponse = BridgeStream<200 | 500 | 501, DRMPlaybackEvent>;
+export type ObserveDRMPlaybackResponse = BridgeStream<
+  InferOutput<typeof ObserveDRMPlaybackResponseSchema>
+>;

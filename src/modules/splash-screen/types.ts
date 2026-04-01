@@ -5,14 +5,9 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import type { InferOutput } from 'valibot';
 
-/**
- * Successful dismiss returns no payload (HTTP 204 semantics).
- *
- * @public
- */
-export type DismissSplashScreenResult = void;
+import { DismissSplashScreenResponseSchema } from './schemas';
 
 /**
  * Response when dismissing the splash screen.
@@ -51,7 +46,4 @@ export type DismissSplashScreenResult = void;
  *
  * @public
  */
-export type DismissSplashScreenResponse = BridgeResponse<
-  204 | 400 | 403 | 500 | 501,
-  DismissSplashScreenResult
->;
+export type DismissSplashScreenResponse = InferOutput<typeof DismissSplashScreenResponseSchema>;

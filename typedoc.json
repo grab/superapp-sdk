@@ -1,7 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts"],
-  "plugin": ["typedoc-plugin-no-inherit"],
+  "plugin": ["typedoc-plugin-no-inherit", "typedoc-plugin-valibot"],
   "out": "./docs",
   "readme": "README.md",
   "excludeExternals": true,

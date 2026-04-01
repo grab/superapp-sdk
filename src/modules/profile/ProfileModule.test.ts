@@ -200,7 +200,6 @@ describe('ProfileModule', () => {
 
       const mockResponse: VerifyEmailResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -229,7 +228,6 @@ describe('ProfileModule', () => {
 
       const mockResponse: VerifyEmailResponse = {
         status_code: 200,
-        result: undefined,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);

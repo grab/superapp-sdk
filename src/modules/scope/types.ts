@@ -5,7 +5,14 @@
  * directory of this source tree.
  */
 
-import { BridgeResponse } from '../../core';
+import type { InferOutput } from 'valibot';
+
+import {
+  HasAccessToRequestSchema,
+  HasAccessToResponseSchema,
+  HasAccessToResultSchema,
+  ReloadScopesResponseSchema,
+} from './schemas';
 
 /**
  * Request parameters for checking if the current client has access to a specific API.
@@ -20,12 +27,7 @@ import { BridgeResponse } from '../../core';
  *
  * @public
  */
-export type HasAccessToRequest = {
-  /** The bridge module name to check access for. */
-  module: string;
-  /** The method name within the module to check access for. */
-  method: string;
-};
+export type HasAccessToRequest = InferOutput<typeof HasAccessToRequestSchema>;
 
 /**
  * Result object containing the access check result.
@@ -44,10 +46,7 @@ export type HasAccessToRequest = {
  *
  * @public
  */
-export type HasAccessToResult = {
-  /** True if the current client has access to the specified API, false otherwise. */
-  hasAccess: boolean;
-};
+export type HasAccessToResult = InferOutput<typeof HasAccessToResultSchema>;
 
 /**
  * Response when checking API access permissions.
@@ -60,63 +59,9 @@ export type HasAccessToResult = {
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200) - has access:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { hasAccess: true }
- * }
- * ```
- *
- * @example
- * **Success response (200) - no access:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { hasAccess: false }
- * }
- * ```
- *
- * @example
- * **Bad request response (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'Missing required parameters'
- * }
- * ```
- *
- * @example
- * **Failed dependency response (424):**
- * ```typescript
- * {
- *   status_code: 424,
- *   error: 'ScopeKit error'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type HasAccessToResponse = BridgeResponse<200 | 400 | 424 | 500 | 501, HasAccessToResult>;
+export type HasAccessToResponse = InferOutput<typeof HasAccessToResponseSchema>;
 
 /**
  * Result object for reloading scopes.
@@ -136,39 +81,6 @@ export type ReloadScopesResult = void;
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
- * @example
- * **Success response (200):**
- * ```typescript
- * { status_code: 200 }
- * ```
- *
- * @example
- * **Failed dependency response (424):**
- * ```typescript
- * {
- *   status_code: 424,
- *   error: 'ScopeKit error'
- * }
- * ```
- *
- * @example
- * **Internal server error response (500):**
- * ```typescript
- * {
- *   status_code: 500,
- *   error: 'Internal server error'
- * }
- * ```
- *
- * @example
- * **Not implemented response (501) - outside Grab app:**
- * ```typescript
- * {
- *   status_code: 501,
- *   error: 'Not implemented: This method requires the Grab app environment'
- * }
- * ```
- *
  * @public
  */
-export type ReloadScopesResponse = BridgeResponse<200 | 424 | 500 | 501, ReloadScopesResult>;
+export type ReloadScopesResponse = InferOutput<typeof ReloadScopesResponseSchema>;
