@@ -155,7 +155,11 @@ function generateFunctions(api) {
  */
 function buildSkills() {
   if (!fs.existsSync(API_JSON_FILE)) {
-    console.error('Error: api-reference/api.json not found. Run `npm run build:docs` first.');
+    console.error(
+      `Error: ${API_JSON_FILE} not found.\n` +
+        'The TypeDoc JSON must be generated before building skills.\n' +
+        'Run: npm run build:docs:api'
+    );
     process.exit(1);
   }
 
