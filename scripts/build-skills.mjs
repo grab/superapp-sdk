@@ -155,7 +155,7 @@ function generateFunctions(api) {
  */
 function buildSkills() {
   if (!fs.existsSync(API_JSON_FILE)) {
-    console.error('Error: api-reference/json/api.json not found. Run `npm run build:docs` first.');
+    console.error('Error: api-reference/api.json not found. Run `npm run build:docs` first.');
     process.exit(1);
   }
 

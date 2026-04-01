@@ -3,7 +3,6 @@
   "entryPoints": ["./src/index.ts"],
   "plugin": ["typedoc-plugin-valibot"],
   "json": "./api-reference/api.json",
-  "readme": "README.md",
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeInternal": true,

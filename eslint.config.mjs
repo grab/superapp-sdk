@@ -18,7 +18,7 @@ import vitest from '@vitest/eslint-plugin';
 
 export default defineConfig([
   {
-    ignores: ['build/', 'dist/', 'package-lock.json', 'docs/', 'typedoc/', 'temp/', 'coverage/'],
+    ignores: ['build/', 'dist/', 'package-lock.json', 'docs/', 'typedoc/', 'temp/', 'coverage/', 'skills/'],
   },
   {
     files: ['*.config.{ts,mjs,js}', '**/*.config.{ts,mjs,js}'],
