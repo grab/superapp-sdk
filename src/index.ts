@@ -13,7 +13,16 @@ export type {
   Subscription,
   WrappedModule,
 } from './core';
-export { isClientError, isError, isFound, isNoContent, isOk, isRedirection, isServerError, isSuccess } from './core';
+export {
+  isClientError,
+  isError,
+  isFound,
+  isNoContent,
+  isOk,
+  isRedirection,
+  isServerError,
+  isSuccess,
+} from './core';
 export { BaseModule } from './core';
 export { CameraModule } from './modules/camera/CameraModule';
 export {
