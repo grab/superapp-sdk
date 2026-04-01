@@ -71,3 +71,8 @@ You can also `await` a stream method directly to get its first value.
 
 - [Classes](references/classes.md) — All module classes and their methods
 - [Functions](references/functions.md) — Utility type guard functions
+
+## Guides
+
+- [Setup](guides/setup.md) — Installation and import options
+- [Integration](guides/integration.md) — Entry point setup, permissions, navigation

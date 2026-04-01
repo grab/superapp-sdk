@@ -2,6 +2,7 @@
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts"],
   "plugin": ["typedoc-plugin-valibot"],
+  "json": "./api-reference/api.json",
   "readme": "README.md",
   "excludeExternals": true,
   "excludePrivate": true,
@@ -9,7 +10,6 @@
   "excludeProtected": true,
   "categorizeByGroup": true,
   "disableSources": true,
-  "projectDocuments": ["./guides/setup.md", "./guides/integration.md"],
   "validation": {
     "notExported": true
   }

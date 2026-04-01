@@ -160,7 +160,16 @@ The SDK uses HTTP-style status codes for all responses:
 The SDK provides type guards for response narrowing:
 
 ```typescript
-import { isSuccess, isError, isOk, isNoContent, isClientError, isServerError, isFound, isRedirection } from '@grabjs/superapp-sdk';
+import {
+  isSuccess,
+  isError,
+  isOk,
+  isNoContent,
+  isClientError,
+  isServerError,
+  isFound,
+  isRedirection,
+} from '@grabjs/superapp-sdk';
 
 if (isSuccess(response)) {
   // 200 or 204 — use isOk() / isNoContent() to narrow further

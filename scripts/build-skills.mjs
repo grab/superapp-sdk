@@ -13,8 +13,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ROOT_DIR = path.resolve(__dirname, '..');
-const API_JSON_FILE = path.join(ROOT_DIR, 'api-reference', 'json', 'api.json');
-const SKILLS_TEMPLATE = path.join(ROOT_DIR, 'resources', 'skills-template.md');
+const API_JSON_FILE = path.join(ROOT_DIR, 'api-reference', 'api.json');
+const SKILLS_TEMPLATE = path.join(ROOT_DIR, 'scripts', 'skills-template.md');
+const GUIDES_DIR = path.join(ROOT_DIR, 'guides');
 
 const KIND_CLASS = 128;
 const KIND_FUNCTION = 64;
@@ -170,6 +171,15 @@ function buildSkills() {
   fs.writeFileSync(path.join(refsDir, 'classes.md'), generateClasses(api));
   fs.writeFileSync(path.join(refsDir, 'functions.md'), generateFunctions(api));
   console.log('Generated skills/references/');
+
+  const guidesDir = path.join(skillDir, 'guides');
+  fs.mkdirSync(guidesDir, { recursive: true });
+  for (const file of fs.readdirSync(GUIDES_DIR).filter((f) => f.endsWith('.md'))) {
+    const content = fs.readFileSync(path.join(GUIDES_DIR, file), 'utf-8');
+    const stripped = content.replace(/^---[\s\S]*?---\n+/, '');
+    fs.writeFileSync(path.join(guidesDir, file), stripped);
+  }
+  console.log('Generated skills/guides/');
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), template);
   console.log('Generated skills/SKILL.md');
