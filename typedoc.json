@@ -8,12 +8,13 @@
   "excludePrivate": true,
   "excludeInternal": true,
   "excludeProtected": true,
-  "categorizeByGroup": true,
   "disableSources": true,
   "navigation": {
     "includeCategories": true,
     "includeGroups": true
   },
+  "alwaysCreateEntryPointModule": false,
+  "projectDocuments": ["./guides/setup.md", "./guides/integration.md"],
   "searchInComments": true,
   "searchInDocuments": true,
   "validation": {

@@ -9,6 +9,7 @@
   "excludeProtected": true,
   "categorizeByGroup": true,
   "disableSources": true,
+  "projectDocuments": ["./guides/setup.md", "./guides/integration.md"],
   "validation": {
     "notExported": true
   }

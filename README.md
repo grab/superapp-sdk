@@ -42,7 +42,6 @@ All modules are instantiated with a simple constructor call:
 ```typescript
 import { ContainerModule, LocationModule, IdentityModule } from '@grabjs/superapp-sdk';
 
-// Initialize modules
 const container = new ContainerModule();
 const location = new LocationModule();
 const identity = new IdentityModule();
@@ -50,7 +49,7 @@ const identity = new IdentityModule();
 
 ### Handling Responses
 
-All SDK methods return a standardized response with HTTP-style status codes. The SDK provides type guards for cleaner response handling and better type inference:
+All SDK methods return a standardized response with HTTP-style status codes. Use type guards for response handling and type narrowing:
 
 ```typescript
 import { CameraModule, isSuccess, isError } from '@grabjs/superapp-sdk';
@@ -59,14 +58,11 @@ const camera = new CameraModule();
 const response = await camera.scanQRCode({ title: 'Scan Payment QR' });
 
 if (isSuccess(response)) {
-  // TypeScript knows response.result is available
   switch (response.status_code) {
     case 200:
-      // Successfully scanned - result contains the QR code data
       console.log('QR Code scanned:', response.result.qrCode);
       break;
     case 204:
-      // User cancelled the scanning operation
       console.log('Scanning cancelled');
       break;
   }
@@ -86,16 +82,13 @@ if (isSuccess(response)) {
 Some modules provide streaming methods for real-time data:
 
 ```typescript
-import { LocationModule } from '@grabjs/superapp-sdk';
+import { LocationModule, isSuccess } from '@grabjs/superapp-sdk';
 
 const location = new LocationModule();
 
-// Subscribe to location updates
-const stream = location.observeLocationChange();
-
-const subscription = stream.subscribe({
+const subscription = location.observeLocationChange().subscribe({
   next: (response) => {
-    if (response.status_code === 200) {
+    if (isSuccess(response)) {
       console.log('Location:', response.result);
     }
   },
@@ -134,13 +127,15 @@ subscription.unsubscribe();
 
 - **[ScopeModule](https://grab.github.io/superapp-sdk/classes/ScopeModule.html)** — Manage permission scopes from GrabID
 
+- **[SplashScreenModule](https://grab.github.io/superapp-sdk/classes/SplashScreenModule.html)** — Control the native splash/loading screen
+
 - **[StorageModule](https://grab.github.io/superapp-sdk/classes/StorageModule.html)** — Persist key-value data locally with type-safe storage
 
 - **[SystemWebViewKitModule](https://grab.github.io/superapp-sdk/classes/SystemWebViewKitModule.html)** — Handle system WebView operations and external browser redirections
 
 - **[UserAttributesModule](https://grab.github.io/superapp-sdk/classes/UserAttributesModule.html)** — Access user attribute data
 
-> **Important:** Always call `ScopeModule.reloadScopes()` after an OAuth redirect to load the latest permissions from GrabID. Without this, module methods may return 403 errors even when permissions have been granted.
+> **Important:** Always call `ScopeModule.reloadScopes()` on MiniApp launch and after OAuth before accessing protected resources — scopes are not loaded automatically.
 
 ## Response Status Codes
 
@@ -162,21 +157,20 @@ The SDK uses HTTP-style status codes for all responses:
 
 ## Type Guards
 
-The SDK provides type guards for response validation:
+The SDK provides type guards for response narrowing:
 
 ```typescript
-import { isSuccess, isError, isClientError, isServerError } from '@grabjs/superapp-sdk';
-
-const response = await someModule.someMethod();
+import { isSuccess, isError, isOk, isNoContent, isClientError, isServerError, isFound, isRedirection } from '@grabjs/superapp-sdk';
 
 if (isSuccess(response)) {
-  // TypeScript knows response.result is available
-  console.log(response.result);
+  // 200 or 204 — use isOk() / isNoContent() to narrow further
 }
-
 if (isError(response)) {
-  // TypeScript knows response.error is available
-  console.error(response.error);
+  // response.error: string is guaranteed
+  // use isClientError() / isServerError() to narrow further
+}
+if (isRedirection(response)) {
+  // 302 — use isFound() to narrow further
 }
 ```
 
@@ -184,10 +178,8 @@ if (isError(response)) {
 
 1. **Always check for success with type guards** before accessing `response.result`. Use `isSuccess()` and `isError()` for type-safe response handling.
 
-2. **Handle all status codes** in your error handling, including unexpected ones.
+2. **Never use try/catch for SDK errors** — SDK methods never throw. All failures are returned as responses with a numeric `status_code` and an `error` field.
 
-3. **Never use try/catch for SDK errors** — SDK methods never throw. All failures are returned as responses with a numeric `status_code` and an `error` field.
+3. **Call `reloadScopes()` when your MiniApp launches and after OAuth** before accessing protected resources.
 
-4. **Call `reloadScopes()` when your MiniApp launches and after OAuth** before accessing protected resources.
-
-5. **Unsubscribe from streams** when your component unmounts or you no longer need updates.
+4. **Unsubscribe from streams** when your component unmounts or you no longer need updates.
