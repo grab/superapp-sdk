@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- AI IDE integration (Skills) for Cursor with `skills/SKILL.md` metadata and documentation
+- AI IDE integration (Skills) for Claude with `skills/SKILL.md` metadata and documentation
 - `build-skills.mjs` script to generate skill references from TypeDoc API
 - `skills/references/` with generated class and function documentation for AI context
 - `skills/guides/` with setup and integration guides for AI-assisted development
