@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.28] - 2026-04-02
+
+### Changed
+
+- Consolidated AI skills into single `skills/SKILL.md` file with inlined guides and API references
+- `build-skills.mjs` now generates unified skill file instead of separate directories
+
+### Removed
+
+- `skills/guides/` directory (guides now inlined into SKILL.md)
+- `skills/references/` directory (classes and functions now inlined into SKILL.md)
+
 ## [2.0.0-beta.27] - 2026-04-01
 
 ### Added
