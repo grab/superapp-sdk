@@ -16,9 +16,6 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 const BUILD_DIR = path.join(ROOT_DIR, 'build');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
-const API_REFERENCE_DIR = path.join(ROOT_DIR, 'api-reference');
-const API_JSON_DIR = path.join(API_REFERENCE_DIR, 'json');
-const API_MD_DIR = path.join(API_REFERENCE_DIR, 'markdown');
 
 function clean() {
   console.log('Cleaning...');
@@ -56,33 +53,12 @@ function bundleTypes() {
   execSync('api-extractor run --local', { stdio: 'inherit', cwd: ROOT_DIR });
 }
 
-function generateTypeDocJSON() {
-  console.log('Generating TypeDoc JSON...');
-  fs.mkdirSync(API_JSON_DIR, { recursive: true });
-  const apiJsonPath = path.join(API_JSON_DIR, 'api.json');
-  execSync(`npx typedoc --options typedoc.api.json --json "${apiJsonPath}"`, {
-    stdio: 'inherit',
-    cwd: ROOT_DIR,
-  });
-}
-
-function generateTypeDocMarkdown() {
-  console.log('Generating TypeDoc Markdown...');
-  fs.mkdirSync(API_MD_DIR, { recursive: true });
-  execSync(`npx typedoc --options typedoc.md.json --out "${API_MD_DIR}"`, {
-    stdio: 'inherit',
-    cwd: ROOT_DIR,
-  });
-}
-
 function build() {
   try {
     clean();
     bundleJS();
     moveFilesToDist();
     bundleTypes();
-    generateTypeDocJSON();
-    generateTypeDocMarkdown();
     console.log('Build completed successfully!');
   } catch (error) {
     console.error('Build failed:', error.message);

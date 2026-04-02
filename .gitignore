@@ -89,3 +89,4 @@ build/
 *yarn.lock
 temp/
 api-reference/
+md/

@@ -2,6 +2,7 @@
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts"],
   "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-valibot"],
+  "out": "./md",
   "readme": "README.md",
   "excludeExternals": true,
   "excludePrivate": true,
@@ -15,6 +16,7 @@
   "expandObjects": true,
   "expandParameters": true,
   "parametersFormat": "list",
+  "projectDocuments": ["./guides/setup.md", "./guides/integration.md"],
   "validation": {
     "notExported": true
   }
