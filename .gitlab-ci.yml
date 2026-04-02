@@ -26,7 +26,6 @@ pre-build-check:
   script:
     - npm run check
 
-
 build:
   stage: build
   needs:
