@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.29] - 2026-04-02
+
+### Added
+
+- `guides/concepts.md` — new Core Concepts guide covering the response pattern, status codes, type guards, and streams
+
+### Changed
+
+- README slimmed to overview, module index, and documentation links — detailed content moved to guides
+- `guides/setup.md` — moved environment requirements to Core Concepts guide
+- `skills/SKILL.md` — guides now ordered explicitly (Setup → Core Concepts → Integration Guide); Classes and Functions wrapped under `## API Reference`
+- `scripts/skills-template.md` — reduced to frontmatter and intro; all content lives in guides
+
 ## [2.0.0-beta.28] - 2026-04-02
 
 ### Changed

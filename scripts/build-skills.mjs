@@ -17,6 +17,8 @@ const API_JSON_FILE = path.join(ROOT_DIR, 'api-reference', 'api.json');
 const SKILLS_TEMPLATE = path.join(ROOT_DIR, 'scripts', 'skills-template.md');
 const GUIDES_DIR = path.join(ROOT_DIR, 'guides');
 
+const GUIDE_ORDER = ['setup.md', 'concepts.md', 'integration.md'];
+
 const KIND_CLASS = 128;
 const KIND_FUNCTION = 64;
 const KIND_METHOD = 2048;
@@ -128,10 +130,10 @@ function generateClasses(api) {
       })
       .filter(Boolean);
 
-    return [`### \`${cls.name}\``, description, ...methods].join('\n');
+    return [`#### \`${cls.name}\``, description, ...methods].join('\n');
   });
 
-  return `## Classes\n\n${sections.join('\n\n')}`;
+  return `### Classes\n\n${sections.join('\n\n')}`;
 }
 
 /**
@@ -153,10 +155,10 @@ function generateFunctions(api) {
       .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
       .join(', ');
     const returnType = renderType(sig.type);
-    return `### \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
+    return `#### \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
   });
 
-  return `## Functions\n\n${sections.join('\n\n')}`;
+  return `### Functions\n\n${sections.join('\n\n')}`;
 }
 
 /**
@@ -180,15 +182,18 @@ function buildSkills() {
   if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
   fs.mkdirSync(skillDir, { recursive: true });
 
-  const guides = fs
-    .readdirSync(GUIDES_DIR)
-    .filter((f) => f.endsWith('.md'))
+  const allGuides = fs.readdirSync(GUIDES_DIR).filter((f) => f.endsWith('.md'));
+  const orderedGuides = [
+    ...GUIDE_ORDER.filter((f) => allGuides.includes(f)),
+    ...allGuides.filter((f) => !GUIDE_ORDER.includes(f)).sort(),
+  ];
+  const guides = orderedGuides
     .map((f) => inlineGuide(fs.readFileSync(path.join(GUIDES_DIR, f), 'utf-8')))
     .join('\n\n');
 
-  const skill = [template.trimEnd(), guides, generateClasses(api), generateFunctions(api)].join(
-    '\n\n'
-  );
+  const apiReference = `## API Reference\n\n${generateClasses(api)}\n\n${generateFunctions(api)}`;
+
+  const skill = [template.trimEnd(), guides, apiReference].join('\n\n');
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill);
   console.log('Generated skills/SKILL.md');

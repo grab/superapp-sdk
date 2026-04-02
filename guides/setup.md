@@ -44,7 +44,3 @@ If you are not using a bundler, load the SDK from a CDN and access it via the `S
   const { ContainerModule, ScopeModule, isSuccess, isError } = window.SuperAppSDK;
 </script>
 ```
-
-## Requirements
-
-SDK methods communicate with the native Grab SuperApp via JSBridge. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
