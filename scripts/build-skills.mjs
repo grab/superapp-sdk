@@ -96,6 +96,15 @@ function getReturnTypeName(sig) {
 }
 
 /**
+ * Strips YAML frontmatter and shifts all headings down by one level
+ * so guide h1s become h2s when inlined into SKILL.md.
+ */
+function inlineGuide(content) {
+  const stripped = content.replace(/^---[\s\S]*?---\n+/, '');
+  return stripped.replace(/^(#{1,5}) /gm, (_, hashes) => '#'.repeat(hashes.length + 1) + ' ');
+}
+
+/**
  * Generates a Markdown section for each public class in the API.
  */
 function generateClasses(api) {
@@ -119,10 +128,10 @@ function generateClasses(api) {
       })
       .filter(Boolean);
 
-    return [`## \`${cls.name}\``, description, ...methods].join('\n');
+    return [`### \`${cls.name}\``, description, ...methods].join('\n');
   });
 
-  return `# Classes\n\n${sections.join('\n\n')}`;
+  return `## Classes\n\n${sections.join('\n\n')}`;
 }
 
 /**
@@ -144,10 +153,10 @@ function generateFunctions(api) {
       .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
       .join(', ');
     const returnType = renderType(sig.type);
-    return `## \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
+    return `### \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
   });
 
-  return `# Functions\n\n${sections.join('\n\n')}`;
+  return `## Functions\n\n${sections.join('\n\n')}`;
 }
 
 /**
@@ -167,25 +176,21 @@ function buildSkills() {
   const template = fs.readFileSync(SKILLS_TEMPLATE, 'utf-8');
 
   const skillDir = path.join(ROOT_DIR, 'skills');
-  const refsDir = path.join(skillDir, 'references');
 
   if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
-  fs.mkdirSync(refsDir, { recursive: true });
+  fs.mkdirSync(skillDir, { recursive: true });
 
-  fs.writeFileSync(path.join(refsDir, 'classes.md'), generateClasses(api));
-  fs.writeFileSync(path.join(refsDir, 'functions.md'), generateFunctions(api));
-  console.log('Generated skills/references/');
+  const guides = fs
+    .readdirSync(GUIDES_DIR)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => inlineGuide(fs.readFileSync(path.join(GUIDES_DIR, f), 'utf-8')))
+    .join('\n\n');
 
-  const guidesDir = path.join(skillDir, 'guides');
-  fs.mkdirSync(guidesDir, { recursive: true });
-  for (const file of fs.readdirSync(GUIDES_DIR).filter((f) => f.endsWith('.md'))) {
-    const content = fs.readFileSync(path.join(GUIDES_DIR, file), 'utf-8');
-    const stripped = content.replace(/^---[\s\S]*?---\n+/, '');
-    fs.writeFileSync(path.join(guidesDir, file), stripped);
-  }
-  console.log('Generated skills/guides/');
+  const skill = [template.trimEnd(), guides, generateClasses(api), generateFunctions(api)].join(
+    '\n\n'
+  );
 
-  fs.writeFileSync(path.join(skillDir, 'SKILL.md'), template);
+  fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill);
   console.log('Generated skills/SKILL.md');
 }
 
