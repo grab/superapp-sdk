@@ -64,8 +64,9 @@ publish-to-npm:
 publish-to-npm-beta:
   stage: publish
   needs:
+    - pre-build-check
     - build
-    - check
+    - post-build-check
   script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
     - npm publish --access public --tag beta
