@@ -9,8 +9,9 @@ cache:
 
 stages:
   - install
-  - check
+  - pre-build-check
   - build
+  - post-build-check
   - publish
 
 install:
@@ -18,29 +19,42 @@ install:
   script:
     - npm ci
 
-check:
-  stage: check
+pre-build-check:
+  stage: pre-build-check
   needs:
     - install
   script:
     - npm run check
+
 
 build:
   stage: build
   needs:
     - install
   script:
-    - npm run build:dist
+    - npm run build
   artifacts:
     paths:
       - dist/
+      - api-reference/
+      - docs/
+      - skills/
     expire_in: 1 hour
+
+post-build-check:
+  stage: post-build-check
+  needs:
+    - pre-build-check
+    - build
+  script:
+    - git diff --exit-code api-reference/ docs/ skills/
 
 publish-to-npm:
   stage: publish
   needs:
+    - pre-build-check
     - build
-    - check
+    - post-build-check
   script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
     - npm publish --access public

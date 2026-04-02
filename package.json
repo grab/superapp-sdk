@@ -29,9 +29,10 @@
     "build:docs:md": "npx typedoc --options typedoc.md.json",
     "build:skills": "node scripts/build-skills.mjs",
     "build:watch": "rollup -cw",
-    "check": "npm run check:format && npm run check:lint && npm run test:check",
+    "check": "npm run check:format && npm run check:lint && npm run check:test",
     "check:format": "prettier --check .",
     "check:lint": "eslint .",
+    "check:test": "vitest run",
     "clean": "rimraf md dist build api-reference skills",
     "fix": "npm run fix:format && npm run fix:lint",
     "fix:format": "prettier --write .",
@@ -39,7 +40,6 @@
     "prepare": "husky",
     "prepublishOnly": "npm run build",
     "test": "vitest run",
-    "test:check": "vitest run",
     "test:watch": "vitest"
   },
   "repository": {
