@@ -275,6 +275,5 @@ export type {
   GetSelectedTravelDestinationResult,
 } from './modules/user-attributes/types';
 export { UserAttributesModule } from './modules/user-attributes/UserAttributesModule';
-export { isErrorWithMessage } from './utils/error';
 export type { GrabAppInfo, Platform } from './utils/platform';
 export type { Version } from './utils/version';

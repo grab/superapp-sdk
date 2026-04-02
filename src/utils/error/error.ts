@@ -23,7 +23,7 @@
  * }
  * ```
  *
- * @public
+ * @internal
  */
 export function isErrorWithMessage(error: unknown): error is { message: string } {
   return (

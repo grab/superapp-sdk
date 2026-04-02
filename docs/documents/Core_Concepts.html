@@ -1,0 +1,125 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Core Concepts | @grabjs/superapp-sdk</title><meta name="description" content="Documentation for @grabjs/superapp-sdk"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">@grabjs/superapp-sdk</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="" aria-current="page">Core Concepts</a></li></ul></div><div class="tsd-panel tsd-typography"><h1 id="core-concepts" class="tsd-anchor-link">Core Concepts<a href="#core-concepts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>SDK methods communicate with the native Grab SuperApp via JSBridge. They only work when your page is running inside the <strong>Grab SuperApp WebView</strong>. Calling a method outside that environment returns <code>{ status_code: 501 }</code>.</p>
+<h2 id="response-pattern" class="tsd-anchor-link">Response Pattern<a href="#response-pattern" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Every SDK method returns a bridge response object with an HTTP-style <code>status_code</code>. SDK methods never throw — use type guards instead of try/catch.</p>
+<pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">CameraModule</span><span class="hl-1">, </span><span class="hl-4">isSuccess</span><span class="hl-1">, </span><span class="hl-4">isError</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@grabjs/superapp-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">camera</span><span class="hl-1"> = </span><span class="hl-10">new</span><span class="hl-1"> </span><span class="hl-0">CameraModule</span><span class="hl-1">();</span><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">response</span><span class="hl-1"> = </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">camera</span><span class="hl-1">.</span><span class="hl-0">scanQRCode</span><span class="hl-1">({ </span><span class="hl-4">title:</span><span class="hl-1"> </span><span class="hl-2">&#39;Scan Payment QR&#39;</span><span class="hl-1"> });</span><br/><br/><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isSuccess</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-3">switch</span><span class="hl-1"> (</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">status_code</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">200</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;QR Code scanned:&#39;</span><span class="hl-1">, </span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">result</span><span class="hl-1">.</span><span class="hl-4">qrCode</span><span class="hl-1">);</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">204</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-13">// operation completed with no content</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">} </span><span class="hl-3">else</span><span class="hl-1"> </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isError</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-13">// response.error: string is guaranteed</span><br/><span class="hl-1">  </span><span class="hl-3">switch</span><span class="hl-1"> (</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">status_code</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">403</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-13">// call IdentityModule.authorize() then ScopeModule.reloadScopes() before retrying</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">default</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">`Error </span><span class="hl-10">${</span><span class="hl-4">response</span><span class="hl-7">.</span><span class="hl-4">status_code</span><span class="hl-10">}</span><span class="hl-2">: </span><span class="hl-10">${</span><span class="hl-4">response</span><span class="hl-7">.</span><span class="hl-4">error</span><span class="hl-10">}</span><span class="hl-2">`</span><span class="hl-1">);</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="status-codes" class="tsd-anchor-link">Status Codes<a href="#status-codes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The SDK uses HTTP-style status codes for all responses:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>200</code></td>
+<td>OK</td>
+<td>Request successful, <code>result</code> contains response data</td>
+</tr>
+<tr>
+<td><code>204</code></td>
+<td>No Content</td>
+<td>Request successful, no data returned</td>
+</tr>
+<tr>
+<td><code>302</code></td>
+<td>Redirect</td>
+<td>Redirect in progress</td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request</td>
+<td>Invalid request parameters</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized</td>
+<td>Authentication required</td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden</td>
+<td>Insufficient permissions for this operation</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>Not Found</td>
+<td>Resource not found</td>
+</tr>
+<tr>
+<td><code>424</code></td>
+<td>Failed Dependency</td>
+<td>Underlying native request failed</td>
+</tr>
+<tr>
+<td><code>426</code></td>
+<td>Upgrade Required</td>
+<td>Requires newer Grab app version</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Internal Error</td>
+<td>Unexpected SDK error</td>
+</tr>
+<tr>
+<td><code>501</code></td>
+<td>Not Implemented</td>
+<td>Method requires Grab SuperApp environment</td>
+</tr>
+</tbody>
+</table>
+<h2 id="type-guards" class="tsd-anchor-link">Type Guards<a href="#type-guards" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Type guards narrow the response type so TypeScript knows which fields are available:</p>
+<table>
+<thead>
+<tr>
+<th>Guard</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isSuccess(r)</code></td>
+<td><code>200</code>, <code>204</code></td>
+</tr>
+<tr>
+<td><code>isOk(r)</code></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td><code>isNoContent(r)</code></td>
+<td><code>204</code></td>
+</tr>
+<tr>
+<td><code>isRedirection(r)</code> / <code>isFound(r)</code></td>
+<td><code>302</code></td>
+</tr>
+<tr>
+<td><code>isClientError(r)</code></td>
+<td><code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>424</code>, <code>426</code></td>
+</tr>
+<tr>
+<td><code>isServerError(r)</code></td>
+<td><code>500</code>, <code>501</code></td>
+</tr>
+<tr>
+<td><code>isError(r)</code></td>
+<td>any 4xx or 5xx</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">isSuccess</span><span class="hl-1">, </span><span class="hl-4">isOk</span><span class="hl-1">, </span><span class="hl-4">isNoContent</span><span class="hl-1">, </span><span class="hl-4">isError</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@grabjs/superapp-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isSuccess</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-13">// narrow further if needed</span><br/><span class="hl-1">  </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isOk</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">result</span><span class="hl-1">);</span><br/><span class="hl-1">  </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isNoContent</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;done, no data&#39;</span><span class="hl-1">);</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isError</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-13">// response.error: string is guaranteed here</span><br/><span class="hl-1">  </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">error</span><span class="hl-1">);</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="streams" class="tsd-anchor-link">Streams<a href="#streams" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Some modules provide streaming methods for real-time data (location updates, media events). Subscribe to receive values over time:</p>
+<pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">LocationModule</span><span class="hl-1">, </span><span class="hl-4">isSuccess</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@grabjs/superapp-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">location</span><span class="hl-1"> = </span><span class="hl-10">new</span><span class="hl-1"> </span><span class="hl-0">LocationModule</span><span class="hl-1">();</span><br/><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">subscription</span><span class="hl-1"> = </span><span class="hl-4">location</span><span class="hl-1">.</span><span class="hl-0">observeLocationChange</span><span class="hl-1">().</span><span class="hl-0">subscribe</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">next</span><span class="hl-4">:</span><span class="hl-1"> (</span><span class="hl-4">response</span><span class="hl-1">) </span><span class="hl-10">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isSuccess</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">result</span><span class="hl-1">);</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-0">complete</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-10">=&gt;</span><span class="hl-1"> </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Stream ended&#39;</span><span class="hl-1">),</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-13">// Always unsubscribe when done to conserve battery and resources</span><br/><span class="hl-4">subscription</span><span class="hl-1">.</span><span class="hl-0">unsubscribe</span><span class="hl-1">();</span>
+</code><button type="button">Copy</button></pre>
+
+<p>You can also <code>await</code> a stream method directly to get its first value.</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#core-concepts"><span>Core <wbr/>Concepts</span></a><ul><li><a href="#response-pattern"><span>Response <wbr/>Pattern</span></a></li><li><a href="#status-codes"><span>Status <wbr/>Codes</span></a></li><li><a href="#type-guards"><span>Type <wbr/>Guards</span></a></li><li><a href="#streams"><span>Streams</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">@grabjs/superapp-sdk</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
