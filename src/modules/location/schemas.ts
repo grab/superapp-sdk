@@ -39,7 +39,7 @@ export const ObserveLocationChangeResponseSchema = GetCoordinateResponseSchema;
  *
  * @public
  */
-export const GetCountryCodeResultSchema = v.object({ countryCode: v.string() });
+export const GetCountryCodeResultSchema = v.string();
 
 /**
  * Valibot schema for {@link GetCountryCodeResponse}.

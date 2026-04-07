@@ -57,16 +57,16 @@ export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSche
 export type ObserveLocationChangeResponse = BridgeStream<GetCoordinateResponse>;
 
 /**
- * Result object containing the country code.
+ * The ISO country code string returned from the native bridge.
  *
  * @example
  * ```typescript
- * { countryCode: 'SG' }
+ * 'SG'
  * ```
  *
  * @example
  * ```typescript
- * { countryCode: 'ID' }
+ * 'ID'
  * ```
  *
  * @public
@@ -78,7 +78,7 @@ export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Country code retrieved successfully. The `result` contains the ISO country code.
+ * - `200`: Country code retrieved successfully. The `result` is the ISO country code string.
  * - `403`: Forbidden - client not authorized to access location data.
  * - `424`: GeoKit/Resolver error - location services unavailable.
  * - `500`: Internal server error - an unexpected error occurred on the native side.

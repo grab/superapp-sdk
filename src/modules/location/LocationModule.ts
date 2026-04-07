@@ -161,7 +161,7 @@ export class LocationModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Country code:', response.result.countryCode);
+   *   console.log('Country code:', response.result);
    * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
