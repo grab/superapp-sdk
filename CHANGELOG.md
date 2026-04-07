@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `CheckoutModule` — added important disclaimers to method and type documentation; added note that `mobile` scope is required
 - `LocaleModule` — added list of supported locales to `SupportedLocale` type documentation
+- `LocationModule` — `getCountryCode` now correctly returns `result` as a plain `string` (e.g. `'SG'`) instead of an object `{ countryCode: string }`; updated `GetCountryCodeResult` type, schema, and documentation accordingly
 - `StorageModule` — added note that stored data is cleared when the user logs out
 
 ## [2.0.0-beta.29] - 2026-04-02
