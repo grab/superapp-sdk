@@ -260,7 +260,7 @@ JSBridge module for accessing the device camera.
 
 #### `CheckoutModule`
 JSBridge module for triggering native payment flows.
-- `triggerCheckout(request: Record<string, unknown>): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { errorCode?: string; errorMessage?: string; status: "success" | "failure" | "pending" | "userInitiatedCancel"; transactionID: string }; status_code: 200 }>` — Triggers the native checkout flow for payment processing.
+- `triggerCheckout(request: Record<string, unknown>): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { errorCode?: string; errorMessage?: string; status: "success" | "failure" | "pending" | "userInitiatedCancel"; transactionID: string }; status_code: 200 }>` — Triggers the native checkout flow for payment processing. You must pre-create a transaction on your backend (via `POST https://partner-api.grab.com/grabpay/partner/v4/charge/init`) and pass the returned parameters as `request` before calling this method. Requires the `mobile.checkout` scope — a `403` means you need to call `IdentityModule.authorize()` with scope `'mobile.checkout'`, then `ScopeModule.reloadScopes()` before retrying. `errorCode` and `errorMessage` are only present when `status` is `'failure'`; when the user cancels, `status` is `'userInitiatedCancel'` and neither field is set.
 
 #### `ContainerModule`
 JSBridge module for controlling the WebView container.
@@ -305,7 +305,7 @@ JSBridge module for accessing device locale settings.
 #### `LocationModule`
 JSBridge module for accessing device location services.
 - `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { lat: number; lng: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device.
-- `getCountryCode(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { countryCode: string }; status_code: 200 }>` — Get the country code based on the device's current location.
+- `getCountryCode(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: string; status_code: 200 }>` — Get the country code based on the device's current location. On success, `result` is a plain ISO country code string (e.g. `'SG'`, `'ID'`).
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device.
 
 #### `MediaModule`
@@ -334,7 +334,7 @@ JSBridge module for controlling the native splash / Lottie loading screen.
 - `dismiss(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Dismisses the native splash (Lottie) loading view if it is presented.
 
 #### `StorageModule`
-JSBridge module for persisting key-value data to native storage.
+JSBridge module for persisting key-value data to native storage. All stored data is automatically cleared when the user logs out.
 - `getBoolean(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { value: boolean | null }; status_code: 200 }>` — Retrieves a boolean value from the native storage.
 - `getDouble(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { value: number | null }; status_code: 200 }>` — Retrieves a double (floating point) value from the native storage.
 - `getInt(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { value: number | null }; status_code: 200 }>` — Retrieves an integer value from the native storage.
