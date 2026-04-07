@@ -24,8 +24,9 @@ import {
  * - "ms" (Malay)
  * - "th" (Thai)
  * - "vi" (Vietnamese)
- * - "zg" (Burmese Zawgyi)
- * - "my" (Burmese Unicode)
+ * - "my" (Burmese)
+ * - "ja" (Japanese)
+ * - "ko" (Korean)
  * - "km" (Khmer)
  *
  * @example
