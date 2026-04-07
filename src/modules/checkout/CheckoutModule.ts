@@ -84,7 +84,14 @@ export class CheckoutModule extends BaseModule {
    *       break;
    *   }
    * } else if (isError(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to trigger checkout');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.checkout', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }
