@@ -43,6 +43,7 @@ import {
  *
  * @remarks
  * Stores data in the native app's persistent storage, allowing data to survive WebView restarts.
+ * All stored data is automatically removed when the user logs out.
  * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example

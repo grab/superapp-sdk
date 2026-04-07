@@ -45,9 +45,14 @@ export class CheckoutModule extends BaseModule {
   /**
    * Triggers the native checkout flow for payment processing.
    *
+   * @remarks
+   * You must create a transaction on your backend (via API POST https://partner-api.grab.com/grabpay/partner/v4/charge/init) **before** calling this method.
+   * Pass the transaction parameters returned from that API call as the `request` argument.
+   * Calling this method without a valid pre-created transaction will result in a checkout failure.
+   *
    * @param request - Payment transaction details, including the transaction ID and amount. See {@link TriggerCheckoutRequest}.
    *
-   * @returns The checkout result, containing transaction status (success, failure, or pending) and transaction details. See {@link TriggerCheckoutResponse}.
+   * @returns The checkout result, containing transaction status (success, failure, pending, or userInitiatedCancel) and transaction details. See {@link TriggerCheckoutResponse}.
    *
    * @example
    * **Simple usage**
@@ -79,7 +84,14 @@ export class CheckoutModule extends BaseModule {
    *       break;
    *   }
    * } else if (isError(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to trigger checkout');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.checkout', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }

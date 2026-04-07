@@ -139,7 +139,7 @@ describe('LocationModule', () => {
 
       const mockResponse: GetCountryCodeResponse = {
         status_code: 200,
-        result: { countryCode: 'SG' },
+        result: 'SG',
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -154,7 +154,7 @@ describe('LocationModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getCountryCode', undefined);
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.countryCode).toBe('SG');
+        expect(response.result).toBe('SG');
       }
     });
 
@@ -165,7 +165,7 @@ describe('LocationModule', () => {
 
       const mockResponse: GetCountryCodeResponse = {
         status_code: 200,
-        result: { countryCode: 'ID' },
+        result: 'ID',
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -179,7 +179,7 @@ describe('LocationModule', () => {
 
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.countryCode).toBe('ID');
+        expect(response.result).toBe('ID');
       }
     });
 
