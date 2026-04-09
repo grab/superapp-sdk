@@ -290,7 +290,7 @@ JSBridge module for downloading files to the user's device.
 
 #### `IdentityModule`
 JSBridge module for authenticating users via GrabID.
-- `authorize(request: { clientId: string; environment: "staging" | "production"; redirectUri: string; responseMode?: "redirect" | "in_place"; scope: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { code: string; state: string }; status_code: 200 } | { status_code: 302 } | { error: string; status_code: 401 }>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
+- `authorize(request: { clientId: string; environment?: "staging" | "production"; redirectUri?: string; responseMode?: "redirect" | "in_place"; scope: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { code: string; state: string }; status_code: 200 } | { status_code: 302 } | { error: string; status_code: 401 }>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
 This method handles both native in-app consent and web-based fallback flows.
 - `clearAuthorizationArtifacts(): Promise<{ status_code: 204 }>` — Clears all stored PKCE authorization artifacts from local storage.
 This should be called after a successful token exchange or when you need to
@@ -305,7 +305,7 @@ JSBridge module for accessing device locale settings.
 #### `LocationModule`
 JSBridge module for accessing device location services.
 - `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { lat: number; lng: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device.
-- `getCountryCode(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: string; status_code: 200 }>` — Get the country code based on the device's current location. On success, `result` is a plain ISO country code string (e.g. `'SG'`, `'ID'`).
+- `getCountryCode(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location.
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device.
 
 #### `MediaModule`

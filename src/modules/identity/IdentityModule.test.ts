@@ -562,5 +562,132 @@ describe('IdentityModule', () => {
         expect(response.result.code).toBe('staging-auth-code');
       }
     });
+
+    it('should default redirectUri to current page URL when not provided', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
+      });
+
+      mockLocalStorage = {};
+      vi.stubGlobal('localStorage', {
+        getItem: (key: string) => mockLocalStorage[key] ?? null,
+        setItem: (key: string, value: string) => {
+          mockLocalStorage[key] = value;
+        },
+        removeItem: (key: string) => {
+          delete mockLocalStorage[key];
+        },
+      });
+
+      const mockFetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          authorization_endpoint: 'https://auth.grab.com/authorize',
+        }),
+      });
+      vi.stubGlobal('fetch', mockFetch);
+
+      const mockAssign = vi.fn();
+      vi.stubGlobal('location', {
+        href: 'https://app.example.com/page?query=1',
+        assign: mockAssign,
+      });
+
+      const module = new IdentityModule();
+      const response = await module.authorize({
+        clientId: 'client-123',
+        scope: 'openid profile',
+        environment: 'production',
+      });
+
+      expect(response.status_code).toBe(302);
+      // redirectUri should default to the normalized current page URL (no query params)
+      expect(mockLocalStorage['grabid:redirect_uri']).toBe('https://app.example.com/page');
+    });
+
+    it('should default environment to staging and use native consent when not provided', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+      });
+
+      mockLocalStorage = {};
+      vi.stubGlobal('localStorage', {
+        getItem: (key: string) => mockLocalStorage[key] ?? null,
+        setItem: (key: string, value: string) => {
+          mockLocalStorage[key] = value;
+        },
+        removeItem: (key: string) => {
+          delete mockLocalStorage[key];
+        },
+      });
+
+      vi.stubGlobal('location', {
+        href: 'https://app.example.com/',
+      });
+
+      const mockResponse: AuthorizeResponse = {
+        status_code: 200,
+        result: { code: 'auth-code-123', state: 'state-456' },
+      };
+
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedIdentityModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new IdentityModule();
+      const response = await module.authorize({
+        clientId: 'client-123',
+        redirectUri: 'https://app.example.com/callback',
+        scope: 'openid',
+      });
+
+      expect(response.status_code).toBe(200);
+      // environment defaulted to 'staging' → bypasses version check → uses native consent
+      expect(mockInvoke).toHaveBeenCalled();
+    });
+
+    it('should work with only clientId and scope provided', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+      });
+
+      mockLocalStorage = {};
+      vi.stubGlobal('localStorage', {
+        getItem: (key: string) => mockLocalStorage[key] ?? null,
+        setItem: (key: string, value: string) => {
+          mockLocalStorage[key] = value;
+        },
+        removeItem: (key: string) => {
+          delete mockLocalStorage[key];
+        },
+      });
+
+      vi.stubGlobal('location', {
+        href: 'https://app.example.com/page',
+      });
+
+      const mockResponse: AuthorizeResponse = {
+        status_code: 200,
+        result: { code: 'auth-code-123', state: 'state-456' },
+      };
+
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedIdentityModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new IdentityModule();
+      const response = await module.authorize({
+        clientId: 'client-123',
+        scope: 'openid',
+      });
+
+      expect(response.status_code).toBe(200);
+      // environment defaults to 'staging' → native consent
+      expect(mockInvoke).toHaveBeenCalled();
+      // redirectUri defaults to normalized current page URL
+      expect(mockLocalStorage['grabid:redirect_uri']).toBe('https://app.example.com/page');
+    });
   });
 });

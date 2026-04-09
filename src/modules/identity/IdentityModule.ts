@@ -339,7 +339,7 @@ export class IdentityModule extends BaseModule {
       return true;
     }
 
-    if (request.environment === 'staging') {
+    if ((request.environment ?? 'staging') === 'staging') {
       return false;
     }
 
@@ -482,13 +482,11 @@ export class IdentityModule extends BaseModule {
    * // Initialize the identity module
    * const identity = new IdentityModule();
    *
-   * // Initiate authorization with redirect mode
+   * // Initiate authorization
+   * // Note: redirectUri and environment are legacy fields — omit them for new integrations
    * const response = await identity.authorize({
    *   clientId: 'your-client-id',
-   *   redirectUri: 'https://your-app.com/callback',
    *   scope: 'openid profile',
-   *   environment: 'production',
-   *   responseMode: 'redirect'
    * });
    *
    * // Handle the response
@@ -527,11 +525,14 @@ export class IdentityModule extends BaseModule {
     const pkceArtifacts = await this.generatePKCEArtifacts();
 
     const responseMode = request.responseMode || 'redirect';
+    const environment = request.environment ?? 'staging';
+    const resolvedRedirectUri =
+      request.redirectUri ?? IdentityModule.normalizeUrl(window.location.href);
 
     const actualRedirectUri =
       responseMode === 'in_place'
         ? IdentityModule.normalizeUrl(window.location.href)
-        : request.redirectUri;
+        : resolvedRedirectUri;
 
     this.storePKCEArtifacts({
       ...pkceArtifacts,
@@ -540,7 +541,7 @@ export class IdentityModule extends BaseModule {
 
     const invokeParams = {
       clientId: request.clientId,
-      redirectUri: request.redirectUri,
+      redirectUri: resolvedRedirectUri,
       scope: request.scope,
       nonce: pkceArtifacts.nonce,
       state: pkceArtifacts.state,
@@ -551,7 +552,7 @@ export class IdentityModule extends BaseModule {
     if (IdentityModule.shouldUseWebConsent(request)) {
       return this.performWebAuthorization({
         ...invokeParams,
-        environment: request.environment,
+        environment,
       });
     }
 
@@ -580,7 +581,7 @@ export class IdentityModule extends BaseModule {
         // Fallback to web flow
         return this.performWebAuthorization({
           ...invokeParams,
-          environment: request.environment,
+          environment,
         });
       }
 
@@ -591,7 +592,7 @@ export class IdentityModule extends BaseModule {
       // Fallback to web flow
       return this.performWebAuthorization({
         ...invokeParams,
-        environment: request.environment,
+        environment,
       });
     }
   }

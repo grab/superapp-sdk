@@ -20,26 +20,23 @@ import {
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
  *
  * @example
- * **Production environment with redirect mode:**
+ * **Minimal usage (redirectUri and environment are optional):**
  * ```typescript
  * {
  *   clientId: 'your-client-id',
- *   redirectUri: 'https://your-app.com/callback',
  *   scope: 'openid profile',
- *   environment: 'production',
- *   responseMode: 'redirect'
  * }
  * ```
  *
  * @example
- * **Staging environment with in_place mode:**
+ * **With explicit redirect URI and environment (legacy fields — avoid for new integrations):**
  * ```typescript
  * {
- *   clientId: 'staging-client-id',
- *   redirectUri: 'https://staging-app.com/callback',
- *   scope: 'openid',
- *   environment: 'staging',
- *   responseMode: 'in_place'
+ *   clientId: 'your-client-id',
+ *   redirectUri: 'https://your-app.com/callback', // legacy: defaults to current page URL
+ *   scope: 'openid profile',
+ *   environment: 'production', // legacy: defaults to 'staging'
+ *   responseMode: 'redirect'
  * }
  * ```
  *

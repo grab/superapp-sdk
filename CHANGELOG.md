@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.31] - 2026-04-09
+
+### Changed
+
+- `IdentityModule` — `redirectUri` and `environment` are now optional fields in `AuthorizeRequest`; `redirectUri` defaults to the current page URL (normalized), `environment` defaults to `'staging'`
+
 ## [2.0.0-beta.30] - 2026-04-07
 
 ### Changed

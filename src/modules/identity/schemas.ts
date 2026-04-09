@@ -21,9 +21,9 @@ import {
  */
 export const AuthorizeRequestSchema = v.object({
   clientId: v.pipe(v.string(), v.minLength(1)),
-  redirectUri: v.pipe(v.string(), v.url()),
+  redirectUri: v.optional(v.pipe(v.string(), v.url())),
   scope: v.pipe(v.string(), v.minLength(1)),
-  environment: v.picklist(['staging', 'production']),
+  environment: v.optional(v.picklist(['staging', 'production'])),
   responseMode: v.optional(v.picklist(['redirect', 'in_place'])),
 });
 
