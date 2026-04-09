@@ -37,7 +37,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for persisting key-value data to native storage.
+ * JSBridge module for persisting key-value data to native storage. All stored data is automatically cleared when the user logs out.
  *
  * @group Modules
  *
