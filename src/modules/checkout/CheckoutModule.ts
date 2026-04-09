@@ -43,7 +43,7 @@ export class CheckoutModule extends BaseModule {
   }
 
   /**
-   * Triggers the native checkout flow for payment processing.
+   * Triggers the native checkout flow for payment processing. You must pre-create a transaction on your backend (via `POST https://partner-api.grab.com/grabpay/partner/v4/charge/init`) and pass the returned parameters as `request` before calling this method. Requires the `mobile.checkout` scope — a `403` means you need to call `IdentityModule.authorize()` with scope `'mobile.checkout'`, then `ScopeModule.reloadScopes()` before retrying. `errorCode` and `errorMessage` are only present when `status` is `'failure'`; when the user cancels, `status` is `'userInitiatedCancel'` and neither field is set.
    *
    * @remarks
    * You must create a transaction on your backend (via API POST https://partner-api.grab.com/grabpay/partner/v4/charge/init) **before** calling this method.
