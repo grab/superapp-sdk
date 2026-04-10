@@ -44,7 +44,6 @@ export const AuthorizeResponseSchema = v.union([
   bridgeNoContentSchema,
   bridgeRedirectSchema,
   bridgeErrorSchema(400),
-  bridgeErrorSchema(401), // TODO: not sure
   bridgeErrorSchema(403),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),

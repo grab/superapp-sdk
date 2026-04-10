@@ -131,7 +131,7 @@ export const HideLoaderResponseSchema = v.union([
  * @public
  */
 export const OpenExternalLinkResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()), // TODO
+  bridgeOkSchema(v.unknown()),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),

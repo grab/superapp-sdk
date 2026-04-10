@@ -23,7 +23,6 @@ export const GetCoordinateResultSchema = v.object({ lat: v.number(), lng: v.numb
  */
 export const GetCoordinateResponseSchema = v.union([
   bridgeOkSchema(GetCoordinateResultSchema),
-  bridgeErrorSchema(400), // TODO: not sure
   bridgeErrorSchema(403),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),

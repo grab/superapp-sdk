@@ -272,7 +272,7 @@ JSBridge module for controlling the WebView container.
 - `isConnected(): Promise<{ result: { connected: boolean }; status_code: 200 } | { error: string; status_code: 404 }>` — Check if the web app is connected to the Grab SuperApp via JSBridge.
 - `onContentLoaded(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the Grab SuperApp that the page content has loaded.
 - `onCtaTap(request: string): Promise<{ error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the client that the user has tapped a call-to-action (CTA).
-- `openExternalLink(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Open a link in the external browser.
+- `openExternalLink(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: unknown; status_code: 200 }>` — Open a link in the external browser.
 - `sendAnalyticsEvent(request: { data?: Record<string, unknown>; name: string; state: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Use this method to track user interactions and page transitions.
 - `setBackgroundColor(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Set the background color of the container header.
 - `setTitle(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Set the title of the container header.
@@ -290,7 +290,7 @@ JSBridge module for downloading files to the user's device.
 
 #### `IdentityModule`
 JSBridge module for authenticating users via GrabID.
-- `authorize(request: { clientId: string; environment: "staging" | "production"; redirectUri: string; responseMode?: "redirect" | "in_place"; scope: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { code: string; state: string }; status_code: 200 } | { status_code: 302 } | { error: string; status_code: 401 }>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
+- `authorize(request: { clientId: string; environment: "staging" | "production"; redirectUri: string; responseMode?: "redirect" | "in_place"; scope: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { code: string; state: string }; status_code: 200 } | { status_code: 302 }>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
 This method handles both native in-app consent and web-based fallback flows.
 - `clearAuthorizationArtifacts(): Promise<{ status_code: 204 }>` — Clears all stored PKCE authorization artifacts from local storage.
 This should be called after a successful token exchange or when you need to
@@ -304,7 +304,7 @@ JSBridge module for accessing device locale settings.
 
 #### `LocationModule`
 JSBridge module for accessing device location services.
-- `getCoordinate(): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { lat: number; lng: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device.
+- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { lat: number; lng: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device.
 - `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location.
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device.
 
@@ -329,7 +329,7 @@ JSBridge module for accessing user profile information.
 #### `ScopeModule`
 JSBridge module for checking and refreshing API access permissions.
 - `hasAccessTo(module: string, method: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { hasAccess: boolean }; status_code: 200 }>` — Checks if the current client has access to a specific JSBridge API method.
-- `reloadScopes(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: {}; status_code: 200 }>` — Requests to reload the consented OAuth scopes for the current client.
+- `reloadScopes(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: unknown; status_code: 200 } | { error: string; status_code: 424 }>` — Requests to reload the consented OAuth scopes for the current client.
 This refreshes the permissions from the server.
 
 #### `SplashScreenModule`
