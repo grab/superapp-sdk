@@ -15,8 +15,23 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
  * @public
  */
 export const DRMPlaybackEventSchema = v.object({
-  eventType: v.picklist(['started', 'paused', 'ended', 'error']),
-  data: v.optional(v.record(v.string(), v.unknown())),
+  type: v.picklist([
+    'START_PLAYBACK',
+    'PROGRESS_PLAYBACK',
+    'START_SEEK',
+    'STOP_SEEK',
+    'STOP_PLAYBACK',
+    'CLOSE_PLAYBACK',
+    'PAUSE_PLAYBACK',
+    'RESUME_PLAYBACK',
+    'FAST_FORWARD_PLAYBACK',
+    'REWIND_PLAYBACK',
+    'ERROR_PLAYBACK',
+    'CHANGE_VOLUME',
+  ]),
+  titleId: v.string(),
+  position: v.number(),
+  length: v.number(),
 });
 
 /**

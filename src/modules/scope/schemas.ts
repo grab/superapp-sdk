@@ -45,7 +45,6 @@ export const HasAccessToResponseSchema = v.union([
  * @public
  */
 export const ReloadScopesResponseSchema = v.union([
-  bridgeOkSchema(v.unknown()),
   bridgeNoContentSchema,
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),

@@ -196,14 +196,13 @@ describe('ScopeModule', () => {
       }
     });
 
-    it('should return 200 when scopes are reloaded successfully', async () => {
+    it('should return 204 when scopes are reloaded successfully', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
       const mockResponse: ReloadScopesResponse = {
-        status_code: 200,
-        result: {},
+        status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -216,17 +215,16 @@ describe('ScopeModule', () => {
       const response = await module.reloadScopes();
 
       expect(mockInvoke).toHaveBeenCalledWith('reloadScopes', undefined);
-      expect(response.status_code).toBe(200);
+      expect(response.status_code).toBe(204);
     });
 
-    it('should return 200 when scopes are reloaded on Android', async () => {
+    it('should return 204 when scopes are reloaded on Android', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
       });
 
       const mockResponse: ReloadScopesResponse = {
-        status_code: 200,
-        result: {},
+        status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -239,7 +237,7 @@ describe('ScopeModule', () => {
       const response = await module.reloadScopes();
 
       expect(mockInvoke).toHaveBeenCalledWith('reloadScopes', undefined);
-      expect(response.status_code).toBe(200);
+      expect(response.status_code).toBe(204);
     });
 
     it('should return 424 when ScopeKit error occurs', async () => {

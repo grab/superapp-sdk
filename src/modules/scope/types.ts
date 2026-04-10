@@ -76,7 +76,7 @@ export type ReloadScopesResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Scopes reloaded successfully.
+ * - `204`: Scopes reloaded successfully (no content).
  * - `424`: ScopeKit error - unable to reload scopes due to a dependency error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.

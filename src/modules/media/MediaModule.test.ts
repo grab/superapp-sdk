@@ -44,7 +44,12 @@ describe('MediaModule', () => {
 
       const mockResponse: PlayDRMContentResponse = {
         status_code: 200,
-        result: { eventType: 'started' },
+        result: {
+          type: 'START_PLAYBACK',
+          titleId: 'movie-123',
+          position: 0,
+          length: 3600,
+        },
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -95,7 +100,12 @@ describe('MediaModule', () => {
 
       const mockResponse: PlayDRMContentResponse = {
         status_code: 200,
-        result: { eventType: 'started' },
+        result: {
+          type: 'START_PLAYBACK',
+          titleId: 'content-456',
+          position: 0,
+          length: 3600,
+        },
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);

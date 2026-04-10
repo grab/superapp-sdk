@@ -75,21 +75,33 @@ export type PlayDRMContentResponse = InferOutput<typeof PlayDRMContentResponseSc
  * @example
  * **Playback started event:**
  * ```typescript
- * { eventType: 'started' }
+ * {
+ *   type: 'START_PLAYBACK',
+ *   titleId: 'movie-123',
+ *   position: 0,
+ *   length: 3600
+ * }
  * ```
  *
  * @example
- * **Playback paused event:**
+ * **Playback progress event:**
  * ```typescript
- * { eventType: 'paused' }
+ * {
+ *   type: 'PROGRESS_PLAYBACK',
+ *   titleId: 'movie-123',
+ *   position: 120,
+ *   length: 3600
+ * }
  * ```
  *
  * @example
  * **Playback error event:**
  * ```typescript
  * {
- *   eventType: 'error',
- *   data: { errorCode: 'DRM_LICENSE_ERROR', message: 'License expired' }
+ *   type: 'ERROR_PLAYBACK',
+ *   titleId: 'movie-123',
+ *   position: 300,
+ *   length: 3600
  * }
  * ```
  *
