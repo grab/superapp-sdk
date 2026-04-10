@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link ScanQRCodeRequest}.
@@ -29,7 +29,7 @@ export const ScanQRCodeResultSchema = v.object({ qrCode: v.string() });
  * @public
  */
 export const ScanQRCodeResponseSchema = v.union([
-  bridgeSuccessSchema(ScanQRCodeResultSchema),
+  bridgeOkSchema(ScanQRCodeResultSchema),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(403),

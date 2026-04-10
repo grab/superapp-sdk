@@ -67,8 +67,10 @@ describe('CheckoutModule', () => {
       });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.transactionID).toBe('grab-txn-abc123');
         expect(response.result.status).toBe('success');
+        if (response.result.status === 'success') {
+          expect(response.result.transactionID).toBe('grab-txn-abc123');
+        }
       }
     });
 
@@ -106,8 +108,10 @@ describe('CheckoutModule', () => {
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
         expect(response.result.status).toBe('failure');
-        expect(response.result.errorMessage).toBe('Insufficient funds');
-        expect(response.result.errorCode).toBe('PAYMENT_FAILED');
+        if (response.result.status === 'failure') {
+          expect(response.result.errorMessage).toBe('Insufficient funds');
+          expect(response.result.errorCode).toBe('PAYMENT_FAILED');
+        }
       }
     });
 
@@ -150,7 +154,6 @@ describe('CheckoutModule', () => {
       const mockResponse: TriggerCheckoutResponse = {
         status_code: 200,
         result: {
-          transactionID: 'grab-txn-jkl012',
           status: 'userInitiatedCancel',
         },
       };

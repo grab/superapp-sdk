@@ -163,7 +163,7 @@ describe('ProfileModule', () => {
       const module = new ProfileModule();
       const response = await module.verifyEmail({
         email: 'user@example.com',
-        otp: '123456',
+        skipUserInput: true,
       });
 
       expect(response.status_code).toBe(501);
@@ -182,7 +182,7 @@ describe('ProfileModule', () => {
       const module = new ProfileModule();
       const response = await module.verifyEmail({
         email: 'user@example.com',
-        otp: '123456',
+        skipUserInput: true,
       });
 
       expect(response.status_code).toBe(426);
@@ -200,6 +200,7 @@ describe('ProfileModule', () => {
 
       const mockResponse: VerifyEmailResponse = {
         status_code: 200,
+        result: { email: 'user@example.com' },
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -211,12 +212,12 @@ describe('ProfileModule', () => {
       const module = new ProfileModule();
       const response = await module.verifyEmail({
         email: 'user@example.com',
-        otp: '123456',
+        skipUserInput: true,
       });
 
       expect(mockInvoke).toHaveBeenCalledWith('verifyEmail', {
         email: 'user@example.com',
-        otp: '123456',
+        skipUserInput: true,
       });
       expect(response.status_code).toBe(200);
     });
@@ -228,6 +229,7 @@ describe('ProfileModule', () => {
 
       const mockResponse: VerifyEmailResponse = {
         status_code: 200,
+        result: { email: 'android@example.com' },
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -239,20 +241,20 @@ describe('ProfileModule', () => {
       const module = new ProfileModule();
       const response = await module.verifyEmail({
         email: 'android@example.com',
-        otp: '654321',
+        skipUserInput: true,
       });
 
       expect(response.status_code).toBe(200);
     });
 
-    it('should return 400 when OTP is invalid', async () => {
+    it('should return 400 when request is invalid', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
       });
 
       const mockResponse: VerifyEmailResponse = {
         status_code: 400,
-        error: 'Invalid OTP',
+        error: 'Invalid request',
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -263,13 +265,13 @@ describe('ProfileModule', () => {
 
       const module = new ProfileModule();
       const response = await module.verifyEmail({
-        email: 'user@example.com',
-        otp: 'wrong',
+        email: '',
+        skipUserInput: true,
       });
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('Invalid OTP');
+        expect(response.error).toBe('email: Invalid length: Expected >=1 but received 0');
       }
     });
 
@@ -289,12 +291,12 @@ describe('ProfileModule', () => {
       const module = new ProfileModule();
       const response = await module.verifyEmail({
         email: 'user@example.com',
-        otp: '123456',
+        skipUserInput: true,
       });
 
       expect(mockInvoke).toHaveBeenCalledWith('verifyEmail', {
         email: 'user@example.com',
-        otp: '123456',
+        skipUserInput: true,
       });
       expect(response.status_code).toBe(500);
       if (response.status_code === 500) {

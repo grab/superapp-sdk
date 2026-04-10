@@ -9,6 +9,7 @@ import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
 import { type GenericSchema, safeParse } from 'valibot';
 
 import { isErrorWithMessage } from '../utils/error';
+import { Logger } from '../utils/logger';
 import { detectGrabApp, GrabAppInfo } from '../utils/platform';
 import { formatIssues } from '../utils/schema';
 import { BridgeResponse, BridgeStream, InvokeOptions, Subscription, WrappedModule } from './types';
@@ -29,6 +30,13 @@ export class BaseModule {
   private readonly name: string;
 
   /**
+   * Logger scoped to this module (e.g. `[SuperAppSDK][ContainerModule.setTitle] ...`).
+   *
+   * @protected
+   */
+  protected readonly logger: Logger;
+
+  /**
    * Returns the wrapped JSBridge module from the global `window` object.
    *
    * @returns The wrapped module instance with native method bindings.
@@ -47,6 +55,7 @@ export class BaseModule {
    */
   constructor(moduleName: string) {
     this.name = moduleName;
+    this.logger = new Logger(moduleName);
 
     if (this.wrappedModule) {
       // Module is already initialized

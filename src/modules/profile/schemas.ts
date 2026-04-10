@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeOkSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link FetchEmailResult}.
@@ -22,7 +22,8 @@ export const FetchEmailResultSchema = v.object({ email: v.string() });
  * @public
  */
 export const FetchEmailResponseSchema = v.union([
-  bridgeSuccessSchema(FetchEmailResultSchema),
+  bridgeOkSchema(FetchEmailResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(403),
   bridgeErrorSchema(426),
@@ -36,9 +37,16 @@ export const FetchEmailResponseSchema = v.union([
  * @public
  */
 export const VerifyEmailRequestSchema = v.object({
-  email: v.pipe(v.string(), v.minLength(1)),
-  otp: v.pipe(v.string(), v.minLength(1)),
+  email: v.optional(v.pipe(v.string(), v.minLength(1))),
+  skipUserInput: v.optional(v.boolean()),
 });
+
+/**
+ * Valibot schema for {@link VerifyEmailResult}.
+ *
+ * @public
+ */
+export const VerifyEmailResultSchema = v.object({ email: v.string() });
 
 /**
  * Valibot schema for {@link VerifyEmailResponse}.
@@ -46,7 +54,8 @@ export const VerifyEmailRequestSchema = v.object({
  * @public
  */
 export const VerifyEmailResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeOkSchema(VerifyEmailResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(403),
   bridgeErrorSchema(426),

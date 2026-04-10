@@ -16,12 +16,12 @@ export {
   isServerError,
   isSuccess,
 } from './guards';
+export type { BridgeErrorStatusCode } from './schemas';
 export {
   bridgeErrorSchema,
   bridgeNoContentSchema,
   bridgeOkSchema,
   bridgeRedirectSchema,
-  bridgeSuccessSchema,
 } from './schemas';
 export type {
   BridgeResponse,

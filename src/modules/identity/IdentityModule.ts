@@ -437,7 +437,7 @@ export class IdentityModule extends BaseModule {
     })) as AuthorizeResponse;
 
     const responseError = this.validate(AuthorizeResponseSchema, response);
-    if (responseError) console.warn(`[SDK:authorize] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('authorize', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -568,7 +568,6 @@ export class IdentityModule extends BaseModule {
       // including server errors (500) and not implemented (501) when native is unavailable
       if (
         nativeResult.status_code === 400 ||
-        nativeResult.status_code === 401 ||
         nativeResult.status_code === 403 ||
         nativeResult.status_code === 500 ||
         nativeResult.status_code === 501

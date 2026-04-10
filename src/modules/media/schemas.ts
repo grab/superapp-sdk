@@ -7,24 +7,7 @@
 
 import * as v from 'valibot';
 
-import {
-  bridgeErrorSchema,
-  bridgeNoContentSchema,
-  bridgeOkSchema,
-  bridgeSuccessSchema,
-} from '../../core';
-
-/**
- * Valibot schema for {@link PlayDRMContentResponse}.
- *
- * @public
- */
-export const PlayDRMContentResponseSchema = v.union([
-  bridgeOkSchema,
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link DRMPlaybackEvent}.
@@ -32,15 +15,44 @@ export const PlayDRMContentResponseSchema = v.union([
  * @public
  */
 export const DRMPlaybackEventSchema = v.object({
-  eventType: v.picklist(['started', 'paused', 'ended', 'error']),
-  data: v.optional(v.record(v.string(), v.unknown())),
+  type: v.picklist([
+    'START_PLAYBACK',
+    'PROGRESS_PLAYBACK',
+    'START_SEEK',
+    'STOP_SEEK',
+    'STOP_PLAYBACK',
+    'CLOSE_PLAYBACK',
+    'PAUSE_PLAYBACK',
+    'RESUME_PLAYBACK',
+    'FAST_FORWARD_PLAYBACK',
+    'REWIND_PLAYBACK',
+    'ERROR_PLAYBACK',
+    'CHANGE_VOLUME',
+  ]),
+  titleId: v.string(),
+  position: v.number(),
+  length: v.number(),
 });
+
+/**
+ * Valibot schema for {@link PlayDRMContentResponse}.
+ *
+ * @public
+ */
+export const PlayDRMContentResponseSchema = v.union([
+  bridgeOkSchema(DRMPlaybackEventSchema),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 
 /**
  * @public
  */
 export const ObserveDRMPlaybackResponseSchema = v.union([
-  bridgeSuccessSchema(DRMPlaybackEventSchema),
+  bridgeOkSchema(DRMPlaybackEventSchema),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);

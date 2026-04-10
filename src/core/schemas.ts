@@ -8,12 +8,22 @@
 import * as v from 'valibot';
 
 /**
- * Schema builder for bridge error responses (4xx / 5xx).
+ * Allowed error status codes for bridge error responses.
+ * - Client errors: 400, 401, 403, 404, 424, 426
+ * - Server errors: 500, 501
+ *
+ * @internal
+ */
+export type BridgeErrorStatusCode = 400 | 401 | 403 | 404 | 424 | 426 | 500 | 501;
+
+/**
+ * Schema builder for bridge error responses.
+ * Only allows the SDK-defined error status codes: 400, 401, 403, 404, 424, 426, 500, 501.
  *
  * @returns A valibot object schema with `status_code` and `error` fields.
  * @internal
  */
-export const bridgeErrorSchema = <T extends number>(
+export const bridgeErrorSchema = <T extends BridgeErrorStatusCode>(
   code: T
 ): v.ObjectSchema<
   {
@@ -29,7 +39,7 @@ export const bridgeErrorSchema = <T extends number>(
  * @returns A valibot object schema with `status_code: 200` and a typed `result` field.
  * @internal
  */
-export const bridgeSuccessSchema = <T extends v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>>(
+export const bridgeOkSchema = <T extends v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>>(
   result: T
 ): v.ObjectSchema<
   {
@@ -45,13 +55,6 @@ export const bridgeSuccessSchema = <T extends v.BaseSchema<unknown, unknown, v.B
  * @internal
  */
 export const bridgeNoContentSchema = v.object({ status_code: v.literal(204) });
-
-/**
- * Schema for bridge 200 OK responses without a result payload.
- *
- * @internal
- */
-export const bridgeOkSchema = v.object({ status_code: v.literal(200) });
 
 /**
  * Schema for bridge 302 Redirect responses.

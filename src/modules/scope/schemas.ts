@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeOkSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link HasAccessToRequest}.
@@ -32,7 +32,7 @@ export const HasAccessToResultSchema = v.object({ hasAccess: v.boolean() });
  * @public
  */
 export const HasAccessToResponseSchema = v.union([
-  bridgeSuccessSchema(HasAccessToResultSchema),
+  bridgeOkSchema(HasAccessToResultSchema),
   bridgeErrorSchema(400),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),
@@ -45,7 +45,7 @@ export const HasAccessToResponseSchema = v.union([
  * @public
  */
 export const ReloadScopesResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeNoContentSchema,
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),

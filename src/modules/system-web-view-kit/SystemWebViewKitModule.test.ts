@@ -42,6 +42,7 @@ describe('SystemWebViewKitModule', () => {
 
       const mockResponse: RedirectToSystemWebViewResponse = {
         status_code: 200,
+        result: 'Success',
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -70,6 +71,7 @@ describe('SystemWebViewKitModule', () => {
 
       const mockResponse: RedirectToSystemWebViewResponse = {
         status_code: 200,
+        result: 'Success',
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);

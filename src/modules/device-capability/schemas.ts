@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link IsEsimSupportedResult}.
@@ -22,7 +22,7 @@ export const IsEsimSupportedResultSchema = v.boolean();
  * @public
  */
 export const IsEsimSupportedResponseSchema = v.union([
-  bridgeSuccessSchema(IsEsimSupportedResultSchema),
+  bridgeOkSchema(IsEsimSupportedResultSchema),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);

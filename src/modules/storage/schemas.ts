@@ -7,17 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
-
-/**
- * @internal
- */
-const storageErrorResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * @internal
@@ -29,7 +19,13 @@ const storageKeySchema = v.object({ key: v.pipe(v.string(), v.minLength(1)) });
  *
  * @public
  */
-export const SetBooleanResponseSchema = storageErrorResponseSchema;
+export const SetBooleanResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link GetBooleanRequest}.
  *
@@ -48,8 +44,9 @@ export const GetBooleanResultSchema = v.object({ value: v.nullable(v.boolean()) 
  * @public
  */
 export const GetBooleanResponseSchema = v.union([
-  bridgeSuccessSchema(GetBooleanResultSchema),
+  bridgeOkSchema(GetBooleanResultSchema),
   bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -59,7 +56,13 @@ export const GetBooleanResponseSchema = v.union([
  *
  * @public
  */
-export const SetIntResponseSchema = storageErrorResponseSchema;
+export const SetIntResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link GetIntRequest}.
  *
@@ -78,8 +81,9 @@ export const GetIntResultSchema = v.object({ value: v.nullable(v.number()) });
  * @public
  */
 export const GetIntResponseSchema = v.union([
-  bridgeSuccessSchema(GetIntResultSchema),
+  bridgeOkSchema(GetIntResultSchema),
   bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -89,7 +93,13 @@ export const GetIntResponseSchema = v.union([
  *
  * @public
  */
-export const SetStringResponseSchema = storageErrorResponseSchema;
+export const SetStringResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link GetStringRequest}.
  *
@@ -108,8 +118,9 @@ export const GetStringResultSchema = v.object({ value: v.nullable(v.string()) })
  * @public
  */
 export const GetStringResponseSchema = v.union([
-  bridgeSuccessSchema(GetStringResultSchema),
+  bridgeOkSchema(GetStringResultSchema),
   bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -119,7 +130,13 @@ export const GetStringResponseSchema = v.union([
  *
  * @public
  */
-export const SetDoubleResponseSchema = storageErrorResponseSchema;
+export const SetDoubleResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link GetDoubleRequest}.
  *
@@ -138,8 +155,9 @@ export const GetDoubleResultSchema = v.object({ value: v.nullable(v.number()) })
  * @public
  */
 export const GetDoubleResponseSchema = v.union([
-  bridgeSuccessSchema(GetDoubleResultSchema),
+  bridgeOkSchema(GetDoubleResultSchema),
   bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -153,7 +171,13 @@ export const RemoveRequestSchema = storageKeySchema;
  *
  * @public
  */
-export const RemoveResponseSchema = storageErrorResponseSchema;
+export const RemoveResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 
 /**
  * Valibot schema for {@link RemoveAllResponse}.
@@ -162,6 +186,7 @@ export const RemoveResponseSchema = storageErrorResponseSchema;
  */
 export const RemoveAllResponseSchema = v.union([
   bridgeNoContentSchema,
+  bridgeErrorSchema(424),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);

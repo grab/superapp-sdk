@@ -43,6 +43,7 @@ export type SetBooleanResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -88,6 +89,7 @@ export type GetBooleanResult = InferOutput<typeof GetBooleanResultSchema>;
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the boolean value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -110,6 +112,7 @@ export type SetIntResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -155,6 +158,7 @@ export type GetIntResult = InferOutput<typeof GetIntResultSchema>;
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the integer value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -177,6 +181,7 @@ export type SetStringResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -222,6 +227,7 @@ export type GetStringResult = InferOutput<typeof GetStringResultSchema>;
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the string value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -244,6 +250,7 @@ export type SetDoubleResult = void;
  * This response can have the following status codes:
  * - `204`: Value stored successfully.
  * - `400`: Missing required parameters - key or value not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -289,6 +296,7 @@ export type GetDoubleResult = InferOutput<typeof GetDoubleResultSchema>;
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the double value or null if not found.
  * - `400`: Missing required parameters - key not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -311,6 +319,7 @@ export type RemoveResult = void;
  * This response can have the following status codes:
  * - `204`: Value removed successfully.
  * - `400`: Missing required parameters - key not provided.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -332,6 +341,7 @@ export type RemoveAllResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `204`: All values removed successfully.
+ * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *

@@ -93,7 +93,7 @@ export class MediaModule extends BaseModule {
 
     const responseError = this.validate(PlayDRMContentResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:playDRMContent] Unexpected response shape: ${responseError}`);
+      this.logger.warn('playDRMContent', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
