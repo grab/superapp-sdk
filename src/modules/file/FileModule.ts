@@ -86,7 +86,7 @@ export class FileModule extends BaseModule {
 
     const responseError = this.validate(DownloadFileResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:downloadFile] Unexpected response shape: ${responseError}`);
+      this.logger.warn('downloadFile', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

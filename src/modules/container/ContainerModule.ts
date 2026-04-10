@@ -120,7 +120,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(SetBackgroundColorResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:setBackgroundColor] Unexpected response shape: ${responseError}`);
+      this.logger.warn('setBackgroundColor', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -162,7 +162,7 @@ export class ContainerModule extends BaseModule {
     })) as SetTitleResponse;
 
     const responseError = this.validate(SetTitleResponseSchema, response);
-    if (responseError) console.warn(`[SDK:setTitle] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('setTitle', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -202,7 +202,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(HideBackButtonResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:hideBackButton] Unexpected response shape: ${responseError}`);
+      this.logger.warn('hideBackButton', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -242,7 +242,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(ShowBackButtonResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:showBackButton] Unexpected response shape: ${responseError}`);
+      this.logger.warn('showBackButton', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -282,7 +282,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(HideRefreshButtonResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:hideRefreshButton] Unexpected response shape: ${responseError}`);
+      this.logger.warn('hideRefreshButton', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -322,7 +322,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(ShowRefreshButtonResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:showRefreshButton] Unexpected response shape: ${responseError}`);
+      this.logger.warn('showRefreshButton', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -361,7 +361,7 @@ export class ContainerModule extends BaseModule {
     })) as CloseResponse;
 
     const responseError = this.validate(CloseResponseSchema, response);
-    if (responseError) console.warn(`[SDK:close] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('close', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -401,7 +401,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(OnContentLoadedResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:onContentLoaded] Unexpected response shape: ${responseError}`);
+      this.logger.warn('onContentLoaded', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -443,7 +443,8 @@ export class ContainerModule extends BaseModule {
     })) as ShowLoaderResponse;
 
     const responseError = this.validate(ShowLoaderResponseSchema, response);
-    if (responseError) console.warn(`[SDK:showLoader] Unexpected response shape: ${responseError}`);
+    if (responseError)
+      this.logger.warn('showLoader', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -485,7 +486,8 @@ export class ContainerModule extends BaseModule {
     })) as HideLoaderResponse;
 
     const responseError = this.validate(HideLoaderResponseSchema, response);
-    if (responseError) console.warn(`[SDK:hideLoader] Unexpected response shape: ${responseError}`);
+    if (responseError)
+      this.logger.warn('hideLoader', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -531,7 +533,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(OpenExternalLinkResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:openExternalLink] Unexpected response shape: ${responseError}`);
+      this.logger.warn('openExternalLink', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -573,7 +575,7 @@ export class ContainerModule extends BaseModule {
     })) as OnCtaTapResponse;
 
     const responseError = this.validate(OnCtaTapResponseSchema, response);
-    if (responseError) console.warn(`[SDK:onCtaTap] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('onCtaTap', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -643,7 +645,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(SendAnalyticsEventResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:sendAnalyticsEvent] Unexpected response shape: ${responseError}`);
+      this.logger.warn('sendAnalyticsEvent', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -709,8 +711,12 @@ export class ContainerModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   const sessionParams = JSON.parse(response.result?.result || '{}');
-   *   console.log('Session params retrieved:', sessionParams);
+   *   if (response.status_code === 200) {
+   *     const sessionParams = JSON.parse(response.result);
+   *     console.log('Session params retrieved:', sessionParams);
+   *   } else if (response.status_code === 204) {
+   *     console.log('No session parameters found');
+   *   }
    * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
@@ -727,7 +733,7 @@ export class ContainerModule extends BaseModule {
 
     const responseError = this.validate(GetSessionParamsResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:getSessionParams] Unexpected response shape: ${responseError}`);
+      this.logger.warn('getSessionParams', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.31] - 2026-04-10
+
+### Added
+
+- `Logger` utility class for scoped logging (`[SuperAppSDK][ModuleName.method]`) across all SDK modules
+- `VerifyEmailResult` schema and type export for email verification responses
+
+### Changed
+
+- `ProfileModule.verifyEmail()` now accepts optional request parameters and returns the verified email in `result`
+- `VerifyEmailRequest` type updated to use `skipUserInput` instead of `otp` for native bottom sheet flow
+- `TriggerCheckoutResult` documentation improved with clearer status-to-field mapping
+- All modules migrated from direct `console.warn` to the new `Logger` utility for validation warnings
+- Core schemas refactored: consolidated error status code types under `BridgeErrorStatusCode`
+
+### Removed
+
+- `bridgeSuccessSchema` function (superseded by `bridgeOkSchema`)
+
 ## [2.0.0-beta.30] - 2026-04-07
 
 ### Changed

@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link GetCoordinateResult}.
@@ -22,7 +22,8 @@ export const GetCoordinateResultSchema = v.object({ lat: v.number(), lng: v.numb
  * @public
  */
 export const GetCoordinateResponseSchema = v.union([
-  bridgeSuccessSchema(GetCoordinateResultSchema),
+  bridgeOkSchema(GetCoordinateResultSchema),
+  bridgeErrorSchema(400), // TODO: not sure
   bridgeErrorSchema(403),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),
@@ -32,7 +33,14 @@ export const GetCoordinateResponseSchema = v.union([
 /**
  * @internal
  */
-export const ObserveLocationChangeResponseSchema = GetCoordinateResponseSchema;
+export const ObserveLocationChangeResponseSchema = v.union([
+  bridgeOkSchema(GetCoordinateResultSchema),
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(403),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 
 /**
  * Valibot schema for {@link GetCountryCodeResult}.
@@ -47,7 +55,8 @@ export const GetCountryCodeResultSchema = v.string();
  * @public
  */
 export const GetCountryCodeResponseSchema = v.union([
-  bridgeSuccessSchema(GetCountryCodeResultSchema),
+  bridgeOkSchema(GetCountryCodeResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(403),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),

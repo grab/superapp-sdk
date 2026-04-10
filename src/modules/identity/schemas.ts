@@ -10,8 +10,8 @@ import * as v from 'valibot';
 import {
   bridgeErrorSchema,
   bridgeNoContentSchema,
+  bridgeOkSchema,
   bridgeRedirectSchema,
-  bridgeSuccessSchema,
 } from '../../core';
 
 /**
@@ -40,11 +40,11 @@ export const AuthorizeResultSchema = v.object({ code: v.string(), state: v.strin
  * @public
  */
 export const AuthorizeResponseSchema = v.union([
-  bridgeSuccessSchema(AuthorizeResultSchema),
+  bridgeOkSchema(AuthorizeResultSchema),
   bridgeNoContentSchema,
   bridgeRedirectSchema,
   bridgeErrorSchema(400),
-  bridgeErrorSchema(401),
+  bridgeErrorSchema(401), // TODO: not sure
   bridgeErrorSchema(403),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
@@ -68,7 +68,7 @@ export const GetAuthorizationArtifactsResultSchema = v.object({
  * @public
  */
 export const GetAuthorizationArtifactsResponseSchema = v.union([
-  bridgeSuccessSchema(GetAuthorizationArtifactsResultSchema),
+  bridgeOkSchema(GetAuthorizationArtifactsResultSchema),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
 ]);
@@ -78,4 +78,4 @@ export const GetAuthorizationArtifactsResponseSchema = v.union([
  *
  * @public
  */
-export const ClearAuthorizationArtifactsResponseSchema = bridgeNoContentSchema;
+export const ClearAuthorizationArtifactsResponseSchema = v.union([bridgeNoContentSchema]);

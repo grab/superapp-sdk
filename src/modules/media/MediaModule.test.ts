@@ -44,6 +44,7 @@ describe('MediaModule', () => {
 
       const mockResponse: PlayDRMContentResponse = {
         status_code: 200,
+        result: { eventType: 'started' },
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -94,6 +95,7 @@ describe('MediaModule', () => {
 
       const mockResponse: PlayDRMContentResponse = {
         status_code: 200,
+        result: { eventType: 'started' },
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);

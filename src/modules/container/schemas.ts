@@ -7,12 +7,7 @@
 
 import * as v from 'valibot';
 
-import {
-  bridgeErrorSchema,
-  bridgeNoContentSchema,
-  bridgeOkSchema,
-  bridgeSuccessSchema,
-} from '../../core';
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link SetBackgroundColorResponse}.
@@ -20,6 +15,7 @@ import {
  * @public
  */
 export const SetBackgroundColorResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
@@ -32,7 +28,8 @@ export const SetBackgroundColorResponseSchema = v.union([
  * @public
  */
 export const SetTitleResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
@@ -44,7 +41,8 @@ export const SetTitleResponseSchema = v.union([
  * @public
  */
 export const HideBackButtonResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -54,43 +52,78 @@ export const HideBackButtonResponseSchema = v.union([
  *
  * @public
  */
-export const ShowBackButtonResponseSchema = HideBackButtonResponseSchema;
+export const ShowBackButtonResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link HideRefreshButtonResponse}.
  *
  * @public
  */
-export const HideRefreshButtonResponseSchema = HideBackButtonResponseSchema;
+export const HideRefreshButtonResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link ShowRefreshButtonResponse}.
  *
  * @public
  */
-export const ShowRefreshButtonResponseSchema = HideBackButtonResponseSchema;
+export const ShowRefreshButtonResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link CloseResponse}.
  *
  * @public
  */
-export const CloseResponseSchema = HideBackButtonResponseSchema;
+export const CloseResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link OnContentLoadedResponse}.
  *
  * @public
  */
-export const OnContentLoadedResponseSchema = HideBackButtonResponseSchema;
+export const OnContentLoadedResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link ShowLoaderResponse}.
  *
  * @public
  */
-export const ShowLoaderResponseSchema = HideBackButtonResponseSchema;
+export const ShowLoaderResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 /**
  * Valibot schema for {@link HideLoaderResponse}.
  *
  * @public
  */
-export const HideLoaderResponseSchema = HideBackButtonResponseSchema;
+export const HideLoaderResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 
 /**
  * Valibot schema for {@link OpenExternalLinkResponse}.
@@ -98,7 +131,8 @@ export const HideLoaderResponseSchema = HideBackButtonResponseSchema;
  * @public
  */
 export const OpenExternalLinkResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeOkSchema(v.boolean()), // TODO
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
@@ -110,7 +144,7 @@ export const OpenExternalLinkResponseSchema = v.union([
  * @public
  */
 export const OnCtaTapResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeOkSchema(v.boolean()),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -132,7 +166,8 @@ export const SendAnalyticsEventRequestSchema = v.object({
  * @public
  */
 export const SendAnalyticsEventResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
@@ -151,7 +186,7 @@ export const IsConnectedResultSchema = v.object({ connected: v.boolean() });
  * @public
  */
 export const IsConnectedResponseSchema = v.union([
-  bridgeSuccessSchema(IsConnectedResultSchema),
+  bridgeOkSchema(IsConnectedResultSchema),
   bridgeErrorSchema(404),
 ]);
 
@@ -160,7 +195,7 @@ export const IsConnectedResponseSchema = v.union([
  *
  * @public
  */
-export const GetSessionParamsResultSchema = v.object({ result: v.string() });
+export const GetSessionParamsResultSchema = v.string();
 
 /**
  * Valibot schema for {@link GetSessionParamsResponse}.
@@ -168,7 +203,8 @@ export const GetSessionParamsResultSchema = v.object({ result: v.string() });
  * @public
  */
 export const GetSessionParamsResponseSchema = v.union([
-  bridgeSuccessSchema(GetSessionParamsResultSchema),
+  bridgeOkSchema(GetSessionParamsResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);

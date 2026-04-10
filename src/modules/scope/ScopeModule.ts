@@ -89,7 +89,7 @@ export class ScopeModule extends BaseModule {
 
     const responseError = this.validate(HasAccessToResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:hasAccessTo] Unexpected response shape: ${responseError}`);
+      this.logger.warn('hasAccessTo', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -130,7 +130,7 @@ export class ScopeModule extends BaseModule {
 
     const responseError = this.validate(ReloadScopesResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:reloadScopes] Unexpected response shape: ${responseError}`);
+      this.logger.warn('reloadScopes', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

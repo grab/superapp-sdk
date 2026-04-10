@@ -108,7 +108,8 @@ export class StorageModule extends BaseModule {
     })) as SetBooleanResponse;
 
     const responseError = this.validate(SetBooleanResponseSchema, response);
-    if (responseError) console.warn(`[SDK:setBoolean] Unexpected response shape: ${responseError}`);
+    if (responseError)
+      this.logger.warn('setBoolean', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -154,7 +155,8 @@ export class StorageModule extends BaseModule {
     })) as GetBooleanResponse;
 
     const responseError = this.validate(GetBooleanResponseSchema, response);
-    if (responseError) console.warn(`[SDK:getBoolean] Unexpected response shape: ${responseError}`);
+    if (responseError)
+      this.logger.warn('getBoolean', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -197,7 +199,7 @@ export class StorageModule extends BaseModule {
     })) as SetIntResponse;
 
     const responseError = this.validate(SetIntResponseSchema, response);
-    if (responseError) console.warn(`[SDK:setInt] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('setInt', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -243,7 +245,7 @@ export class StorageModule extends BaseModule {
     })) as GetIntResponse;
 
     const responseError = this.validate(GetIntResponseSchema, response);
-    if (responseError) console.warn(`[SDK:getInt] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('getInt', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -286,7 +288,7 @@ export class StorageModule extends BaseModule {
     })) as SetStringResponse;
 
     const responseError = this.validate(SetStringResponseSchema, response);
-    if (responseError) console.warn(`[SDK:setString] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('setString', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -332,7 +334,7 @@ export class StorageModule extends BaseModule {
     })) as GetStringResponse;
 
     const responseError = this.validate(GetStringResponseSchema, response);
-    if (responseError) console.warn(`[SDK:getString] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('getString', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -375,7 +377,7 @@ export class StorageModule extends BaseModule {
     })) as SetDoubleResponse;
 
     const responseError = this.validate(SetDoubleResponseSchema, response);
-    if (responseError) console.warn(`[SDK:setDouble] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('setDouble', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -421,7 +423,7 @@ export class StorageModule extends BaseModule {
     })) as GetDoubleResponse;
 
     const responseError = this.validate(GetDoubleResponseSchema, response);
-    if (responseError) console.warn(`[SDK:getDouble] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('getDouble', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -467,7 +469,7 @@ export class StorageModule extends BaseModule {
     })) as RemoveResponse;
 
     const responseError = this.validate(RemoveResponseSchema, response);
-    if (responseError) console.warn(`[SDK:remove] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('remove', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -506,7 +508,7 @@ export class StorageModule extends BaseModule {
     })) as RemoveAllResponse;
 
     const responseError = this.validate(RemoveAllResponseSchema, response);
-    if (responseError) console.warn(`[SDK:removeAll] Unexpected response shape: ${responseError}`);
+    if (responseError) this.logger.warn('removeAll', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

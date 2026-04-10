@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link TriggerCheckoutRequest}.
@@ -24,12 +24,25 @@ export const TriggerCheckoutRequestSchema = v.record(v.string(), v.unknown());
  *
  * @public
  */
-export const TriggerCheckoutResultSchema = v.object({
-  transactionID: v.string(),
-  status: v.picklist(['success', 'failure', 'pending', 'userInitiatedCancel']),
-  errorMessage: v.optional(v.string()),
-  errorCode: v.optional(v.string()),
-});
+export const TriggerCheckoutResultSchema = v.variant('status', [
+  v.object({
+    status: v.literal('success'),
+    transactionID: v.string(),
+  }),
+  v.object({
+    status: v.literal('failure'),
+    transactionID: v.string(),
+    errorMessage: v.string(),
+    errorCode: v.string(),
+  }),
+  v.object({
+    status: v.literal('pending'),
+    transactionID: v.string(),
+  }),
+  v.object({
+    status: v.literal('userInitiatedCancel'),
+  }),
+]);
 
 /**
  * Valibot schema for {@link TriggerCheckoutResponse}.
@@ -37,7 +50,7 @@ export const TriggerCheckoutResultSchema = v.object({
  * @public
  */
 export const TriggerCheckoutResponseSchema = v.union([
-  bridgeSuccessSchema(TriggerCheckoutResultSchema),
+  bridgeOkSchema(TriggerCheckoutResultSchema),
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),

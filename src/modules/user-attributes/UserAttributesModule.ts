@@ -84,8 +84,9 @@ export class UserAttributesModule extends BaseModule {
 
     const responseError = this.validate(GetSelectedTravelDestinationResponseSchema, response);
     if (responseError)
-      console.warn(
-        `[SDK:getSelectedTravelDestination] Unexpected response shape: ${responseError}`
+      this.logger.warn(
+        'getSelectedTravelDestination',
+        `Unexpected response shape: ${responseError}`
       );
 
     return response;

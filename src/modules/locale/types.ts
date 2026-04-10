@@ -51,6 +51,8 @@ export type GetLanguageLocaleIdentifierResult = InferOutput<
  * @remarks
  * This response can have the following status codes:
  * - `200`: Locale identifier retrieved successfully.
+ * - `204`: No content - locale identifier not available.
+ * - `400`: Invalid request parameters.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *

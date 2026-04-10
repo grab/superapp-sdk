@@ -203,6 +203,7 @@ describe('ScopeModule', () => {
 
       const mockResponse: ReloadScopesResponse = {
         status_code: 200,
+        result: {},
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -225,6 +226,7 @@ describe('ScopeModule', () => {
 
       const mockResponse: ReloadScopesResponse = {
         status_code: 200,
+        result: {},
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);

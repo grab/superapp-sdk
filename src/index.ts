@@ -185,6 +185,7 @@ export {
   FetchEmailResultSchema,
   VerifyEmailRequestSchema,
   VerifyEmailResponseSchema,
+  VerifyEmailResultSchema,
 } from './modules/profile/schemas';
 export type {
   FetchEmailResponse,
@@ -275,5 +276,6 @@ export type {
   GetSelectedTravelDestinationResult,
 } from './modules/user-attributes/types';
 export { UserAttributesModule } from './modules/user-attributes/UserAttributesModule';
+export { Logger } from './utils/logger';
 export type { GrabAppInfo, Platform } from './utils/platform';
 export type { Version } from './utils/version';

@@ -77,7 +77,10 @@ export class LocaleModule extends BaseModule {
 
     const responseError = this.validate(GetLanguageLocaleIdentifierResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:getLanguageLocaleIdentifier] Unexpected response shape: ${responseError}`);
+      this.logger.warn(
+        'getLanguageLocaleIdentifier',
+        `Unexpected response shape: ${responseError}`
+      );
 
     return response;
   }
