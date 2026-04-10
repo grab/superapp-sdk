@@ -24,7 +24,7 @@ export const RedirectToSystemWebViewRequestSchema = v.object({
  * @public
  */
 export const RedirectToSystemWebViewResponseSchema = v.union([
-  bridgeOkSchema,
+  bridgeOkSchema(v.string()),
   bridgeErrorSchema(400),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),

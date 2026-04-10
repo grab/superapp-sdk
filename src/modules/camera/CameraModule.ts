@@ -85,7 +85,7 @@ export class CameraModule extends BaseModule {
    * ```
    * @public
    */
-  async scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse> {
+  async scanQRCode(request: ScanQRCodeRequest = {}): Promise<ScanQRCodeResponse> {
     const requestError = this.validate(ScanQRCodeRequestSchema, request);
     if (requestError) return { status_code: 400, error: requestError };
 
@@ -95,7 +95,8 @@ export class CameraModule extends BaseModule {
     })) as ScanQRCodeResponse;
 
     const responseError = this.validate(ScanQRCodeResponseSchema, response);
-    if (responseError) console.warn(`[SDK:scanQRCode] Unexpected response shape: ${responseError}`);
+    if (responseError)
+      this.logger.warn('scanQRCode', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

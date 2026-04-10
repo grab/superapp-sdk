@@ -110,7 +110,7 @@ export class CheckoutModule extends BaseModule {
 
     const responseError = this.validate(TriggerCheckoutResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:triggerCheckout] Unexpected response shape: ${responseError}`);
+      this.logger.warn('triggerCheckout', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

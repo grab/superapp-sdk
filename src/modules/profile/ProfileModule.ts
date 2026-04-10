@@ -101,39 +101,47 @@ export class ProfileModule extends BaseModule {
     const response = (await this.invoke({ method: 'fetchEmail' })) as FetchEmailResponse;
 
     const responseError = this.validate(FetchEmailResponseSchema, response);
-    if (responseError) console.warn(`[SDK:fetchEmail] Unexpected response shape: ${responseError}`);
+    if (responseError)
+      this.logger.warn('fetchEmail', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
 
   /**
-   * Verifies the user's email address using a one-time password (OTP).
+   * Verifies the user's email address by triggering email capture bottom sheet and OTP verification.
    *
    * @remarks
    * This method requires Grab app version 5.399 or above. If called on an older version,
    * it will return a 426 (Upgrade Required) response.
    *
-   * @param request - The email and OTP to verify. See {@link VerifyEmailRequest}.
+   * If the user closes the verify OTP bottom sheet, the method will return a `status_code` of `204`.
+   * Successful verification will also update the email address for the user on Grab.
+   *
+   * @param request - Optional request parameters for email verification. See {@link VerifyEmailRequest}.
    *
    * @returns Confirmation of whether the email verification was successful. See {@link VerifyEmailResponse}.
    *
    * @example
-   * **Simple usage**
+   * **Simple usage with email provided**
    * ```typescript
    * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the profile module
    * const profile = new ProfileModule();
    *
-   * // Verify email with OTP
+   * // Verify email with pre-filled email address
    * const response = await profile.verifyEmail({
    *   email: 'user@example.com',
-   *   otp: '123456'
+   *   skipUserInput: true
    * });
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Email verified successfully');
+   *   if (response.status_code === 200) {
+   *     console.log('Verified email:', response.result.email);
+   *   } else if (response.status_code === 204) {
+   *     console.log('User closed the bottom sheet');
+   *   }
    * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
@@ -152,15 +160,26 @@ export class ProfileModule extends BaseModule {
    * }
    * ```
    *
+   * @example
+   * **Usage without parameters**
+   * ```typescript
+   * import { ProfileModule } from '@grabjs/superapp-sdk';
+   *
+   * const profile = new ProfileModule();
+   *
+   * // Let user enter email in the native bottom sheet
+   * const response = await profile.verifyEmail();
+   * ```
+   *
    * @public
    */
-  async verifyEmail(request: VerifyEmailRequest): Promise<VerifyEmailResponse> {
+  async verifyEmail(request?: VerifyEmailRequest): Promise<VerifyEmailResponse> {
     const supportError = this.checkSupport((appInfo) =>
       meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION)
     );
     if (supportError) return supportError;
 
-    const requestError = this.validate(VerifyEmailRequestSchema, request);
+    const requestError = this.validate(VerifyEmailRequestSchema, request ?? {});
     if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
@@ -170,7 +189,7 @@ export class ProfileModule extends BaseModule {
 
     const responseError = this.validate(VerifyEmailResponseSchema, response);
     if (responseError)
-      console.warn(`[SDK:verifyEmail] Unexpected response shape: ${responseError}`);
+      this.logger.warn('verifyEmail', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

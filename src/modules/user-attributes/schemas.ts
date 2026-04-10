@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeSuccessSchema } from '../../core';
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResult}.
@@ -22,7 +22,7 @@ export const GetSelectedTravelDestinationResultSchema = v.string();
  * @public
  */
 export const GetSelectedTravelDestinationResponseSchema = v.union([
-  bridgeSuccessSchema(GetSelectedTravelDestinationResultSchema),
+  bridgeOkSchema(GetSelectedTravelDestinationResultSchema),
   bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),

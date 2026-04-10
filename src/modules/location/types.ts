@@ -79,6 +79,7 @@ export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema
  * @remarks
  * This response can have the following status codes:
  * - `200`: Country code retrieved successfully. The `result` is the ISO country code string.
+ * - `204`: No content - country code not available.
  * - `403`: Forbidden - client not authorized to access location data.
  * - `424`: GeoKit/Resolver error - location services unavailable.
  * - `500`: Internal server error - an unexpected error occurred on the native side.

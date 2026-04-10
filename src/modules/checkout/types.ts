@@ -41,8 +41,10 @@ export type TriggerCheckoutRequest = InferOutput<typeof TriggerCheckoutRequestSc
  * Result object containing the checkout transaction details.
  *
  * @remarks
- * `errorCode` and `errorMessage` are only present when `status` is `'failure'`.
- * When the user cancels or closes the checkout, `status` will be `'userInitiatedCancel'` and neither field will be set.
+ * - `status: 'success'` → `transactionID`
+ * - `status: 'failure'` → `transactionID`, `errorMessage`, `errorCode`
+ * - `status: 'pending'` → `transactionID`
+ * - `status: 'userInitiatedCancel'` → only `status`
  *
  * @example
  * **Successful transaction:**
@@ -74,10 +76,9 @@ export type TriggerCheckoutRequest = InferOutput<typeof TriggerCheckoutRequestSc
  * ```
  *
  * @example
- * **User cancelled or closed checkout (errorCode will not be present):**
+ * **User cancelled or closed checkout:**
  * ```typescript
  * {
- *   transactionID: 'grab-txn-abc123',
  *   status: 'userInitiatedCancel'
  * }
  * ```

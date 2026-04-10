@@ -72,7 +72,6 @@ export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
  * - `204`: No content - user cancelled or flow completed without result data.
  * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
  * - `400`: Bad request - missing required OAuth parameters or invalid configuration.
- * - `401`: Unauthorized - user not authenticated or session expired.
  * - `403`: Forbidden - client not authorized for the requested scope.
  * - `500`: Internal server error - unexpected error during native authorization.
  * - `501`: Not implemented - this method requires the Grab app environment.

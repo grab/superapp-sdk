@@ -88,6 +88,7 @@ export type SetTitleResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Title set successfully.
+ * - `204`: Title set successfully.
  * - `400`: Invalid title parameter.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
@@ -110,6 +111,7 @@ export type HideBackButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Back button hidden successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -131,6 +133,7 @@ export type ShowBackButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Back button shown successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -152,6 +155,7 @@ export type HideRefreshButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Refresh button hidden successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -173,6 +177,7 @@ export type ShowRefreshButtonResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Refresh button shown successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -194,6 +199,7 @@ export type CloseResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Container closed successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -215,6 +221,7 @@ export type OnContentLoadedResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Notification sent successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -236,6 +243,7 @@ export type ShowLoaderResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Loader shown successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
@@ -257,6 +265,7 @@ export type HideLoaderResult = void;
  * @remarks
  * This response can have the following status codes:
  * - `200`: Loader hidden successfully.
+ * - `204`: Operation completed successfully (no content).
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *

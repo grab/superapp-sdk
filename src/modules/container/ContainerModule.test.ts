@@ -122,6 +122,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: SetTitleResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -189,6 +190,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: HideBackButtonResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -230,6 +232,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: ShowBackButtonResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -271,6 +274,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: HideRefreshButtonResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -312,6 +316,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: ShowRefreshButtonResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -353,6 +358,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: CloseResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -394,6 +400,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: OnContentLoadedResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -435,6 +442,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: ShowLoaderResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -476,6 +484,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: HideLoaderResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -517,6 +526,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: OpenExternalLinkResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -584,6 +594,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: OnCtaTapResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -628,6 +639,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: SendAnalyticsEventResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -658,6 +670,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: SendAnalyticsEventResponse = {
         status_code: 200,
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -793,7 +806,7 @@ describe('ContainerModule', () => {
 
       const mockResponse: GetSessionParamsResponse = {
         status_code: 200,
-        result: { result: '{"userId": "123", "sessionToken": "abc"}' },
+        result: '{"userId": "123", "sessionToken": "abc"}',
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -809,7 +822,7 @@ describe('ContainerModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getSessionParams', undefined);
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.result).toBe('{"userId": "123", "sessionToken": "abc"}');
+        expect(response.result).toBe('{"userId": "123", "sessionToken": "abc"}');
       }
     });
   });
