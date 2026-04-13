@@ -5,8 +5,15 @@
  * directory of this source tree.
  */
 
+export {
+  HasAccessToRequestSchema,
+  HasAccessToResponseSchema,
+  HasAccessToResultSchema,
+  ReloadScopesResponseSchema,
+} from './schemas';
 export { ScopeModule } from './ScopeModule';
 export type {
+  HasAccessToRequest,
   HasAccessToResponse,
   HasAccessToResult,
   ReloadScopesResponse,

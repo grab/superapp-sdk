@@ -24,258 +24,235 @@ export {
   isSuccess,
 } from './core';
 export { BaseModule } from './core';
-export { CameraModule } from './modules/camera/CameraModule';
 export {
-  ScanQRCodeRequestSchema,
-  ScanQRCodeResponseSchema,
-  ScanQRCodeResultSchema,
-} from './modules/camera/schemas';
-export type {
+  CameraModule,
   ScanQRCodeRequest,
+  ScanQRCodeRequestSchema,
   ScanQRCodeResponse,
+  ScanQRCodeResponseSchema,
   ScanQRCodeResult,
-} from './modules/camera/types';
-export { CheckoutModule } from './modules/checkout/CheckoutModule';
+  ScanQRCodeResultSchema,
+} from './modules/camera';
 export {
-  TriggerCheckoutRequestSchema,
-  TriggerCheckoutResponseSchema,
-  TriggerCheckoutResultSchema,
-} from './modules/checkout/schemas';
-export type {
+  CheckoutModule,
   TriggerCheckoutRequest,
+  TriggerCheckoutRequestSchema,
   TriggerCheckoutResponse,
+  TriggerCheckoutResponseSchema,
   TriggerCheckoutResult,
-} from './modules/checkout/types';
+  TriggerCheckoutResultSchema,
+} from './modules/checkout';
 export {
+  CloseResponse,
+  CloseResponseSchema,
+  CloseResult,
   ContainerAnalyticsEventData,
   ContainerAnalyticsEventName,
   ContainerAnalyticsEventState,
-} from './modules/container/constants';
-export { ContainerModule } from './modules/container/ContainerModule';
-export {
-  CloseResponseSchema,
-  GetSessionParamsResponseSchema,
-  GetSessionParamsResultSchema,
-  HideBackButtonResponseSchema,
-  HideLoaderResponseSchema,
-  HideRefreshButtonResponseSchema,
-  IsConnectedResponseSchema,
-  IsConnectedResultSchema,
-  OnContentLoadedResponseSchema,
-  OnCtaTapResponseSchema,
-  OpenExternalLinkResponseSchema,
-  SendAnalyticsEventRequestSchema,
-  SendAnalyticsEventResponseSchema,
-  SetBackgroundColorResponseSchema,
-  SetTitleResponseSchema,
-  ShowBackButtonResponseSchema,
-  ShowLoaderResponseSchema,
-  ShowRefreshButtonResponseSchema,
-} from './modules/container/schemas';
-export type {
-  CloseResponse,
-  CloseResult,
+  ContainerModule,
   GetSessionParamsResponse,
+  GetSessionParamsResponseSchema,
   GetSessionParamsResult,
+  GetSessionParamsResultSchema,
   HideBackButtonResponse,
+  HideBackButtonResponseSchema,
   HideBackButtonResult,
   HideLoaderResponse,
+  HideLoaderResponseSchema,
   HideLoaderResult,
   HideRefreshButtonResponse,
+  HideRefreshButtonResponseSchema,
   HideRefreshButtonResult,
   IsConnectedResponse,
+  IsConnectedResponseSchema,
   IsConnectedResult,
+  IsConnectedResultSchema,
   OnContentLoadedResponse,
+  OnContentLoadedResponseSchema,
   OnContentLoadedResult,
   OnCtaTapRequest,
   OnCtaTapResponse,
+  OnCtaTapResponseSchema,
   OnCtaTapResult,
   OpenExternalLinkRequest,
   OpenExternalLinkResponse,
+  OpenExternalLinkResponseSchema,
   OpenExternalLinkResult,
   SendAnalyticsEventRequest,
+  SendAnalyticsEventRequestSchema,
   SendAnalyticsEventResponse,
+  SendAnalyticsEventResponseSchema,
   SendAnalyticsEventResult,
   SetBackgroundColorRequest,
   SetBackgroundColorResponse,
+  SetBackgroundColorResponseSchema,
   SetBackgroundColorResult,
   SetTitleRequest,
   SetTitleResponse,
+  SetTitleResponseSchema,
   SetTitleResult,
   ShowBackButtonResponse,
+  ShowBackButtonResponseSchema,
   ShowBackButtonResult,
   ShowLoaderResponse,
+  ShowLoaderResponseSchema,
   ShowLoaderResult,
   ShowRefreshButtonResponse,
+  ShowRefreshButtonResponseSchema,
   ShowRefreshButtonResult,
-} from './modules/container/types';
-export { DeviceCapabilityModule } from './modules/device-capability/DeviceCapabilityModule';
+} from './modules/container';
 export {
-  IsEsimSupportedResponseSchema,
-  IsEsimSupportedResultSchema,
-} from './modules/device-capability/schemas';
-export type {
+  DeviceCapabilityModule,
   IsEsimSupportedResponse,
+  IsEsimSupportedResponseSchema,
   IsEsimSupportedResult,
-} from './modules/device-capability/types';
-export { FileModule } from './modules/file/FileModule';
-export { DownloadFileRequestSchema, DownloadFileResponseSchema } from './modules/file/schemas';
-export type {
-  DownloadFileRequest,
-  DownloadFileResponse,
-  DownloadFileResult,
-} from './modules/file/types';
-export { IdentityModule } from './modules/identity/IdentityModule';
+  IsEsimSupportedResultSchema,
+} from './modules/device-capability';
 export {
-  AuthorizeRequestSchema,
-  AuthorizeResponseSchema,
-  AuthorizeResultSchema,
-  ClearAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResultSchema,
-} from './modules/identity/schemas';
-export type {
+  DownloadFileRequest,
+  DownloadFileRequestSchema,
+  DownloadFileResponse,
+  DownloadFileResponseSchema,
+  DownloadFileResult,
+  FileModule,
+} from './modules/file';
+export {
   AuthorizeRequest,
+  AuthorizeRequestSchema,
   AuthorizeResponse,
+  AuthorizeResponseSchema,
   AuthorizeResult,
+  AuthorizeResultSchema,
   ClearAuthorizationArtifactsResponse,
+  ClearAuthorizationArtifactsResponseSchema,
   ClearAuthorizationArtifactsResult,
   GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResponseSchema,
   GetAuthorizationArtifactsResult,
-} from './modules/identity/types';
-export { LocaleModule } from './modules/locale/LocaleModule';
+  GetAuthorizationArtifactsResultSchema,
+  IdentityModule,
+} from './modules/identity';
 export {
-  GetLanguageLocaleIdentifierResponseSchema,
-  GetLanguageLocaleIdentifierResultSchema,
-} from './modules/locale/schemas';
-export type {
   GetLanguageLocaleIdentifierResponse,
+  GetLanguageLocaleIdentifierResponseSchema,
   GetLanguageLocaleIdentifierResult,
-} from './modules/locale/types';
-export { LocationModule } from './modules/location/LocationModule';
+  GetLanguageLocaleIdentifierResultSchema,
+  LocaleModule,
+} from './modules/locale';
 export {
-  GetCoordinateResponseSchema,
-  GetCoordinateResultSchema,
-  GetCountryCodeResponseSchema,
-  GetCountryCodeResultSchema,
-} from './modules/location/schemas';
-export type {
   GetCoordinateResponse,
+  GetCoordinateResponseSchema,
   GetCoordinateResult,
+  GetCoordinateResultSchema,
   GetCountryCodeResponse,
+  GetCountryCodeResponseSchema,
   GetCountryCodeResult,
+  GetCountryCodeResultSchema,
+  LocationModule,
   ObserveLocationChangeResponse,
-} from './modules/location/types';
-export { MediaModule } from './modules/media/MediaModule';
-export { DRMPlaybackEventSchema, PlayDRMContentResponseSchema } from './modules/media/schemas';
-export { ObserveDRMPlaybackResponseSchema } from './modules/media/schemas';
-export type {
+} from './modules/location';
+export {
   DRMContentConfig,
   DRMPlaybackEvent,
+  DRMPlaybackEventSchema,
+  MediaModule,
   ObserveDRMPlaybackResponse,
+  ObserveDRMPlaybackResponseSchema,
   PlayDRMContentResponse,
+  PlayDRMContentResponseSchema,
   PlayDRMContentResult,
-} from './modules/media/types';
-export { PlatformModule } from './modules/platform/PlatformModule';
-export { BackResponseSchema } from './modules/platform/schemas';
-export type { BackResponse, BackResult } from './modules/platform/types';
-export { ProfileModule } from './modules/profile/ProfileModule';
+} from './modules/media';
+export { BackResponse, BackResponseSchema, BackResult, PlatformModule } from './modules/platform';
 export {
-  FetchEmailResponseSchema,
-  FetchEmailResultSchema,
-  VerifyEmailRequestSchema,
-  VerifyEmailResponseSchema,
-  VerifyEmailResultSchema,
-} from './modules/profile/schemas';
-export type {
   FetchEmailResponse,
+  FetchEmailResponseSchema,
   FetchEmailResult,
+  FetchEmailResultSchema,
+  ProfileModule,
   VerifyEmailRequest,
+  VerifyEmailRequestSchema,
   VerifyEmailResponse,
+  VerifyEmailResponseSchema,
   VerifyEmailResult,
-} from './modules/profile/types';
+  VerifyEmailResultSchema,
+} from './modules/profile';
 export {
-  HasAccessToRequestSchema,
-  HasAccessToResponseSchema,
-  HasAccessToResultSchema,
-  ReloadScopesResponseSchema,
-} from './modules/scope/schemas';
-export { ScopeModule } from './modules/scope/ScopeModule';
-export type {
   HasAccessToRequest,
+  HasAccessToRequestSchema,
   HasAccessToResponse,
+  HasAccessToResponseSchema,
   HasAccessToResult,
+  HasAccessToResultSchema,
   ReloadScopesResponse,
+  ReloadScopesResponseSchema,
   ReloadScopesResult,
-} from './modules/scope/types';
-export { DismissSplashScreenResponseSchema, SplashScreenModule } from './modules/splash-screen';
-export type { DismissSplashScreenResponse } from './modules/splash-screen/types';
+  ScopeModule,
+} from './modules/scope';
 export {
-  GetBooleanRequestSchema,
-  GetBooleanResponseSchema,
-  GetBooleanResultSchema,
-  GetDoubleRequestSchema,
-  GetDoubleResponseSchema,
-  GetDoubleResultSchema,
-  GetIntRequestSchema,
-  GetIntResponseSchema,
-  GetIntResultSchema,
-  GetStringRequestSchema,
-  GetStringResponseSchema,
-  GetStringResultSchema,
-  RemoveAllResponseSchema,
-  RemoveResponseSchema,
-  SetBooleanResponseSchema,
-  SetDoubleResponseSchema,
-  SetIntResponseSchema,
-  SetStringResponseSchema,
-} from './modules/storage/schemas';
-export { StorageModule } from './modules/storage/StorageModule';
-export type {
+  DismissSplashScreenResponse,
+  DismissSplashScreenResponseSchema,
+  SplashScreenModule,
+} from './modules/splash-screen';
+export {
   GetBooleanRequest,
+  GetBooleanRequestSchema,
   GetBooleanResponse,
+  GetBooleanResponseSchema,
   GetBooleanResult,
+  GetBooleanResultSchema,
   GetDoubleRequest,
+  GetDoubleRequestSchema,
   GetDoubleResponse,
+  GetDoubleResponseSchema,
   GetDoubleResult,
+  GetDoubleResultSchema,
   GetIntRequest,
+  GetIntRequestSchema,
   GetIntResponse,
+  GetIntResponseSchema,
   GetIntResult,
+  GetIntResultSchema,
   GetStringRequest,
+  GetStringRequestSchema,
   GetStringResponse,
+  GetStringResponseSchema,
   GetStringResult,
+  GetStringResultSchema,
   RemoveAllResponse,
+  RemoveAllResponseSchema,
   RemoveAllResult,
   RemoveResponse,
+  RemoveResponseSchema,
   RemoveResult,
   SetBooleanResponse,
+  SetBooleanResponseSchema,
   SetBooleanResult,
   SetDoubleResponse,
+  SetDoubleResponseSchema,
   SetDoubleResult,
   SetIntResponse,
+  SetIntResponseSchema,
   SetIntResult,
   SetStringResponse,
+  SetStringResponseSchema,
   SetStringResult,
-} from './modules/storage/types';
+  StorageModule,
+} from './modules/storage';
 export {
-  RedirectToSystemWebViewRequestSchema,
-  RedirectToSystemWebViewResponseSchema,
-} from './modules/system-web-view-kit/schemas';
-export { SystemWebViewKitModule } from './modules/system-web-view-kit/SystemWebViewKitModule';
-export type {
   RedirectToSystemWebViewRequest,
+  RedirectToSystemWebViewRequestSchema,
   RedirectToSystemWebViewResponse,
+  RedirectToSystemWebViewResponseSchema,
   RedirectToSystemWebViewResult,
-} from './modules/system-web-view-kit/types';
+  SystemWebViewKitModule,
+} from './modules/system-web-view-kit';
 export {
-  GetSelectedTravelDestinationResponseSchema,
-  GetSelectedTravelDestinationResultSchema,
-} from './modules/user-attributes/schemas';
-export type {
   GetSelectedTravelDestinationResponse,
+  GetSelectedTravelDestinationResponseSchema,
   GetSelectedTravelDestinationResult,
-} from './modules/user-attributes/types';
-export { UserAttributesModule } from './modules/user-attributes/UserAttributesModule';
+  GetSelectedTravelDestinationResultSchema,
+  UserAttributesModule,
+} from './modules/user-attributes';
 export { Logger } from './utils/logger';
 export type { GrabAppInfo, Platform } from './utils/platform';
 export type { Version } from './utils/version';

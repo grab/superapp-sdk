@@ -6,6 +6,13 @@
  */
 
 export { LocationModule } from './LocationModule';
+export {
+  GetCoordinateResponseSchema,
+  GetCoordinateResultSchema,
+  GetCountryCodeResponseSchema,
+  GetCountryCodeResultSchema,
+  ObserveLocationChangeResponseSchema,
+} from './schemas';
 export type {
   GetCoordinateResponse,
   GetCoordinateResult,
