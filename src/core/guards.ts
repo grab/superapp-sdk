@@ -163,5 +163,5 @@ export function isServerError<T extends BridgeResponse>(
 export function isError<T extends BridgeResponse>(
   response: T
 ): response is Extract<T, { error: string }> {
-  return 'error' in response;
+  return typeof response.error === 'string' && response.error.length > 0;
 }
