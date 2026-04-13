@@ -14,7 +14,7 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
  *
  * @public
  */
-export const GetCoordinateResultSchema = v.object({ lat: v.number(), lng: v.number() });
+export const GetCoordinateResultSchema = v.object({ latitude: v.number(), longitude: v.number() });
 
 /**
  * Valibot schema for {@link GetCoordinateResponse}.

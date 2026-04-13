@@ -304,7 +304,7 @@ JSBridge module for accessing device locale settings.
 
 #### `LocationModule`
 JSBridge module for accessing device location services.
-- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { lat: number; lng: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device.
+- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { latitude: number; longitude: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device.
 - `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location.
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device.
 

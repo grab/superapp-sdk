@@ -64,7 +64,7 @@ export class LocationModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Coordinates:', response.result.lat, response.result.lng);
+   *   console.log('Coordinates:', response.result.latitude, response.result.longitude);
    * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:
@@ -116,7 +116,7 @@ export class LocationModule extends BaseModule {
    * const subscription = location.observeLocationChange().subscribe({
    *   next: (response) => {
    *     if (isSuccess(response)) {
-   *       console.log('Location updated:', response.result.lat, response.result.lng);
+   *       console.log('Location updated:', response.result.latitude, response.result.longitude);
    *     } else if (isError(response)) {
    *       switch (response.status_code) {
    *         case 403:

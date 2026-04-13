@@ -182,7 +182,9 @@ function buildSkills() {
   if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
   fs.mkdirSync(skillDir, { recursive: true });
 
-  const allGuides = fs.readdirSync(GUIDES_DIR).filter((f) => f.endsWith('.md'));
+  const allGuides = fs
+    .readdirSync(GUIDES_DIR)
+    .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md');
   const orderedGuides = [
     ...GUIDE_ORDER.filter((f) => allGuides.includes(f)),
     ...allGuides.filter((f) => !GUIDE_ORDER.includes(f)).sort(),

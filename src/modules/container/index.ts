@@ -11,6 +11,26 @@ export {
   ContainerAnalyticsEventState,
 } from './constants';
 export { ContainerModule } from './ContainerModule';
+export {
+  CloseResponseSchema,
+  GetSessionParamsResponseSchema,
+  GetSessionParamsResultSchema,
+  HideBackButtonResponseSchema,
+  HideLoaderResponseSchema,
+  HideRefreshButtonResponseSchema,
+  IsConnectedResponseSchema,
+  IsConnectedResultSchema,
+  OnContentLoadedResponseSchema,
+  OnCtaTapResponseSchema,
+  OpenExternalLinkResponseSchema,
+  SendAnalyticsEventRequestSchema,
+  SendAnalyticsEventResponseSchema,
+  SetBackgroundColorResponseSchema,
+  SetTitleResponseSchema,
+  ShowBackButtonResponseSchema,
+  ShowLoaderResponseSchema,
+  ShowRefreshButtonResponseSchema,
+} from './schemas';
 export type {
   CloseResponse,
   CloseResult,

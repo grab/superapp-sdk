@@ -6,6 +6,13 @@
  */
 
 export { ProfileModule } from './ProfileModule';
+export {
+  FetchEmailResponseSchema,
+  FetchEmailResultSchema,
+  VerifyEmailRequestSchema,
+  VerifyEmailResponseSchema,
+  VerifyEmailResultSchema,
+} from './schemas';
 export type {
   FetchEmailResponse,
   FetchEmailResult,

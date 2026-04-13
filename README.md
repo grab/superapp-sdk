@@ -51,3 +51,4 @@ Each module encapsulates a specific domain of functionality, offering strongly-t
 - [Setup Guide](https://grab.github.io/superapp-sdk/documents/Setup.html) — installation, importing, environment requirements
 - [Core Concepts](https://grab.github.io/superapp-sdk/documents/Core_Concepts.html) — response pattern, status codes, type guards
 - [Integration Guide](https://grab.github.io/superapp-sdk/documents/Integration_Guide.html) — initialization sequence, permission handling, navigation
+- [AI-Assisted Development](https://grab.github.io/superapp-sdk/documents/AI-Assisted_Development.html) — using AI skills for faster development
