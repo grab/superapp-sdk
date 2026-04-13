@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.32] - 2026-04-13
+
+### Added
+
+- `guides/ai-assistance.md` — setup guide for AI-assisted development with Cursor and Claude
+
+### Changed
+
+- `valibot` moved from `devDependencies` to `dependencies` (runtime requirement for schema validation)
+- `GetCoordinateResult` properties renamed from `lat`/`lng` to `latitude`/`longitude` for consistency
+- Consolidated all module exports in `src/index.ts` to use barrel exports (cleaner imports from module index files)
+- Updated JSDoc examples and SKILL.md to reflect coordinate property rename
+- `build-skills.mjs` excludes `ai-assistance.md` from skill generation (setup guide, not conceptual)
+
+### Changed
+
+- README.md — added link to AI-Assisted Development documentation
+
 ## [2.0.0-beta.31] - 2026-04-10
 
 ### Added

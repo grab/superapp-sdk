@@ -5,6 +5,27 @@
  * directory of this source tree.
  */
 
+export {
+  GetBooleanRequestSchema,
+  GetBooleanResponseSchema,
+  GetBooleanResultSchema,
+  GetDoubleRequestSchema,
+  GetDoubleResponseSchema,
+  GetDoubleResultSchema,
+  GetIntRequestSchema,
+  GetIntResponseSchema,
+  GetIntResultSchema,
+  GetStringRequestSchema,
+  GetStringResponseSchema,
+  GetStringResultSchema,
+  RemoveAllResponseSchema,
+  RemoveRequestSchema,
+  RemoveResponseSchema,
+  SetBooleanResponseSchema,
+  SetDoubleResponseSchema,
+  SetIntResponseSchema,
+  SetStringResponseSchema,
+} from './schemas';
 export { StorageModule } from './StorageModule';
 export type {
   GetBooleanRequest,

@@ -20,7 +20,7 @@ import {
  *
  * @example
  * ```typescript
- * { lat: 1.3521, lng: 103.8198 }
+ * { latitude: 1.3521, longitude: 103.8198 }
  * ```
  *
  * @public

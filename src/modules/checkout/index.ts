@@ -6,3 +6,13 @@
  */
 
 export { CheckoutModule } from './CheckoutModule';
+export {
+  TriggerCheckoutRequestSchema,
+  TriggerCheckoutResponseSchema,
+  TriggerCheckoutResultSchema,
+} from './schemas';
+export type {
+  TriggerCheckoutRequest,
+  TriggerCheckoutResponse,
+  TriggerCheckoutResult,
+} from './types';

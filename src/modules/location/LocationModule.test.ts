@@ -40,7 +40,7 @@ describe('LocationModule', () => {
 
       const mockResponse: GetCoordinateResponse = {
         status_code: 200,
-        result: { lat: 1.3521, lng: 103.8198 },
+        result: { latitude: 1.3521, longitude: 103.8198 },
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -55,8 +55,8 @@ describe('LocationModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getCoordinate', undefined);
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.lat).toBe(1.3521);
-        expect(response.result.lng).toBe(103.8198);
+        expect(response.result.latitude).toBe(1.3521);
+        expect(response.result.longitude).toBe(103.8198);
       }
     });
 
