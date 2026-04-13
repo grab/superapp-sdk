@@ -14,7 +14,13 @@
     "includeGroups": true
   },
   "alwaysCreateEntryPointModule": false,
-  "projectDocuments": ["./guides/setup.md", "./guides/concepts.md", "./guides/integration.md", "./guides/ai-assistance.md", "./CHANGELOG.md"],
+  "projectDocuments": [
+    "./guides/setup.md",
+    "./guides/concepts.md",
+    "./guides/integration.md",
+    "./guides/ai-assistance.md",
+    "./CHANGELOG.md"
+  ],
   "searchInComments": true,
   "searchInDocuments": true,
   "validation": {
