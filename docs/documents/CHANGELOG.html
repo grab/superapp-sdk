@@ -2,13 +2,41 @@
 <p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
-<h2 id="200-beta31-2026-04-10" class="tsd-anchor-link">[2.0.0-beta.31] - 2026-04-10<a href="#200-beta31-2026-04-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h2 id="200-beta34-2026-04-13" class="tsd-anchor-link">[2.0.0-beta.34] - 2026-04-13<a href="#200-beta34-2026-04-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="changed" class="tsd-anchor-link">Changed<a href="#changed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>ScopeModule.hasAccessTo()</code> now returns <code>result</code> as a plain <code>boolean</code> instead of an object <code>{ hasAccess: boolean }</code></li>
+<li><code>HasAccessToResult</code> type and schema updated to <code>v.boolean()</code> (simplified API)</li>
+</ul>
+<h2 id="200-beta33-2026-04-13" class="tsd-anchor-link">[2.0.0-beta.33] - 2026-04-13<a href="#200-beta33-2026-04-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="fixed" class="tsd-anchor-link">Fixed<a href="#fixed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>isError()</code> guard now validates <code>error</code> is a non-empty string instead of just checking property existence</li>
+</ul>
+<h2 id="200-beta32-2026-04-13" class="tsd-anchor-link">[2.0.0-beta.32] - 2026-04-13<a href="#200-beta32-2026-04-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="added" class="tsd-anchor-link">Added<a href="#added" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>guides/ai-assistance.md</code> — setup guide for AI-assisted development with Cursor and Claude</li>
+</ul>
+<h3 id="changed-1" class="tsd-anchor-link">Changed<a href="#changed-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>valibot</code> moved from <code>devDependencies</code> to <code>dependencies</code> (runtime requirement for schema validation)</li>
+<li><code>GetCoordinateResult</code> properties renamed from <code>lat</code>/<code>lng</code> to <code>latitude</code>/<code>longitude</code> for consistency</li>
+<li>Consolidated all module exports in <code>src/index.ts</code> to use barrel exports (cleaner imports from module index files)</li>
+<li>Updated JSDoc examples and <a href="http://SKILL.md">SKILL.md</a> to reflect coordinate property rename</li>
+<li><code>build-skills.mjs</code> excludes <code>ai-assistance.md</code> from skill generation (setup guide, not conceptual)</li>
+</ul>
+<h3 id="changed-2" class="tsd-anchor-link">Changed<a href="#changed-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><a href="http://README.md">README.md</a> — added link to AI-Assisted Development documentation</li>
+</ul>
+<h2 id="200-beta31-2026-04-10" class="tsd-anchor-link">[2.0.0-beta.31] - 2026-04-10<a href="#200-beta31-2026-04-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="added-1" class="tsd-anchor-link">Added<a href="#added-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>Logger</code> utility class for scoped logging (<code>[SuperAppSDK][ModuleName.method]</code>) across all SDK modules</li>
 <li><code>VerifyEmailResult</code> schema and type export for email verification responses</li>
 </ul>
-<h3 id="changed" class="tsd-anchor-link">Changed<a href="#changed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-3" class="tsd-anchor-link">Changed<a href="#changed-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>ProfileModule.verifyEmail()</code> now accepts optional request parameters and returns the verified email in <code>result</code></li>
 <li><code>VerifyEmailRequest</code> type updated to use <code>skipUserInput</code> instead of <code>otp</code> for native bottom sheet flow</li>
@@ -21,7 +49,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>bridgeSuccessSchema</code> function (superseded by <code>bridgeOkSchema</code>)</li>
 </ul>
 <h2 id="200-beta30-2026-04-07" class="tsd-anchor-link">[2.0.0-beta.30] - 2026-04-07<a href="#200-beta30-2026-04-07" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="changed-1" class="tsd-anchor-link">Changed<a href="#changed-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-4" class="tsd-anchor-link">Changed<a href="#changed-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>CheckoutModule</code> — added important disclaimers to method and type documentation; added note that <code>mobile</code> scope is required</li>
 <li><code>LocaleModule</code> — added list of supported locales to <code>SupportedLocale</code> type documentation</li>
@@ -29,11 +57,11 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>StorageModule</code> — added note that stored data is cleared when the user logs out</li>
 </ul>
 <h2 id="200-beta29-2026-04-02" class="tsd-anchor-link">[2.0.0-beta.29] - 2026-04-02<a href="#200-beta29-2026-04-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-1" class="tsd-anchor-link">Added<a href="#added-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-2" class="tsd-anchor-link">Added<a href="#added-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>guides/concepts.md</code> — new Core Concepts guide covering the response pattern, status codes, type guards, and streams</li>
 </ul>
-<h3 id="changed-2" class="tsd-anchor-link">Changed<a href="#changed-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-5" class="tsd-anchor-link">Changed<a href="#changed-5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>README slimmed to overview, module index, and documentation links — detailed content moved to guides</li>
 <li><code>guides/setup.md</code> — moved environment requirements to Core Concepts guide</li>
@@ -41,7 +69,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>scripts/skills-template.md</code> — reduced to frontmatter and intro; all content lives in guides</li>
 </ul>
 <h2 id="200-beta28-2026-04-02" class="tsd-anchor-link">[2.0.0-beta.28] - 2026-04-02<a href="#200-beta28-2026-04-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="changed-3" class="tsd-anchor-link">Changed<a href="#changed-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-6" class="tsd-anchor-link">Changed<a href="#changed-6" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Consolidated AI skills into single <code>skills/SKILL.md</code> file with inlined guides and API references</li>
 <li><code>build-skills.mjs</code> now generates unified skill file instead of separate directories</li>
@@ -52,7 +80,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>skills/references/</code> directory (classes and functions now inlined into <a href="http://SKILL.md">SKILL.md</a>)</li>
 </ul>
 <h2 id="200-beta27-2026-04-01" class="tsd-anchor-link">[2.0.0-beta.27] - 2026-04-01<a href="#200-beta27-2026-04-01" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-2" class="tsd-anchor-link">Added<a href="#added-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-3" class="tsd-anchor-link">Added<a href="#added-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>AI IDE integration (Skills) for Claude with <code>skills/SKILL.md</code> metadata and documentation</li>
 <li><code>build-skills.mjs</code> script to generate skill references from TypeDoc API</li>
@@ -60,13 +88,13 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>skills/guides/</code> with setup and integration guides for AI-assisted development</li>
 <li><code>skills</code> directory included in npm package files</li>
 </ul>
-<h3 id="changed-4" class="tsd-anchor-link">Changed<a href="#changed-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-7" class="tsd-anchor-link">Changed<a href="#changed-7" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Build script now generates skill documentation after docs build</li>
 <li>ESLint configuration updated to handle skills directory</li>
 </ul>
 <h2 id="200-beta26-2026-03-31" class="tsd-anchor-link">[2.0.0-beta.26] - 2026-03-31<a href="#200-beta26-2026-03-31" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-3" class="tsd-anchor-link">Added<a href="#added-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-4" class="tsd-anchor-link">Added<a href="#added-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Runtime schema validation using <code>valibot</code> for all module requests and responses</li>
 <li>Schema files (<code>schemas.ts</code>) for all modules with valibot validation schemas</li>
@@ -76,7 +104,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>typedoc-plugin-valibot</code> dev dependency for schema documentation</li>
 <li><code>isOk()</code>, <code>isNoContent()</code>, <code>isFound()</code> type guards for granular status code narrowing</li>
 </ul>
-<h3 id="changed-5" class="tsd-anchor-link">Changed<a href="#changed-5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-8" class="tsd-anchor-link">Changed<a href="#changed-8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>valibot</code> added as peer dependency (replaces <code>@grabjs/mobile-kit-bridge-sdk</code> peer dependency)</li>
 <li><code>@grabjs/mobile-kit-bridge-sdk</code> moved from peerDependencies to devDependencies</li>
@@ -92,18 +120,18 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Complex generic type hierarchies in favor of schema-driven validation</li>
 </ul>
 <h2 id="200-beta25-2026-03-31" class="tsd-anchor-link">[2.0.0-beta.25] - 2026-03-31<a href="#200-beta25-2026-03-31" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-4" class="tsd-anchor-link">Added<a href="#added-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-5" class="tsd-anchor-link">Added<a href="#added-5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>SplashScreenModule</code>, the native splash / Lottie loading screen</li>
 </ul>
 <h2 id="200-beta24-2026-03-18" class="tsd-anchor-link">[2.0.0-beta.24] - 2026-03-18<a href="#200-beta24-2026-03-18" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="changed-6" class="tsd-anchor-link">Changed<a href="#changed-6" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-9" class="tsd-anchor-link">Changed<a href="#changed-9" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Updated all JSDoc examples across modules to use <code>isSuccess()</code> and <code>isErrorResponse()</code> type guards instead of switch-case patterns</li>
 <li><code>BaseModule.invoke()</code> changed from public to protected visibility</li>
 <li>Enhanced error messages in <code>BaseModule.invoke()</code> and <code>BaseModule.invokeStream()</code> to include actual error details</li>
 </ul>
-<h3 id="fixed" class="tsd-anchor-link">Fixed<a href="#fixed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-1" class="tsd-anchor-link">Fixed<a href="#fixed-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Fixed template literal syntax in <code>BaseModule</code> constructor error message</li>
 </ul>
@@ -111,20 +139,20 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <ul>
 <li>Legacy TypeDoc markdown documentation files from <code>typedoc/</code> directory</li>
 </ul>
-<h3 id="added-5" class="tsd-anchor-link">Added<a href="#added-5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-6" class="tsd-anchor-link">Added<a href="#added-6" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Exported <code>isErrorWithMessage()</code> utility from main entry point</li>
 <li>Exported <code>InvokeOptions</code> type from main entry point</li>
 </ul>
 <h2 id="200-beta23-2026-03-18" class="tsd-anchor-link">[2.0.0-beta.23] - 2026-03-18<a href="#200-beta23-2026-03-18" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-6" class="tsd-anchor-link">Added<a href="#added-6" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-7" class="tsd-anchor-link">Added<a href="#added-7" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Markdown API reference generation to <code>api-reference/markdown/</code> directory</li>
 <li><code>typedoc-plugin-markdown</code> dev dependency for Markdown documentation output</li>
 <li><code>typedoc.md.json</code> configuration for Markdown doc generation</li>
 <li><code>api-reference</code> directory included in npm package files</li>
 </ul>
-<h3 id="changed-7" class="tsd-anchor-link">Changed<a href="#changed-7" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-10" class="tsd-anchor-link">Changed<a href="#changed-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Complete <a href="http://README.md">README.md</a> rewrite with modern structure, installation guides, and usage examples</li>
 <li>Updated maintainers list in package.json</li>
@@ -133,31 +161,31 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Regenerated HTML documentation in <code>/docs</code></li>
 </ul>
 <h2 id="200-beta22-2026-03-17" class="tsd-anchor-link">[2.0.0-beta.22] - 2026-03-17<a href="#200-beta22-2026-03-17" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-7" class="tsd-anchor-link">Added<a href="#added-7" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-8" class="tsd-anchor-link">Added<a href="#added-8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>typedoc-plugin-no-inherit</code> dev dependency for cleaner API documentation</li>
 <li><code>@noInheritDoc</code> and <code>@hidden</code> TSDoc tags support in <code>tsdoc.json</code></li>
 </ul>
-<h3 id="changed-8" class="tsd-anchor-link">Changed<a href="#changed-8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-11" class="tsd-anchor-link">Changed<a href="#changed-11" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Generate documentation HTML static website in <code>/docs</code></li>
 <li>All module classes now use <code>@noInheritDoc</code> to exclude inherited <code>BaseModule</code> documentation</li>
 <li><code>BaseModule</code> class marked with <code>@hidden</code> to exclude from public API docs</li>
 </ul>
 <h2 id="200-beta21-2026-03-16" class="tsd-anchor-link">[2.0.0-beta.21] - 2026-03-16<a href="#200-beta21-2026-03-16" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-8" class="tsd-anchor-link">Added<a href="#added-8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-9" class="tsd-anchor-link">Added<a href="#added-9" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>DeviceCapabilityModule</code> with <code>isEsimSupported()</code> support, exported response/result types, unit tests, and manual documentation</li>
 <li><code>UserAttributesModule</code> with <code>getSelectedTravelDestination()</code> support, exported response/result types, unit tests, and manual documentation</li>
 </ul>
 <h2 id="200-beta20-2026-03-16" class="tsd-anchor-link">[2.0.0-beta.20] - 2026-03-16<a href="#200-beta20-2026-03-16" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-9" class="tsd-anchor-link">Added<a href="#added-9" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-10" class="tsd-anchor-link">Added<a href="#added-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>New <code>InvokeOptions</code> interface for flexible method invocation configuration</li>
 <li>Type guard functions in <code>guards.ts</code> for runtime <code>BridgeResponse</code> type narrowing</li>
 <li>HTTP 426 status code support for upgrade required responses</li>
 </ul>
-<h3 id="changed-9" class="tsd-anchor-link">Changed<a href="#changed-9" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-12" class="tsd-anchor-link">Changed<a href="#changed-12" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Consolidated core types into single <code>src/core/types.ts</code> file</li>
 <li>Renamed response types for consistency</li>
@@ -165,27 +193,27 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Simplified status code type names</li>
 </ul>
 <h2 id="200-beta19-2026-03-13" class="tsd-anchor-link">[2.0.0-beta.19] - 2026-03-13<a href="#200-beta19-2026-03-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-10" class="tsd-anchor-link">Added<a href="#added-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-11" class="tsd-anchor-link">Added<a href="#added-11" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>FileModule</code> for downloading files via the native bridge (<code>downloadFile</code> method)</li>
 <li><code>DownloadFileRequest</code> and <code>DownloadFileResponse</code> types for file operations</li>
 <li>Unit tests for <code>FileModule</code></li>
 </ul>
-<h3 id="changed-10" class="tsd-anchor-link">Changed<a href="#changed-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-13" class="tsd-anchor-link">Changed<a href="#changed-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>BaseModule.invoke()</code> now returns errors via <code>status_code</code> instead of throwing</li>
 <li>Updated all module JSDoc examples to remove try-catch patterns</li>
 <li>Removed <code>@throws</code> annotations from all module methods</li>
 </ul>
 <h2 id="200-beta18-2026-03-13" class="tsd-anchor-link">[2.0.0-beta.18] - 2026-03-13<a href="#200-beta18-2026-03-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-11" class="tsd-anchor-link">Added<a href="#added-11" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-12" class="tsd-anchor-link">Added<a href="#added-12" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>AuthorizationConfigurationError</code> class for identity authorization failures</li>
 <li><code>detectGrabApp()</code> utility for automatic Grab app detection from user agent</li>
 <li><code>isRunningInGrabApp()</code> utility to check if code runs inside Grab app webview</li>
 <li>Unit test suites for <code>platform</code>, <code>error</code>, and <code>version</code> utilities</li>
 </ul>
-<h3 id="changed-11" class="tsd-anchor-link">Changed<a href="#changed-11" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-14" class="tsd-anchor-link">Changed<a href="#changed-14" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Refactored error utilities: replaced <code>getErrorMessage()</code> and <code>errorHasMessage()</code> with <code>isErrorWithMessage()</code> type guard</li>
 <li>Platform utilities now auto-detect user agent from <code>window.navigator</code></li>
@@ -197,22 +225,22 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>getErrorMessage()</code> and <code>errorHasMessage()</code> functions (use <code>isErrorWithMessage()</code> instead)</li>
 </ul>
 <h2 id="200-beta17-2026-03-12" class="tsd-anchor-link">[2.0.0-beta.17] - 2026-03-12<a href="#200-beta17-2026-03-12" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-12" class="tsd-anchor-link">Added<a href="#added-12" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-13" class="tsd-anchor-link">Added<a href="#added-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Comprehensive unit test suites for all SDK modules with 100% coverage</li>
 <li>Test configuration for streaming methods with DataStream assertions</li>
 </ul>
-<h3 id="changed-12" class="tsd-anchor-link">Changed<a href="#changed-12" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-15" class="tsd-anchor-link">Changed<a href="#changed-15" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>All module response types now include HTTP 500 status code for internal server errors</li>
 <li><code>GetAuthorizationArtifactsResult</code> type no longer nullable, always returns object structure</li>
 </ul>
-<h3 id="fixed-1" class="tsd-anchor-link">Fixed<a href="#fixed-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-2" class="tsd-anchor-link">Fixed<a href="#fixed-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>ESLint configuration to properly handle test file patterns</li>
 </ul>
 <h2 id="200-beta16-2026-03-12" class="tsd-anchor-link">[2.0.0-beta.16] - 2026-03-12<a href="#200-beta16-2026-03-12" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-13" class="tsd-anchor-link">Added<a href="#added-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-14" class="tsd-anchor-link">Added<a href="#added-14" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Vitest testing framework with jsdom environment for unit testing</li>
 <li>Test coverage configuration (v8 provider with text and html reporters)</li>
@@ -220,7 +248,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>npm scripts: <code>test</code>, <code>test:check</code>, and <code>test:watch</code> for running tests</li>
 <li><code>build:watch</code> npm script for development workflow</li>
 </ul>
-<h3 id="changed-13" class="tsd-anchor-link">Changed<a href="#changed-13" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-16" class="tsd-anchor-link">Changed<a href="#changed-16" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>ESLint config now includes rules for test files (<code>**/*.test.ts</code>) with relaxed type safety for mocks</li>
 <li>ESLint config now applies copyright header checks to config files</li>
@@ -228,11 +256,11 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Updated <code>check</code> npm script to include <code>test:check</code></li>
 </ul>
 <h2 id="200-beta15-2026-03-12" class="tsd-anchor-link">[2.0.0-beta.15] - 2026-03-12<a href="#200-beta15-2026-03-12" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-14" class="tsd-anchor-link">Added<a href="#added-14" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-15" class="tsd-anchor-link">Added<a href="#added-15" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Type guard functions (<code>isSuccess</code>, <code>isRedirection</code>, <code>isClientError</code>, <code>isServerError</code>, <code>isErrorResponse</code>) for runtime <code>BridgeResponse</code> type checking</li>
 </ul>
-<h3 id="changed-14" class="tsd-anchor-link">Changed<a href="#changed-14" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-17" class="tsd-anchor-link">Changed<a href="#changed-17" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>BaseModule.invoke()</code> now returns <code>Promise&lt;BridgeResponse&lt;T&gt;&gt; | DataStream&lt;T&gt;</code> with proper error handling</li>
 <li>All module methods refactored to be async with typed Promise return values</li>
@@ -242,13 +270,13 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><code>WrappedModule.invoke()</code> signature simplified for better type inference</li>
 </ul>
 <h2 id="200-beta14-2026-03-09" class="tsd-anchor-link">[2.0.0-beta.14] - 2026-03-09<a href="#200-beta14-2026-03-09" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-15" class="tsd-anchor-link">Added<a href="#added-15" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-16" class="tsd-anchor-link">Added<a href="#added-16" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>New HTTP status code response types: <code>BridgeStatusCode401Response</code> and <code>BridgeStatusCode501Response</code></li>
 <li>Error utility functions (<code>getErrorMessage</code>, <code>errorHasMessage</code>) in <code>src/utils/error/</code></li>
 <li><code>BaseModule.invoke()</code> method with automatic Grab app environment checking</li>
 </ul>
-<h3 id="changed-15" class="tsd-anchor-link">Changed<a href="#changed-15" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-18" class="tsd-anchor-link">Changed<a href="#changed-18" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>All modules now use <code>this.invoke()</code> instead of <code>this.wrappedModule.invoke()</code> for automatic environment detection</li>
 <li>JSDoc examples updated to use <code>switch (response.status_code)</code> pattern instead of type guards</li>
@@ -260,13 +288,13 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>TypeDoc documentation for removed type guard functions</li>
 </ul>
 <h2 id="200-beta13-2026-03-06" class="tsd-anchor-link">[2.0.0-beta.13] - 2026-03-06<a href="#200-beta13-2026-03-06" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-16" class="tsd-anchor-link">Added<a href="#added-16" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-17" class="tsd-anchor-link">Added<a href="#added-17" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>New crypto utilities (<code>src/utils/crypto/</code>) using native Web Crypto API for PKCE operations</li>
 <li>Centralized Identity constants in <code>src/modules/identity/constants.ts</code></li>
 <li><code>resources/copyright.txt</code> for shared license header content</li>
 </ul>
-<h3 id="changed-16" class="tsd-anchor-link">Changed<a href="#changed-16" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-19" class="tsd-anchor-link">Changed<a href="#changed-19" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>IdentityModule</code> refactored to use new crypto utilities and centralized constants</li>
 <li><code>generatePKCEArtifacts()</code> is now async to support native crypto.subtle digest</li>
@@ -285,12 +313,12 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Replaced <code>crypto-js</code> with native Web Crypto API for improved security and reduced bundle size</li>
 </ul>
 <h2 id="200-beta12-2026-03-06" class="tsd-anchor-link">[2.0.0-beta.12] - 2026-03-06<a href="#200-beta12-2026-03-06" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-17" class="tsd-anchor-link">Added<a href="#added-17" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-18" class="tsd-anchor-link">Added<a href="#added-18" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>TypeScript ESLint support with <code>typescript-eslint</code> for type-aware linting</li>
 <li>Add ESLint rule to check copyrights</li>
 </ul>
-<h3 id="changed-17" class="tsd-anchor-link">Changed<a href="#changed-17" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-20" class="tsd-anchor-link">Changed<a href="#changed-20" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>SendAnalyticsEventRequest.data</code> type changed from <code>Record&lt;string, any&gt;</code> to <code>Record&lt;string, unknown&gt;</code></li>
 <li><code>BaseModule</code> initialization errors now include the original error as <code>cause</code></li>
@@ -301,18 +329,18 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Window interface extensions for Wrapped modules (moved to consumer side)</li>
 </ul>
 <h2 id="200-beta11-2026-03-06" class="tsd-anchor-link">[2.0.0-beta.11] - 2026-03-06<a href="#200-beta11-2026-03-06" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-18" class="tsd-anchor-link">Added<a href="#added-18" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-19" class="tsd-anchor-link">Added<a href="#added-19" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Core response type guard functions (<code>isResponseOk</code>, <code>isResponseError</code>, <code>isResponseSuccess</code>, <code>isResponseClientError</code>, <code>isResponseServerError</code>, etc.) for runtime response type checking</li>
 <li>Response type definitions for all remaining modules: Camera, Checkout, Container, Locale, Location, Media, Platform, Scope, Storage, SystemWebViewKit</li>
 </ul>
-<h3 id="changed-18" class="tsd-anchor-link">Changed<a href="#changed-18" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-21" class="tsd-anchor-link">Changed<a href="#changed-21" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Exported all new response types and type guards from main entry point</li>
 <li>All module methods now return typed <code>Promise&lt;Response&gt;</code> instead of <code>Promise&lt;any&gt;</code></li>
 </ul>
 <h2 id="200-beta10-2026-03-05" class="tsd-anchor-link">[2.0.0-beta.10] - 2026-03-05<a href="#200-beta10-2026-03-05" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-19" class="tsd-anchor-link">Added<a href="#added-19" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-20" class="tsd-anchor-link">Added<a href="#added-20" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>TypeScript type definitions and JSDoc documentation for <code>IdentityModule</code> (<code>authorize</code>, <code>getAuthorizationArtifacts</code>, <code>clearAuthorizationArtifacts</code> methods)</li>
 <li>TypeScript type definitions and JSDoc documentation for <code>ProfileModule</code> (<code>fetchEmail</code>, <code>verifyEmail</code> methods)</li>
@@ -320,13 +348,13 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Exported all new types from main entry point (<code>src/index.ts</code>) and module barrel exports</li>
 <li>Generated updated TypeDoc documentation with new type aliases for Identity, Profile, and SystemWebViewKit modules</li>
 </ul>
-<h3 id="changed-19" class="tsd-anchor-link">Changed<a href="#changed-19" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-22" class="tsd-anchor-link">Changed<a href="#changed-22" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>ScopeModule.hasAccessTo()</code> now accepts separate <code>(module, method)</code> parameters instead of <code>HasAccessToRequest</code> object</li>
 <li><code>ContainerModule.isConnected()</code> refactored to use <code>isRunningInGrabApp()</code> utility</li>
 <li><code>IdentityModule.shouldUseWebConsent()</code> and <code>ProfileModule.isSupported()</code> refactored to use new platform utilities</li>
 </ul>
-<h3 id="fixed-2" class="tsd-anchor-link">Fixed<a href="#fixed-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-3" class="tsd-anchor-link">Fixed<a href="#fixed-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>StorageModule</code> methods now accept individual parameters <code>(key, value)</code> instead of object parameters <code>({key, value})</code> to match the existing public API</li>
 </ul>
@@ -339,7 +367,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Related TypeDoc documentation for removed methods</li>
 </ul>
 <h2 id="200-beta9-2026-03-04" class="tsd-anchor-link">[2.0.0-beta.9] - 2026-03-04<a href="#200-beta9-2026-03-04" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-20" class="tsd-anchor-link">Added<a href="#added-20" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-21" class="tsd-anchor-link">Added<a href="#added-21" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>TypeScript type definitions and JSDoc documentation for <code>LocaleModule</code></li>
 <li>TypeScript type definitions and JSDoc documentation for <code>ScopeModule</code> (<code>hasAccessTo</code>, <code>reloadScopes</code> methods)</li>
@@ -347,7 +375,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Added <code>*Result</code> types for all <code>ContainerModule</code> response types for better type consistency</li>
 <li>Exported all new types from main entry point (<code>src/index.ts</code>)</li>
 </ul>
-<h3 id="changed-20" class="tsd-anchor-link">Changed<a href="#changed-20" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-23" class="tsd-anchor-link">Changed<a href="#changed-23" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li><code>LocaleModule.getLanguageLocaleIdentifier()</code> now returns typed <code>Promise&lt;GetLanguageLocaleIdentifierResponse&gt;</code></li>
 <li><code>ScopeModule.hasAccessTo()</code> now accepts <code>HasAccessToRequest</code> parameter and returns <code>Promise&lt;HasAccessToResponse&gt;</code></li>
@@ -356,32 +384,32 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>All <code>ContainerModule</code> response types now use dedicated <code>*Result</code> types instead of <code>null</code></li>
 </ul>
 <h2 id="200-beta8-2026-03-04" class="tsd-anchor-link">[2.0.0-beta.8] - 2026-03-04<a href="#200-beta8-2026-03-04" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-21" class="tsd-anchor-link">Added<a href="#added-21" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-22" class="tsd-anchor-link">Added<a href="#added-22" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>CheckoutModule types and documentation for <code>triggerCheckout()</code> method</li>
 <li>Exported <code>TriggerCheckoutRequest</code>, <code>TriggerCheckoutResponse</code>, and <code>TriggerCheckoutResult</code> types</li>
 </ul>
-<h3 id="changed-21" class="tsd-anchor-link">Changed<a href="#changed-21" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-24" class="tsd-anchor-link">Changed<a href="#changed-24" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Improved type safety in <code>WrappedModule.invoke()</code> with conditional return types for streaming methods</li>
 <li>Removed redundant type assertions across CameraModule, ContainerModule, and LocationModule</li>
 </ul>
-<h3 id="fixed-3" class="tsd-anchor-link">Fixed<a href="#fixed-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-4" class="tsd-anchor-link">Fixed<a href="#fixed-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Standardized response structure in <code>ContainerModule.isJSBridgeConnected()</code> to include <code>result: null</code> in all branches</li>
 </ul>
 <h2 id="200-beta7-2026-03-04" class="tsd-anchor-link">[2.0.0-beta.7] - 2026-03-04<a href="#200-beta7-2026-03-04" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-22" class="tsd-anchor-link">Added<a href="#added-22" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-23" class="tsd-anchor-link">Added<a href="#added-23" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>LocationModule types and documentation</li>
 <li>DataStream support to WrappedModule.invoke()</li>
 </ul>
-<h3 id="fixed-4" class="tsd-anchor-link">Fixed<a href="#fixed-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-5" class="tsd-anchor-link">Fixed<a href="#fixed-5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>ContainerModule API methods now correctly accept primitive values</li>
 </ul>
 <h2 id="200-beta6-2026-03-03" class="tsd-anchor-link">[2.0.0-beta.6] - 2026-03-03<a href="#200-beta6-2026-03-03" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-23" class="tsd-anchor-link">Added<a href="#added-23" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-24" class="tsd-anchor-link">Added<a href="#added-24" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added TypeDoc JSON API documentation generation</li>
 <li>Added TSDoc configuration (<code>tsdoc.json</code>) to support custom <code>@group</code> tags</li>
@@ -389,7 +417,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Updated TypeDoc documentation structure to prioritize Modules section over Classes</li>
 </ul>
 <h2 id="200-beta5-2026-03-03" class="tsd-anchor-link">[2.0.0-beta.5] - 2026-03-03<a href="#200-beta5-2026-03-03" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-24" class="tsd-anchor-link">Added<a href="#added-24" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-25" class="tsd-anchor-link">Added<a href="#added-25" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added <code>wrappedModule</code> getter to <code>BaseModule</code> for consistent JSBridge module access</li>
 <li>Added <code>WrappedModule</code> interface and exported it from main entry point</li>
@@ -400,22 +428,10 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Exported CameraModule types from main <code>src/index.ts</code> entry point</li>
 <li>Generated updated TypeDoc documentation with new ContainerModule types and detailed method documentation</li>
 </ul>
-<h3 id="changed-22" class="tsd-anchor-link">Changed<a href="#changed-22" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-25" class="tsd-anchor-link">Changed<a href="#changed-25" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Refactored all modules to use <code>this.wrappedModule.invoke()</code> instead of direct <code>window.Wrapped*Module!.invoke</code> access</li>
 <li>Changed <code>IdentityModule.performNativeAuthorization()</code> from static to instance method</li>
-<li>Refactored <code>src/modules/container/types.ts</code> to replace inline WrappedContainerModule interface with granular type definitions</li>
-<li>Updated ContainerModule methods to use typed request/response parameters instead of generic <code>any</code> types</li>
-<li>Improved type safety across all ContainerModule methods with proper TypeScript typing</li>
-<li>Simplified individual module <code>index.ts</code> barrel exports by removing duplicate type re-exports (now centralized in main index.ts)</li>
-</ul>
-<h3 id="fixed-5" class="tsd-anchor-link">Fixed<a href="#fixed-5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<ul>
-<li>Fixed TypeScript type definitions to use consistent <code>BridgeResponse&lt;T&gt;</code> patterns across all container methods</li>
-<li>Resolved type redundancy by consolidating global Window interface declarations in a single location</li>
-</ul>
-<h3 id="changed-23" class="tsd-anchor-link">Changed<a href="#changed-23" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<ul>
 <li>Refactored <code>src/modules/container/types.ts</code> to replace inline WrappedContainerModule interface with granular type definitions</li>
 <li>Updated ContainerModule methods to use typed request/response parameters instead of generic <code>any</code> types</li>
 <li>Improved type safety across all ContainerModule methods with proper TypeScript typing</li>
@@ -426,8 +442,20 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Fixed TypeScript type definitions to use consistent <code>BridgeResponse&lt;T&gt;</code> patterns across all container methods</li>
 <li>Resolved type redundancy by consolidating global Window interface declarations in a single location</li>
 </ul>
+<h3 id="changed-26" class="tsd-anchor-link">Changed<a href="#changed-26" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li>Refactored <code>src/modules/container/types.ts</code> to replace inline WrappedContainerModule interface with granular type definitions</li>
+<li>Updated ContainerModule methods to use typed request/response parameters instead of generic <code>any</code> types</li>
+<li>Improved type safety across all ContainerModule methods with proper TypeScript typing</li>
+<li>Simplified individual module <code>index.ts</code> barrel exports by removing duplicate type re-exports (now centralized in main index.ts)</li>
+</ul>
+<h3 id="fixed-7" class="tsd-anchor-link">Fixed<a href="#fixed-7" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li>Fixed TypeScript type definitions to use consistent <code>BridgeResponse&lt;T&gt;</code> patterns across all container methods</li>
+<li>Resolved type redundancy by consolidating global Window interface declarations in a single location</li>
+</ul>
 <h2 id="200-beta4-2026-03-03" class="tsd-anchor-link">[2.0.0-beta.4] - 2026-03-03<a href="#200-beta4-2026-03-03" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-25" class="tsd-anchor-link">Added<a href="#added-25" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-26" class="tsd-anchor-link">Added<a href="#added-26" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added TypeDoc documentation generation with Markdown output
 <ul>
@@ -439,17 +467,17 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 </li>
 <li>Updated <code>build</code> script to include both JS build and documentation generation</li>
 </ul>
-<h3 id="changed-24" class="tsd-anchor-link">Changed<a href="#changed-24" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-27" class="tsd-anchor-link">Changed<a href="#changed-27" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Updated CI build step to use <code>build:js</code> instead of <code>build</code> to avoid generating docs in CI pipeline</li>
 <li>Enhanced lint-staged configuration to run ESLint on staged JavaScript and TypeScript files</li>
 </ul>
-<h3 id="fixed-7" class="tsd-anchor-link">Fixed<a href="#fixed-7" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-8" class="tsd-anchor-link">Fixed<a href="#fixed-8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Fixed JSDoc type parameter tag from <code>@typeparam</code> to <code>@typeParam</code> in <code>src/core/stream/types.ts</code></li>
 </ul>
 <h2 id="200-beta3-2026-03-03" class="tsd-anchor-link">[2.0.0-beta.3] - 2026-03-03<a href="#200-beta3-2026-03-03" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-26" class="tsd-anchor-link">Added<a href="#added-26" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-27" class="tsd-anchor-link">Added<a href="#added-27" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added TypeScript type definitions for Camera QR code scanning:
 <ul>
@@ -461,7 +489,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Added comprehensive JSDoc documentation with usage examples for <code>CameraModule.scanQRCode()</code></li>
 <li>Exported camera types from main index and module barrel export</li>
 </ul>
-<h3 id="changed-25" class="tsd-anchor-link">Changed<a href="#changed-25" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-28" class="tsd-anchor-link">Changed<a href="#changed-28" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Renamed npm scripts for consistency:
 <ul>
@@ -473,7 +501,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 </li>
 <li>Updated <code>check</code> and <code>fix</code> scripts to use renamed sub-scripts</li>
 </ul>
-<h3 id="fixed-8" class="tsd-anchor-link">Fixed<a href="#fixed-8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-9" class="tsd-anchor-link">Fixed<a href="#fixed-9" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Fixed JSDoc comment formatting in <code>checkout/types.ts</code></li>
 </ul>
@@ -482,7 +510,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Removed <code>@rollup/plugin-alias</code> dependency (no longer needed)</li>
 </ul>
 <h2 id="200-beta2-2026-03-03" class="tsd-anchor-link">[2.0.0-beta.2] - 2026-03-03<a href="#200-beta2-2026-03-03" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-27" class="tsd-anchor-link">Added<a href="#added-27" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-28" class="tsd-anchor-link">Added<a href="#added-28" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added <code>BaseModule</code> abstract class in <code>src/core/module/</code> for unified module initialization</li>
 <li>Added core type definitions for bridge responses (<code>src/core/response/types.ts</code>)</li>
@@ -498,7 +526,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Added barrel exports (<code>index.ts</code>) for all module directories for cleaner imports</li>
 <li>Added <code>ContainerAnalyticsEventState</code>, <code>ContainerAnalyticsEventName</code>, <code>ContainerAnalyticsEventData</code> constants</li>
 </ul>
-<h3 id="changed-26" class="tsd-anchor-link">Changed<a href="#changed-26" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-29" class="tsd-anchor-link">Changed<a href="#changed-29" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Refactored all modules to extend <code>BaseModule</code> class for consistent initialization</li>
 <li>Migrated remaining JavaScript modules to TypeScript:
@@ -522,7 +550,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 </li>
 </ul>
 <h2 id="200-beta1-2026-03-02" class="tsd-anchor-link">[2.0.0-beta.1] - 2026-03-02<a href="#200-beta1-2026-03-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-28" class="tsd-anchor-link">Added<a href="#added-28" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-29" class="tsd-anchor-link">Added<a href="#added-29" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Full TypeScript support with type definitions</li>
 <li>Added <code>tsconfig.json</code> for TypeScript compilation configuration</li>
@@ -535,7 +563,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Added <code>clean</code> npm script for removing build artifacts</li>
 <li>Added TypeScript-related dependencies: <code>typescript</code>, <code>tslib</code>, <code>@rollup/plugin-typescript</code>, <code>@types/node</code></li>
 </ul>
-<h3 id="changed-27" class="tsd-anchor-link">Changed<a href="#changed-27" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-30" class="tsd-anchor-link">Changed<a href="#changed-30" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Migrated source code from JavaScript to TypeScript (<code>src/index.js</code> → <code>src/index.ts</code>)</li>
 <li>Migrated build system from Babel to TypeScript with Rollup</li>
@@ -553,35 +581,35 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Deleted legacy <code>rollup.config.js</code></li>
 </ul>
 <h2 id="1811-2026-03-02" class="tsd-anchor-link">[1.8.11] - 2026-03-02<a href="#1811-2026-03-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="changed-28" class="tsd-anchor-link">Changed<a href="#changed-28" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-31" class="tsd-anchor-link">Changed<a href="#changed-31" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Upgraded <code>@grabjs/mobile-kit-bridge-sdk</code> from <code>^1.1.1</code> to <code>^2.2.2</code></li>
 </ul>
 <h2 id="1810-2026-03-02" class="tsd-anchor-link">[1.8.10] - 2026-03-02<a href="#1810-2026-03-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-29" class="tsd-anchor-link">Added<a href="#added-29" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-30" class="tsd-anchor-link">Added<a href="#added-30" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added ESLint 10.0.2 with flat config (eslint.config.mjs)</li>
 <li>Added support for linting JavaScript, JSON, and Markdown files</li>
 <li>Added npm scripts: <code>lint:check</code> and <code>lint:fix</code></li>
 </ul>
-<h3 id="changed-29" class="tsd-anchor-link">Changed<a href="#changed-29" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-32" class="tsd-anchor-link">Changed<a href="#changed-32" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Updated <code>check</code> and <code>fix</code> npm scripts to include linting alongside formatting</li>
 <li>Added error cause when throwing authorization configuration errors</li>
 <li>Added error logging for redirectUri validation failures</li>
 </ul>
-<h3 id="fixed-9" class="tsd-anchor-link">Fixed<a href="#fixed-9" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="fixed-10" class="tsd-anchor-link">Fixed<a href="#fixed-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Fixed incorrect heading level in <a href="http://SystemWebViewKitModule.md">SystemWebViewKitModule.md</a> documentation (#### → ###)</li>
 </ul>
 <h2 id="189-2026-03-02" class="tsd-anchor-link">[1.8.9] - 2026-03-02<a href="#189-2026-03-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="changed-30" class="tsd-anchor-link">Changed<a href="#changed-30" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-33" class="tsd-anchor-link">Changed<a href="#changed-33" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Restructured CI pipeline into 4 stages: install, check, build, publish</li>
 <li>Updated package version from 1.8.8 to 1.8.9</li>
 </ul>
 <h2 id="188-2026-03-02" class="tsd-anchor-link">[1.8.8] - 2026-03-02<a href="#188-2026-03-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-30" class="tsd-anchor-link">Added<a href="#added-30" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-31" class="tsd-anchor-link">Added<a href="#added-31" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added Husky 9.1.7 for Git hooks management</li>
 <li>Added lint-staged 16.3.1 for running linters on staged files</li>
@@ -589,12 +617,12 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Added <code>prepare</code> npm script for Husky initialization</li>
 <li>Added <code>lint-staged</code> configuration to run Prettier on all staged files</li>
 </ul>
-<h3 id="changed-31" class="tsd-anchor-link">Changed<a href="#changed-31" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-34" class="tsd-anchor-link">Changed<a href="#changed-34" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Updated package version from 1.8.7 to 1.8.8</li>
 </ul>
 <h2 id="187-2026-03-02" class="tsd-anchor-link">[1.8.7] - 2026-03-02<a href="#187-2026-03-02" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<h3 id="added-31" class="tsd-anchor-link">Added<a href="#added-31" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="added-32" class="tsd-anchor-link">Added<a href="#added-32" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Added Prettier 3.8.1 for code formatting</li>
 <li>Added <code>.prettierrc</code> configuration with project code style rules</li>
@@ -602,9 +630,9 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Added <code>.editorconfig</code> for consistent editor settings across IDEs</li>
 <li>Added npm scripts: <code>format:check</code>, <code>format:fix</code>, <code>check</code>, and <code>fix</code></li>
 </ul>
-<h3 id="changed-32" class="tsd-anchor-link">Changed<a href="#changed-32" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h3 id="changed-35" class="tsd-anchor-link">Changed<a href="#changed-35" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
 <li>Reformatted all source files with Prettier for consistent code style</li>
 <li>Updated package version from 1.8.6-beta.1 to 1.8.7</li>
 </ul>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#changelog"><span>Changelog</span></a><ul><li><a href="#200-beta31-2026-04-10"><span>[2.0.0-<wbr/>beta.31] -<wbr/> 2026-<wbr/>04-<wbr/>10</span></a></li><li><ul><li><a href="#added"><span>Added</span></a></li><li><a href="#changed"><span>Changed</span></a></li><li><a href="#removed"><span>Removed</span></a></li></ul></li><li><a href="#200-beta30-2026-04-07"><span>[2.0.0-<wbr/>beta.30] -<wbr/> 2026-<wbr/>04-<wbr/>07</span></a></li><li><ul><li><a href="#changed-1"><span>Changed</span></a></li></ul></li><li><a href="#200-beta29-2026-04-02"><span>[2.0.0-<wbr/>beta.29] -<wbr/> 2026-<wbr/>04-<wbr/>02</span></a></li><li><ul><li><a href="#added-1"><span>Added</span></a></li><li><a href="#changed-2"><span>Changed</span></a></li></ul></li><li><a href="#200-beta28-2026-04-02"><span>[2.0.0-<wbr/>beta.28] -<wbr/> 2026-<wbr/>04-<wbr/>02</span></a></li><li><ul><li><a href="#changed-3"><span>Changed</span></a></li><li><a href="#removed-1"><span>Removed</span></a></li></ul></li><li><a href="#200-beta27-2026-04-01"><span>[2.0.0-<wbr/>beta.27] -<wbr/> 2026-<wbr/>04-<wbr/>01</span></a></li><li><ul><li><a href="#added-2"><span>Added</span></a></li><li><a href="#changed-4"><span>Changed</span></a></li></ul></li><li><a href="#200-beta26-2026-03-31"><span>[2.0.0-<wbr/>beta.26] -<wbr/> 2026-<wbr/>03-<wbr/>31</span></a></li><li><ul><li><a href="#added-3"><span>Added</span></a></li><li><a href="#changed-5"><span>Changed</span></a></li><li><a href="#removed-2"><span>Removed</span></a></li></ul></li><li><a href="#200-beta25-2026-03-31"><span>[2.0.0-<wbr/>beta.25] -<wbr/> 2026-<wbr/>03-<wbr/>31</span></a></li><li><ul><li><a href="#added-4"><span>Added</span></a></li></ul></li><li><a href="#200-beta24-2026-03-18"><span>[2.0.0-<wbr/>beta.24] -<wbr/> 2026-<wbr/>03-<wbr/>18</span></a></li><li><ul><li><a href="#changed-6"><span>Changed</span></a></li><li><a href="#fixed"><span>Fixed</span></a></li><li><a href="#removed-3"><span>Removed</span></a></li><li><a href="#added-5"><span>Added</span></a></li></ul></li><li><a href="#200-beta23-2026-03-18"><span>[2.0.0-<wbr/>beta.23] -<wbr/> 2026-<wbr/>03-<wbr/>18</span></a></li><li><ul><li><a href="#added-6"><span>Added</span></a></li><li><a href="#changed-7"><span>Changed</span></a></li></ul></li><li><a href="#200-beta22-2026-03-17"><span>[2.0.0-<wbr/>beta.22] -<wbr/> 2026-<wbr/>03-<wbr/>17</span></a></li><li><ul><li><a href="#added-7"><span>Added</span></a></li><li><a href="#changed-8"><span>Changed</span></a></li></ul></li><li><a href="#200-beta21-2026-03-16"><span>[2.0.0-<wbr/>beta.21] -<wbr/> 2026-<wbr/>03-<wbr/>16</span></a></li><li><ul><li><a href="#added-8"><span>Added</span></a></li></ul></li><li><a href="#200-beta20-2026-03-16"><span>[2.0.0-<wbr/>beta.20] -<wbr/> 2026-<wbr/>03-<wbr/>16</span></a></li><li><ul><li><a href="#added-9"><span>Added</span></a></li><li><a href="#changed-9"><span>Changed</span></a></li></ul></li><li><a href="#200-beta19-2026-03-13"><span>[2.0.0-<wbr/>beta.19] -<wbr/> 2026-<wbr/>03-<wbr/>13</span></a></li><li><ul><li><a href="#added-10"><span>Added</span></a></li><li><a href="#changed-10"><span>Changed</span></a></li></ul></li><li><a href="#200-beta18-2026-03-13"><span>[2.0.0-<wbr/>beta.18] -<wbr/> 2026-<wbr/>03-<wbr/>13</span></a></li><li><ul><li><a href="#added-11"><span>Added</span></a></li><li><a href="#changed-11"><span>Changed</span></a></li><li><a href="#removed-4"><span>Removed</span></a></li></ul></li><li><a href="#200-beta17-2026-03-12"><span>[2.0.0-<wbr/>beta.17] -<wbr/> 2026-<wbr/>03-<wbr/>12</span></a></li><li><ul><li><a href="#added-12"><span>Added</span></a></li><li><a href="#changed-12"><span>Changed</span></a></li><li><a href="#fixed-1"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta16-2026-03-12"><span>[2.0.0-<wbr/>beta.16] -<wbr/> 2026-<wbr/>03-<wbr/>12</span></a></li><li><ul><li><a href="#added-13"><span>Added</span></a></li><li><a href="#changed-13"><span>Changed</span></a></li></ul></li><li><a href="#200-beta15-2026-03-12"><span>[2.0.0-<wbr/>beta.15] -<wbr/> 2026-<wbr/>03-<wbr/>12</span></a></li><li><ul><li><a href="#added-14"><span>Added</span></a></li><li><a href="#changed-14"><span>Changed</span></a></li></ul></li><li><a href="#200-beta14-2026-03-09"><span>[2.0.0-<wbr/>beta.14] -<wbr/> 2026-<wbr/>03-<wbr/>09</span></a></li><li><ul><li><a href="#added-15"><span>Added</span></a></li><li><a href="#changed-15"><span>Changed</span></a></li><li><a href="#removed-5"><span>Removed</span></a></li></ul></li><li><a href="#200-beta13-2026-03-06"><span>[2.0.0-<wbr/>beta.13] -<wbr/> 2026-<wbr/>03-<wbr/>06</span></a></li><li><ul><li><a href="#added-16"><span>Added</span></a></li><li><a href="#changed-16"><span>Changed</span></a></li><li><a href="#removed-6"><span>Removed</span></a></li><li><a href="#security"><span>Security</span></a></li></ul></li><li><a href="#200-beta12-2026-03-06"><span>[2.0.0-<wbr/>beta.12] -<wbr/> 2026-<wbr/>03-<wbr/>06</span></a></li><li><ul><li><a href="#added-17"><span>Added</span></a></li><li><a href="#changed-17"><span>Changed</span></a></li><li><a href="#removed-7"><span>Removed</span></a></li></ul></li><li><a href="#200-beta11-2026-03-06"><span>[2.0.0-<wbr/>beta.11] -<wbr/> 2026-<wbr/>03-<wbr/>06</span></a></li><li><ul><li><a href="#added-18"><span>Added</span></a></li><li><a href="#changed-18"><span>Changed</span></a></li></ul></li><li><a href="#200-beta10-2026-03-05"><span>[2.0.0-<wbr/>beta.10] -<wbr/> 2026-<wbr/>03-<wbr/>05</span></a></li><li><ul><li><a href="#added-19"><span>Added</span></a></li><li><a href="#changed-19"><span>Changed</span></a></li><li><a href="#fixed-2"><span>Fixed</span></a></li><li><a href="#removed-8"><span>Removed</span></a></li></ul></li><li><a href="#200-beta9-2026-03-04"><span>[2.0.0-<wbr/>beta.9] -<wbr/> 2026-<wbr/>03-<wbr/>04</span></a></li><li><ul><li><a href="#added-20"><span>Added</span></a></li><li><a href="#changed-20"><span>Changed</span></a></li></ul></li><li><a href="#200-beta8-2026-03-04"><span>[2.0.0-<wbr/>beta.8] -<wbr/> 2026-<wbr/>03-<wbr/>04</span></a></li><li><ul><li><a href="#added-21"><span>Added</span></a></li><li><a href="#changed-21"><span>Changed</span></a></li><li><a href="#fixed-3"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta7-2026-03-04"><span>[2.0.0-<wbr/>beta.7] -<wbr/> 2026-<wbr/>03-<wbr/>04</span></a></li><li><ul><li><a href="#added-22"><span>Added</span></a></li><li><a href="#fixed-4"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta6-2026-03-03"><span>[2.0.0-<wbr/>beta.6] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-23"><span>Added</span></a></li></ul></li><li><a href="#200-beta5-2026-03-03"><span>[2.0.0-<wbr/>beta.5] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-24"><span>Added</span></a></li><li><a href="#changed-22"><span>Changed</span></a></li><li><a href="#fixed-5"><span>Fixed</span></a></li><li><a href="#changed-23"><span>Changed</span></a></li><li><a href="#fixed-6"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta4-2026-03-03"><span>[2.0.0-<wbr/>beta.4] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-25"><span>Added</span></a></li><li><a href="#changed-24"><span>Changed</span></a></li><li><a href="#fixed-7"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta3-2026-03-03"><span>[2.0.0-<wbr/>beta.3] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-26"><span>Added</span></a></li><li><a href="#changed-25"><span>Changed</span></a></li><li><a href="#fixed-8"><span>Fixed</span></a></li><li><a href="#removed-9"><span>Removed</span></a></li></ul></li><li><a href="#200-beta2-2026-03-03"><span>[2.0.0-<wbr/>beta.2] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-27"><span>Added</span></a></li><li><a href="#changed-26"><span>Changed</span></a></li><li><a href="#removed-10"><span>Removed</span></a></li></ul></li><li><a href="#200-beta1-2026-03-02"><span>[2.0.0-<wbr/>beta.1] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-28"><span>Added</span></a></li><li><a href="#changed-27"><span>Changed</span></a></li><li><a href="#removed-11"><span>Removed</span></a></li></ul></li><li><a href="#1811-2026-03-02"><span>[1.8.11] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#changed-28"><span>Changed</span></a></li></ul></li><li><a href="#1810-2026-03-02"><span>[1.8.10] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-29"><span>Added</span></a></li><li><a href="#changed-29"><span>Changed</span></a></li><li><a href="#fixed-9"><span>Fixed</span></a></li></ul></li><li><a href="#189-2026-03-02"><span>[1.8.9] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#changed-30"><span>Changed</span></a></li></ul></li><li><a href="#188-2026-03-02"><span>[1.8.8] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-30"><span>Added</span></a></li><li><a href="#changed-31"><span>Changed</span></a></li></ul></li><li><a href="#187-2026-03-02"><span>[1.8.7] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-31"><span>Added</span></a></li><li><a href="#changed-32"><span>Changed</span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">@grabjs/superapp-sdk</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#changelog"><span>Changelog</span></a><ul><li><a href="#200-beta34-2026-04-13"><span>[2.0.0-<wbr/>beta.34] -<wbr/> 2026-<wbr/>04-<wbr/>13</span></a></li><li><ul><li><a href="#changed"><span>Changed</span></a></li></ul></li><li><a href="#200-beta33-2026-04-13"><span>[2.0.0-<wbr/>beta.33] -<wbr/> 2026-<wbr/>04-<wbr/>13</span></a></li><li><ul><li><a href="#fixed"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta32-2026-04-13"><span>[2.0.0-<wbr/>beta.32] -<wbr/> 2026-<wbr/>04-<wbr/>13</span></a></li><li><ul><li><a href="#added"><span>Added</span></a></li><li><a href="#changed-1"><span>Changed</span></a></li><li><a href="#changed-2"><span>Changed</span></a></li></ul></li><li><a href="#200-beta31-2026-04-10"><span>[2.0.0-<wbr/>beta.31] -<wbr/> 2026-<wbr/>04-<wbr/>10</span></a></li><li><ul><li><a href="#added-1"><span>Added</span></a></li><li><a href="#changed-3"><span>Changed</span></a></li><li><a href="#removed"><span>Removed</span></a></li></ul></li><li><a href="#200-beta30-2026-04-07"><span>[2.0.0-<wbr/>beta.30] -<wbr/> 2026-<wbr/>04-<wbr/>07</span></a></li><li><ul><li><a href="#changed-4"><span>Changed</span></a></li></ul></li><li><a href="#200-beta29-2026-04-02"><span>[2.0.0-<wbr/>beta.29] -<wbr/> 2026-<wbr/>04-<wbr/>02</span></a></li><li><ul><li><a href="#added-2"><span>Added</span></a></li><li><a href="#changed-5"><span>Changed</span></a></li></ul></li><li><a href="#200-beta28-2026-04-02"><span>[2.0.0-<wbr/>beta.28] -<wbr/> 2026-<wbr/>04-<wbr/>02</span></a></li><li><ul><li><a href="#changed-6"><span>Changed</span></a></li><li><a href="#removed-1"><span>Removed</span></a></li></ul></li><li><a href="#200-beta27-2026-04-01"><span>[2.0.0-<wbr/>beta.27] -<wbr/> 2026-<wbr/>04-<wbr/>01</span></a></li><li><ul><li><a href="#added-3"><span>Added</span></a></li><li><a href="#changed-7"><span>Changed</span></a></li></ul></li><li><a href="#200-beta26-2026-03-31"><span>[2.0.0-<wbr/>beta.26] -<wbr/> 2026-<wbr/>03-<wbr/>31</span></a></li><li><ul><li><a href="#added-4"><span>Added</span></a></li><li><a href="#changed-8"><span>Changed</span></a></li><li><a href="#removed-2"><span>Removed</span></a></li></ul></li><li><a href="#200-beta25-2026-03-31"><span>[2.0.0-<wbr/>beta.25] -<wbr/> 2026-<wbr/>03-<wbr/>31</span></a></li><li><ul><li><a href="#added-5"><span>Added</span></a></li></ul></li><li><a href="#200-beta24-2026-03-18"><span>[2.0.0-<wbr/>beta.24] -<wbr/> 2026-<wbr/>03-<wbr/>18</span></a></li><li><ul><li><a href="#changed-9"><span>Changed</span></a></li><li><a href="#fixed-1"><span>Fixed</span></a></li><li><a href="#removed-3"><span>Removed</span></a></li><li><a href="#added-6"><span>Added</span></a></li></ul></li><li><a href="#200-beta23-2026-03-18"><span>[2.0.0-<wbr/>beta.23] -<wbr/> 2026-<wbr/>03-<wbr/>18</span></a></li><li><ul><li><a href="#added-7"><span>Added</span></a></li><li><a href="#changed-10"><span>Changed</span></a></li></ul></li><li><a href="#200-beta22-2026-03-17"><span>[2.0.0-<wbr/>beta.22] -<wbr/> 2026-<wbr/>03-<wbr/>17</span></a></li><li><ul><li><a href="#added-8"><span>Added</span></a></li><li><a href="#changed-11"><span>Changed</span></a></li></ul></li><li><a href="#200-beta21-2026-03-16"><span>[2.0.0-<wbr/>beta.21] -<wbr/> 2026-<wbr/>03-<wbr/>16</span></a></li><li><ul><li><a href="#added-9"><span>Added</span></a></li></ul></li><li><a href="#200-beta20-2026-03-16"><span>[2.0.0-<wbr/>beta.20] -<wbr/> 2026-<wbr/>03-<wbr/>16</span></a></li><li><ul><li><a href="#added-10"><span>Added</span></a></li><li><a href="#changed-12"><span>Changed</span></a></li></ul></li><li><a href="#200-beta19-2026-03-13"><span>[2.0.0-<wbr/>beta.19] -<wbr/> 2026-<wbr/>03-<wbr/>13</span></a></li><li><ul><li><a href="#added-11"><span>Added</span></a></li><li><a href="#changed-13"><span>Changed</span></a></li></ul></li><li><a href="#200-beta18-2026-03-13"><span>[2.0.0-<wbr/>beta.18] -<wbr/> 2026-<wbr/>03-<wbr/>13</span></a></li><li><ul><li><a href="#added-12"><span>Added</span></a></li><li><a href="#changed-14"><span>Changed</span></a></li><li><a href="#removed-4"><span>Removed</span></a></li></ul></li><li><a href="#200-beta17-2026-03-12"><span>[2.0.0-<wbr/>beta.17] -<wbr/> 2026-<wbr/>03-<wbr/>12</span></a></li><li><ul><li><a href="#added-13"><span>Added</span></a></li><li><a href="#changed-15"><span>Changed</span></a></li><li><a href="#fixed-2"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta16-2026-03-12"><span>[2.0.0-<wbr/>beta.16] -<wbr/> 2026-<wbr/>03-<wbr/>12</span></a></li><li><ul><li><a href="#added-14"><span>Added</span></a></li><li><a href="#changed-16"><span>Changed</span></a></li></ul></li><li><a href="#200-beta15-2026-03-12"><span>[2.0.0-<wbr/>beta.15] -<wbr/> 2026-<wbr/>03-<wbr/>12</span></a></li><li><ul><li><a href="#added-15"><span>Added</span></a></li><li><a href="#changed-17"><span>Changed</span></a></li></ul></li><li><a href="#200-beta14-2026-03-09"><span>[2.0.0-<wbr/>beta.14] -<wbr/> 2026-<wbr/>03-<wbr/>09</span></a></li><li><ul><li><a href="#added-16"><span>Added</span></a></li><li><a href="#changed-18"><span>Changed</span></a></li><li><a href="#removed-5"><span>Removed</span></a></li></ul></li><li><a href="#200-beta13-2026-03-06"><span>[2.0.0-<wbr/>beta.13] -<wbr/> 2026-<wbr/>03-<wbr/>06</span></a></li><li><ul><li><a href="#added-17"><span>Added</span></a></li><li><a href="#changed-19"><span>Changed</span></a></li><li><a href="#removed-6"><span>Removed</span></a></li><li><a href="#security"><span>Security</span></a></li></ul></li><li><a href="#200-beta12-2026-03-06"><span>[2.0.0-<wbr/>beta.12] -<wbr/> 2026-<wbr/>03-<wbr/>06</span></a></li><li><ul><li><a href="#added-18"><span>Added</span></a></li><li><a href="#changed-20"><span>Changed</span></a></li><li><a href="#removed-7"><span>Removed</span></a></li></ul></li><li><a href="#200-beta11-2026-03-06"><span>[2.0.0-<wbr/>beta.11] -<wbr/> 2026-<wbr/>03-<wbr/>06</span></a></li><li><ul><li><a href="#added-19"><span>Added</span></a></li><li><a href="#changed-21"><span>Changed</span></a></li></ul></li><li><a href="#200-beta10-2026-03-05"><span>[2.0.0-<wbr/>beta.10] -<wbr/> 2026-<wbr/>03-<wbr/>05</span></a></li><li><ul><li><a href="#added-20"><span>Added</span></a></li><li><a href="#changed-22"><span>Changed</span></a></li><li><a href="#fixed-3"><span>Fixed</span></a></li><li><a href="#removed-8"><span>Removed</span></a></li></ul></li><li><a href="#200-beta9-2026-03-04"><span>[2.0.0-<wbr/>beta.9] -<wbr/> 2026-<wbr/>03-<wbr/>04</span></a></li><li><ul><li><a href="#added-21"><span>Added</span></a></li><li><a href="#changed-23"><span>Changed</span></a></li></ul></li><li><a href="#200-beta8-2026-03-04"><span>[2.0.0-<wbr/>beta.8] -<wbr/> 2026-<wbr/>03-<wbr/>04</span></a></li><li><ul><li><a href="#added-22"><span>Added</span></a></li><li><a href="#changed-24"><span>Changed</span></a></li><li><a href="#fixed-4"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta7-2026-03-04"><span>[2.0.0-<wbr/>beta.7] -<wbr/> 2026-<wbr/>03-<wbr/>04</span></a></li><li><ul><li><a href="#added-23"><span>Added</span></a></li><li><a href="#fixed-5"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta6-2026-03-03"><span>[2.0.0-<wbr/>beta.6] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-24"><span>Added</span></a></li></ul></li><li><a href="#200-beta5-2026-03-03"><span>[2.0.0-<wbr/>beta.5] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-25"><span>Added</span></a></li><li><a href="#changed-25"><span>Changed</span></a></li><li><a href="#fixed-6"><span>Fixed</span></a></li><li><a href="#changed-26"><span>Changed</span></a></li><li><a href="#fixed-7"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta4-2026-03-03"><span>[2.0.0-<wbr/>beta.4] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-26"><span>Added</span></a></li><li><a href="#changed-27"><span>Changed</span></a></li><li><a href="#fixed-8"><span>Fixed</span></a></li></ul></li><li><a href="#200-beta3-2026-03-03"><span>[2.0.0-<wbr/>beta.3] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-27"><span>Added</span></a></li><li><a href="#changed-28"><span>Changed</span></a></li><li><a href="#fixed-9"><span>Fixed</span></a></li><li><a href="#removed-9"><span>Removed</span></a></li></ul></li><li><a href="#200-beta2-2026-03-03"><span>[2.0.0-<wbr/>beta.2] -<wbr/> 2026-<wbr/>03-<wbr/>03</span></a></li><li><ul><li><a href="#added-28"><span>Added</span></a></li><li><a href="#changed-29"><span>Changed</span></a></li><li><a href="#removed-10"><span>Removed</span></a></li></ul></li><li><a href="#200-beta1-2026-03-02"><span>[2.0.0-<wbr/>beta.1] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-29"><span>Added</span></a></li><li><a href="#changed-30"><span>Changed</span></a></li><li><a href="#removed-11"><span>Removed</span></a></li></ul></li><li><a href="#1811-2026-03-02"><span>[1.8.11] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#changed-31"><span>Changed</span></a></li></ul></li><li><a href="#1810-2026-03-02"><span>[1.8.10] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-30"><span>Added</span></a></li><li><a href="#changed-32"><span>Changed</span></a></li><li><a href="#fixed-10"><span>Fixed</span></a></li></ul></li><li><a href="#189-2026-03-02"><span>[1.8.9] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#changed-33"><span>Changed</span></a></li></ul></li><li><a href="#188-2026-03-02"><span>[1.8.8] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-31"><span>Added</span></a></li><li><a href="#changed-34"><span>Changed</span></a></li></ul></li><li><a href="#187-2026-03-02"><span>[1.8.7] -<wbr/> 2026-<wbr/>03-<wbr/>02</span></a></li><li><ul><li><a href="#added-32"><span>Added</span></a></li><li><a href="#changed-35"><span>Changed</span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">@grabjs/superapp-sdk</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

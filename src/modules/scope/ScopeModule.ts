@@ -67,7 +67,7 @@ export class ScopeModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Has access:', response.result.hasAccess);
+   *   console.log('Has access:', response.result);
    * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {

@@ -328,7 +328,7 @@ JSBridge module for accessing user profile information.
 
 #### `ScopeModule`
 JSBridge module for checking and refreshing API access permissions.
-- `hasAccessTo(module: string, method: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { hasAccess: boolean }; status_code: 200 }>` — Checks if the current client has access to a specific JSBridge API method.
+- `hasAccessTo(module: string, method: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Checks if the current client has access to a specific JSBridge API method.
 - `reloadScopes(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Requests to reload the consented OAuth scopes for the current client.
 This refreshes the permissions from the server.
 
