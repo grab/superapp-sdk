@@ -24,7 +24,7 @@ export const HasAccessToRequestSchema = v.object({
  *
  * @public
  */
-export const HasAccessToResultSchema = v.object({ hasAccess: v.boolean() });
+export const HasAccessToResultSchema = v.boolean();
 
 /**
  * Valibot schema for {@link HasAccessToResponse}.

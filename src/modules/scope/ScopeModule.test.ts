@@ -40,7 +40,7 @@ describe('ScopeModule', () => {
 
       const mockResponse: HasAccessToResponse = {
         status_code: 200,
-        result: { hasAccess: true },
+        result: true,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -58,7 +58,7 @@ describe('ScopeModule', () => {
       });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.hasAccess).toBe(true);
+        expect(response.result).toBe(true);
       }
     });
 
@@ -69,7 +69,7 @@ describe('ScopeModule', () => {
 
       const mockResponse: HasAccessToResponse = {
         status_code: 200,
-        result: { hasAccess: false },
+        result: false,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
@@ -87,7 +87,7 @@ describe('ScopeModule', () => {
       });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.hasAccess).toBe(false);
+        expect(response.result).toBe(false);
       }
     });
 

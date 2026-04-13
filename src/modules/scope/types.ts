@@ -30,18 +30,18 @@ import {
 export type HasAccessToRequest = InferOutput<typeof HasAccessToRequestSchema>;
 
 /**
- * Result object containing the access check result.
+ * Boolean result indicating whether the MiniApp has access to the specified API.
  *
  * @example
  * **Has access:**
  * ```typescript
- * { hasAccess: true }
+ * true
  * ```
  *
  * @example
  * **No access:**
  * ```typescript
- * { hasAccess: false }
+ * false
  * ```
  *
  * @public
