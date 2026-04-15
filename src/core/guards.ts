@@ -8,19 +8,17 @@
 import type { BridgeResponse } from './types';
 
 /**
- * Type guard to check if a JSBridge response is successful (status codes 200 or 204).
+ * Type guard to check if a JSBridge response is successful (2xx status codes).
  *
  * @param response - The JSBridge response to check
- * @returns True if the response is successful (200 or 204), false otherwise
+ * @returns True if the response is successful (200-299), false otherwise
  *
  * @example
  * ```typescript
  * const response = await someBridgeMethod();
  * if (isSuccess(response)) {
- *   // response narrowed to the 200/204 variants of the response union
- *   if (response.status_code === 200) {
- *     console.log(response.result);
- *   }
+ *   // response narrowed to success variants — result is available
+ *   console.log(response.result);
  * }
  * ```
  *
@@ -29,7 +27,7 @@ import type { BridgeResponse } from './types';
 export function isSuccess<T extends BridgeResponse>(
   response: T
 ): response is Extract<T, { status_code: 200 | 204 }> {
-  return response.status_code === 200 || response.status_code === 204;
+  return response.status_code >= 200 && response.status_code < 300;
 }
 
 /**
@@ -100,7 +98,7 @@ export function isFound<T extends BridgeResponse>(
  * Type guard to check if a JSBridge response is a client error (4xx status codes).
  *
  * @param response - The JSBridge response to check
- * @returns True if the response is a client error (400, 401, 403, 404, 424, 426), false otherwise
+ * @returns True if the response is a client error (400-499), false otherwise
  *
  * @example
  * ```typescript
@@ -115,15 +113,14 @@ export function isFound<T extends BridgeResponse>(
 export function isClientError<T extends BridgeResponse>(
   response: T
 ): response is Extract<T, { status_code: 400 | 401 | 403 | 404 | 424 | 426 }> {
-  const c = response.status_code;
-  return c === 400 || c === 401 || c === 403 || c === 404 || c === 424 || c === 426;
+  return response.status_code >= 400 && response.status_code < 500;
 }
 
 /**
  * Type guard to check if a JSBridge response is a server error (5xx status codes).
  *
  * @param response - The JSBridge response to check
- * @returns True if the response is a server error (500, 501), false otherwise
+ * @returns True if the response is a server error (500-599), false otherwise
  *
  * @example
  * ```typescript
@@ -138,7 +135,7 @@ export function isClientError<T extends BridgeResponse>(
 export function isServerError<T extends BridgeResponse>(
   response: T
 ): response is Extract<T, { status_code: 500 | 501 }> {
-  return response.status_code === 500 || response.status_code === 501;
+  return response.status_code >= 500 && response.status_code < 600;
 }
 
 /**
@@ -163,5 +160,31 @@ export function isServerError<T extends BridgeResponse>(
 export function isError<T extends BridgeResponse>(
   response: T
 ): response is Extract<T, { error: string }> {
-  return typeof response.error === 'string' && response.error.length > 0;
+  return (
+    (response.status_code >= 400 && response.status_code < 600) ||
+    (typeof response.error === 'string' && response.error.length > 0)
+  );
+}
+
+/**
+ * Type guard to check if a JSBridge response has a defined result (not null or undefined).
+ *
+ * @param response - The JSBridge response to check
+ * @returns True if the response has a result that is neither null nor undefined, false otherwise
+ *
+ * @example
+ * ```typescript
+ * const response = await someBridgeMethod();
+ * if (isSuccess(response) && hasResult(response)) {
+ *   // response.result is guaranteed to be defined
+ *   console.log('Result:', response.result);
+ * }
+ * ```
+ *
+ * @public
+ */
+export function hasResult<T extends BridgeResponse>(
+  response: T
+): response is Extract<T, { result: NonNullable<unknown> }> {
+  return 'result' in response && response.result !== null && response.result !== undefined;
 }
