@@ -10,19 +10,19 @@ import { IsEsimSupportedResponseSchema } from './schemas';
 import { IsEsimSupportedResponse } from './types';
 
 /**
- * JSBridge module for querying native device capability information.
+ * JSBridge module for querying native device information.
  *
  * @group Modules
  *
  * @remarks
- * Provides access to device capability checks exposed by the native Grab app bridge.
+ * Provides access to device checks exposed by the native Grab app bridge.
  * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
  * **ES Module:**
  * ```typescript
- * import { DeviceCapabilityModule } from '@grabjs/superapp-sdk';
- * const deviceCapabilityModule = new DeviceCapabilityModule();
+ * import { DeviceModule } from '@grabjs/superapp-sdk';
+ * const deviceModule = new DeviceModule();
  * ```
  *
  * @example
@@ -30,16 +30,16 @@ import { IsEsimSupportedResponse } from './types';
  * ```html
  * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
  * <script>
- *   const deviceCapabilityModule = new SuperAppSDK.DeviceCapabilityModule();
+ *   const deviceModule = new SuperAppSDK.DeviceModule();
  * </script>
  * ```
  *
  * @public
  * @noInheritDoc
  */
-export class DeviceCapabilityModule extends BaseModule {
+export class DeviceModule extends BaseModule {
   constructor() {
-    super('DeviceCapabilityModule');
+    super('DeviceModule');
   }
 
   /**
@@ -50,13 +50,13 @@ export class DeviceCapabilityModule extends BaseModule {
    * @example
    * **Simple usage**
    * ```typescript
-   * import { DeviceCapabilityModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+   * import { DeviceModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
-   * // Initialize the device capability module
-   * const deviceCapability = new DeviceCapabilityModule();
+   * // Initialize the device module
+   * const device = new DeviceModule();
    *
    * // Check eSIM support
-   * const response = await deviceCapability.isEsimSupported();
+   * const response = await device.isEsimSupported();
    *
    * // Handle the response
    * if (isSuccess(response)) {

@@ -280,8 +280,8 @@ JSBridge module for controlling the WebView container.
 - `showLoader(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Show the full-screen loading indicator.
 - `showRefreshButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Show the refresh button on the container header.
 
-#### `DeviceCapabilityModule`
-JSBridge module for querying native device capability information.
+#### `DeviceModule`
+JSBridge module for querying native device information.
 - `isEsimSupported(): Promise<{ error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Checks whether the current device supports eSIM.
 
 #### `FileModule`

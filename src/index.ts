@@ -102,12 +102,12 @@ export {
   ShowRefreshButtonResult,
 } from './modules/container';
 export {
-  DeviceCapabilityModule,
+  DeviceModule,
   IsEsimSupportedResponse,
   IsEsimSupportedResponseSchema,
   IsEsimSupportedResult,
   IsEsimSupportedResultSchema,
-} from './modules/device-capability';
+} from './modules/device';
 export {
   DownloadFileRequest,
   DownloadFileRequestSchema,

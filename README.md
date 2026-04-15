@@ -20,7 +20,7 @@ Each module encapsulates a specific domain of functionality, offering strongly-t
 
 - **[ContainerModule](https://grab.github.io/superapp-sdk/classes/ContainerModule.html)** — Control the WebView container UI and lifecycle (header, loading indicators, analytics, connection verification)
 
-- **[DeviceCapabilityModule](https://grab.github.io/superapp-sdk/classes/DeviceCapabilityModule.html)** — Query device hardware capabilities
+- **[DeviceModule](https://grab.github.io/superapp-sdk/classes/DeviceModule.html)** — Query device hardware capabilities
 
 - **[FileModule](https://grab.github.io/superapp-sdk/classes/FileModule.html)** — Handle file operations including downloading from remote URLs
 
