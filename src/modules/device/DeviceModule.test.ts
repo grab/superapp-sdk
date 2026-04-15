@@ -7,14 +7,14 @@
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { DeviceCapabilityModule } from './DeviceCapabilityModule';
+import { DeviceModule } from './DeviceModule';
 import { IsEsimSupportedResponse } from './types';
 
-describe('DeviceCapabilityModule', () => {
+describe('DeviceModule', () => {
   describe('isEsimSupported', () => {
     afterEach(() => {
       vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedDeviceCapabilityModule;
+      delete (window as unknown as Record<string, unknown>).WrappedDeviceModule;
     });
 
     it('should return 501 when not running in Grab app', async () => {
@@ -22,7 +22,7 @@ describe('DeviceCapabilityModule', () => {
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
       });
 
-      const module = new DeviceCapabilityModule();
+      const module = new DeviceModule();
       const response = await module.isEsimSupported();
 
       expect(response.status_code).toBe(501);
@@ -45,13 +45,11 @@ describe('DeviceCapabilityModule', () => {
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
 
-      (
-        window as unknown as Record<string, { invoke: typeof mockInvoke }>
-      ).WrappedDeviceCapabilityModule = {
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedDeviceModule = {
         invoke: mockInvoke,
       };
 
-      const module = new DeviceCapabilityModule();
+      const module = new DeviceModule();
       const response = await module.isEsimSupported();
 
       expect(mockInvoke).toHaveBeenCalledWith('isEsimSupported', undefined);
@@ -73,13 +71,11 @@ describe('DeviceCapabilityModule', () => {
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
 
-      (
-        window as unknown as Record<string, { invoke: typeof mockInvoke }>
-      ).WrappedDeviceCapabilityModule = {
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedDeviceModule = {
         invoke: mockInvoke,
       };
 
-      const module = new DeviceCapabilityModule();
+      const module = new DeviceModule();
       const response = await module.isEsimSupported();
 
       expect(mockInvoke).toHaveBeenCalledWith('isEsimSupported', undefined);
@@ -98,13 +94,11 @@ describe('DeviceCapabilityModule', () => {
         throw new Error('Unexpected bridge error');
       });
 
-      (
-        window as unknown as Record<string, { invoke: typeof mockInvoke }>
-      ).WrappedDeviceCapabilityModule = {
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedDeviceModule = {
         invoke: mockInvoke,
       };
 
-      const module = new DeviceCapabilityModule();
+      const module = new DeviceModule();
       const response = await module.isEsimSupported();
 
       expect(mockInvoke).toHaveBeenCalledWith('isEsimSupported', undefined);

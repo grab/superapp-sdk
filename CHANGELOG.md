@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.35] - 2026-04-15
+
+### Changed
+
+- **BREAKING**: Renamed `DeviceCapabilityModule` to `DeviceModule` for brevity
+  - Import path changed from `modules/device-capability` to `modules/device`
+  - Class name changed from `DeviceCapabilityModule` to `DeviceModule`
+  - Update your imports: `import { DeviceModule } from '@grabjs/superapp-sdk'`
+- README updated to reflect the module rename
+
 ## [2.0.0-beta.34] - 2026-04-13
 
 ### Changed
