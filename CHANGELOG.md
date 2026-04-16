@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.36] - 2026-04-15
+
+### Added
+
+- `NetworkModule` with `send()` method for making HTTP requests through the native bridge
+- `hasResult()` type guard to check if a response has a defined result (non-null/undefined)
+
+### Changed
+
+- Type guards now check status code ranges instead of specific codes:
+  - `isSuccess()` — now matches all 2xx codes (200-299) instead of just 200/204
+  - `isClientError()` — now matches all 4xx codes (400-499) instead of specific codes
+  - `isServerError()` — now matches all 5xx codes (500-599) instead of specific codes
+  - `isError()` — now checks status code ranges in addition to error field presence
+
 ## [2.0.0-beta.35] - 2026-04-15
 
 ### Changed

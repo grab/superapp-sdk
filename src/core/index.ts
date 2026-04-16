@@ -7,6 +7,7 @@
 
 export { BaseModule } from './BaseModule';
 export {
+  hasResult,
   isClientError,
   isError,
   isFound,
