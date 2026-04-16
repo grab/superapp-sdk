@@ -162,6 +162,15 @@ export {
   PlayDRMContentResponseSchema,
   PlayDRMContentResult,
 } from './modules/media';
+export {
+  NetworkModule,
+  SendRequest,
+  SendRequestSchema,
+  SendResponse,
+  SendResponseSchema,
+  SendResult,
+  SendResultSchema,
+} from './modules/network';
 export { BackResponse, BackResponseSchema, BackResult, PlatformModule } from './modules/platform';
 export {
   FetchEmailResponse,

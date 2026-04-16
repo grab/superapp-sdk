@@ -316,6 +316,10 @@ JSBridge module for playing DRM-protected media content.
 - `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events.
 - `playDRMContent(data: DRMContentConfig): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { length: number; position: number; titleId: string; type: "START_PLAYBACK" | "PROGRESS_PLAYBACK" | "START_SEEK" | "STOP_SEEK" | "STOP_PLAYBACK" | "CLOSE_PLAYBACK" | "PAUSE_PLAYBACK" | "RESUME_PLAYBACK" | "FAST_FORWARD_PLAYBACK" | "REWIND_PLAYBACK" | "ERROR_PLAYBACK" | "CHANGE_VOLUME" }; status_code: 200 }>` — Plays DRM-protected media content in the native media player.
 
+#### `NetworkModule`
+JSBridge module for making network requests via the native bridge.
+- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ result: Record<string, unknown>; status_code: number } | { error: string; status_code: number }>` — Sends a network request via the native bridge.
+
 #### `PlatformModule`
 JSBridge module for controlling platform navigation.
 - `back(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Triggers the native platform back navigation.
@@ -402,7 +406,7 @@ isServerError<T>(response: T): response is Extract<T, { status_code: 500 | 501 }
 ```
 
 #### `isSuccess`
-Type guard to check if a JSBridge response is successful (status codes 200 or 204).
+Type guard to check if a JSBridge response is successful (2xx status codes).
 ```ts
 isSuccess<T>(response: T): response is Extract<T, { status_code: 200 | 204 }>
 ```
