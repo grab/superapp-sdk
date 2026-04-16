@@ -133,7 +133,11 @@ export class NetworkModule extends BaseModule {
     // If parsing fails, return a 500 error rather than exposing invalid data.
     if (hasResult(response) && typeof response.result === 'string') {
       try {
-        response.result = JSON.parse(response.result) as Record<string, unknown>;
+        const parsedResult = JSON.parse(response.result) as Record<string, unknown>;
+        return {
+          ...response,
+          result: parsedResult,
+        };
       } catch {
         return {
           status_code: 500,
