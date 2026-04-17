@@ -7,6 +7,8 @@
 
 import * as v from 'valibot';
 
+import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+
 /**
  * Valibot schema for {@link SendRequest}.
  *
@@ -38,41 +40,46 @@ export const SendRequestSchema = v.object({
 export const SendResultSchema = v.record(v.string(), v.unknown());
 
 /**
- * Schema builder for successful HTTP responses with any status code.
- *
- * @returns A valibot object schema with `status_code` (number) and `result` fields.
- * @internal
- */
-const networkOkSchema = <T extends v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>>(
-  result: T
-): v.ObjectSchema<
-  {
-    readonly status_code: v.NumberSchema<undefined>;
-    readonly result: T;
-  },
-  undefined
-> => v.object({ status_code: v.number(), result });
-
-/**
- * Schema builder for HTTP error responses with any status code.
- *
- * @returns A valibot object schema with `status_code` (number) and `error` fields.
- * @internal
- */
-const networkErrorSchema = (): v.ObjectSchema<
-  {
-    readonly status_code: v.NumberSchema<undefined>;
-    readonly error: v.StringSchema<undefined>;
-  },
-  undefined
-> => v.object({ status_code: v.number(), error: v.string() });
-
-/**
  * Valibot schema for {@link SendResponse}.
  *
  * @public
  */
 export const SendResponseSchema = v.union([
-  networkOkSchema(SendResultSchema),
-  networkErrorSchema(),
+  bridgeOkSchema(SendResultSchema),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(401),
+  bridgeErrorSchema(403),
+  bridgeErrorSchema(404),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(426),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response result.
+ * The native bridge may return either a JSON string or a parsed Record.
+ *
+ * @internal
+ */
+export const RawSendResultSchema = v.union([v.string(), SendResultSchema]);
+
+/**
+ * Internal valibot schema for the raw bridge response.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawSendResponseSchema = v.union([
+  bridgeOkSchema(RawSendResultSchema),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(401),
+  bridgeErrorSchema(403),
+  bridgeErrorSchema(404),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(426),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
 ]);

@@ -318,7 +318,7 @@ JSBridge module for playing DRM-protected media content.
 
 #### `NetworkModule`
 JSBridge module for making network requests via the native bridge.
-- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ result: Record<string, unknown>; status_code: number } | { error: string; status_code: number }>` — Sends a network request via the native bridge.
+- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 404 } | { error: string; status_code: 424 } | { result: Record<string, unknown>; status_code: 200 } | { error: string; status_code: 401 } | { error: string; status_code: 426 }>` — Sends a network request via the native bridge.
 
 #### `PlatformModule`
 JSBridge module for controlling platform navigation.
@@ -327,7 +327,7 @@ This navigates back in the native navigation stack.
 
 #### `ProfileModule`
 JSBridge module for accessing user profile information.
-- `fetchEmail(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { email: string }; status_code: 200 } | { error: string; status_code: 426 }>` — Fetches the user's email address from their Grab profile.
+- `fetchEmail(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Fetches the user's email address from their Grab profile.
 - `verifyEmail(request?: { email?: string; skipUserInput?: boolean }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification.
 
 #### `ScopeModule`
@@ -362,6 +362,12 @@ JSBridge module for reading user-related attributes from native code.
 - `getSelectedTravelDestination(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
 
 ### Functions
+
+#### `hasResult`
+Type guard to check if a JSBridge response has a defined result (not null or undefined).
+```ts
+hasResult<T>(response: T): response is Extract<T, { result: {} }>
+```
 
 #### `isClientError`
 Type guard to check if a JSBridge response is a client error (4xx status codes).
