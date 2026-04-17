@@ -14,6 +14,7 @@ export type {
   WrappedModule,
 } from './core';
 export {
+  hasResult,
   isClientError,
   isError,
   isFound,

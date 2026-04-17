@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.37] - 2026-04-17
+
+### Added
+
+- `hasResult()` type guard now exported from package index
+- `NetworkModule.send()` now handles JSON string responses from native bridge (auto-parses to objects)
+- `RawSendResponse` and `RawSendResult` internal types/schemas for raw bridge response validation
+- Response shape validation with warnings for unexpected native bridge responses
+
+### Changed
+
+- `NetworkModule` schemas now use shared `bridgeOkSchema`, `bridgeNoContentSchema`, and `bridgeErrorSchema` from core
+- Simplified JSDoc examples in `NetworkModule`
+- Clarified documentation: `NetworkModule` is only for Grab-hosted MiniApps calling authenticated Grab APIs
+
 ## [2.0.0-beta.36] - 2026-04-15
 
 ### Added

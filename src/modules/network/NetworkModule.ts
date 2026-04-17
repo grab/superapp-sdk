@@ -5,9 +5,9 @@
  * directory of this source tree.
  */
 
-import { BaseModule, hasResult } from '../../core';
-import { SendRequestSchema, SendResponseSchema } from './schemas';
-import { SendRequest, SendResponse } from './types';
+import { BaseModule, hasResult, isSuccess } from '../../core';
+import { RawSendResponseSchema, SendRequestSchema, SendResponseSchema } from './schemas';
+import { RawSendResponse, SendRequest, SendResponse } from './types';
 
 /**
  * JSBridge module for making network requests via the native bridge.
@@ -16,6 +16,8 @@ import { SendRequest, SendResponse } from './types';
  *
  * @remarks
  * Provides access to native network functionality for making HTTP requests.
+ * This module is **only** for MiniApps hosted on the Grab domain to call authenticated Grab API endpoints.
+ * It should **not** be used by external MiniApps (not on Grab domain) or for non-authenticated Grab APIs.
  * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
@@ -50,36 +52,14 @@ export class NetworkModule extends BaseModule {
    * @returns The network response containing the result data or error information. See {@link SendResponse}.
    *
    * @example
-   * **Simple GET request**
+   * **Simple usage**
    * ```typescript
    * import { NetworkModule, isSuccess, isError, hasResult } from '@grabjs/superapp-sdk';
    *
    * // Initialize the network module
    * const network = new NetworkModule();
    *
-   * // Send a GET request
-   * const response = await network.send({
-   *   endpoint: 'https://api.example.com/users',
-   *   method: 'GET'
-   * });
-   *
-   * // Handle the response
-   * if (isSuccess(response) && hasResult(response)) {
-   *   console.log('Response data:', response.result);
-   * } else if (isError(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
-   * } else {
-   *   console.error('Unhandled response');
-   * }
-   * ```
-   *
-   * @example
-   * **POST request with body and headers**
-   * ```typescript
-   * import { NetworkModule, isSuccess, isError, hasResult } from '@grabjs/superapp-sdk';
-   *
-   * const network = new NetworkModule();
-   *
+   * // Send a POST request with headers and body
    * const response = await network.send({
    *   endpoint: 'https://api.example.com/users',
    *   method: 'POST',
@@ -88,32 +68,13 @@ export class NetworkModule extends BaseModule {
    *   timeout: 30
    * });
    *
-   * if (isSuccess(response) && hasResult(response)) {
-   *   console.log('User created:', response.result);
-   * } else if (isError(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
-   * }
-   * ```
-   *
-   * @example
-   * **Handling specific status codes**
-   * ```typescript
-   * import { NetworkModule, isClientError, isServerError, isSuccess, hasResult } from '@grabjs/superapp-sdk';
-   *
-   * const network = new NetworkModule();
-   * const response = await network.send({
-   *   endpoint: 'https://api.example.com/users/123',
-   *   method: 'GET'
-   * });
-   *
+   * // Handle the response
    * if (isSuccess(response) && hasResult(response)) {
    *   console.log('Success:', response.result);
-   * } else if (isClientError(response)) {
-   *   // Handle 4xx errors (bad request, unauthorized, not found, etc.)
-   *   console.error(`Client error ${response.status_code}: ${response.error}`);
-   * } else if (isServerError(response)) {
-   *   // Handle 5xx errors (internal server error, service unavailable, etc.)
-   *   console.error(`Server error ${response.status_code}: ${response.error}`);
+   * } else if (isError(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
    * }
    * ```
    *
@@ -123,21 +84,37 @@ export class NetworkModule extends BaseModule {
     const requestError = this.validate(SendRequestSchema, request);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'send',
       params: request,
-    })) as SendResponse;
+    })) as RawSendResponse;
+
+    const rawResponseError = this.validate(RawSendResponseSchema, rawResponse);
+    if (rawResponseError) {
+      this.logger.warn('send', `Unexpected raw response shape: ${rawResponseError}`);
+    }
 
     // The native bridge may return response bodies as JSON strings
     // Parse string results into objects for consistency.
     // If parsing fails, return a 500 error rather than exposing invalid data.
-    if (hasResult(response) && typeof response.result === 'string') {
+    if (
+      isSuccess(rawResponse) &&
+      hasResult(rawResponse) &&
+      typeof rawResponse.result === 'string'
+    ) {
       try {
-        const parsedResult = JSON.parse(response.result) as Record<string, unknown>;
-        return {
-          ...response,
+        const parsedResult = JSON.parse(rawResponse.result) as Record<string, unknown>;
+        const response: SendResponse = {
+          ...rawResponse,
           result: parsedResult,
         };
+
+        const responseError = this.validate(SendResponseSchema, response);
+        if (responseError) {
+          this.logger.warn('send', `Unexpected response shape after parsing: ${responseError}`);
+        }
+
+        return response;
       } catch {
         return {
           status_code: 500,
@@ -145,6 +122,8 @@ export class NetworkModule extends BaseModule {
         };
       }
     }
+
+    const response = rawResponse as SendResponse;
 
     const responseError = this.validate(SendResponseSchema, response);
     if (responseError) {

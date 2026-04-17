@@ -7,7 +7,13 @@
 
 import type { InferOutput } from 'valibot';
 
-import { SendRequestSchema, SendResponseSchema, SendResultSchema } from './schemas';
+import {
+  RawSendResponseSchema,
+  RawSendResultSchema,
+  SendRequestSchema,
+  SendResponseSchema,
+  SendResultSchema,
+} from './schemas';
 
 /**
  * Request parameters for sending a network request.
@@ -65,7 +71,7 @@ export type SendResult = InferOutput<typeof SendResultSchema>;
  *
  * @remarks
  * This response can have any HTTP status code returned by the external API:
- * - Success codes (2xx): Contains the `result` with response data.
+ * - Success codes (2xx): Contains the `result` with response data, except 204 which has no body.
  * - Client error codes (4xx): Contains an `error` message from the API.
  * - Server error codes (5xx): Contains an `error` message from the API.
  * - SDK error codes (400, 500, 501): Invalid request, internal SDK error, or not implemented.
@@ -73,3 +79,19 @@ export type SendResult = InferOutput<typeof SendResultSchema>;
  * @public
  */
 export type SendResponse = InferOutput<typeof SendResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response result.
+ * The native bridge may return either a JSON string or a parsed Record.
+ *
+ * @internal
+ */
+export type RawSendResult = InferOutput<typeof RawSendResultSchema>;
+
+/**
+ * Internal type for the raw bridge response before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawSendResponse = InferOutput<typeof RawSendResponseSchema>;
