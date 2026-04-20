@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.38] - 2026-04-20
+
+### Changed
+
+- Node.js engine requirement relaxed from `24` to `>=18`
+- Dev dependencies updated: `@microsoft/api-extractor` to 7.58.5, `vite` to 7.3.2, `fs-extra` to 11.3.4, `semver` to 7.7.4
+
 ## [2.0.0-beta.37] - 2026-04-17
 
 ### Added
