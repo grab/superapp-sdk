@@ -52,9 +52,9 @@ export class ProfileModule extends BaseModule {
   /**
    * Fetches the user's email address from their Grab profile.
    *
-   * @remarks
-   * This method requires Grab app version 5.399 or above. If called on an older version,
-   * it will return a 426 (Upgrade Required) response.
+   * @minimumGrabAppVersion 5.399.0
+   *
+   * @oauthScope mobile.profile
    *
    * @returns The user's email address if available. See {@link FetchEmailResponse}.
    *
@@ -110,10 +110,11 @@ export class ProfileModule extends BaseModule {
   /**
    * Verifies the user's email address by triggering email capture bottom sheet and OTP verification.
    *
-   * @remarks
-   * This method requires Grab app version 5.399 or above. If called on an older version,
-   * it will return a 426 (Upgrade Required) response.
+   * @minimumGrabAppVersion 5.399.0
    *
+   * @oauthScope mobile.profile
+   *
+   * @remarks
    * If the user closes the verify OTP bottom sheet, the method will return a `status_code` of `204`.
    * Successful verification will also update the email address for the user on Grab.
    *

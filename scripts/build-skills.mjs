@@ -35,6 +35,45 @@ function commentSummary(comment) {
 }
 
 /**
+ * Extracts the content of a specific JSDoc block tag from a comment.
+ * @param {Object} comment - The TypeDoc comment object
+ * @param {string} tagName - The tag name to extract (e.g., '@oauthScope')
+ * @returns {string|null} The tag content or null if not found
+ */
+function extractBlockTag(comment, tagName) {
+  const blockTags = comment?.blockTags ?? [];
+  const tag = blockTags.find((t) => t.tag === tagName);
+  if (!tag) return null;
+  return tag.content
+    .filter((c) => c.kind === 'text')
+    .map((c) => c.text)
+    .join('')
+    .trim();
+}
+
+/**
+ * Builds a requirements string from JSDoc tags.
+ * @param {Object} comment - The TypeDoc comment object
+ * @returns {string|null} Formatted requirements string or null if no tags found
+ */
+function buildRequirements(comment) {
+  const requirements = [];
+
+  const oauthScope = extractBlockTag(comment, '@oauthScope');
+  if (oauthScope) {
+    requirements.push(`**OAuth Scope:** ${oauthScope}`);
+  }
+
+  const minVersion = extractBlockTag(comment, '@minimumGrabAppVersion');
+  if (minVersion) {
+    requirements.push(`**Min Version:** ${minVersion}`);
+  }
+
+  if (requirements.length === 0) return null;
+  return requirements.join(' | ');
+}
+
+/**
  * Renders a TypeDoc type node to a readable TypeScript string.
  */
 function renderType(type) {
@@ -123,10 +162,12 @@ function generateClasses(api) {
         const sig = method.signatures?.[0];
         if (!sig) return null;
         const desc = commentSummary(sig.comment);
+        const requirements = buildRequirements(sig.comment);
+        const fullDesc = requirements ? `${desc} (${requirements})` : desc;
         const params = (sig.parameters ?? [])
           .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
           .join(', ');
-        return `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${desc}`;
+        return `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${fullDesc}`;
       })
       .filter(Boolean);
 
@@ -184,7 +225,7 @@ function buildSkills() {
 
   const allGuides = fs
     .readdirSync(GUIDES_DIR)
-    .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md');
+    .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md' && f !== 'jsdoc-tags.md');
   const orderedGuides = [
     ...GUIDE_ORDER.filter((f) => allGuides.includes(f)),
     ...allGuides.filter((f) => !GUIDE_ORDER.includes(f)).sort(),

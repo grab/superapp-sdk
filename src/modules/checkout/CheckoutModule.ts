@@ -45,6 +45,8 @@ export class CheckoutModule extends BaseModule {
   /**
    * Triggers the native checkout flow for payment processing.
    *
+   * @oauthScope mobile.checkout
+   *
    * @remarks
    * You must create a transaction on your backend (via API POST https://partner-api.grab.com/grabpay/partner/v4/charge/init) **before** calling this method.
    * Pass the transaction parameters returned from that API call as the `request` argument.

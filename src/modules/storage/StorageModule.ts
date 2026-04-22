@@ -73,6 +73,8 @@ export class StorageModule extends BaseModule {
   /**
    * Stores a boolean value in the native storage.
    *
+   * @oauthScope mobile.storage
+   *
    * @param key - The key to store the value under.
    * @param value - The boolean value to store.
    *
@@ -116,6 +118,8 @@ export class StorageModule extends BaseModule {
 
   /**
    * Retrieves a boolean value from the native storage.
+   *
+   * @oauthScope mobile.storage
    *
    * @param key - The key to retrieve the value for.
    *
@@ -164,6 +168,8 @@ export class StorageModule extends BaseModule {
   /**
    * Stores an integer value in the native storage.
    *
+   * @oauthScope mobile.storage
+   *
    * @param key - The key to store the value under.
    * @param value - The integer value to store.
    *
@@ -206,6 +212,8 @@ export class StorageModule extends BaseModule {
 
   /**
    * Retrieves an integer value from the native storage.
+   *
+   * @oauthScope mobile.storage
    *
    * @param key - The key to retrieve the value for.
    *
@@ -253,6 +261,8 @@ export class StorageModule extends BaseModule {
   /**
    * Stores a string value in the native storage.
    *
+   * @oauthScope mobile.storage
+   *
    * @param key - The key to store the value under.
    * @param value - The string value to store.
    *
@@ -295,6 +305,8 @@ export class StorageModule extends BaseModule {
 
   /**
    * Retrieves a string value from the native storage.
+   *
+   * @oauthScope mobile.storage
    *
    * @param key - The key to retrieve the value for.
    *
@@ -342,6 +354,8 @@ export class StorageModule extends BaseModule {
   /**
    * Stores a double (floating point) value in the native storage.
    *
+   * @oauthScope mobile.storage
+   *
    * @param key - The key to store the value under.
    * @param value - The double value to store.
    *
@@ -384,6 +398,8 @@ export class StorageModule extends BaseModule {
 
   /**
    * Retrieves a double (floating point) value from the native storage.
+   *
+   * @oauthScope mobile.storage
    *
    * @param key - The key to retrieve the value for.
    *
@@ -431,6 +447,8 @@ export class StorageModule extends BaseModule {
   /**
    * Removes a single value from the native storage by key.
    *
+   * @oauthScope mobile.storage
+   *
    * @param key - The key to remove from storage.
    *
    * @returns Confirmation that the value was removed. See {@link RemoveResponse}.
@@ -476,6 +494,8 @@ export class StorageModule extends BaseModule {
 
   /**
    * Removes all values from the native storage.
+   *
+   * @oauthScope mobile.storage
    *
    * @returns Confirmation that all values were removed. See {@link RemoveAllResponse}.
    *

@@ -45,6 +45,8 @@ export class MediaModule extends BaseModule {
   /**
    * Plays DRM-protected media content in the native media player.
    *
+   * @oauthScope mobile.media
+   *
    * @remarks
    * Requires proper DRM content configuration including license URL and content metadata.
    * For playback events and status updates, use {@link MediaModule.observePlayDRMContent}.
@@ -100,6 +102,8 @@ export class MediaModule extends BaseModule {
 
   /**
    * Observes DRM-protected media content playback events.
+   *
+   * @oauthScope mobile.media
    *
    * @remarks
    * Subscribe to this stream to receive real-time playback events such as progress,

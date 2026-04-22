@@ -2,7 +2,7 @@
 <p>SDK methods communicate with the native Grab SuperApp via JSBridge. They only work when your page is running inside the <strong>Grab SuperApp WebView</strong>. Calling a method outside that environment returns <code>{ status_code: 501 }</code>.</p>
 <h2 id="response-pattern" class="tsd-anchor-link">Response Pattern<a href="#response-pattern" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>Every SDK method returns a bridge response object with an HTTP-style <code>status_code</code>. SDK methods never throw — use type guards instead of try/catch.</p>
-<pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">CameraModule</span><span class="hl-1">, </span><span class="hl-4">isSuccess</span><span class="hl-1">, </span><span class="hl-4">isError</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@grabjs/superapp-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">camera</span><span class="hl-1"> = </span><span class="hl-10">new</span><span class="hl-1"> </span><span class="hl-0">CameraModule</span><span class="hl-1">();</span><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">response</span><span class="hl-1"> = </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">camera</span><span class="hl-1">.</span><span class="hl-0">scanQRCode</span><span class="hl-1">({ </span><span class="hl-4">title:</span><span class="hl-1"> </span><span class="hl-2">&#39;Scan Payment QR&#39;</span><span class="hl-1"> });</span><br/><br/><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isSuccess</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-3">switch</span><span class="hl-1"> (</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">status_code</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">200</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;QR Code scanned:&#39;</span><span class="hl-1">, </span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">result</span><span class="hl-1">.</span><span class="hl-4">qrCode</span><span class="hl-1">);</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">204</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-13">// operation completed with no content</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">} </span><span class="hl-3">else</span><span class="hl-1"> </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isError</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-13">// response.error: string is guaranteed</span><br/><span class="hl-1">  </span><span class="hl-3">switch</span><span class="hl-1"> (</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">status_code</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">403</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-13">// call IdentityModule.authorize() then ScopeModule.reloadScopes() before retrying</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">default</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">`Error </span><span class="hl-10">${</span><span class="hl-4">response</span><span class="hl-7">.</span><span class="hl-4">status_code</span><span class="hl-10">}</span><span class="hl-2">: </span><span class="hl-10">${</span><span class="hl-4">response</span><span class="hl-7">.</span><span class="hl-4">error</span><span class="hl-10">}</span><span class="hl-2">`</span><span class="hl-1">);</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+<pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">ProfileModule</span><span class="hl-1">, </span><span class="hl-4">isSuccess</span><span class="hl-1">, </span><span class="hl-4">isError</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@grabjs/superapp-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">profile</span><span class="hl-1"> = </span><span class="hl-10">new</span><span class="hl-1"> </span><span class="hl-0">ProfileModule</span><span class="hl-1">();</span><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">response</span><span class="hl-1"> = </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">profile</span><span class="hl-1">.</span><span class="hl-0">fetchEmail</span><span class="hl-1">();</span><br/><br/><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isSuccess</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Result:&#39;</span><span class="hl-1">, </span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">result</span><span class="hl-1">);</span><br/><span class="hl-1">} </span><span class="hl-3">else</span><span class="hl-1"> </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isError</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-3">switch</span><span class="hl-1"> (</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">status_code</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">403</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-13">// Missing OAuth scope - call IdentityModule.authorize() then ScopeModule.reloadScopes()</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">case</span><span class="hl-1"> </span><span class="hl-12">426</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-13">// Grab app version too old - prompt user to update their app</span><br/><span class="hl-1">      </span><span class="hl-3">break</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">default</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-2">`Error </span><span class="hl-10">${</span><span class="hl-4">response</span><span class="hl-7">.</span><span class="hl-4">status_code</span><span class="hl-10">}</span><span class="hl-2">: </span><span class="hl-10">${</span><span class="hl-4">response</span><span class="hl-7">.</span><span class="hl-4">error</span><span class="hl-10">}</span><span class="hl-2">`</span><span class="hl-1">);</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
 </code><button type="button">Copy</button></pre>
 
 <h2 id="status-codes" class="tsd-anchor-link">Status Codes<a href="#status-codes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
@@ -10,69 +10,79 @@
 <table>
 <thead>
 <tr>
-<th>Code</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align:left">Code</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>200</code></td>
-<td>OK</td>
-<td>Request successful, <code>result</code> contains response data</td>
+<td style="text-align:left"><code>200</code></td>
+<td style="text-align:left">OK</td>
+<td style="text-align:left">Request successful, <code>result</code> contains response data</td>
 </tr>
 <tr>
-<td><code>204</code></td>
-<td>No Content</td>
-<td>Request successful, no data returned</td>
+<td style="text-align:left"><code>204</code></td>
+<td style="text-align:left">No Content</td>
+<td style="text-align:left">Request successful, no data returned</td>
 </tr>
 <tr>
-<td><code>302</code></td>
-<td>Redirect</td>
-<td>Redirect in progress</td>
+<td style="text-align:left"><code>302</code></td>
+<td style="text-align:left">Redirect</td>
+<td style="text-align:left">Redirect in progress</td>
 </tr>
 <tr>
-<td><code>400</code></td>
-<td>Bad Request</td>
-<td>Invalid request parameters</td>
+<td style="text-align:left"><code>400</code></td>
+<td style="text-align:left">Bad Request</td>
+<td style="text-align:left">Invalid request parameters</td>
 </tr>
 <tr>
-<td><code>401</code></td>
-<td>Unauthorized</td>
-<td>Authentication required</td>
+<td style="text-align:left"><code>401</code></td>
+<td style="text-align:left">Unauthorized</td>
+<td style="text-align:left">Authentication required</td>
 </tr>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden</td>
-<td>Insufficient permissions for this operation</td>
+<td style="text-align:left"><code>403</code></td>
+<td style="text-align:left">Forbidden</td>
+<td style="text-align:left">Insufficient permission (see <code>@oauthScope</code> tag)</td>
 </tr>
 <tr>
-<td><code>404</code></td>
-<td>Not Found</td>
-<td>Resource not found</td>
+<td style="text-align:left"><code>404</code></td>
+<td style="text-align:left">Not Found</td>
+<td style="text-align:left">Resource not found</td>
 </tr>
 <tr>
-<td><code>424</code></td>
-<td>Failed Dependency</td>
-<td>Underlying native request failed</td>
+<td style="text-align:left"><code>424</code></td>
+<td style="text-align:left">Failed Dependency</td>
+<td style="text-align:left">Underlying native request failed</td>
 </tr>
 <tr>
-<td><code>426</code></td>
-<td>Upgrade Required</td>
-<td>Requires newer Grab app version</td>
+<td style="text-align:left"><code>426</code></td>
+<td style="text-align:left">Upgrade Required</td>
+<td style="text-align:left">Grab app version too old (see <code>@minimumGrabAppVersion</code> tag)</td>
 </tr>
 <tr>
-<td><code>500</code></td>
-<td>Internal Error</td>
-<td>Unexpected SDK error</td>
+<td style="text-align:left"><code>500</code></td>
+<td style="text-align:left">Internal Error</td>
+<td style="text-align:left">Unexpected SDK error</td>
 </tr>
 <tr>
-<td><code>501</code></td>
-<td>Not Implemented</td>
-<td>Method requires Grab SuperApp environment</td>
+<td style="text-align:left"><code>501</code></td>
+<td style="text-align:left">Not Implemented</td>
+<td style="text-align:left">Outside Grab SuperApp environment</td>
 </tr>
 </tbody>
 </table>
+<h2 id="handling-403-forbidden" class="tsd-anchor-link">Handling 403 Forbidden<a href="#handling-403-forbidden" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Methods tagged with <code>@oauthScope</code> require specific permissions. If the user hasn't granted the required scope, the method returns <code>403</code>. You must request authorization and reload scopes before retrying:</p>
+<ol>
+<li>Call <code>IdentityModule.authorize()</code> to request the scope.</li>
+<li>Call <code>ScopeModule.reloadScopes()</code> to refresh the SDK's internal permission state.</li>
+<li>Retry the original method call.</li>
+</ol>
+<pre><code class="typescript"><span class="hl-3">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">LocationModule</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">IdentityModule</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">ScopeModule</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">isSuccess</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">isError</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@grabjs/superapp-sdk&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">location</span><span class="hl-1"> = </span><span class="hl-10">new</span><span class="hl-1"> </span><span class="hl-0">LocationModule</span><span class="hl-1">();</span><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">identity</span><span class="hl-1"> = </span><span class="hl-10">new</span><span class="hl-1"> </span><span class="hl-0">IdentityModule</span><span class="hl-1">();</span><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">scope</span><span class="hl-1"> = </span><span class="hl-10">new</span><span class="hl-1"> </span><span class="hl-0">ScopeModule</span><span class="hl-1">();</span><br/><br/><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">response</span><span class="hl-1"> = </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">location</span><span class="hl-1">.</span><span class="hl-0">getCoordinate</span><span class="hl-1">();</span><br/><br/><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isError</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">) &amp;&amp; </span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">status_code</span><span class="hl-1"> === </span><span class="hl-12">403</span><span class="hl-1">) {</span><br/><span class="hl-1">  </span><span class="hl-13">// 1. Request authorization for the required scope</span><br/><span class="hl-1">  </span><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">auth</span><span class="hl-1"> = </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">identity</span><span class="hl-1">.</span><span class="hl-0">authorize</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-4">clientId:</span><span class="hl-1"> </span><span class="hl-2">&#39;your-client-id&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">redirectUri:</span><span class="hl-1"> </span><span class="hl-2">&#39;https://your-app.com/callback&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">scope:</span><span class="hl-1"> </span><span class="hl-2">&#39;mobile.geolocation&#39;</span><span class="hl-1">, </span><span class="hl-13">// The scope defined in @oauthScope</span><br/><span class="hl-1">    </span><span class="hl-4">environment:</span><span class="hl-1"> </span><span class="hl-2">&#39;production&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">responseMode:</span><span class="hl-1"> </span><span class="hl-2">&#39;in_place&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  });</span><br/><br/><span class="hl-1">  </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isSuccess</span><span class="hl-1">(</span><span class="hl-4">auth</span><span class="hl-1">)) {</span><br/><span class="hl-1">    </span><span class="hl-13">// 2. Reload scopes so the new permission is available</span><br/><span class="hl-1">    </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">scope</span><span class="hl-1">.</span><span class="hl-0">reloadScopes</span><span class="hl-1">();</span><br/><br/><span class="hl-1">    </span><span class="hl-13">// 3. Retry the original call</span><br/><span class="hl-1">    </span><span class="hl-10">const</span><span class="hl-1"> </span><span class="hl-11">retry</span><span class="hl-1"> = </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">location</span><span class="hl-1">.</span><span class="hl-0">getCoordinate</span><span class="hl-1">();</span><br/><span class="hl-1">    </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-0">isSuccess</span><span class="hl-1">(</span><span class="hl-4">retry</span><span class="hl-1">)) {</span><br/><span class="hl-1">      </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-2">&#39;Result:&#39;</span><span class="hl-1">, </span><span class="hl-4">retry</span><span class="hl-1">.</span><span class="hl-4">result</span><span class="hl-1">);</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
 <h2 id="type-guards" class="tsd-anchor-link">Type Guards<a href="#type-guards" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>Type guards narrow the response type so TypeScript knows which fields are available:</p>
 <table>
@@ -122,4 +132,4 @@
 </code><button type="button">Copy</button></pre>
 
 <p>You can also <code>await</code> a stream method directly to get its first value.</p>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#core-concepts"><span>Core <wbr/>Concepts</span></a><ul><li><a href="#response-pattern"><span>Response <wbr/>Pattern</span></a></li><li><a href="#status-codes"><span>Status <wbr/>Codes</span></a></li><li><a href="#type-guards"><span>Type <wbr/>Guards</span></a></li><li><a href="#streams"><span>Streams</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">@grabjs/superapp-sdk</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#core-concepts"><span>Core <wbr/>Concepts</span></a><ul><li><a href="#response-pattern"><span>Response <wbr/>Pattern</span></a></li><li><a href="#status-codes"><span>Status <wbr/>Codes</span></a></li><li><a href="#handling-403-forbidden"><span>Handling 403 <wbr/>Forbidden</span></a></li><li><a href="#type-guards"><span>Type <wbr/>Guards</span></a></li><li><a href="#streams"><span>Streams</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">@grabjs/superapp-sdk</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

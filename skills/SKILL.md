@@ -61,25 +61,20 @@ SDK methods communicate with the native Grab SuperApp via JSBridge. They only wo
 Every SDK method returns a bridge response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
 
 ```typescript
-import { CameraModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
 
-const camera = new CameraModule();
-const response = await camera.scanQRCode({ title: 'Scan Payment QR' });
+const profile = new ProfileModule();
+const response = await profile.fetchEmail();
 
 if (isSuccess(response)) {
-  switch (response.status_code) {
-    case 200:
-      console.log('QR Code scanned:', response.result.qrCode);
-      break;
-    case 204:
-      // operation completed with no content
-      break;
-  }
+  console.log('Result:', response.result);
 } else if (isError(response)) {
-  // response.error: string is guaranteed
   switch (response.status_code) {
     case 403:
-      // call IdentityModule.authorize() then ScopeModule.reloadScopes() before retrying
+      // Missing OAuth scope - call IdentityModule.authorize() then ScopeModule.reloadScopes()
+      break;
+    case 426:
+      // Grab app version too old - prompt user to update their app
       break;
     default:
       console.error(`Error ${response.status_code}: ${response.error}`);
@@ -91,19 +86,65 @@ if (isSuccess(response)) {
 
 The SDK uses HTTP-style status codes for all responses:
 
-| Code  | Type              | Description                                         |
-| ----- | ----------------- | --------------------------------------------------- |
-| `200` | OK                | Request successful, `result` contains response data |
-| `204` | No Content        | Request successful, no data returned                |
-| `302` | Redirect          | Redirect in progress                                |
-| `400` | Bad Request       | Invalid request parameters                          |
-| `401` | Unauthorized      | Authentication required                             |
-| `403` | Forbidden         | Insufficient permissions for this operation         |
-| `404` | Not Found         | Resource not found                                  |
-| `424` | Failed Dependency | Underlying native request failed                    |
-| `426` | Upgrade Required  | Requires newer Grab app version                     |
-| `500` | Internal Error    | Unexpected SDK error                                |
-| `501` | Not Implemented   | Method requires Grab SuperApp environment           |
+| Code  | Type              | Description                                                 |
+| :---- | :---------------- | :---------------------------------------------------------- |
+| `200` | OK                | Request successful, `result` contains response data         |
+| `204` | No Content        | Request successful, no data returned                        |
+| `302` | Redirect          | Redirect in progress                                        |
+| `400` | Bad Request       | Invalid request parameters                                  |
+| `401` | Unauthorized      | Authentication required                                     |
+| `403` | Forbidden         | Insufficient permission (see `@oauthScope` tag)             |
+| `404` | Not Found         | Resource not found                                          |
+| `424` | Failed Dependency | Underlying native request failed                            |
+| `426` | Upgrade Required  | Grab app version too old (see `@minimumGrabAppVersion` tag) |
+| `500` | Internal Error    | Unexpected SDK error                                        |
+| `501` | Not Implemented   | Outside Grab SuperApp environment                           |
+
+### Handling 403 Forbidden
+
+Methods tagged with `@oauthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
+
+1. Call `IdentityModule.authorize()` to request the scope.
+2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
+3. Retry the original method call.
+
+```typescript
+import {
+  LocationModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const location = new LocationModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+const response = await location.getCoordinate();
+
+if (isError(response) && response.status_code === 403) {
+  // 1. Request authorization for the required scope
+  const auth = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-app.com/callback',
+    scope: 'mobile.geolocation', // The scope defined in @oauthScope
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(auth)) {
+    // 2. Reload scopes so the new permission is available
+    await scope.reloadScopes();
+
+    // 3. Retry the original call
+    const retry = await location.getCoordinate();
+    if (isSuccess(retry)) {
+      console.log('Result:', retry.result);
+    }
+  }
+}
+```
 
 ### Type Guards
 
@@ -260,7 +301,7 @@ JSBridge module for accessing the device camera.
 
 #### `CheckoutModule`
 JSBridge module for triggering native payment flows.
-- `triggerCheckout(request: Record<string, unknown>): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { status: "success"; transactionID: string } | { errorCode: string; errorMessage: string; status: "failure"; transactionID: string } | { status: "pending"; transactionID: string } | { status: "userInitiatedCancel" }; status_code: 200 }>` — Triggers the native checkout flow for payment processing.
+- `triggerCheckout(request: Record<string, unknown>): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { status: "success"; transactionID: string } | { errorCode: string; errorMessage: string; status: "failure"; transactionID: string } | { status: "pending"; transactionID: string } | { status: "userInitiatedCancel" }; status_code: 200 }>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
 
 #### `ContainerModule`
 JSBridge module for controlling the WebView container.
@@ -304,17 +345,17 @@ JSBridge module for accessing device locale settings.
 
 #### `LocationModule`
 JSBridge module for accessing device location services.
-- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { latitude: number; longitude: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device.
-- `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location.
-- `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device.
+- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { latitude: number; longitude: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
+- `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
+- `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device. (**OAuth Scope:** mobile.geolocation)
 
 #### `Logger`
 Provides scoped logging for SDK modules.
 
 #### `MediaModule`
 JSBridge module for playing DRM-protected media content.
-- `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events.
-- `playDRMContent(data: DRMContentConfig): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { length: number; position: number; titleId: string; type: "START_PLAYBACK" | "PROGRESS_PLAYBACK" | "START_SEEK" | "STOP_SEEK" | "STOP_PLAYBACK" | "CLOSE_PLAYBACK" | "PAUSE_PLAYBACK" | "RESUME_PLAYBACK" | "FAST_FORWARD_PLAYBACK" | "REWIND_PLAYBACK" | "ERROR_PLAYBACK" | "CHANGE_VOLUME" }; status_code: 200 }>` — Plays DRM-protected media content in the native media player.
+- `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
+- `playDRMContent(data: DRMContentConfig): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { length: number; position: number; titleId: string; type: "START_PLAYBACK" | "PROGRESS_PLAYBACK" | "START_SEEK" | "STOP_SEEK" | "STOP_PLAYBACK" | "CLOSE_PLAYBACK" | "PAUSE_PLAYBACK" | "RESUME_PLAYBACK" | "FAST_FORWARD_PLAYBACK" | "REWIND_PLAYBACK" | "ERROR_PLAYBACK" | "CHANGE_VOLUME" }; status_code: 200 }>` — Plays DRM-protected media content in the native media player. (**OAuth Scope:** mobile.media)
 
 #### `NetworkModule`
 JSBridge module for making network requests via the native bridge.
@@ -327,8 +368,8 @@ This navigates back in the native navigation stack.
 
 #### `ProfileModule`
 JSBridge module for accessing user profile information.
-- `fetchEmail(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Fetches the user's email address from their Grab profile.
-- `verifyEmail(request?: { email?: string; skipUserInput?: boolean }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification.
+- `fetchEmail(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Min Version:** 5.399.0)
+- `verifyEmail(request?: { email?: string; skipUserInput?: boolean }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Min Version:** 5.399.0)
 
 #### `ScopeModule`
 JSBridge module for checking and refreshing API access permissions.
@@ -342,16 +383,16 @@ JSBridge module for controlling the native splash / Lottie loading screen.
 
 #### `StorageModule`
 JSBridge module for persisting key-value data to native storage.
-- `getBoolean(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: boolean | null }; status_code: 200 }>` — Retrieves a boolean value from the native storage.
-- `getDouble(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: number | null }; status_code: 200 }>` — Retrieves a double (floating point) value from the native storage.
-- `getInt(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: number | null }; status_code: 200 }>` — Retrieves an integer value from the native storage.
-- `getString(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: string | null }; status_code: 200 }>` — Retrieves a string value from the native storage.
-- `remove(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes a single value from the native storage by key.
-- `removeAll(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes all values from the native storage.
-- `setBoolean(key: string, value: boolean): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a boolean value in the native storage.
-- `setDouble(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a double (floating point) value in the native storage.
-- `setInt(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores an integer value in the native storage.
-- `setString(key: string, value: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a string value in the native storage.
+- `getBoolean(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: boolean | null }; status_code: 200 }>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
+- `getDouble(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: number | null }; status_code: 200 }>` — Retrieves a double (floating point) value from the native storage. (**OAuth Scope:** mobile.storage)
+- `getInt(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: number | null }; status_code: 200 }>` — Retrieves an integer value from the native storage. (**OAuth Scope:** mobile.storage)
+- `getString(key: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { value: string | null }; status_code: 200 }>` — Retrieves a string value from the native storage. (**OAuth Scope:** mobile.storage)
+- `remove(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes a single value from the native storage by key. (**OAuth Scope:** mobile.storage)
+- `removeAll(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes all values from the native storage. (**OAuth Scope:** mobile.storage)
+- `setBoolean(key: string, value: boolean): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a boolean value in the native storage. (**OAuth Scope:** mobile.storage)
+- `setDouble(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a double (floating point) value in the native storage. (**OAuth Scope:** mobile.storage)
+- `setInt(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores an integer value in the native storage. (**OAuth Scope:** mobile.storage)
+- `setString(key: string, value: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a string value in the native storage. (**OAuth Scope:** mobile.storage)
 
 #### `SystemWebViewKitModule`
 JSBridge module for opening URLs in the device's system browser.

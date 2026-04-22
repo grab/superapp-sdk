@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.40] - 2026-04-22
+
+### Added
+
+- `@oauthScope` TSDoc tag to document required OAuth scopes for module methods (`CheckoutModule`, `LocationModule`, `MediaModule`, `ProfileModule`, `StorageModule`)
+- `@minimumGrabAppVersion` TSDoc tag to document minimum Grab app version requirements (`ProfileModule`)
+- TSDoc configuration updated to support `@oauthScope` and `@minimumGrabAppVersion` custom tags
+- Core Concepts guide expanded with 403 Forbidden handling section and OAuth scope retry flow
+
+### Changed
+
+- Method documentation restructured: replaced version requirements in `@remarks` with dedicated `@minimumGrabAppVersion` tag
+- Status code reference table updated with links to `@oauthScope` and `@minimumGrabAppVersion` tags
+- JSDoc examples in Core Concepts guide simplified for clarity
+
 ## [2.0.0-beta.39] - 2026-04-22
 
 ### Changed

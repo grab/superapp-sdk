@@ -57,6 +57,12 @@ export default defineConfig([
       'simple-import-sort': simpleImportSort,
       jsdoc: jsdocPlugin,
     },
+    settings: {
+      jsdoc: {
+        // Define custom JSDoc tags for the SDK
+        definedTags: ['minimumGrabAppVersion', 'oauthScope'],
+      },
+    },
     rules: {
       // License header
       'license-header/header': ['error', 'resources/copyright.txt'],
