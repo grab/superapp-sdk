@@ -26,6 +26,16 @@
       "tagName": "@private",
       "syntaxKind": "block",
       "allowMultiple": false
+    },
+    {
+      "tagName": "@requiredOAuthScope",
+      "syntaxKind": "block",
+      "allowMultiple": false
+    },
+    {
+      "tagName": "@minimumGrabAppVersion",
+      "syntaxKind": "block",
+      "allowMultiple": false
     }
   ],
   "supportForTags": {
@@ -33,6 +43,8 @@
     "@noInheritDoc": true,
     "@hidden": true,
     "@protected": true,
-    "@private": true
+    "@private": true,
+    "@requiredOAuthScope": true,
+    "@minimumGrabAppVersion": true
   }
 }

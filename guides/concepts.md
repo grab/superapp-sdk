@@ -11,25 +11,20 @@ SDK methods communicate with the native Grab SuperApp via JSBridge. They only wo
 Every SDK method returns a bridge response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
 
 ```typescript
-import { CameraModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
 
-const camera = new CameraModule();
-const response = await camera.scanQRCode({ title: 'Scan Payment QR' });
+const profile = new ProfileModule();
+const response = await profile.fetchEmail();
 
 if (isSuccess(response)) {
-  switch (response.status_code) {
-    case 200:
-      console.log('QR Code scanned:', response.result.qrCode);
-      break;
-    case 204:
-      // operation completed with no content
-      break;
-  }
+  console.log('Result:', response.result);
 } else if (isError(response)) {
-  // response.error: string is guaranteed
   switch (response.status_code) {
     case 403:
-      // call IdentityModule.authorize() then ScopeModule.reloadScopes() before retrying
+      // Missing OAuth scope - call IdentityModule.authorize() then ScopeModule.reloadScopes()
+      break;
+    case 426:
+      // Grab app version too old - prompt user to update their app
       break;
     default:
       console.error(`Error ${response.status_code}: ${response.error}`);
@@ -41,19 +36,65 @@ if (isSuccess(response)) {
 
 The SDK uses HTTP-style status codes for all responses:
 
-| Code  | Type              | Description                                         |
-| ----- | ----------------- | --------------------------------------------------- |
-| `200` | OK                | Request successful, `result` contains response data |
-| `204` | No Content        | Request successful, no data returned                |
-| `302` | Redirect          | Redirect in progress                                |
-| `400` | Bad Request       | Invalid request parameters                          |
-| `401` | Unauthorized      | Authentication required                             |
-| `403` | Forbidden         | Insufficient permissions for this operation         |
-| `404` | Not Found         | Resource not found                                  |
-| `424` | Failed Dependency | Underlying native request failed                    |
-| `426` | Upgrade Required  | Requires newer Grab app version                     |
-| `500` | Internal Error    | Unexpected SDK error                                |
-| `501` | Not Implemented   | Method requires Grab SuperApp environment           |
+| Code  | Type              | Description                                                 |
+| :---- | :---------------- | :---------------------------------------------------------- |
+| `200` | OK                | Request successful, `result` contains response data         |
+| `204` | No Content        | Request successful, no data returned                        |
+| `302` | Redirect          | Redirect in progress                                        |
+| `400` | Bad Request       | Invalid request parameters                                  |
+| `401` | Unauthorized      | Authentication required                                     |
+| `403` | Forbidden         | Insufficient permission (see `@requiredOAuthScope` tag)     |
+| `404` | Not Found         | Resource not found                                          |
+| `424` | Failed Dependency | Underlying native request failed                            |
+| `426` | Upgrade Required  | Grab app version too old (see `@minimumGrabAppVersion` tag) |
+| `500` | Internal Error    | Unexpected SDK error                                        |
+| `501` | Not Implemented   | Outside Grab SuperApp environment                           |
+
+## Handling 403 Forbidden
+
+Methods tagged with `@requiredOAuthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
+
+1. Call `IdentityModule.authorize()` to request the scope.
+2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
+3. Retry the original method call.
+
+```typescript
+import {
+  LocationModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const location = new LocationModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+const response = await location.getCoordinate();
+
+if (isError(response) && response.status_code === 403) {
+  // 1. Request authorization for the required scope
+  const auth = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-app.com/callback',
+    scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(auth)) {
+    // 2. Reload scopes so the new permission is available
+    await scope.reloadScopes();
+
+    // 3. Retry the original call
+    const retry = await location.getCoordinate();
+    if (isSuccess(retry)) {
+      console.log('Result:', retry.result);
+    }
+  }
+}
+```
 
 ## Type Guards
 
