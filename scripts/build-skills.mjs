@@ -37,7 +37,7 @@ function commentSummary(comment) {
 /**
  * Extracts the content of a specific JSDoc block tag from a comment.
  * @param {Object} comment - The TypeDoc comment object
- * @param {string} tagName - The tag name to extract (e.g., '@oauthScope')
+ * @param {string} tagName - The tag name to extract (e.g., '@requiredOAuthScope')
  * @returns {string|null} The tag content or null if not found
  */
 function extractBlockTag(comment, tagName) {
@@ -59,14 +59,14 @@ function extractBlockTag(comment, tagName) {
 function buildRequirements(comment) {
   const requirements = [];
 
-  const oauthScope = extractBlockTag(comment, '@oauthScope');
+  const oauthScope = extractBlockTag(comment, '@requiredOAuthScope');
   if (oauthScope) {
     requirements.push(`**OAuth Scope:** ${oauthScope}`);
   }
 
   const minVersion = extractBlockTag(comment, '@minimumGrabAppVersion');
   if (minVersion) {
-    requirements.push(`**Min Version:** ${minVersion}`);
+    requirements.push(`**Minimum Grab App Version:** ${minVersion}`);
   }
 
   if (requirements.length === 0) return null;

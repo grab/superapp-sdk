@@ -54,7 +54,7 @@ export class ProfileModule extends BaseModule {
    *
    * @minimumGrabAppVersion 5.399.0
    *
-   * @oauthScope mobile.profile
+   * @requiredOAuthScope mobile.profile
    *
    * @returns The user's email address if available. See {@link FetchEmailResponse}.
    *
@@ -112,7 +112,7 @@ export class ProfileModule extends BaseModule {
    *
    * @minimumGrabAppVersion 5.399.0
    *
-   * @oauthScope mobile.profile
+   * @requiredOAuthScope mobile.profile
    *
    * @remarks
    * If the user closes the verify OTP bottom sheet, the method will return a `status_code` of `204`.

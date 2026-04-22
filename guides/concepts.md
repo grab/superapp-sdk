@@ -43,7 +43,7 @@ The SDK uses HTTP-style status codes for all responses:
 | `302` | Redirect          | Redirect in progress                                        |
 | `400` | Bad Request       | Invalid request parameters                                  |
 | `401` | Unauthorized      | Authentication required                                     |
-| `403` | Forbidden         | Insufficient permission (see `@oauthScope` tag)             |
+| `403` | Forbidden         | Insufficient permission (see `@requiredOAuthScope` tag)     |
 | `404` | Not Found         | Resource not found                                          |
 | `424` | Failed Dependency | Underlying native request failed                            |
 | `426` | Upgrade Required  | Grab app version too old (see `@minimumGrabAppVersion` tag) |
@@ -52,7 +52,7 @@ The SDK uses HTTP-style status codes for all responses:
 
 ## Handling 403 Forbidden
 
-Methods tagged with `@oauthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
+Methods tagged with `@requiredOAuthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
 
 1. Call `IdentityModule.authorize()` to request the scope.
 2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
@@ -78,7 +78,7 @@ if (isError(response) && response.status_code === 403) {
   const auth = await identity.authorize({
     clientId: 'your-client-id',
     redirectUri: 'https://your-app.com/callback',
-    scope: 'mobile.geolocation', // The scope defined in @oauthScope
+    scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
     environment: 'production',
     responseMode: 'in_place',
   });

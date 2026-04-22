@@ -49,7 +49,7 @@ export class LocationModule extends BaseModule {
   /**
    * Get the current geographic coordinates of the device.
    *
-   * @oauthScope mobile.geolocation
+   * @requiredOAuthScope mobile.geolocation
    *
    * @returns The device's current latitude and longitude coordinates. See {@link GetCoordinateResponse}.
    *
@@ -98,7 +98,7 @@ export class LocationModule extends BaseModule {
   /**
    * Subscribe to location change updates from the device.
    *
-   * @oauthScope mobile.geolocation
+   * @requiredOAuthScope mobile.geolocation
    *
    * @remarks
    * This method returns a `BridgeStream` that continuously emits location updates.
@@ -150,7 +150,7 @@ export class LocationModule extends BaseModule {
   /**
    * Get the country code based on the device's current location.
    *
-   * @oauthScope mobile.geolocation
+   * @requiredOAuthScope mobile.geolocation
    *
    * @returns The ISO country code (e.g., 'SG', 'ID') based on the device's location. See {@link GetCountryCodeResponse}.
    *

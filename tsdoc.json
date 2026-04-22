@@ -28,7 +28,7 @@
       "allowMultiple": false
     },
     {
-      "tagName": "@oauthScope",
+      "tagName": "@requiredOAuthScope",
       "syntaxKind": "block",
       "allowMultiple": false
     },
@@ -44,7 +44,7 @@
     "@hidden": true,
     "@protected": true,
     "@private": true,
-    "@oauthScope": true,
+    "@requiredOAuthScope": true,
     "@minimumGrabAppVersion": true
   }
 }
