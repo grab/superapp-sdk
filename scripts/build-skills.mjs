@@ -59,9 +59,9 @@ function extractBlockTag(comment, tagName) {
 function buildRequirements(comment) {
   const requirements = [];
 
-  const oauthScope = extractBlockTag(comment, '@requiredOAuthScope');
-  if (oauthScope) {
-    requirements.push(`**OAuth Scope:** ${oauthScope}`);
+  const requiredOAuthScope = extractBlockTag(comment, '@requiredOAuthScope');
+  if (requiredOAuthScope) {
+    requirements.push(`**OAuth Scope:** ${requiredOAuthScope}`);
   }
 
   const minVersion = extractBlockTag(comment, '@minimumGrabAppVersion');

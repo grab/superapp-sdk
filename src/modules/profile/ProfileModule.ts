@@ -52,7 +52,7 @@ export class ProfileModule extends BaseModule {
   /**
    * Fetches the user's email address from their Grab profile.
    *
-   * @minimumGrabAppVersion 5.399.0
+   * @minimumGrabAppVersion Android: 5.399.0, iOS: 5.399.0
    *
    * @requiredOAuthScope mobile.profile
    *
@@ -110,7 +110,7 @@ export class ProfileModule extends BaseModule {
   /**
    * Verifies the user's email address by triggering email capture bottom sheet and OTP verification.
    *
-   * @minimumGrabAppVersion 5.399.0
+   * @minimumGrabAppVersion Android: 5.399.0, iOS: 5.399.0
    *
    * @requiredOAuthScope mobile.profile
    *
