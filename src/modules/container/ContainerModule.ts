@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { BaseModule, isOk } from '../../core';
 import { isRunningInGrabApp } from '../../utils/platform';
 import {
   CloseResponseSchema,
@@ -16,6 +16,17 @@ import {
   OnContentLoadedResponseSchema,
   OnCtaTapResponseSchema,
   OpenExternalLinkResponseSchema,
+  RawCloseResponseSchema,
+  RawHideBackButtonResponseSchema,
+  RawHideLoaderResponseSchema,
+  RawHideRefreshButtonResponseSchema,
+  RawOpenExternalLinkResponseSchema,
+  RawSendAnalyticsEventResponseSchema,
+  RawSetBackgroundColorResponseSchema,
+  RawSetTitleResponseSchema,
+  RawShowBackButtonResponseSchema,
+  RawShowLoaderResponseSchema,
+  RawShowRefreshButtonResponseSchema,
   SendAnalyticsEventRequestSchema,
   SendAnalyticsEventResponseSchema,
   SetBackgroundColorResponseSchema,
@@ -36,6 +47,17 @@ import {
   OnCtaTapResponse,
   OpenExternalLinkRequest,
   OpenExternalLinkResponse,
+  RawCloseResponse,
+  RawHideBackButtonResponse,
+  RawHideLoaderResponse,
+  RawHideRefreshButtonResponse,
+  RawOpenExternalLinkResponse,
+  RawSendAnalyticsEventResponse,
+  RawSetBackgroundColorResponse,
+  RawSetTitleResponse,
+  RawShowBackButtonResponse,
+  RawShowLoaderResponse,
+  RawShowRefreshButtonResponse,
   SendAnalyticsEventRequest,
   SendAnalyticsEventResponse,
   SetBackgroundColorRequest,
@@ -113,10 +135,22 @@ export class ContainerModule extends BaseModule {
   async setBackgroundColor(
     request: SetBackgroundColorRequest
   ): Promise<SetBackgroundColorResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'setBackgroundColor',
       params: { backgroundColor: request },
-    })) as SetBackgroundColorResponse;
+    })) as RawSetBackgroundColorResponse;
+
+    const rawResponseError = this.validate(RawSetBackgroundColorResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('setBackgroundColor', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: SetBackgroundColorResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as SetBackgroundColorResponse;
+    }
 
     const responseError = this.validate(SetBackgroundColorResponseSchema, response);
     if (responseError)
@@ -156,10 +190,22 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'setTitle',
       params: { title: request },
-    })) as SetTitleResponse;
+    })) as RawSetTitleResponse;
+
+    const rawResponseError = this.validate(RawSetTitleResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('setTitle', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: SetTitleResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as SetTitleResponse;
+    }
 
     const responseError = this.validate(SetTitleResponseSchema, response);
     if (responseError) this.logger.warn('setTitle', `Unexpected response shape: ${responseError}`);
@@ -196,9 +242,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideBackButton(): Promise<HideBackButtonResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'hideBackButton',
-    })) as HideBackButtonResponse;
+    })) as RawHideBackButtonResponse;
+
+    const rawResponseError = this.validate(RawHideBackButtonResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('hideBackButton', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: HideBackButtonResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as HideBackButtonResponse;
+    }
 
     const responseError = this.validate(HideBackButtonResponseSchema, response);
     if (responseError)
@@ -236,9 +294,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showBackButton(): Promise<ShowBackButtonResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'showBackButton',
-    })) as ShowBackButtonResponse;
+    })) as RawShowBackButtonResponse;
+
+    const rawResponseError = this.validate(RawShowBackButtonResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('showBackButton', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: ShowBackButtonResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as ShowBackButtonResponse;
+    }
 
     const responseError = this.validate(ShowBackButtonResponseSchema, response);
     if (responseError)
@@ -276,9 +346,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'hideRefreshButton',
-    })) as HideRefreshButtonResponse;
+    })) as RawHideRefreshButtonResponse;
+
+    const rawResponseError = this.validate(RawHideRefreshButtonResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('hideRefreshButton', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: HideRefreshButtonResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as HideRefreshButtonResponse;
+    }
 
     const responseError = this.validate(HideRefreshButtonResponseSchema, response);
     if (responseError)
@@ -316,9 +398,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'showRefreshButton',
-    })) as ShowRefreshButtonResponse;
+    })) as RawShowRefreshButtonResponse;
+
+    const rawResponseError = this.validate(RawShowRefreshButtonResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('showRefreshButton', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: ShowRefreshButtonResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as ShowRefreshButtonResponse;
+    }
 
     const responseError = this.validate(ShowRefreshButtonResponseSchema, response);
     if (responseError)
@@ -356,9 +450,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async close(): Promise<CloseResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'close',
-    })) as CloseResponse;
+    })) as RawCloseResponse;
+
+    const rawResponseError = this.validate(RawCloseResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('close', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: CloseResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as CloseResponse;
+    }
 
     const responseError = this.validate(CloseResponseSchema, response);
     if (responseError) this.logger.warn('close', `Unexpected response shape: ${responseError}`);
@@ -438,9 +544,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showLoader(): Promise<ShowLoaderResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'showLoader',
-    })) as ShowLoaderResponse;
+    })) as RawShowLoaderResponse;
+
+    const rawResponseError = this.validate(RawShowLoaderResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('showLoader', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: ShowLoaderResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as ShowLoaderResponse;
+    }
 
     const responseError = this.validate(ShowLoaderResponseSchema, response);
     if (responseError)
@@ -481,9 +599,21 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideLoader(): Promise<HideLoaderResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'hideLoader',
-    })) as HideLoaderResponse;
+    })) as RawHideLoaderResponse;
+
+    const rawResponseError = this.validate(RawHideLoaderResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('hideLoader', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: HideLoaderResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as HideLoaderResponse;
+    }
 
     const responseError = this.validate(HideLoaderResponseSchema, response);
     if (responseError)
@@ -526,10 +656,22 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'openExternalLink',
       params: { url: request },
-    })) as OpenExternalLinkResponse;
+    })) as RawOpenExternalLinkResponse;
+
+    const rawResponseError = this.validate(RawOpenExternalLinkResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('openExternalLink', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: OpenExternalLinkResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as OpenExternalLinkResponse;
+    }
 
     const responseError = this.validate(OpenExternalLinkResponseSchema, response);
     if (responseError)
@@ -634,14 +776,26 @@ export class ContainerModule extends BaseModule {
     const requestError = this.validate(SendAnalyticsEventRequestSchema, request);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'sendAnalyticsEvent',
       params: {
         state: request.state,
         name: request.name,
         data: request.data ? JSON.stringify(request.data) : null,
       },
-    })) as SendAnalyticsEventResponse;
+    })) as RawSendAnalyticsEventResponse;
+
+    const rawResponseError = this.validate(RawSendAnalyticsEventResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('sendAnalyticsEvent', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: SendAnalyticsEventResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as SendAnalyticsEventResponse;
+    }
 
     const responseError = this.validate(SendAnalyticsEventResponseSchema, response);
     if (responseError)

@@ -10,11 +10,38 @@ import * as v from 'valibot';
 import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
 
 /**
+ * Internal valibot schema for the raw bridge response from setBackgroundColor.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawSetBackgroundColorResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
  * Valibot schema for {@link SetBackgroundColorResponse}.
  *
  * @public
  */
 export const SetBackgroundColorResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from setTitle.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawSetTitleResponseSchema = v.union([
   bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
@@ -28,9 +55,21 @@ export const SetBackgroundColorResponseSchema = v.union([
  * @public
  */
 export const SetTitleResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from hideBackButton.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawHideBackButtonResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -41,6 +80,18 @@ export const SetTitleResponseSchema = v.union([
  * @public
  */
 export const HideBackButtonResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from showBackButton.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawShowBackButtonResponseSchema = v.union([
   bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(500),
@@ -53,44 +104,83 @@ export const HideBackButtonResponseSchema = v.union([
  * @public
  */
 export const ShowBackButtonResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from hideRefreshButton.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawHideRefreshButtonResponseSchema = v.union([
   bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
+
 /**
  * Valibot schema for {@link HideRefreshButtonResponse}.
  *
  * @public
  */
 export const HideRefreshButtonResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from showRefreshButton.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawShowRefreshButtonResponseSchema = v.union([
   bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
+
 /**
  * Valibot schema for {@link ShowRefreshButtonResponse}.
  *
  * @public
  */
 export const ShowRefreshButtonResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from close.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawCloseResponseSchema = v.union([
   bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
+
 /**
  * Valibot schema for {@link CloseResponse}.
  *
  * @public
  */
 export const CloseResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
+
 /**
  * Valibot schema for {@link OnContentLoadedResponse}.
  *
@@ -102,25 +192,65 @@ export const OnContentLoadedResponseSchema = v.union([
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
+
+/**
+ * Internal valibot schema for the raw bridge response from showLoader.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawShowLoaderResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
 /**
  * Valibot schema for {@link ShowLoaderResponse}.
  *
  * @public
  */
 export const ShowLoaderResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from hideLoader.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawHideLoaderResponseSchema = v.union([
   bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
+
 /**
  * Valibot schema for {@link HideLoaderResponse}.
  *
  * @public
  */
 export const HideLoaderResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
+ * Internal valibot schema for the raw bridge response from openExternalLink.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawOpenExternalLinkResponseSchema = v.union([
   bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
+  bridgeErrorSchema(400),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -131,7 +261,6 @@ export const HideLoaderResponseSchema = v.union([
  * @public
  */
 export const OpenExternalLinkResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),
@@ -161,12 +290,25 @@ export const SendAnalyticsEventRequestSchema = v.object({
 });
 
 /**
+ * Internal valibot schema for the raw bridge response from sendAnalyticsEvent.
+ * Used to validate the response from the native bridge before transformation.
+ *
+ * @internal
+ */
+export const RawSendAnalyticsEventResponseSchema = v.union([
+  bridgeOkSchema(v.boolean()),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
+/**
  * Valibot schema for {@link SendAnalyticsEventResponse}.
  *
  * @public
  */
 export const SendAnalyticsEventResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(500),

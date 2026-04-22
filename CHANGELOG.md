@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.39] - 2026-04-22
+
+### Changed
+
+- `ContainerModule` methods now normalize 200 OK responses to 204 No Content for consistency (`setBackgroundColor`, `setTitle`, `hideBackButton`, `showBackButton`, `hideRefreshButton`, `showRefreshButton`, `close`, `showLoader`, `hideLoader`)
+- Response schemas updated: success cases now use `bridgeNoContentSchema` instead of `bridgeOkSchema`
+
+### Added
+
+- Raw response schemas and types for internal bridge response validation (e.g., `RawSetTitleResponse`, `RawCloseResponse`, `RawHideBackButtonResponse`)
+- Response shape validation with warnings for unexpected native bridge responses in `ContainerModule`
+
 ## [2.0.0-beta.38] - 2026-04-20
 
 ### Changed

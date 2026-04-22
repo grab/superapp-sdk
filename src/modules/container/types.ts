@@ -19,6 +19,17 @@ import {
   OnContentLoadedResponseSchema,
   OnCtaTapResponseSchema,
   OpenExternalLinkResponseSchema,
+  RawCloseResponseSchema,
+  RawHideBackButtonResponseSchema,
+  RawHideLoaderResponseSchema,
+  RawHideRefreshButtonResponseSchema,
+  RawOpenExternalLinkResponseSchema,
+  RawSendAnalyticsEventResponseSchema,
+  RawSetBackgroundColorResponseSchema,
+  RawSetTitleResponseSchema,
+  RawShowBackButtonResponseSchema,
+  RawShowLoaderResponseSchema,
+  RawShowRefreshButtonResponseSchema,
   SendAnalyticsEventRequestSchema,
   SendAnalyticsEventResponseSchema,
   SetBackgroundColorResponseSchema,
@@ -63,6 +74,14 @@ export type SetBackgroundColorResult = void;
 export type SetBackgroundColorResponse = InferOutput<typeof SetBackgroundColorResponseSchema>;
 
 /**
+ * Internal type for the raw bridge response from setBackgroundColor before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawSetBackgroundColorResponse = InferOutput<typeof RawSetBackgroundColorResponseSchema>;
+
+/**
  * Request parameters for setting the title.
  *
  * @example
@@ -87,7 +106,6 @@ export type SetTitleResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Title set successfully.
  * - `204`: Title set successfully.
  * - `400`: Invalid title parameter.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
@@ -96,6 +114,14 @@ export type SetTitleResult = void;
  * @public
  */
 export type SetTitleResponse = InferOutput<typeof SetTitleResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from setTitle before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawSetTitleResponse = InferOutput<typeof RawSetTitleResponseSchema>;
 
 /**
  * Result when hiding the back button.
@@ -110,14 +136,21 @@ export type HideBackButtonResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Back button hidden successfully.
- * - `204`: Operation completed successfully (no content).
+ * - `204`: Back button hidden successfully.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
 export type HideBackButtonResponse = InferOutput<typeof HideBackButtonResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from hideBackButton before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawHideBackButtonResponse = InferOutput<typeof RawHideBackButtonResponseSchema>;
 
 /**
  * Result when showing the back button.
@@ -132,14 +165,21 @@ export type ShowBackButtonResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Back button shown successfully.
- * - `204`: Operation completed successfully (no content).
+ * - `204`: Back button shown successfully.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
 export type ShowBackButtonResponse = InferOutput<typeof ShowBackButtonResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from showBackButton before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawShowBackButtonResponse = InferOutput<typeof RawShowBackButtonResponseSchema>;
 
 /**
  * Result when hiding the refresh button.
@@ -154,14 +194,21 @@ export type HideRefreshButtonResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Refresh button hidden successfully.
- * - `204`: Operation completed successfully (no content).
+ * - `204`: Refresh button hidden successfully.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
 export type HideRefreshButtonResponse = InferOutput<typeof HideRefreshButtonResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from hideRefreshButton before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawHideRefreshButtonResponse = InferOutput<typeof RawHideRefreshButtonResponseSchema>;
 
 /**
  * Result when showing the refresh button.
@@ -176,14 +223,21 @@ export type ShowRefreshButtonResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Refresh button shown successfully.
- * - `204`: Operation completed successfully (no content).
+ * - `204`: Refresh button shown successfully.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
 export type ShowRefreshButtonResponse = InferOutput<typeof ShowRefreshButtonResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from showRefreshButton before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawShowRefreshButtonResponse = InferOutput<typeof RawShowRefreshButtonResponseSchema>;
 
 /**
  * Result when closing the container.
@@ -198,14 +252,21 @@ export type CloseResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Container closed successfully.
- * - `204`: Operation completed successfully (no content).
+ * - `204`: Container closed successfully.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
 export type CloseResponse = InferOutput<typeof CloseResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from close before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawCloseResponse = InferOutput<typeof RawCloseResponseSchema>;
 
 /**
  * Result when notifying content loaded.
@@ -242,14 +303,21 @@ export type ShowLoaderResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Loader shown successfully.
- * - `204`: Operation completed successfully (no content).
+ * - `204`: Loader shown successfully.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
 export type ShowLoaderResponse = InferOutput<typeof ShowLoaderResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from showLoader before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawShowLoaderResponse = InferOutput<typeof RawShowLoaderResponseSchema>;
 
 /**
  * Result when hiding the loader.
@@ -264,14 +332,21 @@ export type HideLoaderResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Loader hidden successfully.
- * - `204`: Operation completed successfully (no content).
+ * - `204`: Loader hidden successfully.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
 export type HideLoaderResponse = InferOutput<typeof HideLoaderResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from hideLoader before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawHideLoaderResponse = InferOutput<typeof RawHideLoaderResponseSchema>;
 
 /**
  * Request parameters for opening an external link.
@@ -298,7 +373,7 @@ export type OpenExternalLinkResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: External link opened successfully.
+ * - `204`: External link opened successfully.
  * - `400`: Invalid URL parameter.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
@@ -306,6 +381,14 @@ export type OpenExternalLinkResult = void;
  * @public
  */
 export type OpenExternalLinkResponse = InferOutput<typeof OpenExternalLinkResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from openExternalLink before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawOpenExternalLinkResponse = InferOutput<typeof RawOpenExternalLinkResponseSchema>;
 
 /**
  * Request parameters for notifying CTA tap.
@@ -384,7 +467,7 @@ export type SendAnalyticsEventResult = void;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Analytics event sent successfully.
+ * - `204`: Analytics event sent successfully.
  * - `400`: Invalid analytics event parameters.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
  * - `501`: Not implemented - this method requires the Grab app environment.
@@ -392,6 +475,14 @@ export type SendAnalyticsEventResult = void;
  * @public
  */
 export type SendAnalyticsEventResponse = InferOutput<typeof SendAnalyticsEventResponseSchema>;
+
+/**
+ * Internal type for the raw bridge response from sendAnalyticsEvent before transformation.
+ * Used internally to handle the native bridge response format.
+ *
+ * @internal
+ */
+export type RawSendAnalyticsEventResponse = InferOutput<typeof RawSendAnalyticsEventResponseSchema>;
 
 /**
  * Result object containing the connection status.
