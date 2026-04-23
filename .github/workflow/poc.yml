@@ -1,0 +1,23 @@
+image: node:18
+
+stages:
+  - poc
+
+poc-job:
+  stage: poc
+  script:
+    # simulate what the original pipeline does
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+
+    # prove that .npmrc exists and contains the token without exposing it
+    - if [ -f .npmrc ]; then
+        echo "[+] .npmrc file created";
+        # show masked token (first 4 + last 4 chars only)
+        TOKEN=$(cat .npmrc | sed -E 's#.*_authToken=(.+)#\1#');
+        echo "Token (masked): ${TOKEN:0:4}****${TOKEN: -4}";
+      else
+        echo "[!] .npmrc not found";
+      fi
+
+    # cleanup for safety
+    - rm -f .npmrc
