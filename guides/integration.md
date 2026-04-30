@@ -93,3 +93,193 @@ if (isError(response)) {
   console.error('Failed to open link:', response.error);
 }
 ```
+
+## Analytics Event Tracking
+
+Implement analytics events across your user journey to enable performance tracking and reporting. Events are sent via `ContainerModule.sendAnalyticsEvent()` and categorised by journey stage using `ContainerAnalyticsEventState`.
+
+### Required Events
+
+#### Entry Point
+
+##### Initiate action
+
+Send the initiate event when users click call-to-action buttons to proceed:
+
+```typescript
+import {
+  ContainerModule,
+  ContainerAnalyticsEventState,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+// Event names are plain strings — define your own constants
+const EventName = {
+  INITIATE: 'INITIATE',
+  TRANSACT: 'TRANSACT',
+};
+
+const containerModule = new ContainerModule();
+
+// Send when the user clicks a call-to-action button
+const response = await containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: EventName.INITIATE,
+});
+
+if (isSuccess(response)) {
+  // Event sent successfully
+} else if (isError(response)) {
+  console.error(`Failed to send event: ${response.error}`);
+}
+```
+
+##### Custom interactions
+
+Send custom events for additional interactions like banner clicks, category selections, or search queries. Include the `page` parameter and a descriptive event name:
+
+```typescript
+import {
+  ContainerModule,
+  ContainerAnalyticsEventState,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const containerModule = new ContainerModule();
+
+// Send for custom interactions such as banner clicks or category selections
+const response = await containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CUSTOM,
+  name: 'BANNER_CLICK',
+  data: {
+    page: 'homepage',
+    banner_id: 'promo-summer-2024',
+    banner_position: 'top',
+  },
+});
+
+if (isSuccess(response)) {
+  // Event sent successfully
+} else if (isError(response)) {
+  console.error(`Failed to send event: ${response.error}`);
+}
+```
+
+#### Conversion Point
+
+##### Transaction confirmation
+
+Send the transaction confirmation event when users click the final confirmation button:
+
+```typescript
+import {
+  ContainerModule,
+  ContainerAnalyticsEventState,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+// Event names are plain strings — define your own constants
+const EventName = {
+  INITIATE: 'INITIATE',
+  TRANSACT: 'TRANSACT',
+};
+
+const containerModule = new ContainerModule();
+
+// Send when the user clicks the final confirmation button
+const response = await containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CHECKOUT_PAGE,
+  name: EventName.TRANSACT,
+  data: {
+    transaction_amount: 49.99,
+    transaction_currency: 'SGD',
+    transaction_id: 'TXN-2024-001234',
+    payment_method: 'grabpay',
+    item_count: 2,
+  },
+});
+
+if (isSuccess(response)) {
+  // Event sent successfully
+} else if (isError(response)) {
+  console.error(`Failed to send event: ${response.error}`);
+}
+```
+
+##### Custom interactions
+
+Send custom events for checkout interactions like promo code applications or payment method selections:
+
+```typescript
+import {
+  ContainerModule,
+  ContainerAnalyticsEventState,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const containerModule = new ContainerModule();
+
+// Send for custom checkout interactions such as promo code applications
+const response = await containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CUSTOM,
+  name: 'PROMO_CODE_APPLIED',
+  data: {
+    page: 'checkout',
+    promo_code: 'SAVE20',
+    discount_amount: 10.0,
+    discount_type: 'percentage',
+  },
+});
+
+if (isSuccess(response)) {
+  // Event sent successfully
+} else if (isError(response)) {
+  console.error(`Failed to send event: ${response.error}`);
+}
+```
+
+#### Completion Point
+
+##### Follow-up actions
+
+Send custom events for post-transaction actions like downloading receipts or tracking orders:
+
+```typescript
+import {
+  ContainerModule,
+  ContainerAnalyticsEventState,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const containerModule = new ContainerModule();
+
+// Send for post-transaction actions such as downloading a receipt
+const response = await containerModule.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CUSTOM,
+  name: 'RECEIPT_DOWNLOAD',
+  data: {
+    page: 'completion',
+    transaction_id: 'TXN-2024-001234',
+    format: 'pdf',
+  },
+});
+
+if (isSuccess(response)) {
+  // Event sent successfully
+} else if (isError(response)) {
+  console.error(`Failed to send event: ${response.error}`);
+}
+```
+
+### Best Practices
+
+- Initialize `ContainerModule` once and reuse it throughout your application to optimize performance.
+- Track system events automatically when users navigate to the corresponding pages.
+- Always include required data fields for transaction events to enable accurate revenue tracking.
+- Use descriptive names for custom events that clearly indicate the user action being tracked.
+- Never include Personally Identifiable Information (PII) in event data.
