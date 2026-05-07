@@ -2,6 +2,8 @@
 
 A zero-build MiniApp demonstration showcasing core Grab SuperApp SDK integration patterns. This sample loads the SDK via CDN and uses the global `SuperAppSDK` object to interact with native container, identity, and checkout modules.
 
+**Note:** This MiniApp must be opened within the Grab SuperApp WebView environment to function correctly, as it relies on native bridge capabilities provided by the Grab app.
+
 ## Security
 
 Token exchange and userinfo retrieval are performed **in the browser only for this demonstration**. In production, you must exchange the authorization code, validate tokens, and fetch user information **on your backend** to ensure security and prevent token exposure.
@@ -29,39 +31,43 @@ sequenceDiagram
     participant Checkout as checkout.html
 
     User->>Entry: Open MiniApp
-    Entry->>SDK: Configure ContainerModule (UI, buttons, loader)
-    Entry->>SDK: IdentityModule.authorize(openid profile.read phone)
+    Entry->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, hideBackButton, hideRefreshButton, hideLoader)
+    Entry->>SDK: Authorize via IdentityModule.authorize with scope openid profile.read phone
     SDK-->>Entry: Authorization code
+    Entry->>SDK: Get authorization artifacts via IdentityModule.getAuthorizationArtifacts
     Entry->>OIDC: OIDC Flow (Discovery, Token Exchange, UserInfo)
     OIDC-->>Entry: User profile data
-    Entry->>SDK: ScopeModule.reloadScopes()
+    Entry->>SDK: Reload scopes via ScopeModule.reloadScopes
+    Entry->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
     Entry->>Home: Navigate to index.html
 
-    Home->>SDK: Configure ContainerModule (UI, buttons)
-    Home->>SDK: Setup Page & Track Analytics (HOMEPAGE DEFAULT)
-    Home->>SDK: LocaleModule.getLanguageLocaleIdentifier()
+    Home->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, hideBackButton, showRefreshButton)
+    Home->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event HOMEPAGE DEFAULT
+    Home->>SDK: Get locale via LocaleModule.getLanguageLocaleIdentifier
     User->>Home: Click "View Location on Map"
-    Home->>SDK: Check Location Access (hasAccessTo)
+    Home->>SDK: Check access via ScopeModule.hasAccessTo for LocationModule.getCoordinate
     alt No access
         Note over Home,SDK: mobile.geolocation is a mobile scope (no token exchange needed)
-        Home->>SDK: IdentityModule.authorize(mobile.geolocation)
-        Home->>SDK: ScopeModule.reloadScopes()
+        Home->>SDK: Authorize via IdentityModule.authorize with scope mobile.geolocation
+        Home->>SDK: Reload scopes via ScopeModule.reloadScopes
+        Home->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
     end
-    Home->>SDK: Track Analytics (HOMEPAGE INITIATE)
-    Home->>SDK: LocationModule.getCoordinate()
-    Home->>SDK: Open External Maps Link (openExternalLink)
+    Home->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event HOMEPAGE INITIATE
+    Home->>SDK: Get coordinates via LocationModule.getCoordinate
+    Home->>SDK: Open external link via ContainerModule.openExternalLink
 
     User->>Checkout: Navigate to checkout.html
-    Checkout->>SDK: Configure ContainerModule (UI, buttons)
-    Checkout->>SDK: Setup Page & Track Analytics (CHECKOUT_PAGE DEFAULT)
+    Checkout->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, showBackButton, hideRefreshButton)
+    Checkout->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event CHECKOUT_PAGE DEFAULT
     User->>Checkout: Click "Trigger Checkout"
-    Checkout->>SDK: Check Checkout Access (hasAccessTo)
+    Checkout->>SDK: Check access via ScopeModule.hasAccessTo for CheckoutModule.triggerCheckout
     alt No access
-        Checkout->>SDK: IdentityModule.authorize(mobile.checkout)
-        Checkout->>SDK: ScopeModule.reloadScopes()
+        Checkout->>SDK: Authorize via IdentityModule.authorize with scope mobile.checkout
+        Checkout->>SDK: Reload scopes via ScopeModule.reloadScopes
+        Checkout->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
     end
-    Checkout->>SDK: Track Analytics (CHECKOUT_PAGE TRANSACT)
-    Checkout->>SDK: CheckoutModule.triggerCheckout(payload)
+    Checkout->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event CHECKOUT_PAGE TRANSACT
+    Checkout->>SDK: Trigger checkout via CheckoutModule.triggerCheckout
 ```
 
 ## File Breakdown

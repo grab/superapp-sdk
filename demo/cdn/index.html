@@ -112,7 +112,7 @@
             return;
           }
 
-          // Send analytics - optional
+          // Send analytics - optional, don't block on failure
           await runOptional('Send INITIATE analytics', container.sendAnalyticsEvent({
             state: 'HOMEPAGE',
             name: 'INITIATE'

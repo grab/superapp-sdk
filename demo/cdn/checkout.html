@@ -118,6 +118,7 @@
             await identity.clearAuthorizationArtifacts();
           }
 
+          // Send analytics - optional, don't block on failure
           await runOptional('Send TRANSACT analytics', container.sendAnalyticsEvent({
             state: 'CHECKOUT_PAGE',
             name: 'TRANSACT'
