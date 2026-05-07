@@ -22,16 +22,11 @@
         userInitiatedCancel: { type: 'warning', label: 'Cancelled by user' }
       };
 
-      // Sample checkout payload for devs to use
+      // Sample checkout payload — these fields must come from your backend's
       const SAMPLE_PAYLOAD = {
+        partnerTxID: 'your_unique_transaction_id',
+        request: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
         sessionID: 'session-123',
-        partnerId: 'grab-partner-123',
-        amount: 15000,
-        currency: 'VND',
-        items: [
-          { name: 'Sample Item 1', quantity: 1, price: 10000 },
-          { name: 'Sample Item 2', quantity: 2, price: 2500 }
-        ]
       };
 
       async function init() {

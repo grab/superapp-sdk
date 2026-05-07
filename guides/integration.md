@@ -284,8 +284,95 @@ if (isSuccess(response)) {
 
 ### Best Practices
 
-- Initialize `ContainerModule` once and reuse it throughout your application to optimize performance.
 - Track system events automatically when users navigate to the corresponding pages.
 - Always include required data fields for transaction events to enable accurate revenue tracking.
 - Use descriptive names for custom events that clearly indicate the user action being tracked.
 - Never include Personally Identifiable Information (PII) in event data.
+
+## Checkout
+
+The checkout flow is a two-step process: your backend first initializes a transaction using your partner credentials, then your frontend triggers the native payment interface using the response from your backend.
+
+### Step 1 — Initialize transaction on your backend
+
+Before calling `CheckoutModule.triggerCheckout()`, you must create a transaction on your server by calling the [GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/#create-transaction). This requires your `partnerID` and `partnerSecret` to generate an HMAC-SHA256 signature.
+
+The API returns a payload containing `partnerTxID`, `request`, and `sessionID` — all three fields are required by the frontend.
+
+### Step 2 — Trigger checkout from your frontend
+
+Pass the complete response from the Initialize Transaction API to `CheckoutModule.triggerCheckout()`:
+
+```typescript
+import {
+  CheckoutModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const checkout = new CheckoutModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+async function processPayment() {
+  // 1. Ensure mobile.checkout scope is authorized
+  const authResponse = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-miniapp.example.com/callback',
+    scope: 'mobile.checkout',
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(authResponse)) {
+    await scope.reloadScopes();
+  } else if (isError(authResponse)) {
+    console.error('Authorization failed:', authResponse.error);
+    return;
+  }
+
+  // 2. Fetch the initialized transaction payload from your backend
+  const response = await fetch('https://your-backend.example.com/init-transaction', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ orderId: 'order-123' }),
+  });
+  const { partnerTxID, request, sessionID } = await response.json();
+
+  // 3. Trigger checkout with the backend response
+  const checkoutResult = await checkout.triggerCheckout({
+    partnerTxID,
+    request,
+    sessionID,
+  });
+
+  if (isSuccess(checkoutResult)) {
+    const { status, transactionID, errorCode, errorMessage } = checkoutResult.result;
+
+    if (status === 'success') {
+      console.log('Payment successful:', transactionID);
+    } else if (status === 'failure') {
+      console.error('Payment failed:', errorCode, errorMessage);
+    } else if (status === 'pending') {
+      console.log('Payment is processing:', transactionID);
+    } else if (status === 'userInitiatedCancel') {
+      console.log('User cancelled payment');
+    }
+  } else if (isError(checkoutResult)) {
+    console.error('Checkout error:', checkoutResult.error);
+  }
+}
+```
+
+### Result status values
+
+| Status                | Description                                                                    |
+| :-------------------- | :----------------------------------------------------------------------------- |
+| `success`             | Payment completed successfully. `transactionID` is provided.                   |
+| `failure`             | Payment failed. `transactionID`, `errorCode`, and `errorMessage` are provided. |
+| `pending`             | Payment is still being processed. `transactionID` is provided.                 |
+| `userInitiatedCancel` | User cancelled the payment. No other fields are present.                       |
+
+For the complete API reference, see [CheckoutModule](https://grab.github.io/superapp-sdk/classes/CheckoutModule.html).

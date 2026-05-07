@@ -15,9 +15,9 @@ Token exchange and userinfo retrieval are performed **in the browser only for th
 3. Replace placeholders with your `clientId` and `redirectUri` (must match your Grab partner registration).
 4. If testing locally, ensure `redirectUri` points to your served `entry.html` URL.
 
-## Run
+## Testing
 
-Serve this directory over HTTP(S) and open **`entry.html`** as the start URL within the Grab SuperApp WebView environment.
+Developers who want to pull this code, update it, and test it out, should liaise with the Grab team to set up the environment.
 
 ## Integration Flow
 
@@ -26,9 +26,10 @@ sequenceDiagram
     participant User
     participant Entry as entry.html
     participant SDK as SuperAppSDK
-    participant OIDC as GrabID_HTTP
+    participant OIDC as GrabID_API
     participant Home as index.html
     participant Checkout as checkout.html
+    participant Backend as Backend_API
 
     User->>Entry: Open MiniApp
     Entry->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, hideBackButton, hideRefreshButton, hideLoader)
@@ -66,6 +67,8 @@ sequenceDiagram
         Checkout->>SDK: Reload scopes via ScopeModule.reloadScopes
         Checkout->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
     end
+    Checkout->>Backend: Create transaction via GrabPay API
+    Backend-->>Checkout: { partnerTxID, request, sessionID }
     Checkout->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event CHECKOUT_PAGE TRANSACT
     Checkout->>SDK: Trigger checkout via CheckoutModule.triggerCheckout
 ```
@@ -84,6 +87,7 @@ sequenceDiagram
 ## Production Checklist
 
 - **Backend Integration**: Move OAuth code exchange and UserInfo calls to your server.
+- **Transaction Initialization**: Always initialize transactions on your backend via the GrabPay API before calling `CheckoutModule.triggerCheckout()`.
 - **Token Validation**: Always validate `id_token` signatures and nonces server-side.
 - **Secure Storage**: Use secure, HTTP-only cookies or server-side sessions instead of `sessionStorage` for sensitive identity data.
 - **Client Secrets**: Never expose client secrets in frontend code.
