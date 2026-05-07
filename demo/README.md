@@ -1,8 +1,15 @@
-# CDN demo
+# Demo MiniApps
 
-A zero-build MiniApp demonstration showcasing core Grab SuperApp SDK integration patterns. This sample loads the SDK via CDN and uses the global `SuperAppSDK` object to interact with native container, identity, and checkout modules.
+Two complete MiniApp samples demonstrating core Grab SuperApp SDK integration patterns. Both implement the same user flow — OAuth authorization, user profile display, deferred location permissions, and checkout payment — in different technology stacks.
 
-**Note:** This MiniApp must be opened within the Grab SuperApp WebView environment to function correctly, as it relies on native bridge capabilities provided by the Grab app.
+**Note:** These MiniApps must be opened within the Grab SuperApp WebView environment to function correctly, as they rely on native bridge capabilities provided by the Grab app.
+
+## Variants
+
+| Variant | Stack | Description |
+|---------|-------|-------------|
+| `cdn/` | Vanilla HTML/JS | Zero-build, loads SDK via CDN. Uses the global `SuperAppSDK` object. |
+| `react/` | React + TypeScript + Vite | Build-based, imports SDK as an npm package. Hot-reload dev server. |
 
 ## Security
 
@@ -10,25 +17,72 @@ Token exchange and userinfo retrieval are performed **in the browser only for th
 
 ## Configure
 
-1. Open `config.js`.
+1. Open `cdn/config.js` (or `react/src/config.ts`).
 2. Set `ENVIRONMENT` to `'staging'` or `'production'`.
 3. Replace placeholders with your `clientId` and `redirectUri` (must match your Grab partner registration).
-4. If testing locally, ensure `redirectUri` points to your served `entry.html` URL.
+4. If testing locally, ensure `redirectUri` points to your served entry URL (`entry.html` or `http://localhost:5173`).
 
 ## Testing
 
 Developers who want to pull this code, update it, and test it out, should liaise with the Grab team to set up the environment.
+
+## CDN Variant
+
+Zero-build: open the HTML files directly via a local server (e.g. `npx serve .`).
+
+```
+cdn/
+├── entry.html        OAuth authorization and demo OIDC flow
+├── index.html        User profile display and deferred location permissions
+├── checkout.html     Payment flow and checkout permission handling
+├── config.js         Centralized environment and OAuth client configuration
+├── ui-helpers.js     Shared UI utilities for error handling and HTML escaping
+└── grabid-service.js Demo-only OIDC helpers (Discovery, Token Exchange, UserInfo)
+```
+
+Run locally:
+```bash
+npx serve cdn
+# Then open http://localhost:3000/entry.html
+```
+
+## React Variant
+
+Build-based with TypeScript and Vite:
+
+```
+react/
+├── src/
+│   ├── App.tsx               Root component with routing
+│   ├── config.ts             Environment and OAuth client configuration
+│   ├── pages/
+│   │   ├── EntryPage.tsx     OAuth authorization and OIDC flow
+│   │   ├── IndexPage.tsx     User profile display and deferred location permissions
+│   │   └── CheckoutPage.tsx  Payment flow and checkout permission handling
+│   ├── services/
+│   │   └── grabidService.ts  Demo-only OIDC helpers
+│   └── context/
+│       └── UserContext.tsx   User profile state management
+└── dist/                     Pre-built output (ready to serve)
+```
+
+Install and run:
+```bash
+cd react
+npm install
+npm run dev
+```
 
 ## Integration Flow
 
 ```mermaid
 sequenceDiagram
     participant User
-    participant Entry as entry.html
+    participant Entry as Entry page
     participant SDK as SuperAppSDK
     participant OIDC as GrabID_API
-    participant Home as index.html
-    participant Checkout as checkout.html
+    participant Home as Home page
+    participant Checkout as Checkout page
     participant Backend as Backend_API
 
     User->>Entry: Open MiniApp
@@ -40,7 +94,7 @@ sequenceDiagram
     OIDC-->>Entry: User profile data
     Entry->>SDK: Reload scopes via ScopeModule.reloadScopes
     Entry->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
-    Entry->>Home: Navigate to index.html
+    Entry->>Home: Navigate to home page
 
     Home->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, hideBackButton, showRefreshButton)
     Home->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event HOMEPAGE DEFAULT
@@ -57,7 +111,7 @@ sequenceDiagram
     Home->>SDK: Get coordinates via LocationModule.getCoordinate
     Home->>SDK: Open external link via ContainerModule.openExternalLink
 
-    User->>Checkout: Navigate to checkout.html
+    User->>Checkout: Navigate to checkout page
     Checkout->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, showBackButton, hideRefreshButton)
     Checkout->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event CHECKOUT_PAGE DEFAULT
     User->>Checkout: Click "Trigger Checkout"
@@ -72,17 +126,6 @@ sequenceDiagram
     Checkout->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event CHECKOUT_PAGE TRANSACT
     Checkout->>SDK: Trigger checkout via CheckoutModule.triggerCheckout
 ```
-
-## File Breakdown
-
-| File | Responsibility |
-|------|----------------|
-| `entry.html` | Handles initial OAuth authorization and demo OIDC flow. |
-| `index.html` | Displays user profile and demonstrates deferred location permissions. |
-| `checkout.html` | Demonstrates the payment flow and checkout permission handling. |
-| `config.js` | Centralized environment and OAuth client configuration. |
-| `ui-helpers.js` | Shared UI utilities for error handling and HTML escaping. |
-| `grabid-service.js` | Demo-only OIDC helpers (Discovery, Token Exchange, UserInfo). |
 
 ## Production Checklist
 

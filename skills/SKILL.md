@@ -218,9 +218,9 @@ This guide covers the recommended setup for a MiniApp entry point — loading sc
 
 ### Demo App
 
-The [demo/cdn](https://github.com/grab/superapp-sdk/tree/master/demo/cdn) folder contains a complete vanilla HTML/JS MiniApp demonstrating these integration patterns in action. It showcases container UI configuration, incremental authorization (`hasAccessTo` → `authorize`), and core module usage.
+The [demo](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains complete MiniApps demonstrating these integration patterns in action. It showcases container UI configuration, incremental authorization, and core module usage.
 
-See the [README](https://github.com/grab/superapp-sdk/tree/master/demo/cdn/README.md) for full flow diagrams and setup instructions.
+See the [README](https://github.com/grab/superapp-sdk/tree/master/demo/README.md) for full flow diagrams and setup instructions.
 
 ### Entry Point Setup
 
