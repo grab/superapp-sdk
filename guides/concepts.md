@@ -58,6 +58,20 @@ Methods tagged with `@requiredOAuthScope` require specific permissions. If the u
 2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
 3. Retry the original method call.
 
+### Proactive Permission Checking
+
+Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`:
+
+```typescript
+const scope = new ScopeModule();
+const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
+
+if (isSuccess(hasAccess) && hasAccess.result) {
+  // Permission is available, safe to call the method
+  const location = await location.getCoordinate();
+}
+```
+
 ```typescript
 import {
   LocationModule,

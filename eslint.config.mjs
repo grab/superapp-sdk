@@ -27,6 +27,7 @@ export default defineConfig([
       'temp/',
       'coverage/',
       'skills/',
+      'demo/',
     ],
   },
   {
