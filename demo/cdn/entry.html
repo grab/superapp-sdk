@@ -6,9 +6,9 @@
     <title>Entry</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk@beta/dist/index.js"></script>
-    <script src="config.js?v=1"></script>
-    <script src="ui-helpers.js?v=1"></script>
-    <script src="grabid-service.js?v=1"></script>
+    <script src="config.js"></script>
+    <script src="ui-helpers.js"></script>
+    <script src="grabid-service.js"></script>
   </head>
   <body class="p-4">
     <div id="warningArea" class="mb-4"></div>
@@ -80,7 +80,7 @@
               }
 
               await identity.clearAuthorizationArtifacts();
-              window.location.href = 'index.html?v=' + Date.now();
+              window.location.href = 'index.html';
               break;
 
             case 204:
