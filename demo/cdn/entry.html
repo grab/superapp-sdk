@@ -28,7 +28,6 @@
         }
 
         const identity = new SuperAppSDK.IdentityModule();
-        const scope = new SuperAppSDK.ScopeModule();
 
         content.innerHTML = `<p>Authorizing...</p>`;
 
@@ -53,7 +52,7 @@
         // This page runs discovery + token exchange + userinfo in the browser only for the demo.
         if (SuperAppSDK.isSuccess(authResponse)) {
           switch (authResponse.status_code) {
-            case 200:
+            case 200: {
               content.innerHTML = `<p>Completing sign-in...</p>`;
 
               const artifactsResponse = await identity.getAuthorizationArtifacts();
@@ -85,6 +84,7 @@
                 return;
               }
 
+              const scope = new SuperAppSDK.ScopeModule();
               const reloadResponse = await scope.reloadScopes();
               if (!SuperAppSDK.isSuccess(reloadResponse)) {
                 show('content', formatError('Reload scopes', reloadResponse), 'error');
@@ -94,6 +94,7 @@
               await identity.clearAuthorizationArtifacts();
               window.location.href = 'index.html?v=1';
               break;
+            }
 
             case 204:
               await identity.clearAuthorizationArtifacts();
