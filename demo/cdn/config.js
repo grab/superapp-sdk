@@ -4,12 +4,12 @@ const CONFIG = {
   staging: {
     clientId: 'REPLACE_WITH_STAGING_CLIENT_ID',
     discoveryUrl: 'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration',
-    redirectUri: 'http://localhost:8000/cdn/entry.html'
+    redirectUri: 'REPLACE_WITH_STAGING_REDIRECT_URI'
   },
   production: {
-    clientId: 'REPLACE_WITH_PROD_CLIENT_ID',
+    clientId: 'REPLACE_WITH_PRODUCTION_CLIENT_ID',
     discoveryUrl: 'https://partner-api.grab.com/grabid/v1/oauth2/.well-known/openid-configuration',
-    redirectUri: 'https://your-partner-domain.com/cdn/entry.html'
+    redirectUri: 'REPLACE_WITH_PRODUCTION_REDIRECT_URI'
   }
 };
 
