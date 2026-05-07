@@ -108,6 +108,20 @@ Methods tagged with `@requiredOAuthScope` require specific permissions. If the u
 2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
 3. Retry the original method call.
 
+#### Proactive Permission Checking
+
+Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`:
+
+```typescript
+const scope = new ScopeModule();
+const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
+
+if (isSuccess(hasAccess) && hasAccess.result) {
+  // Permission is available, safe to call the method
+  const location = await location.getCoordinate();
+}
+```
+
 ```typescript
 import {
   LocationModule,
@@ -201,6 +215,12 @@ You can also `await` a stream method directly to get its first value.
 ## Integration Guide
 
 This guide covers the recommended setup for a MiniApp entry point — loading scopes, configuring the container UI, signalling readiness, and handling permissions.
+
+### Demo App
+
+The [demo/cdn](https://github.com/grab/superapp-sdk/tree/master/demo/cdn) folder contains a complete vanilla HTML/JS MiniApp demonstrating these integration patterns in action. It showcases container UI configuration, incremental authorization (`hasAccessTo` → `authorize`), and core module usage.
+
+See the [README](https://github.com/grab/superapp-sdk/tree/master/demo/cdn/README.md) for full flow diagrams and setup instructions.
 
 ### Entry Point Setup
 
