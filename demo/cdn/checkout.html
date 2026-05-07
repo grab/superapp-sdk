@@ -30,14 +30,21 @@
       };
 
       async function init() {
-        // Initialize modules
         const container = new SuperAppSDK.ContainerModule();
+
+        const content = document.getElementById('content');
+        content.innerHTML = `<p>Checking environment...</p>`;
+
+        const connectionResponse = await container.isConnected();
+        if (!SuperAppSDK.isSuccess(connectionResponse) || !connectionResponse.result?.connected) {
+          show('content', 'This page must be opened from within the Grab SuperApp.', 'error');
+          return;
+        }
+
         const checkout = new SuperAppSDK.CheckoutModule();
         const identity = new SuperAppSDK.IdentityModule();
         const scope = new SuperAppSDK.ScopeModule();
 
-        // Initial render with loading state
-        const content = document.getElementById('content');
         content.innerHTML = `<p>Loading checkout...</p>`;
 
         // Container setup - optional, don't block on failure
@@ -159,9 +166,14 @@
       document.addEventListener('DOMContentLoaded', init);
 
       // Re-apply container settings when page is restored
-      window.addEventListener('pageshow', (event) => {
+      window.addEventListener('pageshow', async (event) => {
         if (event.persisted) {
           const container = new SuperAppSDK.ContainerModule();
+          const connectionResponse = await container.isConnected();
+          if (!SuperAppSDK.isSuccess(connectionResponse) || !connectionResponse.result?.connected) {
+            show('content', 'This page must be opened from within the Grab SuperApp.', 'error');
+            return;
+          }
           runOptional('Set background color', container.setBackgroundColor('#005339'));
           runOptional('Set title', container.setTitle('Checkout'));
           runOptional('Show back button', container.showBackButton());
