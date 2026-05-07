@@ -6,6 +6,12 @@ title: Integration Guide
 
 This guide covers the recommended setup for a MiniApp entry point — loading scopes, configuring the container UI, signalling readiness, and handling permissions.
 
+## Demo App
+
+The [demo/cdn](https://github.com/grab/superapp-sdk/tree/master/demo/cdn) folder contains a complete vanilla HTML/JS MiniApp demonstrating these integration patterns in action. It showcases container UI configuration, incremental authorization (`hasAccessTo` → `authorize`), and core module usage.
+
+See the [README](https://github.com/grab/superapp-sdk/tree/master/demo/cdn/README.md) for full flow diagrams and setup instructions.
+
 ## Entry Point Setup
 
 Run these steps once when your MiniApp initialises, before rendering any content.

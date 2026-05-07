@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Entry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk@beta/dist/index.js"></script>
+    <script src="config.js?v=1"></script>
+    <script src="ui-helpers.js?v=1"></script>
+    <script src="grabid-service.js?v=1"></script>
+  </head>
+  <body class="p-4">
+    <div id="warningArea" class="mb-4"></div>
+    <div id="content"></div>
+
+    <script>
+      async function init() {
+        const container = new SuperAppSDK.ContainerModule();
+        const identity = new SuperAppSDK.IdentityModule();
+        const scope = new SuperAppSDK.ScopeModule();
+
+        const content = document.getElementById('content');
+        content.innerHTML = `<p>Authorizing...</p>`;
+
+        await runOptional('Set background color', container.setBackgroundColor('#005339'));
+        await runOptional('Set title', container.setTitle('Entry'));
+        await runOptional('Hide back button', container.hideBackButton());
+        await runOptional('Hide refresh button', container.hideRefreshButton());
+        await runOptional('Hide loader', container.hideLoader());
+
+        const authResponse = await identity.authorize({
+          clientId: ENVIRONMENT_CONFIG.clientId,
+          redirectUri: ENVIRONMENT_CONFIG.redirectUri,
+          scope: 'openid profile.read phone',
+          environment: ENVIRONMENT,
+          responseMode: 'in_place'
+        });
+
+        // Production: handle the authorization code on your backend (exchange tokens, validate id_token, session).
+        // This page runs discovery + token exchange + userinfo in the browser only for the demo.
+        if (SuperAppSDK.isSuccess(authResponse)) {
+          switch (authResponse.status_code) {
+            case 200:
+              content.innerHTML = `<p>Completing sign-in...</p>`;
+
+              const artifactsResponse = await identity.getAuthorizationArtifacts();
+              if (!SuperAppSDK.isSuccess(artifactsResponse)) {
+                show('content', formatError('Get authorization artifacts', artifactsResponse), 'error');
+                return;
+              }
+
+              const authCode = authResponse.result.code;
+              const codeVerifier = artifactsResponse.result.codeVerifier;
+              const actualRedirectUri = artifactsResponse.result.redirectUri;
+
+              try {
+                content.innerHTML = `<p>Fetching OIDC discovery...</p>`;
+                const discovery = await fetchDiscoveryConfiguration();
+
+                content.innerHTML = `<p>Exchanging authorization code...</p>`;
+                const tokenResponse = await exchangeAuthorizationCode(discovery, authCode, codeVerifier, actualRedirectUri);
+
+                content.innerHTML = `<p>Fetching user info...</p>`;
+                const userInfo = await fetchUserInfo(discovery, tokenResponse.access_token);
+
+                sessionStorage.setItem('user_name', userInfo.name || '');
+                sessionStorage.setItem('user_email', userInfo.email || '');
+                sessionStorage.setItem('user_phone', userInfo.phoneNumber || '');
+              } catch (error) {
+                console.error('OIDC flow error:', error);
+                show('content', `OIDC flow failed: ${error.message}`, 'error');
+                return;
+              }
+
+              const reloadResponse = await scope.reloadScopes();
+              if (!SuperAppSDK.isSuccess(reloadResponse)) {
+                show('content', formatError('Reload scopes', reloadResponse), 'error');
+                return;
+              }
+
+              await identity.clearAuthorizationArtifacts();
+              window.location.href = 'index.html?v=' + Date.now();
+              break;
+
+            case 204:
+              await identity.clearAuthorizationArtifacts();
+              show('content', 'Authorization was cancelled.', 'error');
+              break;
+          }
+        } else if (SuperAppSDK.isError(authResponse)) {
+          await identity.clearAuthorizationArtifacts();
+          show('content', `Authorization failed: ${authResponse.error || 'Unknown error'} (code: ${authResponse.status_code})`, 'error');
+        } else {
+          await identity.clearAuthorizationArtifacts();
+          show('content', `Unexpected authorization response: ${authResponse.status_code}`, 'error');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+
+      window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+          const container = new SuperAppSDK.ContainerModule();
+          runOptional('Set background color', container.setBackgroundColor('#005339'));
+          runOptional('Set title', container.setTitle('Entry'));
+          runOptional('Hide back button', container.hideBackButton());
+          runOptional('Hide refresh button', container.hideRefreshButton());
+        }
+      });
+    </script>
+  </body>
+</html>
