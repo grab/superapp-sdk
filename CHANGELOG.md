@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.42] - 2026-05-07
+
+### Added
+
+- Complete CDN demo MiniApp (`demo/cdn/`) showcasing SDK integration patterns
+- `demo/cdn/entry.html` — OAuth authorization and OIDC token exchange flow
+- `demo/cdn/index.html` — user profile display with deferred location permission handling
+- `demo/cdn/checkout.html` — payment flow with `CheckoutModule.triggerCheckout()` demonstration
+- `demo/cdn/config.js` — centralized environment and OAuth client configuration
+- `demo/cdn/ui-helpers.js` — shared UI utilities for error handling and HTML escaping
+- `demo/cdn/grabid-service.js` — demo OIDC helpers (Discovery, Token Exchange, UserInfo)
+- `demo/cdn/README.md` — integration flow documentation with Mermaid sequence diagrams
+- Proactive permission checking section in Core Concepts guide documenting `ScopeModule.hasAccessTo()` usage
+
+### Changed
+
+- Integration Guide updated with Demo App reference linking to `demo/cdn` sample
+
+### Removed
+
+- Legacy `demo/index.html` (replaced by comprehensive CDN demo)
+
 ## [2.0.0-beta.41] - 2026-04-30
 
 ### Added

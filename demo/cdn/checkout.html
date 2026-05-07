@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk@beta/dist/index.js"></script>
+    <script src="config.js?v=1"></script>
+    <script src="ui-helpers.js?v=1"></script>
+  </head>
+  <body class="p-4">
+    <div id="warningArea" class="mb-4"></div>
+    <div id="content"></div>
+
+    <script>
+      // Status style mapping for checkout results
+      const STATUS_STYLES = {
+        success: { type: 'success', label: 'Success' },
+        failure: { type: 'error', label: 'Failed' },
+        pending: { type: 'warning', label: 'Pending' },
+        userInitiatedCancel: { type: 'warning', label: 'Cancelled by user' }
+      };
+
+      // Sample checkout payload — these fields must come from your backend's
+      const SAMPLE_PAYLOAD = {
+        partnerTxID: 'your_unique_transaction_id',
+        request: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        sessionID: 'session-123',
+      };
+
+      async function init() {
+        // Initialize modules
+        const container = new SuperAppSDK.ContainerModule();
+        const checkout = new SuperAppSDK.CheckoutModule();
+        const identity = new SuperAppSDK.IdentityModule();
+        const scope = new SuperAppSDK.ScopeModule();
+
+        // Initial render with loading state
+        const content = document.getElementById('content');
+        content.innerHTML = `<p>Loading checkout...</p>`;
+
+        // Container setup - optional, don't block on failure
+        await runOptional('Set background color', container.setBackgroundColor('#005339'));
+        await runOptional('Set title', container.setTitle('Checkout'));
+        await runOptional('Show back button', container.showBackButton());
+        await runOptional('Hide refresh button', container.hideRefreshButton());
+
+        // Send analytics - optional, don't block on failure
+        await runOptional('Send DEFAULT analytics', container.sendAnalyticsEvent({
+          state: 'CHECKOUT_PAGE',
+          name: 'DEFAULT'
+        }));
+
+        // Render the checkout UI
+        content.innerHTML = `
+          <h1 class="text-xl font-bold mb-4">Checkout</h1>
+          <div class="space-y-4">
+            <div>
+              <label for="payloadInput" class="block text-sm font-medium mb-2">Paste Checkout Payload (JSON)</label>
+              <textarea id="payloadInput" rows="10" class="w-full p-2 border border-gray-300 rounded bg-white text-gray-900 font-mono text-sm" placeholder='Paste JSON payload here or use the sample'>${JSON.stringify(SAMPLE_PAYLOAD, null, 2)}</textarea>
+            </div>
+            <button id="triggerBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Trigger Checkout
+            </button>
+            <button id="backBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+              Back to Home
+            </button>
+            <div id="result" class="mt-4"></div>
+          </div>
+        `;
+
+        document.getElementById('triggerBtn').addEventListener('click', async () => {
+          const payloadText = document.getElementById('payloadInput').value;
+          const resultDiv = document.getElementById('result');
+
+          let payload;
+          try {
+            payload = JSON.parse(payloadText);
+          } catch (e) {
+            show('result', `Invalid JSON: ${e.message}`, 'error');
+            return;
+          }
+
+          // Check if the app has permission to trigger a checkout
+          const hasAccessResponse = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
+          if (!SuperAppSDK.isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
+            // Request authorization for the mobile.checkout scope.
+            // Like mobile.geolocation, this is a mobile-only scope and does not 
+            // require a backend token exchange.
+            const authResponse = await identity.authorize({
+              clientId: ENVIRONMENT_CONFIG.clientId,
+              redirectUri: window.location.href,
+              scope: 'mobile.checkout',
+              environment: ENVIRONMENT,
+              responseMode: 'in_place'
+            });
+
+            if (authResponse.status_code !== 200) {
+              if (SuperAppSDK.isError(authResponse)) {
+                show('result', formatError('Checkout authorization', authResponse), 'error');
+              } else if (authResponse.status_code === 204) {
+                show('result', 'Checkout permission was cancelled.', 'warning');
+              }
+              return;
+            }
+
+            const reloadResponse = await scope.reloadScopes();
+            if (!SuperAppSDK.isSuccess(reloadResponse)) {
+              show('result', formatError('Reload scopes', reloadResponse), 'error');
+              return;
+            }
+            await identity.clearAuthorizationArtifacts();
+          }
+
+          // Send analytics - optional, don't block on failure
+          await runOptional('Send TRANSACT analytics', container.sendAnalyticsEvent({
+            state: 'CHECKOUT_PAGE',
+            name: 'TRANSACT'
+          }));
+
+          const checkoutResponse = await checkout.triggerCheckout(payload);
+
+          if (SuperAppSDK.isSuccess(checkoutResponse)) {
+            const result = checkoutResponse.result;
+            // Only display result for non-success statuses (failure, pending, cancel)
+            if (result.status !== 'success') {
+              const style = STATUS_STYLES[result.status] || { type: 'warning', label: result.status };
+              let resultHtml = `<p class="text-${style.type === 'success' ? 'green' : style.type === 'error' ? 'red' : 'yellow'}-500"><strong>Status:</strong> ${escapeHtml(style.label)}</p>`;
+
+              if (result.transactionID) {
+                resultHtml += `<p><strong>Transaction ID:</strong> ${escapeHtml(String(result.transactionID))}</p>`;
+              }
+              if (result.errorCode) {
+                resultHtml += `<p class="text-red-500"><strong>Error Code:</strong> ${escapeHtml(String(result.errorCode))}</p>`;
+              }
+              if (result.errorMessage) {
+                resultHtml += `<p class="text-red-500"><strong>Error Message:</strong> ${escapeHtml(String(result.errorMessage))}</p>`;
+              }
+
+              resultDiv.innerHTML = resultHtml;
+            } else {
+              // Clear any previous error on success
+              resultDiv.innerHTML = '';
+            }
+          } else if (SuperAppSDK.isError(checkoutResponse)) {
+            show('result', formatError('Checkout', checkoutResponse), 'error');
+          } else {
+            show('result', `Unexpected checkout response: ${checkoutResponse.status_code}`, 'warning');
+          }
+        });
+
+        // Navigate back to home
+        document.getElementById('backBtn').addEventListener('click', () => {
+          window.location.href = 'index.html?v=1';
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+
+      // Re-apply container settings when page is restored
+      window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+          const container = new SuperAppSDK.ContainerModule();
+          runOptional('Set background color', container.setBackgroundColor('#005339'));
+          runOptional('Set title', container.setTitle('Checkout'));
+          runOptional('Show back button', container.showBackButton());
+          runOptional('Hide refresh button', container.hideRefreshButton());
+        }
+      });
+    </script>
+  </body>
+</html>
