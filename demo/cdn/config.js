@@ -2,7 +2,7 @@ const ENVIRONMENT = 'staging'; // Change to 'production' for prod
 
 const CONFIG = {
   staging: {
-    clientId: '50ba78444a1c45859453d6d59bd13b2d',
+    clientId: 'REPLACE_WITH_STAGING_CLIENT_ID',
     discoveryUrl: 'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration',
     redirectUri: 'http://localhost:8000/cdn/entry.html'
   },
