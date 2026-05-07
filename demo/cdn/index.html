@@ -15,6 +15,7 @@
 
     <script>
       async function init() {
+        // Initialize modules
         const container = new SuperAppSDK.ContainerModule();
         const identity = new SuperAppSDK.IdentityModule();
         const scope = new SuperAppSDK.ScopeModule();
@@ -72,9 +73,14 @@
         `;
 
         document.getElementById('viewMapBtn').addEventListener('click', async () => {
+          // Check if the app already has access to location coordinates
           const hasAccessResponse = await scope.hasAccessTo('LocationModule', 'getCoordinate');
 
           if (!SuperAppSDK.isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
+            // Request authorization for the mobile.geolocation scope.
+            // Note: mobile.geolocation is a 'mobile scope', which means it only grants 
+            // permission within the native app. No backend token exchange is required 
+            // to use LocationModule methods after authorization.
             const authResponse = await identity.authorize({
               clientId: ENVIRONMENT_CONFIG.clientId,
               redirectUri: window.location.href,
@@ -123,6 +129,7 @@
           }
         });
 
+        // Navigate to checkout
         document.getElementById('checkoutBtn').addEventListener('click', () => {
           window.location.href = 'checkout.html?v=1';
         });

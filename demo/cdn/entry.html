@@ -16,19 +16,24 @@
 
     <script>
       async function init() {
+        // Initialize modules
         const container = new SuperAppSDK.ContainerModule();
         const identity = new SuperAppSDK.IdentityModule();
         const scope = new SuperAppSDK.ScopeModule();
 
+        // Initial render with loading state
         const content = document.getElementById('content');
         content.innerHTML = `<p>Authorizing...</p>`;
 
+        // Container setup - optional, don't block on failure
         await runOptional('Set background color', container.setBackgroundColor('#005339'));
         await runOptional('Set title', container.setTitle('Entry'));
         await runOptional('Hide back button', container.hideBackButton());
         await runOptional('Hide refresh button', container.hideRefreshButton());
         await runOptional('Hide loader', container.hideLoader());
 
+        // Request authorization for core user profile scopes.
+        // These are OIDC scopes that require a backend token exchange to retrieve user info.
         const authResponse = await identity.authorize({
           clientId: ENVIRONMENT_CONFIG.clientId,
           redirectUri: ENVIRONMENT_CONFIG.redirectUri,
@@ -99,6 +104,7 @@
 
       document.addEventListener('DOMContentLoaded', init);
 
+      // Re-apply container settings when page is restored
       window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
           const container = new SuperAppSDK.ContainerModule();

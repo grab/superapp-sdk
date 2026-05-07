@@ -1,5 +1,13 @@
-// Demo-only GrabID/OIDC helpers. In production, run token exchange and userinfo on your backend.
+/**
+ * Demo-only GrabID/OIDC helpers. 
+ * 
+ * IMPORTANT: In production, run token exchange and userinfo on your backend 
+ * to protect client secrets and access tokens.
+ */
 
+/**
+ * Fetches the OIDC discovery configuration from the GrabID server.
+ */
 window.fetchDiscoveryConfiguration = async function fetchDiscoveryConfiguration() {
   try {
     const response = await fetch(ENVIRONMENT_CONFIG.discoveryUrl, {
@@ -16,6 +24,9 @@ window.fetchDiscoveryConfiguration = async function fetchDiscoveryConfiguration(
   }
 };
 
+/**
+ * Exchanges an authorization code for an access token using the OIDC token endpoint.
+ */
 window.exchangeAuthorizationCode = async function exchangeAuthorizationCode(discovery, code, codeVerifier, redirectUri) {
   const tokenEndpoint = discovery.token_endpoint;
   if (!tokenEndpoint) {
@@ -46,6 +57,9 @@ window.exchangeAuthorizationCode = async function exchangeAuthorizationCode(disc
   }
 };
 
+/**
+ * Fetches user profile information using the access token.
+ */
 window.fetchUserInfo = async function fetchUserInfo(discovery, accessToken) {
   const userinfoEndpoint = discovery.userinfo_endpoint;
   if (!userinfoEndpoint) {

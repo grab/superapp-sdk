@@ -35,6 +35,7 @@
       };
 
       async function init() {
+        // Initialize modules
         const container = new SuperAppSDK.ContainerModule();
         const checkout = new SuperAppSDK.CheckoutModule();
         const identity = new SuperAppSDK.IdentityModule();
@@ -50,7 +51,7 @@
         await runOptional('Show back button', container.showBackButton());
         await runOptional('Hide refresh button', container.hideRefreshButton());
 
-        // Send page load analytics - optional, don't block on failure
+        // Send analytics - optional, don't block on failure
         await runOptional('Send DEFAULT analytics', container.sendAnalyticsEvent({
           state: 'CHECKOUT_PAGE',
           name: 'DEFAULT'
@@ -86,8 +87,12 @@
             return;
           }
 
+          // Check if the app has permission to trigger a checkout
           const hasAccessResponse = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
           if (!SuperAppSDK.isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
+            // Request authorization for the mobile.checkout scope.
+            // Like mobile.geolocation, this is a mobile-only scope and does not 
+            // require a backend token exchange.
             const authResponse = await identity.authorize({
               clientId: ENVIRONMENT_CONFIG.clientId,
               redirectUri: window.location.href,
@@ -149,6 +154,7 @@
           }
         });
 
+        // Navigate back to home
         document.getElementById('backBtn').addEventListener('click', () => {
           window.location.href = 'index.html?v=1';
         });

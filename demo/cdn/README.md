@@ -37,11 +37,13 @@ sequenceDiagram
     Entry->>SDK: ScopeModule.reloadScopes()
     Entry->>Home: Navigate to index.html
 
+    Home->>SDK: Configure ContainerModule (UI, buttons)
     Home->>SDK: Setup Page & Track Analytics (HOMEPAGE DEFAULT)
     Home->>SDK: LocaleModule.getLanguageLocaleIdentifier()
     User->>Home: Click "View Location on Map"
     Home->>SDK: Check Location Access (hasAccessTo)
     alt No access
+        Note over Home,SDK: mobile.geolocation is a mobile scope (no token exchange needed)
         Home->>SDK: IdentityModule.authorize(mobile.geolocation)
         Home->>SDK: ScopeModule.reloadScopes()
     end
@@ -50,6 +52,7 @@ sequenceDiagram
     Home->>SDK: Open External Maps Link (openExternalLink)
 
     User->>Checkout: Navigate to checkout.html
+    Checkout->>SDK: Configure ContainerModule (UI, buttons)
     Checkout->>SDK: Setup Page & Track Analytics (CHECKOUT_PAGE DEFAULT)
     User->>Checkout: Click "Trigger Checkout"
     Checkout->>SDK: Check Checkout Access (hasAccessTo)
