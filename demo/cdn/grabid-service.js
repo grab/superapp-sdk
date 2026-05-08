@@ -20,7 +20,7 @@ window.fetchDiscoveryConfiguration = async function fetchDiscoveryConfiguration(
     }
     return await response.json();
   } catch (error) {
-    throw new Error(`Discovery fetch error: ${error.message}`);
+    throw new Error(`Discovery fetch error: ${error.message}`, { cause: error });
   }
 };
 
@@ -53,7 +53,7 @@ window.exchangeAuthorizationCode = async function exchangeAuthorizationCode(disc
     }
     return await response.json();
   } catch (error) {
-    throw new Error(`Token exchange error: ${error.message}`);
+    throw new Error(`Token exchange error: ${error.message}`, { cause: error });
   }
 };
 
@@ -79,6 +79,6 @@ window.fetchUserInfo = async function fetchUserInfo(discovery, accessToken) {
     }
     return await response.json();
   } catch (error) {
-    throw new Error(`User info fetch error: ${error.message}`);
+    throw new Error(`User info fetch error: ${error.message}`, { cause: error });
   }
 };
