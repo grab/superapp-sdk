@@ -56,7 +56,7 @@ import {
  * @example
  * **CDN (UMD):**
  * ```html
- * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk/dist/index.js"></script>
+ * <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk@x.y.z/dist/index.js"></script>
  * <script>
  *   const storage = new SuperAppSDK.StorageModule();
  * </script>
