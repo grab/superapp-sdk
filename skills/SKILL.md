@@ -219,9 +219,7 @@ This guide covers the recommended setup for a MiniApp entry point — loading sc
 
 ### Demo App
 
-The [demo](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains complete MiniApps demonstrating these integration patterns in action. It showcases container UI configuration, incremental authorization, and core module usage.
-
-See the [README](https://github.com/grab/superapp-sdk/tree/master/demo/README.md) for full flow diagrams and setup instructions.
+The [demo](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains two complete MiniApp samples demonstrating these integration patterns in action — one using CDN (vanilla HTML/JS) and one using React. Both implement the same user flow: OAuth authorization, user profile display, deferred location permissions, and checkout payment.
 
 ### Entry Point Setup
 
