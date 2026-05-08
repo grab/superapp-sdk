@@ -36,12 +36,12 @@
     "fix": "npm run fix:format && npm run fix:lint",
     "fix:format": "prettier --write .",
     "fix:lint": "eslint . --fix",
+    "notify": "node scripts/notify-slack.mjs",
     "prepare": "husky",
     "prepublishOnly": "npm run build",
     "test": "vitest run",
     "test:check": "vitest run",
-    "test:watch": "vitest",
-    "notify": "node scripts/notify-slack.mjs"
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",

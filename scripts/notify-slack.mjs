@@ -9,12 +9,14 @@ const CI_COMMIT_TAG_MESSAGE = process.env.CI_COMMIT_TAG_MESSAGE ?? '';
 const SLACK_CHANNEL_IDS = (process.env.SLACK_CHANNEL_IDS ?? '').split(',');
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN ?? '';
 const TAG = process.env.CI_COMMIT_TAG ?? '';
-const PACKAGE_URL = 'https://www.npmjs.com/package/@grabjs/superapp-sdk';
+const PACKAGE_URL = `https://www.npmjs.com/package/@grabjs/superapp-sdk/v/${TAG.replace(/^v/, '')}`;
+const DOCS_URL = 'https://grab.github.io/superapp-sdk/index.html';
 
 function formatChangelog(text) {
   if (!text) return '';
 
   return text
+    .replace(/\\n/g, '\n')
     .replace(/^###\s+(.+)$/gm, '*$1*')
     .replace(/^##\s+(.+)$/gm, '*$1*')
     .replace(/^#\s+(.+)$/gm, '*$1*');
@@ -26,7 +28,7 @@ const PAYLOAD = {
       type: 'header',
       text: {
         type: 'plain_text',
-        text: `🚀 @grabjs/superapp-sdk ${TAG} published`,
+        text: `🚀 New release: ${TAG}`,
         emoji: true,
       },
     },
@@ -42,8 +44,13 @@ const PAYLOAD = {
       elements: [
         {
           type: 'button',
-          text: { type: 'plain_text', text: 'View on npm' },
+          text: { type: 'plain_text', text: '📦 npm' },
           url: PACKAGE_URL,
+        },
+        {
+          type: 'button',
+          text: { type: 'plain_text', text: '📚 Docs' },
+          url: DOCS_URL,
         },
       ],
     },
