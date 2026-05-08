@@ -40,7 +40,8 @@
     "prepublishOnly": "npm run build",
     "test": "vitest run",
     "test:check": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "notify": "node scripts/notify-slack.mjs"
   },
   "repository": {
     "type": "git",

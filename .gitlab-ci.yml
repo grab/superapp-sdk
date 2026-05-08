@@ -12,6 +12,7 @@ stages:
   - check
   - build
   - publish
+  - notify
 
 install:
   stage: install
@@ -57,3 +58,15 @@ publish-to-npm-beta:
     - npm publish --access public --tag beta
   rules:
     - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$/
+
+notify-slack:
+  stage: notify
+  needs:
+    - job: publish-to-npm
+      optional: true
+    - job: publish-to-npm-beta
+      optional: true
+  script:
+    - npm run notify
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-beta\.[0-9]+)?$/
