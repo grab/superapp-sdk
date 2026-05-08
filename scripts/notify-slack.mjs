@@ -6,7 +6,7 @@
  */
 
 const CI_COMMIT_TAG_MESSAGE = process.env.CI_COMMIT_TAG_MESSAGE ?? '';
-const SLACK_CHANNEL_IDS = (process.env.SLACK_CHANNEL_IDS ?? '').split(',');
+const SLACK_CHANNEL_IDS = (process.env.SLACK_CHANNEL_IDS ?? '').split(',').filter(Boolean);
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN ?? '';
 const TAG = process.env.CI_COMMIT_TAG ?? '';
 const PACKAGE_URL = `https://www.npmjs.com/package/@grabjs/superapp-sdk/v/${TAG.replace(/^v/, '')}`;
