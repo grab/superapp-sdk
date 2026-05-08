@@ -2,7 +2,9 @@
 
 Two complete MiniApp samples demonstrating core Grab SuperApp SDK integration patterns. Both implement the same user flow — OAuth authorization, user profile display, deferred location permissions, and checkout payment — in different technology stacks.
 
-**Note:** These MiniApps must be opened within the Grab SuperApp WebView environment to function correctly, as they rely on native bridge capabilities provided by the Grab app.
+**Notes:**
+- These MiniApps must be opened within the Grab SuperApp WebView environment to function correctly, as they rely on native bridge capabilities provided by the Grab app.
+- These MiniApps run token exchange and userinfo in the browser for illustration only. In production, these operations **must** be performed on your backend to protect client secrets and access tokens.
 
 ## Variants
 
@@ -11,22 +13,7 @@ Two complete MiniApp samples demonstrating core Grab SuperApp SDK integration pa
 | `cdn/` | Vanilla HTML/JS | Zero-build, loads SDK via CDN. Uses the global `SuperAppSDK` object. |
 | `react/` | React + TypeScript + Vite | Build-based, imports SDK as an npm package. Hot-reload dev server. |
 
-## Security
-
-Token exchange and userinfo retrieval are performed **in the browser only for this demonstration**. In production, you must exchange the authorization code, validate tokens, and fetch user information **on your backend** to ensure security and prevent token exposure.
-
-## Configure
-
-1. Open `cdn/config.js` (or `react/src/config.ts`).
-2. Set `ENVIRONMENT` to `'staging'` or `'production'`.
-3. Replace placeholders with your `clientId` and `redirectUri` (must match your Grab partner registration).
-4. If testing locally, ensure `redirectUri` points to your served entry URL (`entry.html` or `http://localhost:5173`).
-
-## Testing
-
-Developers who want to pull this code, update it, and test it out, should liaise with the Grab team to set up the environment.
-
-## CDN Variant
+### CDN Variant
 
 Zero-build: open the HTML files directly via a local server (e.g. `npx serve .`).
 
@@ -46,7 +33,7 @@ npx serve cdn
 # Then open http://localhost:3000/entry.html
 ```
 
-## React Variant
+### React Variant
 
 Build-based with TypeScript and Vite:
 
@@ -72,6 +59,16 @@ cd react
 npm install
 npm run dev
 ```
+
+## Configure
+
+1. Open `cdn/config.js` (or `react/src/config.ts`).
+2. Set `ENVIRONMENT` to `'staging'` or `'production'`.
+3. Replace placeholders with your `clientId` and `redirectUri` (must match your Grab partner registration).
+
+## Testing
+
+To run and test this code, please coordinate with the Grab team to provision your test environment.
 
 ## Integration Flow
 
@@ -126,11 +123,3 @@ sequenceDiagram
     Checkout->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event CHECKOUT_PAGE TRANSACT
     Checkout->>SDK: Trigger checkout via CheckoutModule.triggerCheckout
 ```
-
-## Production Checklist
-
-- **Backend Integration**: Move OAuth code exchange and UserInfo calls to your server.
-- **Transaction Initialization**: Always initialize transactions on your backend via the GrabPay API before calling `CheckoutModule.triggerCheckout()`.
-- **Token Validation**: Always validate `id_token` signatures and nonces server-side.
-- **Secure Storage**: Use secure, HTTP-only cookies or server-side sessions instead of `sessionStorage` for sensitive identity data.
-- **Client Secrets**: Never expose client secrets in frontend code.

@@ -103,10 +103,10 @@
               responseMode: 'in_place'
             });
 
-            if (authResponse.status_code !== 200) {
+            if (!SuperAppSDK.isOk(authResponse)) {
               if (SuperAppSDK.isError(authResponse)) {
                 show('result', formatError('Checkout authorization', authResponse), 'error');
-              } else if (authResponse.status_code === 204) {
+              } else if (SuperAppSDK.isNoContent(authResponse)) {
                 show('result', 'Checkout permission was cancelled.', 'warning');
               }
               return;
@@ -128,7 +128,7 @@
 
           const checkoutResponse = await checkout.triggerCheckout(payload);
 
-          if (SuperAppSDK.isSuccess(checkoutResponse)) {
+          if (SuperAppSDK.isOk(checkoutResponse)) {
             const result = checkoutResponse.result;
             // Only display result for non-success statuses (failure, pending, cancel)
             if (result.status !== 'success') {

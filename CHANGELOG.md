@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.47] - 2026-05-08
+
+### Added
+
+- New "Scopes and Permissions" section in Core Concepts guide explaining Backend vs. Mobile scopes
+- Authentication and initialization flow examples in Integration Guide
+
+### Changed
+
+- Refined Core Concepts guide with improved type guard and stream documentation
+- Simplified Integration Guide with consolidated analytics and checkout examples
+- Demo applications (CDN and React) updated with improved error handling and direct status code checks
+- Security documentation in demo apps updated to emphasize backend token exchange requirements
+- Analytics documentation updated to use `ContainerAnalyticsEventState` constants
+
+### Fixed
+
+- Coordinate property access in demo applications
+
 ## [2.0.0-beta.46] - 2026-05-08
 
 ### Added

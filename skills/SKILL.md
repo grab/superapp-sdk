@@ -101,66 +101,6 @@ The SDK uses HTTP-style status codes for all responses:
 | `500` | Internal Error    | Unexpected SDK error                                        |
 | `501` | Not Implemented   | Outside Grab SuperApp environment                           |
 
-### Handling 403 Forbidden
-
-Methods tagged with `@requiredOAuthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
-
-1. Call `IdentityModule.authorize()` to request the scope.
-2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
-3. Retry the original method call.
-
-#### Proactive Permission Checking
-
-Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`:
-
-```typescript
-const scope = new ScopeModule();
-const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
-
-if (isSuccess(hasAccess) && hasAccess.result) {
-  // Permission is available, safe to call the method
-  const location = await location.getCoordinate();
-}
-```
-
-```typescript
-import {
-  LocationModule,
-  IdentityModule,
-  ScopeModule,
-  isSuccess,
-  isError,
-} from '@grabjs/superapp-sdk';
-
-const location = new LocationModule();
-const identity = new IdentityModule();
-const scope = new ScopeModule();
-
-const response = await location.getCoordinate();
-
-if (isError(response) && response.status_code === 403) {
-  // 1. Request authorization for the required scope
-  const auth = await identity.authorize({
-    clientId: 'your-client-id',
-    redirectUri: 'https://your-app.com/callback',
-    scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
-    environment: 'production',
-    responseMode: 'in_place',
-  });
-
-  if (isSuccess(auth)) {
-    // 2. Reload scopes so the new permission is available
-    await scope.reloadScopes();
-
-    // 3. Retry the original call
-    const retry = await location.getCoordinate();
-    if (isSuccess(retry)) {
-      console.log('Result:', retry.result);
-    }
-  }
-}
-```
-
 ### Type Guards
 
 Type guards narrow the response type so TypeScript knows which fields are available:
@@ -212,48 +152,154 @@ subscription.unsubscribe();
 
 You can also `await` a stream method directly to get its first value.
 
+### Scopes and Permissions
+
+The SDK categorizes permissions into two distinct types based on their execution context:
+
+#### Permission Types
+
+- **Backend Scopes** (`openid`, `profile.read`, `phone`)
+  - **Purpose**: Access protected resources and user data via your server.
+  - **Flow**: Requires a backend token exchange after authorization to retrieve data.
+- **Mobile Scopes** (`mobile.geolocation`, `mobile.checkout`)
+  - **Purpose**: Access native device capabilities directly within the MiniApp.
+  - **Flow**: Grants in-app permission immediately; no backend exchange is necessary.
+
+#### Authorization Patterns
+
+When designing your MiniApp, you can choose between two common patterns for requesting scopes:
+
+- **Upfront Authorization**
+  - Request all required scopes during app initialisation, typically alongside backend sign-in.
+  - *Best for*: Core permissions essential for the app to function.
+- **Deferred Authorization**
+  - Request scopes only when the user triggers a specific feature that requires them.
+  - *Best for*: Optional permissions (e.g., location) to improve user experience and build trust.
+
+#### Permission Verification Strategies
+
+You can verify permissions either proactively before calling a method, or reactively by handling errors.
+
+##### Proactive Checking
+
+Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`. This is recommended before calling gated methods, as users can revoke permissions at any time via the Grab app settings.
+
+```typescript
+const scope = new ScopeModule();
+const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
+
+if (isSuccess(hasAccess) && hasAccess.result) {
+  // Permission is available, safe to call the method
+  const location = await location.getCoordinate();
+}
+```
+
+##### Reactive Checking (Handling 403 Forbidden)
+
+Methods tagged with `@requiredOAuthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
+
+1. Call `IdentityModule.authorize()` to request the scope.
+2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
+3. Retry the original method call.
+
+```typescript
+import {
+  LocationModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const location = new LocationModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+const response = await location.getCoordinate();
+
+if (isError(response) && response.status_code === 403) {
+  // 1. Request authorization for the required scope
+  const auth = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-app.com/callback',
+    scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(auth)) {
+    // 2. Reload scopes so the new permission is available
+    await scope.reloadScopes();
+
+    // 3. Retry the original call
+    const retry = await location.getCoordinate();
+    if (isSuccess(retry)) {
+      console.log('Result:', retry.result);
+    }
+  }
+}
+```
+
 
 ## Integration Guide
 
 This guide covers the recommended setup for a MiniApp entry point — loading scopes, configuring the container UI, signalling readiness, and handling permissions.
 
-### Demo App
+> **Note:** The [demo](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains two complete MiniApp samples demonstrating these integration patterns in action — one using CDN (vanilla HTML/JS) and one using React. Both implement the same user flow: OAuth authorization, user profile display, deferred location permissions, and checkout payment.
 
-The [demo](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains two complete MiniApp samples demonstrating these integration patterns in action — one using CDN (vanilla HTML/JS) and one using React. Both implement the same user flow: OAuth authorization, user profile display, deferred location permissions, and checkout payment.
+### Initialization
 
-### Entry Point Setup
-
-Run these steps once when your MiniApp initialises, before rendering any content.
+Follow these steps when your MiniApp launches to configure the container, authenticate the user, and track the entry event.
 
 ```typescript
-import { ContainerModule, ScopeModule } from '@grabjs/superapp-sdk';
+import { ContainerModule, ScopeModule, ContainerAnalyticsEventState, isSuccess } from '@grabjs/superapp-sdk';
 
 const container = new ContainerModule();
 const scope = new ScopeModule();
 
 async function init() {
-  // 1. Load permission scopes — always do this first
-  await scope.reloadScopes();
+  // 1. Verify the environment
+  const connection = await container.isConnected();
+  if (!isSuccess(connection) || !connection.result?.connected) {
+    // Handle case where app is opened outside Grab SuperApp
+    return;
+  }
 
   // 2. Configure the container UI
   await container.setTitle('My MiniApp');
   await container.setBackgroundColor('#FFFFFF');
   await container.hideBackButton();
+  await container.hideRefreshButton();
 
   // 3. Dismiss the native loader
   await container.hideLoader();
+
+  // 4. Track app launch
+  await container.sendAnalyticsEvent({
+    state: ContainerAnalyticsEventState.HOMEPAGE,
+    name: 'DEFAULT',
+  });
+
+  // 5. Authenticate the user
+  // (Implementation detailed in the Authentication section below)
+  await signIn();
+
+  // 6. Load permission scopes — always do this before making module calls
+  await scope.reloadScopes();
 }
 
 init();
 ```
 
-#### Why `reloadScopes()` first?
+### Authentication
 
-Scopes are not loaded automatically. Any module call that requires a permission will return `403` until scopes are loaded. Always call `reloadScopes()` before making any other module calls.
+Trigger `IdentityModule.authorize()` to start the authorization process and request user permissions. 
 
-### Handling Permissions
+Once the user consents, retrieve the authorization artifacts (which include the `code`, `state`, `nonce`, and PKCE `codeVerifier`) via `IdentityModule.getAuthorizationArtifacts()`.
 
-When a module call returns `403`, your app needs to request the required permission via `IdentityModule.authorize()`, then reload scopes before retrying.
+Forward these artifacts to your backend to exchange the token, validate the `id_token`, fetch user info, and establish the user's session.
+
+After the session is established, call `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` so your MiniApp can begin using the newly granted permissions.
 
 ```typescript
 import { IdentityModule, ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
@@ -261,45 +307,79 @@ import { IdentityModule, ScopeModule, isSuccess, isError } from '@grabjs/superap
 const identity = new IdentityModule();
 const scope = new ScopeModule();
 
-async function requestPermission() {
+async function signIn() {
   const response = await identity.authorize({
     clientId: 'your-client-id',
     redirectUri: 'https://your-miniapp.example.com/callback',
-    scope: 'required_scope',
+    scope: 'openid profile.read phone mobile.storage',
     environment: 'production',
+    responseMode: 'in_place',
   });
 
   if (isSuccess(response)) {
-    // Reload scopes after authorization so the new permission is available
-    await scope.reloadScopes();
+    if (response.status_code === 200) {
+      // 1. Retrieve authorization artifacts
+      const artifacts = await identity.getAuthorizationArtifacts();
+      if (isSuccess(artifacts)) {
+        const { codeVerifier, nonce, redirectUri } = artifacts.result;
+        const { code } = response.result;
+
+        // 2. Send the artifacts to your backend for token exchange (see Backend Token Exchange section below)
+        // await myBackend.exchangeTokens({ code, codeVerifier, nonce, redirectUri });
+
+        // 3. Clear artifacts and reload scopes
+        await identity.clearAuthorizationArtifacts();
+        await scope.reloadScopes();
+      }
+    } else if (response.status_code === 204) {
+      // User cancelled the authorization flow
+      await identity.clearAuthorizationArtifacts();
+    }
   } else if (isError(response)) {
     console.error('Authorization failed:', response.error);
+    await identity.clearAuthorizationArtifacts();
   }
 }
 ```
 
-### Navigation
+### Container UI & Navigation
 
-#### Controlling the back button
+Control the native container's appearance and behavior to match your MiniApp's branding and navigation flow.
 
-Hide the back button when your app manages its own navigation stack, and restore it when the user can safely go back:
+#### Title and Background
+
+Set the title and background color for the native container.
 
 ```typescript
-await container.hideBackButton();
+await container.setTitle('My MiniApp');
+await container.setBackgroundColor('#FFFFFF');
+```
 
-// ... when the user can go back
+#### Back and Refresh Buttons
+
+Hide these buttons when your MiniApp manages its own navigation or requires a focused, non-refreshable view. Restore them when appropriate.
+
+```typescript
+// Hide buttons
+await container.hideBackButton();
+await container.hideRefreshButton();
+
+// Restore buttons
 await container.showBackButton();
+await container.showRefreshButton();
 ```
 
 #### Closing the MiniApp
+
+Programmatically close the MiniApp and return the user to the Grab SuperApp.
 
 ```typescript
 await container.close();
 ```
 
-#### Opening external links
+### Opening External Links
 
-Use `openExternalLink` to open URLs in the system browser instead of navigating away from the WebView:
+Use `ContainerModule.openExternalLink()` to open URLs in the system browser instead of navigating away from the MiniApp WebView.
 
 ```typescript
 const response = await container.openExternalLink('https://example.com');
@@ -311,185 +391,47 @@ if (isError(response)) {
 
 ### Analytics Event Tracking
 
-Implement analytics events across your user journey to enable performance tracking and reporting. Events are sent via `ContainerModule.sendAnalyticsEvent()` and categorised by journey stage using `ContainerAnalyticsEventState`.
-
-#### Required Events
-
-##### Entry Point
-
-###### Initiate action
-
-Send the initiate event when users click call-to-action buttons to proceed:
+Track user interactions to monitor performance and conversion. Events are categorised by journey stage using `ContainerAnalyticsEventState`.
 
 ```typescript
-import {
-  ContainerModule,
-  ContainerAnalyticsEventState,
-  isSuccess,
-  isError,
-} from '@grabjs/superapp-sdk';
+import { ContainerModule, ContainerAnalyticsEventState, isSuccess } from '@grabjs/superapp-sdk';
 
-// Event names are plain strings — define your own constants
-const EventName = {
-  INITIATE: 'INITIATE',
-  TRANSACT: 'TRANSACT',
-};
+const container = new ContainerModule();
 
-const containerModule = new ContainerModule();
-
-// Send when the user clicks a call-to-action button
-const response = await containerModule.sendAnalyticsEvent({
+// 1. System Event (DEFAULT)
+// Send when a user lands on a key page
+await container.sendAnalyticsEvent({
   state: ContainerAnalyticsEventState.HOMEPAGE,
-  name: EventName.INITIATE,
+  name: 'DEFAULT',
 });
 
-if (isSuccess(response)) {
-  // Event sent successfully
-} else if (isError(response)) {
-  console.error(`Failed to send event: ${response.error}`);
-}
-```
+// 2. Named Action (INITIATE / TRANSACT)
+// Send when a user performs a primary action
+await container.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: 'INITIATE',
+});
 
-###### Custom interactions
-
-Send custom events for additional interactions like banner clicks, category selections, or search queries. Include the `page` parameter and a descriptive event name:
-
-```typescript
-import {
-  ContainerModule,
-  ContainerAnalyticsEventState,
-  isSuccess,
-  isError,
-} from '@grabjs/superapp-sdk';
-
-const containerModule = new ContainerModule();
-
-// Send for custom interactions such as banner clicks or category selections
-const response = await containerModule.sendAnalyticsEvent({
+// 3. Custom Interaction
+// Send for specific interactions with additional metadata
+await container.sendAnalyticsEvent({
   state: ContainerAnalyticsEventState.CUSTOM,
   name: 'BANNER_CLICK',
   data: {
     page: 'homepage',
     banner_id: 'promo-summer-2024',
-    banner_position: 'top',
   },
 });
-
-if (isSuccess(response)) {
-  // Event sent successfully
-} else if (isError(response)) {
-  console.error(`Failed to send event: ${response.error}`);
-}
 ```
 
-##### Conversion Point
+#### Journey Stages
 
-###### Transaction confirmation
-
-Send the transaction confirmation event when users click the final confirmation button:
-
-```typescript
-import {
-  ContainerModule,
-  ContainerAnalyticsEventState,
-  isSuccess,
-  isError,
-} from '@grabjs/superapp-sdk';
-
-// Event names are plain strings — define your own constants
-const EventName = {
-  INITIATE: 'INITIATE',
-  TRANSACT: 'TRANSACT',
-};
-
-const containerModule = new ContainerModule();
-
-// Send when the user clicks the final confirmation button
-const response = await containerModule.sendAnalyticsEvent({
-  state: ContainerAnalyticsEventState.CHECKOUT_PAGE,
-  name: EventName.TRANSACT,
-  data: {
-    transaction_amount: 49.99,
-    transaction_currency: 'SGD',
-    transaction_id: 'TXN-2024-001234',
-    payment_method: 'grabpay',
-    item_count: 2,
-  },
-});
-
-if (isSuccess(response)) {
-  // Event sent successfully
-} else if (isError(response)) {
-  console.error(`Failed to send event: ${response.error}`);
-}
-```
-
-###### Custom interactions
-
-Send custom events for checkout interactions like promo code applications or payment method selections:
-
-```typescript
-import {
-  ContainerModule,
-  ContainerAnalyticsEventState,
-  isSuccess,
-  isError,
-} from '@grabjs/superapp-sdk';
-
-const containerModule = new ContainerModule();
-
-// Send for custom checkout interactions such as promo code applications
-const response = await containerModule.sendAnalyticsEvent({
-  state: ContainerAnalyticsEventState.CUSTOM,
-  name: 'PROMO_CODE_APPLIED',
-  data: {
-    page: 'checkout',
-    promo_code: 'SAVE20',
-    discount_amount: 10.0,
-    discount_type: 'percentage',
-  },
-});
-
-if (isSuccess(response)) {
-  // Event sent successfully
-} else if (isError(response)) {
-  console.error(`Failed to send event: ${response.error}`);
-}
-```
-
-##### Completion Point
-
-###### Follow-up actions
-
-Send custom events for post-transaction actions like downloading receipts or tracking orders:
-
-```typescript
-import {
-  ContainerModule,
-  ContainerAnalyticsEventState,
-  isSuccess,
-  isError,
-} from '@grabjs/superapp-sdk';
-
-const containerModule = new ContainerModule();
-
-// Send for post-transaction actions such as downloading a receipt
-const response = await containerModule.sendAnalyticsEvent({
-  state: ContainerAnalyticsEventState.CUSTOM,
-  name: 'RECEIPT_DOWNLOAD',
-  data: {
-    page: 'completion',
-    transaction_id: 'TXN-2024-001234',
-    format: 'pdf',
-  },
-});
-
-if (isSuccess(response)) {
-  // Event sent successfully
-} else if (isError(response)) {
-  console.error(`Failed to send event: ${response.error}`);
-}
-```
+| State | Description |
+| :--- | :--- |
+| `HOMEPAGE` | Entry point or main landing page. |
+| `CHECKOUT_PAGE` | Transaction confirmation or payment selection. |
+| `COMPLETION_POINT` | Post-transaction or success page. |
+| `CUSTOM` | Any other interaction outside the standard flow. |
 
 #### Best Practices
 
@@ -501,16 +443,6 @@ if (isSuccess(response)) {
 ### Checkout
 
 The checkout flow is a two-step process: your backend first initializes a transaction using your partner credentials, then your frontend triggers the native payment interface using the response from your backend.
-
-#### Step 1 — Initialize transaction on your backend
-
-Before calling `CheckoutModule.triggerCheckout()`, you must create a transaction on your server by calling the [GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/#create-transaction). This requires your `partnerID` and `partnerSecret` to generate an HMAC-SHA256 signature.
-
-The API returns a payload containing `partnerTxID`, `request`, and `sessionID` — all three fields are required by the frontend.
-
-#### Step 2 — Trigger checkout from your frontend
-
-Pass the complete response from the Initialize Transaction API to `CheckoutModule.triggerCheckout()`:
 
 ```typescript
 import {
@@ -526,20 +458,25 @@ const identity = new IdentityModule();
 const scope = new ScopeModule();
 
 async function processPayment() {
-  // 1. Ensure mobile.checkout scope is authorized
-  const authResponse = await identity.authorize({
-    clientId: 'your-client-id',
-    redirectUri: 'https://your-miniapp.example.com/callback',
-    scope: 'mobile.checkout',
-    environment: 'production',
-    responseMode: 'in_place',
-  });
+  // 1. Proactively check for checkout permission
+  const hasAccess = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
 
-  if (isSuccess(authResponse)) {
-    await scope.reloadScopes();
-  } else if (isError(authResponse)) {
-    console.error('Authorization failed:', authResponse.error);
-    return;
+  if (!isSuccess(hasAccess) || !hasAccess.result) {
+    // Request authorization for mobile.checkout
+    // Note: mobile.checkout is a mobile scope; no backend exchange is needed for auth.
+    const authResponse = await identity.authorize({
+      clientId: 'your-client-id',
+      redirectUri: window.location.href,
+      scope: 'mobile.checkout',
+      environment: 'production',
+      responseMode: 'in_place',
+    });
+
+    if (isSuccess(authResponse) && authResponse.status_code === 200) {
+      await scope.reloadScopes();
+    } else {
+      return;
+    }
   }
 
   // 2. Fetch the initialized transaction payload from your backend
@@ -558,33 +495,14 @@ async function processPayment() {
   });
 
   if (isSuccess(checkoutResult)) {
-    const { status, transactionID, errorCode, errorMessage } = checkoutResult.result;
-
-    if (status === 'success') {
-      console.log('Payment successful:', transactionID);
-    } else if (status === 'failure') {
-      console.error('Payment failed:', errorCode, errorMessage);
-    } else if (status === 'pending') {
-      console.log('Payment is processing:', transactionID);
-    } else if (status === 'userInitiatedCancel') {
-      console.log('User cancelled payment');
-    }
+    showSuccess();
   } else if (isError(checkoutResult)) {
     console.error('Checkout error:', checkoutResult.error);
   }
 }
 ```
 
-#### Result status values
-
-| Status                | Description                                                                    |
-| :-------------------- | :----------------------------------------------------------------------------- |
-| `success`             | Payment completed successfully. `transactionID` is provided.                   |
-| `failure`             | Payment failed. `transactionID`, `errorCode`, and `errorMessage` are provided. |
-| `pending`             | Payment is still being processed. `transactionID` is provided.                 |
-| `userInitiatedCancel` | User cancelled the payment. No other fields are present.                       |
-
-For the complete API reference, see [CheckoutModule](https://grab.github.io/superapp-sdk/classes/CheckoutModule.html).
+For the complete API reference, see [GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/) and [CheckoutModule](https://grab.github.io/superapp-sdk/classes/CheckoutModule.html).
 
 
 ## API Reference

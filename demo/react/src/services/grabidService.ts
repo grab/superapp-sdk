@@ -1,7 +1,16 @@
+/**
+ * Demo-only GrabID/OIDC helpers. 
+ * 
+ * NEVER run token exchange or userinfo on the frontend in a production environment.
+ * Doing so exposes your Client Secret (if used) and makes access tokens vulnerable 
+ * to interception.
+ * 
+ * In production, these operations MUST be performed on your backend.
+ */
 
 import { ENVIRONMENT_CONFIG } from '../config';
 
-export async function fetchDiscoveryConfiguration(): Promise<Record<string, unknown>> {
+export async function fetchDiscoveryConfiguration(): Promise<Record<string, string>> {
   const response = await fetch(ENVIRONMENT_CONFIG.discoveryUrl, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
@@ -18,7 +27,7 @@ export async function exchangeAuthorizationCode(
   code: string,
   codeVerifier: string,
   redirectUri: string
-): Promise<Record<string, unknown>> {
+): Promise<{ access_token: string; [key: string]: unknown }> {
   const tokenEndpoint = discovery.token_endpoint;
   if (!tokenEndpoint) {
     throw new Error('Token endpoint not found in discovery document');
@@ -47,7 +56,7 @@ export async function exchangeAuthorizationCode(
 export async function fetchUserInfo(
   discovery: Record<string, string>,
   accessToken: string
-): Promise<Record<string, unknown>> {
+): Promise<{ name?: string; email?: string; phoneNumber?: string; [key: string]: unknown }> {
   const userinfoEndpoint = discovery.userinfo_endpoint;
   if (!userinfoEndpoint) {
     throw new Error('Userinfo endpoint not found in discovery document');
