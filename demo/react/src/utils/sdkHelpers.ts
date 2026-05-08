@@ -1,15 +1,5 @@
 import { isSuccess, type BridgeResponse } from '@grabjs/superapp-sdk';
 
-export function escapeHtml(text: unknown): string {
-  if (text == null) return '';
-  return String(text)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
 export function formatError(label: string, response: BridgeResponse): string {
   const resp = response as { error?: string; status_code: number };
   if (resp.error) {
