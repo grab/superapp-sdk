@@ -171,10 +171,10 @@ When designing your MiniApp, you can choose between two common patterns for requ
 
 - **Upfront Authorization**
   - Request all required scopes during app initialisation, typically alongside backend sign-in.
-  - *Best for*: Core permissions essential for the app to function.
+  - _Best for_: Core permissions essential for the app to function.
 - **Deferred Authorization**
   - Request scopes only when the user triggers a specific feature that requires them.
-  - *Best for*: Optional permissions (e.g., location) to improve user experience and build trust.
+  - _Best for_: Optional permissions (e.g., location) to improve user experience and build trust.
 
 #### Permission Verification Strategies
 
@@ -252,7 +252,12 @@ This guide covers the recommended setup for a MiniApp entry point — loading sc
 Follow these steps when your MiniApp launches to configure the container, authenticate the user, and track the entry event.
 
 ```typescript
-import { ContainerModule, ScopeModule, ContainerAnalyticsEventState, isSuccess } from '@grabjs/superapp-sdk';
+import {
+  ContainerModule,
+  ScopeModule,
+  ContainerAnalyticsEventState,
+  isSuccess,
+} from '@grabjs/superapp-sdk';
 
 const container = new ContainerModule();
 const scope = new ScopeModule();
@@ -293,7 +298,7 @@ init();
 
 ### Authentication
 
-Trigger `IdentityModule.authorize()` to start the authorization process and request user permissions. 
+Trigger `IdentityModule.authorize()` to start the authorization process and request user permissions.
 
 Once the user consents, retrieve the authorization artifacts (which include the `code`, `state`, `nonce`, and PKCE `codeVerifier`) via `IdentityModule.getAuthorizationArtifacts()`.
 
@@ -426,12 +431,12 @@ await container.sendAnalyticsEvent({
 
 #### Journey Stages
 
-| State | Description |
-| :--- | :--- |
-| `HOMEPAGE` | Entry point or main landing page. |
-| `CHECKOUT_PAGE` | Transaction confirmation or payment selection. |
-| `COMPLETION_POINT` | Post-transaction or success page. |
-| `CUSTOM` | Any other interaction outside the standard flow. |
+| State              | Description                                      |
+| :----------------- | :----------------------------------------------- |
+| `HOMEPAGE`         | Entry point or main landing page.                |
+| `CHECKOUT_PAGE`    | Transaction confirmation or payment selection.   |
+| `COMPLETION_POINT` | Post-transaction or success page.                |
+| `CUSTOM`           | Any other interaction outside the standard flow. |
 
 #### Best Practices
 
@@ -495,7 +500,7 @@ async function processPayment() {
   });
 
   if (isSuccess(checkoutResult)) {
-    showSuccess();
+    console.log(checkoutResult.result);
   } else if (isError(checkoutResult)) {
     console.error('Checkout error:', checkoutResult.error);
   }
