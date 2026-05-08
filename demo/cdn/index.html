@@ -41,7 +41,7 @@
 
         // Fetch locale - optional
         const localeResponse = await locale.getLanguageLocaleIdentifier();
-        const localeValue = SuperAppSDK.isSuccess(localeResponse) ? localeResponse.result : 'N/A';
+        const localeValue = SuperAppSDK.isOk(localeResponse) ? localeResponse.result : 'N/A';
 
         // Read user info from sessionStorage (set by entry.html)
         const userName = sessionStorage.getItem('user_name') || 'N/A';
@@ -96,10 +96,10 @@
               responseMode: 'in_place'
             });
 
-            if (authResponse.status_code !== 200) {
+            if (!SuperAppSDK.isOk(authResponse)) {
               if (SuperAppSDK.isError(authResponse)) {
                 show('actionResult', `Location access denied: ${authResponse.error}`, 'error');
-              } else if (authResponse.status_code === 204) {
+              } else if (SuperAppSDK.isNoContent(authResponse)) {
                 show('actionResult', 'Location access was cancelled.', 'warning');
               }
               return;
@@ -114,7 +114,7 @@
           }
 
           const locationResponse = await location.getCoordinate();
-          if (!SuperAppSDK.isSuccess(locationResponse)) {
+          if (!SuperAppSDK.isOk(locationResponse)) {
             show('actionResult', formatError('Fetch location', locationResponse), 'error');
             return;
           }
@@ -125,9 +125,8 @@
             name: 'INITIATE'
           }));
 
-          const lat = locationResponse.result.latitude;
-          const lng = locationResponse.result.longitude;
-          const mapUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+          const { latitude, longitude } = locationResponse.result;
+          const mapUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
           // Open map - handle response (only show errors)
           const openResponse = await container.openExternalLink(mapUrl);

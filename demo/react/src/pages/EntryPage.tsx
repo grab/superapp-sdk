@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isSuccess, isError, ContainerModule, IdentityModule, ScopeModule } from '@grabjs/superapp-sdk';
+import { isSuccess, isOk, isError, ContainerModule, IdentityModule, ScopeModule } from '@grabjs/superapp-sdk';
 import { ENVIRONMENT_CONFIG } from '../config';
 import { fetchDiscoveryConfiguration, exchangeAuthorizationCode, fetchUserInfo } from '../services/grabidService';
 import { runOptional, formatError } from '../utils/sdkHelpers';
@@ -48,19 +48,23 @@ export default function EntryPage() {
     });
 
     if (isSuccess(authResponse)) {
-      const { status_code: code } = authResponse;
-      if (code === 200) {
+      const { status_code } = authResponse;
+      if (status_code === 200) {
         setPageState({ status: 'loading', message: 'Completing sign-in...' });
 
         const artifactsResponse = await identity.getAuthorizationArtifacts();
-        if (!isSuccess(artifactsResponse)) {
-          setPageState({ status: 'error', message: `Get authorization artifacts failed: ${formatError('Get authorization artifacts', artifactsResponse)}`, type: 'error' });
+        if (!isOk(artifactsResponse)) {
+          const message = isError(artifactsResponse)
+            ? formatError('Get authorization artifacts', artifactsResponse)
+            : 'No authorization artifacts found.';
+          setPageState({ status: 'error', message: `Get authorization artifacts failed: ${message}`, type: 'error' });
           return;
         }
 
-        const { codeVerifier, redirectUri } = (artifactsResponse as unknown as { result: { codeVerifier: string; redirectUri: string } }).result;
-        const authCode = (authResponse as unknown as { result: { code?: string } }).result?.code;
-        if (!authCode) {
+        const { codeVerifier, redirectUri } = artifactsResponse.result;
+        const code = authResponse.result.code;
+
+        if (!code) {
           setPageState({ status: 'error', message: 'No authorization code returned.', type: 'error' });
           return;
         }
@@ -71,22 +75,27 @@ export default function EntryPage() {
 
           setPageState({ status: 'loading', message: 'Exchanging authorization code...' });
           const tokenResponse = await exchangeAuthorizationCode(
-            discovery as Record<string, string>,
-            authCode,
+            discovery,
+            code,
             codeVerifier,
             redirectUri
           );
 
+          // Validate id_token against 'id_token_verification_endpoint' from discovery.
+          // Note: This is not performed in the browser demo because the verification 
+          // endpoint requires a GET request with a body, which browsers do not allow.
+
           setPageState({ status: 'loading', message: 'Fetching user info...' });
-          const userInfo = await fetchUserInfo(discovery as Record<string, string>, tokenResponse.access_token as string);
+          const userInfo = await fetchUserInfo(discovery, tokenResponse.access_token);
 
           setUser({
-            userName: (userInfo.name as string) || '',
-            userEmail: (userInfo.email as string) || '',
-            userPhone: (userInfo.phoneNumber as string) || ''
+            userName: userInfo.name || '',
+            userEmail: userInfo.email || '',
+            userPhone: userInfo.phoneNumber || ''
           });
         } catch (error) {
-          setPageState({ status: 'error', message: `OIDC flow failed: ${(error as Error).message}`, type: 'error' });
+          const message = error instanceof Error ? error.message : String(error);
+          setPageState({ status: 'error', message: `OIDC flow failed: ${message}`, type: 'error' });
           return;
         }
 
@@ -99,7 +108,7 @@ export default function EntryPage() {
 
         await identity.clearAuthorizationArtifacts();
         navigate('/index');
-      } else if (code === 204) {
+      } else if (status_code === 204) {
         await identity.clearAuthorizationArtifacts();
         setPageState({ status: 'error', message: 'Authorization was cancelled.', type: 'error' });
       }

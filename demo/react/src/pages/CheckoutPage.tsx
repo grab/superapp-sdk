@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isSuccess, isError, ContainerModule, IdentityModule, ScopeModule, CheckoutModule } from '@grabjs/superapp-sdk';
+import { isSuccess, isOk, isNoContent, isError, ContainerModule, IdentityModule, ScopeModule, CheckoutModule } from '@grabjs/superapp-sdk';
 import { ENVIRONMENT_CONFIG } from '../config';
 import { runOptional, formatError } from '../utils/sdkHelpers';
 import { WarningArea } from '../components/WarningArea';
@@ -59,7 +59,8 @@ export default function CheckoutPage() {
     try {
       parsedPayload = JSON.parse(payload);
     } catch (e) {
-      setResult({ status: 'parse_error', errorMessage: `Invalid JSON: ${(e as Error).message}` });
+      const message = e instanceof Error ? e.message : String(e);
+      setResult({ status: 'parse_error', errorMessage: `Invalid JSON: ${message}` });
       return;
     }
 
@@ -78,10 +79,10 @@ export default function CheckoutPage() {
         responseMode: 'in_place'
       });
 
-      if (authResponse.status_code !== 200) {
+      if (!isOk(authResponse)) {
         if (isError(authResponse)) {
           setResult({ status: 'error', errorMessage: formatError('Checkout authorization', authResponse) });
-        } else if (authResponse.status_code === 204) {
+        } else if (isNoContent(authResponse)) {
           setResult({ status: 'warning', errorMessage: 'Checkout permission was cancelled.' });
         }
         return;
@@ -99,17 +100,21 @@ export default function CheckoutPage() {
 
     const checkoutResponse = await checkout.triggerCheckout(parsedPayload);
 
-    if (isSuccess(checkoutResponse)) {
-      const res = checkoutResponse.result as { status?: string; transactionID?: string; errorCode?: string; errorMessage?: string };
-      if (res.status && res.status !== 'success') {
+    if (isOk(checkoutResponse)) {
+      const res = checkoutResponse.result;
+      if (res.status === 'failure') {
         setResult({ status: res.status, transactionID: res.transactionID, errorCode: res.errorCode, errorMessage: res.errorMessage });
+      } else if (res.status === 'pending') {
+        setResult({ status: res.status, transactionID: res.transactionID });
+      } else if (res.status === 'userInitiatedCancel') {
+        setResult({ status: res.status });
       } else {
         setResult(null);
       }
     } else if (isError(checkoutResponse)) {
       setResult({ status: 'error', errorMessage: formatError('Checkout', checkoutResponse) });
     } else {
-      setResult({ status: 'warning', errorMessage: `Unexpected checkout response: ${(checkoutResponse as { status_code: number }).status_code}` });
+      setResult({ status: 'error', errorMessage: formatError('Checkout', checkoutResponse) });
     }
   }
 
@@ -119,7 +124,10 @@ export default function CheckoutPage() {
 
   function renderResult() {
     if (!result) return null;
-    const style = STATUS_STYLES[result.status] || { type: 'warning' as const, label: result.status };
+    const style: { type: 'success' | 'error' | 'warning'; label: string } = STATUS_STYLES[result.status] || {
+      type: 'warning',
+      label: result.status,
+    };
     return (
       <div className="mt-4">
         <StatusMessage

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isSuccess, isError, ContainerModule, IdentityModule, ScopeModule, LocationModule, LocaleModule } from '@grabjs/superapp-sdk';
+import { isSuccess, isOk, isNoContent, isError, ContainerModule, IdentityModule, ScopeModule, LocationModule, LocaleModule } from '@grabjs/superapp-sdk';
 import { ENVIRONMENT_CONFIG } from '../config';
 import { runOptional, formatError } from '../utils/sdkHelpers';
 import { WarningArea } from '../components/WarningArea';
@@ -38,14 +38,8 @@ export default function IndexPage() {
     await runOptional('Show refresh button', container.showRefreshButton(), setWarning);
 
     const localeResponse = await localeMod.getLanguageLocaleIdentifier();
-    if (isSuccess(localeResponse)) {
-      const result = (localeResponse as unknown as { result: string | Record<string, unknown> }).result;
-      if (typeof result === 'string') {
-        setLocale(result);
-      } else if (result && typeof result === 'object') {
-        const localeValue = (result as { locale?: string }).locale;
-        if (localeValue !== undefined) setLocale(localeValue);
-      }
+    if (isOk(localeResponse)) {
+      setLocale(localeResponse.result);
     }
 
     if (!userName && !userEmail) {
@@ -80,10 +74,10 @@ export default function IndexPage() {
         responseMode: 'in_place'
       });
 
-      if (authResponse.status_code !== 200) {
+      if (!isOk(authResponse)) {
         if (isError(authResponse)) {
           setActionResult({ message: `Location access denied: ${authResponse.error}`, type: 'error' });
-        } else if (authResponse.status_code === 204) {
+        } else if (isNoContent(authResponse)) {
           setActionResult({ message: 'Location access was cancelled.', type: 'warning' });
         }
         return;
@@ -98,15 +92,15 @@ export default function IndexPage() {
     }
 
     const locationResponse = await location.getCoordinate();
-    if (!isSuccess(locationResponse)) {
+    if (!isOk(locationResponse)) {
       setActionResult({ message: formatError('Fetch location', locationResponse), type: 'error' });
       return;
     }
 
     await runOptional('Send INITIATE analytics', container.sendAnalyticsEvent({ state: 'HOMEPAGE', name: 'INITIATE' }), setWarning);
 
-    const { latitude: lat, longitude: lng } = locationResponse.result as { latitude: number; longitude: number };
-    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+    const { latitude, longitude } = locationResponse.result;
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
     const openResponse = await container.openExternalLink(mapUrl);
     if (!isSuccess(openResponse)) {
