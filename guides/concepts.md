@@ -50,66 +50,6 @@ The SDK uses HTTP-style status codes for all responses:
 | `500` | Internal Error    | Unexpected SDK error                                        |
 | `501` | Not Implemented   | Outside Grab SuperApp environment                           |
 
-## Handling 403 Forbidden
-
-Methods tagged with `@requiredOAuthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
-
-1. Call `IdentityModule.authorize()` to request the scope.
-2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
-3. Retry the original method call.
-
-### Proactive Permission Checking
-
-Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`:
-
-```typescript
-const scope = new ScopeModule();
-const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
-
-if (isSuccess(hasAccess) && hasAccess.result) {
-  // Permission is available, safe to call the method
-  const location = await location.getCoordinate();
-}
-```
-
-```typescript
-import {
-  LocationModule,
-  IdentityModule,
-  ScopeModule,
-  isSuccess,
-  isError,
-} from '@grabjs/superapp-sdk';
-
-const location = new LocationModule();
-const identity = new IdentityModule();
-const scope = new ScopeModule();
-
-const response = await location.getCoordinate();
-
-if (isError(response) && response.status_code === 403) {
-  // 1. Request authorization for the required scope
-  const auth = await identity.authorize({
-    clientId: 'your-client-id',
-    redirectUri: 'https://your-app.com/callback',
-    scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
-    environment: 'production',
-    responseMode: 'in_place',
-  });
-
-  if (isSuccess(auth)) {
-    // 2. Reload scopes so the new permission is available
-    await scope.reloadScopes();
-
-    // 3. Retry the original call
-    const retry = await location.getCoordinate();
-    if (isSuccess(retry)) {
-      console.log('Result:', retry.result);
-    }
-  }
-}
-```
-
 ## Type Guards
 
 Type guards narrow the response type so TypeScript knows which fields are available:
@@ -160,3 +100,91 @@ subscription.unsubscribe();
 ```
 
 You can also `await` a stream method directly to get its first value.
+
+## Scopes and Permissions
+
+The SDK categorizes permissions into two distinct types based on their execution context:
+
+### Permission Types
+
+- **Backend Scopes** (`openid`, `profile.read`, `phone`)
+  - **Purpose**: Access protected resources and user data via your server.
+  - **Flow**: Requires a backend token exchange after authorization to retrieve data.
+- **Mobile Scopes** (`mobile.geolocation`, `mobile.checkout`)
+  - **Purpose**: Access native device capabilities directly within the MiniApp.
+  - **Flow**: Grants in-app permission immediately; no backend exchange is necessary.
+
+### Authorization Patterns
+
+When designing your MiniApp, you can choose between two common patterns for requesting scopes:
+
+- **Upfront Authorization**
+  - Request all required scopes during app initialisation, typically alongside backend sign-in.
+  - _Best for_: Core permissions essential for the app to function.
+- **Deferred Authorization**
+  - Request scopes only when the user triggers a specific feature that requires them.
+  - _Best for_: Optional permissions (e.g., location) to improve user experience and build trust.
+
+### Permission Verification Strategies
+
+You can verify permissions either proactively before calling a method, or reactively by handling errors.
+
+#### Proactive Checking
+
+Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`. This is recommended before calling gated methods, as users can revoke permissions at any time via the Grab app settings.
+
+```typescript
+const scope = new ScopeModule();
+const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
+
+if (isSuccess(hasAccess) && hasAccess.result) {
+  // Permission is available, safe to call the method
+  const location = await location.getCoordinate();
+}
+```
+
+#### Reactive Checking (Handling 403 Forbidden)
+
+Methods tagged with `@requiredOAuthScope` require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
+
+1. Call `IdentityModule.authorize()` to request the scope.
+2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
+3. Retry the original method call.
+
+```typescript
+import {
+  LocationModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const location = new LocationModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+const response = await location.getCoordinate();
+
+if (isError(response) && response.status_code === 403) {
+  // 1. Request authorization for the required scope
+  const auth = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-app.com/callback',
+    scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(auth)) {
+    // 2. Reload scopes so the new permission is available
+    await scope.reloadScopes();
+
+    // 3. Retry the original call
+    const retry = await location.getCoordinate();
+    if (isSuccess(retry)) {
+      console.log('Result:', retry.result);
+    }
+  }
+}
+```

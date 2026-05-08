@@ -1,8 +1,9 @@
 /**
- * Demo-only GrabID/OIDC helpers. 
+ * NEVER run token exchange or userinfo on the frontend in a production environment.
+ * Doing so exposes your Client Secret (if used) and makes access tokens vulnerable 
+ * to interception.
  * 
- * IMPORTANT: In production, run token exchange and userinfo on your backend 
- * to protect client secrets and access tokens.
+ * In production, these operations MUST be performed on your backend.
  */
 
 /**
