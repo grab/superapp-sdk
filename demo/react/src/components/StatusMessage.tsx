@@ -1,4 +1,4 @@
-export type MessageType = 'success' | 'error' | 'warning';
+import type { MessageType } from '../types';
 
 interface StatusMessageProps {
   message: string;
