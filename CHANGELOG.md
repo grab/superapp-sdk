@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.46] - 2026-05-08
+
+### Added
+
+- Slack notification script (`scripts/notify-slack.mjs`) to post release announcements to configured channels
+- `notify` npm script for triggering Slack notifications
+
+### Changed
+
+- CI/CD pipeline updated with `notify` stage to send Slack notifications on new releases
+
 ## [2.0.0-beta.45] - 2026-05-08
 
 ### Changed
