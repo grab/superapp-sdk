@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.45] - 2026-05-08
+
+### Changed
+
+- CDN documentation updated across all modules to recommend version pinning (`@x.y.z`) instead of using latest to prevent breaking changes
+- Setup guide updated with version pinning recommendation for CDN usage
+
 ## [2.0.0-beta.44] - 2026-05-07
 
 ### Added
