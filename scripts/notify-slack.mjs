@@ -22,8 +22,8 @@ function formatChangelog(text) {
     .replace(/^#\s+(.+)$/gm, '*$1*');
 }
 
-const PAYLOAD = {
-  blocks: [
+function buildHeaderBlocks() {
+  return [
     {
       type: 'header',
       text: {
@@ -32,6 +32,20 @@ const PAYLOAD = {
         emoji: true,
       },
     },
+    {
+      type: 'context',
+      elements: [
+        {
+          type: 'mrkdwn',
+          text: 'Changelog and links are in the thread.',
+        },
+      ],
+    },
+  ];
+}
+
+function buildThreadBlocks() {
+  return [
     {
       type: 'section',
       text: {
@@ -54,23 +68,46 @@ const PAYLOAD = {
         },
       ],
     },
-  ],
-};
+  ];
+}
 
-async function notifySlack(channelId) {
+async function postMessage(channelId, blocks, threadTs) {
+  const body = {
+    channel: channelId.trim(),
+    blocks,
+    ...(threadTs != null ? { thread_ts: threadTs } : {}),
+  };
+
   const response = await fetch('https://slack.com/api/chat.postMessage', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ channel: channelId.trim(), ...PAYLOAD }),
+    body: JSON.stringify(body),
   });
 
   const result = await response.json();
 
-  if (!result.ok) {
-    console.error(`Failed to notify ${channelId}:`, result.error);
+  return {
+    ok: Boolean(result.ok),
+    ts: result.ts,
+    error: result.error,
+  };
+}
+
+async function notifySlack(channelId) {
+  const header = await postMessage(channelId, buildHeaderBlocks());
+
+  if (!header.ok) {
+    console.error(`Failed to notify ${channelId} (header):`, header.error);
+    return false;
+  }
+
+  const thread = await postMessage(channelId, buildThreadBlocks(), header.ts);
+
+  if (!thread.ok) {
+    console.error(`Failed to notify ${channelId} (thread):`, thread.error);
     return false;
   }
 
