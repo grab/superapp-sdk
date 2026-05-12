@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.48] - 2026-05-12
+
+### Added
+
+- `204` responses for storage `get*` methods when the key has no value (after normalizing raw bridge payloads)
+- Validation and warnings for unexpected raw bridge shapes on storage reads
+
+### Changed
+
+- Storage `getBoolean`, `getInt`, `getString`, and `getDouble` expose `result` as the scalar value (not `{ value: … }`); empty keys for `get*` and `remove` return `400` without calling the bridge
+- Empty keys for `setBoolean`, `setInt`, `setString`, and `setDouble` return `400` without calling the bridge (same client-side validation pattern as `get*` and `remove`)
+
+### Removed
+
+- `{ value }` wrapper on successful storage read results
+
 ## [2.0.0-beta.47] - 2026-05-08
 
 ### Added
