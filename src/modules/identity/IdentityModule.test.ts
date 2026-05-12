@@ -8,7 +8,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { IdentityModule } from './IdentityModule';
-import { AuthorizeResponse } from './types';
+import type { RawAuthorizeResponse } from './types';
 
 describe('IdentityModule', () => {
   describe('getAuthorizationArtifacts', () => {
@@ -290,7 +290,7 @@ describe('IdentityModule', () => {
         href: 'https://app.example.com/',
       });
 
-      const mockResponse: AuthorizeResponse = {
+      const mockResponse: RawAuthorizeResponse = {
         status_code: 200,
         result: {
           code: 'auth-code-abc123',
@@ -317,6 +317,10 @@ describe('IdentityModule', () => {
       if (response.status_code === 200) {
         expect(response.result.code).toBe('auth-code-abc123');
         expect(response.result.state).toBe('state-xyz789');
+        expect(response.result.codeVerifier).toBe(mockLocalStorage['grabid:code_verifier']);
+        expect(response.result.nonce).toBe(mockLocalStorage['grabid:nonce']);
+        expect(response.result.redirectUri).toBe('https://app.example.com/');
+        expect(response.result.redirectUri).toBe(mockLocalStorage['grabid:redirect_uri']);
       }
       expect(mockInvoke).toHaveBeenCalledWith(
         'authorize',
@@ -326,6 +330,53 @@ describe('IdentityModule', () => {
           responseMode: 'in_place',
         })
       );
+    });
+
+    it('should use normalized location as redirectUri on in_place 200, not the configured callback', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+      });
+
+      mockLocalStorage = {};
+      vi.stubGlobal('localStorage', {
+        getItem: (key: string) => mockLocalStorage[key] ?? null,
+        setItem: (key: string, value: string) => {
+          mockLocalStorage[key] = value;
+        },
+        removeItem: (key: string) => {
+          delete mockLocalStorage[key];
+        },
+      });
+
+      vi.stubGlobal('location', {
+        href: 'https://mini.example.com/app/entry?from=grab#section',
+      });
+
+      const mockResponse: RawAuthorizeResponse = {
+        status_code: 200,
+        result: { code: 'code-1', state: 'state-1' },
+      };
+
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedIdentityModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new IdentityModule();
+      const response = await module.authorize({
+        clientId: 'client-123',
+        redirectUri: 'https://other.example.com/oauth/callback',
+        scope: 'openid',
+        environment: 'production',
+        responseMode: 'in_place',
+      });
+
+      expect(response.status_code).toBe(200);
+      if (response.status_code === 200) {
+        expect(response.result.redirectUri).toBe('https://mini.example.com/app/entry');
+        expect(response.result.redirectUri).not.toBe('https://other.example.com/oauth/callback');
+      }
     });
 
     it('should return 204 when user cancels native authorization', async () => {
@@ -348,7 +399,7 @@ describe('IdentityModule', () => {
         href: 'https://app.example.com/',
       });
 
-      const mockResponse: AuthorizeResponse = {
+      const mockResponse: RawAuthorizeResponse = {
         status_code: 204,
       };
 
@@ -399,7 +450,7 @@ describe('IdentityModule', () => {
         assign: mockAssign,
       });
 
-      const mockNativeResponse: AuthorizeResponse = {
+      const mockNativeResponse: RawAuthorizeResponse = {
         status_code: 400,
         error: 'Native consent unavailable',
       };
@@ -535,7 +586,7 @@ describe('IdentityModule', () => {
         href: 'https://app.example.com/',
       });
 
-      const mockResponse: AuthorizeResponse = {
+      const mockResponse: RawAuthorizeResponse = {
         status_code: 200,
         result: {
           code: 'staging-auth-code',
@@ -560,6 +611,11 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
         expect(response.result.code).toBe('staging-auth-code');
+        expect(response.result.state).toBe('staging-state');
+        expect(response.result.redirectUri).toBe('https://staging-app.example.com/callback');
+        expect(response.result.redirectUri).toBe(mockLocalStorage['grabid:redirect_uri']);
+        expect(response.result.codeVerifier).toBe(mockLocalStorage['grabid:code_verifier']);
+        expect(response.result.nonce).toBe(mockLocalStorage['grabid:nonce']);
       }
     });
   });

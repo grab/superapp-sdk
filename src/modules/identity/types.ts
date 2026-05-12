@@ -14,6 +14,7 @@ import {
   ClearAuthorizationArtifactsResponseSchema,
   GetAuthorizationArtifactsResponseSchema,
   GetAuthorizationArtifactsResultSchema,
+  RawAuthorizeResponseSchema,
 } from './schemas';
 
 /**
@@ -48,14 +49,24 @@ import {
 export type AuthorizeRequest = InferOutput<typeof AuthorizeRequestSchema>;
 
 /**
+ * Internal type for the raw bridge response from `authorize` before enrichment.
+ *
+ * @internal
+ */
+export type RawAuthorizeResponse = InferOutput<typeof RawAuthorizeResponseSchema>;
+
+/**
  * Result object for the authorization flow.
- * Contains the authorization code and state when native in_place flow completes successfully.
+ * Contains the authorization code, state, and PKCE artifacts when native in_place flow completes successfully.
  *
  * @example
  * ```typescript
  * {
  *   code: 'auth-code-abc123',
- *   state: 'csrf-state-xyz789'
+ *   state: 'csrf-state-xyz789',
+ *   codeVerifier: 'code-verifier-123',
+ *   nonce: 'nonce-abc',
+ *   redirectUri: 'https://your-app.com/current-page'
  * }
  * ```
  *
@@ -68,7 +79,7 @@ export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code and state.
+ * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code, state, and PKCE artifacts (`codeVerifier`, `nonce`, `redirectUri`).
  * - `204`: No content - user cancelled or flow completed without result data.
  * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
  * - `400`: Bad request - missing required OAuth parameters or invalid configuration.

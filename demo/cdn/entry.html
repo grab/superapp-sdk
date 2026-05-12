@@ -55,17 +55,7 @@
             case 200: {
               content.innerHTML = `<p>Completing sign-in...</p>`;
 
-              const artifactsResponse = await identity.getAuthorizationArtifacts();
-              if (!SuperAppSDK.isOk(artifactsResponse)) {
-                const message = SuperAppSDK.isError(artifactsResponse)
-                  ? formatError('Get authorization artifacts', artifactsResponse)
-                  : 'No authorization artifacts found.';
-                show('content', `Get authorization artifacts failed: ${message}`, 'error');
-                return;
-              }
-
-              const code = authResponse.result.code;
-              const { codeVerifier, nonce, redirectUri: actualRedirectUri } = artifactsResponse.result;
+              const { code, codeVerifier, redirectUri: actualRedirectUri } = authResponse.result;
 
               try {
                 content.innerHTML = `<p>Fetching OIDC discovery...</p>`;
