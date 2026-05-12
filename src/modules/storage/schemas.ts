@@ -37,7 +37,25 @@ export const GetBooleanRequestSchema = storageKeySchema;
  *
  * @public
  */
-export const GetBooleanResultSchema = v.object({ value: v.nullable(v.boolean()) });
+export const GetBooleanResultSchema = v.boolean();
+
+/**
+ * Internal valibot schema for the raw bridge response from getBoolean before normalization.
+ *
+ * @internal
+ */
+export const RawGetBooleanResponseSchema = v.union([
+  v.object({
+    status_code: v.literal(200),
+    result: v.optional(v.nullable(v.boolean())),
+  }),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
 /**
  * Valibot schema for {@link GetBooleanResponse}.
  *
@@ -45,6 +63,7 @@ export const GetBooleanResultSchema = v.object({ value: v.nullable(v.boolean()) 
  */
 export const GetBooleanResponseSchema = v.union([
   bridgeOkSchema(GetBooleanResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),
@@ -74,7 +93,25 @@ export const GetIntRequestSchema = storageKeySchema;
  *
  * @public
  */
-export const GetIntResultSchema = v.object({ value: v.nullable(v.number()) });
+export const GetIntResultSchema = v.number();
+
+/**
+ * Internal valibot schema for the raw bridge response from getInt before normalization.
+ *
+ * @internal
+ */
+export const RawGetIntResponseSchema = v.union([
+  v.object({
+    status_code: v.literal(200),
+    result: v.optional(v.nullable(v.number())),
+  }),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
 /**
  * Valibot schema for {@link GetIntResponse}.
  *
@@ -82,6 +119,7 @@ export const GetIntResultSchema = v.object({ value: v.nullable(v.number()) });
  */
 export const GetIntResponseSchema = v.union([
   bridgeOkSchema(GetIntResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),
@@ -111,7 +149,25 @@ export const GetStringRequestSchema = storageKeySchema;
  *
  * @public
  */
-export const GetStringResultSchema = v.object({ value: v.nullable(v.string()) });
+export const GetStringResultSchema = v.string();
+
+/**
+ * Internal valibot schema for the raw bridge response from getString before normalization.
+ *
+ * @internal
+ */
+export const RawGetStringResponseSchema = v.union([
+  v.object({
+    status_code: v.literal(200),
+    result: v.optional(v.nullable(v.string())),
+  }),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
 /**
  * Valibot schema for {@link GetStringResponse}.
  *
@@ -119,6 +175,7 @@ export const GetStringResultSchema = v.object({ value: v.nullable(v.string()) })
  */
 export const GetStringResponseSchema = v.union([
   bridgeOkSchema(GetStringResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),
@@ -148,7 +205,25 @@ export const GetDoubleRequestSchema = storageKeySchema;
  *
  * @public
  */
-export const GetDoubleResultSchema = v.object({ value: v.nullable(v.number()) });
+export const GetDoubleResultSchema = v.number();
+
+/**
+ * Internal valibot schema for the raw bridge response from getDouble before normalization.
+ *
+ * @internal
+ */
+export const RawGetDoubleResponseSchema = v.union([
+  v.object({
+    status_code: v.literal(200),
+    result: v.optional(v.nullable(v.number())),
+  }),
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
 /**
  * Valibot schema for {@link GetDoubleResponse}.
  *
@@ -156,6 +231,7 @@ export const GetDoubleResultSchema = v.object({ value: v.nullable(v.number()) })
  */
 export const GetDoubleResponseSchema = v.union([
   bridgeOkSchema(GetDoubleResultSchema),
+  bridgeNoContentSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(424),
   bridgeErrorSchema(500),

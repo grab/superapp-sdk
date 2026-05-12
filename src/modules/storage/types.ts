@@ -20,6 +20,10 @@ import {
   GetStringRequestSchema,
   GetStringResponseSchema,
   GetStringResultSchema,
+  RawGetBooleanResponseSchema,
+  RawGetDoubleResponseSchema,
+  RawGetIntResponseSchema,
+  RawGetStringResponseSchema,
   RemoveAllResponseSchema,
   RemoveResponseSchema,
   SetBooleanResponseSchema,
@@ -64,18 +68,14 @@ export type SetBooleanResponse = InferOutput<typeof SetBooleanResponseSchema>;
 export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
 
 /**
- * Result object containing the boolean value.
+ * Result object containing the boolean value when present on a `200` response.
+ *
+ * @remarks
+ * When the key has no stored value, the response status is `204` instead.
  *
  * @example
- * **Value exists:**
  * ```typescript
- * { value: true }
- * ```
- *
- * @example
- * **Value not found:**
- * ```typescript
- * { value: null }
+ * true
  * ```
  *
  * @public
@@ -83,11 +83,19 @@ export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
 export type GetBooleanResult = InferOutput<typeof GetBooleanResultSchema>;
 
 /**
+ * Internal type for the raw bridge response from getBoolean before normalization.
+ *
+ * @internal
+ */
+export type RawGetBooleanResponse = InferOutput<typeof RawGetBooleanResponseSchema>;
+
+/**
  * Response when getting a boolean value.
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the boolean value or null if not found.
+ * - `200`: Value retrieved successfully. The `result` contains the boolean value.
+ * - `204`: Value not found in storage.
  * - `400`: Missing required parameters - key not provided.
  * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
@@ -133,18 +141,14 @@ export type SetIntResponse = InferOutput<typeof SetIntResponseSchema>;
 export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
 
 /**
- * Result object containing the integer value.
+ * Result object containing the integer value when present on a `200` response.
+ *
+ * @remarks
+ * When the key has no stored value, the response status is `204` instead.
  *
  * @example
- * **Value exists:**
  * ```typescript
- * { value: 42 }
- * ```
- *
- * @example
- * **Value not found:**
- * ```typescript
- * { value: null }
+ * 42
  * ```
  *
  * @public
@@ -152,11 +156,19 @@ export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
 export type GetIntResult = InferOutput<typeof GetIntResultSchema>;
 
 /**
+ * Internal type for the raw bridge response from getInt before normalization.
+ *
+ * @internal
+ */
+export type RawGetIntResponse = InferOutput<typeof RawGetIntResponseSchema>;
+
+/**
  * Response when getting an integer value.
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the integer value or null if not found.
+ * - `200`: Value retrieved successfully. The `result` contains the integer value.
+ * - `204`: Value not found in storage.
  * - `400`: Missing required parameters - key not provided.
  * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
@@ -202,18 +214,14 @@ export type SetStringResponse = InferOutput<typeof SetStringResponseSchema>;
 export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
 
 /**
- * Result object containing the string value.
+ * Result object containing the string value when present on a `200` response.
+ *
+ * @remarks
+ * When the key has no stored value, the response status is `204` instead.
  *
  * @example
- * **Value exists:**
  * ```typescript
- * { value: 'john_doe' }
- * ```
- *
- * @example
- * **Value not found:**
- * ```typescript
- * { value: null }
+ * 'john_doe'
  * ```
  *
  * @public
@@ -221,11 +229,19 @@ export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
 export type GetStringResult = InferOutput<typeof GetStringResultSchema>;
 
 /**
+ * Internal type for the raw bridge response from getString before normalization.
+ *
+ * @internal
+ */
+export type RawGetStringResponse = InferOutput<typeof RawGetStringResponseSchema>;
+
+/**
  * Response when getting a string value.
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the string value or null if not found.
+ * - `200`: Value retrieved successfully. The `result` contains the string value.
+ * - `204`: Value not found in storage.
  * - `400`: Missing required parameters - key not provided.
  * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.
@@ -271,18 +287,14 @@ export type SetDoubleResponse = InferOutput<typeof SetDoubleResponseSchema>;
 export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
 
 /**
- * Result object containing the double value.
+ * Result object containing the double value when present on a `200` response.
+ *
+ * @remarks
+ * When the key has no stored value, the response status is `204` instead.
  *
  * @example
- * **Value exists:**
  * ```typescript
- * { value: 19.99 }
- * ```
- *
- * @example
- * **Value not found:**
- * ```typescript
- * { value: null }
+ * 19.99
  * ```
  *
  * @public
@@ -290,11 +302,19 @@ export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
 export type GetDoubleResult = InferOutput<typeof GetDoubleResultSchema>;
 
 /**
+ * Internal type for the raw bridge response from getDouble before normalization.
+ *
+ * @internal
+ */
+export type RawGetDoubleResponse = InferOutput<typeof RawGetDoubleResponseSchema>;
+
+/**
  * Response when getting a double value.
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the double value or null if not found.
+ * - `200`: Value retrieved successfully. The `result` contains the double value.
+ * - `204`: Value not found in storage.
  * - `400`: Missing required parameters - key not provided.
  * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
  * - `500`: Internal server error - an unexpected error occurred on the native side.

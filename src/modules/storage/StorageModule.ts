@@ -15,6 +15,10 @@ import {
   GetIntResponseSchema,
   GetStringRequestSchema,
   GetStringResponseSchema,
+  RawGetBooleanResponseSchema,
+  RawGetDoubleResponseSchema,
+  RawGetIntResponseSchema,
+  RawGetStringResponseSchema,
   RemoveAllResponseSchema,
   RemoveRequestSchema,
   RemoveResponseSchema,
@@ -28,6 +32,10 @@ import {
   GetDoubleResponse,
   GetIntResponse,
   GetStringResponse,
+  RawGetBooleanResponse,
+  RawGetDoubleResponse,
+  RawGetIntResponse,
+  RawGetStringResponse,
   RemoveAllResponse,
   RemoveResponse,
   SetBooleanResponse,
@@ -138,7 +146,7 @@ export class StorageModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Stored value:', response.result.value);
+   *   console.log('Stored value:', response.result);
    * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
@@ -153,10 +161,23 @@ export class StorageModule extends BaseModule {
     const requestError = this.validate(GetBooleanRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'getBoolean',
       params,
-    })) as GetBooleanResponse;
+    })) as RawGetBooleanResponse;
+
+    const rawResponseError = this.validate(RawGetBooleanResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('getBoolean', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Normalize iOS 200-with-empty-result to 204 (matches Android behavior)
+    let response: GetBooleanResponse;
+    if (rawResponse.status_code === 200) {
+      const value = rawResponse.result;
+      response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
+    } else {
+      response = rawResponse;
+    }
 
     const responseError = this.validate(GetBooleanResponseSchema, response);
     if (responseError)
@@ -232,7 +253,7 @@ export class StorageModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Stored value:', response.result.value);
+   *   console.log('Stored value:', response.result);
    * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
@@ -247,10 +268,22 @@ export class StorageModule extends BaseModule {
     const requestError = this.validate(GetIntRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'getInt',
       params,
-    })) as GetIntResponse;
+    })) as RawGetIntResponse;
+
+    const rawResponseError = this.validate(RawGetIntResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('getInt', `Unexpected raw response shape: ${rawResponseError}`);
+
+    let response: GetIntResponse;
+    if (rawResponse.status_code === 200) {
+      const value = rawResponse.result;
+      response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
+    } else {
+      response = rawResponse;
+    }
 
     const responseError = this.validate(GetIntResponseSchema, response);
     if (responseError) this.logger.warn('getInt', `Unexpected response shape: ${responseError}`);
@@ -325,7 +358,7 @@ export class StorageModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Stored value:', response.result.value);
+   *   console.log('Stored value:', response.result);
    * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
@@ -340,10 +373,22 @@ export class StorageModule extends BaseModule {
     const requestError = this.validate(GetStringRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'getString',
       params,
-    })) as GetStringResponse;
+    })) as RawGetStringResponse;
+
+    const rawResponseError = this.validate(RawGetStringResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('getString', `Unexpected raw response shape: ${rawResponseError}`);
+
+    let response: GetStringResponse;
+    if (rawResponse.status_code === 200) {
+      const value = rawResponse.result;
+      response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
+    } else {
+      response = rawResponse;
+    }
 
     const responseError = this.validate(GetStringResponseSchema, response);
     if (responseError) this.logger.warn('getString', `Unexpected response shape: ${responseError}`);
@@ -418,7 +463,7 @@ export class StorageModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Stored value:', response.result.value);
+   *   console.log('Stored value:', response.result);
    * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {
@@ -433,10 +478,22 @@ export class StorageModule extends BaseModule {
     const requestError = this.validate(GetDoubleRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const response = (await this.invoke({
+    const rawResponse = (await this.invoke({
       method: 'getDouble',
       params,
-    })) as GetDoubleResponse;
+    })) as RawGetDoubleResponse;
+
+    const rawResponseError = this.validate(RawGetDoubleResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('getDouble', `Unexpected raw response shape: ${rawResponseError}`);
+
+    let response: GetDoubleResponse;
+    if (rawResponse.status_code === 200) {
+      const value = rawResponse.result;
+      response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
+    } else {
+      response = rawResponse;
+    }
 
     const responseError = this.validate(GetDoubleResponseSchema, response);
     if (responseError) this.logger.warn('getDouble', `Unexpected response shape: ${responseError}`);

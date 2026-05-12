@@ -5,6 +5,8 @@
  * directory of this source tree.
  */
 
+import { safeParse } from 'valibot';
+
 import { BaseModule } from '../../core';
 import {
   generateCodeChallenge,
@@ -13,22 +15,31 @@ import {
 } from '../../utils/crypto';
 import { isErrorWithMessage } from '../../utils/error';
 import { detectGrabApp } from '../../utils/platform';
+import { formatIssues } from '../../utils/schema';
 import { meetsMinimumVersion, Version } from '../../utils/version';
+import { StorageModule } from '../storage';
 import {
   CODE_CHALLENGE_METHOD,
   CODE_VERIFIER_LENGTH,
-  NAMESPACE,
   NONCE_LENGTH,
   OPENID_CONFIG_ENDPOINTS,
   STATE_LENGTH,
+  STORAGE_KEYS,
+  type StorageKey,
 } from './constants';
 import { AuthorizationConfigurationError } from './errors';
-import { AuthorizeRequestSchema, AuthorizeResponseSchema } from './schemas';
+import { buildAuthorizeUrl, buildStorageKey, normalizeUrl } from './helpers';
+import {
+  AuthorizeRequestSchema,
+  AuthorizeResponseSchema,
+  RawNativeAuthorizeResponseSchema,
+} from './schemas';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
   ClearAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResponse,
+  RawNativeAuthorizeResponse,
 } from './types';
 
 /**
@@ -61,6 +72,8 @@ import {
  * @noInheritDoc
  */
 export class IdentityModule extends BaseModule {
+  private readonly storageModule = new StorageModule();
+
   constructor() {
     super('IdentityModule');
   }
@@ -82,7 +95,8 @@ export class IdentityModule extends BaseModule {
     try {
       const response = await fetch(configUrl);
       if (!response.ok) {
-        console.error(
+        this.logger.error(
+          'fetchAuthorizationEndpoint',
           `Failed to fetch OpenID configuration from ${configUrl}: ${response.status} ${response.statusText}`
         );
         throw new AuthorizationConfigurationError('Failed to fetch authorization configuration');
@@ -90,13 +104,19 @@ export class IdentityModule extends BaseModule {
 
       const config = (await response.json()) as { authorization_endpoint: string };
       if (!config.authorization_endpoint) {
-        console.error('authorization_endpoint not found in OpenID configuration response');
+        this.logger.error(
+          'fetchAuthorizationEndpoint',
+          'authorization_endpoint not found in OpenID configuration response'
+        );
         throw new AuthorizationConfigurationError('Invalid authorization configuration');
       }
 
       return config.authorization_endpoint;
     } catch (error) {
-      console.error('Error fetching authorization endpoint:', error);
+      this.logger.error(
+        'fetchAuthorizationEndpoint',
+        `Error fetching authorization endpoint: ${isErrorWithMessage(error) ? error.message : String(error)}`
+      );
 
       if (error instanceof AuthorizationConfigurationError) {
         throw error;
@@ -137,26 +157,28 @@ export class IdentityModule extends BaseModule {
   }
 
   /**
-   * Stores PKCE artifacts in local storage for later retrieval during token exchange.
+   * Stores PKCE artifacts in session storage and mirrors them to native storage when available.
    *
    * @param artifacts - The PKCE artifacts to store, including nonce, state, code verifier, and redirect URI.
    *
    * @internal
    */
-  private storePKCEArtifacts(artifacts: {
+  private async storePKCEArtifacts(artifacts: {
     nonce: string;
     state: string;
     codeVerifier: string;
     redirectUri: string;
-  }): void {
-    this.setStorageItem('nonce', artifacts.nonce);
-    this.setStorageItem('state', artifacts.state);
-    this.setStorageItem('code_verifier', artifacts.codeVerifier);
-    this.setStorageItem('redirect_uri', artifacts.redirectUri);
+  }): Promise<void> {
+    await Promise.all([
+      this.setStorageItem(STORAGE_KEYS.nonce, artifacts.nonce),
+      this.setStorageItem(STORAGE_KEYS.state, artifacts.state),
+      this.setStorageItem(STORAGE_KEYS.codeVerifier, artifacts.codeVerifier),
+      this.setStorageItem(STORAGE_KEYS.redirectUri, artifacts.redirectUri),
+    ]);
   }
 
   /**
-   * Retrieves stored PKCE authorization artifacts from local storage.
+   * Retrieves stored PKCE authorization artifacts from session storage (with native fallback).
    * These artifacts are used to complete the OAuth2 authorization code exchange.
    *
    * @returns The stored PKCE artifacts including state, code verifier, nonce, and redirect URI. See {@link GetAuthorizationArtifactsResponse}.
@@ -204,10 +226,12 @@ export class IdentityModule extends BaseModule {
    * @public
    */
   async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
-    const state = this.getStorageItem('state');
-    const codeVerifier = this.getStorageItem('code_verifier');
-    const nonce = this.getStorageItem('nonce');
-    const redirectUri = this.getStorageItem('redirect_uri');
+    const [state, codeVerifier, nonce, redirectUri] = await Promise.all([
+      this.getStorageItem(STORAGE_KEYS.state),
+      this.getStorageItem(STORAGE_KEYS.codeVerifier),
+      this.getStorageItem(STORAGE_KEYS.nonce),
+      this.getStorageItem(STORAGE_KEYS.redirectUri),
+    ]);
 
     if (state === null && codeVerifier === null && nonce === null && redirectUri === null) {
       return { status_code: 204 };
@@ -227,7 +251,7 @@ export class IdentityModule extends BaseModule {
   }
 
   /**
-   * Clears all stored PKCE authorization artifacts from local storage.
+   * Clears all stored PKCE authorization artifacts from session storage and native storage (best-effort).
    * This should be called after a successful token exchange or when you need to
    * reset the authorization state (e.g., on error or logout).
    *
@@ -253,11 +277,13 @@ export class IdentityModule extends BaseModule {
    * @public
    */
   async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
-    window.localStorage.removeItem(`${NAMESPACE}:nonce`);
-    window.localStorage.removeItem(`${NAMESPACE}:state`);
-    window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);
-    window.localStorage.removeItem(`${NAMESPACE}:redirect_uri`);
-    window.localStorage.removeItem(`${NAMESPACE}:login_return_uri`);
+    await Promise.allSettled([
+      this.removeStorageItem(STORAGE_KEYS.nonce),
+      this.removeStorageItem(STORAGE_KEYS.state),
+      this.removeStorageItem(STORAGE_KEYS.codeVerifier),
+      this.removeStorageItem(STORAGE_KEYS.redirectUri),
+      this.removeStorageItem(STORAGE_KEYS.loginReturnUri),
+    ]);
 
     return {
       status_code: 204,
@@ -265,64 +291,113 @@ export class IdentityModule extends BaseModule {
   }
 
   /**
-   * Stores a value in local storage with the GrabID namespace prefix.
+   * Writes a key to session storage and mirrors it to native storage (best-effort).
    *
    * @param key - The storage key (without namespace prefix).
    * @param value - The value to store.
    *
    * @internal
    */
-  private setStorageItem(key: string, value: string): void {
-    window.localStorage.setItem(`${NAMESPACE}:${key}`, value);
+  private async setStorageItem(key: StorageKey, value: string): Promise<void> {
+    this.setWebStorageItem(key, value);
+    await this.setNativeStorageItem(key, value);
   }
 
   /**
-   * Retrieves a value from local storage with the GrabID namespace prefix.
+   * Reads a key from session storage, then from native storage if missing.
    *
    * @param key - The storage key (without namespace prefix).
    * @returns The stored value or null if not found.
    *
    * @internal
    */
-  private getStorageItem(key: string): string | null {
-    return window.localStorage.getItem(`${NAMESPACE}:${key}`);
+  private async getStorageItem(key: StorageKey): Promise<string | null> {
+    const fromWeb = this.getWebStorageItem(key);
+    if (fromWeb !== null) return fromWeb;
+    return this.getNativeStorageItem(key);
   }
 
   /**
-   * Normalizes a URL string to its origin and pathname (without query params or hash).
+   * Removes a key from session storage and native storage (best-effort).
    *
-   * @param urlString - The URL string to normalize.
-   * @returns The normalized URL containing only origin and pathname.
+   * @param key - The storage key (without namespace prefix).
    *
    * @internal
    */
-  private static normalizeUrl(urlString: string): string {
-    const parsedUrl = new URL(urlString);
-    return `${parsedUrl.origin}${parsedUrl.pathname}`;
+  private async removeStorageItem(key: StorageKey): Promise<void> {
+    this.removeWebStorageItem(key);
+    await this.removeNativeStorageItem(key);
   }
 
   /**
-   * Builds the authorization URL with query parameters.
+   * Persists a namespaced key in the WebView session store.
    *
-   * @param authorizationEndpoint - The authorization endpoint URL.
-   * @param requestMap - An object containing the request parameters.
-   * @returns The complete authorization URL with query string.
+   * @param key - The storage key (without namespace prefix).
+   * @param value - The value to store.
    *
    * @internal
    */
-  private static buildAuthorizeUrl(
-    authorizationEndpoint: string,
-    requestMap: Record<string, string | number | boolean | undefined>
-  ): string {
-    const query = Object.entries(requestMap)
-      .filter(
-        (entry): entry is [string, string | number | boolean] =>
-          entry[1] !== undefined && entry[1] !== null
-      )
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-      .join('&');
+  private setWebStorageItem(key: StorageKey, value: string): void {
+    window.sessionStorage.setItem(buildStorageKey(key), value);
+  }
 
-    return `${authorizationEndpoint}?${query}`;
+  /**
+   * Reads a namespaced key from the WebView session store.
+   *
+   * @param key - The storage key (without namespace prefix).
+   * @returns The stored value or null if not found.
+   *
+   * @internal
+   */
+  private getWebStorageItem(key: StorageKey): string | null {
+    return window.sessionStorage.getItem(buildStorageKey(key));
+  }
+
+  /**
+   * Removes a namespaced key from the WebView session store.
+   *
+   * @param key - The storage key (without namespace prefix).
+   *
+   * @internal
+   */
+  private removeWebStorageItem(key: StorageKey): void {
+    window.sessionStorage.removeItem(buildStorageKey(key));
+  }
+
+  /**
+   * Mirrors a namespaced key to native string storage (best-effort).
+   *
+   * @param key - The storage key (without namespace prefix).
+   * @param value - The value to store.
+   *
+   * @internal
+   */
+  private async setNativeStorageItem(key: StorageKey, value: string): Promise<void> {
+    await this.storageModule.setString(buildStorageKey(key), value);
+  }
+
+  /**
+   * Reads a namespaced key from native string storage.
+   *
+   * @param key - The storage key (without namespace prefix).
+   * @returns The stored value or null when not present or not available.
+   *
+   * @internal
+   */
+  private async getNativeStorageItem(key: StorageKey): Promise<string | null> {
+    const response = await this.storageModule.getString(buildStorageKey(key));
+    return response.status_code === 200 ? response.result : null;
+  }
+
+  /**
+   * Removes a namespaced key from native storage (best-effort).
+   *
+   * @param key - The storage key (without namespace prefix).
+   *
+   * @internal
+   */
+  private async removeNativeStorageItem(key: StorageKey): Promise<void> {
+    await this.storageModule.remove(buildStorageKey(key));
   }
 
   /**
@@ -367,12 +442,12 @@ export class IdentityModule extends BaseModule {
     environment: 'staging' | 'production';
   }): Promise<AuthorizeResponse> {
     // Store the current page URL for potential return navigation
-    this.setStorageItem('login_return_uri', window.location.href);
+    await this.setStorageItem(STORAGE_KEYS.loginReturnUri, window.location.href);
 
     // Update the stored redirectUri to match what will be sent to the authorization server
     // This is necessary when falling back from native flow, where the initially stored
     // redirectUri might have been the normalized current URL (for in_place mode)
-    this.setStorageItem('redirect_uri', params.redirectUri);
+    await this.setStorageItem(STORAGE_KEYS.redirectUri, params.redirectUri);
 
     let authorizationEndpoint;
     try {
@@ -395,7 +470,7 @@ export class IdentityModule extends BaseModule {
       code_challenge: params.codeChallenge,
     };
 
-    const authorizeUrl = IdentityModule.buildAuthorizeUrl(authorizationEndpoint, requestMap);
+    const authorizeUrl = buildAuthorizeUrl(authorizationEndpoint, requestMap);
     window.location.assign(authorizeUrl);
 
     return {
@@ -408,7 +483,7 @@ export class IdentityModule extends BaseModule {
    *
    * @param invokeParams - The authorization parameters.
    *
-   * @returns The authorization result, including status and authorization code.
+   * @returns The raw native bridge response (the success payload omits PKCE fields until merged in `authorize()`).
    *
    * @internal
    */
@@ -421,8 +496,8 @@ export class IdentityModule extends BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     responseMode: 'redirect' | 'in_place';
-  }): Promise<AuthorizeResponse> {
-    const response = (await this.invoke({
+  }): Promise<RawNativeAuthorizeResponse> {
+    const bridgeResponse = await this.invoke({
       method: 'authorize',
       params: {
         clientId: invokeParams.clientId,
@@ -434,12 +509,18 @@ export class IdentityModule extends BaseModule {
         codeChallengeMethod: invokeParams.codeChallengeMethod,
         responseMode: invokeParams.responseMode,
       },
-    })) as AuthorizeResponse;
+    });
 
-    const responseError = this.validate(AuthorizeResponseSchema, response);
-    if (responseError) this.logger.warn('authorize', `Unexpected response shape: ${responseError}`);
+    const parsed = safeParse(RawNativeAuthorizeResponseSchema, bridgeResponse);
+    if (!parsed.success) {
+      this.logger.warn(
+        'authorize',
+        `Unexpected native authorize response shape: ${formatIssues(parsed.issues)}`
+      );
+      return bridgeResponse as RawNativeAuthorizeResponse;
+    }
 
-    return response;
+    return parsed.output;
   }
 
   /**
@@ -463,8 +544,9 @@ export class IdentityModule extends BaseModule {
    * - `responseMode: 'redirect'`: Always uses your provided `redirectUri`
    *
    * To ensure successful token exchange (which requires matching `redirectUri` values),
-   * always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`
-   * after authorization completes.
+   * use the `redirectUri` on the `authorize()` success result when `status_code` is `200`,
+   * or retrieve it from `getAuthorizationArtifacts()` after authorization completes
+   * (for example after a web redirect).
    *
    * **Consent Selection Rules (Native vs Web):**
    *
@@ -497,6 +579,9 @@ export class IdentityModule extends BaseModule {
    *     case 200:
    *       console.log('Auth Code:', response.result.code);
    *       console.log('State:', response.result.state);
+   *       console.log('Code verifier (token exchange):', response.result.codeVerifier);
+   *       console.log('Nonce:', response.result.nonce);
+   *       console.log('Redirect URI used:', response.result.redirectUri);
    *       break;
    *     case 204:
    *       console.log('Authorization cancelled');
@@ -529,11 +614,9 @@ export class IdentityModule extends BaseModule {
     const responseMode = request.responseMode || 'redirect';
 
     const actualRedirectUri =
-      responseMode === 'in_place'
-        ? IdentityModule.normalizeUrl(window.location.href)
-        : request.redirectUri;
+      responseMode === 'in_place' ? normalizeUrl(window.location.href) : request.redirectUri;
 
-    this.storePKCEArtifacts({
+    await this.storePKCEArtifacts({
       ...pkceArtifacts,
       redirectUri: actualRedirectUri,
     });
@@ -558,7 +641,7 @@ export class IdentityModule extends BaseModule {
     // Always try native consent first, fallback to web consent if unavailable
     // Note: Native respects responseMode; web always redirects
     try {
-      const nativeResult: AuthorizeResponse = await this.performNativeAuthorization({
+      const nativeResult = await this.performNativeAuthorization({
         ...invokeParams,
         actualRedirectUri,
         responseMode,
@@ -572,9 +655,13 @@ export class IdentityModule extends BaseModule {
         nativeResult.status_code === 500 ||
         nativeResult.status_code === 501
       ) {
-        console.error(
-          `Native authorization returned ${nativeResult.status_code}, falling back to web flow:`,
-          nativeResult.error
+        const detail =
+          'error' in nativeResult && typeof nativeResult.error === 'string'
+            ? `: ${nativeResult.error}`
+            : '';
+        this.logger.error(
+          'authorize',
+          `Native authorization returned ${nativeResult.status_code}, falling back to web flow${detail}`
         );
         // Fallback to web flow
         return this.performWebAuthorization({
@@ -583,10 +670,35 @@ export class IdentityModule extends BaseModule {
         });
       }
 
-      return nativeResult;
+      let responseToReturn: AuthorizeResponse;
+      if (nativeResult.status_code === 200 && nativeResult.result) {
+        responseToReturn = {
+          status_code: 200,
+          result: {
+            code: nativeResult.result.code,
+            state: nativeResult.result.state,
+            codeVerifier: pkceArtifacts.codeVerifier,
+            nonce: pkceArtifacts.nonce,
+            redirectUri: actualRedirectUri,
+          },
+        };
+      } else {
+        responseToReturn = nativeResult as AuthorizeResponse;
+      }
+
+      const responseError = this.validate(AuthorizeResponseSchema, responseToReturn);
+      if (responseError)
+        this.logger.warn('authorize', `Unexpected response shape: ${responseError}`);
+
+      return responseToReturn;
     } catch (error) {
       // Native consent is unavailable, fallback to web flow
-      console.error('Native authorization failed, falling back to web flow:', error);
+      this.logger.error(
+        'authorize',
+        `Native authorization failed, falling back to web flow: ${
+          isErrorWithMessage(error) ? error.message : String(error)
+        }`
+      );
       // Fallback to web flow
       return this.performWebAuthorization({
         ...invokeParams,

@@ -28,11 +28,42 @@ export const AuthorizeRequestSchema = v.object({
 });
 
 /**
+ * Valibot schema for the native bridge `authorize` success payload (before the SDK merges PKCE fields).
+ *
+ * @internal
+ */
+export const NativeAuthorizeResultSchema = v.object({
+  code: v.string(),
+  state: v.string(),
+});
+
+/**
  * Valibot schema for {@link AuthorizeResult}.
  *
  * @public
  */
-export const AuthorizeResultSchema = v.object({ code: v.string(), state: v.string() });
+export const AuthorizeResultSchema = v.object({
+  code: v.string(),
+  state: v.string(),
+  codeVerifier: v.string(),
+  nonce: v.string(),
+  redirectUri: v.string(),
+});
+
+/**
+ * Valibot schema for the raw native `authorize` bridge response before PKCE fields are merged into `result`.
+ *
+ * @internal
+ */
+export const RawNativeAuthorizeResponseSchema = v.union([
+  bridgeOkSchema(NativeAuthorizeResultSchema),
+  bridgeNoContentSchema,
+  bridgeRedirectSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(403),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
 
 /**
  * Valibot schema for {@link AuthorizeResponse}.

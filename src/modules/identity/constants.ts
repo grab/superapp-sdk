@@ -6,7 +6,7 @@
  */
 
 /**
- * Namespace for local storage keys and JSBridge communication.
+ * Namespace for session storage keys, native storage keys, and JSBridge communication.
  *
  * @internal
  */
@@ -49,3 +49,23 @@ export const OPENID_CONFIG_ENDPOINTS = {
   staging: 'https://partner-api.stg-myteksi.com/grabid/v1/oauth2/.well-known/openid-configuration',
   production: 'https://partner-api.grab.com/grabid/v1/oauth2/.well-known/openid-configuration',
 };
+
+/**
+ * Storage keys used by IdentityModule under the `NAMESPACE` prefix.
+ *
+ * @internal
+ */
+export const STORAGE_KEYS = {
+  nonce: 'nonce',
+  state: 'state',
+  codeVerifier: 'code_verifier',
+  redirectUri: 'redirect_uri',
+  loginReturnUri: 'login_return_uri',
+} as const;
+
+/**
+ * Union of allowed storage key strings (IdentityModule session / native storage).
+ *
+ * @internal
+ */
+export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

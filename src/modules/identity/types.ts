@@ -14,6 +14,7 @@ import {
   ClearAuthorizationArtifactsResponseSchema,
   GetAuthorizationArtifactsResponseSchema,
   GetAuthorizationArtifactsResultSchema,
+  NativeAuthorizeResultSchema,
 } from './schemas';
 
 /**
@@ -49,13 +50,17 @@ export type AuthorizeRequest = InferOutput<typeof AuthorizeRequestSchema>;
 
 /**
  * Result object for the authorization flow.
- * Contains the authorization code and state when native in_place flow completes successfully.
+ * Contains the authorization code and state when native in_place flow completes successfully,
+ * plus PKCE values (`codeVerifier`, `nonce`) and the effective `redirectUri` for token exchange.
  *
  * @example
  * ```typescript
  * {
  *   code: 'auth-code-abc123',
- *   state: 'csrf-state-xyz789'
+ *   state: 'csrf-state-xyz789',
+ *   codeVerifier: 'code-verifier-123',
+ *   nonce: 'nonce-abc',
+ *   redirectUri: 'https://your-app.com/callback'
  * }
  * ```
  *
@@ -64,11 +69,32 @@ export type AuthorizeRequest = InferOutput<typeof AuthorizeRequestSchema>;
 export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
 
 /**
+ * Native bridge payload for a successful `authorize` call before the SDK merges PKCE fields.
+ *
+ * @internal
+ */
+export type NativeAuthorizeResult = InferOutput<typeof NativeAuthorizeResultSchema>;
+
+/**
+ * Raw native `authorize` bridge response before the SDK merges PKCE fields into a public {@link AuthorizeResponse}.
+ *
+ * @internal
+ */
+export type RawNativeAuthorizeResponse =
+  | { status_code: 200; result: NativeAuthorizeResult }
+  | { status_code: 204 }
+  | { status_code: 302 }
+  | { status_code: 400; error: string }
+  | { status_code: 403; error: string }
+  | { status_code: 500; error: string }
+  | { status_code: 501; error: string };
+
+/**
  * Response when initiating an authorization flow.
  *
  * @remarks
  * This response can have the following status codes:
- * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code and state.
+ * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code, state, PKCE artifacts, and redirect URI used for token exchange.
  * - `204`: No content - user cancelled or flow completed without result data.
  * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
  * - `400`: Bad request - missing required OAuth parameters or invalid configuration.
@@ -109,6 +135,8 @@ export type GetAuthorizationArtifactsResult = InferOutput<
  * - `200`: All artifacts present. The `result` contains the PKCE artifacts needed for token exchange.
  * - `204`: No artifacts yet - authorization has not been initiated.
  * - `400`: Inconsistent state - possible data corruption in storage.
+ *
+ * When the response is `200`, treat the returned fields as a single coherent set for token exchange.
  *
  * @public
  */

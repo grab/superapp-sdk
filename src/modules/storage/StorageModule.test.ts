@@ -10,9 +10,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { StorageModule } from './StorageModule';
 import {
   GetBooleanResponse,
-  GetDoubleResponse,
-  GetIntResponse,
-  GetStringResponse,
   RemoveAllResponse,
   RemoveResponse,
   SetBooleanResponse,
@@ -114,12 +111,10 @@ describe('StorageModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetBooleanResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: true },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: true,
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -131,21 +126,19 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getBoolean', { key: 'isDarkMode' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe(true);
+        expect(response.result).toBe(true);
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
+    it('should transform 200 with null value to 204 when key does not exist (iOS)', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetBooleanResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: null },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: null,
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -154,10 +147,46 @@ describe('StorageModule', () => {
       const module = new StorageModule();
       const response = await module.getBoolean('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
-      }
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should transform 200 with undefined value to 204 when key does not exist (iOS)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 200,
+        result: undefined,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getBoolean('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should pass through 204 when key does not exist (Android)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 204,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getBoolean('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
     });
 
     it('should return 400 when key is missing', async () => {
@@ -267,12 +296,10 @@ describe('StorageModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetIntResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: 42 },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: 42,
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -284,21 +311,19 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getInt', { key: 'userCount' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe(42);
+        expect(response.result).toBe(42);
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
+    it('should transform 200 with null value to 204 when key does not exist (iOS)', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetIntResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: null },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: null,
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -307,10 +332,46 @@ describe('StorageModule', () => {
       const module = new StorageModule();
       const response = await module.getInt('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
-      }
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should transform 200 with undefined value to 204 when key does not exist (iOS)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 200,
+        result: undefined,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getInt('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should pass through 204 when key does not exist (Android)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 204,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getInt('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
     });
   });
 
@@ -398,12 +459,10 @@ describe('StorageModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetStringResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: 'john_doe' },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: 'john_doe',
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -415,21 +474,19 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getString', { key: 'username' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe('john_doe');
+        expect(response.result).toBe('john_doe');
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
+    it('should transform 200 with null value to 204 when key does not exist (iOS)', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetStringResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: null },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: null,
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -438,10 +495,46 @@ describe('StorageModule', () => {
       const module = new StorageModule();
       const response = await module.getString('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
-      }
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should transform 200 with undefined value to 204 when key does not exist (iOS)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 200,
+        result: undefined,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getString('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should pass through 204 when key does not exist (Android)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 204,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getString('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
     });
   });
 
@@ -529,12 +622,10 @@ describe('StorageModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetDoubleResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: 19.99 },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: 19.99,
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -546,21 +637,19 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getDouble', { key: 'price' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe(19.99);
+        expect(response.result).toBe(19.99);
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
+    it('should transform 200 with null value to 204 when key does not exist (iOS)', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: GetDoubleResponse = {
+      const mockInvoke = vi.fn().mockResolvedValue({
         status_code: 200,
-        result: { value: null },
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        result: null,
+      });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
         invoke: mockInvoke,
@@ -569,10 +658,46 @@ describe('StorageModule', () => {
       const module = new StorageModule();
       const response = await module.getDouble('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
-      }
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should transform 200 with undefined value to 204 when key does not exist (iOS)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 200,
+        result: undefined,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getDouble('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+    });
+
+    it('should pass through 204 when key does not exist (Android)', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 204,
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new StorageModule();
+      const response = await module.getDouble('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
     });
   });
 
