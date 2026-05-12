@@ -33,9 +33,9 @@ describe('DeviceModule', () => {
       }
     });
 
-    it('should return 426 when app version is below 5.402', async () => {
+    it('should return 426 when app version is below 5.409', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.401.0 (iPhone; iOS 16.0)',
+        userAgent: 'Grab/5.408.0 (iPhone; iOS 16.0)',
       });
 
       const module = new DeviceModule();
@@ -51,7 +51,7 @@ describe('DeviceModule', () => {
 
     it('should return 200 with true when eSIM is supported', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.402.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.409.0 (Android 13; SM-G998B)',
       });
 
       const mockResponse: IsEsimSupportedResponse = {
@@ -77,7 +77,7 @@ describe('DeviceModule', () => {
 
     it('should return 200 with false when eSIM is not supported', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.402.0 (iPhone; iOS 16.0)',
+        userAgent: 'Grab/5.409.0 (iPhone; iOS 16.0)',
       });
 
       const mockResponse: IsEsimSupportedResponse = {
@@ -103,7 +103,7 @@ describe('DeviceModule', () => {
 
     it('should return 403 when bridge returns forbidden', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.402.0 (iPhone; iOS 16.0)',
+        userAgent: 'Grab/5.409.0 (iPhone; iOS 16.0)',
       });
 
       const mockResponse: IsEsimSupportedResponse = {
@@ -129,7 +129,7 @@ describe('DeviceModule', () => {
 
     it('should return 424 when bridge returns failed dependency', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.402.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.409.0 (Android 13; SM-G998B)',
       });
 
       const mockResponse: IsEsimSupportedResponse = {
@@ -155,7 +155,7 @@ describe('DeviceModule', () => {
 
     it('should return 500 when an unexpected error occurs', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.402.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.409.0 (Android 13; SM-G998B)',
       });
 
       const mockInvoke = vi.fn().mockImplementation(() => {
