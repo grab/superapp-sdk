@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.50] - 2026-05-12
+
+### Changed
+
+- `IdentityModule.authorize`: `200` responses now include the PKCE artifacts (`codeVerifier`, `nonce`, `redirectUri`) in `result` alongside `code` and `state`, so callers no longer need to call `getAuthorizationArtifacts()` after a successful in_place flow. Storage writes are unchanged, so `getAuthorizationArtifacts()` remains available as a fallback.
+
 ## [2.0.0-beta.49] - 2026-05-12
 
 ### Changed

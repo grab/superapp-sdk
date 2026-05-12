@@ -61,14 +61,24 @@ init();
 
 Trigger `IdentityModule.authorize()` to start the authorization process and request user permissions.
 
-Once the user consents, retrieve the authorization artifacts (which include the `code`, `state`, `nonce`, and PKCE `codeVerifier`) via `IdentityModule.getAuthorizationArtifacts()`.
+When authorization completes with `status_code: 200` (native `in_place` flow), `response.result` already includes `code`, `state`, and the PKCE values (`codeVerifier`, `nonce`, `redirectUri`), so you do not need `getAuthorizationArtifacts()`.
 
-Forward these artifacts to your backend to exchange the token, validate the `id_token`, fetch user info, and establish the user's session.
+If the flow uses the web redirect instead (`status_code: 302`), the page navigates away; after the redirect lands on your callback URL, read the `code` from the query string and retrieve the stored PKCE artifacts with `IdentityModule.getAuthorizationArtifacts()`.
+
+In either case, send those values to your backend so it can exchange the authorization code for tokens, validate the `id_token`, fetch user info, and establish the user's session.
 
 After the session is established, call `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` so your MiniApp can begin using the newly granted permissions.
 
+Use `isRedirection` for `302`: that branch is separate from `isSuccess`, which only matches `200` and `204` for `authorize()`.
+
 ```typescript
-import { IdentityModule, ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+import {
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+  isRedirection,
+} from '@grabjs/superapp-sdk';
 
 const identity = new IdentityModule();
 const scope = new ScopeModule();
@@ -84,23 +94,23 @@ async function signIn() {
 
   if (isSuccess(response)) {
     if (response.status_code === 200) {
-      // 1. Retrieve authorization artifacts
-      const artifacts = await identity.getAuthorizationArtifacts();
-      if (isSuccess(artifacts)) {
-        const { codeVerifier, nonce, redirectUri } = artifacts.result;
-        const { code } = response.result;
+      const { code, state, codeVerifier, nonce, redirectUri } = response.result;
 
-        // 2. Send the artifacts to your backend for token exchange (see Backend Token Exchange section below)
-        // await myBackend.exchangeTokens({ code, codeVerifier, nonce, redirectUri });
+      // 1. Send the values to your backend for token exchange (see Backend Token Exchange section below)
+      // await myBackend.exchangeTokens({ code, codeVerifier, nonce, redirectUri, state });
 
-        // 3. Clear artifacts and reload scopes
-        await identity.clearAuthorizationArtifacts();
-        await scope.reloadScopes();
-      }
+      // 2. Clear artifacts and reload scopes
+      await identity.clearAuthorizationArtifacts();
+      await scope.reloadScopes();
     } else if (response.status_code === 204) {
       // User cancelled the authorization flow
       await identity.clearAuthorizationArtifacts();
     }
+  } else if (isRedirection(response)) {
+    // `302`: web consent — the SDK redirected the browser to GrabID. After the user returns to
+    // `redirectUri` with `?code=...&state=...`, read the code from the URL and call
+    // `getAuthorizationArtifacts()` for PKCE values, then exchange tokens (see paragraphs above).
+    return;
   } else if (isError(response)) {
     console.error('Authorization failed:', response.error);
     await identity.clearAuthorizationArtifacts();
