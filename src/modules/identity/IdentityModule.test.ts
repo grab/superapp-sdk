@@ -12,21 +12,22 @@ import type { RawAuthorizeResponse } from './types';
 
 describe('IdentityModule', () => {
   describe('getAuthorizationArtifacts', () => {
-    let mockLocalStorage: Record<string, string>;
+    let mockSessionStorage: Record<string, string>;
 
     afterEach(() => {
       vi.unstubAllGlobals();
+      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
     });
 
     it('should return 204 when no artifacts exist', async () => {
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -37,19 +38,19 @@ describe('IdentityModule', () => {
     });
 
     it('should return 200 when all artifacts exist', async () => {
-      mockLocalStorage = {
+      mockSessionStorage = {
         'grabid:state': 'state-123',
         'grabid:code_verifier': 'verifier-456',
         'grabid:nonce': 'nonce-789',
         'grabid:redirect_uri': 'https://app.example.com/callback',
       };
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -66,17 +67,17 @@ describe('IdentityModule', () => {
     });
 
     it('should return 400 when artifacts are inconsistent', async () => {
-      mockLocalStorage = {
+      mockSessionStorage = {
         'grabid:state': 'state-123',
         'grabid:nonce': 'nonce-789',
       };
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -88,30 +89,94 @@ describe('IdentityModule', () => {
         expect(response.error).toBe('Inconsistent authorization artifacts in storage');
       }
     });
+
+    it('should read artifacts from grab_storage when pkceStorage is grab_storage', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+      });
+
+      const artifactValues: Record<string, string> = {
+        'grabid:state': 'state-grab',
+        'grabid:code_verifier': 'verifier-grab',
+        'grabid:nonce': 'nonce-grab',
+        'grabid:redirect_uri': 'https://app.example.com/cb',
+      };
+
+      const mockInvoke = vi.fn().mockImplementation((method: string, params: { key: string }) => {
+        if (method !== 'getString') {
+          return Promise.resolve({ status_code: 501, error: 'unexpected method' });
+        }
+        const value = artifactValues[params.key];
+        return Promise.resolve(
+          value !== undefined
+            ? { status_code: 200, result: value }
+            : { status_code: 204 }
+        );
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new IdentityModule();
+      const response = await module.getAuthorizationArtifacts({ pkceStorage: 'grab_storage' });
+
+      expect(response.status_code).toBe(200);
+      if (response.status_code === 200) {
+        expect(response.result.state).toBe('state-grab');
+        expect(response.result.codeVerifier).toBe('verifier-grab');
+        expect(response.result.nonce).toBe('nonce-grab');
+        expect(response.result.redirectUri).toBe('https://app.example.com/cb');
+      }
+    });
+
+    it('should propagate native storage errors when pkceStorage is grab_storage', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockInvoke = vi.fn().mockResolvedValue({
+        status_code: 424,
+        error: 'Storage unavailable',
+      });
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new IdentityModule();
+      const response = await module.getAuthorizationArtifacts({ pkceStorage: 'grab_storage' });
+
+      expect(response.status_code).toBe(424);
+      if (response.status_code === 424) {
+        expect(response.error).toBe('Storage unavailable');
+      }
+    });
   });
 
   describe('clearAuthorizationArtifacts', () => {
-    let mockLocalStorage: Record<string, string>;
+    let mockSessionStorage: Record<string, string>;
 
     afterEach(() => {
       vi.unstubAllGlobals();
+      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
     });
 
     it('should return 204 and clear all artifacts', async () => {
-      mockLocalStorage = {
+      mockSessionStorage = {
         'grabid:state': 'state-123',
         'grabid:code_verifier': 'verifier-456',
         'grabid:nonce': 'nonce-789',
         'grabid:redirect_uri': 'https://app.example.com/callback',
         'grabid:login_return_uri': 'https://app.example.com/',
       };
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -119,20 +184,21 @@ describe('IdentityModule', () => {
       const response = await module.clearAuthorizationArtifacts();
 
       expect(response.status_code).toBe(204);
-      expect(mockLocalStorage['grabid:state']).toBeUndefined();
-      expect(mockLocalStorage['grabid:code_verifier']).toBeUndefined();
-      expect(mockLocalStorage['grabid:nonce']).toBeUndefined();
-      expect(mockLocalStorage['grabid:redirect_uri']).toBeUndefined();
-      expect(mockLocalStorage['grabid:login_return_uri']).toBeUndefined();
+      expect(mockSessionStorage['grabid:state']).toBeUndefined();
+      expect(mockSessionStorage['grabid:code_verifier']).toBeUndefined();
+      expect(mockSessionStorage['grabid:nonce']).toBeUndefined();
+      expect(mockSessionStorage['grabid:redirect_uri']).toBeUndefined();
+      expect(mockSessionStorage['grabid:login_return_uri']).toBeUndefined();
     });
   });
 
   describe('authorize', () => {
-    let mockLocalStorage: Record<string, string>;
+    let mockSessionStorage: Record<string, string>;
 
     afterEach(() => {
       vi.unstubAllGlobals();
       delete (window as unknown as Record<string, unknown>).WrappedIdentityModule;
+      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
     });
 
     it('should return 400 when request is null', async () => {
@@ -229,14 +295,14 @@ describe('IdentityModule', () => {
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -267,7 +333,7 @@ describe('IdentityModule', () => {
         'https://partner-api.grab.com/grabid/v1/oauth2/.well-known/openid-configuration'
       );
       expect(mockAssign).toHaveBeenCalled();
-      expect(mockLocalStorage['grabid:redirect_uri']).toBe('https://app.example.com/callback');
+      expect(mockSessionStorage['grabid:redirect_uri']).toBe('https://app.example.com/callback');
     });
 
     it('should return 200 with native consent in Grab app (iOS)', async () => {
@@ -275,14 +341,14 @@ describe('IdentityModule', () => {
         userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -317,10 +383,10 @@ describe('IdentityModule', () => {
       if (response.status_code === 200) {
         expect(response.result.code).toBe('auth-code-abc123');
         expect(response.result.state).toBe('state-xyz789');
-        expect(response.result.codeVerifier).toBe(mockLocalStorage['grabid:code_verifier']);
-        expect(response.result.nonce).toBe(mockLocalStorage['grabid:nonce']);
+        expect(response.result.codeVerifier).toBe(mockSessionStorage['grabid:code_verifier']);
+        expect(response.result.nonce).toBe(mockSessionStorage['grabid:nonce']);
         expect(response.result.redirectUri).toBe('https://app.example.com/');
-        expect(response.result.redirectUri).toBe(mockLocalStorage['grabid:redirect_uri']);
+        expect(response.result.redirectUri).toBe(mockSessionStorage['grabid:redirect_uri']);
       }
       expect(mockInvoke).toHaveBeenCalledWith(
         'authorize',
@@ -337,14 +403,14 @@ describe('IdentityModule', () => {
         userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -384,14 +450,14 @@ describe('IdentityModule', () => {
         userAgent: 'Grab/5.399.0 (Android 13; SM-G998B)',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -425,14 +491,14 @@ describe('IdentityModule', () => {
         userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -479,14 +545,14 @@ describe('IdentityModule', () => {
         userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -530,14 +596,14 @@ describe('IdentityModule', () => {
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -571,14 +637,14 @@ describe('IdentityModule', () => {
         userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
       });
 
-      mockLocalStorage = {};
-      vi.stubGlobal('localStorage', {
-        getItem: (key: string) => mockLocalStorage[key] ?? null,
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
         setItem: (key: string, value: string) => {
-          mockLocalStorage[key] = value;
+          mockSessionStorage[key] = value;
         },
         removeItem: (key: string) => {
-          delete mockLocalStorage[key];
+          delete mockSessionStorage[key];
         },
       });
 
@@ -613,10 +679,81 @@ describe('IdentityModule', () => {
         expect(response.result.code).toBe('staging-auth-code');
         expect(response.result.state).toBe('staging-state');
         expect(response.result.redirectUri).toBe('https://staging-app.example.com/callback');
-        expect(response.result.redirectUri).toBe(mockLocalStorage['grabid:redirect_uri']);
-        expect(response.result.codeVerifier).toBe(mockLocalStorage['grabid:code_verifier']);
-        expect(response.result.nonce).toBe(mockLocalStorage['grabid:nonce']);
+        expect(response.result.redirectUri).toBe(mockSessionStorage['grabid:redirect_uri']);
+        expect(response.result.codeVerifier).toBe(mockSessionStorage['grabid:code_verifier']);
+        expect(response.result.nonce).toBe(mockSessionStorage['grabid:nonce']);
       }
+    });
+
+    it('should return 501 when pkceStorage is grab_storage outside Grab app', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
+      });
+
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
+        setItem: (key: string, value: string) => {
+          mockSessionStorage[key] = value;
+        },
+        removeItem: (key: string) => {
+          delete mockSessionStorage[key];
+        },
+      });
+
+      const module = new IdentityModule();
+      const response = await module.authorize({
+        clientId: 'client-123',
+        redirectUri: 'https://app.example.com/callback',
+        scope: 'openid',
+        environment: 'production',
+        pkceStorage: 'grab_storage',
+      });
+
+      expect(response.status_code).toBe(501);
+      if (response.status_code === 501) {
+        expect(response.error).toBe(
+          'Not implemented: This method requires the Grab app environment'
+        );
+      }
+    });
+
+    it('should return 424 when grab_storage setString fails during authorize', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+      });
+
+      mockSessionStorage = {};
+      vi.stubGlobal('sessionStorage', {
+        getItem: (key: string) => mockSessionStorage[key] ?? null,
+        setItem: (key: string, value: string) => {
+          mockSessionStorage[key] = value;
+        },
+        removeItem: (key: string) => {
+          delete mockSessionStorage[key];
+        },
+      });
+
+      const storageInvoke = vi.fn().mockResolvedValue({
+        status_code: 424,
+        error: 'Storage unavailable',
+      });
+
+      (window as unknown as Record<string, { invoke: typeof storageInvoke }>).WrappedStorageModule = {
+        invoke: storageInvoke,
+      };
+
+      const module = new IdentityModule();
+      const response = await module.authorize({
+        clientId: 'client-123',
+        redirectUri: 'https://app.example.com/callback',
+        scope: 'openid profile',
+        environment: 'production',
+        pkceStorage: 'grab_storage',
+      });
+
+      expect(response.status_code).toBe(424);
+      expect(storageInvoke).toHaveBeenCalled();
     });
   });
 });

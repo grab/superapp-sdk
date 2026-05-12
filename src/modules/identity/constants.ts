@@ -6,7 +6,7 @@
  */
 
 /**
- * Namespace for local storage keys and JSBridge communication.
+ * Namespace for PKCE storage keys.
  *
  * @internal
  */

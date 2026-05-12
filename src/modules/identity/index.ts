@@ -7,19 +7,26 @@
 
 export { IdentityModule } from './IdentityModule';
 export {
+  AuthorizationArtifactsStorageRequestSchema,
   AuthorizeRequestSchema,
   AuthorizeResponseSchema,
   AuthorizeResultSchema,
+  ClearAuthorizationArtifactsRequestSchema,
   ClearAuthorizationArtifactsResponseSchema,
+  GetAuthorizationArtifactsRequestSchema,
   GetAuthorizationArtifactsResponseSchema,
   GetAuthorizationArtifactsResultSchema,
+  PkceStorageSchema,
 } from './schemas';
 export type {
   AuthorizeRequest,
   AuthorizeResponse,
   AuthorizeResult,
+  ClearAuthorizationArtifactsRequest,
   ClearAuthorizationArtifactsResponse,
   ClearAuthorizationArtifactsResult,
+  GetAuthorizationArtifactsRequest,
   GetAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResult,
+  PkceStorage,
 } from './types';

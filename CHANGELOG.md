@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.51] - 2026-05-12
+
+### Added
+
+- `pkceStorage` option on `IdentityModule.authorize` (`AuthorizeRequest`): `web_session_storage` (default) or `grab_storage` (native storage via `StorageModule`, requires `mobile.storage` scope).
+- Optional `{ pkceStorage }` argument on `getAuthorizationArtifacts` and `clearAuthorizationArtifacts` so reads and clears use the same backend as `authorize`.
+- Exported schemas: `PkceStorageSchema`, `AuthorizationArtifactsStorageRequestSchema`, `GetAuthorizationArtifactsRequestSchema`, `ClearAuthorizationArtifactsRequestSchema`; types: `PkceStorage`, `GetAuthorizationArtifactsRequest`, `ClearAuthorizationArtifactsRequest`.
+- `424` / `500` / `501` error variants on `authorize`, `getAuthorizationArtifacts`, and `clearAuthorizationArtifacts` responses when native PKCE storage fails.
+
+### Changed
+
+- **Breaking:** PKCE authorization artifacts now default to `window.sessionStorage` instead of `window.localStorage` (same `grabid:` key names). MiniApps that relied on `localStorage` persistence across tabs must set `pkceStorage: 'grab_storage'` or migrate reads to session storage.
+
 ## [2.0.0-beta.50] - 2026-05-12
 
 ### Changed

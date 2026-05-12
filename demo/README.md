@@ -72,6 +72,8 @@ To run and test this code, please coordinate with the Grab team to provision you
 
 ## Integration Flow
 
+The demos use the default PKCE storage (`web_session_storage`, i.e. `window.sessionStorage`). To use native `StorageModule` instead, pass `pkceStorage: 'grab_storage'` to `authorize()` and the same value to `getAuthorizationArtifacts` / `clearAuthorizationArtifacts` where applicable.
+
 ```mermaid
 sequenceDiagram
     participant User

@@ -15,6 +15,36 @@ import {
 } from '../../core';
 
 /**
+ * Optional PKCE artifact storage backend for identity flows.
+ *
+ * @public
+ */
+export const PkceStorageSchema = v.picklist(['web_session_storage', 'grab_storage']);
+
+/**
+ * Request body shared by {@link GetAuthorizationArtifactsRequest} and {@link ClearAuthorizationArtifactsRequest}.
+ *
+ * @public
+ */
+export const AuthorizationArtifactsStorageRequestSchema = v.object({
+  pkceStorage: v.optional(PkceStorageSchema),
+});
+
+/**
+ * Valibot schema for {@link GetAuthorizationArtifactsRequest}.
+ *
+ * @public
+ */
+export const GetAuthorizationArtifactsRequestSchema = AuthorizationArtifactsStorageRequestSchema;
+
+/**
+ * Valibot schema for {@link ClearAuthorizationArtifactsRequest}.
+ *
+ * @public
+ */
+export const ClearAuthorizationArtifactsRequestSchema = AuthorizationArtifactsStorageRequestSchema;
+
+/**
  * Valibot schema for {@link AuthorizeRequest}.
  *
  * @public
@@ -25,6 +55,7 @@ export const AuthorizeRequestSchema = v.object({
   scope: v.pipe(v.string(), v.minLength(1)),
   environment: v.picklist(['staging', 'production']),
   responseMode: v.optional(v.picklist(['redirect', 'in_place'])),
+  pkceStorage: v.optional(PkceStorageSchema),
 });
 
 const RawAuthorizeResultSchema = v.object({
@@ -71,6 +102,7 @@ export const AuthorizeResponseSchema = v.union([
   bridgeRedirectSchema,
   bridgeErrorSchema(400),
   bridgeErrorSchema(403),
+  bridgeErrorSchema(424),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);
@@ -96,6 +128,9 @@ export const GetAuthorizationArtifactsResponseSchema = v.union([
   bridgeOkSchema(GetAuthorizationArtifactsResultSchema),
   bridgeNoContentSchema,
   bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
 ]);
 
 /**
@@ -103,4 +138,10 @@ export const GetAuthorizationArtifactsResponseSchema = v.union([
  *
  * @public
  */
-export const ClearAuthorizationArtifactsResponseSchema = v.union([bridgeNoContentSchema]);
+export const ClearAuthorizationArtifactsResponseSchema = v.union([
+  bridgeNoContentSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);

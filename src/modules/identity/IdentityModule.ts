@@ -17,18 +17,32 @@ import { meetsMinimumVersion, Version } from '../../utils/version';
 import {
   CODE_CHALLENGE_METHOD,
   CODE_VERIFIER_LENGTH,
-  NAMESPACE,
   NONCE_LENGTH,
   OPENID_CONFIG_ENDPOINTS,
   STATE_LENGTH,
 } from './constants';
 import { AuthorizationConfigurationError } from './errors';
-import { AuthorizeRequestSchema, RawAuthorizeResponseSchema } from './schemas';
+import {
+  AuthorizeRequestSchema,
+  ClearAuthorizationArtifactsRequestSchema,
+  GetAuthorizationArtifactsRequestSchema,
+  RawAuthorizeResponseSchema,
+} from './schemas';
+import {
+  pkceGetItem,
+  pkceRemoveItem,
+  pkceSetItem,
+  resolvePkceStorage,
+} from './storage';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
+  ClearAuthorizationArtifactsRequest,
   ClearAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsRequest,
   GetAuthorizationArtifactsResponse,
+  PkceStorage,
+  PkceWriteResult,
   RawAuthorizeResponse,
 } from './types';
 
@@ -138,27 +152,44 @@ export class IdentityModule extends BaseModule {
   }
 
   /**
-   * Stores PKCE artifacts in local storage for later retrieval during token exchange.
+   * Stores PKCE artifacts for later retrieval during token exchange.
    *
+   * @param kind - Storage backend selected for this flow.
    * @param artifacts - The PKCE artifacts to store, including nonce, state, code verifier, and redirect URI.
+   * @returns Success, or a bridge-style error if a write failed.
    *
    * @internal
    */
-  private storePKCEArtifacts(artifacts: {
-    nonce: string;
-    state: string;
-    codeVerifier: string;
-    redirectUri: string;
-  }): void {
-    this.setStorageItem('nonce', artifacts.nonce);
-    this.setStorageItem('state', artifacts.state);
-    this.setStorageItem('code_verifier', artifacts.codeVerifier);
-    this.setStorageItem('redirect_uri', artifacts.redirectUri);
+  private async storePKCEArtifacts(
+    kind: PkceStorage,
+    artifacts: {
+      nonce: string;
+      state: string;
+      codeVerifier: string;
+      redirectUri: string;
+    }
+  ): Promise<PkceWriteResult> {
+    const entries: [string, string][] = [
+      ['nonce', artifacts.nonce],
+      ['state', artifacts.state],
+      ['code_verifier', artifacts.codeVerifier],
+      ['redirect_uri', artifacts.redirectUri],
+    ];
+
+    for (const [key, value] of entries) {
+      const result = await pkceSetItem(kind, key, value);
+      if (!result.ok) return result;
+    }
+
+    return { ok: true };
   }
 
   /**
-   * Retrieves stored PKCE authorization artifacts from local storage.
+   * Retrieves stored PKCE authorization artifacts.
    * These artifacts are used to complete the OAuth2 authorization code exchange.
+   *
+   * @param request - Optional storage selector. Use the same `pkceStorage` as {@link IdentityModule.authorize}.
+   *   When omitted, defaults to `web_session_storage` (`window.sessionStorage`).
    *
    * @returns The stored PKCE artifacts including state, code verifier, nonce, and redirect URI. See {@link GetAuthorizationArtifactsResponse}.
    *
@@ -167,6 +198,9 @@ export class IdentityModule extends BaseModule {
    * that was sent to the authorization server. This may differ from the `redirectUri`
    * you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow.
    * You must use this returned `redirectUri` for token exchange to ensure OAuth compliance.
+   *
+   * **PKCE storage:** Defaults to `web_session_storage`. Use `grab_storage` only when you passed
+   * `pkceStorage: 'grab_storage'` to `authorize()` (requires `mobile.storage` scope). There is no automatic fallback.
    *
    * @example
    * **Simple usage**
@@ -204,11 +238,36 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse> {
-    const state = this.getStorageItem('state');
-    const codeVerifier = this.getStorageItem('code_verifier');
-    const nonce = this.getStorageItem('nonce');
-    const redirectUri = this.getStorageItem('redirect_uri');
+  async getAuthorizationArtifacts(
+    request?: GetAuthorizationArtifactsRequest
+  ): Promise<GetAuthorizationArtifactsResponse> {
+    if (request !== undefined) {
+      const requestError = this.validate(GetAuthorizationArtifactsRequestSchema, request);
+      if (requestError) return { status_code: 400, error: requestError };
+    }
+
+    const kind = resolvePkceStorage(request?.pkceStorage);
+
+    const stateRes = await pkceGetItem(kind, 'state');
+    if (!stateRes.ok) return { status_code: stateRes.status_code, error: stateRes.error };
+
+    const codeVerifierRes = await pkceGetItem(kind, 'code_verifier');
+    if (!codeVerifierRes.ok) {
+      return { status_code: codeVerifierRes.status_code, error: codeVerifierRes.error };
+    }
+
+    const nonceRes = await pkceGetItem(kind, 'nonce');
+    if (!nonceRes.ok) return { status_code: nonceRes.status_code, error: nonceRes.error };
+
+    const redirectUriRes = await pkceGetItem(kind, 'redirect_uri');
+    if (!redirectUriRes.ok) {
+      return { status_code: redirectUriRes.status_code, error: redirectUriRes.error };
+    }
+
+    const state = stateRes.value;
+    const codeVerifier = codeVerifierRes.value;
+    const nonce = nonceRes.value;
+    const redirectUri = redirectUriRes.value;
 
     if (state === null && codeVerifier === null && nonce === null && redirectUri === null) {
       return { status_code: 204 };
@@ -228,9 +287,12 @@ export class IdentityModule extends BaseModule {
   }
 
   /**
-   * Clears all stored PKCE authorization artifacts from local storage.
+   * Clears all stored PKCE authorization artifacts for the selected storage backend.
    * This should be called after a successful token exchange or when you need to
    * reset the authorization state (e.g., on error or logout).
+   *
+   * @param request - Optional storage selector. Use the same `pkceStorage` as {@link IdentityModule.authorize}.
+   *   When omitted, defaults to `web_session_storage` (`window.sessionStorage`).
    *
    * @returns Confirmation that the authorization artifacts have been cleared. See {@link ClearAuthorizationArtifactsResponse}.
    *
@@ -253,40 +315,25 @@ export class IdentityModule extends BaseModule {
    *
    * @public
    */
-  async clearAuthorizationArtifacts(): Promise<ClearAuthorizationArtifactsResponse> {
-    window.localStorage.removeItem(`${NAMESPACE}:nonce`);
-    window.localStorage.removeItem(`${NAMESPACE}:state`);
-    window.localStorage.removeItem(`${NAMESPACE}:code_verifier`);
-    window.localStorage.removeItem(`${NAMESPACE}:redirect_uri`);
-    window.localStorage.removeItem(`${NAMESPACE}:login_return_uri`);
+  async clearAuthorizationArtifacts(
+    request?: ClearAuthorizationArtifactsRequest
+  ): Promise<ClearAuthorizationArtifactsResponse> {
+    if (request !== undefined) {
+      const requestError = this.validate(ClearAuthorizationArtifactsRequestSchema, request);
+      if (requestError) return { status_code: 400, error: requestError };
+    }
+
+    const kind = resolvePkceStorage(request?.pkceStorage);
+    const keys = ['nonce', 'state', 'code_verifier', 'redirect_uri', 'login_return_uri'] as const;
+
+    for (const key of keys) {
+      const result = await pkceRemoveItem(kind, key);
+      if (!result.ok) return { status_code: result.status_code, error: result.error };
+    }
 
     return {
       status_code: 204,
     };
-  }
-
-  /**
-   * Stores a value in local storage with the GrabID namespace prefix.
-   *
-   * @param key - The storage key (without namespace prefix).
-   * @param value - The value to store.
-   *
-   * @internal
-   */
-  private setStorageItem(key: string, value: string): void {
-    window.localStorage.setItem(`${NAMESPACE}:${key}`, value);
-  }
-
-  /**
-   * Retrieves a value from local storage with the GrabID namespace prefix.
-   *
-   * @param key - The storage key (without namespace prefix).
-   * @returns The stored value or null if not found.
-   *
-   * @internal
-   */
-  private getStorageItem(key: string): string | null {
-    return window.localStorage.getItem(`${NAMESPACE}:${key}`);
   }
 
   /**
@@ -366,14 +413,28 @@ export class IdentityModule extends BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     environment: 'staging' | 'production';
+    pkceStorageKind: PkceStorage;
   }): Promise<AuthorizeResponse> {
-    // Store the current page URL for potential return navigation
-    this.setStorageItem('login_return_uri', window.location.href);
+    const loginUriResult = await pkceSetItem(
+      params.pkceStorageKind,
+      'login_return_uri',
+      window.location.href
+    );
+    if (!loginUriResult.ok) {
+      return { status_code: loginUriResult.status_code, error: loginUriResult.error };
+    }
 
     // Update the stored redirectUri to match what will be sent to the authorization server
     // This is necessary when falling back from native flow, where the initially stored
     // redirectUri might have been the normalized current URL (for in_place mode)
-    this.setStorageItem('redirect_uri', params.redirectUri);
+    const redirectResult = await pkceSetItem(
+      params.pkceStorageKind,
+      'redirect_uri',
+      params.redirectUri
+    );
+    if (!redirectResult.ok) {
+      return { status_code: redirectResult.status_code, error: redirectResult.error };
+    }
 
     let authorizationEndpoint;
     try {
@@ -470,6 +531,12 @@ export class IdentityModule extends BaseModule {
    * For the web redirect flow (`302`), retrieve artifacts from `getAuthorizationArtifacts()` after
    * the redirect round-trip completes.
    *
+   * **PKCE storage (`pkceStorage`):**
+   *
+   * - Defaults to `web_session_storage` (`window.sessionStorage` with the `grabid:` key prefix).
+   * - Use `grab_storage` to persist PKCE artifacts via {@link StorageModule} (requires `mobile.storage` scope).
+   *   If native storage fails, the error is returned to the caller; there is no automatic fallback.
+   *
    * **Consent Selection Rules (Native vs Web):**
    *
    * - If the user agent does not match the Grab app pattern, the SDK uses web consent
@@ -533,6 +600,8 @@ export class IdentityModule extends BaseModule {
     const requestError = this.validate(AuthorizeRequestSchema, request);
     if (requestError) return { status_code: 400, error: requestError };
 
+    const pkceStorageKind = resolvePkceStorage(request.pkceStorage);
+
     const pkceArtifacts = await this.generatePKCEArtifacts();
 
     const responseMode = request.responseMode || 'redirect';
@@ -542,10 +611,13 @@ export class IdentityModule extends BaseModule {
         ? IdentityModule.normalizeUrl(window.location.href)
         : request.redirectUri;
 
-    this.storePKCEArtifacts({
+    const storeResult = await this.storePKCEArtifacts(pkceStorageKind, {
       ...pkceArtifacts,
       redirectUri: actualRedirectUri,
     });
+    if (!storeResult.ok) {
+      return { status_code: storeResult.status_code, error: storeResult.error };
+    }
 
     const invokeParams = {
       clientId: request.clientId,
@@ -561,6 +633,7 @@ export class IdentityModule extends BaseModule {
       return this.performWebAuthorization({
         ...invokeParams,
         environment: request.environment,
+        pkceStorageKind,
       });
     }
 
@@ -602,6 +675,7 @@ export class IdentityModule extends BaseModule {
         return this.performWebAuthorization({
           ...invokeParams,
           environment: request.environment,
+          pkceStorageKind,
         });
       }
 
@@ -613,6 +687,7 @@ export class IdentityModule extends BaseModule {
       return this.performWebAuthorization({
         ...invokeParams,
         environment: request.environment,
+        pkceStorageKind,
       });
     }
   }

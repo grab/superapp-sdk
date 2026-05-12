@@ -65,6 +65,8 @@ When authorization completes with `status_code: 200` (native `in_place` flow), `
 
 If the flow uses the web redirect instead (`status_code: 302`), the page navigates away; after the redirect lands on your callback URL, read the `code` from the query string and retrieve the stored PKCE artifacts with `IdentityModule.getAuthorizationArtifacts()`.
 
+By default, PKCE values are stored in `window.sessionStorage` (key prefix `grabid:`). You can set `pkceStorage: 'grab_storage'` on `authorize()` to persist them with `StorageModule` instead (requires the `mobile.storage` scope). If you do, pass the same `pkceStorage` to `getAuthorizationArtifacts()` and `clearAuthorizationArtifacts()`. Native storage errors are returned to your app; the SDK does not fall back to session storage automatically.
+
 In either case, send those values to your backend so it can exchange the authorization code for tokens, validate the `id_token`, fetch user info, and establish the user's session.
 
 After the session is established, call `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` so your MiniApp can begin using the newly granted permissions.

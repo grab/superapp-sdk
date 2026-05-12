@@ -117,21 +117,30 @@ export {
   DownloadFileResult,
   FileModule,
 } from './modules/file';
-export {
+export type {
   AuthorizeRequest,
-  AuthorizeRequestSchema,
   AuthorizeResponse,
-  AuthorizeResponseSchema,
   AuthorizeResult,
-  AuthorizeResultSchema,
+  ClearAuthorizationArtifactsRequest,
   ClearAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsRequest,
+  GetAuthorizationArtifactsResponse,
+  PkceStorage,
+} from './modules/identity';
+export {
+  AuthorizationArtifactsStorageRequestSchema,
+  AuthorizeRequestSchema,
+  AuthorizeResponseSchema,
+  AuthorizeResultSchema,
+  ClearAuthorizationArtifactsRequestSchema,
   ClearAuthorizationArtifactsResponseSchema,
   ClearAuthorizationArtifactsResult,
-  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsRequestSchema,
   GetAuthorizationArtifactsResponseSchema,
   GetAuthorizationArtifactsResult,
   GetAuthorizationArtifactsResultSchema,
   IdentityModule,
+  PkceStorageSchema,
 } from './modules/identity';
 export {
   GetLanguageLocaleIdentifierResponse,
