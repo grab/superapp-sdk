@@ -33,9 +33,25 @@ describe('DeviceModule', () => {
       }
     });
 
+    it('should return 426 when app version is below 5.402', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.401.0 (iPhone; iOS 16.0)',
+      });
+
+      const module = new DeviceModule();
+      const response = await module.isEsimSupported();
+
+      expect(response.status_code).toBe(426);
+      if (response.status_code === 426) {
+        expect(response.error).toBe(
+          'Upgrade Required: This method requires a newer version of the Grab app'
+        );
+      }
+    });
+
     it('should return 200 with true when eSIM is supported', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.399.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.402.0 (Android 13; SM-G998B)',
       });
 
       const mockResponse: IsEsimSupportedResponse = {
@@ -61,7 +77,7 @@ describe('DeviceModule', () => {
 
     it('should return 200 with false when eSIM is not supported', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+        userAgent: 'Grab/5.402.0 (iPhone; iOS 16.0)',
       });
 
       const mockResponse: IsEsimSupportedResponse = {
@@ -85,9 +101,61 @@ describe('DeviceModule', () => {
       }
     });
 
+    it('should return 403 when bridge returns forbidden', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.402.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockResponse: IsEsimSupportedResponse = {
+        status_code: 403,
+        error: 'Forbidden',
+      };
+
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedDeviceModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new DeviceModule();
+      const response = await module.isEsimSupported();
+
+      expect(mockInvoke).toHaveBeenCalledWith('isEsimSupported', undefined);
+      expect(response.status_code).toBe(403);
+      if (response.status_code === 403) {
+        expect(response.error).toBe('Forbidden');
+      }
+    });
+
+    it('should return 424 when bridge returns failed dependency', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.402.0 (Android 13; SM-G998B)',
+      });
+
+      const mockResponse: IsEsimSupportedResponse = {
+        status_code: 424,
+        error: 'Telephony unavailable',
+      };
+
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedDeviceModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new DeviceModule();
+      const response = await module.isEsimSupported();
+
+      expect(mockInvoke).toHaveBeenCalledWith('isEsimSupported', undefined);
+      expect(response.status_code).toBe(424);
+      if (response.status_code === 424) {
+        expect(response.error).toBe('Telephony unavailable');
+      }
+    });
+
     it('should return 500 when an unexpected error occurs', async () => {
       vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.399.0 (Android 13; SM-G998B)',
+        userAgent: 'Grab/5.402.0 (Android 13; SM-G998B)',
       });
 
       const mockInvoke = vi.fn().mockImplementation(() => {

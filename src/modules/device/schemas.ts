@@ -23,6 +23,9 @@ export const IsEsimSupportedResultSchema = v.boolean();
  */
 export const IsEsimSupportedResponseSchema = v.union([
   bridgeOkSchema(IsEsimSupportedResultSchema),
+  bridgeErrorSchema(403),
+  bridgeErrorSchema(424),
+  bridgeErrorSchema(426),
   bridgeErrorSchema(500),
   bridgeErrorSchema(501),
 ]);

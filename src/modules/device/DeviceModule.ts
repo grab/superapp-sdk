@@ -6,6 +6,7 @@
  */
 
 import { BaseModule } from '../../core';
+import { meetsMinimumVersion, Version } from '../../utils/version';
 import { IsEsimSupportedResponseSchema } from './schemas';
 import { IsEsimSupportedResponse } from './types';
 
@@ -38,12 +39,18 @@ import { IsEsimSupportedResponse } from './types';
  * @noInheritDoc
  */
 export class DeviceModule extends BaseModule {
+  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 402, patch: 0 };
+
   constructor() {
     super('DeviceModule');
   }
 
   /**
    * Checks whether the current device supports eSIM.
+   *
+   * @minimumGrabAppVersion Android: 5.402.0, iOS: 5.402.0
+   *
+   * @requiredOAuthScope mobile.device
    *
    * @returns Whether eSIM is supported on the current device. See {@link IsEsimSupportedResponse}.
    *
@@ -62,7 +69,18 @@ export class DeviceModule extends BaseModule {
    * if (isSuccess(response)) {
    *   console.log('eSIM supported:', response.result);
    * } else if (isError(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to query eSIM support');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.device', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     case 426:
+   *       console.log('User needs to upgrade the app');
+   *       // Advise user to upgrade app
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }
@@ -71,6 +89,11 @@ export class DeviceModule extends BaseModule {
    * @public
    */
   async isEsimSupported(): Promise<IsEsimSupportedResponse> {
+    const supportError = this.checkSupport((appInfo) =>
+      meetsMinimumVersion(appInfo.version, DeviceModule.MINIMUM_VERSION)
+    );
+    if (supportError) return supportError;
+
     const response = (await this.invoke({
       method: 'isEsimSupported',
     })) as IsEsimSupportedResponse;

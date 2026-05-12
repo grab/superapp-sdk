@@ -542,7 +542,7 @@ JSBridge module for controlling the WebView container.
 
 #### `DeviceModule`
 JSBridge module for querying native device information.
-- `isEsimSupported(): Promise<{ error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Checks whether the current device supports eSIM.
+- `isEsimSupported(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 } | { error: string; status_code: 426 }>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
 
 #### `FileModule`
 JSBridge module for downloading files to the user's device.
@@ -564,7 +564,7 @@ JSBridge module for accessing device locale settings.
 
 #### `LocationModule`
 JSBridge module for accessing device location services.
-- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { latitude: number; longitude: number }; status_code: 200 } | { error: string; status_code: 424 }>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
+- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { latitude: number; longitude: number }; status_code: 200 }>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
 - `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device. (**OAuth Scope:** mobile.geolocation)
 
@@ -578,7 +578,7 @@ JSBridge module for playing DRM-protected media content.
 
 #### `NetworkModule`
 JSBridge module for making network requests via the native bridge.
-- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 404 } | { error: string; status_code: 424 } | { result: Record<string, unknown>; status_code: 200 } | { error: string; status_code: 401 } | { error: string; status_code: 426 }>` — Sends a network request via the native bridge.
+- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 404 } | { error: string; status_code: 424 } | { error: string; status_code: 426 } | { result: Record<string, unknown>; status_code: 200 } | { error: string; status_code: 401 }>` — Sends a network request via the native bridge.
 
 #### `PlatformModule`
 JSBridge module for controlling platform navigation.
