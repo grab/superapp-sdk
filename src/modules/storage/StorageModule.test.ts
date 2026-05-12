@@ -8,11 +8,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { StorageModule } from './StorageModule';
+import type {
+  RawGetBooleanResponse,
+  RawGetDoubleResponse,
+  RawGetIntResponse,
+  RawGetStringResponse,
+} from './types';
 import {
-  GetBooleanResponse,
-  GetDoubleResponse,
-  GetIntResponse,
-  GetStringResponse,
   RemoveAllResponse,
   RemoveResponse,
   SetBooleanResponse,
@@ -21,17 +23,37 @@ import {
   SetStringResponse,
 } from './types';
 
-describe('StorageModule', () => {
-  describe('setBoolean', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
+const GRAB_IOS_UA = 'Grab/5.256.0 (iPhone; iOS 16.0)';
+const GRAB_ANDROID_UA = 'Grab/5.256.0 (Android 13; SM-G998B)';
+const NON_GRAB_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124';
 
+function stubGrabUserAgent(userAgent = GRAB_IOS_UA) {
+  vi.stubGlobal('navigator', { userAgent });
+}
+
+function stubNonGrabUserAgent() {
+  vi.stubGlobal('navigator', { userAgent: NON_GRAB_UA });
+}
+
+function cleanupStorageModuleTest() {
+  vi.unstubAllGlobals();
+  delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
+}
+
+function installWrappedStorageMock(invoke: ReturnType<typeof vi.fn>) {
+  (window as unknown as Record<string, { invoke: typeof invoke }>).WrappedStorageModule = {
+    invoke,
+  };
+}
+
+describe('StorageModule', () => {
+  afterEach(() => {
+    cleanupStorageModuleTest();
+  });
+
+  describe('setBoolean', () => {
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.setBoolean('isDarkMode', true);
@@ -45,19 +67,14 @@ describe('StorageModule', () => {
     });
 
     it('should return 204 when boolean value is set successfully', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
       const mockResponse: SetBooleanResponse = {
         status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setBoolean('isDarkMode', true);
@@ -66,42 +83,26 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when parameters are missing', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
 
-      const mockResponse: SetBooleanResponse = {
-        status_code: 400,
-        error: 'Missing required parameters',
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setBoolean('', true);
 
       expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
       if (response.status_code === 400) {
-        expect(response.error).toBe('Missing required parameters');
+        expect(response.error).toMatch(/key/i);
       }
     });
   });
 
   describe('getBoolean', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.getBoolean('isDarkMode');
@@ -110,20 +111,15 @@ describe('StorageModule', () => {
     });
 
     it('should return 200 with boolean value when key exists', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
-      const mockResponse: GetBooleanResponse = {
+      const rawBridgeResponse: RawGetBooleanResponse = {
         status_code: 200,
-        result: { value: true },
+        result: true,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getBoolean('isDarkMode');
@@ -131,68 +127,64 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getBoolean', { key: 'isDarkMode' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe(true);
+        expect('result' in response).toBe(true);
+        expect(response.result).toBe(true);
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
-      });
+    it('should return 204 when bridge reports null result for missing key', async () => {
+      stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const mockResponse: GetBooleanResponse = {
+      const rawBridgeResponse: RawGetBooleanResponse = {
         status_code: 200,
-        result: { value: null },
+        result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getBoolean('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
-      }
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
     });
 
-    it('should return 400 when key is missing', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+    it('should return 204 when bridge omits result on 200', async () => {
+      stubGrabUserAgent();
 
-      const mockResponse: GetBooleanResponse = {
-        status_code: 400,
-        error: 'Missing required parameters',
-      };
+      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetBooleanResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const module = new StorageModule();
+      const response = await module.getBoolean('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
+    });
+
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
+
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getBoolean('');
 
       expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
+      }
     });
   });
 
   describe('setInt', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.setInt('userCount', 42);
@@ -201,19 +193,14 @@ describe('StorageModule', () => {
     });
 
     it('should return 204 when integer value is set successfully', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
       const mockResponse: SetIntResponse = {
         status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setInt('userCount', 42);
@@ -222,39 +209,26 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when parameters are missing', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
 
-      const mockResponse: SetIntResponse = {
-        status_code: 400,
-        error: 'Missing required parameters',
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setInt('', 42);
 
       expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
+      }
     });
   });
 
   describe('getInt', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.getInt('userCount');
@@ -263,20 +237,15 @@ describe('StorageModule', () => {
     });
 
     it('should return 200 with integer value when key exists', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
-      const mockResponse: GetIntResponse = {
+      const rawBridgeResponse: RawGetIntResponse = {
         status_code: 200,
-        result: { value: 42 },
+        result: 42,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getInt('userCount');
@@ -284,46 +253,64 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getInt', { key: 'userCount' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe(42);
+        expect('result' in response).toBe(true);
+        expect(response.result).toBe(42);
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
-      });
+    it('should return 204 when bridge reports null result for missing key', async () => {
+      stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const mockResponse: GetIntResponse = {
+      const rawBridgeResponse: RawGetIntResponse = {
         status_code: 200,
-        result: { value: null },
+        result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getInt('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
+    });
+
+    it('should return 204 when bridge omits result on 200', async () => {
+      stubGrabUserAgent();
+
+      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetIntResponse;
+
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
+
+      const module = new StorageModule();
+      const response = await module.getInt('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
+    });
+
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
+
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
+
+      const module = new StorageModule();
+      const response = await module.getInt('');
+
+      expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
       }
     });
   });
 
   describe('setString', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.setString('username', 'john_doe');
@@ -332,19 +319,14 @@ describe('StorageModule', () => {
     });
 
     it('should return 204 when string value is set successfully', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
       const mockResponse: SetStringResponse = {
         status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setString('username', 'john_doe');
@@ -353,39 +335,26 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when parameters are missing', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
 
-      const mockResponse: SetStringResponse = {
-        status_code: 400,
-        error: 'Missing required parameters',
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setString('', 'value');
 
       expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
+      }
     });
   });
 
   describe('getString', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.getString('username');
@@ -394,20 +363,15 @@ describe('StorageModule', () => {
     });
 
     it('should return 200 with string value when key exists', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
-      const mockResponse: GetStringResponse = {
+      const rawBridgeResponse: RawGetStringResponse = {
         status_code: 200,
-        result: { value: 'john_doe' },
+        result: 'john_doe',
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getString('username');
@@ -415,46 +379,64 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getString', { key: 'username' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe('john_doe');
+        expect('result' in response).toBe(true);
+        expect(response.result).toBe('john_doe');
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
-      });
+    it('should return 204 when bridge reports null result for missing key', async () => {
+      stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const mockResponse: GetStringResponse = {
+      const rawBridgeResponse: RawGetStringResponse = {
         status_code: 200,
-        result: { value: null },
+        result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getString('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
+    });
+
+    it('should return 204 when bridge omits result on 200', async () => {
+      stubGrabUserAgent();
+
+      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetStringResponse;
+
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
+
+      const module = new StorageModule();
+      const response = await module.getString('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
+    });
+
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
+
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
+
+      const module = new StorageModule();
+      const response = await module.getString('');
+
+      expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
       }
     });
   });
 
   describe('setDouble', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.setDouble('price', 19.99);
@@ -463,19 +445,14 @@ describe('StorageModule', () => {
     });
 
     it('should return 204 when double value is set successfully', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
       const mockResponse: SetDoubleResponse = {
         status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setDouble('price', 19.99);
@@ -484,39 +461,26 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when parameters are missing', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
 
-      const mockResponse: SetDoubleResponse = {
-        status_code: 400,
-        error: 'Missing required parameters',
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.setDouble('', 19.99);
 
       expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
+      }
     });
   });
 
   describe('getDouble', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.getDouble('price');
@@ -525,20 +489,15 @@ describe('StorageModule', () => {
     });
 
     it('should return 200 with double value when key exists', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
-      const mockResponse: GetDoubleResponse = {
+      const rawBridgeResponse: RawGetDoubleResponse = {
         status_code: 200,
-        result: { value: 19.99 },
+        result: 19.99,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getDouble('price');
@@ -546,46 +505,64 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('getDouble', { key: 'price' });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.value).toBe(19.99);
+        expect('result' in response).toBe(true);
+        expect(response.result).toBe(19.99);
       }
     });
 
-    it('should return 200 with null when key does not exist', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
-      });
+    it('should return 204 when bridge reports null result for missing key', async () => {
+      stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const mockResponse: GetDoubleResponse = {
+      const rawBridgeResponse: RawGetDoubleResponse = {
         status_code: 200,
-        result: { value: null },
+        result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.getDouble('nonExistentKey');
 
-      expect(response.status_code).toBe(200);
-      if (response.status_code === 200) {
-        expect(response.result.value).toBe(null);
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
+    });
+
+    it('should return 204 when bridge omits result on 200', async () => {
+      stubGrabUserAgent();
+
+      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetDoubleResponse;
+
+      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      installWrappedStorageMock(mockInvoke);
+
+      const module = new StorageModule();
+      const response = await module.getDouble('nonExistentKey');
+
+      expect(response.status_code).toBe(204);
+      expect('result' in response).toBe(false);
+    });
+
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
+
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
+
+      const module = new StorageModule();
+      const response = await module.getDouble('');
+
+      expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
       }
     });
   });
 
   describe('remove', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.remove('username');
@@ -594,19 +571,14 @@ describe('StorageModule', () => {
     });
 
     it('should return 204 when value is removed successfully', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
       const mockResponse: RemoveResponse = {
         status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.remove('username');
@@ -615,39 +587,26 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when key is missing', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+    it('should return 400 when key is empty without calling the bridge', async () => {
+      stubGrabUserAgent();
 
-      const mockResponse: RemoveResponse = {
-        status_code: 400,
-        error: 'Missing required parameters',
-      };
-
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      const mockInvoke = vi.fn();
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.remove('');
 
       expect(response.status_code).toBe(400);
+      expect(mockInvoke).not.toHaveBeenCalled();
+      if (response.status_code === 400) {
+        expect(response.error).toMatch(/key/i);
+      }
     });
   });
 
   describe('removeAll', () => {
-    afterEach(() => {
-      vi.unstubAllGlobals();
-      delete (window as unknown as Record<string, unknown>).WrappedStorageModule;
-    });
-
     it('should return 501 when not running in Grab app', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
-      });
+      stubNonGrabUserAgent();
 
       const module = new StorageModule();
       const response = await module.removeAll();
@@ -656,19 +615,14 @@ describe('StorageModule', () => {
     });
 
     it('should return 204 when all values are removed successfully', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
       const mockResponse: RemoveAllResponse = {
         status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.removeAll();
@@ -678,19 +632,14 @@ describe('StorageModule', () => {
     });
 
     it('should return 204 when all values are removed on Android', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (Android 13; SM-G998B)',
-      });
+      stubGrabUserAgent(GRAB_ANDROID_UA);
 
       const mockResponse: RemoveAllResponse = {
         status_code: 204,
       };
 
       const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.removeAll();
@@ -700,17 +649,12 @@ describe('StorageModule', () => {
     });
 
     it('should return 500 when an unexpected error occurs', async () => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
-      });
+      stubGrabUserAgent();
 
       const mockInvoke = vi.fn().mockImplementation(() => {
         throw new Error('Unexpected bridge error');
       });
-
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedStorageModule = {
-        invoke: mockInvoke,
-      };
+      installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
       const response = await module.removeAll();
