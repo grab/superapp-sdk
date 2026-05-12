@@ -23,12 +23,13 @@ import {
   STATE_LENGTH,
 } from './constants';
 import { AuthorizationConfigurationError } from './errors';
-import { AuthorizeRequestSchema, AuthorizeResponseSchema } from './schemas';
+import { AuthorizeRequestSchema, RawAuthorizeResponseSchema } from './schemas';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
   ClearAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResponse,
+  RawAuthorizeResponse,
 } from './types';
 
 /**
@@ -421,7 +422,7 @@ export class IdentityModule extends BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     responseMode: 'redirect' | 'in_place';
-  }): Promise<AuthorizeResponse> {
+  }): Promise<RawAuthorizeResponse> {
     const response = (await this.invoke({
       method: 'authorize',
       params: {
@@ -434,10 +435,10 @@ export class IdentityModule extends BaseModule {
         codeChallengeMethod: invokeParams.codeChallengeMethod,
         responseMode: invokeParams.responseMode,
       },
-    })) as AuthorizeResponse;
+    })) as RawAuthorizeResponse;
 
-    const responseError = this.validate(AuthorizeResponseSchema, response);
-    if (responseError) this.logger.warn('authorize', `Unexpected response shape: ${responseError}`);
+    const rawResponseError = this.validate(RawAuthorizeResponseSchema, response);
+    if (rawResponseError) this.logger.warn('authorize', `Unexpected response shape: ${rawResponseError}`);
 
     return response;
   }
@@ -462,9 +463,11 @@ export class IdentityModule extends BaseModule {
    *   Uses your provided `redirectUri`
    * - `responseMode: 'redirect'`: Always uses your provided `redirectUri`
    *
-   * To ensure successful token exchange (which requires matching `redirectUri` values),
-   * always retrieve the actual `redirectUri` from `getAuthorizationArtifacts()`
-   * after authorization completes.
+   * On a `200` response (native `in_place` success), the actual `redirectUri` and PKCE values
+   * (`codeVerifier`, `nonce`) are returned in `response.result` alongside `code` and `state`,
+   * so you do not need to call `getAuthorizationArtifacts()`.
+   * For the web redirect flow (`302`), retrieve artifacts from `getAuthorizationArtifacts()` after
+   * the redirect round-trip completes.
    *
    * **Consent Selection Rules (Native vs Web):**
    *
@@ -494,10 +497,15 @@ export class IdentityModule extends BaseModule {
    * // Handle the response
    * if (isSuccess(response)) {
    *   switch (response.status_code) {
-   *     case 200:
-   *       console.log('Auth Code:', response.result.code);
-   *       console.log('State:', response.result.state);
+   *     case 200: {
+   *       const { code, state, codeVerifier, nonce, redirectUri } = response.result;
+   *       console.log('Auth Code:', code);
+   *       console.log('State:', state);
+   *       console.log('Code Verifier:', codeVerifier);
+   *       console.log('Nonce:', nonce);
+   *       console.log('Redirect URI:', redirectUri);
    *       break;
+   *     }
    *     case 204:
    *       console.log('Authorization cancelled');
    *       break;
@@ -558,23 +566,36 @@ export class IdentityModule extends BaseModule {
     // Always try native consent first, fallback to web consent if unavailable
     // Note: Native respects responseMode; web always redirects
     try {
-      const nativeResult: AuthorizeResponse = await this.performNativeAuthorization({
+      const rawNativeResult = await this.performNativeAuthorization({
         ...invokeParams,
         actualRedirectUri,
         responseMode,
       });
 
+      if (rawNativeResult.status_code === 200) {
+        return {
+          status_code: 200,
+          result: {
+            code: rawNativeResult.result.code,
+            state: rawNativeResult.result.state,
+            codeVerifier: pkceArtifacts.codeVerifier,
+            nonce: pkceArtifacts.nonce,
+            redirectUri: actualRedirectUri,
+          },
+        };
+      }
+
       // Check if native authorization returned error - fallback to web for specific status codes
       // including server errors (500) and not implemented (501) when native is unavailable
       if (
-        nativeResult.status_code === 400 ||
-        nativeResult.status_code === 403 ||
-        nativeResult.status_code === 500 ||
-        nativeResult.status_code === 501
+        rawNativeResult.status_code === 400 ||
+        rawNativeResult.status_code === 403 ||
+        rawNativeResult.status_code === 500 ||
+        rawNativeResult.status_code === 501
       ) {
         console.error(
-          `Native authorization returned ${nativeResult.status_code}, falling back to web flow:`,
-          nativeResult.error
+          `Native authorization returned ${rawNativeResult.status_code}, falling back to web flow:`,
+          rawNativeResult.error
         );
         // Fallback to web flow
         return this.performWebAuthorization({
@@ -583,7 +604,7 @@ export class IdentityModule extends BaseModule {
         });
       }
 
-      return nativeResult;
+      return rawNativeResult;
     } catch (error) {
       // Native consent is unavailable, fallback to web flow
       console.error('Native authorization failed, falling back to web flow:', error);

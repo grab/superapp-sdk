@@ -27,12 +27,38 @@ export const AuthorizeRequestSchema = v.object({
   responseMode: v.optional(v.picklist(['redirect', 'in_place'])),
 });
 
+const RawAuthorizeResultSchema = v.object({
+  code: v.string(),
+  state: v.string(),
+});
+
+/**
+ * Internal valibot schema for the raw bridge response from `authorize` before enrichment.
+ *
+ * @internal
+ */
+export const RawAuthorizeResponseSchema = v.union([
+  bridgeOkSchema(RawAuthorizeResultSchema),
+  bridgeNoContentSchema,
+  bridgeRedirectSchema,
+  bridgeErrorSchema(400),
+  bridgeErrorSchema(403),
+  bridgeErrorSchema(500),
+  bridgeErrorSchema(501),
+]);
+
 /**
  * Valibot schema for {@link AuthorizeResult}.
  *
  * @public
  */
-export const AuthorizeResultSchema = v.object({ code: v.string(), state: v.string() });
+export const AuthorizeResultSchema = v.object({
+  code: v.string(),
+  state: v.string(),
+  codeVerifier: v.string(),
+  nonce: v.string(),
+  redirectUri: v.string(),
+});
 
 /**
  * Valibot schema for {@link AuthorizeResponse}.

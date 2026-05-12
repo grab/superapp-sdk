@@ -85,8 +85,7 @@ sequenceDiagram
     User->>Entry: Open MiniApp
     Entry->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, hideBackButton, hideRefreshButton, hideLoader)
     Entry->>SDK: Authorize via IdentityModule.authorize with scope openid profile.read phone
-    SDK-->>Entry: Authorization code
-    Entry->>SDK: Get authorization artifacts via IdentityModule.getAuthorizationArtifacts
+    SDK-->>Entry: Authorization code and PKCE artifacts (code, state, codeVerifier, nonce, redirectUri)
     Entry->>OIDC: OIDC Flow (Discovery, Token Exchange, UserInfo)
     OIDC-->>Entry: User profile data
     Entry->>SDK: Reload scopes via ScopeModule.reloadScopes

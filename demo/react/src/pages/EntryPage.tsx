@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isSuccess, isOk, isError, ContainerModule, IdentityModule, ScopeModule } from '@grabjs/superapp-sdk';
+import { isSuccess, isError, ContainerModule, IdentityModule, ScopeModule } from '@grabjs/superapp-sdk';
 import { ENVIRONMENT_CONFIG } from '../config';
 import { fetchDiscoveryConfiguration, exchangeAuthorizationCode, fetchUserInfo } from '../services/grabidService';
 import { runOptional, formatError } from '../utils/sdkHelpers';
@@ -52,17 +52,7 @@ export default function EntryPage() {
       if (status_code === 200) {
         setPageState({ status: 'loading', message: 'Completing sign-in...' });
 
-        const artifactsResponse = await identity.getAuthorizationArtifacts();
-        if (!isOk(artifactsResponse)) {
-          const message = isError(artifactsResponse)
-            ? formatError('Get authorization artifacts', artifactsResponse)
-            : 'No authorization artifacts found.';
-          setPageState({ status: 'error', message: `Get authorization artifacts failed: ${message}`, type: 'error' });
-          return;
-        }
-
-        const { codeVerifier, redirectUri } = artifactsResponse.result;
-        const code = authResponse.result.code;
+        const { code, codeVerifier, redirectUri } = authResponse.result;
 
         if (!code) {
           setPageState({ status: 'error', message: 'No authorization code returned.', type: 'error' });
