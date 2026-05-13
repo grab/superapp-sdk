@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
+
+## [2.0.0-beta.51] - 2026-05-12
+
+_Bump eSIM minimum Grab app to 5.409.0; Slack release posts use an in-channel header with changelog in a thread._
+
+### Changed
+
+- `DeviceModule.isEsimSupported`: `MINIMUM_VERSION` set to Grab app **5.409.0** (was 5.402.0).
+- `scripts/notify-slack.mjs`: release posts a short header in-channel; formatted changelog and doc links go in a thread reply (context line points readers to the thread).
+
 ## [2.0.0-beta.50] - 2026-05-12
 
 ### Changed

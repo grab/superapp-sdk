@@ -39,7 +39,7 @@ import { IsEsimSupportedResponse } from './types';
  * @noInheritDoc
  */
 export class DeviceModule extends BaseModule {
-  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 402, patch: 0 };
+  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 409, patch: 0 };
 
   constructor() {
     super('DeviceModule');
