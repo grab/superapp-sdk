@@ -155,7 +155,7 @@ async function notifySlack(channelId) {
     channelId,
     buildHeaderBlocks(title),
     undefined,
-    buildParentMessageText(title),
+    buildParentMessageText(title)
   );
 
   if (!header.ok) {
@@ -167,7 +167,7 @@ async function notifySlack(channelId) {
     channelId,
     buildThreadBlocks(changelogBody),
     header.ts,
-    buildThreadMessageText(changelogBody),
+    buildThreadMessageText(changelogBody)
   );
 
   if (!thread.ok) {
