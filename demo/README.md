@@ -3,7 +3,7 @@
 Two complete MiniApp samples demonstrating core Grab SuperApp SDK integration patterns. Both implement the same user flow — OAuth authorization, user profile display, deferred location permissions, and checkout payment — in different technology stacks.
 
 **Notes:**
-- These MiniApps must be opened within the Grab SuperApp WebView environment to function correctly, as they rely on native bridge capabilities provided by the Grab app.
+- These MiniApps must be opened within the Grab SuperApp WebView environment to function correctly, as they rely on native capabilities provided by the Grab app (via JSBridge).
 - These MiniApps run token exchange and userinfo in the browser for illustration only. In production, these operations **must** be performed on your backend to protect client secrets and access tokens.
 
 ## Variants

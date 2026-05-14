@@ -1,6 +1,6 @@
 ## Overview
 
-The SuperApp SDK enables web developers to build MiniApps that run within the Grab SuperApp WebView. It provides a type-safe JSBridge for communication between web applications and native Android/iOS capabilities.
+The SuperApp SDK helps web developers build MiniApps that run inside the Grab SuperApp WebView. It provides a type-safe JavaScript bridge to access native Android and iOS capabilities, along with Grab app features, from web applications.
 
 Each module encapsulates a specific domain of functionality, offering strongly-typed APIs with consistent response patterns.
 

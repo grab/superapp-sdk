@@ -7,26 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
-## [2.0.0-beta.52] - 2026-05-14
-
-_Standardize SDK naming and transport terminology across public types, source docs, and generated references._
-
-### Changed
-
-- Breaking rename of public core types to consistent `SDK*` casing:
-  - `SdkClientErrorStatusCode` → `SDKClientErrorStatusCode`
-  - `SdkServerErrorStatusCode` → `SDKServerErrorStatusCode`
-  - `SdkErrorStatusCode` → `SDKErrorStatusCode`
-  - `SdkOkResponse` → `SDKOkResponse`
-  - `SdkNoContentResponse` → `SDKNoContentResponse`
-  - `SdkRedirectResponse` → `SDKRedirectResponse`
-  - `SdkErrorResponse` → `SDKErrorResponse`
-  - `SdkResponse` → `SDKResponse`
-  - `SdkStreamHandlers` → `SDKStreamHandlers`
-  - `SdkStream` → `SDKStream`
-- Terminology normalized to use `SDK` for package/API concepts and `JSBridge` for native transport in authoring docs and JSDoc.
-- Regenerated API/HTML docs and `skills/SKILL.md` to reflect the new naming and terminology.
-
 ## [2.0.0-beta.51] - 2026-05-12
 
 _Bump eSIM minimum Grab app to 5.409.0; Slack release posts use an in-channel header with changelog in a thread._
