@@ -61,7 +61,6 @@ export class SystemWebViewKitModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { SystemWebViewKitModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

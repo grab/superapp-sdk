@@ -62,7 +62,6 @@ export class CheckoutModule extends _BaseModule {
    * Calling this method without a valid pre-created transaction will result in a checkout failure.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { CheckoutModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

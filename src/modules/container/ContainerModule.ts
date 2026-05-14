@@ -115,7 +115,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -182,7 +181,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -237,7 +235,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -295,7 +292,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -353,7 +349,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -414,7 +409,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -475,7 +469,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -530,7 +523,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -576,7 +568,6 @@ export class ContainerModule extends _BaseModule {
    * Remember to call {@link ContainerModule.hideLoader} when the operation completes.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -634,7 +625,6 @@ export class ContainerModule extends _BaseModule {
    * Should be called when the entry point has finished loading.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -695,7 +685,6 @@ export class ContainerModule extends _BaseModule {
    * Call this method to open the specified URL in an external browser (outside of the Grab app).
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -756,7 +745,6 @@ export class ContainerModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -815,7 +803,6 @@ export class ContainerModule extends _BaseModule {
    * @see {@link ContainerAnalyticsEventState}, {@link ContainerAnalyticsEventName}
    *
    * @example
-   * **Usage**
    * ```typescript
    * import {
    *   ContainerModule,
@@ -897,7 +884,6 @@ export class ContainerModule extends _BaseModule {
    * Call this method to verify the connection status before using other features.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -941,7 +927,6 @@ export class ContainerModule extends _BaseModule {
    * Session parameters can contain primitives, base64 encoded strings, or nested objects.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

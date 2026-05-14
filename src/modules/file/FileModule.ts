@@ -58,7 +58,6 @@ export class FileModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { FileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

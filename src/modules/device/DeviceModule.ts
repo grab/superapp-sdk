@@ -62,7 +62,6 @@ export class DeviceModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { DeviceModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

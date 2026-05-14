@@ -65,7 +65,6 @@ export class MediaModule extends _BaseModule {
    * For playback events and status updates, use {@link MediaModule.observePlayDRMContent}.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -131,7 +130,6 @@ export class MediaModule extends _BaseModule {
    * completion, and errors. Remember to call `unsubscribe()` when done to free resources.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

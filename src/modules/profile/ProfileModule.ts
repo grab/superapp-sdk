@@ -67,7 +67,6 @@ export class ProfileModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -141,7 +140,6 @@ export class ProfileModule extends _BaseModule {
    * Successful verification will also update the email address for the user on Grab.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

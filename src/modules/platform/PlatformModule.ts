@@ -53,7 +53,6 @@ export class PlatformModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { PlatformModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

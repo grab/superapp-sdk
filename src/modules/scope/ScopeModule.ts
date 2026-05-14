@@ -61,7 +61,6 @@ export class ScopeModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -111,7 +110,6 @@ export class ScopeModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

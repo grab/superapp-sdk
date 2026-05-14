@@ -71,7 +71,6 @@ export class NetworkModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { NetworkModule, isSuccess, isError, hasResult } from '@grabjs/superapp-sdk';
    *

@@ -60,7 +60,6 @@ export class LocationModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -122,7 +121,6 @@ export class LocationModule extends _BaseModule {
    * to conserve battery and free resources.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -174,7 +172,6 @@ export class LocationModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

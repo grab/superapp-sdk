@@ -173,7 +173,6 @@ export class IdentityModule extends _BaseModule {
    * You must use this returned `redirectUri` for token exchange to ensure OAuth compliance.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { IdentityModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -240,7 +239,6 @@ export class IdentityModule extends _BaseModule {
    * - `204`: No content - authorization artifacts cleared successfully.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { IdentityModule, isSuccess } from '@grabjs/superapp-sdk';
    *
@@ -495,7 +493,6 @@ export class IdentityModule extends _BaseModule {
    *   web on specific native errors (400, 401, 403)
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { IdentityModule, isSuccess, isRedirection, isError } from '@grabjs/superapp-sdk';
    *

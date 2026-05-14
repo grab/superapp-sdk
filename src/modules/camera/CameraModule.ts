@@ -59,7 +59,6 @@ export class CameraModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { CameraModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

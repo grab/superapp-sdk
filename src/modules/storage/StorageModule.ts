@@ -99,7 +99,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -154,7 +153,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -225,7 +223,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -279,7 +276,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -349,7 +345,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -403,7 +398,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -473,7 +467,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -527,7 +520,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -596,7 +588,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -646,7 +637,6 @@ export class StorageModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
