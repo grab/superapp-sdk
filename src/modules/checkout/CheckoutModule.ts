@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { TriggerCheckoutRequestSchema, TriggerCheckoutResponseSchema } from './schemas';
 import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
@@ -38,7 +38,7 @@ import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class CheckoutModule extends _BaseModule {
+export class CheckoutModule extends BaseModule {
   constructor() {
     super('CheckoutModule');
   }

@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _GrabAppInfo, _Platform } from './types';
+import { GrabAppInfo, Platform } from './types';
 
 /**
  * Parses a user agent string to extract Grab app information.
@@ -15,7 +15,7 @@ import { _GrabAppInfo, _Platform } from './types';
  * @param userAgent - The user agent string to parse
  * @returns The parsed app info, or null if not a recognized Grab app user agent
  */
-function parseGrabAppInfo(userAgent: string): _GrabAppInfo | null {
+function parseGrabAppInfo(userAgent: string): GrabAppInfo | null {
   if (!userAgent || typeof userAgent !== 'string') {
     return null;
   }
@@ -34,7 +34,7 @@ function parseGrabAppInfo(userAgent: string): _GrabAppInfo | null {
       minor: Number(match[3]),
       patch: Number(match[4]),
     },
-    platform: match[5] as _Platform,
+    platform: match[5] as Platform,
   };
 }
 
@@ -55,7 +55,7 @@ function parseGrabAppInfo(userAgent: string): _GrabAppInfo | null {
  *
  * @internal
  */
-export function detectGrabApp(): _GrabAppInfo | null {
+export function detectGrabApp(): GrabAppInfo | null {
   if (typeof window === 'undefined' || !window.navigator) {
     return null;
   }
@@ -84,7 +84,7 @@ export function detectGrabApp(): _GrabAppInfo | null {
  *
  * @internal
  */
-export function isAndroid(grabAppInfo: _GrabAppInfo): boolean {
+export function isAndroid(grabAppInfo: GrabAppInfo): boolean {
   return grabAppInfo.platform === 'Android';
 }
 
@@ -104,7 +104,7 @@ export function isAndroid(grabAppInfo: _GrabAppInfo): boolean {
  *
  * @internal
  */
-export function isIOS(grabAppInfo: _GrabAppInfo): boolean {
+export function isIOS(grabAppInfo: GrabAppInfo): boolean {
   return grabAppInfo.platform === 'iOS';
 }
 

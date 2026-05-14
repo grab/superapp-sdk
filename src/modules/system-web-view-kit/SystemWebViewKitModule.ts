@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import {
   RedirectToSystemWebViewRequestSchema,
   RedirectToSystemWebViewResponseSchema,
@@ -41,7 +41,7 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  * @public
  * @noInheritDoc
  */
-export class SystemWebViewKitModule extends _BaseModule {
+export class SystemWebViewKitModule extends BaseModule {
   constructor() {
     super('SystemWebViewKitModule');
   }

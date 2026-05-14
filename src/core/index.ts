@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-export { _BaseModule } from './BaseModule';
+export { BaseModule } from './BaseModule';
 export {
   hasResult,
   isClientError,
@@ -24,8 +24,7 @@ export {
   sdkRedirectResponseSchema,
 } from './schemas';
 export type {
-  _InvokeOptions,
-  _WrappedModule,
+  InvokeOptions,
   SDKClientErrorStatusCode,
   SDKErrorResponse,
   SDKErrorStatusCode,
@@ -37,4 +36,5 @@ export type {
   SDKStream,
   SDKStreamHandlers,
   Subscription,
+  WrappedModule,
 } from './types';

@@ -164,22 +164,22 @@ export type SDKStream<T extends SDKResponse = SDKResponse> = Readonly<{
 /**
  * Generic interface for all native JSBridge module wrappers.
  *
- * @group Internals
+ * @group Core
  *
  * @public
  */
-export interface _WrappedModule {
+export interface WrappedModule {
   invoke(method: string, params?: unknown): SDKStream | Promise<SDKResponse>;
 }
 
 /**
  * Options for invoking a JSBridge method.
  *
- * @group Internals
+ * @group Core
  *
  * @public
  */
-export interface _InvokeOptions {
+export interface InvokeOptions {
   /** The name of the SDK method to invoke */
   method: string;
   /** The parameters to pass to the method */

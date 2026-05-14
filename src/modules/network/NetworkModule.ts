@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule, hasResult, isSuccess } from '../../core';
+import { BaseModule, hasResult, isSuccess } from '../../core';
 import { NativeSendResponseSchema, SendRequestSchema, SendResponseSchema } from './schemas';
 import { NativeSendResponse, SendRequest, SendResponse } from './types';
 
@@ -40,7 +40,7 @@ import { NativeSendResponse, SendRequest, SendResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class NetworkModule extends _BaseModule {
+export class NetworkModule extends BaseModule {
   constructor() {
     super('NetworkModule');
   }

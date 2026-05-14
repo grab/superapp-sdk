@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { ScanQRCodeRequestSchema, ScanQRCodeResponseSchema } from './schemas';
 import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
@@ -38,7 +38,7 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class CameraModule extends _BaseModule {
+export class CameraModule extends BaseModule {
   constructor() {
     super('CameraModule');
   }

@@ -5,5 +5,5 @@
  * directory of this source tree.
  */
 
-export type { _Version } from './types';
+export type { Version } from './types';
 export { meetsMinimumVersion } from './version';

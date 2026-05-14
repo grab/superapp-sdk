@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import {
   generateCodeChallenge,
   generateCodeVerifier,
@@ -13,7 +13,7 @@ import {
 } from '../../utils/crypto';
 import { isErrorWithMessage } from '../../utils/error';
 import { detectGrabApp } from '../../utils/platform';
-import { _Version, meetsMinimumVersion } from '../../utils/version';
+import { meetsMinimumVersion, Version } from '../../utils/version';
 import {
   CODE_CHALLENGE_METHOD,
   CODE_VERIFIER_LENGTH,
@@ -62,7 +62,7 @@ import {
  * @public
  * @noInheritDoc
  */
-export class IdentityModule extends _BaseModule {
+export class IdentityModule extends BaseModule {
   constructor() {
     super('IdentityModule');
   }
@@ -345,7 +345,7 @@ export class IdentityModule extends _BaseModule {
       return false;
     }
 
-    const minimumVersion: _Version = { major: 5, minor: 396, patch: 0 };
+    const minimumVersion: Version = { major: 5, minor: 396, patch: 0 };
     return !meetsMinimumVersion(grabAppInfo.version, minimumVersion);
   }
 

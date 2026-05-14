@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import {
   GetBooleanRequestSchema,
   GetBooleanResponseSchema,
@@ -78,7 +78,7 @@ import {
  * @public
  * @noInheritDoc
  */
-export class StorageModule extends _BaseModule {
+export class StorageModule extends BaseModule {
   constructor() {
     super('StorageModule');
   }

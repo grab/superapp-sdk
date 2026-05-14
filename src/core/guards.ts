@@ -108,10 +108,10 @@ export function isFound<T extends SDKResponse>(
 }
 
 /**
- * Type guard to check if an SDK response has status code 4xx.
+ * Type guard to check if an SDK response has a supported client error status code.
  *
  * @param response - The SDK response to check
- * @returns True if the response has status code 4xx, false otherwise
+ * @returns True if the response has status code 400, 401, 403, 404, 424, or 426
  *
  * @example
  * ```typescript
@@ -128,14 +128,21 @@ export function isFound<T extends SDKResponse>(
 export function isClientError<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { status_code: SDKClientErrorStatusCode }> {
-  return response.status_code >= 400 && response.status_code < 500;
+  return (
+    response.status_code === 400 ||
+    response.status_code === 401 ||
+    response.status_code === 403 ||
+    response.status_code === 404 ||
+    response.status_code === 424 ||
+    response.status_code === 426
+  );
 }
 
 /**
- * Type guard to check if an SDK response has status code 5xx.
+ * Type guard to check if an SDK response has a supported server error status code.
  *
  * @param response - The SDK response to check
- * @returns True if the response has status code 5xx, false otherwise
+ * @returns True if the response has status code 500 or 501, false otherwise
  *
  * @example
  * ```typescript
@@ -152,7 +159,7 @@ export function isClientError<T extends SDKResponse>(
 export function isServerError<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { status_code: SDKServerErrorStatusCode }> {
-  return response.status_code >= 500 && response.status_code < 600;
+  return response.status_code === 500 || response.status_code === 501;
 }
 
 /**

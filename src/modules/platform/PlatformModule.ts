@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { BackResponseSchema } from './schemas';
 import { BackResponse } from './types';
 
@@ -38,7 +38,7 @@ import { BackResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class PlatformModule extends _BaseModule {
+export class PlatformModule extends BaseModule {
   constructor() {
     super('PlatformModule');
   }

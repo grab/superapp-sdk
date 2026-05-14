@@ -9,10 +9,10 @@ import { wrapModule } from '@grabjs/mobile-kit-bridge-sdk';
 import { type GenericSchema, safeParse } from 'valibot';
 
 import { isErrorWithMessage } from '../utils/error';
-import { _Logger } from '../utils/logger';
-import { _GrabAppInfo, detectGrabApp } from '../utils/platform';
+import { Logger } from '../utils/logger';
+import { detectGrabApp, GrabAppInfo } from '../utils/platform';
 import { formatIssues } from '../utils/schema';
-import { _InvokeOptions, _WrappedModule, SDKResponse, SDKStream, Subscription } from './types';
+import { InvokeOptions, SDKResponse, SDKStream, Subscription, WrappedModule } from './types';
 
 /**
  * Base class for all JSBridge modules.
@@ -21,11 +21,11 @@ import { _InvokeOptions, _WrappedModule, SDKResponse, SDKStream, Subscription } 
  * On construction, the class wraps the JSBridge module on `window` (e.g., `WrappedContainerModule`).
  * This code must run on the Grab SuperApp's webview to function correctly.
  *
- * @group Internals
+ * @group Core
  *
  * @public
  */
-export class _BaseModule {
+export class BaseModule {
   /**
    * The module name used to identify the JSBridge module.
    */
@@ -36,7 +36,7 @@ export class _BaseModule {
    *
    * @protected
    */
-  protected readonly logger: _Logger;
+  protected readonly logger: Logger;
 
   /**
    * Returns the wrapped JSBridge module from the global `window` object.
@@ -45,8 +45,8 @@ export class _BaseModule {
    *
    * @public
    */
-  protected get wrappedModule(): _WrappedModule {
-    return (window as unknown as Record<string, _WrappedModule>)[`Wrapped${this.name}`];
+  protected get wrappedModule(): WrappedModule {
+    return (window as unknown as Record<string, WrappedModule>)[`Wrapped${this.name}`];
   }
 
   /**
@@ -57,7 +57,7 @@ export class _BaseModule {
    */
   constructor(moduleName: string) {
     this.name = moduleName;
-    this.logger = new _Logger(moduleName);
+    this.logger = new Logger(moduleName);
 
     if (this.wrappedModule) {
       // Module is already initialized
@@ -106,7 +106,7 @@ export class _BaseModule {
    * @protected
    */
   protected checkSupport(
-    isSupported: (appInfo: _GrabAppInfo) => boolean
+    isSupported: (appInfo: GrabAppInfo) => boolean
   ): { status_code: 501; error: string } | { status_code: 426; error: string } | null {
     const appInfo = detectGrabApp();
     if (!appInfo) {
@@ -137,7 +137,7 @@ export class _BaseModule {
    *
    * @protected
    */
-  protected async invoke(options: _InvokeOptions): Promise<SDKResponse> {
+  protected async invoke(options: InvokeOptions): Promise<SDKResponse> {
     const { method, params } = options;
 
     try {
@@ -193,7 +193,7 @@ export class _BaseModule {
    *
    * @protected
    */
-  protected invokeStream(options: _InvokeOptions): SDKStream {
+  protected invokeStream(options: InvokeOptions): SDKStream {
     const { method, params } = options;
 
     try {

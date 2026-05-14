@@ -526,9 +526,6 @@ For the complete API reference, see [GrabPay API](https://developer.grab.com/doc
 
 ### Classes
 
-#### `_Logger`
-Provides scoped logging for SDK modules.
-
 #### `CameraModule`
 Module for accessing the device camera via JSBridge.
 - `scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse>` — Opens the native camera to scan a QR code.
@@ -978,7 +975,7 @@ hasResult<T>(response: T): response is Extract<T, { result: {} }>
 ```
 
 #### `isClientError`
-Type guard to check if an SDK response has status code 4xx.
+Type guard to check if an SDK response has a supported client error status code.
 ```ts
 isClientError<T>(response: T): response is Extract<T, { status_code: SDKClientErrorStatusCode }>
 ```
@@ -1014,7 +1011,7 @@ isRedirection<T>(response: T): response is Extract<T, { status_code: 302 }>
 ```
 
 #### `isServerError`
-Type guard to check if an SDK response has status code 5xx.
+Type guard to check if an SDK response has a supported server error status code.
 ```ts
 isServerError<T>(response: T): response is Extract<T, { status_code: SDKServerErrorStatusCode }>
 ```

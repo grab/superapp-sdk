@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { DismissSplashScreenResponseSchema } from './schemas';
 import { DismissSplashScreenResponse } from './types';
 
@@ -37,7 +37,7 @@ import { DismissSplashScreenResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class SplashScreenModule extends _BaseModule {
+export class SplashScreenModule extends BaseModule {
   constructor() {
     super('SplashScreenModule');
   }

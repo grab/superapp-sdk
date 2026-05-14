@@ -6,7 +6,8 @@
  */
 
 export type {
-  _BaseModule,
+  BaseModule,
+  InvokeOptions,
   SDKClientErrorStatusCode,
   SDKErrorResponse,
   SDKErrorStatusCode,
@@ -18,10 +19,9 @@ export type {
   SDKStream,
   SDKStreamHandlers,
   Subscription,
+  WrappedModule,
 } from './core';
 export {
-  _InvokeOptions,
-  _WrappedModule,
   hasResult,
   isClientError,
   isError,
@@ -32,25 +32,17 @@ export {
   isServerError,
   isSuccess,
 } from './core';
-export {
-  CameraModule,
-  ScanQRCodeRequest,
-  ScanQRCodeResponse,
-  ScanQRCodeResult,
-} from './modules/camera';
-export {
-  CheckoutModule,
+export type { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './modules/camera';
+export { CameraModule } from './modules/camera';
+export type {
   TriggerCheckoutRequest,
   TriggerCheckoutResponse,
   TriggerCheckoutResult,
 } from './modules/checkout';
-export {
+export { CheckoutModule } from './modules/checkout';
+export type {
   CloseResponse,
   CloseResult,
-  ContainerAnalyticsEventData,
-  ContainerAnalyticsEventName,
-  ContainerAnalyticsEventState,
-  ContainerModule,
   GetSessionParamsResponse,
   GetSessionParamsResult,
   HideBackButtonResponse,
@@ -85,14 +77,17 @@ export {
   ShowRefreshButtonResponse,
   ShowRefreshButtonResult,
 } from './modules/container';
-export { DeviceModule, IsEsimSupportedResponse, IsEsimSupportedResult } from './modules/device';
 export {
-  DownloadFileRequest,
-  DownloadFileResponse,
-  DownloadFileResult,
-  FileModule,
-} from './modules/file';
-export {
+  ContainerAnalyticsEventData,
+  ContainerAnalyticsEventName,
+  ContainerAnalyticsEventState,
+  ContainerModule,
+} from './modules/container';
+export type { IsEsimSupportedResponse, IsEsimSupportedResult } from './modules/device';
+export { DeviceModule } from './modules/device';
+export type { DownloadFileRequest, DownloadFileResponse, DownloadFileResult } from './modules/file';
+export { FileModule } from './modules/file';
+export type {
   AuthorizeRequest,
   AuthorizeResponse,
   AuthorizeResult,
@@ -100,13 +95,13 @@ export {
   ClearAuthorizationArtifactsResult,
   GetAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResult,
-  IdentityModule,
 } from './modules/identity';
-export {
+export { IdentityModule } from './modules/identity';
+export type {
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResult,
-  LocaleModule,
 } from './modules/locale';
+export { LocaleModule } from './modules/locale';
 export type {
   GetCoordinateResponse,
   GetCoordinateResult,
@@ -128,25 +123,27 @@ export type {
 export { MediaModule } from './modules/media';
 export type { SendRequest, SendRequestMethod, SendResponse, SendResult } from './modules/network';
 export { NetworkModule } from './modules/network';
-export { BackResponse, BackResult, PlatformModule } from './modules/platform';
-export {
+export type { BackResponse, BackResult } from './modules/platform';
+export { PlatformModule } from './modules/platform';
+export type {
   FetchEmailResponse,
   FetchEmailResult,
-  ProfileModule,
   VerifyEmailRequest,
   VerifyEmailResponse,
   VerifyEmailResult,
 } from './modules/profile';
-export {
+export { ProfileModule } from './modules/profile';
+export type {
   HasAccessToRequest,
   HasAccessToResponse,
   HasAccessToResult,
   ReloadScopesResponse,
   ReloadScopesResult,
-  ScopeModule,
 } from './modules/scope';
-export { DismissSplashScreenResponse, SplashScreenModule } from './modules/splash-screen';
-export {
+export { ScopeModule } from './modules/scope';
+export type { DismissSplashScreenResponse } from './modules/splash-screen';
+export { SplashScreenModule } from './modules/splash-screen';
+export type {
   GetBooleanRequest,
   GetBooleanResponse,
   GetBooleanResult,
@@ -175,19 +172,19 @@ export {
   SetStringRequest,
   SetStringResponse,
   SetStringResult,
-  StorageModule,
 } from './modules/storage';
-export {
+export { StorageModule } from './modules/storage';
+export type {
   RedirectToSystemWebViewRequest,
   RedirectToSystemWebViewResponse,
   RedirectToSystemWebViewResult,
-  SystemWebViewKitModule,
 } from './modules/system-web-view-kit';
-export {
+export { SystemWebViewKitModule } from './modules/system-web-view-kit';
+export type {
   GetSelectedTravelDestinationResponse,
   GetSelectedTravelDestinationResult,
-  UserAttributesModule,
 } from './modules/user-attributes';
-export { _Logger } from './utils/logger';
-export type { _GrabAppInfo, _Platform } from './utils/platform';
-export type { _Version } from './utils/version';
+export { UserAttributesModule } from './modules/user-attributes';
+export type { Logger } from './utils/logger';
+export type { GrabAppInfo, Platform } from './utils/platform';
+export type { Version } from './utils/version';

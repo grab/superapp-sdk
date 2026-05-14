@@ -27,7 +27,7 @@
     "notExported": true
   },
   "categorizeByGroup": true,
-  "groupOrder": ["Documents", "Modules", "Type Guards", "Core", "Internals", "*"],
+  "groupOrder": ["Documents", "Modules", "Type Guards", "Core", "*"],
   "categoryOrder": [
     "Camera",
     "Checkout",

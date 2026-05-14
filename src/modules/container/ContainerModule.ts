@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule, isOk } from '../../core';
+import { BaseModule, isOk } from '../../core';
 import { isRunningInGrabApp } from '../../utils/platform';
 import {
   CloseResponseSchema,
@@ -98,7 +98,7 @@ import {
  * @public
  * @noInheritDoc
  */
-export class ContainerModule extends _BaseModule {
+export class ContainerModule extends BaseModule {
   constructor() {
     super('ContainerModule');
   }

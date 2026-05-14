@@ -5,26 +5,26 @@
  * directory of this source tree.
  */
 
-import type { _Version } from '../version';
+import type { Version } from '../version';
 
 /**
  * Represents the mobile operating system platform.
  *
- * @group Internals
+ * @group Core
  *
  * @public
  */
-export type _Platform = 'Android' | 'iOS';
+export type Platform = 'Android' | 'iOS';
 
 /**
  * Represents parsed information from a Grab app user agent string.
  *
- * @group Internals
+ * @group Core
  *
  * @public
  */
-export interface _GrabAppInfo {
+export interface GrabAppInfo {
   appName: string;
-  version: _Version;
-  platform: _Platform;
+  version: Version;
+  platform: Platform;
 }

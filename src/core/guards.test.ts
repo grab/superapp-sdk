@@ -152,9 +152,9 @@ describe('guards', () => {
       expect(isClientError(response)).toBe(true);
     });
 
-    it('should return true for status code 499', () => {
+    it('should return false for status code 499', () => {
       const response: SDKResponse = { status_code: 499, error: 'Client Error' };
-      expect(isClientError(response)).toBe(true);
+      expect(isClientError(response)).toBe(false);
     });
 
     it('should return false for status code 399', () => {
@@ -184,9 +184,9 @@ describe('guards', () => {
       expect(isServerError(response)).toBe(true);
     });
 
-    it('should return true for status code 599', () => {
+    it('should return false for status code 599', () => {
       const response: SDKResponse = { status_code: 599, error: 'Server Error' };
-      expect(isServerError(response)).toBe(true);
+      expect(isServerError(response)).toBe(false);
     });
 
     it('should return false for status code 499', () => {

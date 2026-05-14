@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
 import { DownloadFileRequest, DownloadFileResponse } from './types';
 
@@ -38,7 +38,7 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class FileModule extends _BaseModule {
+export class FileModule extends BaseModule {
   constructor() {
     super('FileModule');
   }

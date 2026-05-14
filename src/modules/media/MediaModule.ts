@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { PlayDRMContentResponseSchema } from './schemas';
 import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
@@ -38,7 +38,7 @@ import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } 
  * @public
  * @noInheritDoc
  */
-export class MediaModule extends _BaseModule {
+export class MediaModule extends BaseModule {
   constructor() {
     super('MediaModule');
   }

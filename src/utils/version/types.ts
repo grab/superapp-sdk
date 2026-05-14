@@ -8,11 +8,11 @@
 /**
  * Represents a semantic version with major, minor, and patch components.
  *
- * @group Internals
+ * @group Core
  *
  * @public
  */
-export interface _Version {
+export interface Version {
   major: number;
   minor: number;
   patch: number;

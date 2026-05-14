@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { GetLanguageLocaleIdentifierResponseSchema } from './schemas';
 import { GetLanguageLocaleIdentifierResponse } from './types';
 
@@ -38,7 +38,7 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class LocaleModule extends _BaseModule {
+export class LocaleModule extends BaseModule {
   constructor() {
     super('LocaleModule');
   }

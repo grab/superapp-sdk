@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { GetSelectedTravelDestinationResponseSchema } from './schemas';
 import { GetSelectedTravelDestinationResponse } from './types';
 
@@ -38,7 +38,7 @@ import { GetSelectedTravelDestinationResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class UserAttributesModule extends _BaseModule {
+export class UserAttributesModule extends BaseModule {
   constructor() {
     super('UserAttributesModule');
   }

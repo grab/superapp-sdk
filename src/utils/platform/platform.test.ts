@@ -8,7 +8,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { detectGrabApp, isAndroid, isIOS, isRunningInGrabApp } from './platform';
-import { _GrabAppInfo } from './types';
+import { GrabAppInfo } from './types';
 
 describe('platform utilities', () => {
   afterEach(() => {
@@ -58,7 +58,7 @@ describe('platform utilities', () => {
     it('should extract info from various Grab app user agents', () => {
       const testCases: Array<{
         userAgent: string;
-        expected: _GrabAppInfo;
+        expected: GrabAppInfo;
       }> = [
         {
           userAgent: 'Grab/5.396.0 (iPhone; iOS 16.0)',
@@ -192,14 +192,14 @@ describe('platform utilities', () => {
 
   describe('isAndroid', () => {
     it('should correctly identify Android platform', () => {
-      const testCases: Array<{ appName: _GrabAppInfo['appName']; expected: boolean }> = [
+      const testCases: Array<{ appName: GrabAppInfo['appName']; expected: boolean }> = [
         { appName: 'Grab', expected: true },
         { appName: 'GrabBeta', expected: true },
         { appName: 'GrabTaxi', expected: true },
       ];
 
       for (const { appName, expected } of testCases) {
-        const appInfo: _GrabAppInfo = {
+        const appInfo: GrabAppInfo = {
           appName,
           version: { major: 5, minor: 396, patch: 0 },
           platform: 'Android',
@@ -209,7 +209,7 @@ describe('platform utilities', () => {
     });
 
     it('should return false for iOS platform', () => {
-      const appInfo: _GrabAppInfo = {
+      const appInfo: GrabAppInfo = {
         appName: 'Grab',
         version: { major: 5, minor: 396, patch: 0 },
         platform: 'iOS',
@@ -220,14 +220,14 @@ describe('platform utilities', () => {
 
   describe('isIOS', () => {
     it('should correctly identify iOS platform', () => {
-      const testCases: Array<{ appName: _GrabAppInfo['appName']; expected: boolean }> = [
+      const testCases: Array<{ appName: GrabAppInfo['appName']; expected: boolean }> = [
         { appName: 'Grab', expected: true },
         { appName: 'GrabBeta', expected: true },
         { appName: 'GrabTaxi', expected: true },
       ];
 
       for (const { appName, expected } of testCases) {
-        const appInfo: _GrabAppInfo = {
+        const appInfo: GrabAppInfo = {
           appName,
           version: { major: 5, minor: 396, patch: 0 },
           platform: 'iOS',
@@ -237,7 +237,7 @@ describe('platform utilities', () => {
     });
 
     it('should return false for Android platform', () => {
-      const appInfo: _GrabAppInfo = {
+      const appInfo: GrabAppInfo = {
         appName: 'Grab',
         version: { major: 5, minor: 396, patch: 0 },
         platform: 'Android',

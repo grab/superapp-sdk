@@ -6,4 +6,4 @@
  */
 
 export { detectGrabApp, isAndroid, isIOS, isRunningInGrabApp } from './platform';
-export type { _GrabAppInfo, _Platform } from './types';
+export type { GrabAppInfo, Platform } from './types';

@@ -5,8 +5,8 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
-import { _Version, meetsMinimumVersion } from '../../utils/version';
+import { BaseModule } from '../../core';
+import { meetsMinimumVersion } from '../../utils/version';
 import { IsEsimSupportedResponseSchema } from './schemas';
 import { IsEsimSupportedResponse } from './types';
 
@@ -39,8 +39,12 @@ import { IsEsimSupportedResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class DeviceModule extends _BaseModule {
-  static readonly MINIMUM_VERSION: _Version = { major: 5, minor: 409, patch: 0 };
+export class DeviceModule extends BaseModule {
+  static readonly MINIMUMVersion: Readonly<{ major: number; minor: number; patch: number }> = {
+    major: 5,
+    minor: 409,
+    patch: 0,
+  };
 
   constructor() {
     super('DeviceModule');
@@ -96,7 +100,7 @@ export class DeviceModule extends _BaseModule {
    */
   async isEsimSupported(): Promise<IsEsimSupportedResponse> {
     const supportError = this.checkSupport((appInfo) =>
-      meetsMinimumVersion(appInfo.version, DeviceModule.MINIMUM_VERSION)
+      meetsMinimumVersion(appInfo.version, DeviceModule.MINIMUMVersion)
     );
     if (supportError) return supportError;
 

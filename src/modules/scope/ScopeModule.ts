@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import {
   HasAccessToRequestSchema,
   HasAccessToResponseSchema,
@@ -42,7 +42,7 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class ScopeModule extends _BaseModule {
+export class ScopeModule extends BaseModule {
   constructor() {
     super('ScopeModule');
   }

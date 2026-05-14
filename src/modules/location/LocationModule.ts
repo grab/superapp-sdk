@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
+import { BaseModule } from '../../core';
 import { GetCoordinateResponseSchema, GetCountryCodeResponseSchema } from './schemas';
 import {
   GetCoordinateResponse,
@@ -42,7 +42,7 @@ import {
  * @public
  * @noInheritDoc
  */
-export class LocationModule extends _BaseModule {
+export class LocationModule extends BaseModule {
   constructor() {
     super('LocationModule');
   }

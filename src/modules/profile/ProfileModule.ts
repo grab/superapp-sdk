@@ -5,8 +5,8 @@
  * directory of this source tree.
  */
 
-import { _BaseModule } from '../../core';
-import { _Version, meetsMinimumVersion } from '../../utils/version';
+import { BaseModule } from '../../core';
+import { meetsMinimumVersion } from '../../utils/version';
 import {
   FetchEmailResponseSchema,
   VerifyEmailRequestSchema,
@@ -43,12 +43,16 @@ import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './t
  * @public
  * @noInheritDoc
  */
-export class ProfileModule extends _BaseModule {
+export class ProfileModule extends BaseModule {
   constructor() {
     super('ProfileModule');
   }
 
-  static readonly MINIMUM_VERSION: _Version = { major: 5, minor: 399, patch: 0 };
+  static readonly MINIMUMVersion: Readonly<{ major: number; minor: number; patch: number }> = {
+    major: 5,
+    minor: 399,
+    patch: 0,
+  };
 
   /**
    * Fetches the user's email address from their Grab profile.
@@ -101,7 +105,7 @@ export class ProfileModule extends _BaseModule {
    */
   async fetchEmail(): Promise<FetchEmailResponse> {
     const supportError = this.checkSupport((appInfo) =>
-      meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION)
+      meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUMVersion)
     );
     if (supportError) return supportError;
 
@@ -183,7 +187,7 @@ export class ProfileModule extends _BaseModule {
    */
   async verifyEmail(request?: VerifyEmailRequest): Promise<VerifyEmailResponse> {
     const supportError = this.checkSupport((appInfo) =>
-      meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUM_VERSION)
+      meetsMinimumVersion(appInfo.version, ProfileModule.MINIMUMVersion)
     );
     if (supportError) return supportError;
 
