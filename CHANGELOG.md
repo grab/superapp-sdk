@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.52] - 2026-05-14
+
+_Metadata-only release to improve handling of generated assets._
+
+### Added
+
+- Added `.gitattributes` rules to mark `docs/**` and `skills/**` as `gitlab-generated`.
+
 ## [2.0.0-beta.51] - 2026-05-12
 
 _Bump eSIM minimum Grab app to 5.409.0; Slack release posts use an in-channel header with changelog in a thread._
