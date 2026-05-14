@@ -6,7 +6,6 @@
  */
 
 export type {
-  BaseModule,
   InvokeOptions,
   SDKClientErrorStatusCode,
   SDKErrorResponse,
@@ -185,6 +184,6 @@ export type {
   GetSelectedTravelDestinationResult,
 } from './modules/user-attributes';
 export { UserAttributesModule } from './modules/user-attributes';
-export type { Logger } from './utils/logger';
+export { Logger } from './utils/logger';
 export type { GrabAppInfo, Platform } from './utils/platform';
 export type { Version } from './utils/version';
