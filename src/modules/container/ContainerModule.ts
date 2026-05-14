@@ -13,20 +13,20 @@ import {
   HideBackButtonResponseSchema,
   HideLoaderResponseSchema,
   HideRefreshButtonResponseSchema,
+  NativeCloseResponseSchema,
+  NativeHideBackButtonResponseSchema,
+  NativeHideLoaderResponseSchema,
+  NativeHideRefreshButtonResponseSchema,
+  NativeOpenExternalLinkResponseSchema,
+  NativeSendAnalyticsEventResponseSchema,
+  NativeSetBackgroundColorResponseSchema,
+  NativeSetTitleResponseSchema,
+  NativeShowBackButtonResponseSchema,
+  NativeShowLoaderResponseSchema,
+  NativeShowRefreshButtonResponseSchema,
   OnContentLoadedResponseSchema,
   OnCtaTapResponseSchema,
   OpenExternalLinkResponseSchema,
-  RawCloseResponseSchema,
-  RawHideBackButtonResponseSchema,
-  RawHideLoaderResponseSchema,
-  RawHideRefreshButtonResponseSchema,
-  RawOpenExternalLinkResponseSchema,
-  RawSendAnalyticsEventResponseSchema,
-  RawSetBackgroundColorResponseSchema,
-  RawSetTitleResponseSchema,
-  RawShowBackButtonResponseSchema,
-  RawShowLoaderResponseSchema,
-  RawShowRefreshButtonResponseSchema,
   SendAnalyticsEventRequestSchema,
   SendAnalyticsEventResponseSchema,
   SetBackgroundColorResponseSchema,
@@ -42,22 +42,22 @@ import {
   HideLoaderResponse,
   HideRefreshButtonResponse,
   IsConnectedResponse,
+  NativeCloseResponse,
+  NativeHideBackButtonResponse,
+  NativeHideLoaderResponse,
+  NativeHideRefreshButtonResponse,
+  NativeOpenExternalLinkResponse,
+  NativeSendAnalyticsEventResponse,
+  NativeSetBackgroundColorResponse,
+  NativeSetTitleResponse,
+  NativeShowBackButtonResponse,
+  NativeShowLoaderResponse,
+  NativeShowRefreshButtonResponse,
   OnContentLoadedResponse,
   OnCtaTapRequest,
   OnCtaTapResponse,
   OpenExternalLinkRequest,
   OpenExternalLinkResponse,
-  RawCloseResponse,
-  RawHideBackButtonResponse,
-  RawHideLoaderResponse,
-  RawHideRefreshButtonResponse,
-  RawOpenExternalLinkResponse,
-  RawSendAnalyticsEventResponse,
-  RawSetBackgroundColorResponse,
-  RawSetTitleResponse,
-  RawShowBackButtonResponse,
-  RawShowLoaderResponse,
-  RawShowRefreshButtonResponse,
   SendAnalyticsEventRequest,
   SendAnalyticsEventResponse,
   SetBackgroundColorRequest,
@@ -70,7 +70,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for controlling the WebView container.
+ * Module for controlling the WebView container via JSBridge.
  *
  * @group Modules
  * @category Container
@@ -140,21 +140,27 @@ export class ContainerModule extends _BaseModule {
   async setBackgroundColor(
     request: SetBackgroundColorRequest
   ): Promise<SetBackgroundColorResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'setBackgroundColor',
       params: { backgroundColor: request },
-    })) as RawSetBackgroundColorResponse;
+    })) as NativeSetBackgroundColorResponse;
 
-    const rawResponseError = this.validate(RawSetBackgroundColorResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('setBackgroundColor', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(
+      NativeSetBackgroundColorResponseSchema,
+      nativeResponse
+    );
+    if (nativeResponseError)
+      this.logger.warn(
+        'setBackgroundColor',
+        `Unexpected native response shape: ${nativeResponseError}`
+      );
 
     // Transform 200 OK -> 204 No Content
     let response: SetBackgroundColorResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as SetBackgroundColorResponse;
+      response = nativeResponse as SetBackgroundColorResponse;
     }
 
     const responseError = this.validate(SetBackgroundColorResponseSchema, response);
@@ -199,21 +205,21 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async setTitle(request: SetTitleRequest): Promise<SetTitleResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'setTitle',
       params: { title: request },
-    })) as RawSetTitleResponse;
+    })) as NativeSetTitleResponse;
 
-    const rawResponseError = this.validate(RawSetTitleResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('setTitle', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeSetTitleResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('setTitle', `Unexpected native response shape: ${nativeResponseError}`);
 
     // Transform 200 OK -> 204 No Content
     let response: SetTitleResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as SetTitleResponse;
+      response = nativeResponse as SetTitleResponse;
     }
 
     const responseError = this.validate(SetTitleResponseSchema, response);
@@ -254,20 +260,23 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async hideBackButton(): Promise<HideBackButtonResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'hideBackButton',
-    })) as RawHideBackButtonResponse;
+    })) as NativeHideBackButtonResponse;
 
-    const rawResponseError = this.validate(RawHideBackButtonResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('hideBackButton', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeHideBackButtonResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn(
+        'hideBackButton',
+        `Unexpected native response shape: ${nativeResponseError}`
+      );
 
     // Transform 200 OK -> 204 No Content
     let response: HideBackButtonResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as HideBackButtonResponse;
+      response = nativeResponse as HideBackButtonResponse;
     }
 
     const responseError = this.validate(HideBackButtonResponseSchema, response);
@@ -309,20 +318,23 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async showBackButton(): Promise<ShowBackButtonResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'showBackButton',
-    })) as RawShowBackButtonResponse;
+    })) as NativeShowBackButtonResponse;
 
-    const rawResponseError = this.validate(RawShowBackButtonResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('showBackButton', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeShowBackButtonResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn(
+        'showBackButton',
+        `Unexpected native response shape: ${nativeResponseError}`
+      );
 
     // Transform 200 OK -> 204 No Content
     let response: ShowBackButtonResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as ShowBackButtonResponse;
+      response = nativeResponse as ShowBackButtonResponse;
     }
 
     const responseError = this.validate(ShowBackButtonResponseSchema, response);
@@ -364,20 +376,26 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async hideRefreshButton(): Promise<HideRefreshButtonResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'hideRefreshButton',
-    })) as RawHideRefreshButtonResponse;
+    })) as NativeHideRefreshButtonResponse;
 
-    const rawResponseError = this.validate(RawHideRefreshButtonResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('hideRefreshButton', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(
+      NativeHideRefreshButtonResponseSchema,
+      nativeResponse
+    );
+    if (nativeResponseError)
+      this.logger.warn(
+        'hideRefreshButton',
+        `Unexpected native response shape: ${nativeResponseError}`
+      );
 
     // Transform 200 OK -> 204 No Content
     let response: HideRefreshButtonResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as HideRefreshButtonResponse;
+      response = nativeResponse as HideRefreshButtonResponse;
     }
 
     const responseError = this.validate(HideRefreshButtonResponseSchema, response);
@@ -419,20 +437,26 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async showRefreshButton(): Promise<ShowRefreshButtonResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'showRefreshButton',
-    })) as RawShowRefreshButtonResponse;
+    })) as NativeShowRefreshButtonResponse;
 
-    const rawResponseError = this.validate(RawShowRefreshButtonResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('showRefreshButton', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(
+      NativeShowRefreshButtonResponseSchema,
+      nativeResponse
+    );
+    if (nativeResponseError)
+      this.logger.warn(
+        'showRefreshButton',
+        `Unexpected native response shape: ${nativeResponseError}`
+      );
 
     // Transform 200 OK -> 204 No Content
     let response: ShowRefreshButtonResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as ShowRefreshButtonResponse;
+      response = nativeResponse as ShowRefreshButtonResponse;
     }
 
     const responseError = this.validate(ShowRefreshButtonResponseSchema, response);
@@ -474,20 +498,20 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async close(): Promise<CloseResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'close',
-    })) as RawCloseResponse;
+    })) as NativeCloseResponse;
 
-    const rawResponseError = this.validate(RawCloseResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('close', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeCloseResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('close', `Unexpected native response shape: ${nativeResponseError}`);
 
     // Transform 200 OK -> 204 No Content
     let response: CloseResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as CloseResponse;
+      response = nativeResponse as CloseResponse;
     }
 
     const responseError = this.validate(CloseResponseSchema, response);
@@ -575,20 +599,20 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async showLoader(): Promise<ShowLoaderResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'showLoader',
-    })) as RawShowLoaderResponse;
+    })) as NativeShowLoaderResponse;
 
-    const rawResponseError = this.validate(RawShowLoaderResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('showLoader', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeShowLoaderResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('showLoader', `Unexpected native response shape: ${nativeResponseError}`);
 
     // Transform 200 OK -> 204 No Content
     let response: ShowLoaderResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as ShowLoaderResponse;
+      response = nativeResponse as ShowLoaderResponse;
     }
 
     const responseError = this.validate(ShowLoaderResponseSchema, response);
@@ -633,20 +657,20 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async hideLoader(): Promise<HideLoaderResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'hideLoader',
-    })) as RawHideLoaderResponse;
+    })) as NativeHideLoaderResponse;
 
-    const rawResponseError = this.validate(RawHideLoaderResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('hideLoader', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeHideLoaderResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('hideLoader', `Unexpected native response shape: ${nativeResponseError}`);
 
     // Transform 200 OK -> 204 No Content
     let response: HideLoaderResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as HideLoaderResponse;
+      response = nativeResponse as HideLoaderResponse;
     }
 
     const responseError = this.validate(HideLoaderResponseSchema, response);
@@ -694,21 +718,24 @@ export class ContainerModule extends _BaseModule {
    * @public
    */
   async openExternalLink(request: OpenExternalLinkRequest): Promise<OpenExternalLinkResponse> {
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'openExternalLink',
       params: { url: request },
-    })) as RawOpenExternalLinkResponse;
+    })) as NativeOpenExternalLinkResponse;
 
-    const rawResponseError = this.validate(RawOpenExternalLinkResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('openExternalLink', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeOpenExternalLinkResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn(
+        'openExternalLink',
+        `Unexpected native response shape: ${nativeResponseError}`
+      );
 
     // Transform 200 OK -> 204 No Content
     let response: OpenExternalLinkResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as OpenExternalLinkResponse;
+      response = nativeResponse as OpenExternalLinkResponse;
     }
 
     const responseError = this.validate(OpenExternalLinkResponseSchema, response);
@@ -825,25 +852,31 @@ export class ContainerModule extends _BaseModule {
     const requestError = this.validate(SendAnalyticsEventRequestSchema, request);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'sendAnalyticsEvent',
       params: {
         state: request.state,
         name: request.name,
         data: request.data ? JSON.stringify(request.data) : null,
       },
-    })) as RawSendAnalyticsEventResponse;
+    })) as NativeSendAnalyticsEventResponse;
 
-    const rawResponseError = this.validate(RawSendAnalyticsEventResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('sendAnalyticsEvent', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(
+      NativeSendAnalyticsEventResponseSchema,
+      nativeResponse
+    );
+    if (nativeResponseError)
+      this.logger.warn(
+        'sendAnalyticsEvent',
+        `Unexpected native response shape: ${nativeResponseError}`
+      );
 
     // Transform 200 OK -> 204 No Content
     let response: SendAnalyticsEventResponse;
-    if (isOk(rawResponse)) {
+    if (isOk(nativeResponse)) {
       response = { status_code: 204 };
     } else {
-      response = rawResponse as SendAnalyticsEventResponse;
+      response = nativeResponse as SendAnalyticsEventResponse;
     }
 
     const responseError = this.validate(SendAnalyticsEventResponseSchema, response);

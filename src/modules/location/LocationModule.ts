@@ -14,7 +14,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for accessing device location services.
+ * Module for accessing device location services via JSBridge.
  *
  * @group Modules
  * @category Location
@@ -106,7 +106,7 @@ export class LocationModule extends _BaseModule {
    *
    * @requiredOAuthScope mobile.geolocation
    *
-   * @returns A `SDKStream` that emits location updates as the device location changes.
+   * @returns Emits location updates as the device location changes.
    * Use `subscribe()` to listen for updates, or `await` to get the first value only.
    *
    * Stream results can have the following status codes:
@@ -118,7 +118,6 @@ export class LocationModule extends _BaseModule {
    * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @remarks
-   * This method returns a `SDKStream` that continuously emits location updates.
    * Remember to call `unsubscribe()` on the subscription when you no longer need updates
    * to conserve battery and free resources.
    *

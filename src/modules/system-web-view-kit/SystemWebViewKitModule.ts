@@ -13,7 +13,7 @@ import {
 import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
- * JSBridge module for opening URLs in the system web view.
+ * Module for opening URLs in the system web view via JSBridge.
  *
  * @group Modules
  * @category System Web View Kit

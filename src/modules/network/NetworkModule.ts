@@ -6,11 +6,11 @@
  */
 
 import { _BaseModule, hasResult, isSuccess } from '../../core';
-import { RawSendResponseSchema, SendRequestSchema, SendResponseSchema } from './schemas';
-import { RawSendResponse, SendRequest, SendResponse } from './types';
+import { NativeSendResponseSchema, SendRequestSchema, SendResponseSchema } from './schemas';
+import { NativeSendResponse, SendRequest, SendResponse } from './types';
 
 /**
- * JSBridge module for making network requests via the native JSBridge.
+ * Module for making network requests via JSBridge.
  *
  * @group Modules
  * @category Network
@@ -46,7 +46,7 @@ export class NetworkModule extends _BaseModule {
   }
 
   /**
-   * Sends a network request via the native JSBridge.
+   * Sends a network request via JSBridge.
    *
    * @param request - Network request configuration.
    * Request fields:
@@ -78,7 +78,7 @@ export class NetworkModule extends _BaseModule {
    * // Initialize the network module
    * const network = new NetworkModule();
    *
-   * // Send an HTTP request through the native JSBridge
+   * // Send an HTTP request through JSBridge
    * const response = await network.send({
    *   endpoint: 'https://api.example.com/users',
    *   method: 'POST',
@@ -103,28 +103,28 @@ export class NetworkModule extends _BaseModule {
     const requestError = this.validate(SendRequestSchema, request);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'send',
       params: request,
-    })) as RawSendResponse;
+    })) as NativeSendResponse;
 
-    const rawResponseError = this.validate(RawSendResponseSchema, rawResponse);
-    if (rawResponseError) {
-      this.logger.warn('send', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeSendResponseSchema, nativeResponse);
+    if (nativeResponseError) {
+      this.logger.warn('send', `Unexpected native response shape: ${nativeResponseError}`);
     }
 
-    // The native JSBridge may return response bodies as JSON strings
+    // JSBridge may return response bodies as JSON strings
     // Parse string results into objects for consistency.
     // If parsing fails, return a 500 error rather than exposing invalid data.
     if (
-      isSuccess(rawResponse) &&
-      hasResult(rawResponse) &&
-      typeof rawResponse.result === 'string'
+      isSuccess(nativeResponse) &&
+      hasResult(nativeResponse) &&
+      typeof nativeResponse.result === 'string'
     ) {
       try {
-        const parsedResult = JSON.parse(rawResponse.result) as Record<string, unknown>;
+        const parsedResult = JSON.parse(nativeResponse.result) as Record<string, unknown>;
         const response: SendResponse = {
-          ...rawResponse,
+          ...nativeResponse,
           result: parsedResult,
         };
 
@@ -142,7 +142,7 @@ export class NetworkModule extends _BaseModule {
       }
     }
 
-    const response = rawResponse as SendResponse;
+    const response = nativeResponse as SendResponse;
 
     const responseError = this.validate(SendResponseSchema, response);
     if (responseError) {

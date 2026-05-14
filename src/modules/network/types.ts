@@ -117,21 +117,21 @@ export type SendResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response result.
+ * Internal type for the native response result.
  * The native JSBridge may return either a JSON string or a parsed Record.
  *
  * @internal
  */
-export type RawSendResult = string | SendResult;
+export type NativeSendResult = string | SendResult;
 
 /**
- * Internal type for the raw SDK response before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawSendResponse =
-  | SDKOkResponse<RawSendResult>
+export type NativeSendResponse =
+  | SDKOkResponse<NativeSendResult>
   | SDKNoContentResponse
   | SDKErrorResponse<400>
   | SDKErrorResponse<401>

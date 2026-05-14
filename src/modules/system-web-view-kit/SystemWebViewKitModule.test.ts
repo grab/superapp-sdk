@@ -190,7 +190,7 @@ describe('SystemWebViewKitModule', () => {
       });
 
       const mockInvoke = vi.fn().mockImplementation(() => {
-        throw new Error('Unexpected bridge error');
+        throw new Error('Unexpected JSBridge error');
       });
 
       (
@@ -209,7 +209,7 @@ describe('SystemWebViewKitModule', () => {
       });
       expect(response.status_code).toBe(500);
       if (response.status_code === 500) {
-        expect(response.error).toBe('Failed to invoke method: Unexpected bridge error');
+        expect(response.error).toBe('Failed to invoke method: Unexpected JSBridge error');
       }
     });
   });

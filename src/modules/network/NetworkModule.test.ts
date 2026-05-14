@@ -107,7 +107,7 @@ describe('NetworkModule', () => {
       }
     });
 
-    it('should parse stringified JSON result from native bridge', async () => {
+    it('should parse stringified JSON result from native JSBridge', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.399.0 (Android 13; SM-G998B)',
       });
@@ -209,7 +209,7 @@ describe('NetworkModule', () => {
       });
 
       const mockInvoke = vi.fn().mockImplementation(() => {
-        throw new Error('Unexpected bridge error');
+        throw new Error('Unexpected JSBridge error');
       });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedNetworkModule = {
@@ -228,7 +228,7 @@ describe('NetworkModule', () => {
       });
       expect(response.status_code).toBe(500);
       if (isError(response)) {
-        expect(response.error).toBe('Failed to invoke method: Unexpected bridge error');
+        expect(response.error).toBe('Failed to invoke method: Unexpected JSBridge error');
       }
     });
   });

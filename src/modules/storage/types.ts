@@ -87,11 +87,11 @@ export interface GetBooleanRequest {
 export type GetBooleanResult = boolean;
 
 /**
- * Internal type for the raw SDK response from getBoolean before normalization.
+ * Internal type for the native response from getBoolean before normalization.
  *
  * @internal
  */
-export type RawGetBooleanResponse =
+export type NativeGetBooleanResponse =
   | { status_code: 200; result?: boolean | null }
   | SDKNoContentResponse
   | SDKErrorResponse<400>
@@ -193,11 +193,11 @@ export interface GetIntRequest {
 export type GetIntResult = number;
 
 /**
- * Internal type for the raw SDK response from getInt before normalization.
+ * Internal type for the native response from getInt before normalization.
  *
  * @internal
  */
-export type RawGetIntResponse =
+export type NativeGetIntResponse =
   | { status_code: 200; result?: number | null }
   | SDKNoContentResponse
   | SDKErrorResponse<400>
@@ -299,11 +299,11 @@ export interface GetStringRequest {
 export type GetStringResult = string;
 
 /**
- * Internal type for the raw SDK response from getString before normalization.
+ * Internal type for the native response from getString before normalization.
  *
  * @internal
  */
-export type RawGetStringResponse =
+export type NativeGetStringResponse =
   | { status_code: 200; result?: string | null }
   | SDKNoContentResponse
   | SDKErrorResponse<400>
@@ -405,11 +405,11 @@ export interface GetDoubleRequest {
 export type GetDoubleResult = number;
 
 /**
- * Internal type for the raw SDK response from getDouble before normalization.
+ * Internal type for the native response from getDouble before normalization.
  *
  * @internal
  */
-export type RawGetDoubleResponse =
+export type NativeGetDoubleResponse =
   | { status_code: 200; result?: number | null }
   | SDKNoContentResponse
   | SDKErrorResponse<400>

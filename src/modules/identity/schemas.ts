@@ -20,7 +20,7 @@ import type {
   ClearAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResult,
-  RawAuthorizeResponse,
+  NativeAuthorizeResponse,
 } from './types';
 
 /**
@@ -36,18 +36,18 @@ export const AuthorizeRequestSchema: v.GenericSchema<AuthorizeRequest> = v.objec
   responseMode: v.optional(v.picklist(['redirect', 'in_place'])),
 });
 
-const RawAuthorizeResultSchema = v.object({
+const NativeAuthorizeResultSchema = v.object({
   code: v.string(),
   state: v.string(),
 });
 
 /**
- * Internal valibot schema for the raw SDK response from `authorize` before enrichment.
+ * Internal valibot schema for the native response from `authorize` before enrichment.
  *
  * @internal
  */
-export const RawAuthorizeResponseSchema: v.GenericSchema<RawAuthorizeResponse> = v.union([
-  sdkOkResponseSchema(RawAuthorizeResultSchema),
+export const NativeAuthorizeResponseSchema: v.GenericSchema<NativeAuthorizeResponse> = v.union([
+  sdkOkResponseSchema(NativeAuthorizeResultSchema),
   sdkNoContentResponseSchema,
   sdkRedirectResponseSchema,
   sdkErrorResponseSchema(400),

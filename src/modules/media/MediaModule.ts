@@ -10,7 +10,7 @@ import { PlayDRMContentResponseSchema } from './schemas';
 import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
 /**
- * JSBridge module for playing DRM-protected media content.
+ * Module for playing DRM-protected media content via JSBridge.
  *
  * @group Modules
  * @category Media
@@ -118,7 +118,7 @@ export class MediaModule extends _BaseModule {
    * Request fields:
    * - Same provider-specific keys as for `playDRMContent` (see `DRMContentConfig`).
    *
-   * @returns A `SDKStream` that emits playback events as the media plays.
+   * @returns Emits playback events as the media plays.
    * Use `subscribe()` to listen for updates, or `await` to get the first value only.
    *
    * Stream results can have the following status codes:

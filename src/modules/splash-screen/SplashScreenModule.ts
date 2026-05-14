@@ -10,7 +10,7 @@ import { DismissSplashScreenResponseSchema } from './schemas';
 import { DismissSplashScreenResponse } from './types';
 
 /**
- * JSBridge module for controlling the native splash / Lottie loading screen.
+ * Module for controlling the native splash / Lottie loading screen via JSBridge.
  *
  * @group Modules
  * @category Splash Screen

@@ -9,10 +9,10 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { StorageModule } from './StorageModule';
 import type {
-  RawGetBooleanResponse,
-  RawGetDoubleResponse,
-  RawGetIntResponse,
-  RawGetStringResponse,
+  NativeGetBooleanResponse,
+  NativeGetDoubleResponse,
+  NativeGetIntResponse,
+  NativeGetStringResponse,
 } from './types';
 import {
   RemoveAllResponse,
@@ -83,7 +83,7 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -113,12 +113,12 @@ describe('StorageModule', () => {
     it('should return 200 with boolean value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse: RawGetBooleanResponse = {
+      const nativeResponse: NativeGetBooleanResponse = {
         status_code: 200,
         result: true,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -132,15 +132,15 @@ describe('StorageModule', () => {
       }
     });
 
-    it('should return 204 when bridge reports null result for missing key', async () => {
+    it('should return 204 when JSBridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawSdkResponse: RawGetBooleanResponse = {
+      const nativeResponse: NativeGetBooleanResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -150,12 +150,12 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 204 when bridge omits result on 200', async () => {
+    it('should return 204 when JSBridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetBooleanResponse;
+      const nativeResponse = { status_code: 200 as const } satisfies NativeGetBooleanResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -165,7 +165,7 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -209,7 +209,7 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -239,12 +239,12 @@ describe('StorageModule', () => {
     it('should return 200 with integer value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse: RawGetIntResponse = {
+      const nativeResponse: NativeGetIntResponse = {
         status_code: 200,
         result: 42,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -258,15 +258,15 @@ describe('StorageModule', () => {
       }
     });
 
-    it('should return 204 when bridge reports null result for missing key', async () => {
+    it('should return 204 when JSBridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawSdkResponse: RawGetIntResponse = {
+      const nativeResponse: NativeGetIntResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -276,12 +276,12 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 204 when bridge omits result on 200', async () => {
+    it('should return 204 when JSBridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetIntResponse;
+      const nativeResponse = { status_code: 200 as const } satisfies NativeGetIntResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -291,7 +291,7 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -335,7 +335,7 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -365,12 +365,12 @@ describe('StorageModule', () => {
     it('should return 200 with string value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse: RawGetStringResponse = {
+      const nativeResponse: NativeGetStringResponse = {
         status_code: 200,
         result: 'john_doe',
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -384,15 +384,15 @@ describe('StorageModule', () => {
       }
     });
 
-    it('should return 204 when bridge reports null result for missing key', async () => {
+    it('should return 204 when JSBridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawSdkResponse: RawGetStringResponse = {
+      const nativeResponse: NativeGetStringResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -402,12 +402,12 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 204 when bridge omits result on 200', async () => {
+    it('should return 204 when JSBridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetStringResponse;
+      const nativeResponse = { status_code: 200 as const } satisfies NativeGetStringResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -417,7 +417,7 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -461,7 +461,7 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -491,12 +491,12 @@ describe('StorageModule', () => {
     it('should return 200 with double value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse: RawGetDoubleResponse = {
+      const nativeResponse: NativeGetDoubleResponse = {
         status_code: 200,
         result: 19.99,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -510,15 +510,15 @@ describe('StorageModule', () => {
       }
     });
 
-    it('should return 204 when bridge reports null result for missing key', async () => {
+    it('should return 204 when JSBridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawSdkResponse: RawGetDoubleResponse = {
+      const nativeResponse: NativeGetDoubleResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -528,12 +528,12 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 204 when bridge omits result on 200', async () => {
+    it('should return 204 when JSBridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetDoubleResponse;
+      const nativeResponse = { status_code: 200 as const } satisfies NativeGetDoubleResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(nativeResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -543,7 +543,7 @@ describe('StorageModule', () => {
       expect('result' in response).toBe(false);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -587,7 +587,7 @@ describe('StorageModule', () => {
       expect(response.status_code).toBe(204);
     });
 
-    it('should return 400 when key is empty without calling the bridge', async () => {
+    it('should return 400 when key is empty without calling the JSBridge', async () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn();
@@ -652,7 +652,7 @@ describe('StorageModule', () => {
       stubGrabUserAgent();
 
       const mockInvoke = vi.fn().mockImplementation(() => {
-        throw new Error('Unexpected bridge error');
+        throw new Error('Unexpected JSBridge error');
       });
       installWrappedStorageMock(mockInvoke);
 
@@ -662,7 +662,7 @@ describe('StorageModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('removeAll', undefined);
       expect(response.status_code).toBe(500);
       if (response.status_code === 500) {
-        expect(response.error).toBe('Failed to invoke method: Unexpected bridge error');
+        expect(response.error).toBe('Failed to invoke method: Unexpected JSBridge error');
       }
     });
   });

@@ -101,7 +101,7 @@ describe('DeviceModule', () => {
       }
     });
 
-    it('should return 403 when bridge returns forbidden', async () => {
+    it('should return 403 when JSBridge returns forbidden', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.409.0 (iPhone; iOS 16.0)',
       });
@@ -127,7 +127,7 @@ describe('DeviceModule', () => {
       }
     });
 
-    it('should return 424 when bridge returns failed dependency', async () => {
+    it('should return 424 when JSBridge returns failed dependency', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.409.0 (Android 13; SM-G998B)',
       });
@@ -159,7 +159,7 @@ describe('DeviceModule', () => {
       });
 
       const mockInvoke = vi.fn().mockImplementation(() => {
-        throw new Error('Unexpected bridge error');
+        throw new Error('Unexpected JSBridge error');
       });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedDeviceModule = {
@@ -172,7 +172,7 @@ describe('DeviceModule', () => {
       expect(mockInvoke).toHaveBeenCalledWith('isEsimSupported', undefined);
       expect(response.status_code).toBe(500);
       if (response.status_code === 500) {
-        expect(response.error).toBe('Failed to invoke method: Unexpected bridge error');
+        expect(response.error).toBe('Failed to invoke method: Unexpected JSBridge error');
       }
     });
   });

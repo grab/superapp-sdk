@@ -1,14 +1,16 @@
 ---
 name: 'grabjs-superapp-sdk'
-description: 'API reference for @grabjs/superapp-sdk. Use when building a MiniApp that runs in the Grab SuperApp WebView and needs to call native features (camera, payments, authorization, authentication, permission, location, device storage, container UI customization) via the Grab JSBridge. Keywords: miniapp, webview, android, ios, jsbridge, grab, superapp.'
+description: 'API reference for `@grabjs/superapp-sdk`. Use when building a MiniApp that runs in the Grab SuperApp WebView and needs to call native features (camera, payments, authorization, authentication, permission, location, device storage, container UI customization) via the Grab `JSBridge`. Keywords: miniapp, webview, android, ios, jsbridge, grab, superapp.'
 license: 'MIT'
 ---
 
 # @grabjs/superapp-sdk
 
-Use this SDK to call native Grab SuperApp features from a MiniApp running in the WebView. Each module covers one domain (camera, payments, location, etc.) and communicates with the native layer via JSBridge.
+Use this SDK to call native Grab SuperApp features from a MiniApp running in the WebView. Each module covers one domain (camera, payments, location, etc.) and communicates with the native layer via `JSBridge`.
 
 ## Setup
+
+Install `@grabjs/superapp-sdk` with your package manager of choice.
 
 ### Installation
 
@@ -55,7 +57,7 @@ If you are not using a bundler, load the SDK from a CDN and access it via the `S
 
 ## Core Concepts
 
-SDK methods communicate with the native Grab SuperApp via JSBridge. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
+SDK methods communicate with the native Grab SuperApp via `JSBridge`. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
 
 ### Response Pattern
 
@@ -245,7 +247,7 @@ if (isError(response) && response.status_code === 403) {
 
 This guide covers the recommended setup for a MiniApp entry point — loading scopes, configuring the container UI, signalling readiness, and handling permissions.
 
-> **Note:** The [demo](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains two complete MiniApp samples demonstrating these integration patterns in action — one using CDN (vanilla HTML/JS) and one using React. Both implement the same user flow: OAuth authorization, user profile display, deferred location permissions, and checkout payment.
+> **Note:** The [`demo`](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains two complete MiniApp samples demonstrating these integration patterns in action — one using CDN (vanilla HTML/JS) and one using React. Both implement the same user flow: OAuth authorization, user profile display, deferred location permissions, and checkout payment.
 
 ### Initialization
 
@@ -528,7 +530,7 @@ For the complete API reference, see [GrabPay API](https://developer.grab.com/doc
 Provides scoped logging for SDK modules.
 
 #### `CameraModule`
-JSBridge module for accessing the device camera.
+Module for accessing the device camera via JSBridge.
 - `scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse>` — Opens the native camera to scan a QR code.
   - **Parameters**
     - `request`: Optional QR scanner configuration. Request fields:
@@ -542,7 +544,7 @@ JSBridge module for accessing the device camera.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `CheckoutModule`
-JSBridge module for triggering native payment flows.
+Module for triggering native payment flows via JSBridge.
 - `triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
   - **Parameters**
     - `request`: Full transaction object returned by `POST /grabpay/partner/v4/charge/init` on your backend.
@@ -553,7 +555,7 @@ JSBridge module for triggering native payment flows.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `ContainerModule`
-JSBridge module for controlling the WebView container.
+Module for controlling the WebView container via JSBridge.
 - `close(): Promise<CloseResponse>` — Close the container and return to the previous screen.
   - **Returns:** A response with one of the following status codes:
     - `204`: No content - container closed successfully.
@@ -649,7 +651,7 @@ JSBridge module for controlling the WebView container.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `DeviceModule`
-JSBridge module for querying native device information.
+Module for querying native device information via JSBridge.
 - `isEsimSupported(): Promise<IsEsimSupportedResponse>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
   - **Returns:** A response with one of the following status codes:
     - `200`: OK - eSIM capability was checked successfully. The `result` is `true` if eSIM is supported, otherwise `false`.
@@ -660,8 +662,8 @@ JSBridge module for querying native device information.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `FileModule`
-JSBridge module for downloading files to the user's device.
-- `downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse>` — Downloads a file via the native bridge.
+Module for downloading files to the user's device via JSBridge.
+- `downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse>` — Downloads a file via the native JSBridge.
   - **Parameters**
     - `request`: File download configuration. Request fields:
       - `fileUrl`: HTTPS URL of the file to download.
@@ -673,7 +675,7 @@ JSBridge module for downloading files to the user's device.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `IdentityModule`
-JSBridge module for authenticating users via GrabID.
+Module for authenticating users with GrabID via JSBridge.
 - `authorize(request: AuthorizeRequest): Promise<AuthorizeResponse>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange). This method handles both native in-app consent and web-based fallback flows.
   - **Parameters**
     - `request`: OAuth2 authorization request configuration. Request fields:
@@ -690,7 +692,7 @@ JSBridge module for authenticating users via GrabID.
     - `403`: Forbidden - client not authorized for the requested scope.
     - `500`: Internal server error - unexpected error during native authorization.
     - `501`: Not implemented - this method requires the Grab app environment.
-- `clearAuthorizationArtifacts(): Promise<SdkNoContentResponse>` — Clears all stored PKCE authorization artifacts from local storage. This should be called after a successful token exchange or when you need to reset the authorization state (e.g., on error or logout).
+- `clearAuthorizationArtifacts(): Promise<SDKNoContentResponse>` — Clears all stored PKCE authorization artifacts from local storage. This should be called after a successful token exchange or when you need to reset the authorization state (e.g., on error or logout).
   - **Returns:** A response with one of the following status codes:
     - `204`: No content - authorization artifacts cleared successfully.
 - `getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse>` — Retrieves stored PKCE authorization artifacts from local storage. These artifacts are used to complete the OAuth2 authorization code exchange.
@@ -700,7 +702,7 @@ JSBridge module for authenticating users via GrabID.
     - `400`: Bad request - inconsistent state, possible data corruption in storage.
 
 #### `LocaleModule`
-JSBridge module for accessing device locale settings.
+Module for accessing device locale settings via JSBridge.
 - `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` — Retrieves the current language locale identifier from the device.
   - **Returns:** A response with one of the following status codes:
     - `200`: OK - locale identifier retrieved successfully. The `result` is GetLanguageLocaleIdentifierResult.
@@ -710,7 +712,7 @@ JSBridge module for accessing device locale settings.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `LocationModule`
-JSBridge module for accessing device location services.
+Module for accessing device location services via JSBridge.
 - `getCoordinate(): Promise<GetCoordinateResponse>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
   - **Returns:** A response with one of the following status codes:
     - `200`: OK - coordinates retrieved successfully. The `result` is GetCoordinateResult.
@@ -727,7 +729,7 @@ JSBridge module for accessing device location services.
     - `500`: Internal server error - an unexpected error occurred on the native side.
     - `501`: Not implemented - this method requires the Grab app environment.
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device. (**OAuth Scope:** mobile.geolocation)
-  - **Returns:** A `SdkStream` that emits location updates as the device location changes.
+  - **Returns:** Emits location updates as the device location changes.
     - Use `subscribe()` to listen for updates, or `await` to get the first value only.
     - Stream results can have the following status codes:
     - `200`: OK - coordinates retrieved successfully. The `result` is GetCoordinateResult.
@@ -738,12 +740,12 @@ JSBridge module for accessing device location services.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `MediaModule`
-JSBridge module for playing DRM-protected media content.
+Module for playing DRM-protected media content via JSBridge.
 - `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
   - **Parameters**
     - `data`: Same DRM configuration shape as `playDRMContent`; forwarded to the native player for the observation stream. Request fields:
       - Same provider-specific keys as for `playDRMContent` (see `DRMContentConfig`).
-  - **Returns:** A `SdkStream` that emits playback events as the media plays.
+  - **Returns:** Emits playback events as the media plays.
     - Use `subscribe()` to listen for updates, or `await` to get the first value only.
     - Stream results can have the following status codes:
     - `200`: OK - playback event received successfully. The `result` is DRMPlaybackEvent.
@@ -762,8 +764,8 @@ JSBridge module for playing DRM-protected media content.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `NetworkModule`
-JSBridge module for making network requests via the native bridge.
-- `send(request: SendRequest): Promise<SendResponse>` — Sends a network request via the native bridge.
+Module for making network requests via JSBridge.
+- `send(request: SendRequest): Promise<SendResponse>` — Sends a network request via JSBridge.
   - **Parameters**
     - `request`: Network request configuration. Request fields:
       - `endpoint`: Absolute URL of the API endpoint to call.
@@ -786,7 +788,7 @@ JSBridge module for making network requests via the native bridge.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `PlatformModule`
-JSBridge module for controlling platform navigation.
+Module for controlling platform navigation via JSBridge.
 - `back(): Promise<BackResponse>` — Triggers the native platform back navigation. This navigates back in the native navigation stack.
   - **Returns:** A response with one of the following status codes:
     - `204`: No content - back navigation triggered successfully.
@@ -794,7 +796,7 @@ JSBridge module for controlling platform navigation.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `ProfileModule`
-JSBridge module for accessing user profile information.
+Module for accessing user profile information via JSBridge.
 - `fetchEmail(): Promise<FetchEmailResponse>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
   - **Returns:** A response with one of the following status codes:
     - `200`: OK - email fetched successfully. The `result` is FetchEmailResult.
@@ -819,10 +821,10 @@ JSBridge module for accessing user profile information.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `ScopeModule`
-JSBridge module for checking and refreshing API access permissions.
+Module for checking and refreshing API access permissions via JSBridge.
 - `hasAccessTo(module: string, method: string): Promise<HasAccessToResponse>` — Checks if the current client has access to a specific JSBridge API method.
   - **Parameters**
-    - `module`: Bridge module name to check.
+    - `module`: JSBridge module name to check.
     - `method`: Method name within that module.
   - **Returns:** A response with one of the following status codes:
     - `200`: OK - access check completed successfully. The `result` is `true` if access is granted, otherwise `false`.
@@ -838,17 +840,17 @@ JSBridge module for checking and refreshing API access permissions.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `SplashScreenModule`
-JSBridge module for controlling the native splash / Lottie loading screen.
+Module for controlling the native splash / Lottie loading screen via JSBridge.
 - `dismiss(): Promise<DismissSplashScreenResponse>` — Dismisses the native splash (Lottie) loading view if it is presented.
   - **Returns:** A response with one of the following status codes:
     - `204`: No content - splash screen was closed successfully.
     - `400`: Bad request - invalid input (Grablet / client validation error).
     - `403`: Forbidden - missing consent for the required OAuth scope.
-    - `500`: Internal server error - unexpected error while invoking the native bridge.
+    - `500`: Internal server error - unexpected error while invoking the native JSBridge.
     - `501`: Not implemented - not in the Grab app WebView environment.
 
 #### `StorageModule`
-JSBridge module for persisting key-value data to native storage.
+Module for persisting key-value data to native storage via JSBridge.
 - `getBoolean(key: string): Promise<GetBooleanResponse>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
   - **Parameters**
     - `key`: The key to retrieve the value for.
@@ -946,7 +948,7 @@ JSBridge module for persisting key-value data to native storage.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `SystemWebViewKitModule`
-JSBridge module for opening URLs in the system web view.
+Module for opening URLs in the system web view via JSBridge.
 - `redirectToSystemWebView(request: RedirectToSystemWebViewRequest): Promise<RedirectToSystemWebViewResponse>` — Opens a URL in the system web view.
   - **Parameters**
     - `request`: System web view redirect configuration. Request fields:
@@ -959,7 +961,7 @@ JSBridge module for opening URLs in the system web view.
     - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `UserAttributesModule`
-JSBridge module for reading user-related attributes from native code.
+Module for reading user-related attributes from native code via JSBridge.
 - `getSelectedTravelDestination(): Promise<GetSelectedTravelDestinationResponse>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
   - **Returns:** A response with one of the following status codes:
     - `200`: OK - travel destination retrieved successfully. The `result` is GetSelectedTravelDestinationResult.
@@ -978,7 +980,7 @@ hasResult<T>(response: T): response is Extract<T, { result: {} }>
 #### `isClientError`
 Type guard to check if an SDK response has status code 4xx.
 ```ts
-isClientError<T>(response: T): response is Extract<T, { status_code: SdkClientErrorStatusCode }>
+isClientError<T>(response: T): response is Extract<T, { status_code: SDKClientErrorStatusCode }>
 ```
 
 #### `isError`
@@ -1014,7 +1016,7 @@ isRedirection<T>(response: T): response is Extract<T, { status_code: 302 }>
 #### `isServerError`
 Type guard to check if an SDK response has status code 5xx.
 ```ts
-isServerError<T>(response: T): response is Extract<T, { status_code: SdkServerErrorStatusCode }>
+isServerError<T>(response: T): response is Extract<T, { status_code: SDKServerErrorStatusCode }>
 ```
 
 #### `isSuccess`

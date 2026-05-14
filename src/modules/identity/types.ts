@@ -62,22 +62,22 @@ export interface AuthorizeRequest {
 }
 
 /**
- * Raw OAuth result from the native JSBridge before PKCE enrichment (partial result).
+ * Native OAuth result before PKCE enrichment (partial result).
  *
  * @internal
  */
-export interface RawAuthorizeResult {
+export interface NativeAuthorizeResult {
   code: string;
   state: string;
 }
 
 /**
- * Internal type for the raw SDK response from `authorize` before enrichment.
+ * Internal type for the native response from `authorize` before enrichment.
  *
  * @internal
  */
-export type RawAuthorizeResponse =
-  | SDKOkResponse<RawAuthorizeResult>
+export type NativeAuthorizeResponse =
+  | SDKOkResponse<NativeAuthorizeResult>
   | SDKNoContentResponse
   | SDKRedirectResponse
   | SDKErrorResponse<400>

@@ -10,13 +10,13 @@ import { GetSelectedTravelDestinationResponseSchema } from './schemas';
 import { GetSelectedTravelDestinationResponse } from './types';
 
 /**
- * JSBridge module for reading user-related attributes from native code.
+ * Module for reading user-related attributes from native code via JSBridge.
  *
  * @group Modules
  * @category User Attributes
  *
  * @remarks
- * Provides access to user and traveller attributes exposed by the native Grab app bridge.
+ * Provides access to user and traveller attributes exposed via JSBridge.
  * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example

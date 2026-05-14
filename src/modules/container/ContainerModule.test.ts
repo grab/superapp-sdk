@@ -10,19 +10,19 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ContainerModule } from './ContainerModule';
 import {
   GetSessionParamsResponse,
+  NativeCloseResponse,
+  NativeHideBackButtonResponse,
+  NativeHideLoaderResponse,
+  NativeHideRefreshButtonResponse,
+  NativeOpenExternalLinkResponse,
+  NativeSendAnalyticsEventResponse,
+  NativeSetBackgroundColorResponse,
+  NativeSetTitleResponse,
+  NativeShowBackButtonResponse,
+  NativeShowLoaderResponse,
+  NativeShowRefreshButtonResponse,
   OnContentLoadedResponse,
   OnCtaTapResponse,
-  RawCloseResponse,
-  RawHideBackButtonResponse,
-  RawHideLoaderResponse,
-  RawHideRefreshButtonResponse,
-  RawOpenExternalLinkResponse,
-  RawSendAnalyticsEventResponse,
-  RawSetBackgroundColorResponse,
-  RawSetTitleResponse,
-  RawShowBackButtonResponse,
-  RawShowLoaderResponse,
-  RawShowRefreshButtonResponse,
 } from './types';
 
 describe('ContainerModule', () => {
@@ -53,7 +53,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawSetBackgroundColorResponse = {
+      const mockResponse: NativeSetBackgroundColorResponse = {
         status_code: 200,
         result: true,
       };
@@ -77,7 +77,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawSetBackgroundColorResponse = {
+      const mockResponse: NativeSetBackgroundColorResponse = {
         status_code: 400,
         error: 'Invalid background color format',
       };
@@ -121,7 +121,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawSetTitleResponse = {
+      const mockResponse: NativeSetTitleResponse = {
         status_code: 200,
         result: true,
       };
@@ -145,7 +145,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawSetTitleResponse = {
+      const mockResponse: NativeSetTitleResponse = {
         status_code: 400,
         error: 'Invalid title parameter',
       };
@@ -189,7 +189,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawHideBackButtonResponse = {
+      const mockResponse: NativeHideBackButtonResponse = {
         status_code: 200,
         result: true,
       };
@@ -231,7 +231,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawShowBackButtonResponse = {
+      const mockResponse: NativeShowBackButtonResponse = {
         status_code: 200,
         result: true,
       };
@@ -273,7 +273,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawHideRefreshButtonResponse = {
+      const mockResponse: NativeHideRefreshButtonResponse = {
         status_code: 200,
         result: true,
       };
@@ -315,7 +315,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawShowRefreshButtonResponse = {
+      const mockResponse: NativeShowRefreshButtonResponse = {
         status_code: 200,
         result: true,
       };
@@ -357,7 +357,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawCloseResponse = {
+      const mockResponse: NativeCloseResponse = {
         status_code: 200,
         result: true,
       };
@@ -441,7 +441,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawShowLoaderResponse = {
+      const mockResponse: NativeShowLoaderResponse = {
         status_code: 200,
         result: true,
       };
@@ -483,7 +483,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawHideLoaderResponse = {
+      const mockResponse: NativeHideLoaderResponse = {
         status_code: 200,
         result: true,
       };
@@ -525,7 +525,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawOpenExternalLinkResponse = {
+      const mockResponse: NativeOpenExternalLinkResponse = {
         status_code: 200,
         result: true,
       };
@@ -549,7 +549,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawOpenExternalLinkResponse = {
+      const mockResponse: NativeOpenExternalLinkResponse = {
         status_code: 400,
         error: 'URL parameter not found',
       };
@@ -638,7 +638,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawSendAnalyticsEventResponse = {
+      const mockResponse: NativeSendAnalyticsEventResponse = {
         status_code: 200,
         result: true,
       };
@@ -669,7 +669,7 @@ describe('ContainerModule', () => {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
       });
 
-      const mockResponse: RawSendAnalyticsEventResponse = {
+      const mockResponse: NativeSendAnalyticsEventResponse = {
         status_code: 200,
         result: true,
       };

@@ -56,10 +56,8 @@ export const PlayDRMContentResponseSchema: v.GenericSchema<PlayDRMContentRespons
 /**
  * @internal
  */
-export const ObserveDRMPlaybackResponseSchema: v.GenericSchema<ObserveDRMPlaybackResult> = v.union(
-  [
-    sdkOkResponseSchema(DRMPlaybackEventSchema),
-    sdkErrorResponseSchema(500),
-    sdkErrorResponseSchema(501),
-  ]
-);
+export const ObserveDRMPlaybackResponseSchema: v.GenericSchema<ObserveDRMPlaybackResult> = v.union([
+  sdkOkResponseSchema(DRMPlaybackEventSchema),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
+]);

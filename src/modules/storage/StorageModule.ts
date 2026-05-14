@@ -15,10 +15,10 @@ import {
   GetIntResponseSchema,
   GetStringRequestSchema,
   GetStringResponseSchema,
-  RawGetBooleanResponseSchema,
-  RawGetDoubleResponseSchema,
-  RawGetIntResponseSchema,
-  RawGetStringResponseSchema,
+  NativeGetBooleanResponseSchema,
+  NativeGetDoubleResponseSchema,
+  NativeGetIntResponseSchema,
+  NativeGetStringResponseSchema,
   RemoveAllResponseSchema,
   RemoveRequestSchema,
   RemoveResponseSchema,
@@ -36,10 +36,10 @@ import {
   GetDoubleResponse,
   GetIntResponse,
   GetStringResponse,
-  RawGetBooleanResponse,
-  RawGetDoubleResponse,
-  RawGetIntResponse,
-  RawGetStringResponse,
+  NativeGetBooleanResponse,
+  NativeGetDoubleResponse,
+  NativeGetIntResponse,
+  NativeGetStringResponse,
   RemoveAllResponse,
   RemoveResponse,
   SetBooleanResponse,
@@ -49,7 +49,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for persisting key-value data to native storage.
+ * Module for persisting key-value data to native storage via JSBridge.
  *
  * @group Modules
  * @category Storage
@@ -185,21 +185,21 @@ export class StorageModule extends _BaseModule {
     const requestError = this.validate(GetBooleanRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'getBoolean',
       params,
-    })) as RawGetBooleanResponse;
+    })) as NativeGetBooleanResponse;
 
-    const rawResponseError = this.validate(RawGetBooleanResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('getBoolean', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeGetBooleanResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('getBoolean', `Unexpected native response shape: ${nativeResponseError}`);
 
     let response: GetBooleanResponse;
-    if (rawResponse.status_code === 200) {
-      const value = rawResponse.result;
+    if (nativeResponse.status_code === 200) {
+      const value = nativeResponse.result;
       response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
     } else {
-      response = rawResponse;
+      response = nativeResponse;
     }
 
     const responseError = this.validate(GetBooleanResponseSchema, response);
@@ -310,21 +310,21 @@ export class StorageModule extends _BaseModule {
     const requestError = this.validate(GetIntRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'getInt',
       params,
-    })) as RawGetIntResponse;
+    })) as NativeGetIntResponse;
 
-    const rawResponseError = this.validate(RawGetIntResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('getInt', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeGetIntResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('getInt', `Unexpected native response shape: ${nativeResponseError}`);
 
     let response: GetIntResponse;
-    if (rawResponse.status_code === 200) {
-      const value = rawResponse.result;
+    if (nativeResponse.status_code === 200) {
+      const value = nativeResponse.result;
       response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
     } else {
-      response = rawResponse;
+      response = nativeResponse;
     }
 
     const responseError = this.validate(GetIntResponseSchema, response);
@@ -434,21 +434,21 @@ export class StorageModule extends _BaseModule {
     const requestError = this.validate(GetStringRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'getString',
       params,
-    })) as RawGetStringResponse;
+    })) as NativeGetStringResponse;
 
-    const rawResponseError = this.validate(RawGetStringResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('getString', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeGetStringResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('getString', `Unexpected native response shape: ${nativeResponseError}`);
 
     let response: GetStringResponse;
-    if (rawResponse.status_code === 200) {
-      const value = rawResponse.result;
+    if (nativeResponse.status_code === 200) {
+      const value = nativeResponse.result;
       response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
     } else {
-      response = rawResponse;
+      response = nativeResponse;
     }
 
     const responseError = this.validate(GetStringResponseSchema, response);
@@ -558,21 +558,21 @@ export class StorageModule extends _BaseModule {
     const requestError = this.validate(GetDoubleRequestSchema, params);
     if (requestError) return { status_code: 400, error: requestError };
 
-    const rawResponse = (await this.invoke({
+    const nativeResponse = (await this.invoke({
       method: 'getDouble',
       params,
-    })) as RawGetDoubleResponse;
+    })) as NativeGetDoubleResponse;
 
-    const rawResponseError = this.validate(RawGetDoubleResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('getDouble', `Unexpected raw response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeGetDoubleResponseSchema, nativeResponse);
+    if (nativeResponseError)
+      this.logger.warn('getDouble', `Unexpected native response shape: ${nativeResponseError}`);
 
     let response: GetDoubleResponse;
-    if (rawResponse.status_code === 200) {
-      const value = rawResponse.result;
+    if (nativeResponse.status_code === 200) {
+      const value = nativeResponse.result;
       response = value == null ? { status_code: 204 } : { status_code: 200, result: value };
     } else {
-      response = rawResponse;
+      response = nativeResponse;
     }
 
     const responseError = this.validate(GetDoubleResponseSchema, response);

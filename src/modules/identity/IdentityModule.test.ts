@@ -8,7 +8,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { IdentityModule } from './IdentityModule';
-import type { RawAuthorizeResponse } from './types';
+import type { NativeAuthorizeResponse } from './types';
 
 describe('IdentityModule', () => {
   describe('getAuthorizationArtifacts', () => {
@@ -290,7 +290,7 @@ describe('IdentityModule', () => {
         href: 'https://app.example.com/',
       });
 
-      const mockResponse: RawAuthorizeResponse = {
+      const mockResponse: NativeAuthorizeResponse = {
         status_code: 200,
         result: {
           code: 'auth-code-abc123',
@@ -352,7 +352,7 @@ describe('IdentityModule', () => {
         href: 'https://mini.example.com/app/entry?from=grab#section',
       });
 
-      const mockResponse: RawAuthorizeResponse = {
+      const mockResponse: NativeAuthorizeResponse = {
         status_code: 200,
         result: { code: 'code-1', state: 'state-1' },
       };
@@ -399,7 +399,7 @@ describe('IdentityModule', () => {
         href: 'https://app.example.com/',
       });
 
-      const mockResponse: RawAuthorizeResponse = {
+      const mockResponse: NativeAuthorizeResponse = {
         status_code: 204,
       };
 
@@ -450,7 +450,7 @@ describe('IdentityModule', () => {
         assign: mockAssign,
       });
 
-      const mockNativeResponse: RawAuthorizeResponse = {
+      const mockNativeResponse: NativeAuthorizeResponse = {
         status_code: 400,
         error: 'Native consent unavailable',
       };
@@ -505,7 +505,7 @@ describe('IdentityModule', () => {
       });
 
       const mockInvoke = vi.fn().mockImplementation(() => {
-        throw new Error('Native bridge unavailable');
+        throw new Error('Native JSBridge unavailable');
       });
 
       (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedIdentityModule = {
@@ -586,7 +586,7 @@ describe('IdentityModule', () => {
         href: 'https://app.example.com/',
       });
 
-      const mockResponse: RawAuthorizeResponse = {
+      const mockResponse: NativeAuthorizeResponse = {
         status_code: 200,
         result: {
           code: 'staging-auth-code',

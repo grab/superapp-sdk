@@ -10,7 +10,7 @@ import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas
 import { DownloadFileRequest, DownloadFileResponse } from './types';
 
 /**
- * JSBridge module for downloading files to the user's device.
+ * Module for downloading files to the user's device via JSBridge.
  *
  * @group Modules
  * @category File

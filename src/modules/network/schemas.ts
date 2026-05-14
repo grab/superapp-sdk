@@ -13,8 +13,8 @@ import {
   sdkOkResponseSchema,
 } from '../../core';
 import type {
-  RawSendResponse,
-  RawSendResult,
+  NativeSendResponse,
+  NativeSendResult,
   SendRequest,
   SendResponse,
   SendResult,
@@ -69,24 +69,24 @@ export const SendResponseSchema: v.GenericSchema<SendResponse> = v.union([
 ]);
 
 /**
- * Internal valibot schema for the raw SDK response result.
+ * Internal valibot schema for the native response result.
  * The native JSBridge may return either a JSON string or a parsed Record.
  *
  * @internal
  */
-export const RawSendResultSchema: v.GenericSchema<RawSendResult> = v.union([
+export const NativeSendResultSchema: v.GenericSchema<NativeSendResult> = v.union([
   v.string(),
   SendResultSchema,
 ]);
 
 /**
- * Internal valibot schema for the raw SDK response.
- * Used to validate the response from the native JSBridge before transformation.
+ * Internal valibot schema for the native response.
+ * Used to validate the response from the native layer before transformation.
  *
  * @internal
  */
-export const RawSendResponseSchema: v.GenericSchema<RawSendResponse> = v.union([
-  sdkOkResponseSchema(RawSendResultSchema),
+export const NativeSendResponseSchema: v.GenericSchema<NativeSendResponse> = v.union([
+  sdkOkResponseSchema(NativeSendResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(401),

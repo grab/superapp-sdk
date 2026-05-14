@@ -9,17 +9,17 @@ import type { InferOutput } from 'valibot';
 
 import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 import {
-  RawCloseResponseSchema,
-  RawHideBackButtonResponseSchema,
-  RawHideLoaderResponseSchema,
-  RawHideRefreshButtonResponseSchema,
-  RawOpenExternalLinkResponseSchema,
-  RawSendAnalyticsEventResponseSchema,
-  RawSetBackgroundColorResponseSchema,
-  RawSetTitleResponseSchema,
-  RawShowBackButtonResponseSchema,
-  RawShowLoaderResponseSchema,
-  RawShowRefreshButtonResponseSchema,
+  NativeCloseResponseSchema,
+  NativeHideBackButtonResponseSchema,
+  NativeHideLoaderResponseSchema,
+  NativeHideRefreshButtonResponseSchema,
+  NativeOpenExternalLinkResponseSchema,
+  NativeSendAnalyticsEventResponseSchema,
+  NativeSetBackgroundColorResponseSchema,
+  NativeSetTitleResponseSchema,
+  NativeShowBackButtonResponseSchema,
+  NativeShowLoaderResponseSchema,
+  NativeShowRefreshButtonResponseSchema,
 } from './schemas';
 
 /**
@@ -63,12 +63,14 @@ export type SetBackgroundColorResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from setBackgroundColor before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from setBackgroundColor before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawSetBackgroundColorResponse = InferOutput<typeof RawSetBackgroundColorResponseSchema>;
+export type NativeSetBackgroundColorResponse = InferOutput<
+  typeof NativeSetBackgroundColorResponseSchema
+>;
 
 /**
  * Request parameters for setting the title.
@@ -111,12 +113,12 @@ export type SetTitleResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from setTitle before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from setTitle before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawSetTitleResponse = InferOutput<typeof RawSetTitleResponseSchema>;
+export type NativeSetTitleResponse = InferOutput<typeof NativeSetTitleResponseSchema>;
 
 /**
  * Result when hiding the back button.
@@ -143,12 +145,12 @@ export type HideBackButtonResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from hideBackButton before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from hideBackButton before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawHideBackButtonResponse = InferOutput<typeof RawHideBackButtonResponseSchema>;
+export type NativeHideBackButtonResponse = InferOutput<typeof NativeHideBackButtonResponseSchema>;
 
 /**
  * Result when showing the back button.
@@ -175,12 +177,12 @@ export type ShowBackButtonResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from showBackButton before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from showBackButton before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawShowBackButtonResponse = InferOutput<typeof RawShowBackButtonResponseSchema>;
+export type NativeShowBackButtonResponse = InferOutput<typeof NativeShowBackButtonResponseSchema>;
 
 /**
  * Result when hiding the refresh button.
@@ -207,12 +209,14 @@ export type HideRefreshButtonResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from hideRefreshButton before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from hideRefreshButton before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawHideRefreshButtonResponse = InferOutput<typeof RawHideRefreshButtonResponseSchema>;
+export type NativeHideRefreshButtonResponse = InferOutput<
+  typeof NativeHideRefreshButtonResponseSchema
+>;
 
 /**
  * Result when showing the refresh button.
@@ -239,12 +243,14 @@ export type ShowRefreshButtonResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from showRefreshButton before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from showRefreshButton before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawShowRefreshButtonResponse = InferOutput<typeof RawShowRefreshButtonResponseSchema>;
+export type NativeShowRefreshButtonResponse = InferOutput<
+  typeof NativeShowRefreshButtonResponseSchema
+>;
 
 /**
  * Result when closing the container.
@@ -265,18 +271,15 @@ export type CloseResult = void;
  *
  * @public
  */
-export type CloseResponse =
-  | SDKNoContentResponse
-  | SDKErrorResponse<500>
-  | SDKErrorResponse<501>;
+export type CloseResponse = SDKNoContentResponse | SDKErrorResponse<500> | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from close before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from close before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawCloseResponse = InferOutput<typeof RawCloseResponseSchema>;
+export type NativeCloseResponse = InferOutput<typeof NativeCloseResponseSchema>;
 
 /**
  * Result payload when notifying content loaded succeeds with a 200 response.
@@ -328,12 +331,12 @@ export type ShowLoaderResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from showLoader before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from showLoader before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawShowLoaderResponse = InferOutput<typeof RawShowLoaderResponseSchema>;
+export type NativeShowLoaderResponse = InferOutput<typeof NativeShowLoaderResponseSchema>;
 
 /**
  * Result when hiding the loader.
@@ -360,12 +363,12 @@ export type HideLoaderResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from hideLoader before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from hideLoader before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawHideLoaderResponse = InferOutput<typeof RawHideLoaderResponseSchema>;
+export type NativeHideLoaderResponse = InferOutput<typeof NativeHideLoaderResponseSchema>;
 
 /**
  * Request parameters for opening an external link.
@@ -408,12 +411,14 @@ export type OpenExternalLinkResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from openExternalLink before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from openExternalLink before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawOpenExternalLinkResponse = InferOutput<typeof RawOpenExternalLinkResponseSchema>;
+export type NativeOpenExternalLinkResponse = InferOutput<
+  typeof NativeOpenExternalLinkResponseSchema
+>;
 
 /**
  * Request parameters for notifying CTA tap.
@@ -521,12 +526,14 @@ export type SendAnalyticsEventResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw SDK response from sendAnalyticsEvent before transformation.
- * Used internally to handle the native SDK response format.
+ * Internal type for the native response from sendAnalyticsEvent before transformation.
+ * Used internally to handle the native response format.
  *
  * @internal
  */
-export type RawSendAnalyticsEventResponse = InferOutput<typeof RawSendAnalyticsEventResponseSchema>;
+export type NativeSendAnalyticsEventResponse = InferOutput<
+  typeof NativeSendAnalyticsEventResponseSchema
+>;
 
 /**
  * Result object containing the connection status.

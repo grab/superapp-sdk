@@ -14,7 +14,7 @@ import {
 import { HasAccessToResponse, ReloadScopesResponse } from './types';
 
 /**
- * JSBridge module for checking and refreshing API access permissions.
+ * Module for checking and refreshing API access permissions via JSBridge.
  *
  * @group Modules
  * @category Scope
@@ -50,7 +50,7 @@ export class ScopeModule extends _BaseModule {
   /**
    * Checks if the current client has access to a specific JSBridge API method.
    *
-   * @param module - Bridge module name to check.
+   * @param module - JSBridge module name to check.
    * @param method - Method name within that module.
 
    * @returns A response with one of the following status codes:

@@ -23,17 +23,17 @@ import {
   STATE_LENGTH,
 } from './constants';
 import { AuthorizationConfigurationError } from './errors';
-import { AuthorizeRequestSchema, RawAuthorizeResponseSchema } from './schemas';
+import { AuthorizeRequestSchema, NativeAuthorizeResponseSchema } from './schemas';
 import {
   AuthorizeRequest,
   AuthorizeResponse,
   ClearAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResponse,
-  RawAuthorizeResponse,
+  NativeAuthorizeResponse,
 } from './types';
 
 /**
- * JSBridge module for authenticating users via GrabID.
+ * Module for authenticating users with GrabID via JSBridge.
  *
  * @group Modules
  * @category Identity
@@ -425,7 +425,7 @@ export class IdentityModule extends _BaseModule {
     codeChallenge: string;
     codeChallengeMethod: string;
     responseMode: 'redirect' | 'in_place';
-  }): Promise<RawAuthorizeResponse> {
+  }): Promise<NativeAuthorizeResponse> {
     const response = (await this.invoke({
       method: 'authorize',
       params: {
@@ -438,11 +438,11 @@ export class IdentityModule extends _BaseModule {
         codeChallengeMethod: invokeParams.codeChallengeMethod,
         responseMode: invokeParams.responseMode,
       },
-    })) as RawAuthorizeResponse;
+    })) as NativeAuthorizeResponse;
 
-    const rawResponseError = this.validate(RawAuthorizeResponseSchema, response);
-    if (rawResponseError)
-      this.logger.warn('authorize', `Unexpected response shape: ${rawResponseError}`);
+    const nativeResponseError = this.validate(NativeAuthorizeResponseSchema, response);
+    if (nativeResponseError)
+      this.logger.warn('authorize', `Unexpected native response shape: ${nativeResponseError}`);
 
     return response;
   }
@@ -583,18 +583,18 @@ export class IdentityModule extends _BaseModule {
     // Always try native consent first, fallback to web consent if unavailable
     // Note: Native respects responseMode; web always redirects
     try {
-      const rawNativeResult = await this.performNativeAuthorization({
+      const nativeResult = await this.performNativeAuthorization({
         ...invokeParams,
         actualRedirectUri,
         responseMode,
       });
 
-      if (rawNativeResult.status_code === 200) {
+      if (nativeResult.status_code === 200) {
         return {
           status_code: 200,
           result: {
-            code: rawNativeResult.result.code,
-            state: rawNativeResult.result.state,
+            code: nativeResult.result.code,
+            state: nativeResult.result.state,
             codeVerifier: pkceArtifacts.codeVerifier,
             nonce: pkceArtifacts.nonce,
             redirectUri: actualRedirectUri,
@@ -605,14 +605,14 @@ export class IdentityModule extends _BaseModule {
       // Check if native authorization returned error - fallback to web for specific status codes
       // including server errors (500) and not implemented (501) when native is unavailable
       if (
-        rawNativeResult.status_code === 400 ||
-        rawNativeResult.status_code === 403 ||
-        rawNativeResult.status_code === 500 ||
-        rawNativeResult.status_code === 501
+        nativeResult.status_code === 400 ||
+        nativeResult.status_code === 403 ||
+        nativeResult.status_code === 500 ||
+        nativeResult.status_code === 501
       ) {
         console.error(
-          `Native authorization returned ${rawNativeResult.status_code}, falling back to web flow:`,
-          rawNativeResult.error
+          `Native authorization returned ${nativeResult.status_code}, falling back to web flow:`,
+          nativeResult.error
         );
         // Fallback to web flow
         return this.performWebAuthorization({
@@ -621,7 +621,7 @@ export class IdentityModule extends _BaseModule {
         });
       }
 
-      return rawNativeResult;
+      return nativeResult;
     } catch (error) {
       // Native consent is unavailable, fallback to web flow
       console.error('Native authorization failed, falling back to web flow:', error);

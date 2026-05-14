@@ -15,7 +15,7 @@ import {
 import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
 
 /**
- * JSBridge module for accessing user profile information.
+ * Module for accessing user profile information via JSBridge.
  *
  * @group Modules
  * @category Profile

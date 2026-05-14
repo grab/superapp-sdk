@@ -25,10 +25,10 @@ import type {
   GetStringRequest,
   GetStringResponse,
   GetStringResult,
-  RawGetBooleanResponse,
-  RawGetDoubleResponse,
-  RawGetIntResponse,
-  RawGetStringResponse,
+  NativeGetBooleanResponse,
+  NativeGetDoubleResponse,
+  NativeGetIntResponse,
+  NativeGetStringResponse,
   RemoveAllResponse,
   RemoveResponse,
   SetBooleanRequest,
@@ -89,11 +89,11 @@ export const GetBooleanRequestSchema: v.GenericSchema<GetBooleanRequest> = stora
 export const GetBooleanResultSchema: v.GenericSchema<GetBooleanResult> = v.boolean();
 
 /**
- * Internal valibot schema for the raw SDK response from `getBoolean` before normalization.
+ * Internal valibot schema for the native response from `getBoolean` before normalization.
  *
  * @internal
  */
-export const RawGetBooleanResponseSchema: v.GenericSchema<RawGetBooleanResponse> = v.union([
+export const NativeGetBooleanResponseSchema: v.GenericSchema<NativeGetBooleanResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.boolean()),
@@ -155,11 +155,11 @@ export const GetIntRequestSchema: v.GenericSchema<GetIntRequest> = storageKeySch
 export const GetIntResultSchema: v.GenericSchema<GetIntResult> = v.number();
 
 /**
- * Internal valibot schema for the raw SDK response from `getInt` before normalization.
+ * Internal valibot schema for the native response from `getInt` before normalization.
  *
  * @internal
  */
-export const RawGetIntResponseSchema: v.GenericSchema<RawGetIntResponse> = v.union([
+export const NativeGetIntResponseSchema: v.GenericSchema<NativeGetIntResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.number()),
@@ -221,11 +221,11 @@ export const GetStringRequestSchema: v.GenericSchema<GetStringRequest> = storage
 export const GetStringResultSchema: v.GenericSchema<GetStringResult> = v.string();
 
 /**
- * Internal valibot schema for the raw SDK response from `getString` before normalization.
+ * Internal valibot schema for the native response from `getString` before normalization.
  *
  * @internal
  */
-export const RawGetStringResponseSchema: v.GenericSchema<RawGetStringResponse> = v.union([
+export const NativeGetStringResponseSchema: v.GenericSchema<NativeGetStringResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.string()),
@@ -287,11 +287,11 @@ export const GetDoubleRequestSchema: v.GenericSchema<GetDoubleRequest> = storage
 export const GetDoubleResultSchema: v.GenericSchema<GetDoubleResult> = v.number();
 
 /**
- * Internal valibot schema for the raw SDK response from `getDouble` before normalization.
+ * Internal valibot schema for the native response from `getDouble` before normalization.
  *
  * @internal
  */
-export const RawGetDoubleResponseSchema: v.GenericSchema<RawGetDoubleResponse> = v.union([
+export const NativeGetDoubleResponseSchema: v.GenericSchema<NativeGetDoubleResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.number()),

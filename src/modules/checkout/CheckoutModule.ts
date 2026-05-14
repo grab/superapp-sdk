@@ -10,7 +10,7 @@ import { TriggerCheckoutRequestSchema, TriggerCheckoutResponseSchema } from './s
 import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
 /**
- * JSBridge module for triggering native payment flows.
+ * Module for triggering native payment flows via JSBridge.
  *
  * @group Modules
  * @category Checkout

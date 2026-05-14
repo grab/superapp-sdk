@@ -10,7 +10,7 @@ import { ScanQRCodeRequestSchema, ScanQRCodeResponseSchema } from './schemas';
 import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
- * JSBridge module for accessing the device camera.
+ * Module for accessing the device camera via JSBridge.
  *
  * @group Modules
  * @category Camera

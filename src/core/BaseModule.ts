@@ -53,7 +53,7 @@ export class _BaseModule {
    * Creates a new module instance and wraps it on the global `window` object.
    *
    * @param moduleName - The name of the module (e.g., "ContainerModule", "ProfileModule").
-   * @throws Error when the bridge SDK fails to wrap the module.
+   * @throws Error when the JSBridge module fails to initialize.
    */
   constructor(moduleName: string) {
     this.name = moduleName;
@@ -159,10 +159,10 @@ export class _BaseModule {
   }
 
   /**
-   * Creates an SDKStream that immediately emits an error response.
+   * Creates a {@link SDKStream} that immediately emits an error response.
    * Used for 501, 426, and 500 error scenarios in invokeStream.
    *
-   * @returns An SDKStream that emits the error and immediately completes.
+   * @returns Emits the error response once and immediately completes.
    *
    * @private
    */
@@ -181,15 +181,15 @@ export class _BaseModule {
   }
 
   /**
-   * Invokes a JSBridge streaming method that returns an `SDKStream`.
+   * Invokes a JSBridge streaming method.
    *
    * @remarks
    * - Always checks if running in Grab app (returns 501 error response if not).
-   * - Returns an `SDKStream` that can be subscribed to or awaited for the first value.
+   * - Supports both `subscribe()` for continuous updates and `await` for the first value.
    * - All errors are reported via error responses in the stream; this method never rejects.
    *
    * @param options - The invoke options including method name and params.
-   * @returns An `SDKStream` for receiving continuous data from the JSBridge.
+   * @returns Continuous responses from JSBridge.
    *
    * @protected
    */

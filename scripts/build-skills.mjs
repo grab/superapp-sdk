@@ -211,9 +211,7 @@ function getReturnDescription(comment) {
 function parseRichDescription(text) {
   if (!text) return { intro: null, notes: [], bullets: [] };
 
-  const normalized = text
-    .replace(/:\s+-\s+/g, ':\n- ')
-    .replace(/\.\s+-\s+/g, '.\n- ');
+  const normalized = text.replace(/:\s+-\s+/g, ':\n- ').replace(/\.\s+-\s+/g, '.\n- ');
 
   const lines = normalized
     .split('\n')
@@ -265,7 +263,8 @@ function generateClasses(api) {
         if (!sig) return null;
         const desc = commentSummary(sig.comment);
         const requirements = buildRequirements(sig.comment);
-        const fullDesc = desc && requirements ? `${desc} (${requirements})` : desc || requirements || '';
+        const fullDesc =
+          desc && requirements ? `${desc} (${requirements})` : desc || requirements || '';
         const params = (sig.parameters ?? [])
           .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
           .join(', ');
