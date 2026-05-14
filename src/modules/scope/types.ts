@@ -5,14 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  HasAccessToRequestSchema,
-  HasAccessToResponseSchema,
-  HasAccessToResultSchema,
-  ReloadScopesResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for checking if the current client has access to a specific API.
@@ -25,9 +18,17 @@ import {
  * }
  * ```
  *
+ * @group Modules
+ * @category Scope
+ *
  * @public
  */
-export type HasAccessToRequest = InferOutput<typeof HasAccessToRequestSchema>;
+export interface HasAccessToRequest {
+  /** SDK module name (for example `CameraModule`). */
+  module: string;
+  /** Method name on that module (for example `scanQRCode`). */
+  method: string;
+}
 
 /**
  * Boolean result indicating whether the MiniApp has access to the specified API.
@@ -44,43 +45,49 @@ export type HasAccessToRequest = InferOutput<typeof HasAccessToRequestSchema>;
  * false
  * ```
  *
+ * @group Modules
+ * @category Scope
+ *
  * @public
  */
-export type HasAccessToResult = InferOutput<typeof HasAccessToResultSchema>;
+export type HasAccessToResult = boolean;
 
 /**
- * Response when checking API access permissions.
+ * Response returned by {@link ScopeModule.hasAccessTo}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Access check completed successfully. The `result` contains the access status.
- * - `400`: Missing required parameters - module or method not provided.
- * - `424`: ScopeKit error - unable to check access due to a dependency error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Scope
  *
  * @public
  */
-export type HasAccessToResponse = InferOutput<typeof HasAccessToResponseSchema>;
+export type HasAccessToResponse =
+  | SDKOkResponse<HasAccessToResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for reloading scopes.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Scope
  *
  * @public
  */
 export type ReloadScopesResult = void;
 
 /**
- * Response when reloading consented scopes.
+ * Response returned by {@link ScopeModule.reloadScopes}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Scopes reloaded successfully (no content).
- * - `424`: ScopeKit error - unable to reload scopes due to a dependency error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Scope
  *
  * @public
  */
-export type ReloadScopesResponse = InferOutput<typeof ReloadScopesResponseSchema>;
+export type ReloadScopesResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

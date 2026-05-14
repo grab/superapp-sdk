@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { GetCoordinateResponseSchema, GetCountryCodeResponseSchema } from './schemas';
 import {
   GetCoordinateResponse,
@@ -17,6 +17,7 @@ import {
  * JSBridge module for accessing device location services.
  *
  * @group Modules
+ * @category Location
  *
  * @remarks
  * Provides access to the device's geolocation data including coordinates and country code.
@@ -41,7 +42,7 @@ import {
  * @public
  * @noInheritDoc
  */
-export class LocationModule extends BaseModule {
+export class LocationModule extends _BaseModule {
   constructor() {
     super('LocationModule');
   }
@@ -51,7 +52,12 @@ export class LocationModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.geolocation
    *
-   * @returns The device's current latitude and longitude coordinates. See {@link GetCoordinateResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - coordinates retrieved successfully. The `result` is {@link GetCoordinateResult}.
+   * - `403`: Forbidden - client not authorized to access location data.
+   * - `424`: Failed dependency - GeoKit error, location services unavailable.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
    * **Simple usage**
@@ -100,13 +106,21 @@ export class LocationModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.geolocation
    *
+   * @returns A `SDKStream` that emits location updates as the device location changes.
+   * Use `subscribe()` to listen for updates, or `await` to get the first value only.
+   *
+   * Stream results can have the following status codes:
+   * - `200`: OK - coordinates retrieved successfully. The `result` is {@link GetCoordinateResult}.
+   * - `400`: Bad request - invalid parameters.
+   * - `403`: Forbidden - client not authorized to access location data.
+   * - `424`: Failed dependency - GeoKit error, location services unavailable.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
+   *
    * @remarks
-   * This method returns a `BridgeStream` that continuously emits location updates.
+   * This method returns a `SDKStream` that continuously emits location updates.
    * Remember to call `unsubscribe()` on the subscription when you no longer need updates
    * to conserve battery and free resources.
-   *
-   * @returns A `BridgeStream` that emits location updates as the device location changes.
-   * Use `subscribe()` to listen for updates, or `await` to get the first value only. See {@link ObserveLocationChangeResponse}.
    *
    * @example
    * **Simple usage**
@@ -152,7 +166,13 @@ export class LocationModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.geolocation
    *
-   * @returns The ISO country code (e.g., 'SG', 'ID') based on the device's location. See {@link GetCountryCodeResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - country code retrieved successfully. The `result` is the ISO country code `string`.
+   * - `204`: No content - country code not available.
+   * - `403`: Forbidden - client not authorized to access location data.
+   * - `424`: Failed dependency - GeoKit/Resolver error, location services unavailable.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
    * **Simple usage**
@@ -167,7 +187,11 @@ export class LocationModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Country code:', response.result);
+   *   if (response.status_code === 200) {
+   *     console.log('Country code:', response.result);
+   *   } else if (response.status_code === 204) {
+   *     console.log('Country code unavailable');
+   *   }
    * } else if (isError(response)) {
    *   switch (response.status_code) {
    *     case 403:

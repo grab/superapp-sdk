@@ -5,15 +5,12 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { BridgeStream } from '../../core';
 import {
-  GetCoordinateResponseSchema,
-  GetCoordinateResultSchema,
-  GetCountryCodeResponseSchema,
-  GetCountryCodeResultSchema,
-} from './schemas';
+  type SDKErrorResponse,
+  type SDKNoContentResponse,
+  type SDKOkResponse,
+  SDKStream,
+} from '../../core';
 
 /**
  * Result object containing the geographic coordinates.
@@ -23,41 +20,59 @@ import {
  * { latitude: 1.3521, longitude: 103.8198 }
  * ```
  *
- * @public
- */
-export type GetCoordinateResult = InferOutput<typeof GetCoordinateResultSchema>;
-
-/**
- * Response when getting the device coordinates.
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Coordinates retrieved successfully. The `result` contains latitude and longitude.
- * - `403`: Forbidden - client not authorized to access location data.
- * - `424`: GeoKit error - location services unavailable.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Location
  *
  * @public
  */
-export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSchema>;
+export interface GetCoordinateResult {
+  latitude: number;
+  longitude: number;
+}
 
 /**
- * Response when observing the device coordinates.
+ * Response returned by {@link LocationModule.getCoordinate}.
  *
- * @remarks
- * This is a `BridgeStream` that can be:
- * - Subscribed to via `.subscribe()` for continuous updates
- * - Awaited via `await` to get the first value only
- *
- * The stream can emit the same status codes as {@link GetCoordinateResponse}.
+ * @group Modules
+ * @category Location
  *
  * @public
  */
-export type ObserveLocationChangeResponse = BridgeStream<GetCoordinateResponse>;
+export type GetCoordinateResponse =
+  | SDKOkResponse<GetCoordinateResult>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * The ISO country code string returned from the native bridge.
+ * Result emitted when observing location changes.
+ *
+ * @group Modules
+ * @category Location
+ *
+ * @public
+ */
+export type ObserveLocationChangeResult =
+  | SDKOkResponse<GetCoordinateResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
+ * Response returned by {@link LocationModule.observeLocationChange}.
+ *
+ * @group Modules
+ * @category Location
+ *
+ * @public
+ */
+export type ObserveLocationChangeResponse = SDKStream<ObserveLocationChangeResult>;
+
+/**
+ * The ISO country code string returned from the native JSBridge.
  *
  * @example
  * ```typescript
@@ -69,22 +84,25 @@ export type ObserveLocationChangeResponse = BridgeStream<GetCoordinateResponse>;
  * 'ID'
  * ```
  *
+ * @group Modules
+ * @category Location
+ *
  * @public
  */
-export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema>;
+export type GetCountryCodeResult = string;
 
 /**
- * Response when getting the country code.
+ * Response returned by {@link LocationModule.getCountryCode}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Country code retrieved successfully. The `result` is the ISO country code string.
- * - `204`: No content - country code not available.
- * - `403`: Forbidden - client not authorized to access location data.
- * - `424`: GeoKit/Resolver error - location services unavailable.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Location
  *
  * @public
  */
-export type GetCountryCodeResponse = InferOutput<typeof GetCountryCodeResponseSchema>;
+export type GetCountryCodeResponse =
+  | SDKOkResponse<GetCountryCodeResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

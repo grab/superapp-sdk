@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { PlayDRMContentResponseSchema } from './schemas';
 import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
@@ -13,6 +13,7 @@ import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } 
  * JSBridge module for playing DRM-protected media content.
  *
  * @group Modules
+ * @category Media
  *
  * @remarks
  * Provides access to the native media player with DRM support for secure content playback.
@@ -37,7 +38,7 @@ import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } 
  * @public
  * @noInheritDoc
  */
-export class MediaModule extends BaseModule {
+export class MediaModule extends _BaseModule {
   constructor() {
     super('MediaModule');
   }
@@ -47,23 +48,31 @@ export class MediaModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.media
    *
+   * @param data - DRM playback configuration sent to the native player (provider-specific record; see `DRMContentConfig` type for example shapes).
+   * Request fields:
+   * - Keys and values follow the native DRM contract (commonly include `licenseUrl`, `contentUrl`, `contentId` / `assetId`, `certificateUrl`, `headers`, etc.).
+   *
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - native player returned an initial playback event. The `result` is {@link PlayDRMContentResult}.
+   * - `204`: No content - request succeeded.
+   * - `400`: Bad request - invalid or rejected DRM configuration.
+   * - `424`: Failed dependency - for example a DRM or platform prerequisite could not be satisfied.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
+   *
    * @remarks
    * Requires proper DRM content configuration including license URL and content metadata.
    * For playback events and status updates, use {@link MediaModule.observePlayDRMContent}.
    *
-   * @param data - Configuration for the DRM content including license URL and content metadata. See {@link DRMContentConfig}.
-   *
-   * @returns The playback initiation result, indicating if the DRM content started playing. See {@link PlayDRMContentResponse}.
-   *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the media module
    * const media = new MediaModule();
    *
-   * // Play DRM content
+   * // Play DRM-protected content in the native player
    * const response = await media.playDRMContent({
    *   // DRM content configuration
    * });
@@ -105,23 +114,31 @@ export class MediaModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.media
    *
+   * @param data - Same DRM configuration shape as `playDRMContent`; forwarded to the native player for the observation stream.
+   * Request fields:
+   * - Same provider-specific keys as for `playDRMContent` (see `DRMContentConfig`).
+   *
+   * @returns A `SDKStream` that emits playback events as the media plays.
+   * Use `subscribe()` to listen for updates, or `await` to get the first value only.
+   *
+   * Stream results can have the following status codes:
+   * - `200`: OK - playback event received successfully. The `result` is {@link DRMPlaybackEvent}.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
+   *
    * @remarks
    * Subscribe to this stream to receive real-time playback events such as progress,
    * completion, and errors. Remember to call `unsubscribe()` when done to free resources.
    *
-   * @param data - Configuration for the DRM content to observe. See {@link DRMContentConfig}.
-   *
-   * @returns A stream that emits playback events as the media plays. See {@link ObserveDRMPlaybackResponse}.
-   *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the media module
    * const media = new MediaModule();
    *
-   * // Observe DRM content playback
+   * // Subscribe to DRM playback events
    * const subscription = media.observePlayDRMContent({
    *   // DRM content configuration
    * }).subscribe({

@@ -7,14 +7,24 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  HasAccessToRequest,
+  HasAccessToResponse,
+  HasAccessToResult,
+  ReloadScopesResponse,
+} from './types';
 
 /**
  * Valibot schema for {@link HasAccessToRequest}.
  *
- * @public
+ * @internal
  */
-export const HasAccessToRequestSchema = v.object({
+export const HasAccessToRequestSchema: v.GenericSchema<HasAccessToRequest> = v.object({
   module: v.pipe(v.string(), v.minLength(1)),
   method: v.pipe(v.string(), v.minLength(1)),
 });
@@ -22,31 +32,31 @@ export const HasAccessToRequestSchema = v.object({
 /**
  * Valibot schema for {@link HasAccessToResult}.
  *
- * @public
+ * @internal
  */
-export const HasAccessToResultSchema = v.boolean();
+export const HasAccessToResultSchema: v.GenericSchema<HasAccessToResult> = v.boolean();
 
 /**
  * Valibot schema for {@link HasAccessToResponse}.
  *
- * @public
+ * @internal
  */
-export const HasAccessToResponseSchema = v.union([
-  bridgeOkSchema(HasAccessToResultSchema),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const HasAccessToResponseSchema: v.GenericSchema<HasAccessToResponse> = v.union([
+  sdkOkResponseSchema(HasAccessToResultSchema),
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link ReloadScopesResponse}.
  *
- * @public
+ * @internal
  */
-export const ReloadScopesResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const ReloadScopesResponseSchema: v.GenericSchema<ReloadScopesResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

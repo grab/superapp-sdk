@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import {
   HasAccessToRequestSchema,
   HasAccessToResponseSchema,
@@ -17,6 +17,7 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  * JSBridge module for checking and refreshing API access permissions.
  *
  * @group Modules
+ * @category Scope
  *
  * @remarks
  * Manages OAuth scope permissions, allowing the MiniApp to check access rights and reload scopes from the server.
@@ -41,7 +42,7 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class ScopeModule extends BaseModule {
+export class ScopeModule extends _BaseModule {
   constructor() {
     super('ScopeModule');
   }
@@ -49,20 +50,25 @@ export class ScopeModule extends BaseModule {
   /**
    * Checks if the current client has access to a specific JSBridge API method.
    *
-   * @param module - The name of the bridge module to check access for (e.g., 'CameraModule').
-   * @param method - The method name within the module to check access for (e.g., 'scanQRCode').
-   *
-   * @returns Whether the MiniApp has permission to access the specified method. See {@link HasAccessToResponse}.
+   * @param module - Bridge module name to check.
+   * @param method - Method name within that module.
+
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - access check completed successfully. The `result` is `true` if access is granted, otherwise `false`.
+   * - `400`: Bad request - missing required parameters, module or method not provided.
+   * - `424`: Failed dependency - ScopeKit error, unable to check access due to a dependency error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the scope module
    * const scope = new ScopeModule();
    *
-   * // Check access to CameraModule.scanQRCode
+   * // Check whether the user has access to a module method
    * const response = await scope.hasAccessTo('CameraModule', 'scanQRCode');
    *
    * // Handle the response
@@ -98,17 +104,21 @@ export class ScopeModule extends BaseModule {
    * Requests to reload the consented OAuth scopes for the current client.
    * This refreshes the permissions from the server.
    *
-   * @returns Confirmation that the scopes have been reloaded from the server. See {@link ReloadScopesResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - scopes reloaded successfully.
+   * - `424`: Failed dependency - unable to reload scopes due to a dependency error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the scope module
    * const scope = new ScopeModule();
    *
-   * // Reload scopes
+   * // Reload consented OAuth scopes from the server
    * const response = await scope.reloadScopes();
    *
    * // Handle the response

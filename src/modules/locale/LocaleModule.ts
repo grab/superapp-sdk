@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { GetLanguageLocaleIdentifierResponseSchema } from './schemas';
 import { GetLanguageLocaleIdentifierResponse } from './types';
 
@@ -13,6 +13,7 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
  * JSBridge module for accessing device locale settings.
  *
  * @group Modules
+ * @category Locale
  *
  * @remarks
  * Provides the user's preferred language and region settings from the native device.
@@ -37,7 +38,7 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class LocaleModule extends BaseModule {
+export class LocaleModule extends _BaseModule {
   constructor() {
     super('LocaleModule');
   }
@@ -45,7 +46,12 @@ export class LocaleModule extends BaseModule {
   /**
    * Retrieves the current language locale identifier from the device.
    *
-   * @returns The user's preferred language locale string (e.g., 'en-SG', 'id-ID'). See {@link GetLanguageLocaleIdentifierResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - locale identifier retrieved successfully. The `result` is {@link GetLanguageLocaleIdentifierResult}.
+   * - `204`: No content - locale identifier not available.
+   * - `400`: Bad request - invalid request parameters.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
    * **Simple usage**
@@ -60,7 +66,11 @@ export class LocaleModule extends BaseModule {
    *
    * // Handle the response
    * if (isSuccess(response)) {
-   *   console.log('Current locale:', response.result);
+   *   if (response.status_code === 200) {
+   *     console.log('Current locale:', response.result);
+   *   } else if (response.status_code === 204) {
+   *     console.log('Locale identifier not available');
+   *   }
    * } else if (isError(response)) {
    *   console.error(`Error ${response.status_code}: ${response.error}`);
    * } else {

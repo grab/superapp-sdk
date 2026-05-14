@@ -5,8 +5,8 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
-import { meetsMinimumVersion, Version } from '../../utils/version';
+import { _BaseModule } from '../../core';
+import { _Version, meetsMinimumVersion } from '../../utils/version';
 import {
   FetchEmailResponseSchema,
   VerifyEmailRequestSchema,
@@ -18,6 +18,7 @@ import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './t
  * JSBridge module for accessing user profile information.
  *
  * @group Modules
+ * @category Profile
  *
  * @remarks
  * Provides access to user profile data such as email verification.
@@ -42,12 +43,12 @@ import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './t
  * @public
  * @noInheritDoc
  */
-export class ProfileModule extends BaseModule {
+export class ProfileModule extends _BaseModule {
   constructor() {
     super('ProfileModule');
   }
 
-  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 399, patch: 0 };
+  static readonly MINIMUM_VERSION: _Version = { major: 5, minor: 399, patch: 0 };
 
   /**
    * Fetches the user's email address from their Grab profile.
@@ -56,7 +57,14 @@ export class ProfileModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.profile
    *
-   * @returns The user's email address if available. See {@link FetchEmailResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - email fetched successfully. The `result` is {@link FetchEmailResult}.
+   * - `204`: No content - email not available.
+   * - `400`: Bad request - the request was malformed.
+   * - `403`: Forbidden - client not authorized to access user profile data.
+   * - `426`: Upgrade required - feature requires Grab app version 5.399 or above.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
    * **Simple usage**
@@ -114,27 +122,39 @@ export class ProfileModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.profile
    *
+   * @param request - Optional email verification configuration.
+   * Request fields:
+   * - `email` (optional): Pre-filled email address shown in the native verification flow.
+   * - `skipUserInput` (optional): If `true` with `email`, opens OTP verification directly.
+   *
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - email verified successfully. The `result` is {@link VerifyEmailResult}.
+   * - `204`: No content - user closed the native bottom sheet.
+   * - `400`: Bad request - client error (e.g. invalid email format).
+   * - `403`: Forbidden - client not authorized to access user profile data.
+   * - `426`: Upgrade required - feature requires Grab app version 5.399 or above.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
+   *
    * @remarks
    * If the user closes the verify OTP bottom sheet, the method will return a `status_code` of `204`.
    * Successful verification will also update the email address for the user on Grab.
    *
-   * @param request - Optional request parameters for email verification. See {@link VerifyEmailRequest}.
-   *
-   * @returns Confirmation of whether the email verification was successful. See {@link VerifyEmailResponse}.
-   *
    * @example
-   * **Simple usage with email provided**
+   * **Usage**
    * ```typescript
    * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the profile module
    * const profile = new ProfileModule();
    *
-   * // Verify email with pre-filled email address
+   * // Open the native email verification flow
    * const response = await profile.verifyEmail({
    *   email: 'user@example.com',
-   *   skipUserInput: true
+   *   skipUserInput: true,
    * });
+   * // Call with no argument to let the user enter email in the native sheet:
+   * // await profile.verifyEmail();
    *
    * // Handle the response
    * if (isSuccess(response)) {
@@ -159,17 +179,6 @@ export class ProfileModule extends BaseModule {
    * } else {
    *   console.error('Unhandled response');
    * }
-   * ```
-   *
-   * @example
-   * **Usage without parameters**
-   * ```typescript
-   * import { ProfileModule } from '@grabjs/superapp-sdk';
-   *
-   * const profile = new ProfileModule();
-   *
-   * // Let user enter email in the native bottom sheet
-   * const response = await profile.verifyEmail();
    * ```
    *
    * @public

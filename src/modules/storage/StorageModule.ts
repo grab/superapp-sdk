@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import {
   GetBooleanRequestSchema,
   GetBooleanResponseSchema,
@@ -52,6 +52,7 @@ import {
  * JSBridge module for persisting key-value data to native storage.
  *
  * @group Modules
+ * @category Storage
  *
  * @remarks
  * Stores data in the native app's persistent storage, allowing data to survive WebView restarts.
@@ -77,7 +78,7 @@ import {
  * @public
  * @noInheritDoc
  */
-export class StorageModule extends BaseModule {
+export class StorageModule extends _BaseModule {
   constructor() {
     super('StorageModule');
   }
@@ -90,17 +91,22 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The boolean value to store.
    *
-   * @returns Confirmation that the boolean value was stored. See {@link SetBooleanResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - value stored successfully.
+   * - `400`: Bad request - missing required parameters, key or value not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Set a boolean value
+   * // Store a boolean value
    * const response = await storage.setBoolean('isDarkMode', true);
    *
    * // Handle the response
@@ -139,17 +145,23 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored boolean value. See {@link GetBooleanResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - value retrieved successfully. The `result` is the stored boolean value.
+   * - `204`: No content - value not found in storage.
+   * - `400`: Bad request - missing required parameters, key not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Get a boolean value
+   * // Retrieve a boolean value
    * const response = await storage.getBoolean('isDarkMode');
    *
    * // Handle the response
@@ -205,17 +217,22 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The integer value to store.
    *
-   * @returns Confirmation that the integer value was stored. See {@link SetIntResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - value stored successfully.
+   * - `400`: Bad request - missing required parameters, key or value not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Set an integer value
+   * // Store an integer value
    * const response = await storage.setInt('userCount', 42);
    *
    * // Handle the response
@@ -253,17 +270,23 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored integer value. See {@link GetIntResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - value retrieved successfully. The `result` is the stored integer value.
+   * - `204`: No content - value not found in storage.
+   * - `400`: Bad request - missing required parameters, key not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Get an integer value
+   * // Retrieve an integer value
    * const response = await storage.getInt('userCount');
    *
    * // Handle the response
@@ -318,17 +341,22 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The string value to store.
    *
-   * @returns Confirmation that the string value was stored. See {@link SetStringResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - value stored successfully.
+   * - `400`: Bad request - missing required parameters, key or value not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Set a string value
+   * // Store a string value
    * const response = await storage.setString('username', 'john_doe');
    *
    * // Handle the response
@@ -366,17 +394,23 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored string value. See {@link GetStringResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - value retrieved successfully. The `result` is the stored string value.
+   * - `204`: No content - value not found in storage.
+   * - `400`: Bad request - missing required parameters, key not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Get a string value
+   * // Retrieve a string value
    * const response = await storage.getString('username');
    *
    * // Handle the response
@@ -431,17 +465,22 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The double value to store.
    *
-   * @returns Confirmation that the double value was stored. See {@link SetDoubleResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - value stored successfully.
+   * - `400`: Bad request - missing required parameters, key or value not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Set a double value
+   * // Store a double value
    * const response = await storage.setDouble('price', 19.99);
    *
    * // Handle the response
@@ -479,17 +518,23 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored double value. See {@link GetDoubleResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - value retrieved successfully. The `result` is the stored double value.
+   * - `204`: No content - value not found in storage.
+   * - `400`: Bad request - missing required parameters, key not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Get a double value
+   * // Retrieve a double value
    * const response = await storage.getDouble('price');
    *
    * // Handle the response
@@ -543,17 +588,22 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to remove from storage.
    *
-   * @returns Confirmation that the value was removed. See {@link RemoveResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - value removed successfully.
+   * - `400`: Bad request - missing required parameters, key not provided.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Remove a value
+   * // Remove a single key from storage
    * const response = await storage.remove('username');
    *
    * // Handle the response
@@ -589,17 +639,21 @@ export class StorageModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.storage
    *
-   * @returns Confirmation that all values were removed. See {@link RemoveAllResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - all values removed successfully.
+   * - `424`: Failed dependency - storage operation failed due to underlying storage error.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the storage module
    * const storage = new StorageModule();
    *
-   * // Remove all values
+   * // Remove all keys from storage
    * const response = await storage.removeAll();
    *
    * // Handle the response

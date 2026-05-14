@@ -7,32 +7,41 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types';
 
 /**
  * Valibot schema for {@link ScanQRCodeRequest}.
  *
- * @public
+ * @internal
  */
-export const ScanQRCodeRequestSchema = v.object({ title: v.optional(v.string()) });
+export const ScanQRCodeRequestSchema: v.GenericSchema<ScanQRCodeRequest> = v.object({
+  title: v.optional(v.string()),
+});
 
 /**
  * Valibot schema for {@link ScanQRCodeResult}.
  *
- * @public
+ * @internal
  */
-export const ScanQRCodeResultSchema = v.object({ qrCode: v.string() });
+export const ScanQRCodeResultSchema: v.GenericSchema<ScanQRCodeResult> = v.object({
+  qrCode: v.string(),
+});
 
 /**
  * Valibot schema for {@link ScanQRCodeResponse}.
  *
- * @public
+ * @internal
  */
-export const ScanQRCodeResponseSchema = v.union([
-  bridgeOkSchema(ScanQRCodeResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const ScanQRCodeResponseSchema: v.GenericSchema<ScanQRCodeResponse> = v.union([
+  sdkOkResponseSchema(ScanQRCodeResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

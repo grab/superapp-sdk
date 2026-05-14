@@ -7,36 +7,49 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  FetchEmailResponse,
+  FetchEmailResult,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
+  VerifyEmailResult,
+} from './types';
 
 /**
  * Valibot schema for {@link FetchEmailResult}.
  *
- * @public
+ * @internal
  */
-export const FetchEmailResultSchema = v.object({ email: v.string() });
+export const FetchEmailResultSchema: v.GenericSchema<FetchEmailResult> = v.object({
+  email: v.string(),
+});
 
 /**
  * Valibot schema for {@link FetchEmailResponse}.
  *
- * @public
+ * @internal
  */
-export const FetchEmailResponseSchema = v.union([
-  bridgeOkSchema(FetchEmailResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const FetchEmailResponseSchema: v.GenericSchema<FetchEmailResponse> = v.union([
+  sdkOkResponseSchema(FetchEmailResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link VerifyEmailRequest}.
  *
- * @public
+ * @internal
  */
-export const VerifyEmailRequestSchema = v.object({
+export const VerifyEmailRequestSchema: v.GenericSchema<VerifyEmailRequest> = v.object({
   email: v.optional(v.pipe(v.string(), v.minLength(1))),
   skipUserInput: v.optional(v.boolean()),
 });
@@ -44,21 +57,23 @@ export const VerifyEmailRequestSchema = v.object({
 /**
  * Valibot schema for {@link VerifyEmailResult}.
  *
- * @public
+ * @internal
  */
-export const VerifyEmailResultSchema = v.object({ email: v.string() });
+export const VerifyEmailResultSchema: v.GenericSchema<VerifyEmailResult> = v.object({
+  email: v.string(),
+});
 
 /**
  * Valibot schema for {@link VerifyEmailResponse}.
  *
- * @public
+ * @internal
  */
-export const VerifyEmailResponseSchema = v.union([
-  bridgeOkSchema(VerifyEmailResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const VerifyEmailResponseSchema: v.GenericSchema<VerifyEmailResponse> = v.union([
+  sdkOkResponseSchema(VerifyEmailResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

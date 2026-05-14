@@ -6,10 +6,6 @@
  */
 
 export { LocaleModule } from './LocaleModule';
-export {
-  GetLanguageLocaleIdentifierResponseSchema,
-  GetLanguageLocaleIdentifierResultSchema,
-} from './schemas';
 export type {
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResult,

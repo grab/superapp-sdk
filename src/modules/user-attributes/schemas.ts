@@ -7,23 +7,33 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  GetSelectedTravelDestinationResponse,
+  GetSelectedTravelDestinationResult,
+} from './types';
 
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResult}.
  *
- * @public
+ * @internal
  */
-export const GetSelectedTravelDestinationResultSchema = v.string();
+export const GetSelectedTravelDestinationResultSchema: v.GenericSchema<GetSelectedTravelDestinationResult> =
+  v.string();
 
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResponse}.
  *
- * @public
+ * @internal
  */
-export const GetSelectedTravelDestinationResponseSchema = v.union([
-  bridgeOkSchema(GetSelectedTravelDestinationResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+export const GetSelectedTravelDestinationResponseSchema: v.GenericSchema<GetSelectedTravelDestinationResponse> =
+  v.union([
+    sdkOkResponseSchema(GetSelectedTravelDestinationResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);

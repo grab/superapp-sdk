@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { Version } from './types';
+import { _Version } from './types';
 
 /**
  * Checks if the version meets the minimum required version.
@@ -23,7 +23,7 @@ import { Version } from './types';
  *
  * @internal
  */
-export function meetsMinimumVersion(version: Version, minimumVersion: Version): boolean {
+export function meetsMinimumVersion(version: _Version, minimumVersion: _Version): boolean {
   if (version.major !== minimumVersion.major) {
     return version.major > minimumVersion.major;
   }

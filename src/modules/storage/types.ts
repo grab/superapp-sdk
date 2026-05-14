@@ -5,40 +5,14 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  GetBooleanRequestSchema,
-  GetBooleanResponseSchema,
-  GetBooleanResultSchema,
-  GetDoubleRequestSchema,
-  GetDoubleResponseSchema,
-  GetDoubleResultSchema,
-  GetIntRequestSchema,
-  GetIntResponseSchema,
-  GetIntResultSchema,
-  GetStringRequestSchema,
-  GetStringResponseSchema,
-  GetStringResultSchema,
-  RawGetBooleanResponseSchema,
-  RawGetDoubleResponseSchema,
-  RawGetIntResponseSchema,
-  RawGetStringResponseSchema,
-  RemoveAllResponseSchema,
-  RemoveResponseSchema,
-  SetBooleanRequestSchema,
-  SetBooleanResponseSchema,
-  SetDoubleRequestSchema,
-  SetDoubleResponseSchema,
-  SetIntRequestSchema,
-  SetIntResponseSchema,
-  SetStringRequestSchema,
-  SetStringResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result object for setting a boolean value.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -52,24 +26,32 @@ export type SetBooleanResult = void;
  * { key: 'isDarkMode', value: true }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type SetBooleanRequest = InferOutput<typeof SetBooleanRequestSchema>;
+export interface SetBooleanRequest {
+  /** Storage key for the value. */
+  key: string;
+  /** Boolean value to persist. */
+  value: boolean;
+}
 
 /**
- * Response when setting a boolean value.
+ * Response returned by {@link StorageModule.setBoolean}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type SetBooleanResponse = InferOutput<typeof SetBooleanResponseSchema>;
+export type SetBooleanResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting a boolean value from storage.
@@ -79,51 +61,64 @@ export type SetBooleanResponse = InferOutput<typeof SetBooleanResponseSchema>;
  * { key: 'isDarkMode' }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
+export interface GetBooleanRequest {
+  /** Storage key to read. */
+  key: string;
+}
 
 /**
  * The boolean value returned when a key exists in storage.
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
  *
  * @example
  * ```typescript
  * true
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetBooleanResult = InferOutput<typeof GetBooleanResultSchema>;
+export type GetBooleanResult = boolean;
 
 /**
- * Internal type for the raw bridge response from getBoolean before normalization.
+ * Internal type for the raw SDK response from getBoolean before normalization.
  *
  * @internal
  */
-export type RawGetBooleanResponse = InferOutput<typeof RawGetBooleanResponseSchema>;
+export type RawGetBooleanResponse =
+  | { status_code: 200; result?: boolean | null }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
- * Response when getting a boolean value.
+ * Response returned by {@link StorageModule.getBoolean}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the boolean value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type GetBooleanResponse = InferOutput<typeof GetBooleanResponseSchema>;
+export type GetBooleanResponse =
+  | SDKOkResponse<GetBooleanResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for setting an integer value.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -137,24 +132,32 @@ export type SetIntResult = void;
  * { key: 'userCount', value: 42 }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type SetIntRequest = InferOutput<typeof SetIntRequestSchema>;
+export interface SetIntRequest {
+  /** Storage key for the value. */
+  key: string;
+  /** Integer value to persist. */
+  value: number;
+}
 
 /**
- * Response when setting an integer value.
+ * Response returned by {@link StorageModule.setInt}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type SetIntResponse = InferOutput<typeof SetIntResponseSchema>;
+export type SetIntResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting an integer value from storage.
@@ -164,51 +167,64 @@ export type SetIntResponse = InferOutput<typeof SetIntResponseSchema>;
  * { key: 'userCount' }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
+export interface GetIntRequest {
+  /** Storage key to read. */
+  key: string;
+}
 
 /**
  * The integer value returned when a key exists in storage.
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
  *
  * @example
  * ```typescript
  * 42
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetIntResult = InferOutput<typeof GetIntResultSchema>;
+export type GetIntResult = number;
 
 /**
- * Internal type for the raw bridge response from getInt before normalization.
+ * Internal type for the raw SDK response from getInt before normalization.
  *
  * @internal
  */
-export type RawGetIntResponse = InferOutput<typeof RawGetIntResponseSchema>;
+export type RawGetIntResponse =
+  | { status_code: 200; result?: number | null }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
- * Response when getting an integer value.
+ * Response returned by {@link StorageModule.getInt}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the integer value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type GetIntResponse = InferOutput<typeof GetIntResponseSchema>;
+export type GetIntResponse =
+  | SDKOkResponse<GetIntResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for setting a string value.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -222,24 +238,32 @@ export type SetStringResult = void;
  * { key: 'username', value: 'john_doe' }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type SetStringRequest = InferOutput<typeof SetStringRequestSchema>;
+export interface SetStringRequest {
+  /** Storage key for the value. */
+  key: string;
+  /** String value to persist. */
+  value: string;
+}
 
 /**
- * Response when setting a string value.
+ * Response returned by {@link StorageModule.setString}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type SetStringResponse = InferOutput<typeof SetStringResponseSchema>;
+export type SetStringResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting a string value from storage.
@@ -249,51 +273,64 @@ export type SetStringResponse = InferOutput<typeof SetStringResponseSchema>;
  * { key: 'username' }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
+export interface GetStringRequest {
+  /** Storage key to read. */
+  key: string;
+}
 
 /**
  * The string value returned when a key exists in storage.
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
  *
  * @example
  * ```typescript
  * 'john_doe'
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetStringResult = InferOutput<typeof GetStringResultSchema>;
+export type GetStringResult = string;
 
 /**
- * Internal type for the raw bridge response from getString before normalization.
+ * Internal type for the raw SDK response from getString before normalization.
  *
  * @internal
  */
-export type RawGetStringResponse = InferOutput<typeof RawGetStringResponseSchema>;
+export type RawGetStringResponse =
+  | { status_code: 200; result?: string | null }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
- * Response when getting a string value.
+ * Response returned by {@link StorageModule.getString}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the string value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type GetStringResponse = InferOutput<typeof GetStringResponseSchema>;
+export type GetStringResponse =
+  | SDKOkResponse<GetStringResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for setting a double value.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -307,24 +344,32 @@ export type SetDoubleResult = void;
  * { key: 'price', value: 19.99 }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type SetDoubleRequest = InferOutput<typeof SetDoubleRequestSchema>;
+export interface SetDoubleRequest {
+  /** Storage key for the value. */
+  key: string;
+  /** Floating-point value to persist. */
+  value: number;
+}
 
 /**
- * Response when setting a double value.
+ * Response returned by {@link StorageModule.setDouble}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type SetDoubleResponse = InferOutput<typeof SetDoubleResponseSchema>;
+export type SetDoubleResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting a double value from storage.
@@ -334,89 +379,105 @@ export type SetDoubleResponse = InferOutput<typeof SetDoubleResponseSchema>;
  * { key: 'price' }
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
+export interface GetDoubleRequest {
+  /** Storage key to read. */
+  key: string;
+}
 
 /**
  * The floating-point value returned when a key exists in storage.
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
  *
  * @example
  * ```typescript
  * 19.99
  * ```
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
-export type GetDoubleResult = InferOutput<typeof GetDoubleResultSchema>;
+export type GetDoubleResult = number;
 
 /**
- * Internal type for the raw bridge response from getDouble before normalization.
+ * Internal type for the raw SDK response from getDouble before normalization.
  *
  * @internal
  */
-export type RawGetDoubleResponse = InferOutput<typeof RawGetDoubleResponseSchema>;
+export type RawGetDoubleResponse =
+  | { status_code: 200; result?: number | null }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
- * Response when getting a double value.
+ * Response returned by {@link StorageModule.getDouble}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the double value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type GetDoubleResponse = InferOutput<typeof GetDoubleResponseSchema>;
+export type GetDoubleResponse =
+  | SDKOkResponse<GetDoubleResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for removing a value.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
 export type RemoveResult = void;
 
 /**
- * Response when removing a value.
+ * Response returned by {@link StorageModule.remove}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value removed successfully.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type RemoveResponse = InferOutput<typeof RemoveResponseSchema>;
+export type RemoveResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for removing all values.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
 export type RemoveAllResult = void;
 
 /**
- * Response when removing all values.
+ * Response returned by {@link StorageModule.removeAll}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: All values removed successfully.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
-export type RemoveAllResponse = InferOutput<typeof RemoveAllResponseSchema>;
+export type RemoveAllResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

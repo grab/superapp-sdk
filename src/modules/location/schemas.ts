@@ -7,57 +7,72 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  GetCoordinateResponse,
+  GetCoordinateResult,
+  GetCountryCodeResponse,
+  GetCountryCodeResult,
+  ObserveLocationChangeResult,
+} from './types';
 
 /**
  * Valibot schema for {@link GetCoordinateResult}.
  *
- * @public
+ * @internal
  */
-export const GetCoordinateResultSchema = v.object({ latitude: v.number(), longitude: v.number() });
+export const GetCoordinateResultSchema: v.GenericSchema<GetCoordinateResult> = v.object({
+  latitude: v.number(),
+  longitude: v.number(),
+});
 
 /**
  * Valibot schema for {@link GetCoordinateResponse}.
  *
- * @public
+ * @internal
  */
-export const GetCoordinateResponseSchema = v.union([
-  bridgeOkSchema(GetCoordinateResultSchema),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const GetCoordinateResponseSchema: v.GenericSchema<GetCoordinateResponse> = v.union([
+  sdkOkResponseSchema(GetCoordinateResultSchema),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * @internal
  */
-export const ObserveLocationChangeResponseSchema = v.union([
-  bridgeOkSchema(GetCoordinateResultSchema),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+export const ObserveLocationChangeResponseSchema: v.GenericSchema<ObserveLocationChangeResult> =
+  v.union([
+    sdkOkResponseSchema(GetCoordinateResultSchema),
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link GetCountryCodeResult}.
  *
- * @public
+ * @internal
  */
-export const GetCountryCodeResultSchema = v.string();
+export const GetCountryCodeResultSchema: v.GenericSchema<GetCountryCodeResult> = v.string();
 
 /**
  * Valibot schema for {@link GetCountryCodeResponse}.
  *
- * @public
+ * @internal
  */
-export const GetCountryCodeResponseSchema = v.union([
-  bridgeOkSchema(GetCountryCodeResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const GetCountryCodeResponseSchema: v.GenericSchema<GetCountryCodeResponse> = v.union([
+  sdkOkResponseSchema(GetCountryCodeResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

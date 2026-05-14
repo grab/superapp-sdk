@@ -7,346 +7,376 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  CloseResponse,
+  GetSessionParamsResponse,
+  GetSessionParamsResult,
+  HideBackButtonResponse,
+  HideLoaderResponse,
+  HideRefreshButtonResponse,
+  IsConnectedResponse,
+  IsConnectedResult,
+  OnContentLoadedResponse,
+  OnCtaTapResponse,
+  OpenExternalLinkResponse,
+  SendAnalyticsEventRequest,
+  SendAnalyticsEventResponse,
+  SetBackgroundColorResponse,
+  SetTitleResponse,
+  ShowBackButtonResponse,
+  ShowLoaderResponse,
+  ShowRefreshButtonResponse,
+} from './types';
 
 /**
- * Internal valibot schema for the raw bridge response from setBackgroundColor.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from setBackgroundColor.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawSetBackgroundColorResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link SetBackgroundColorResponse}.
  *
- * @public
+ * @internal
  */
-export const SetBackgroundColorResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+export const SetBackgroundColorResponseSchema: v.GenericSchema<SetBackgroundColorResponse> =
+  v.union([
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
- * Internal valibot schema for the raw bridge response from setTitle.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from setTitle.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawSetTitleResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link SetTitleResponse}.
  *
- * @public
+ * @internal
  */
-export const SetTitleResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const SetTitleResponseSchema: v.GenericSchema<SetTitleResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from hideBackButton.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from hideBackButton.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawHideBackButtonResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link HideBackButtonResponse}.
  *
- * @public
+ * @internal
  */
-export const HideBackButtonResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const HideBackButtonResponseSchema: v.GenericSchema<HideBackButtonResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from showBackButton.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from showBackButton.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawShowBackButtonResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link ShowBackButtonResponse}.
  *
- * @public
+ * @internal
  */
-export const ShowBackButtonResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const ShowBackButtonResponseSchema: v.GenericSchema<ShowBackButtonResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from hideRefreshButton.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from hideRefreshButton.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawHideRefreshButtonResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link HideRefreshButtonResponse}.
  *
- * @public
+ * @internal
  */
-export const HideRefreshButtonResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const HideRefreshButtonResponseSchema: v.GenericSchema<HideRefreshButtonResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from showRefreshButton.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from showRefreshButton.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawShowRefreshButtonResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link ShowRefreshButtonResponse}.
  *
- * @public
+ * @internal
  */
-export const ShowRefreshButtonResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const ShowRefreshButtonResponseSchema: v.GenericSchema<ShowRefreshButtonResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from close.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from close.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawCloseResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link CloseResponse}.
  *
- * @public
+ * @internal
  */
-export const CloseResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const CloseResponseSchema: v.GenericSchema<CloseResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link OnContentLoadedResponse}.
  *
- * @public
+ * @internal
  */
-export const OnContentLoadedResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const OnContentLoadedResponseSchema: v.GenericSchema<OnContentLoadedResponse> = v.union([
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from showLoader.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from showLoader.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawShowLoaderResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link ShowLoaderResponse}.
  *
- * @public
+ * @internal
  */
-export const ShowLoaderResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const ShowLoaderResponseSchema: v.GenericSchema<ShowLoaderResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from hideLoader.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from hideLoader.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawHideLoaderResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link HideLoaderResponse}.
  *
- * @public
+ * @internal
  */
-export const HideLoaderResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const HideLoaderResponseSchema: v.GenericSchema<HideLoaderResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response from openExternalLink.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from openExternalLink.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawOpenExternalLinkResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link OpenExternalLinkResponse}.
  *
- * @public
+ * @internal
  */
-export const OpenExternalLinkResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const OpenExternalLinkResponseSchema: v.GenericSchema<OpenExternalLinkResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link OnCtaTapResponse}.
  *
- * @public
+ * @internal
  */
-export const OnCtaTapResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const OnCtaTapResponseSchema: v.GenericSchema<OnCtaTapResponse> = v.union([
+  sdkOkResponseSchema(v.boolean()),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link SendAnalyticsEventRequest}.
  *
- * @public
+ * @internal
  */
-export const SendAnalyticsEventRequestSchema = v.object({
-  state: v.pipe(v.string(), v.minLength(1)),
-  name: v.pipe(v.string(), v.minLength(1)),
-  data: v.optional(v.record(v.string(), v.unknown())),
-});
+export const SendAnalyticsEventRequestSchema: v.GenericSchema<SendAnalyticsEventRequest> = v.object(
+  {
+    state: v.pipe(v.string(), v.minLength(1)),
+    name: v.pipe(v.string(), v.minLength(1)),
+    data: v.optional(v.record(v.string(), v.unknown())),
+  }
+);
 
 /**
- * Internal valibot schema for the raw bridge response from sendAnalyticsEvent.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response from sendAnalyticsEvent.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
 export const RawSendAnalyticsEventResponseSchema = v.union([
-  bridgeOkSchema(v.boolean()),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.boolean()),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link SendAnalyticsEventResponse}.
  *
- * @public
+ * @internal
  */
-export const SendAnalyticsEventResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+export const SendAnalyticsEventResponseSchema: v.GenericSchema<SendAnalyticsEventResponse> =
+  v.union([
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link IsConnectedResult}.
  *
- * @public
+ * @internal
  */
-export const IsConnectedResultSchema = v.object({ connected: v.boolean() });
+export const IsConnectedResultSchema: v.GenericSchema<IsConnectedResult> = v.object({
+  connected: v.boolean(),
+});
 
 /**
  * Valibot schema for {@link IsConnectedResponse}.
  *
- * @public
+ * @internal
  */
-export const IsConnectedResponseSchema = v.union([
-  bridgeOkSchema(IsConnectedResultSchema),
-  bridgeErrorSchema(404),
+export const IsConnectedResponseSchema: v.GenericSchema<IsConnectedResponse> = v.union([
+  sdkOkResponseSchema(IsConnectedResultSchema),
+  sdkErrorResponseSchema(404),
 ]);
 
 /**
  * Valibot schema for {@link GetSessionParamsResult}.
  *
- * @public
+ * @internal
  */
-export const GetSessionParamsResultSchema = v.string();
+export const GetSessionParamsResultSchema: v.GenericSchema<GetSessionParamsResult> = v.string();
 
 /**
  * Valibot schema for {@link GetSessionParamsResponse}.
  *
- * @public
+ * @internal
  */
-export const GetSessionParamsResponseSchema = v.union([
-  bridgeOkSchema(GetSessionParamsResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const GetSessionParamsResponseSchema: v.GenericSchema<GetSessionParamsResponse> = v.union([
+  sdkOkResponseSchema(GetSessionParamsResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

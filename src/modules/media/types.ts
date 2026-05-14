@@ -5,14 +5,12 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { BridgeStream } from '../../core';
 import {
-  DRMPlaybackEventSchema,
-  ObserveDRMPlaybackResponseSchema,
-  PlayDRMContentResponseSchema,
-} from './schemas';
+  type SDKErrorResponse,
+  type SDKNoContentResponse,
+  type SDKOkResponse,
+  SDKStream,
+} from '../../core';
 
 /**
  * DRM content configuration for playback.
@@ -43,31 +41,44 @@ import {
  * }
  * ```
  *
+ * @group Modules
+ * @category Media
+ *
  * @public
  */
 export type DRMContentConfig = Record<string, unknown>;
 
 /**
- * Result object for DRM content playback initiation.
- * This operation returns no data on success.
+ * Result payload returned when DRM content playback starts successfully.
+ *
+ * @group Modules
+ * @category Media
  *
  * @public
  */
-export type PlayDRMContentResult = void;
+export type PlayDRMContentResult = DRMPlaybackEvent;
 
 /**
- * Response when initiating DRM content playback.
+ * DRM playback event type values emitted by the native player.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Playback initiated successfully (streaming content).
- * - `204`: Invalid parameters - the DRM configuration is malformed or missing required fields.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Media
  *
  * @public
  */
-export type PlayDRMContentResponse = InferOutput<typeof PlayDRMContentResponseSchema>;
+export type DRMPlaybackEventType =
+  | 'START_PLAYBACK'
+  | 'PROGRESS_PLAYBACK'
+  | 'START_SEEK'
+  | 'STOP_SEEK'
+  | 'STOP_PLAYBACK'
+  | 'CLOSE_PLAYBACK'
+  | 'PAUSE_PLAYBACK'
+  | 'RESUME_PLAYBACK'
+  | 'FAST_FORWARD_PLAYBACK'
+  | 'REWIND_PLAYBACK'
+  | 'ERROR_PLAYBACK'
+  | 'CHANGE_VOLUME';
 
 /**
  * Result object for DRM playback events.
@@ -105,22 +116,53 @@ export type PlayDRMContentResponse = InferOutput<typeof PlayDRMContentResponseSc
  * }
  * ```
  *
+ * @group Modules
+ * @category Media
+ *
  * @public
  */
-export type DRMPlaybackEvent = InferOutput<typeof DRMPlaybackEventSchema>;
+export interface DRMPlaybackEvent {
+  type: DRMPlaybackEventType;
+  titleId: string;
+  position: number;
+  length: number;
+}
 
 /**
- * Response stream for observing DRM playback events.
+ * Response returned by {@link MediaModule.playDRMContent}.
  *
- * @remarks
- * This is a `BridgeStream` that can be:
- * - Subscribed to via `.subscribe()` for continuous updates
- * - Awaited via `await` to get the first value only
- *
- * The stream can emit status codes 200 (event data), 500 (server error), or 501 (not implemented).
+ * @group Modules
+ * @category Media
  *
  * @public
  */
-export type ObserveDRMPlaybackResponse = BridgeStream<
-  InferOutput<typeof ObserveDRMPlaybackResponseSchema>
->;
+export type PlayDRMContentResponse =
+  | SDKOkResponse<PlayDRMContentResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
+ * Result emitted on the DRM playback observation stream.
+ *
+ * @group Modules
+ * @category Media
+ *
+ * @public
+ */
+export type ObserveDRMPlaybackResult =
+  | SDKOkResponse<DRMPlaybackEvent>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
+ * Response returned by {@link MediaModule.observePlayDRMContent}.
+ *
+ * @group Modules
+ * @category Media
+ *
+ * @public
+ */
+export type ObserveDRMPlaybackResponse = SDKStream<ObserveDRMPlaybackResult>;

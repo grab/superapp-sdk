@@ -5,12 +5,10 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 
 /**
- * Request parameters for downloading a file via native bridge.
+ * Request parameters for downloading a file via native JSBridge.
  *
  * @example
  * ```typescript
@@ -20,9 +18,17 @@ import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas
  * }
  * ```
  *
+ * @group Modules
+ * @category File
+ *
  * @public
  */
-export type DownloadFileRequest = InferOutput<typeof DownloadFileRequestSchema>;
+export interface DownloadFileRequest {
+  /** HTTPS URL of the file to download. */
+  fileUrl: string;
+  /** Filename used when saving the download. */
+  fileName: string;
+}
 
 /**
  * Result data structure for file download operations.
@@ -30,20 +36,23 @@ export type DownloadFileRequest = InferOutput<typeof DownloadFileRequestSchema>;
  * @remarks
  * This is a void result type as successful downloads return status code 204 with no content.
  *
+ * @group Modules
+ * @category File
+ *
  * @public
  */
 export type DownloadFileResult = void;
 
 /**
- * Response when requesting a native file download.
+ * Response returned by {@link FileModule.downloadFile}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: File downloaded successfully.
- * - `400`: Invalid request parameters such as invalid file URL, invalid domain, or missing file name.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category File
  *
  * @public
  */
-export type DownloadFileResponse = InferOutput<typeof DownloadFileResponseSchema>;
+export type DownloadFileResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

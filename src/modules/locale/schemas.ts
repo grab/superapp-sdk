@@ -7,24 +7,34 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  GetLanguageLocaleIdentifierResponse,
+  GetLanguageLocaleIdentifierResult,
+} from './types';
 
 /**
  * Valibot schema for {@link GetLanguageLocaleIdentifierResult}.
  *
- * @public
+ * @internal
  */
-export const GetLanguageLocaleIdentifierResultSchema = v.string();
+export const GetLanguageLocaleIdentifierResultSchema: v.GenericSchema<GetLanguageLocaleIdentifierResult> =
+  v.string();
 
 /**
  * Valibot schema for {@link GetLanguageLocaleIdentifierResponse}.
  *
- * @public
+ * @internal
  */
-export const GetLanguageLocaleIdentifierResponseSchema = v.union([
-  bridgeOkSchema(GetLanguageLocaleIdentifierResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+export const GetLanguageLocaleIdentifierResponseSchema: v.GenericSchema<GetLanguageLocaleIdentifierResponse> =
+  v.union([
+    sdkOkResponseSchema(GetLanguageLocaleIdentifierResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);

@@ -5,148 +5,165 @@
  * directory of this source tree.
  */
 
-import type { BridgeResponse } from './types';
+import type { SDKClientErrorStatusCode, SDKResponse, SDKServerErrorStatusCode } from './types';
 
 /**
- * Type guard to check if a JSBridge response is successful (2xx status codes).
+ * Type guard to check if an SDK response has status code 2xx.
  *
- * @param response - The JSBridge response to check
- * @returns True if the response is successful (200-299), false otherwise
+ * @param response - The SDK response to check
+ * @returns True if the response has status code 2xx, false otherwise
  *
  * @example
  * ```typescript
- * const response = await someBridgeMethod();
- * if (isSuccess(response)) {
- *   // response narrowed to success variants — result is available
+ * const response = await someSdkMethod();
+ * if (isOk(response)) {
+ *   // response narrowed to 200 status code response — result is available
  *   console.log(response.result);
+ * } else if (isNoContent(response)) {
+ *   // 204 success with no payload
+ *   console.log('Completed with no content');
  * }
  * ```
  *
+ * @group Type Guards
+ *
  * @public
  */
-export function isSuccess<T extends BridgeResponse>(
+export function isSuccess<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { status_code: 200 | 204 }> {
   return response.status_code >= 200 && response.status_code < 300;
 }
 
 /**
- * Type guard to check if a JSBridge response is a 200 OK (operation succeeded with a result).
+ * Type guard to check if an SDK response has status code 200.
  *
- * @param response - The JSBridge response to check
+ * @param response - The SDK response to check
  * @returns True if the response has status code 200, false otherwise
+ *
+ * @group Type Guards
  *
  * @public
  */
-export function isOk<T extends BridgeResponse>(
+export function isOk<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { status_code: 200 }> {
   return response.status_code === 200;
 }
 
 /**
- * Type guard to check if a JSBridge response is a 204 No Content (operation succeeded with no result).
+ * Type guard to check if an SDK response has status code 204.
  *
- * @param response - The JSBridge response to check
+ * @param response - The SDK response to check
  * @returns True if the response has status code 204, false otherwise
+ *
+ * @group Type Guards
  *
  * @public
  */
-export function isNoContent<T extends BridgeResponse>(
+export function isNoContent<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { status_code: 204 }> {
   return response.status_code === 204;
 }
 
 /**
- * Type guard to check if a JSBridge response is a redirect (status code 302).
+ * Type guard to check if an SDK response has a status code of 302.
  *
- * @param response - The JSBridge response to check
- * @returns True if the response is a redirect (302), false otherwise
+ * @param response - The SDK response to check
+ * @returns True if the response has status code 302, false otherwise
  *
  * @example
  * ```typescript
- * const response = await someBridgeMethod();
+ * const response = await someSdkMethod();
  * if (isRedirection(response)) {
  *   console.log('Redirecting...');
  * }
  * ```
  *
+ * @group Type Guards
+ *
  * @public
  */
-export function isRedirection<T extends BridgeResponse>(
+export function isRedirection<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { status_code: 302 }> {
   return response.status_code === 302;
 }
 
 /**
- * Type guard to check if a JSBridge response is a 302 Found redirect.
+ * Type guard to check if an SDK response has status code 302.
  *
- * @param response - The JSBridge response to check
+ * @param response - The SDK response to check
  * @returns True if the response has status code 302, false otherwise
  *
+ * @group Type Guards
+ *
  * @public
  */
-export function isFound<T extends BridgeResponse>(
+export function isFound<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { status_code: 302 }> {
   return response.status_code === 302;
 }
 
 /**
- * Type guard to check if a JSBridge response is a client error (4xx status codes).
+ * Type guard to check if an SDK response has status code 4xx.
  *
- * @param response - The JSBridge response to check
- * @returns True if the response is a client error (400-499), false otherwise
+ * @param response - The SDK response to check
+ * @returns True if the response has status code 4xx, false otherwise
  *
  * @example
  * ```typescript
- * const response = await someBridgeMethod();
+ * const response = await someSdkMethod();
  * if (isClientError(response)) {
  *   console.error('Client error:', response.error);
  * }
  * ```
  *
+ * @group Type Guards
+ *
  * @public
  */
-export function isClientError<T extends BridgeResponse>(
+export function isClientError<T extends SDKResponse>(
   response: T
-): response is Extract<T, { status_code: 400 | 401 | 403 | 404 | 424 | 426 }> {
+): response is Extract<T, { status_code: SDKClientErrorStatusCode }> {
   return response.status_code >= 400 && response.status_code < 500;
 }
 
 /**
- * Type guard to check if a JSBridge response is a server error (5xx status codes).
+ * Type guard to check if an SDK response has status code 5xx.
  *
- * @param response - The JSBridge response to check
- * @returns True if the response is a server error (500-599), false otherwise
+ * @param response - The SDK response to check
+ * @returns True if the response has status code 5xx, false otherwise
  *
  * @example
  * ```typescript
- * const response = await someBridgeMethod();
+ * const response = await someSdkMethod();
  * if (isServerError(response)) {
  *   console.error('Server error:', response.error);
  * }
  * ```
  *
+ * @group Type Guards
+ *
  * @public
  */
-export function isServerError<T extends BridgeResponse>(
+export function isServerError<T extends SDKResponse>(
   response: T
-): response is Extract<T, { status_code: 500 | 501 }> {
+): response is Extract<T, { status_code: SDKServerErrorStatusCode }> {
   return response.status_code >= 500 && response.status_code < 600;
 }
 
 /**
- * Type guard to check if a JSBridge response is an error (4xx or 5xx status codes).
+ * Type guard to check if an SDK response has status code 4xx or 5xx.
  *
- * @param response - The JSBridge response to check
- * @returns True if the response is any error (4xx or 5xx), false otherwise
+ * @param response - The SDK response to check
+ * @returns True if the response has status code 4xx or 5xx, false otherwise
  *
  * @example
  * ```typescript
- * const response = await someBridgeMethod();
+ * const response = await someSdkMethod();
  * if (isError(response)) {
  *   // response narrowed to error variants — error: string is guaranteed
  *   console.error('Error:', response.error);
@@ -155,9 +172,11 @@ export function isServerError<T extends BridgeResponse>(
  * }
  * ```
  *
+ * @group Type Guards
+ *
  * @public
  */
-export function isError<T extends BridgeResponse>(
+export function isError<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { error: string }> {
   return (
@@ -167,23 +186,25 @@ export function isError<T extends BridgeResponse>(
 }
 
 /**
- * Type guard to check if a JSBridge response has a defined result (not null or undefined).
+ * Type guard to check if an SDK response has a defined `result` (not null or undefined).
  *
- * @param response - The JSBridge response to check
- * @returns True if the response has a result that is neither null nor undefined, false otherwise
+ * @param response - The SDK response to check
+ * @returns True if the response has a `result` that is neither null nor undefined, false otherwise
  *
  * @example
  * ```typescript
- * const response = await someBridgeMethod();
+ * const response = await someSdkMethod();
  * if (isSuccess(response) && hasResult(response)) {
  *   // response.result is guaranteed to be defined
  *   console.log('Result:', response.result);
  * }
  * ```
  *
+ * @group Type Guards
+ *
  * @public
  */
-export function hasResult<T extends BridgeResponse>(
+export function hasResult<T extends SDKResponse>(
   response: T
 ): response is Extract<T, { result: NonNullable<unknown> }> {
   return 'result' in response && response.result !== null && response.result !== undefined;

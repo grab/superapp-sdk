@@ -7,25 +7,26 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
+import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
+import type { IsEsimSupportedResponse, IsEsimSupportedResult } from './types';
 
 /**
  * Valibot schema for {@link IsEsimSupportedResult}.
  *
- * @public
+ * @internal
  */
-export const IsEsimSupportedResultSchema = v.boolean();
+export const IsEsimSupportedResultSchema: v.GenericSchema<IsEsimSupportedResult> = v.boolean();
 
 /**
  * Valibot schema for {@link IsEsimSupportedResponse}.
  *
- * @public
+ * @internal
  */
-export const IsEsimSupportedResponseSchema = v.union([
-  bridgeOkSchema(IsEsimSupportedResultSchema),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const IsEsimSupportedResponseSchema: v.GenericSchema<IsEsimSupportedResponse> = v.union([
+  sdkOkResponseSchema(IsEsimSupportedResultSchema),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

@@ -4,6 +4,8 @@ title: Setup
 
 # Setup
 
+Install `@grabjs/superapp-sdk` with your package manager of choice.
+
 ## Installation
 
 ### NPM

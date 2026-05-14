@@ -7,7 +7,12 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
+import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
+import type {
+  TriggerCheckoutRequest,
+  TriggerCheckoutResponse,
+  TriggerCheckoutResult,
+} from './types';
 
 /**
  * Valibot schema for {@link TriggerCheckoutRequest}.
@@ -15,43 +20,49 @@ import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
  * @remarks
  * The checkout parameters vary depending on the specific payment flow and partner requirements.
  *
- * @public
+ * @internal
  */
-export const TriggerCheckoutRequestSchema = v.record(v.string(), v.unknown());
+export const TriggerCheckoutRequestSchema: v.GenericSchema<TriggerCheckoutRequest> = v.record(
+  v.string(),
+  v.unknown()
+);
 
 /**
  * Valibot schema for {@link TriggerCheckoutResult}.
  *
- * @public
+ * @internal
  */
-export const TriggerCheckoutResultSchema = v.variant('status', [
-  v.object({
-    status: v.literal('success'),
-    transactionID: v.string(),
-  }),
-  v.object({
-    status: v.literal('failure'),
-    transactionID: v.string(),
-    errorMessage: v.string(),
-    errorCode: v.string(),
-  }),
-  v.object({
-    status: v.literal('pending'),
-    transactionID: v.string(),
-  }),
-  v.object({
-    status: v.literal('userInitiatedCancel'),
-  }),
-]);
+export const TriggerCheckoutResultSchema: v.GenericSchema<TriggerCheckoutResult> = v.variant(
+  'status',
+  [
+    v.object({
+      status: v.literal('success'),
+      transactionID: v.string(),
+    }),
+    v.object({
+      status: v.literal('failure'),
+      transactionID: v.string(),
+      errorMessage: v.string(),
+      errorCode: v.string(),
+    }),
+    v.object({
+      status: v.literal('pending'),
+      transactionID: v.string(),
+    }),
+    v.object({
+      status: v.literal('userInitiatedCancel'),
+    }),
+  ]
+);
 
 /**
  * Valibot schema for {@link TriggerCheckoutResponse}.
  *
- * @public
+ * @internal
  */
-export const TriggerCheckoutResponseSchema = v.union([
-  bridgeOkSchema(TriggerCheckoutResultSchema),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const TriggerCheckoutResponseSchema: v.GenericSchema<TriggerCheckoutResponse> = v.union([
+  sdkOkResponseSchema(TriggerCheckoutResultSchema),
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

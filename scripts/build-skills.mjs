@@ -26,12 +26,39 @@ const KIND_METHOD = 2048;
 /**
  * Extracts plain text from a TypeDoc comment content array.
  */
-function commentSummary(comment) {
-  return (comment?.summary ?? [])
-    .filter((c) => c.kind === 'text')
-    .map((c) => c.text)
+function renderCommentContent(content = [], { preserveLineBreaks = false } = {}) {
+  const text = content
+    .map((part) => {
+      if (part.kind === 'text') return part.text ?? '';
+      if (part.kind === 'code') {
+        const code = (part.text ?? '').trim().replace(/^`+|`+$/g, '');
+        return `\`${code}\``;
+      }
+      if (part.kind === 'inline-tag') {
+        if (part.text?.trim()) return part.text;
+        if (part.target?.name) return part.target.name;
+      }
+      return '';
+    })
     .join('')
     .trim();
+
+  if (preserveLineBreaks) {
+    return text
+      .replace(/\r\n/g, '\n')
+      .replace(/[ \t]+\n/g, '\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+
+  return text.replace(/\s+/g, ' ');
+}
+
+/**
+ * Extracts plain text from a TypeDoc comment.
+ */
+function commentSummary(comment) {
+  return renderCommentContent(comment?.summary ?? []);
 }
 
 /**
@@ -40,15 +67,11 @@ function commentSummary(comment) {
  * @param {string} tagName - The tag name to extract (e.g., '@requiredOAuthScope')
  * @returns {string|null} The tag content or null if not found
  */
-function extractBlockTag(comment, tagName) {
+function extractBlockTag(comment, tagName, options) {
   const blockTags = comment?.blockTags ?? [];
   const tag = blockTags.find((t) => t.tag === tagName);
   if (!tag) return null;
-  return tag.content
-    .filter((c) => c.kind === 'text')
-    .map((c) => c.text)
-    .join('')
-    .trim();
+  return renderCommentContent(tag.content ?? [], options);
 }
 
 /**
@@ -137,6 +160,85 @@ function getReturnTypeName(sig) {
 }
 
 /**
+ * Returns parameter descriptions for a method signature.
+ * Prefers parameter comment text and falls back to @param block tags.
+ */
+function getParamDetails(sig) {
+  const details = new Map();
+
+  for (const param of sig.parameters ?? []) {
+    const description = commentSummary(param.comment);
+    details.set(param.name, {
+      name: param.name,
+      type: getParamTypeName(param),
+      optional: Boolean(param.flags?.isOptional),
+      description: description || null,
+    });
+  }
+
+  for (const tag of sig.comment?.blockTags ?? []) {
+    if (tag.tag !== '@param') continue;
+
+    const raw = renderCommentContent(tag.content ?? [], { preserveLineBreaks: true });
+    if (!raw) continue;
+
+    const match = raw.match(/^([^\s-]+)\s*-\s*([\s\S]+)$/);
+    if (!match) continue;
+
+    const [, name, description] = match;
+    const detail = details.get(name);
+    if (detail && !detail.description) {
+      detail.description = description.trim();
+    }
+  }
+
+  return [...details.values()];
+}
+
+/**
+ * Returns a method return description from @returns/@return.
+ */
+function getReturnDescription(comment) {
+  return (
+    extractBlockTag(comment, '@returns', { preserveLineBreaks: true }) ??
+    extractBlockTag(comment, '@return', { preserveLineBreaks: true })
+  );
+}
+
+/**
+ * Splits rich multiline text into intro, notes, and bullet items.
+ */
+function parseRichDescription(text) {
+  if (!text) return { intro: null, notes: [], bullets: [] };
+
+  const normalized = text
+    .replace(/:\s+-\s+/g, ':\n- ')
+    .replace(/\.\s+-\s+/g, '.\n- ');
+
+  const lines = normalized
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const bullets = [];
+  const prose = [];
+
+  for (const line of lines) {
+    if (line.startsWith('- ')) {
+      bullets.push(line.slice(2).trim());
+    } else {
+      prose.push(line);
+    }
+  }
+
+  return {
+    intro: prose[0] ?? null,
+    notes: prose.slice(1),
+    bullets,
+  };
+}
+
+/**
  * Strips YAML frontmatter and shifts all headings down by one level
  * so guide h1s become h2s when inlined into SKILL.md.
  */
@@ -163,11 +265,54 @@ function generateClasses(api) {
         if (!sig) return null;
         const desc = commentSummary(sig.comment);
         const requirements = buildRequirements(sig.comment);
-        const fullDesc = requirements ? `${desc} (${requirements})` : desc;
+        const fullDesc = desc && requirements ? `${desc} (${requirements})` : desc || requirements || '';
         const params = (sig.parameters ?? [])
           .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
           .join(', ');
-        return `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${fullDesc}`;
+        const paramDetails = getParamDetails(sig);
+        const returnDescription = getReturnDescription(sig.comment);
+
+        const lines = [];
+        lines.push(
+          fullDesc
+            ? `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${fullDesc}`
+            : `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\``
+        );
+
+        if (paramDetails.length > 0) {
+          lines.push('  - **Parameters**');
+          for (const param of paramDetails) {
+            const optional = param.optional ? '?' : '';
+            const parsed = parseRichDescription(param.description);
+            const intro = parsed.intro ? `: ${parsed.intro}` : '';
+            lines.push(`    - \`${param.name}${optional}\`${intro}`);
+            for (const note of parsed.notes) {
+              lines.push(`      - ${note}`);
+            }
+            for (const bullet of parsed.bullets) {
+              lines.push(`      - ${bullet}`);
+            }
+          }
+        }
+
+        if (returnDescription) {
+          const parsed = parseRichDescription(returnDescription);
+          if (!parsed.intro && parsed.notes.length === 0 && parsed.bullets.length === 0) {
+            lines.push('  - **Returns**');
+          } else if (parsed.bullets.length === 0 && parsed.notes.length === 0) {
+            lines.push(`  - **Returns:** ${parsed.intro}`);
+          } else {
+            lines.push(parsed.intro ? `  - **Returns:** ${parsed.intro}` : '  - **Returns**');
+            for (const note of parsed.notes) {
+              lines.push(`    - ${note}`);
+            }
+            for (const bullet of parsed.bullets) {
+              lines.push(`    - ${bullet}`);
+            }
+          }
+        }
+
+        return lines.join('\n');
       })
       .filter(Boolean);
 

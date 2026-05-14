@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-export { BaseModule } from './BaseModule';
+export { _BaseModule } from './BaseModule';
 export {
   hasResult,
   isClientError,
@@ -17,18 +17,24 @@ export {
   isServerError,
   isSuccess,
 } from './guards';
-export type { BridgeErrorStatusCode } from './schemas';
 export {
-  bridgeErrorSchema,
-  bridgeNoContentSchema,
-  bridgeOkSchema,
-  bridgeRedirectSchema,
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+  sdkRedirectResponseSchema,
 } from './schemas';
 export type {
-  BridgeResponse,
-  BridgeStream,
-  BridgeStreamHandlers,
-  InvokeOptions,
+  _InvokeOptions,
+  _WrappedModule,
+  SDKClientErrorStatusCode,
+  SDKErrorResponse,
+  SDKErrorStatusCode,
+  SDKNoContentResponse,
+  SDKOkResponse,
+  SDKRedirectResponse,
+  SDKResponse,
+  SDKServerErrorStatusCode,
+  SDKStream,
+  SDKStreamHandlers,
   Subscription,
-  WrappedModule,
 } from './types';

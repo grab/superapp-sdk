@@ -5,12 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  RedirectToSystemWebViewRequestSchema,
-  RedirectToSystemWebViewResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for redirecting to the system web view.
@@ -22,33 +17,37 @@ import {
  * }
  * ```
  *
+ * @group Modules
+ * @category System Web View Kit
+ *
  * @public
  */
-export type RedirectToSystemWebViewRequest = InferOutput<
-  typeof RedirectToSystemWebViewRequestSchema
->;
+export interface RedirectToSystemWebViewRequest {
+  /** Absolute URL to open in the system web view. */
+  url: string;
+}
 
 /**
- * Result object for redirecting to the system web view.
- * This operation returns no data on success.
+ * Result returned when redirecting to the system web view is successful.
+ *
+ * @group Modules
+ * @category System Web View Kit
  *
  * @public
  */
-export type RedirectToSystemWebViewResult = void;
+export type RedirectToSystemWebViewResult = string;
 
 /**
- * Response when redirecting to the system web view.
+ * Response returned by {@link SystemWebViewKitModule.redirectToSystemWebView}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Redirect initiated successfully.
- * - `400`: Invalid URL, domain not whitelisted, or missing callback URL.
- * - `424`: ASWebAuthenticationSession error - dependency error on iOS.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category System Web View Kit
  *
  * @public
  */
-export type RedirectToSystemWebViewResponse = InferOutput<
-  typeof RedirectToSystemWebViewResponseSchema
->;
+export type RedirectToSystemWebViewResponse =
+  | SDKOkResponse<RedirectToSystemWebViewResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

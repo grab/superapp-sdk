@@ -8,18 +8,27 @@
 import * as v from 'valibot';
 
 import {
-  bridgeErrorSchema,
-  bridgeNoContentSchema,
-  bridgeOkSchema,
-  bridgeRedirectSchema,
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+  sdkRedirectResponseSchema,
 } from '../../core';
+import type {
+  AuthorizeRequest,
+  AuthorizeResponse,
+  AuthorizeResult,
+  ClearAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResult,
+  RawAuthorizeResponse,
+} from './types';
 
 /**
  * Valibot schema for {@link AuthorizeRequest}.
  *
- * @public
+ * @internal
  */
-export const AuthorizeRequestSchema = v.object({
+export const AuthorizeRequestSchema: v.GenericSchema<AuthorizeRequest> = v.object({
   clientId: v.pipe(v.string(), v.minLength(1)),
   redirectUri: v.pipe(v.string(), v.url()),
   scope: v.pipe(v.string(), v.minLength(1)),
@@ -33,26 +42,26 @@ const RawAuthorizeResultSchema = v.object({
 });
 
 /**
- * Internal valibot schema for the raw bridge response from `authorize` before enrichment.
+ * Internal valibot schema for the raw SDK response from `authorize` before enrichment.
  *
  * @internal
  */
-export const RawAuthorizeResponseSchema = v.union([
-  bridgeOkSchema(RawAuthorizeResultSchema),
-  bridgeNoContentSchema,
-  bridgeRedirectSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const RawAuthorizeResponseSchema: v.GenericSchema<RawAuthorizeResponse> = v.union([
+  sdkOkResponseSchema(RawAuthorizeResultSchema),
+  sdkNoContentResponseSchema,
+  sdkRedirectResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link AuthorizeResult}.
  *
- * @public
+ * @internal
  */
-export const AuthorizeResultSchema = v.object({
+export const AuthorizeResultSchema: v.GenericSchema<AuthorizeResult> = v.object({
   code: v.string(),
   state: v.string(),
   codeVerifier: v.string(),
@@ -63,44 +72,47 @@ export const AuthorizeResultSchema = v.object({
 /**
  * Valibot schema for {@link AuthorizeResponse}.
  *
- * @public
+ * @internal
  */
-export const AuthorizeResponseSchema = v.union([
-  bridgeOkSchema(AuthorizeResultSchema),
-  bridgeNoContentSchema,
-  bridgeRedirectSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const AuthorizeResponseSchema: v.GenericSchema<AuthorizeResponse> = v.union([
+  sdkOkResponseSchema(AuthorizeResultSchema),
+  sdkNoContentResponseSchema,
+  sdkRedirectResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link GetAuthorizationArtifactsResult}.
  *
- * @public
+ * @internal
  */
-export const GetAuthorizationArtifactsResultSchema = v.object({
-  state: v.string(),
-  codeVerifier: v.string(),
-  nonce: v.string(),
-  redirectUri: v.string(),
-});
+export const GetAuthorizationArtifactsResultSchema: v.GenericSchema<GetAuthorizationArtifactsResult> =
+  v.object({
+    state: v.string(),
+    codeVerifier: v.string(),
+    nonce: v.string(),
+    redirectUri: v.string(),
+  });
 
 /**
  * Valibot schema for {@link GetAuthorizationArtifactsResponse}.
  *
- * @public
+ * @internal
  */
-export const GetAuthorizationArtifactsResponseSchema = v.union([
-  bridgeOkSchema(GetAuthorizationArtifactsResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-]);
+export const GetAuthorizationArtifactsResponseSchema: v.GenericSchema<GetAuthorizationArtifactsResponse> =
+  v.union([
+    sdkOkResponseSchema(GetAuthorizationArtifactsResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+  ]);
 
 /**
  * Valibot schema for {@link ClearAuthorizationArtifactsResponse}.
  *
- * @public
+ * @internal
  */
-export const ClearAuthorizationArtifactsResponseSchema = v.union([bridgeNoContentSchema]);
+export const ClearAuthorizationArtifactsResponseSchema: v.GenericSchema<ClearAuthorizationArtifactsResponse> =
+  v.union([sdkNoContentResponseSchema]);

@@ -5,27 +5,25 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { BackResponseSchema } from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 
 /**
  * Result when triggering platform back navigation.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Platform
  *
  * @public
  */
 export type BackResult = void;
 
 /**
- * Response when triggering platform back navigation.
+ * Response returned by {@link PlatformModule.back}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Back navigation triggered successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Platform
  *
  * @public
  */
-export type BackResponse = InferOutput<typeof BackResponseSchema>;
+export type BackResponse = SDKNoContentResponse | SDKErrorResponse<500> | SDKErrorResponse<501>;

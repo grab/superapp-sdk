@@ -7,7 +7,18 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  RawSendResponse,
+  RawSendResult,
+  SendRequest,
+  SendResponse,
+  SendResult,
+} from './types';
 
 /**
  * Valibot schema for {@link SendRequest}.
@@ -21,9 +32,9 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
  * - `body`: Optional request body data
  * - `timeout`: Optional timeout in seconds (default is 60 seconds)
  *
- * @public
+ * @internal
  */
-export const SendRequestSchema = v.object({
+export const SendRequestSchema: v.GenericSchema<SendRequest> = v.object({
   endpoint: v.string(),
   method: v.picklist(['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS']),
   headers: v.optional(v.record(v.string(), v.string())),
@@ -35,51 +46,54 @@ export const SendRequestSchema = v.object({
 /**
  * Valibot schema for {@link SendResult}.
  *
- * @public
+ * @internal
  */
-export const SendResultSchema = v.record(v.string(), v.unknown());
+export const SendResultSchema: v.GenericSchema<SendResult> = v.record(v.string(), v.unknown());
 
 /**
  * Valibot schema for {@link SendResponse}.
  *
- * @public
+ * @internal
  */
-export const SendResponseSchema = v.union([
-  bridgeOkSchema(SendResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(401),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(404),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const SendResponseSchema: v.GenericSchema<SendResponse> = v.union([
+  sdkOkResponseSchema(SendResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(401),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(404),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response result.
- * The native bridge may return either a JSON string or a parsed Record.
+ * Internal valibot schema for the raw SDK response result.
+ * The native JSBridge may return either a JSON string or a parsed Record.
  *
  * @internal
  */
-export const RawSendResultSchema = v.union([v.string(), SendResultSchema]);
+export const RawSendResultSchema: v.GenericSchema<RawSendResult> = v.union([
+  v.string(),
+  SendResultSchema,
+]);
 
 /**
- * Internal valibot schema for the raw bridge response.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw SDK response.
+ * Used to validate the response from the native JSBridge before transformation.
  *
  * @internal
  */
-export const RawSendResponseSchema = v.union([
-  bridgeOkSchema(RawSendResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(401),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(404),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const RawSendResponseSchema: v.GenericSchema<RawSendResponse> = v.union([
+  sdkOkResponseSchema(RawSendResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(401),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(404),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

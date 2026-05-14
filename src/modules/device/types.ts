@@ -5,9 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './schemas';
+import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result indicating whether the current device supports eSIM.
@@ -22,22 +20,25 @@ import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './sc
  * false
  * ```
  *
+ * @group Modules
+ * @category Device
+ *
  * @public
  */
-export type IsEsimSupportedResult = InferOutput<typeof IsEsimSupportedResultSchema>;
+export type IsEsimSupportedResult = boolean;
 
 /**
- * Response when checking whether the current device supports eSIM.
+ * Response returned by {@link DeviceModule.isEsimSupported}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: eSIM capability was checked successfully. The `result` contains `true` or `false`.
- * - `403`: Forbidden - client not authorized to query eSIM capability.
- * - `424`: Failed Dependency - underlying telephony/eSIM service unavailable.
- * - `426`: Upgrade Required - feature requires Grab app version 5.402 or above.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Device
  *
  * @public
  */
-export type IsEsimSupportedResponse = InferOutput<typeof IsEsimSupportedResponseSchema>;
+export type IsEsimSupportedResponse =
+  | SDKOkResponse<IsEsimSupportedResult>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

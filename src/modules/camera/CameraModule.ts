@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { ScanQRCodeRequestSchema, ScanQRCodeResponseSchema } from './schemas';
 import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
@@ -13,6 +13,7 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  * JSBridge module for accessing the device camera.
  *
  * @group Modules
+ * @category Camera
  *
  * @remarks
  * Provides access to native camera functionality including QR code scanning.
@@ -37,7 +38,7 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class CameraModule extends BaseModule {
+export class CameraModule extends _BaseModule {
   constructor() {
     super('CameraModule');
   }
@@ -45,19 +46,27 @@ export class CameraModule extends BaseModule {
   /**
    * Opens the native camera to scan a QR code.
    *
-   * @param request - Configuration for the QR code scanning, including the title to display. See {@link ScanQRCodeRequest}.
+   * @param request - Optional QR scanner configuration.
+   * Request fields:
+   * - `title` (optional): Custom title shown above the QR code scanner.
    *
-   * @returns The QR code scanning result, containing the scanned code on success or status information. See {@link ScanQRCodeResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - successfully scanned QR code. The `result` is {@link ScanQRCodeResult}.
+   * - `204`: No content - user cancelled QR code scanning.
+   * - `400`: Bad request - invalid request parameters.
+   * - `403`: Forbidden - camera permission is not enabled for the Grab app.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { CameraModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the camera module
    * const camera = new CameraModule();
    *
-   * // Scan the QR code
+   * // Scan a QR code
    * const response = await camera.scanQRCode({ title: 'Scan Payment QR' });
    *
    * // Handle the response
@@ -83,6 +92,7 @@ export class CameraModule extends BaseModule {
    *   console.error('Unhandled response');
    * }
    * ```
+   *
    * @public
    */
   async scanQRCode(request: ScanQRCodeRequest = {}): Promise<ScanQRCodeResponse> {

@@ -59,7 +59,7 @@ SDK methods communicate with the native Grab SuperApp via JSBridge. They only wo
 
 ### Response Pattern
 
-Every SDK method returns a bridge response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
+Every SDK method returns an SDK response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
 
 ```typescript
 import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
@@ -524,165 +524,501 @@ For the complete API reference, see [GrabPay API](https://developer.grab.com/doc
 
 ### Classes
 
+#### `_Logger`
+Provides scoped logging for SDK modules.
+
 #### `CameraModule`
 JSBridge module for accessing the device camera.
-- `scanQRCode(request: { title?: string }): Promise<{ result: { qrCode: string }; status_code: 200 } | { status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Opens the native camera to scan a QR code.
+- `scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse>` — Opens the native camera to scan a QR code.
+  - **Parameters**
+    - `request`: Optional QR scanner configuration. Request fields:
+      - `title` (optional): Custom title shown above the QR code scanner.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - successfully scanned QR code. The `result` is ScanQRCodeResult.
+    - `204`: No content - user cancelled QR code scanning.
+    - `400`: Bad request - invalid request parameters.
+    - `403`: Forbidden - camera permission is not enabled for the Grab app.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `CheckoutModule`
 JSBridge module for triggering native payment flows.
-- `triggerCheckout(request: Record<string, unknown>): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { status: "success"; transactionID: string } | { errorCode: string; errorMessage: string; status: "failure"; transactionID: string } | { status: "pending"; transactionID: string } | { status: "userInitiatedCancel" }; status_code: 200 }>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
+- `triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
+  - **Parameters**
+    - `request`: Full transaction object returned by `POST /grabpay/partner/v4/charge/init` on your backend.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - checkout completed successfully. The `result` is TriggerCheckoutResult.
+    - `400`: Bad request - invalid checkout parameters.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `ContainerModule`
 JSBridge module for controlling the WebView container.
-- `close(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Close the container and return to the previous screen.
-- `getSessionParams(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Get the session parameters from the container.
-- `hideBackButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the back button on the container header.
-- `hideLoader(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the full-screen loading indicator.
-- `hideRefreshButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the refresh button on the container header.
-- `isConnected(): Promise<{ result: { connected: boolean }; status_code: 200 } | { error: string; status_code: 404 }>` — Check if the web app is connected to the Grab SuperApp via JSBridge.
-- `onContentLoaded(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the Grab SuperApp that the page content has loaded.
-- `onCtaTap(request: string): Promise<{ error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the client that the user has tapped a call-to-action (CTA).
-- `openExternalLink(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Open a link in the external browser.
-- `sendAnalyticsEvent(request: { data?: Record<string, unknown>; name: string; state: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Use this method to track user interactions and page transitions.
-- `setBackgroundColor(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Set the background color of the container header.
-- `setTitle(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Set the title of the container header.
-- `showBackButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Show the back button on the container header.
-- `showLoader(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Show the full-screen loading indicator.
-- `showRefreshButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Show the refresh button on the container header.
+- `close(): Promise<CloseResponse>` — Close the container and return to the previous screen.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - container closed successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `getSessionParams(): Promise<GetSessionParamsResponse>` — Get the session parameters from the container.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - session parameters retrieved successfully. The `result` is GetSessionParamsResult.
+    - `204`: No content - no session parameters available.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `hideBackButton(): Promise<HideBackButtonResponse>` — Hide the back button on the container header.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - back button hidden successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `hideLoader(): Promise<HideLoaderResponse>` — Hide the full-screen loading indicator.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - loader hidden successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `hideRefreshButton(): Promise<HideRefreshButtonResponse>` — Hide the refresh button on the container header.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - refresh button hidden successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `isConnected(): Promise<IsConnectedResponse>` — Check if the web app is connected to the Grab SuperApp via JSBridge.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - connected to Grab SuperApp. The `result` is IsConnectedResult.
+    - `404`: Not found - not connected to Grab SuperApp.
+- `onContentLoaded(): Promise<OnContentLoadedResponse>` — Notify the Grab SuperApp that the page content has loaded.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - notification sent successfully. The `result` is OnContentLoadedResult.
+    - `204`: No content - operation completed successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `onCtaTap(request: string): Promise<OnCtaTapResponse>` — Notify the client that the user has tapped a call-to-action (CTA).
+  - **Parameters**
+    - `request`: CTA action identifier to report (for example `AV_LANDING_PAGE_CONTINUE`).
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - CTA tap notification sent successfully. The `result` is OnCtaTapResult.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `openExternalLink(request: string): Promise<OpenExternalLinkResponse>` — Open a link in the external browser.
+  - **Parameters**
+    - `request`: Absolute URL to open in the device external browser.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - external link opened successfully.
+    - `400`: Bad request - invalid URL parameter.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `sendAnalyticsEvent(request: SendAnalyticsEventRequest): Promise<SendAnalyticsEventResponse>` — Use this method to track user interactions and page transitions.
+  - **Parameters**
+    - `request`: Analytics event payload. Request fields:
+      - `state`: Analytics event state.
+      - `name`: Analytics event name.
+      - `data` (optional): Additional event metadata.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - analytics event sent successfully.
+    - `400`: Bad request - invalid analytics event parameters.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `setBackgroundColor(request: string): Promise<SetBackgroundColorResponse>` — Set the background color of the container header.
+  - **Parameters**
+    - `request`: Header background color as a hex string (for example `#ffffff`).
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - background color set successfully.
+    - `400`: Bad request - invalid background color format.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `setTitle(request: string): Promise<SetTitleResponse>` — Set the title of the container header.
+  - **Parameters**
+    - `request`: Header title text to display.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - title set successfully.
+    - `400`: Bad request - invalid title parameter.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `showBackButton(): Promise<ShowBackButtonResponse>` — Show the back button on the container header.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - back button shown successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `showLoader(): Promise<ShowLoaderResponse>` — Show the full-screen loading indicator.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - loader shown successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `showRefreshButton(): Promise<ShowRefreshButtonResponse>` — Show the refresh button on the container header.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - refresh button shown successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `DeviceModule`
 JSBridge module for querying native device information.
-- `isEsimSupported(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 } | { error: string; status_code: 426 }>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
+- `isEsimSupported(): Promise<IsEsimSupportedResponse>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - eSIM capability was checked successfully. The `result` is `true` if eSIM is supported, otherwise `false`.
+    - `403`: Forbidden - client not authorized to query eSIM capability.
+    - `424`: Failed dependency - underlying telephony/eSIM service unavailable.
+    - `426`: Upgrade required - feature requires Grab app version 5.402 or above.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `FileModule`
 JSBridge module for downloading files to the user's device.
-- `downloadFile(request: { fileName: string; fileUrl: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Downloads a file via the native bridge.
+- `downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse>` — Downloads a file via the native bridge.
+  - **Parameters**
+    - `request`: File download configuration. Request fields:
+      - `fileUrl`: HTTPS URL of the file to download.
+      - `fileName`: Target name for the file to be saved as on the device.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - file downloaded successfully.
+    - `400`: Bad request - invalid request parameters such as invalid file URL, invalid domain, or missing file name.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `IdentityModule`
 JSBridge module for authenticating users via GrabID.
-- `authorize(request: { clientId: string; environment: "staging" | "production"; redirectUri: string; responseMode?: "redirect" | "in_place"; scope: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { status_code: 302 } | { result: { code: string; codeVerifier: string; nonce: string; redirectUri: string; state: string }; status_code: 200 }>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
-This method handles both native in-app consent and web-based fallback flows.
-- `clearAuthorizationArtifacts(): Promise<{ status_code: 204 }>` — Clears all stored PKCE authorization artifacts from local storage.
-This should be called after a successful token exchange or when you need to
-reset the authorization state (e.g., on error or logout).
-- `getAuthorizationArtifacts(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { result: { codeVerifier: string; nonce: string; redirectUri: string; state: string }; status_code: 200 }>` — Retrieves stored PKCE authorization artifacts from local storage.
-These artifacts are used to complete the OAuth2 authorization code exchange.
+- `authorize(request: AuthorizeRequest): Promise<AuthorizeResponse>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange). This method handles both native in-app consent and web-based fallback flows.
+  - **Parameters**
+    - `request`: OAuth2 authorization request configuration. Request fields:
+      - `clientId`: OAuth client identifier issued for your MiniApp.
+      - `redirectUri`: OAuth callback URL registered for the client.
+      - `scope`: Space-delimited OAuth scopes (for example `openid profile`).
+      - `environment`: GrabID environment (`staging` or `production`).
+      - `responseMode` (optional): `redirect` (default) or `in_place` for native in-page result handling.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - authorization completed successfully (native in_place flow). The `result` is AuthorizeResult.
+    - `204`: No content - user cancelled or flow completed without authorization data.
+    - `302`: Found - redirect in progress (web redirect flow). The page will navigate away.
+    - `400`: Bad request - missing required OAuth parameters or invalid configuration.
+    - `403`: Forbidden - client not authorized for the requested scope.
+    - `500`: Internal server error - unexpected error during native authorization.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `clearAuthorizationArtifacts(): Promise<SdkNoContentResponse>` — Clears all stored PKCE authorization artifacts from local storage. This should be called after a successful token exchange or when you need to reset the authorization state (e.g., on error or logout).
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - authorization artifacts cleared successfully.
+- `getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse>` — Retrieves stored PKCE authorization artifacts from local storage. These artifacts are used to complete the OAuth2 authorization code exchange.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - all artifacts are present. The `result` is GetAuthorizationArtifactsResult.
+    - `204`: No content - authorization has not been initiated yet.
+    - `400`: Bad request - inconsistent state, possible data corruption in storage.
 
 #### `LocaleModule`
 JSBridge module for accessing device locale settings.
-- `getLanguageLocaleIdentifier(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Retrieves the current language locale identifier from the device.
+- `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` — Retrieves the current language locale identifier from the device.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - locale identifier retrieved successfully. The `result` is GetLanguageLocaleIdentifierResult.
+    - `204`: No content - locale identifier not available.
+    - `400`: Bad request - invalid request parameters.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `LocationModule`
 JSBridge module for accessing device location services.
-- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { latitude: number; longitude: number }; status_code: 200 }>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
-- `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
+- `getCoordinate(): Promise<GetCoordinateResponse>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - coordinates retrieved successfully. The `result` is GetCoordinateResult.
+    - `403`: Forbidden - client not authorized to access location data.
+    - `424`: Failed dependency - GeoKit error, location services unavailable.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `getCountryCode(): Promise<GetCountryCodeResponse>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - country code retrieved successfully. The `result` is the ISO country code `string`.
+    - `204`: No content - country code not available.
+    - `403`: Forbidden - client not authorized to access location data.
+    - `424`: Failed dependency - GeoKit/Resolver error, location services unavailable.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device. (**OAuth Scope:** mobile.geolocation)
-
-#### `Logger`
-Provides scoped logging for SDK modules.
+  - **Returns:** A `SdkStream` that emits location updates as the device location changes.
+    - Use `subscribe()` to listen for updates, or `await` to get the first value only.
+    - Stream results can have the following status codes:
+    - `200`: OK - coordinates retrieved successfully. The `result` is GetCoordinateResult.
+    - `400`: Bad request - invalid parameters.
+    - `403`: Forbidden - client not authorized to access location data.
+    - `424`: Failed dependency - GeoKit error, location services unavailable.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `MediaModule`
 JSBridge module for playing DRM-protected media content.
 - `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
-- `playDRMContent(data: DRMContentConfig): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { length: number; position: number; titleId: string; type: "START_PLAYBACK" | "PROGRESS_PLAYBACK" | "START_SEEK" | "STOP_SEEK" | "STOP_PLAYBACK" | "CLOSE_PLAYBACK" | "PAUSE_PLAYBACK" | "RESUME_PLAYBACK" | "FAST_FORWARD_PLAYBACK" | "REWIND_PLAYBACK" | "ERROR_PLAYBACK" | "CHANGE_VOLUME" }; status_code: 200 }>` — Plays DRM-protected media content in the native media player. (**OAuth Scope:** mobile.media)
+  - **Parameters**
+    - `data`: Same DRM configuration shape as `playDRMContent`; forwarded to the native player for the observation stream. Request fields:
+      - Same provider-specific keys as for `playDRMContent` (see `DRMContentConfig`).
+  - **Returns:** A `SdkStream` that emits playback events as the media plays.
+    - Use `subscribe()` to listen for updates, or `await` to get the first value only.
+    - Stream results can have the following status codes:
+    - `200`: OK - playback event received successfully. The `result` is DRMPlaybackEvent.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse>` — Plays DRM-protected media content in the native media player. (**OAuth Scope:** mobile.media)
+  - **Parameters**
+    - `data`: DRM playback configuration sent to the native player (provider-specific record; see `DRMContentConfig` type for example shapes). Request fields:
+      - Keys and values follow the native DRM contract (commonly include `licenseUrl`, `contentUrl`, `contentId` / `assetId`, `certificateUrl`, `headers`, etc.).
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - native player returned an initial playback event. The `result` is PlayDRMContentResult.
+    - `204`: No content - request succeeded.
+    - `400`: Bad request - invalid or rejected DRM configuration.
+    - `424`: Failed dependency - for example a DRM or platform prerequisite could not be satisfied.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `NetworkModule`
 JSBridge module for making network requests via the native bridge.
-- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 404 } | { error: string; status_code: 424 } | { error: string; status_code: 426 } | { result: Record<string, unknown>; status_code: 200 } | { error: string; status_code: 401 }>` — Sends a network request via the native bridge.
+- `send(request: SendRequest): Promise<SendResponse>` — Sends a network request via the native bridge.
+  - **Parameters**
+    - `request`: Network request configuration. Request fields:
+      - `endpoint`: Absolute URL of the API endpoint to call.
+      - `method`: HTTP method (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`).
+      - `headers` (optional): HTTP headers sent with the request.
+      - `query` (optional): Query parameters appended to `endpoint`.
+      - `body` (optional): Request payload for methods that accept a body.
+      - `timeout` (optional): Request timeout in seconds.
+  - **Returns:** A response with one of the following status codes:
+    - The `status_code` mirrors upstream HTTP statuses when available.
+    - `200`: OK - request succeeded with body. The `result` is SendResult.
+    - `204`: No content - request succeeded with no response body.
+    - `400`: Bad request - invalid request payload from the SDK caller, or upstream bad request.
+    - `401`: Unauthorized - upstream requires authentication or rejects existing credentials.
+    - `403`: Forbidden - upstream/client is not authorized to perform this request.
+    - `404`: Not found - upstream endpoint or resource was not found.
+    - `424`: Failed dependency - upstream dependency error prevented request completion.
+    - `426`: Upgrade required - upstream/client requires a newer app or protocol version.
+    - `500`: Internal server error - internal SDK/native error (for example JSON parse failure), or upstream server error.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `PlatformModule`
 JSBridge module for controlling platform navigation.
-- `back(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Triggers the native platform back navigation.
-This navigates back in the native navigation stack.
+- `back(): Promise<BackResponse>` — Triggers the native platform back navigation. This navigates back in the native navigation stack.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - back navigation triggered successfully.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `ProfileModule`
 JSBridge module for accessing user profile information.
-- `fetchEmail(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
-- `verifyEmail(request?: { email?: string; skipUserInput?: boolean }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+- `fetchEmail(): Promise<FetchEmailResponse>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - email fetched successfully. The `result` is FetchEmailResult.
+    - `204`: No content - email not available.
+    - `400`: Bad request - the request was malformed.
+    - `403`: Forbidden - client not authorized to access user profile data.
+    - `426`: Upgrade required - feature requires Grab app version 5.399 or above.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `verifyEmail(request?: VerifyEmailRequest): Promise<VerifyEmailResponse>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+  - **Parameters**
+    - `request?`: Optional email verification configuration. Request fields:
+      - `email` (optional): Pre-filled email address shown in the native verification flow.
+      - `skipUserInput` (optional): If `true` with `email`, opens OTP verification directly.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - email verified successfully. The `result` is VerifyEmailResult.
+    - `204`: No content - user closed the native bottom sheet.
+    - `400`: Bad request - client error (e.g. invalid email format).
+    - `403`: Forbidden - client not authorized to access user profile data.
+    - `426`: Upgrade required - feature requires Grab app version 5.399 or above.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `ScopeModule`
 JSBridge module for checking and refreshing API access permissions.
-- `hasAccessTo(module: string, method: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Checks if the current client has access to a specific JSBridge API method.
-- `reloadScopes(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Requests to reload the consented OAuth scopes for the current client.
-This refreshes the permissions from the server.
+- `hasAccessTo(module: string, method: string): Promise<HasAccessToResponse>` — Checks if the current client has access to a specific JSBridge API method.
+  - **Parameters**
+    - `module`: Bridge module name to check.
+    - `method`: Method name within that module.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - access check completed successfully. The `result` is `true` if access is granted, otherwise `false`.
+    - `400`: Bad request - missing required parameters, module or method not provided.
+    - `424`: Failed dependency - ScopeKit error, unable to check access due to a dependency error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `reloadScopes(): Promise<ReloadScopesResponse>` — Requests to reload the consented OAuth scopes for the current client. This refreshes the permissions from the server.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - scopes reloaded successfully.
+    - `424`: Failed dependency - unable to reload scopes due to a dependency error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `SplashScreenModule`
 JSBridge module for controlling the native splash / Lottie loading screen.
-- `dismiss(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Dismisses the native splash (Lottie) loading view if it is presented.
+- `dismiss(): Promise<DismissSplashScreenResponse>` — Dismisses the native splash (Lottie) loading view if it is presented.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - splash screen was closed successfully.
+    - `400`: Bad request - invalid input (Grablet / client validation error).
+    - `403`: Forbidden - missing consent for the required OAuth scope.
+    - `500`: Internal server error - unexpected error while invoking the native bridge.
+    - `501`: Not implemented - not in the Grab app WebView environment.
 
 #### `StorageModule`
 JSBridge module for persisting key-value data to native storage.
-- `getBoolean(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
-- `getDouble(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: number; status_code: 200 }>` — Retrieves a double (floating point) value from the native storage. (**OAuth Scope:** mobile.storage)
-- `getInt(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: number; status_code: 200 }>` — Retrieves an integer value from the native storage. (**OAuth Scope:** mobile.storage)
-- `getString(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Retrieves a string value from the native storage. (**OAuth Scope:** mobile.storage)
-- `remove(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes a single value from the native storage by key. (**OAuth Scope:** mobile.storage)
-- `removeAll(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes all values from the native storage. (**OAuth Scope:** mobile.storage)
-- `setBoolean(key: string, value: boolean): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a boolean value in the native storage. (**OAuth Scope:** mobile.storage)
-- `setDouble(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a double (floating point) value in the native storage. (**OAuth Scope:** mobile.storage)
-- `setInt(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores an integer value in the native storage. (**OAuth Scope:** mobile.storage)
-- `setString(key: string, value: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a string value in the native storage. (**OAuth Scope:** mobile.storage)
+- `getBoolean(key: string): Promise<GetBooleanResponse>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to retrieve the value for.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - value retrieved successfully. The `result` is the stored boolean value.
+    - `204`: No content - value not found in storage.
+    - `400`: Bad request - missing required parameters, key not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `getDouble(key: string): Promise<GetDoubleResponse>` — Retrieves a double (floating point) value from the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to retrieve the value for.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - value retrieved successfully. The `result` is the stored double value.
+    - `204`: No content - value not found in storage.
+    - `400`: Bad request - missing required parameters, key not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `getInt(key: string): Promise<GetIntResponse>` — Retrieves an integer value from the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to retrieve the value for.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - value retrieved successfully. The `result` is the stored integer value.
+    - `204`: No content - value not found in storage.
+    - `400`: Bad request - missing required parameters, key not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `getString(key: string): Promise<GetStringResponse>` — Retrieves a string value from the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to retrieve the value for.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - value retrieved successfully. The `result` is the stored string value.
+    - `204`: No content - value not found in storage.
+    - `400`: Bad request - missing required parameters, key not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `remove(key: string): Promise<RemoveResponse>` — Removes a single value from the native storage by key. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to remove from storage.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - value removed successfully.
+    - `400`: Bad request - missing required parameters, key not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `removeAll(): Promise<RemoveAllResponse>` — Removes all values from the native storage. (**OAuth Scope:** mobile.storage)
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - all values removed successfully.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `setBoolean(key: string, value: boolean): Promise<SetBooleanResponse>` — Stores a boolean value in the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to store the value under.
+    - `value`: The boolean value to store.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - value stored successfully.
+    - `400`: Bad request - missing required parameters, key or value not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `setDouble(key: string, value: number): Promise<SetDoubleResponse>` — Stores a double (floating point) value in the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to store the value under.
+    - `value`: The double value to store.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - value stored successfully.
+    - `400`: Bad request - missing required parameters, key or value not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `setInt(key: string, value: number): Promise<SetIntResponse>` — Stores an integer value in the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to store the value under.
+    - `value`: The integer value to store.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - value stored successfully.
+    - `400`: Bad request - missing required parameters, key or value not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
+- `setString(key: string, value: string): Promise<SetStringResponse>` — Stores a string value in the native storage. (**OAuth Scope:** mobile.storage)
+  - **Parameters**
+    - `key`: The key to store the value under.
+    - `value`: The string value to store.
+  - **Returns:** A response with one of the following status codes:
+    - `204`: No content - value stored successfully.
+    - `400`: Bad request - missing required parameters, key or value not provided.
+    - `424`: Failed dependency - storage operation failed due to underlying storage error.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `SystemWebViewKitModule`
-JSBridge module for opening URLs in the device's system browser.
-- `redirectToSystemWebView(request: { url: string }): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Opens a URL in the device's system web browser or web view.
+JSBridge module for opening URLs in the system web view.
+- `redirectToSystemWebView(request: RedirectToSystemWebViewRequest): Promise<RedirectToSystemWebViewResponse>` — Opens a URL in the system web view.
+  - **Parameters**
+    - `request`: System web view redirect configuration. Request fields:
+      - `url`: Absolute URL to open in the system web view.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - redirect initiated successfully. The `result` is RedirectToSystemWebViewResult.
+    - `400`: Bad request - invalid URL, domain not whitelisted, or missing callback URL.
+    - `424`: Failed dependency - ASWebAuthenticationSession error on iOS.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 #### `UserAttributesModule`
 JSBridge module for reading user-related attributes from native code.
-- `getSelectedTravelDestination(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
+- `getSelectedTravelDestination(): Promise<GetSelectedTravelDestinationResponse>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
+  - **Returns:** A response with one of the following status codes:
+    - `200`: OK - travel destination retrieved successfully. The `result` is GetSelectedTravelDestinationResult.
+    - `204`: No content - no selected travel destination is currently available.
+    - `500`: Internal server error - an unexpected error occurred on the native side.
+    - `501`: Not implemented - this method requires the Grab app environment.
 
 ### Functions
 
 #### `hasResult`
-Type guard to check if a JSBridge response has a defined result (not null or undefined).
+Type guard to check if an SDK response has a defined `result` (not null or undefined).
 ```ts
 hasResult<T>(response: T): response is Extract<T, { result: {} }>
 ```
 
 #### `isClientError`
-Type guard to check if a JSBridge response is a client error (4xx status codes).
+Type guard to check if an SDK response has status code 4xx.
 ```ts
-isClientError<T>(response: T): response is Extract<T, { status_code: 400 | 401 | 403 | 404 | 424 | 426 }>
+isClientError<T>(response: T): response is Extract<T, { status_code: SdkClientErrorStatusCode }>
 ```
 
 #### `isError`
-Type guard to check if a JSBridge response is an error (4xx or 5xx status codes).
+Type guard to check if an SDK response has status code 4xx or 5xx.
 ```ts
 isError<T>(response: T): response is Extract<T, { error: string }>
 ```
 
 #### `isFound`
-Type guard to check if a JSBridge response is a 302 Found redirect.
+Type guard to check if an SDK response has status code 302.
 ```ts
 isFound<T>(response: T): response is Extract<T, { status_code: 302 }>
 ```
 
 #### `isNoContent`
-Type guard to check if a JSBridge response is a 204 No Content (operation succeeded with no result).
+Type guard to check if an SDK response has status code 204.
 ```ts
 isNoContent<T>(response: T): response is Extract<T, { status_code: 204 }>
 ```
 
 #### `isOk`
-Type guard to check if a JSBridge response is a 200 OK (operation succeeded with a result).
+Type guard to check if an SDK response has status code 200.
 ```ts
 isOk<T>(response: T): response is Extract<T, { status_code: 200 }>
 ```
 
 #### `isRedirection`
-Type guard to check if a JSBridge response is a redirect (status code 302).
+Type guard to check if an SDK response has a status code of 302.
 ```ts
 isRedirection<T>(response: T): response is Extract<T, { status_code: 302 }>
 ```
 
 #### `isServerError`
-Type guard to check if a JSBridge response is a server error (5xx status codes).
+Type guard to check if an SDK response has status code 5xx.
 ```ts
-isServerError<T>(response: T): response is Extract<T, { status_code: 500 | 501 }>
+isServerError<T>(response: T): response is Extract<T, { status_code: SdkServerErrorStatusCode }>
 ```
 
 #### `isSuccess`
-Type guard to check if a JSBridge response is successful (2xx status codes).
+Type guard to check if an SDK response has status code 2xx.
 ```ts
 isSuccess<T>(response: T): response is Extract<T, { status_code: 200 | 204 }>
 ```

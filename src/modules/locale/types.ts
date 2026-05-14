@@ -5,12 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  GetLanguageLocaleIdentifierResponseSchema,
-  GetLanguageLocaleIdentifierResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result object containing the language locale identifier.
@@ -39,25 +34,24 @@ import {
  * 'id'
  * ```
  *
+ * @group Modules
+ * @category Locale
+ *
  * @public
  */
-export type GetLanguageLocaleIdentifierResult = InferOutput<
-  typeof GetLanguageLocaleIdentifierResultSchema
->;
+export type GetLanguageLocaleIdentifierResult = string;
 
 /**
- * Response when getting the language locale identifier from the device.
+ * Response returned by {@link LocaleModule.getLanguageLocaleIdentifier}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Locale identifier retrieved successfully.
- * - `204`: No content - locale identifier not available.
- * - `400`: Invalid request parameters.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Locale
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = InferOutput<
-  typeof GetLanguageLocaleIdentifierResponseSchema
->;
+export type GetLanguageLocaleIdentifierResponse =
+  | SDKOkResponse<GetLanguageLocaleIdentifierResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

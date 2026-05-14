@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { TriggerCheckoutRequestSchema, TriggerCheckoutResponseSchema } from './schemas';
 import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
 
@@ -13,6 +13,7 @@ import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  * JSBridge module for triggering native payment flows.
  *
  * @group Modules
+ * @category Checkout
  *
  * @remarks
  * Invokes the native Grab checkout/pay component to process payments.
@@ -37,7 +38,7 @@ import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class CheckoutModule extends BaseModule {
+export class CheckoutModule extends _BaseModule {
   constructor() {
     super('CheckoutModule');
   }
@@ -47,25 +48,29 @@ export class CheckoutModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.checkout
    *
+   * @param request - Full transaction object returned by `POST /grabpay/partner/v4/charge/init` on your backend.
+   *
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - checkout completed successfully. The `result` is {@link TriggerCheckoutResult}.
+   * - `400`: Bad request - invalid checkout parameters.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
+   *
    * @remarks
    * You must create a transaction on your backend (via API POST https://partner-api.grab.com/grabpay/partner/v4/charge/init) **before** calling this method.
    * Pass the transaction parameters returned from that API call as the `request` argument.
    * Calling this method without a valid pre-created transaction will result in a checkout failure.
    *
-   * @param request - Payment transaction details, including the transaction ID and amount. See {@link TriggerCheckoutRequest}.
-   *
-   * @returns The checkout result, containing transaction status (success, failure, pending, or userInitiatedCancel) and transaction details. See {@link TriggerCheckoutResponse}.
-   *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { CheckoutModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the checkout module
    * const checkout = new CheckoutModule();
    *
-   * // Trigger checkout with response params
-   * const transactionResponse = await createTransaction(); // Call POST /grabpay/partner/v4/charge/init from Grab API to create a transaction
+   * // Create a backend transaction, then trigger GrabPay checkout in-app
+   * const transactionResponse = await createTransaction(); // POST /grabpay/partner/v4/charge/init
    * const response = await checkout.triggerCheckout(transactionResponse);
    *
    * // Handle the response

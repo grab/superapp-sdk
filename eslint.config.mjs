@@ -61,7 +61,7 @@ export default defineConfig([
     settings: {
       jsdoc: {
         // Define custom JSDoc tags for the SDK
-        definedTags: ['minimumGrabAppVersion', 'requiredOAuthScope'],
+        definedTags: ['minimumGrabAppVersion', 'requiredOAuthScope', 'category'],
       },
     },
     rules: {

@@ -5,13 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  TriggerCheckoutRequestSchema,
-  TriggerCheckoutResponseSchema,
-  TriggerCheckoutResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for triggering the checkout flow.
@@ -33,18 +27,15 @@ import {
  * }
  * ```
  *
+ * @group Modules
+ * @category Checkout
+ *
  * @public
  */
-export type TriggerCheckoutRequest = InferOutput<typeof TriggerCheckoutRequestSchema>;
+export type TriggerCheckoutRequest = Record<string, unknown>;
 
 /**
  * Result object containing the checkout transaction details.
- *
- * @remarks
- * - `status: 'success'` → `transactionID`
- * - `status: 'failure'` → `transactionID`, `errorMessage`, `errorCode`
- * - `status: 'pending'` → `transactionID`
- * - `status: 'userInitiatedCancel'` → only `status`
  *
  * @example
  * **Successful transaction:**
@@ -83,20 +74,32 @@ export type TriggerCheckoutRequest = InferOutput<typeof TriggerCheckoutRequestSc
  * }
  * ```
  *
+ * @group Modules
+ * @category Checkout
+ *
  * @public
  */
-export type TriggerCheckoutResult = InferOutput<typeof TriggerCheckoutResultSchema>;
+export type TriggerCheckoutResult =
+  | { status: 'success'; transactionID: string }
+  | {
+      status: 'failure';
+      transactionID: string;
+      errorMessage: string;
+      errorCode: string;
+    }
+  | { status: 'pending'; transactionID: string }
+  | { status: 'userInitiatedCancel' };
 
 /**
- * Response when triggering the checkout flow.
+ * Response returned by {@link CheckoutModule.triggerCheckout}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Checkout completed successfully. The `result` contains transaction details.
- * - `400`: Bad request - invalid checkout parameters.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Checkout
  *
  * @public
  */
-export type TriggerCheckoutResponse = InferOutput<typeof TriggerCheckoutResponseSchema>;
+export type TriggerCheckoutResponse =
+  | SDKOkResponse<TriggerCheckoutResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

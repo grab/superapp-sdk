@@ -13,7 +13,7 @@ import { DismissSplashScreenResponse } from './types';
 const GRAB_UA = 'Grab/5.256.0 (iPhone; iOS 16.0)';
 const NON_GRAB_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124';
 
-function stubWindowBridge(mockInvoke: ReturnType<typeof vi.fn>): void {
+function stubWindowWrappedInvoke(mockInvoke: ReturnType<typeof vi.fn>): void {
   (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedSplashScreenModule = {
     invoke: mockInvoke,
   };
@@ -68,7 +68,7 @@ describe('SplashScreenModule', () => {
       vi.stubGlobal('navigator', { userAgent: GRAB_UA });
 
       const mockInvoke = vi.fn().mockResolvedValue(row.mock);
-      stubWindowBridge(mockInvoke);
+      stubWindowWrappedInvoke(mockInvoke);
 
       const module = new SplashScreenModule();
       const response = await module.dismiss();
@@ -83,7 +83,7 @@ describe('SplashScreenModule', () => {
       const mockInvoke = vi.fn().mockImplementation(() => {
         throw new Error('Unexpected bridge error');
       });
-      stubWindowBridge(mockInvoke);
+      stubWindowWrappedInvoke(mockInvoke);
 
       const module = new SplashScreenModule();
       const response = await module.dismiss();

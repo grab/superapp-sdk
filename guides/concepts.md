@@ -4,11 +4,11 @@ title: Core Concepts
 
 # Core Concepts
 
-SDK methods communicate with the native Grab SuperApp via JSBridge. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
+SDK methods communicate with the native Grab SuperApp via `JSBridge`. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
 
 ## Response Pattern
 
-Every SDK method returns a bridge response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
+Every SDK method returns an SDK response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
 
 ```typescript
 import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';

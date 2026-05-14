@@ -7,26 +7,29 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
+import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
+import type { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
  * Valibot schema for {@link RedirectToSystemWebViewRequest}.
  *
- * @public
+ * @internal
  */
-export const RedirectToSystemWebViewRequestSchema = v.object({
-  url: v.pipe(v.string(), v.url()),
-});
+export const RedirectToSystemWebViewRequestSchema: v.GenericSchema<RedirectToSystemWebViewRequest> =
+  v.object({
+    url: v.pipe(v.string(), v.url()),
+  });
 
 /**
  * Valibot schema for {@link RedirectToSystemWebViewResponse}.
  *
- * @public
+ * @internal
  */
-export const RedirectToSystemWebViewResponseSchema = v.union([
-  bridgeOkSchema(v.string()),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
-]);
+export const RedirectToSystemWebViewResponseSchema: v.GenericSchema<RedirectToSystemWebViewResponse> =
+  v.union([
+    sdkOkResponseSchema(v.string()),
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);

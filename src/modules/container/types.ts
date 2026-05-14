@@ -7,18 +7,8 @@
 
 import type { InferOutput } from 'valibot';
 
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 import {
-  CloseResponseSchema,
-  GetSessionParamsResponseSchema,
-  GetSessionParamsResultSchema,
-  HideBackButtonResponseSchema,
-  HideLoaderResponseSchema,
-  HideRefreshButtonResponseSchema,
-  IsConnectedResponseSchema,
-  IsConnectedResultSchema,
-  OnContentLoadedResponseSchema,
-  OnCtaTapResponseSchema,
-  OpenExternalLinkResponseSchema,
   RawCloseResponseSchema,
   RawHideBackButtonResponseSchema,
   RawHideLoaderResponseSchema,
@@ -30,13 +20,6 @@ import {
   RawShowBackButtonResponseSchema,
   RawShowLoaderResponseSchema,
   RawShowRefreshButtonResponseSchema,
-  SendAnalyticsEventRequestSchema,
-  SendAnalyticsEventResponseSchema,
-  SetBackgroundColorResponseSchema,
-  SetTitleResponseSchema,
-  ShowBackButtonResponseSchema,
-  ShowLoaderResponseSchema,
-  ShowRefreshButtonResponseSchema,
 } from './schemas';
 
 /**
@@ -47,6 +30,9 @@ import {
  * '#ffffff'
  * ```
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type SetBackgroundColorRequest = string;
@@ -55,27 +41,30 @@ export type SetBackgroundColorRequest = string;
  * Result when setting the background color.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type SetBackgroundColorResult = void;
 
 /**
- * Response when setting the background color.
+ * Response returned by {@link ContainerModule.setBackgroundColor}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Background color set successfully.
- * - `400`: Invalid background color format.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type SetBackgroundColorResponse = InferOutput<typeof SetBackgroundColorResponseSchema>;
+export type SetBackgroundColorResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from setBackgroundColor before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from setBackgroundColor before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -89,6 +78,9 @@ export type RawSetBackgroundColorResponse = InferOutput<typeof RawSetBackgroundC
  * 'Home Page'
  * ```
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type SetTitleRequest = string;
@@ -97,27 +89,30 @@ export type SetTitleRequest = string;
  * Result when setting the title.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type SetTitleResult = void;
 
 /**
- * Response when setting the title.
+ * Response returned by {@link ContainerModule.setTitle}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Title set successfully.
- * - `400`: Invalid title parameter.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type SetTitleResponse = InferOutput<typeof SetTitleResponseSchema>;
+export type SetTitleResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from setTitle before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from setTitle before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -127,26 +122,29 @@ export type RawSetTitleResponse = InferOutput<typeof RawSetTitleResponseSchema>;
  * Result when hiding the back button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type HideBackButtonResult = void;
 
 /**
- * Response when hiding the back button.
+ * Response returned by {@link ContainerModule.hideBackButton}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Back button hidden successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type HideBackButtonResponse = InferOutput<typeof HideBackButtonResponseSchema>;
+export type HideBackButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from hideBackButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from hideBackButton before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -156,26 +154,29 @@ export type RawHideBackButtonResponse = InferOutput<typeof RawHideBackButtonResp
  * Result when showing the back button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type ShowBackButtonResult = void;
 
 /**
- * Response when showing the back button.
+ * Response returned by {@link ContainerModule.showBackButton}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Back button shown successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type ShowBackButtonResponse = InferOutput<typeof ShowBackButtonResponseSchema>;
+export type ShowBackButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from showBackButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from showBackButton before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -185,26 +186,29 @@ export type RawShowBackButtonResponse = InferOutput<typeof RawShowBackButtonResp
  * Result when hiding the refresh button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type HideRefreshButtonResult = void;
 
 /**
- * Response when hiding the refresh button.
+ * Response returned by {@link ContainerModule.hideRefreshButton}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Refresh button hidden successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type HideRefreshButtonResponse = InferOutput<typeof HideRefreshButtonResponseSchema>;
+export type HideRefreshButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from hideRefreshButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from hideRefreshButton before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -214,26 +218,29 @@ export type RawHideRefreshButtonResponse = InferOutput<typeof RawHideRefreshButt
  * Result when showing the refresh button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type ShowRefreshButtonResult = void;
 
 /**
- * Response when showing the refresh button.
+ * Response returned by {@link ContainerModule.showRefreshButton}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Refresh button shown successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type ShowRefreshButtonResponse = InferOutput<typeof ShowRefreshButtonResponseSchema>;
+export type ShowRefreshButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from showRefreshButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from showRefreshButton before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -243,77 +250,86 @@ export type RawShowRefreshButtonResponse = InferOutput<typeof RawShowRefreshButt
  * Result when closing the container.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type CloseResult = void;
 
 /**
- * Response when closing the container.
+ * Response returned by {@link ContainerModule.close}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Container closed successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type CloseResponse = InferOutput<typeof CloseResponseSchema>;
+export type CloseResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from close before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from close before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
 export type RawCloseResponse = InferOutput<typeof RawCloseResponseSchema>;
 
 /**
- * Result when notifying content loaded.
- * This operation returns no data on success.
+ * Result payload when notifying content loaded succeeds with a 200 response.
+ * `true` indicates the content-loaded signal was acknowledged with a payload.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type OnContentLoadedResult = void;
+export type OnContentLoadedResult = boolean;
 
 /**
- * Response when notifying content loaded.
+ * Response returned by {@link ContainerModule.onContentLoaded}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Notification sent successfully.
- * - `204`: Operation completed successfully (no content).
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type OnContentLoadedResponse = InferOutput<typeof OnContentLoadedResponseSchema>;
+export type OnContentLoadedResponse =
+  | SDKOkResponse<OnContentLoadedResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when showing the loader.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
 export type ShowLoaderResult = void;
 
 /**
- * Response when showing the loader.
+ * Response returned by {@link ContainerModule.showLoader}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Loader shown successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type ShowLoaderResponse = InferOutput<typeof ShowLoaderResponseSchema>;
+export type ShowLoaderResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from showLoader before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from showLoader before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -323,26 +339,29 @@ export type RawShowLoaderResponse = InferOutput<typeof RawShowLoaderResponseSche
  * Result when hiding the loader.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type HideLoaderResult = void;
 
 /**
- * Response when hiding the loader.
+ * Response returned by {@link ContainerModule.hideLoader}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Loader hidden successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type HideLoaderResponse = InferOutput<typeof HideLoaderResponseSchema>;
+export type HideLoaderResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from hideLoader before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from hideLoader before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -356,6 +375,9 @@ export type RawHideLoaderResponse = InferOutput<typeof RawHideLoaderResponseSche
  * 'https://example.com'
  * ```
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type OpenExternalLinkRequest = string;
@@ -364,27 +386,30 @@ export type OpenExternalLinkRequest = string;
  * Result when opening an external link.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type OpenExternalLinkResult = void;
 
 /**
- * Response when opening an external link.
+ * Response returned by {@link ContainerModule.openExternalLink}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: External link opened successfully.
- * - `400`: Invalid URL parameter.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type OpenExternalLinkResponse = InferOutput<typeof OpenExternalLinkResponseSchema>;
+export type OpenExternalLinkResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from openExternalLink before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from openExternalLink before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -398,30 +423,36 @@ export type RawOpenExternalLinkResponse = InferOutput<typeof RawOpenExternalLink
  * 'AV_LANDING_PAGE_CONTINUE'
  * ```
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type OnCtaTapRequest = string;
 
 /**
- * Result when notifying CTA tap.
- * This operation returns no data on success.
+ * Result payload when notifying CTA tap succeeds.
+ * `true` indicates the tap signal was acknowledged with a payload.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type OnCtaTapResult = void;
+export type OnCtaTapResult = boolean;
 
 /**
- * Response when notifying CTA tap.
+ * Response returned by {@link ContainerModule.onCtaTap}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: CTA tap notification sent successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type OnCtaTapResponse = InferOutput<typeof OnCtaTapResponseSchema>;
+export type OnCtaTapResponse =
+  | SDKOkResponse<OnCtaTapResult>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for sending analytics events.
@@ -450,35 +481,48 @@ export type OnCtaTapResponse = InferOutput<typeof OnCtaTapResponseSchema>;
  * }
  * ```
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
-export type SendAnalyticsEventRequest = InferOutput<typeof SendAnalyticsEventRequestSchema>;
+export interface SendAnalyticsEventRequest {
+  /** Analytics event state (prefer {@link ContainerAnalyticsEventState} values). */
+  state: string;
+  /** Analytics event name (prefer {@link ContainerAnalyticsEventName} values). */
+  name: string;
+  /** Optional structured payload. */
+  data?: Record<string, unknown>;
+}
 
 /**
  * Result when sending analytics events.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
 export type SendAnalyticsEventResult = void;
 
 /**
- * Response when sending analytics events.
+ * Response returned by {@link ContainerModule.sendAnalyticsEvent}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Analytics event sent successfully.
- * - `400`: Invalid analytics event parameters.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type SendAnalyticsEventResponse = InferOutput<typeof SendAnalyticsEventResponseSchema>;
+export type SendAnalyticsEventResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw bridge response from sendAnalyticsEvent before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response from sendAnalyticsEvent before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
@@ -499,21 +543,24 @@ export type RawSendAnalyticsEventResponse = InferOutput<typeof RawSendAnalyticsE
  * { connected: false }
  * ```
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
-export type IsConnectedResult = InferOutput<typeof IsConnectedResultSchema>;
+export interface IsConnectedResult {
+  connected: boolean;
+}
 
 /**
- * Response when checking connection status.
+ * Response returned by {@link ContainerModule.isConnected}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Connected to Grab SuperApp. The `result` contains the connection status.
- * - `404`: Not connected to Grab SuperApp.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type IsConnectedResponse = InferOutput<typeof IsConnectedResponseSchema>;
+export type IsConnectedResponse = SDKOkResponse<IsConnectedResult> | SDKErrorResponse<404>;
 
 /**
  * Result object containing session parameters as a JSON string.
@@ -528,19 +575,23 @@ export type IsConnectedResponse = InferOutput<typeof IsConnectedResponseSchema>;
  * { result: '{"userId": "123", "sessionToken": "abc"}' }
  * ```
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
-export type GetSessionParamsResult = InferOutput<typeof GetSessionParamsResultSchema>;
+export type GetSessionParamsResult = string;
 
 /**
- * Response when getting session parameters.
+ * Response returned by {@link ContainerModule.getSessionParams}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Session parameters retrieved successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Container
  *
  * @public
  */
-export type GetSessionParamsResponse = InferOutput<typeof GetSessionParamsResponseSchema>;
+export type GetSessionParamsResponse =
+  | SDKOkResponse<GetSessionParamsResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

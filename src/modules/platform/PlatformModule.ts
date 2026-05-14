@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { BackResponseSchema } from './schemas';
 import { BackResponse } from './types';
 
@@ -13,6 +13,7 @@ import { BackResponse } from './types';
  * JSBridge module for controlling platform navigation.
  *
  * @group Modules
+ * @category Platform
  *
  * @remarks
  * Provides methods to interact with the native platform navigation stack, such as triggering the back action.
@@ -37,7 +38,7 @@ import { BackResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class PlatformModule extends BaseModule {
+export class PlatformModule extends _BaseModule {
   constructor() {
     super('PlatformModule');
   }
@@ -46,7 +47,10 @@ export class PlatformModule extends BaseModule {
    * Triggers the native platform back navigation.
    * This navigates back in the native navigation stack.
    *
-   * @returns Confirmation that the back navigation was triggered. See {@link BackResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - back navigation triggered successfully.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
    * **Simple usage**

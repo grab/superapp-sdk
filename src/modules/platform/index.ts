@@ -6,5 +6,4 @@
  */
 
 export { PlatformModule } from './PlatformModule';
-export { BackResponseSchema } from './schemas';
 export type { BackResponse, BackResult } from './types';

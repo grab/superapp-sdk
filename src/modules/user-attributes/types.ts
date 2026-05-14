@@ -5,12 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  GetSelectedTravelDestinationResponseSchema,
-  GetSelectedTravelDestinationResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result containing the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
@@ -25,24 +20,23 @@ import {
  * 'sg'
  * ```
  *
+ * @group Modules
+ * @category User Attributes
+ *
  * @public
  */
-export type GetSelectedTravelDestinationResult = InferOutput<
-  typeof GetSelectedTravelDestinationResultSchema
->;
+export type GetSelectedTravelDestinationResult = string;
 
 /**
- * Response when reading the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
+ * Response returned by {@link UserAttributesModule.getSelectedTravelDestination}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: The selected travel destination lowercase ISO 3166-1 alpha-2 country code was returned successfully.
- * - `204`: No selected travel destination is currently available.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category User Attributes
  *
  * @public
  */
-export type GetSelectedTravelDestinationResponse = InferOutput<
-  typeof GetSelectedTravelDestinationResponseSchema
->;
+export type GetSelectedTravelDestinationResponse =
+  | SDKOkResponse<GetSelectedTravelDestinationResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

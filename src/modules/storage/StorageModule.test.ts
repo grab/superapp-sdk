@@ -113,12 +113,12 @@ describe('StorageModule', () => {
     it('should return 200 with boolean value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse: RawGetBooleanResponse = {
+      const rawSdkResponse: RawGetBooleanResponse = {
         status_code: 200,
         result: true,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -135,12 +135,12 @@ describe('StorageModule', () => {
     it('should return 204 when bridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawBridgeResponse: RawGetBooleanResponse = {
+      const rawSdkResponse: RawGetBooleanResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -153,9 +153,9 @@ describe('StorageModule', () => {
     it('should return 204 when bridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetBooleanResponse;
+      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetBooleanResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -239,12 +239,12 @@ describe('StorageModule', () => {
     it('should return 200 with integer value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse: RawGetIntResponse = {
+      const rawSdkResponse: RawGetIntResponse = {
         status_code: 200,
         result: 42,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -261,12 +261,12 @@ describe('StorageModule', () => {
     it('should return 204 when bridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawBridgeResponse: RawGetIntResponse = {
+      const rawSdkResponse: RawGetIntResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -279,9 +279,9 @@ describe('StorageModule', () => {
     it('should return 204 when bridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetIntResponse;
+      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetIntResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -365,12 +365,12 @@ describe('StorageModule', () => {
     it('should return 200 with string value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse: RawGetStringResponse = {
+      const rawSdkResponse: RawGetStringResponse = {
         status_code: 200,
         result: 'john_doe',
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -387,12 +387,12 @@ describe('StorageModule', () => {
     it('should return 204 when bridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawBridgeResponse: RawGetStringResponse = {
+      const rawSdkResponse: RawGetStringResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -405,9 +405,9 @@ describe('StorageModule', () => {
     it('should return 204 when bridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetStringResponse;
+      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetStringResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -491,12 +491,12 @@ describe('StorageModule', () => {
     it('should return 200 with double value when key exists', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse: RawGetDoubleResponse = {
+      const rawSdkResponse: RawGetDoubleResponse = {
         status_code: 200,
         result: 19.99,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -513,12 +513,12 @@ describe('StorageModule', () => {
     it('should return 204 when bridge reports null result for missing key', async () => {
       stubGrabUserAgent(GRAB_ANDROID_UA);
 
-      const rawBridgeResponse: RawGetDoubleResponse = {
+      const rawSdkResponse: RawGetDoubleResponse = {
         status_code: 200,
         result: null,
       };
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();
@@ -531,9 +531,9 @@ describe('StorageModule', () => {
     it('should return 204 when bridge omits result on 200', async () => {
       stubGrabUserAgent();
 
-      const rawBridgeResponse = { status_code: 200 as const } satisfies RawGetDoubleResponse;
+      const rawSdkResponse = { status_code: 200 as const } satisfies RawGetDoubleResponse;
 
-      const mockInvoke = vi.fn().mockResolvedValue(rawBridgeResponse);
+      const mockInvoke = vi.fn().mockResolvedValue(rawSdkResponse);
       installWrappedStorageMock(mockInvoke);
 
       const module = new StorageModule();

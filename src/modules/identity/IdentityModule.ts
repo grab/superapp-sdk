@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import {
   generateCodeChallenge,
   generateCodeVerifier,
@@ -13,7 +13,7 @@ import {
 } from '../../utils/crypto';
 import { isErrorWithMessage } from '../../utils/error';
 import { detectGrabApp } from '../../utils/platform';
-import { meetsMinimumVersion, Version } from '../../utils/version';
+import { _Version, meetsMinimumVersion } from '../../utils/version';
 import {
   CODE_CHALLENGE_METHOD,
   CODE_VERIFIER_LENGTH,
@@ -36,6 +36,7 @@ import {
  * JSBridge module for authenticating users via GrabID.
  *
  * @group Modules
+ * @category Identity
  *
  * @remarks
  * Handles OAuth2/OIDC authentication flows with PKCE support, enabling MiniApps to obtain user identity tokens.
@@ -61,7 +62,7 @@ import {
  * @public
  * @noInheritDoc
  */
-export class IdentityModule extends BaseModule {
+export class IdentityModule extends _BaseModule {
   constructor() {
     super('IdentityModule');
   }
@@ -160,7 +161,10 @@ export class IdentityModule extends BaseModule {
    * Retrieves stored PKCE authorization artifacts from local storage.
    * These artifacts are used to complete the OAuth2 authorization code exchange.
    *
-   * @returns The stored PKCE artifacts including state, code verifier, nonce, and redirect URI. See {@link GetAuthorizationArtifactsResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - all artifacts are present. The `result` is {@link GetAuthorizationArtifactsResult}.
+   * - `204`: No content - authorization has not been initiated yet.
+   * - `400`: Bad request - inconsistent state, possible data corruption in storage.
    *
    * @remarks
    * **Important:** The `redirectUri` returned by this method is the actual redirect URI
@@ -169,14 +173,14 @@ export class IdentityModule extends BaseModule {
    * You must use this returned `redirectUri` for token exchange to ensure OAuth compliance.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { IdentityModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
    * const identity = new IdentityModule();
    *
-   * // Retrieve stored authorization artifacts after authorization redirect
+   * // Read stored PKCE authorization artifacts
    * const response = await identity.getAuthorizationArtifacts();
    *
    * // Handle the response
@@ -232,23 +236,22 @@ export class IdentityModule extends BaseModule {
    * This should be called after a successful token exchange or when you need to
    * reset the authorization state (e.g., on error or logout).
    *
-   * @returns Confirmation that the authorization artifacts have been cleared. See {@link ClearAuthorizationArtifactsResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - authorization artifacts cleared successfully.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { IdentityModule, isSuccess } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
    * const identity = new IdentityModule();
    *
-   * // Clear stored authorization artifacts after successful token exchange
+   * // Clear stored PKCE authorization artifacts
    * const response = await identity.clearAuthorizationArtifacts();
    *
    * // Handle the response
-   * if (isSuccess(response)) {
-   *   console.log('Authorization artifacts cleared');
-   * }
+   * if (isSuccess(response)) console.log('cleared');
    * ```
    *
    * @public
@@ -344,7 +347,7 @@ export class IdentityModule extends BaseModule {
       return false;
     }
 
-    const minimumVersion: Version = { major: 5, minor: 396, patch: 0 };
+    const minimumVersion: _Version = { major: 5, minor: 396, patch: 0 };
     return !meetsMinimumVersion(grabAppInfo.version, minimumVersion);
   }
 
@@ -448,9 +451,22 @@ export class IdentityModule extends BaseModule {
    * Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
    * This method handles both native in-app consent and web-based fallback flows.
    *
-   * @param request - Authorization parameters including client ID, redirect URI, scope, and environment. See {@link AuthorizeRequest}.
+   * @param request - OAuth2 authorization request configuration.
+   * Request fields:
+   * - `clientId`: OAuth client identifier issued for your MiniApp.
+   * - `redirectUri`: OAuth callback URL registered for the client.
+   * - `scope`: Space-delimited OAuth scopes (for example `openid profile`).
+   * - `environment`: GrabID environment (`staging` or `production`).
+   * - `responseMode` (optional): `redirect` (default) or `in_place` for native in-page result handling.
    *
-   * @returns The authorization result, containing the authorization code on success or redirect status. See {@link AuthorizeResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - authorization completed successfully (native in_place flow). The `result` is {@link AuthorizeResult}.
+   * - `204`: No content - user cancelled or flow completed without authorization data.
+   * - `302`: Found - redirect in progress (web redirect flow). The page will navigate away.
+   * - `400`: Bad request - missing required OAuth parameters or invalid configuration.
+   * - `403`: Forbidden - client not authorized for the requested scope.
+   * - `500`: Internal server error - unexpected error during native authorization.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @remarks
    * **Important Note on redirectUri and responseMode:**
@@ -479,20 +495,20 @@ export class IdentityModule extends BaseModule {
    *   web on specific native errors (400, 401, 403)
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { IdentityModule, isSuccess, isRedirection, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the identity module
    * const identity = new IdentityModule();
    *
-   * // Initiate authorization with redirect mode
+   * // Start GrabID OAuth authorization
    * const response = await identity.authorize({
    *   clientId: 'your-client-id',
    *   redirectUri: 'https://your-app.com/callback',
    *   scope: 'openid profile',
    *   environment: 'production',
-   *   responseMode: 'redirect'
+   *   responseMode: 'redirect',
    * });
    *
    * // Handle the response

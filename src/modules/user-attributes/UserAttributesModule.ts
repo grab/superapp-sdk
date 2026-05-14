@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { GetSelectedTravelDestinationResponseSchema } from './schemas';
 import { GetSelectedTravelDestinationResponse } from './types';
 
@@ -13,6 +13,7 @@ import { GetSelectedTravelDestinationResponse } from './types';
  * JSBridge module for reading user-related attributes from native code.
  *
  * @group Modules
+ * @category User Attributes
  *
  * @remarks
  * Provides access to user and traveller attributes exposed by the native Grab app bridge.
@@ -37,7 +38,7 @@ import { GetSelectedTravelDestinationResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class UserAttributesModule extends BaseModule {
+export class UserAttributesModule extends _BaseModule {
   constructor() {
     super('UserAttributesModule');
   }
@@ -45,7 +46,11 @@ export class UserAttributesModule extends BaseModule {
   /**
    * Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
    *
-   * @returns The selected travel destination lowercase ISO 3166-1 alpha-2 country code when available. See {@link GetSelectedTravelDestinationResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - travel destination retrieved successfully. The `result` is {@link GetSelectedTravelDestinationResult}.
+   * - `204`: No content - no selected travel destination is currently available.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
    * **Simple usage**

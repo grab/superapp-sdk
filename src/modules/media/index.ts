@@ -6,15 +6,12 @@
  */
 
 export { MediaModule } from './MediaModule';
-export {
-  DRMPlaybackEventSchema,
-  ObserveDRMPlaybackResponseSchema,
-  PlayDRMContentResponseSchema,
-} from './schemas';
-export {
+export type {
   DRMContentConfig,
   DRMPlaybackEvent,
+  DRMPlaybackEventType,
   ObserveDRMPlaybackResponse,
+  ObserveDRMPlaybackResult,
   PlayDRMContentResponse,
   PlayDRMContentResult,
 } from './types';

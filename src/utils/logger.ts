@@ -14,9 +14,11 @@ const SDK_LABEL = 'SuperAppSDK';
  * Log messages are prefixed with `[SuperAppSDK][ModuleName.methodName]`
  * (e.g. `[SuperAppSDK][ContainerModule.setTitle] An error occurred`).
  *
+ * @group Internals
+ *
  * @public
  */
-export class Logger {
+export class _Logger {
   private readonly moduleName: string;
 
   constructor(moduleName: string) {

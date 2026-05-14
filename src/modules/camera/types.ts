@@ -5,16 +5,10 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  ScanQRCodeRequestSchema,
-  ScanQRCodeResponseSchema,
-  ScanQRCodeResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
- * Request parameters for scanning QR codes.
+ * Request parameters for scanning a QR code.
  *
  * @example
  * **Request with custom title:**
@@ -23,39 +17,48 @@ import {
  * ```
  *
  * @example
- * **Minimal request (uses default title):**
+ * **Request with no title:**
  * ```typescript
  * {}
  * ```
  *
+ * @group Modules
+ * @category Camera
+ *
  * @public
  */
-export type ScanQRCodeRequest = InferOutput<typeof ScanQRCodeRequestSchema>;
+export interface ScanQRCodeRequest {
+  /**
+   * Title shown above the QR scanner.
+   */
+  title?: string;
+}
 
 /**
- * Result object containing the scanned QR code data.
+ * Result returned on a successful QR code scan.
  *
- * @example
- * ```typescript
- * { qrCode: 'https://example.com/payment/123' }
- * ```
+ * @group Modules
+ * @category Camera
  *
  * @public
  */
-export type ScanQRCodeResult = InferOutput<typeof ScanQRCodeResultSchema>;
+export interface ScanQRCodeResult {
+  /** Raw payload decoded from the scanned QR code (e.g. URL or arbitrary string). */
+  qrCode: string;
+}
 
 /**
- * Response when scanning a QR code.
+ * Response returned by {@link CameraModule.scanQRCode}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Successfully scanned QR code. The `result` contains the scanned QR code data.
- * - `204`: User cancelled the QR code scanning. No result data is returned.
- * - `400`: Bad request - invalid request parameters.
- * - `403`: Camera permission is not enabled for the Grab app.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Camera
  *
  * @public
  */
-export type ScanQRCodeResponse = InferOutput<typeof ScanQRCodeResponseSchema>;
+export type ScanQRCodeResponse =
+  | SDKOkResponse<ScanQRCodeResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

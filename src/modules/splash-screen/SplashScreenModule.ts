@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { DismissSplashScreenResponseSchema } from './schemas';
 import { DismissSplashScreenResponse } from './types';
 
@@ -13,6 +13,7 @@ import { DismissSplashScreenResponse } from './types';
  * JSBridge module for controlling the native splash / Lottie loading screen.
  *
  * @group Modules
+ * @category Splash Screen
  *
  * @remarks
  * Dismisses the splash overlay once the MiniApp is ready. Requires the Grab SuperApp WebView.
@@ -36,7 +37,7 @@ import { DismissSplashScreenResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class SplashScreenModule extends BaseModule {
+export class SplashScreenModule extends _BaseModule {
   constructor() {
     super('SplashScreenModule');
   }
@@ -44,7 +45,12 @@ export class SplashScreenModule extends BaseModule {
   /**
    * Dismisses the native splash (Lottie) loading view if it is presented.
    *
-   * @returns `204` when there is no splash or it was dismissed; `400` / `403` for client or scope errors.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - splash screen was closed successfully.
+   * - `400`: Bad request - invalid input (Grablet / client validation error).
+   * - `403`: Forbidden - missing consent for the required OAuth scope.
+   * - `500`: Internal server error - unexpected error while invoking the native JSBridge.
+   * - `501`: Not implemented - not in the Grab app WebView environment.
    *
    * @example
    * ```typescript

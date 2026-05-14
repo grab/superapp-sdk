@@ -5,20 +5,18 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  AuthorizeRequestSchema,
-  AuthorizeResponseSchema,
-  AuthorizeResultSchema,
-  ClearAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResultSchema,
-  RawAuthorizeResponseSchema,
-} from './schemas';
+import type {
+  SDKErrorResponse,
+  SDKNoContentResponse,
+  SDKOkResponse,
+  SDKRedirectResponse,
+} from '../../core';
 
 /**
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @example
  * **Production environment with redirect mode:**
@@ -46,18 +44,53 @@ import {
  *
  * @public
  */
-export type AuthorizeRequest = InferOutput<typeof AuthorizeRequestSchema>;
+export interface AuthorizeRequest {
+  /** OAuth2 client identifier registered for your MiniApp. */
+  clientId: string;
+  /** Registered redirect URI for the OAuth client (used for redirect-based flows). */
+  redirectUri: string;
+  /** Space-delimited OAuth scopes (for example `openid profile`). */
+  scope: string;
+  /** GrabID environment for the authorization server. */
+  environment: 'staging' | 'production';
+  /**
+   * How the native layer completes authorization.
+   *
+   * @defaultValue `'redirect'`
+   */
+  responseMode?: 'redirect' | 'in_place';
+}
 
 /**
- * Internal type for the raw bridge response from `authorize` before enrichment.
+ * Raw OAuth result from the native JSBridge before PKCE enrichment (partial result).
  *
  * @internal
  */
-export type RawAuthorizeResponse = InferOutput<typeof RawAuthorizeResponseSchema>;
+export interface RawAuthorizeResult {
+  code: string;
+  state: string;
+}
+
+/**
+ * Internal type for the raw SDK response from `authorize` before enrichment.
+ *
+ * @internal
+ */
+export type RawAuthorizeResponse =
+  | SDKOkResponse<RawAuthorizeResult>
+  | SDKNoContentResponse
+  | SDKRedirectResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for the authorization flow.
  * Contains the authorization code, state, and PKCE artifacts when native in_place flow completes successfully.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @example
  * ```typescript
@@ -72,28 +105,37 @@ export type RawAuthorizeResponse = InferOutput<typeof RawAuthorizeResponseSchema
  *
  * @public
  */
-export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
+export interface AuthorizeResult {
+  code: string;
+  state: string;
+  codeVerifier: string;
+  nonce: string;
+  redirectUri: string;
+}
 
 /**
- * Response when initiating an authorization flow.
+ * Response returned by {@link IdentityModule.authorize}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code, state, and PKCE artifacts (`codeVerifier`, `nonce`, `redirectUri`).
- * - `204`: No content - user cancelled or flow completed without result data.
- * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
- * - `400`: Bad request - missing required OAuth parameters or invalid configuration.
- * - `403`: Forbidden - client not authorized for the requested scope.
- * - `500`: Internal server error - unexpected error during native authorization.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Identity
  *
  * @public
  */
-export type AuthorizeResponse = InferOutput<typeof AuthorizeResponseSchema>;
+export type AuthorizeResponse =
+  | SDKOkResponse<AuthorizeResult>
+  | SDKNoContentResponse
+  | SDKRedirectResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object containing the stored PKCE authorization artifacts.
  * These are used to complete the OAuth2 authorization code exchange.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @example
  * **All artifacts present:**
@@ -108,41 +150,43 @@ export type AuthorizeResponse = InferOutput<typeof AuthorizeResponseSchema>;
  *
  * @public
  */
-export type GetAuthorizationArtifactsResult = InferOutput<
-  typeof GetAuthorizationArtifactsResultSchema
->;
+export interface GetAuthorizationArtifactsResult {
+  state: string;
+  codeVerifier: string;
+  nonce: string;
+  redirectUri: string;
+}
 
 /**
- * Response when retrieving stored authorization artifacts.
+ * Response returned by {@link IdentityModule.getAuthorizationArtifacts}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: All artifacts present. The `result` contains the PKCE artifacts needed for token exchange.
- * - `204`: No artifacts yet - authorization has not been initiated.
- * - `400`: Inconsistent state - possible data corruption in storage.
+ * @group Modules
+ * @category Identity
  *
  * @public
  */
-export type GetAuthorizationArtifactsResponse = InferOutput<
-  typeof GetAuthorizationArtifactsResponseSchema
->;
+export type GetAuthorizationArtifactsResponse =
+  | SDKOkResponse<GetAuthorizationArtifactsResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>;
 
 /**
  * Result object for clearing authorization artifacts.
  * This operation returns no data on success.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @public
  */
 export type ClearAuthorizationArtifactsResult = void;
 
 /**
- * Response when clearing stored authorization artifacts.
+ * Response returned by {@link IdentityModule.clearAuthorizationArtifacts}.
  *
- * @remarks
- * This response returns status code `204` when artifacts are successfully cleared.
+ * @group Modules
+ * @category Identity
  *
  * @public
  */
-export type ClearAuthorizationArtifactsResponse = InferOutput<
-  typeof ClearAuthorizationArtifactsResponseSchema
->;
+export type ClearAuthorizationArtifactsResponse = SDKNoContentResponse;

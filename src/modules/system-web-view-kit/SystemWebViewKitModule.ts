@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import {
   RedirectToSystemWebViewRequestSchema,
   RedirectToSystemWebViewResponseSchema,
@@ -13,9 +13,10 @@ import {
 import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
- * JSBridge module for opening URLs in the device's system browser.
+ * JSBridge module for opening URLs in the system web view.
  *
  * @group Modules
+ * @category System Web View Kit
  *
  * @remarks
  * Allows MiniApps to redirect users to external content using the native system browser.
@@ -40,27 +41,34 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  * @public
  * @noInheritDoc
  */
-export class SystemWebViewKitModule extends BaseModule {
+export class SystemWebViewKitModule extends _BaseModule {
   constructor() {
     super('SystemWebViewKitModule');
   }
 
   /**
-   * Opens a URL in the device's system web browser or web view.
+   * Opens a URL in the system web view.
    *
-   * @param request - The URL to open in the system web view. See {@link RedirectToSystemWebViewRequest}.
+   * @param request - System web view redirect configuration.
+   * Request fields:
+   * - `url`: Absolute URL to open in the system web view.
    *
-   * @returns Confirmation of whether the redirect to system web view was successful. See {@link RedirectToSystemWebViewResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - redirect initiated successfully. The `result` is {@link RedirectToSystemWebViewResult}.
+   * - `400`: Bad request - invalid URL, domain not whitelisted, or missing callback URL.
+   * - `424`: Failed dependency - ASWebAuthenticationSession error on iOS.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { SystemWebViewKitModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the system web view kit module
    * const webViewKit = new SystemWebViewKitModule();
    *
-   * // Open a URL in system web view
+   * // Open a URL in the system web view
    * const response = await webViewKit.redirectToSystemWebView({
    *   url: 'https://www.example.com'
    * });

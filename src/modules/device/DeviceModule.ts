@@ -5,8 +5,8 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
-import { meetsMinimumVersion, Version } from '../../utils/version';
+import { _BaseModule } from '../../core';
+import { _Version, meetsMinimumVersion } from '../../utils/version';
 import { IsEsimSupportedResponseSchema } from './schemas';
 import { IsEsimSupportedResponse } from './types';
 
@@ -14,6 +14,7 @@ import { IsEsimSupportedResponse } from './types';
  * JSBridge module for querying native device information.
  *
  * @group Modules
+ * @category Device
  *
  * @remarks
  * Provides access to device checks exposed by the native Grab app bridge.
@@ -38,8 +39,8 @@ import { IsEsimSupportedResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class DeviceModule extends BaseModule {
-  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 409, patch: 0 };
+export class DeviceModule extends _BaseModule {
+  static readonly MINIMUM_VERSION: _Version = { major: 5, minor: 409, patch: 0 };
 
   constructor() {
     super('DeviceModule');
@@ -52,7 +53,13 @@ export class DeviceModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.device
    *
-   * @returns Whether eSIM is supported on the current device. See {@link IsEsimSupportedResponse}.
+   * @returns A response with one of the following status codes:
+   * - `200`: OK - eSIM capability was checked successfully. The `result` is `true` if eSIM is supported, otherwise `false`.
+   * - `403`: Forbidden - client not authorized to query eSIM capability.
+   * - `424`: Failed dependency - underlying telephony/eSIM service unavailable.
+   * - `426`: Upgrade required - feature requires Grab app version 5.402 or above.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
    * **Simple usage**

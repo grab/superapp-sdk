@@ -5,15 +5,17 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
-import {
-  RawSendResponseSchema,
-  RawSendResultSchema,
-  SendRequestSchema,
-  SendResponseSchema,
-  SendResultSchema,
-} from './schemas';
+/**
+ * HTTP methods supported by the `SendRequest` interface.
+ *
+ * @group Modules
+ * @category Network
+ *
+ * @public
+ */
+export type SendRequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
 
 /**
  * Request parameters for sending a network request.
@@ -50,48 +52,92 @@ import {
  * }
  * ```
  *
+ * @group Modules
+ * @category Network
+ *
  * @public
  */
-export type SendRequest = InferOutput<typeof SendRequestSchema>;
+export interface SendRequest {
+  /** Absolute URL of the API endpoint to call. */
+  endpoint: string;
+  /** HTTP verb for the request. */
+  method: SendRequestMethod;
+  /** Optional HTTP headers merged with the native request. */
+  headers?: Record<string, string>;
+  /** Optional query string parameters (string values). */
+  query?: Record<string, string>;
+  /** Optional request body for methods that accept a payload (JSON-serialized when applicable). */
+  body?: unknown;
+  /**
+   * Optional request timeout in seconds.
+   *
+   * @defaultValue Native default when omitted
+   */
+  timeout?: number;
+}
 
 /**
  * Result object containing the network response data.
  *
  * @remarks
  * The result type is `Record<string, unknown>` as response bodies are always
- * returned as objects. String responses from the native bridge are automatically
+ * returned as objects. String responses from the native JSBridge are automatically
  * parsed to JSON.
  *
- * @public
- */
-export type SendResult = InferOutput<typeof SendResultSchema>;
-
-/**
- * Response when sending a network request.
+ * @example
+ * ```typescript
+ * { users: [{ id: '1', name: 'Ada' }], total: 1 }
+ * ```
  *
- * @remarks
- * This response can have any HTTP status code returned by the external API:
- * - Success codes (2xx): Contains the `result` with response data, except 204 which has no body.
- * - Client error codes (4xx): Contains an `error` message from the API.
- * - Server error codes (5xx): Contains an `error` message from the API.
- * - SDK error codes (400, 500, 501): Invalid request, internal SDK error, or not implemented.
+ * @group Modules
+ * @category Network
  *
  * @public
  */
-export type SendResponse = InferOutput<typeof SendResponseSchema>;
+export type SendResult = Record<string, unknown>;
 
 /**
- * Internal type for the raw bridge response result.
- * The native bridge may return either a JSON string or a parsed Record.
+ * Response returned by {@link NetworkModule.send}.
+ *
+ * @group Modules
+ * @category Network
+ *
+ * @public
+ */
+export type SendResponse =
+  | SDKOkResponse<SendResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<401>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<404>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
+ * Internal type for the raw SDK response result.
+ * The native JSBridge may return either a JSON string or a parsed Record.
  *
  * @internal
  */
-export type RawSendResult = InferOutput<typeof RawSendResultSchema>;
+export type RawSendResult = string | SendResult;
 
 /**
- * Internal type for the raw bridge response before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw SDK response before transformation.
+ * Used internally to handle the native SDK response format.
  *
  * @internal
  */
-export type RawSendResponse = InferOutput<typeof RawSendResponseSchema>;
+export type RawSendResponse =
+  | SDKOkResponse<RawSendResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<401>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<404>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

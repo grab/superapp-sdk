@@ -5,15 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  FetchEmailResponseSchema,
-  FetchEmailResultSchema,
-  VerifyEmailRequestSchema,
-  VerifyEmailResponseSchema,
-  VerifyEmailResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result object containing the user's email address.
@@ -23,26 +15,31 @@ import {
  * { email: 'user@example.com' }
  * ```
  *
+ * @group Modules
+ * @category Profile
+ *
  * @public
  */
-export type FetchEmailResult = InferOutput<typeof FetchEmailResultSchema>;
+export interface FetchEmailResult {
+  email: string;
+}
 
 /**
- * Response when fetching the user's email.
+ * Response returned by {@link ProfileModule.fetchEmail}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Email fetched successfully. The `result` contains the email address.
- * - `204`: No content - email not available.
- * - `400`: Invalid request - the request was malformed.
- * - `403`: Forbidden - client not authorized to access user profile data.
- * - `426`: Upgrade Required - feature requires Grab app version 5.399 or above.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
+ * @group Modules
+ * @category Profile
  *
  * @public
  */
-export type FetchEmailResponse = InferOutput<typeof FetchEmailResponseSchema>;
+export type FetchEmailResponse =
+  | SDKOkResponse<FetchEmailResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for verifying the user's email.
@@ -59,9 +56,21 @@ export type FetchEmailResponse = InferOutput<typeof FetchEmailResponseSchema>;
  * }
  * ```
  *
+ * @group Modules
+ * @category Profile
+ *
  * @public
  */
-export type VerifyEmailRequest = InferOutput<typeof VerifyEmailRequestSchema>;
+export interface VerifyEmailRequest {
+  /** Pre-filled email shown in the native verification UI. */
+  email?: string;
+  /**
+   * When `true` together with `email`, opens OTP verification without letting the user edit the email first.
+   *
+   * @defaultValue `false` when omitted
+   */
+  skipUserInput?: boolean;
+}
 
 /**
  * Result object for verifying the user's email.
@@ -71,38 +80,28 @@ export type VerifyEmailRequest = InferOutput<typeof VerifyEmailRequestSchema>;
  * { email: 'user@example.com' }
  * ```
  *
+ * @group Modules
+ * @category Profile
+ *
  * @public
  */
-export type VerifyEmailResult = InferOutput<typeof VerifyEmailResultSchema>;
+export interface VerifyEmailResult {
+  email: string;
+}
 
 /**
- * Response when verifying the user's email.
+ * Response returned by {@link ProfileModule.verifyEmail}.
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Success, email verified and returned in `result`.
- * - `204`: User closed the native bottom sheet.
- * - `400`: Client error (e.g. invalid email format).
- * - `403`: Forbidden - client not authorized to access user profile data.
- * - `426`: Upgrade Required - feature requires Grab app version 5.399 or above.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
- * @example
- * **Successful verification:**
- * ```typescript
- * {
- *   status_code: 200,
- *   result: { email: 'user@example.com' }
- * }
- * ```
- *
- * @example
- * **User closed bottom sheet:**
- * ```typescript
- * { status_code: 204 }
- * ```
+ * @group Modules
+ * @category Profile
  *
  * @public
  */
-export type VerifyEmailResponse = InferOutput<typeof VerifyEmailResponseSchema>;
+export type VerifyEmailResponse =
+  | SDKOkResponse<VerifyEmailResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

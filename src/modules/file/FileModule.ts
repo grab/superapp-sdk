@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import { BaseModule } from '../../core';
+import { _BaseModule } from '../../core';
 import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
 import { DownloadFileRequest, DownloadFileResponse } from './types';
 
@@ -13,6 +13,7 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  * JSBridge module for downloading files to the user's device.
  *
  * @group Modules
+ * @category File
  *
  * @remarks
  * Initiates native file download handling in the Grab app using a file URL and file name.
@@ -37,27 +38,34 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  * @public
  * @noInheritDoc
  */
-export class FileModule extends BaseModule {
+export class FileModule extends _BaseModule {
   constructor() {
     super('FileModule');
   }
 
   /**
-   * Downloads a file via the native bridge.
+   * Downloads a file via the native JSBridge.
    *
-   * @param request - File information, including URL and target file name. See {@link DownloadFileRequest}.
+   * @param request - File download configuration.
+   * Request fields:
+   * - `fileUrl`: HTTPS URL of the file to download.
+   * - `fileName`: Target name for the file to be saved as on the device.
    *
-   * @returns Download operation result. See {@link DownloadFileResponse}.
+   * @returns A response with one of the following status codes:
+   * - `204`: No content - file downloaded successfully.
+   * - `400`: Bad request - invalid request parameters such as invalid file URL, invalid domain, or missing file name.
+   * - `500`: Internal server error - an unexpected error occurred on the native side.
+   * - `501`: Not implemented - this method requires the Grab app environment.
    *
    * @example
-   * **Simple usage**
+   * **Usage**
    * ```typescript
    * import { FileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
    * // Initialize the file module
    * const file = new FileModule();
    *
-   * // Download the file
+   * // Download a file to the device
    * const response = await file.downloadFile({
    *   fileUrl: 'https://example.com/report.pdf',
    *   fileName: 'report.pdf',

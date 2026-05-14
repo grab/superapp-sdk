@@ -7,7 +7,39 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
+import type {
+  GetBooleanRequest,
+  GetBooleanResponse,
+  GetBooleanResult,
+  GetDoubleRequest,
+  GetDoubleResponse,
+  GetDoubleResult,
+  GetIntRequest,
+  GetIntResponse,
+  GetIntResult,
+  GetStringRequest,
+  GetStringResponse,
+  GetStringResult,
+  RawGetBooleanResponse,
+  RawGetDoubleResponse,
+  RawGetIntResponse,
+  RawGetStringResponse,
+  RemoveAllResponse,
+  RemoveResponse,
+  SetBooleanRequest,
+  SetBooleanResponse,
+  SetDoubleRequest,
+  SetDoubleResponse,
+  SetIntRequest,
+  SetIntResponse,
+  SetStringRequest,
+  SetStringResponse,
+} from './types';
 
 /**
  * @internal
@@ -22,9 +54,9 @@ const storageKeySchema = v.object({ key: storageKeyField });
 /**
  * Valibot schema for {@link SetBooleanRequest}.
  *
- * @public
+ * @internal
  */
-export const SetBooleanRequestSchema = v.object({
+export const SetBooleanRequestSchema: v.GenericSchema<SetBooleanRequest> = v.object({
   key: storageKeyField,
   value: v.boolean(),
 });
@@ -32,65 +64,65 @@ export const SetBooleanRequestSchema = v.object({
 /**
  * Valibot schema for {@link SetBooleanResponse}.
  *
- * @public
+ * @internal
  */
-export const SetBooleanResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const SetBooleanResponseSchema: v.GenericSchema<SetBooleanResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link GetBooleanRequest}.
  *
- * @public
+ * @internal
  */
-export const GetBooleanRequestSchema = storageKeySchema;
+export const GetBooleanRequestSchema: v.GenericSchema<GetBooleanRequest> = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetBooleanResult}.
  *
- * @public
+ * @internal
  */
-export const GetBooleanResultSchema = v.boolean();
+export const GetBooleanResultSchema: v.GenericSchema<GetBooleanResult> = v.boolean();
 
 /**
- * Internal valibot schema for the raw bridge response from `getBoolean` before normalization.
+ * Internal valibot schema for the raw SDK response from `getBoolean` before normalization.
  *
  * @internal
  */
-export const RawGetBooleanResponseSchema = v.union([
+export const RawGetBooleanResponseSchema: v.GenericSchema<RawGetBooleanResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.boolean()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
  * Valibot schema for {@link GetBooleanResponse}.
  *
- * @public
+ * @internal
  */
-export const GetBooleanResponseSchema = v.union([
-  bridgeOkSchema(GetBooleanResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const GetBooleanResponseSchema: v.GenericSchema<GetBooleanResponse> = v.union([
+  sdkOkResponseSchema(GetBooleanResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link SetIntRequest}.
  *
- * @public
+ * @internal
  */
-export const SetIntRequestSchema = v.object({
+export const SetIntRequestSchema: v.GenericSchema<SetIntRequest> = v.object({
   key: storageKeyField,
   value: v.number(),
 });
@@ -98,65 +130,65 @@ export const SetIntRequestSchema = v.object({
 /**
  * Valibot schema for {@link SetIntResponse}.
  *
- * @public
+ * @internal
  */
-export const SetIntResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const SetIntResponseSchema: v.GenericSchema<SetIntResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link GetIntRequest}.
  *
- * @public
+ * @internal
  */
-export const GetIntRequestSchema = storageKeySchema;
+export const GetIntRequestSchema: v.GenericSchema<GetIntRequest> = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetIntResult}.
  *
- * @public
+ * @internal
  */
-export const GetIntResultSchema = v.number();
+export const GetIntResultSchema: v.GenericSchema<GetIntResult> = v.number();
 
 /**
- * Internal valibot schema for the raw bridge response from `getInt` before normalization.
+ * Internal valibot schema for the raw SDK response from `getInt` before normalization.
  *
  * @internal
  */
-export const RawGetIntResponseSchema = v.union([
+export const RawGetIntResponseSchema: v.GenericSchema<RawGetIntResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.number()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
  * Valibot schema for {@link GetIntResponse}.
  *
- * @public
+ * @internal
  */
-export const GetIntResponseSchema = v.union([
-  bridgeOkSchema(GetIntResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const GetIntResponseSchema: v.GenericSchema<GetIntResponse> = v.union([
+  sdkOkResponseSchema(GetIntResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link SetStringRequest}.
  *
- * @public
+ * @internal
  */
-export const SetStringRequestSchema = v.object({
+export const SetStringRequestSchema: v.GenericSchema<SetStringRequest> = v.object({
   key: storageKeyField,
   value: v.string(),
 });
@@ -164,65 +196,65 @@ export const SetStringRequestSchema = v.object({
 /**
  * Valibot schema for {@link SetStringResponse}.
  *
- * @public
+ * @internal
  */
-export const SetStringResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const SetStringResponseSchema: v.GenericSchema<SetStringResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link GetStringRequest}.
  *
- * @public
+ * @internal
  */
-export const GetStringRequestSchema = storageKeySchema;
+export const GetStringRequestSchema: v.GenericSchema<GetStringRequest> = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetStringResult}.
  *
- * @public
+ * @internal
  */
-export const GetStringResultSchema = v.string();
+export const GetStringResultSchema: v.GenericSchema<GetStringResult> = v.string();
 
 /**
- * Internal valibot schema for the raw bridge response from `getString` before normalization.
+ * Internal valibot schema for the raw SDK response from `getString` before normalization.
  *
  * @internal
  */
-export const RawGetStringResponseSchema = v.union([
+export const RawGetStringResponseSchema: v.GenericSchema<RawGetStringResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.string()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
  * Valibot schema for {@link GetStringResponse}.
  *
- * @public
+ * @internal
  */
-export const GetStringResponseSchema = v.union([
-  bridgeOkSchema(GetStringResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const GetStringResponseSchema: v.GenericSchema<GetStringResponse> = v.union([
+  sdkOkResponseSchema(GetStringResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link SetDoubleRequest}.
  *
- * @public
+ * @internal
  */
-export const SetDoubleRequestSchema = v.object({
+export const SetDoubleRequestSchema: v.GenericSchema<SetDoubleRequest> = v.object({
   key: storageKeyField,
   value: v.number(),
 });
@@ -230,57 +262,57 @@ export const SetDoubleRequestSchema = v.object({
 /**
  * Valibot schema for {@link SetDoubleResponse}.
  *
- * @public
+ * @internal
  */
-export const SetDoubleResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const SetDoubleResponseSchema: v.GenericSchema<SetDoubleResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link GetDoubleRequest}.
  *
- * @public
+ * @internal
  */
-export const GetDoubleRequestSchema = storageKeySchema;
+export const GetDoubleRequestSchema: v.GenericSchema<GetDoubleRequest> = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetDoubleResult}.
  *
- * @public
+ * @internal
  */
-export const GetDoubleResultSchema = v.number();
+export const GetDoubleResultSchema: v.GenericSchema<GetDoubleResult> = v.number();
 
 /**
- * Internal valibot schema for the raw bridge response from `getDouble` before normalization.
+ * Internal valibot schema for the raw SDK response from `getDouble` before normalization.
  *
  * @internal
  */
-export const RawGetDoubleResponseSchema = v.union([
+export const RawGetDoubleResponseSchema: v.GenericSchema<RawGetDoubleResponse> = v.union([
   v.object({
     status_code: v.literal(200),
     result: v.nullish(v.number()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
  * Valibot schema for {@link GetDoubleResponse}.
  *
- * @public
+ * @internal
  */
-export const GetDoubleResponseSchema = v.union([
-  bridgeOkSchema(GetDoubleResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const GetDoubleResponseSchema: v.GenericSchema<GetDoubleResponse> = v.union([
+  sdkOkResponseSchema(GetDoubleResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -291,24 +323,24 @@ export const RemoveRequestSchema = storageKeySchema;
 /**
  * Valibot schema for {@link RemoveResponse}.
  *
- * @public
+ * @internal
  */
-export const RemoveResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const RemoveResponseSchema: v.GenericSchema<RemoveResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * Valibot schema for {@link RemoveAllResponse}.
  *
- * @public
+ * @internal
  */
-export const RemoveAllResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+export const RemoveAllResponseSchema: v.GenericSchema<RemoveAllResponse> = v.union([
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

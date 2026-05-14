@@ -5,45 +5,19 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { DismissSplashScreenResponseSchema } from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 
 /**
- * Response when dismissing the splash screen.
+ * Response returned by {@link SplashScreenModule.dismiss}.
  *
- * @remarks
- * Possible status codes:
- * - `204`: No splash screen shown, or it was closed successfully.
- * - `400`: Invalid input (Grablet / client validation error).
- * - `403`: Missing consent for the required OAuth scope.
- * - `500`: Unexpected error while invoking the native bridge.
- * - `501`: Not in the Grab app WebView environment.
- *
- * @example
- * **Success (204):**
- * ```typescript
- * { status_code: 204 }
- * ```
- *
- * @example
- * **Bad request (400):**
- * ```typescript
- * {
- *   status_code: 400,
- *   error: 'InvalidInput: client input not valid'
- * }
- * ```
- *
- * @example
- * **Forbidden (403):**
- * ```typescript
- * {
- *   status_code: 403,
- *   error: 'NoAccess: client requesting for not consented scope'
- * }
- * ```
+ * @group Modules
+ * @category Splash Screen
  *
  * @public
  */
-export type DismissSplashScreenResponse = InferOutput<typeof DismissSplashScreenResponseSchema>;
+export type DismissSplashScreenResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
