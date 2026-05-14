@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.52] - 2026-05-14
+
+_SDK API surface and generated docs were cleaned up for clearer, type-safe usage._
+
+### Changed
+
+- Core response/stream types renamed from `Bridge*` to `SDK*` (for example `BridgeResponse` -> `SDKResponse`) and aligned across modules.
+- Root exports were streamlined to favor type-only exports for request/response contracts and remove schema exports from the main entry point.
+- Generated docs and guides were refreshed to match the updated type naming and API surface.
+
+### Removed
+
+- Legacy `Bridge*` type exports and root-level schema exports from `src/index.ts`.
+
 ## [2.0.0-beta.51] - 2026-05-12
 
 _Bump eSIM minimum Grab app to 5.409.0; Slack release posts use an in-channel header with changelog in a thread._

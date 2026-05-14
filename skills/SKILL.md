@@ -736,6 +736,9 @@ Module for accessing device location services via JSBridge.
     - `500`: Internal server error - an unexpected error occurred on the native side.
     - `501`: Not implemented - this method requires the Grab app environment.
 
+#### `Logger`
+Provides scoped logging for SDK modules.
+
 #### `MediaModule`
 Module for playing DRM-protected media content via JSBridge.
 - `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
