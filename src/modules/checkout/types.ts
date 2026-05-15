@@ -16,6 +16,9 @@ import {
 /**
  * Request parameters for triggering the checkout flow.
  *
+ * @group Modules
+ * @category Checkout
+ *
  * @remarks
  * This type is intentionally flexible as the checkout parameters vary depending on the specific payment flow and partner requirements.
  * Consult the Grab SuperApp SDK documentation for the specific parameters required for your use case.
@@ -39,6 +42,9 @@ export type TriggerCheckoutRequest = InferOutput<typeof TriggerCheckoutRequestSc
 
 /**
  * Result object containing the checkout transaction details.
+ *
+ * @group Modules
+ * @category Checkout
  *
  * @remarks
  * - `status: 'success'` → `transactionID`
@@ -89,6 +95,9 @@ export type TriggerCheckoutResult = InferOutput<typeof TriggerCheckoutResultSche
 
 /**
  * Response when triggering the checkout flow.
+ *
+ * @group Modules
+ * @category Checkout
  *
  * @remarks
  * This response can have the following status codes:

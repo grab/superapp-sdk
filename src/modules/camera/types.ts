@@ -16,6 +16,9 @@ import {
 /**
  * Request parameters for scanning QR codes.
  *
+ * @group Modules
+ * @category Camera
+ *
  * @example
  * **Request with custom title:**
  * ```typescript
@@ -35,6 +38,9 @@ export type ScanQRCodeRequest = InferOutput<typeof ScanQRCodeRequestSchema>;
 /**
  * Result object containing the scanned QR code data.
  *
+ * @group Modules
+ * @category Camera
+ *
  * @example
  * ```typescript
  * { qrCode: 'https://example.com/payment/123' }
@@ -46,6 +52,9 @@ export type ScanQRCodeResult = InferOutput<typeof ScanQRCodeResultSchema>;
 
 /**
  * Response when scanning a QR code.
+ *
+ * @group Modules
+ * @category Camera
  *
  * @remarks
  * This response can have the following status codes:

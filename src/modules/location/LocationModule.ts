@@ -17,6 +17,7 @@ import {
  * JSBridge module for accessing device location services.
  *
  * @group Modules
+ * @category Location
  *
  * @remarks
  * Provides access to the device's geolocation data including coordinates and country code.

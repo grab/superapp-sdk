@@ -10,12 +10,16 @@ import type { Version } from '../version/types';
 /**
  * Represents the mobile operating system platform.
  *
+ * @group Core
+ *
  * @public
  */
 export type Platform = 'Android' | 'iOS';
 
 /**
  * Represents parsed information from a Grab app user agent string.
+ *
+ * @group Core
  *
  * @public
  */

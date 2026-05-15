@@ -13,6 +13,7 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  * JSBridge module for downloading files to the user's device.
  *
  * @group Modules
+ * @category File
  *
  * @remarks
  * Initiates native file download handling in the Grab app using a file URL and file name.

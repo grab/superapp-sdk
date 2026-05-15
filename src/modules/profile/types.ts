@@ -18,6 +18,9 @@ import {
 /**
  * Result object containing the user's email address.
  *
+ * @group Modules
+ * @category Profile
+ *
  * @example
  * ```typescript
  * { email: 'user@example.com' }
@@ -29,6 +32,9 @@ export type FetchEmailResult = InferOutput<typeof FetchEmailResultSchema>;
 
 /**
  * Response when fetching the user's email.
+ *
+ * @group Modules
+ * @category Profile
  *
  * @remarks
  * This response can have the following status codes:
@@ -46,6 +52,9 @@ export type FetchEmailResponse = InferOutput<typeof FetchEmailResponseSchema>;
 
 /**
  * Request parameters for verifying the user's email.
+ *
+ * @group Modules
+ * @category Profile
  *
  * @remarks
  * Both properties are optional. If email is provided and skipUserInput is true,
@@ -66,6 +75,9 @@ export type VerifyEmailRequest = InferOutput<typeof VerifyEmailRequestSchema>;
 /**
  * Result object for verifying the user's email.
  *
+ * @group Modules
+ * @category Profile
+ *
  * @example
  * ```typescript
  * { email: 'user@example.com' }
@@ -77,6 +89,9 @@ export type VerifyEmailResult = InferOutput<typeof VerifyEmailResultSchema>;
 
 /**
  * Response when verifying the user's email.
+ *
+ * @group Modules
+ * @category Profile
  *
  * @remarks
  * This response can have the following status codes:

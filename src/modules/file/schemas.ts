@@ -12,6 +12,9 @@ import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
 /**
  * Valibot schema for {@link DownloadFileRequest}.
  *
+ * @group Modules
+ * @category File
+ *
  * @public
  */
 export const DownloadFileRequestSchema = v.object({
@@ -21,6 +24,9 @@ export const DownloadFileRequestSchema = v.object({
 
 /**
  * Valibot schema for {@link DownloadFileResponse}.
+ *
+ * @group Modules
+ * @category File
  *
  * @public
  */

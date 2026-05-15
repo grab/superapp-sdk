@@ -13,12 +13,18 @@ import { BackResponseSchema } from './schemas';
  * Result when triggering platform back navigation.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Platform
+ *
  * @public
  */
 export type BackResult = void;
 
 /**
  * Response when triggering platform back navigation.
+ *
+ * @group Modules
+ * @category Platform
  *
  * @remarks
  * This response can have the following status codes:

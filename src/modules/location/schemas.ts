@@ -12,12 +12,18 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link GetCoordinateResult}.
  *
+ * @group Modules
+ * @category Location
+ *
  * @public
  */
 export const GetCoordinateResultSchema = v.object({ latitude: v.number(), longitude: v.number() });
 
 /**
  * Valibot schema for {@link GetCoordinateResponse}.
+ *
+ * @group Modules
+ * @category Location
  *
  * @public
  */
@@ -44,12 +50,18 @@ export const ObserveLocationChangeResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetCountryCodeResult}.
  *
+ * @group Modules
+ * @category Location
+ *
  * @public
  */
 export const GetCountryCodeResultSchema = v.string();
 
 /**
  * Valibot schema for {@link GetCountryCodeResponse}.
+ *
+ * @group Modules
+ * @category Location
  *
  * @public
  */

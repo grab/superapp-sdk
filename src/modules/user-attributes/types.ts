@@ -15,6 +15,9 @@ import {
 /**
  * Result containing the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
  *
+ * @group Modules
+ * @category User Attributes
+ *
  * @example
  * ```typescript
  * 'id'
@@ -33,6 +36,9 @@ export type GetSelectedTravelDestinationResult = InferOutput<
 
 /**
  * Response when reading the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
+ *
+ * @group Modules
+ * @category User Attributes
  *
  * @remarks
  * This response can have the following status codes:

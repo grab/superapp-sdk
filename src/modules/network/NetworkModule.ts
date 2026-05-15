@@ -13,6 +13,7 @@ import { RawSendResponse, SendRequest, SendResponse } from './types';
  * JSBridge module for making network requests via the native bridge.
  *
  * @group Modules
+ * @category Network
  *
  * @remarks
  * Provides access to native network functionality for making HTTP requests.

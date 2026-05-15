@@ -12,6 +12,9 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link SendRequest}.
  *
+ * @group Modules
+ * @category Network
+ *
  * @remarks
  * This schema defines the structure of a network request with the following properties:
  * - `endpoint`: API endpoint URL to send the request to
@@ -35,12 +38,18 @@ export const SendRequestSchema = v.object({
 /**
  * Valibot schema for {@link SendResult}.
  *
+ * @group Modules
+ * @category Network
+ *
  * @public
  */
 export const SendResultSchema = v.record(v.string(), v.unknown());
 
 /**
  * Valibot schema for {@link SendResponse}.
+ *
+ * @group Modules
+ * @category Network
  *
  * @public
  */

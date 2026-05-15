@@ -17,6 +17,9 @@ import {
 /**
  * Request parameters for checking if the current client has access to a specific API.
  *
+ * @group Modules
+ * @category Scope
+ *
  * @example
  * ```typescript
  * {
@@ -31,6 +34,9 @@ export type HasAccessToRequest = InferOutput<typeof HasAccessToRequestSchema>;
 
 /**
  * Boolean result indicating whether the MiniApp has access to the specified API.
+ *
+ * @group Modules
+ * @category Scope
  *
  * @example
  * **Has access:**
@@ -51,6 +57,9 @@ export type HasAccessToResult = InferOutput<typeof HasAccessToResultSchema>;
 /**
  * Response when checking API access permissions.
  *
+ * @group Modules
+ * @category Scope
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: Access check completed successfully. The `result` contains the access status.
@@ -67,12 +76,18 @@ export type HasAccessToResponse = InferOutput<typeof HasAccessToResponseSchema>;
  * Result object for reloading scopes.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Scope
+ *
  * @public
  */
 export type ReloadScopesResult = void;
 
 /**
  * Response when reloading consented scopes.
+ *
+ * @group Modules
+ * @category Scope
  *
  * @remarks
  * This response can have the following status codes:

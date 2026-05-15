@@ -16,6 +16,7 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  * JSBridge module for opening URLs in the device's system browser.
  *
  * @group Modules
+ * @category System WebView Kit
  *
  * @remarks
  * Allows MiniApps to redirect users to external content using the native system browser.

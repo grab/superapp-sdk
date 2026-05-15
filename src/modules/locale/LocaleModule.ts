@@ -13,6 +13,7 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
  * JSBridge module for accessing device locale settings.
  *
  * @group Modules
+ * @category Locale
  *
  * @remarks
  * Provides the user's preferred language and region settings from the native device.

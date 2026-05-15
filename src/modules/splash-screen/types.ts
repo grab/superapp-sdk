@@ -12,6 +12,9 @@ import { DismissSplashScreenResponseSchema } from './schemas';
 /**
  * Response when dismissing the splash screen.
  *
+ * @group Modules
+ * @category Splash Screen
+ *
  * @remarks
  * Possible status codes:
  * - `204`: No splash screen shown, or it was closed successfully.
