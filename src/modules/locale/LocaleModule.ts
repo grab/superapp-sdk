@@ -46,10 +46,14 @@ export class LocaleModule extends BaseModule {
   /**
    * Retrieves the current language locale identifier from the device.
    *
-   * @returns The user's preferred language locale string (e.g., 'en-SG', 'id-ID'). See {@link GetLanguageLocaleIdentifierResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Locale identifier retrieved successfully.
+   * - `204` (No Content): Locale identifier not available.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { LocaleModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

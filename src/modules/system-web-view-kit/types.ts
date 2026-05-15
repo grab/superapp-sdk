@@ -13,16 +13,10 @@ import type { SDKErrorResponse, SDKOkResponse } from '../../core';
  * @group Modules
  * @category System WebView Kit
  *
- * @example
- * ```typescript
- * {
- *   url: 'https://www.example.com'
- * }
- * ```
- *
  * @public
  */
 export type RedirectToSystemWebViewRequest = {
+  /** URL to open or process (for example, `"https://www.example.com"`). */
   url: string;
 };
 
@@ -41,14 +35,6 @@ export type RedirectToSystemWebViewResult = string;
  *
  * @group Modules
  * @category System WebView Kit
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Redirect initiated successfully.
- * - `400`: Invalid URL, domain not whitelisted, or missing callback URL.
- * - `424`: ASWebAuthenticationSession error - dependency error on iOS.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

@@ -11,7 +11,6 @@ export type {
   AuthorizeResponse,
   AuthorizeResult,
   ClearAuthorizationArtifactsResponse,
-  ClearAuthorizationArtifactsResult,
   GetAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResult,
 } from './types';

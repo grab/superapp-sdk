@@ -13,21 +13,10 @@ import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../.
  * @group Modules
  * @category Camera
  *
- * @example
- * **Request with custom title:**
- * ```typescript
- * { title: 'Scan Payment QR' }
- * ```
- *
- * @example
- * **Minimal request (uses default title):**
- * ```typescript
- * {}
- * ```
- *
  * @public
  */
 export type ScanQRCodeRequest = {
+  /** Title text to display on the QR code scanning UI (for example, `"Scan Payment QR"`). */
   title?: string;
 };
 
@@ -37,14 +26,10 @@ export type ScanQRCodeRequest = {
  * @group Modules
  * @category Camera
  *
- * @example
- * ```typescript
- * { qrCode: 'https://example.com/payment/123' }
- * ```
- *
  * @public
  */
 export type ScanQRCodeResult = {
+  /** QR code value returned by the scanner (for example, `"https://example.com/payment/123"`). */
   qrCode: string;
 };
 
@@ -53,15 +38,6 @@ export type ScanQRCodeResult = {
  *
  * @group Modules
  * @category Camera
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Successfully scanned QR code. The `result` contains the scanned QR code data.
- * - `204`: User cancelled the QR code scanning. No result data is returned.
- * - `400`: Bad request - invalid request parameters.
- * - `403`: Camera permission is not enabled for the Grab app.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

@@ -106,12 +106,15 @@ export class ContainerModule extends BaseModule {
   /**
    * Set the background color of the container header.
    *
-   * @param request - The background color to set (hex format, e.g., '#ffffff'). See {@link SetBackgroundColorRequest}.
+   * @param request - The background color to set (hex format, e.g., '#ffffff').
    *
-   * @returns Confirmation that the background color was set. See {@link SetBackgroundColorResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Background color set successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -163,12 +166,15 @@ export class ContainerModule extends BaseModule {
   /**
    * Set the title of the container header.
    *
-   * @param request - The title text to display in the header. See {@link SetTitleRequest}.
+   * @param request - The title text to display in the header.
    *
-   * @returns Confirmation that the title was set. See {@link SetTitleResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Title set successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -217,10 +223,12 @@ export class ContainerModule extends BaseModule {
   /**
    * Hide the back button on the container header.
    *
-   * @returns Confirmation that the back button is now hidden. See {@link HideBackButtonResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Back button hidden successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -269,10 +277,12 @@ export class ContainerModule extends BaseModule {
   /**
    * Show the back button on the container header.
    *
-   * @returns Confirmation that the back button is now visible. See {@link ShowBackButtonResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Back button shown successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -321,10 +331,12 @@ export class ContainerModule extends BaseModule {
   /**
    * Hide the refresh button on the container header.
    *
-   * @returns Confirmation that the refresh button is now hidden. See {@link HideRefreshButtonResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Refresh button hidden successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -373,10 +385,12 @@ export class ContainerModule extends BaseModule {
   /**
    * Show the refresh button on the container header.
    *
-   * @returns Confirmation that the refresh button is now visible. See {@link ShowRefreshButtonResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Refresh button shown successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -425,10 +439,12 @@ export class ContainerModule extends BaseModule {
   /**
    * Close the container and return to the previous screen.
    *
-   * @returns Confirmation that the container is closing. See {@link CloseResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Container closed successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -476,10 +492,13 @@ export class ContainerModule extends BaseModule {
   /**
    * Notify the Grab SuperApp that the page content has loaded.
    *
-   * @returns Confirmation that the content loaded notification was sent. See {@link OnContentLoadedResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Notification sent successfully.
+   * - `204` (No Content): Operation completed successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -519,10 +538,12 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Remember to call {@link ContainerModule.hideLoader} when the operation completes.
    *
-   * @returns Confirmation that the loader is now visible. See {@link ShowLoaderResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Loader shown successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -574,10 +595,12 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Should be called when the entry point has finished loading.
    *
-   * @returns Confirmation that the loader is now hidden. See {@link HideLoaderResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Loader hidden successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -629,12 +652,15 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to open the specified URL in an external browser (outside of the Grab app).
    *
-   * @param request - The URL to open in the external browser. See {@link OpenExternalLinkRequest}.
+   * @param request - The URL to open in the external browser.
    *
-   * @returns Confirmation of whether the external link was opened successfully. See {@link OpenExternalLinkResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): External link opened successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -684,12 +710,14 @@ export class ContainerModule extends BaseModule {
   /**
    * Notify the client that the user has tapped a call-to-action (CTA).
    *
-   * @param request - The action identifier for the CTA that was tapped. See {@link OnCtaTapRequest}.
+   * @param request - The action identifier for the CTA that was tapped.
    *
-   * @returns Confirmation that the CTA tap was notified. See {@link OnCtaTapResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): CTA tap notification sent successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -733,14 +761,17 @@ export class ContainerModule extends BaseModule {
    * - **States:** {@link ContainerAnalyticsEventState}
    * - **Names:** {@link ContainerAnalyticsEventName}
    *
-   * @param request - Analytics event details including state, name, and optional data. See {@link SendAnalyticsEventRequest}.
-   *
-   * @returns Confirmation of whether the analytics event was sent successfully. See {@link SendAnalyticsEventResponse}.
+   * @param request - Analytics event details.
    *
    * @see {@link ContainerAnalyticsEventState}, {@link ContainerAnalyticsEventName}
    *
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Analytics event sent successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
+   *
    * @example
-   * **Simple usage**
    * ```typescript
    * import {
    *   ContainerModule,
@@ -811,10 +842,11 @@ export class ContainerModule extends BaseModule {
    * @remarks
    * Call this method to verify the connection status before using other features.
    *
-   * @returns The connection status, indicating whether the MiniApp is running inside the Grab SuperApp. See {@link IsConnectedResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Connected to Grab SuperApp. The `result` contains {@link IsConnectedResult}.
+   * - `404` (Not Found): Not connected to Grab SuperApp.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -851,10 +883,12 @@ export class ContainerModule extends BaseModule {
    * Parse with `JSON.parse(result.result)` to use as an object.
    * Session parameters can contain primitives, base64 encoded strings, or nested objects.
    *
-   * @returns The session parameters as a JSON string that can be parsed into an object. See {@link GetSessionParamsResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Session parameters retrieved successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

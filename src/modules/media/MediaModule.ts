@@ -52,12 +52,15 @@ export class MediaModule extends BaseModule {
    * Requires proper DRM content configuration including license URL and content metadata.
    * For playback events and status updates, use {@link MediaModule.observePlayDRMContent}.
    *
-   * @param data - Configuration for the DRM content including license URL and content metadata. See {@link DRMContentConfig}.
+   * @param data - Configuration for the DRM content including license URL and content metadata.
    *
-   * @returns The playback initiation result, indicating if the DRM content started playing. See {@link PlayDRMContentResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Playback initiated successfully.
+   * - `204` (No Content): Request completed.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -110,12 +113,14 @@ export class MediaModule extends BaseModule {
    * Subscribe to this stream to receive real-time playback events such as progress,
    * completion, and errors. Remember to call `unsubscribe()` when done to free resources.
    *
-   * @param data - Configuration for the DRM content to observe. See {@link DRMContentConfig}.
+   * @param data - Configuration for the DRM content to observe.
    *
-   * @returns A stream that emits playback events as the media plays. See {@link ObserveDRMPlaybackResponse}.
+   * @returns This stream can emit the following `status_code` values:
+   * - `200` (OK): Stream emitted a playback event. The `result` contains {@link DRMPlaybackEvent}.
+   * - `500` (Internal Server Error): Stream emitted an unexpected error.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { MediaModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

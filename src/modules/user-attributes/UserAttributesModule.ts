@@ -46,10 +46,13 @@ export class UserAttributesModule extends BaseModule {
   /**
    * Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
    *
-   * @returns The selected travel destination lowercase ISO 3166-1 alpha-2 country code when available. See {@link GetSelectedTravelDestinationResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): The selected travel destination code was returned in `result` as {@link GetSelectedTravelDestinationResult}.
+   * - `204` (No Content): No selected travel destination is currently available.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { UserAttributesModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

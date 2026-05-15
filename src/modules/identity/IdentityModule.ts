@@ -161,16 +161,18 @@ export class IdentityModule extends BaseModule {
    * Retrieves stored PKCE authorization artifacts from local storage.
    * These artifacts are used to complete the OAuth2 authorization code exchange.
    *
-   * @returns The stored PKCE artifacts including state, code verifier, nonce, and redirect URI. See {@link GetAuthorizationArtifactsResponse}.
-   *
    * @remarks
    * **Important:** The `redirectUri` returned by this method is the actual redirect URI
    * that was sent to the authorization server. This may differ from the `redirectUri`
    * you provided to `authorize()` if you used `responseMode: 'in_place'` with native flow.
    * You must use this returned `redirectUri` for token exchange to ensure OAuth compliance.
    *
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): All artifacts present. The `result` contains {@link GetAuthorizationArtifactsResult}.
+   * - `204` (No Content): No artifacts yet - authorization has not been initiated.
+   * - `400` (Bad Request): Invalid request parameters.
+   *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { IdentityModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -236,7 +238,6 @@ export class IdentityModule extends BaseModule {
    * @returns Confirmation that the authorization artifacts have been cleared. See {@link ClearAuthorizationArtifactsResponse}.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { IdentityModule, isSuccess } from '@grabjs/superapp-sdk';
    *
@@ -353,8 +354,7 @@ export class IdentityModule extends BaseModule {
    * Performs web-based OAuth2 authorization by redirecting to the authorization server.
    *
    * @param params - The authorization parameters.
-   *
-   * @returns The authorization result, including status and redirect information.
+   * @returns The authorization response for the redirect flow.
    *
    * @internal
    */
@@ -449,9 +449,7 @@ export class IdentityModule extends BaseModule {
    * Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
    * This method handles both native in-app consent and web-based fallback flows.
    *
-   * @param request - Authorization parameters including client ID, redirect URI, scope, and environment. See {@link AuthorizeRequest}.
-   *
-   * @returns The authorization result, containing the authorization code on success or redirect status. See {@link AuthorizeResponse}.
+   * @param request - Authorization parameters.
    *
    * @remarks
    * **Important Note on redirectUri and responseMode:**
@@ -479,8 +477,16 @@ export class IdentityModule extends BaseModule {
    * - For supported versions, the SDK attempts native consent first and falls back to
    *   web on specific native errors (400, 401, 403)
    *
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Authorization completed successfully (native in_place flow). The `result` contains {@link AuthorizeResult}.
+   * - `204` (No Content): User cancelled the authorization flow.
+   * - `302` (Found): Redirect in progress (web redirect flow). The page will navigate away.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `403` (Forbidden): Client is not authorized for the requested scope.
+   * - `500` (Internal Server Error): Unexpected error during native authorization.
+   * - `501` (Not Implemented): Requires Grab app environment.
+   *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { IdentityModule, isSuccess, isRedirection, isError } from '@grabjs/superapp-sdk';
    *

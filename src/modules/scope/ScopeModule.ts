@@ -53,10 +53,14 @@ export class ScopeModule extends BaseModule {
    * @param module - The name of the SDK module to check access for (e.g., 'CameraModule').
    * @param method - The method name within the module to check access for (e.g., 'scanQRCode').
    *
-   * @returns Whether the MiniApp has permission to access the specified method. See {@link HasAccessToResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Access check completed successfully. The `result` contains {@link HasAccessToResult}.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Dependency error occurred while checking access.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -99,10 +103,13 @@ export class ScopeModule extends BaseModule {
    * Requests to reload the consented OAuth scopes for the current client.
    * This refreshes the permissions from the server.
    *
-   * @returns Confirmation that the scopes have been reloaded from the server. See {@link ReloadScopesResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Scopes reloaded successfully.
+   * - `424` (Failed Dependency): Dependency error occurred while reloading scopes.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

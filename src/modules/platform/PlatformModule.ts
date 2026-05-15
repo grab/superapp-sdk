@@ -47,10 +47,12 @@ export class PlatformModule extends BaseModule {
    * Triggers the native platform back navigation.
    * This navigates back in the native navigation stack.
    *
-   * @returns Confirmation that the back navigation was triggered. See {@link BackResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Back navigation triggered successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { PlatformModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

@@ -13,46 +13,20 @@ import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../.
  * @group Modules
  * @category Network
  *
- * @example
- * **GET request with headers:**
- * ```typescript
- * {
- *   endpoint: 'https://api.example.com/users',
- *   method: 'GET',
- *   headers: { 'Authorization': 'Bearer token123' }
- * }
- * ```
- *
- * @example
- * **POST request with body:**
- * ```typescript
- * {
- *   endpoint: 'https://api.example.com/users',
- *   method: 'POST',
- *   headers: { 'Content-Type': 'application/json' },
- *   body: { name: 'John Doe', email: 'john@example.com' }
- * }
- * ```
- *
- * @example
- * **Request with query parameters and timeout:**
- * ```typescript
- * {
- *   endpoint: 'https://api.example.com/search',
- *   method: 'GET',
- *   query: { q: 'grab', limit: '10' },
- *   timeout: 30
- * }
- * ```
- *
  * @public
  */
 export type SendRequest = {
+  /** Request payload body. */
   body?: unknown;
+  /** Request endpoint URL. */
   endpoint: string;
+  /** HTTP headers sent with the request. */
   headers?: Record<string, string>;
+  /** HTTP method used for the request (for example, `"GET"` or `"POST"`). */
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
+  /** Query parameters appended to the request URL. */
   query?: Record<string, string>;
+  /** Request timeout in milliseconds. */
   timeout?: number;
 };
 
@@ -76,13 +50,6 @@ export type SendResult = Record<string, unknown>;
  *
  * @group Modules
  * @category Network
- *
- * @remarks
- * This response can have any HTTP status code returned by the external API:
- * - Success codes (2xx): Contains the `result` with response data, except 204 which has no body.
- * - Client error codes (4xx): Contains an `error` message from the API.
- * - Server error codes (5xx): Contains an `error` message from the API.
- * - SDK error codes (400, 500, 501): Invalid request, internal SDK error, or not implemented.
  *
  * @public
  */

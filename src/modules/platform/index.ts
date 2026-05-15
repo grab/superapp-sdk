@@ -6,4 +6,4 @@
  */
 
 export { PlatformModule } from './PlatformModule';
-export type { BackResponse, BackResult } from './types';
+export type { BackResponse } from './types';
