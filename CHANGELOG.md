@@ -27,7 +27,6 @@ _Refines public API typings by removing redundant no-content result aliases and 
 
 - Removed redundant no-content `*Result` aliases from public exports and module types.
 
-
 ## [2.0.0-beta.55] - 2026-05-15
 
 _Strengthens module type/schema contracts and trims schema exports from the public API surface._

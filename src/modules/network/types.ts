@@ -50,7 +50,7 @@ export type SendResult = Record<string, unknown>;
  *
  * @group Modules
  * @category Network
- * 
+ *
  * @public
  */
 export type SendResponse =
