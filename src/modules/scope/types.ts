@@ -13,18 +13,12 @@ import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../.
  * @group Modules
  * @category Scope
  *
- * @example
- * ```typescript
- * {
- *   module: 'CameraModule',
- *   method: 'scanQRCode'
- * }
- * ```
- *
  * @public
  */
 export type HasAccessToRequest = {
+  /** Method name to check scope access for (for example, `"scanQRCode"`). */
   method: string;
+  /** Module name to check scope access for (for example, `"CameraModule"`). */
   module: string;
 };
 
@@ -33,18 +27,6 @@ export type HasAccessToRequest = {
  *
  * @group Modules
  * @category Scope
- *
- * @example
- * **Has access:**
- * ```typescript
- * true
- * ```
- *
- * @example
- * **No access:**
- * ```typescript
- * false
- * ```
  *
  * @public
  */
@@ -56,14 +38,6 @@ export type HasAccessToResult = boolean;
  * @group Modules
  * @category Scope
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Access check completed successfully. The `result` contains the access status.
- * - `400`: Missing required parameters - module or method not provided.
- * - `424`: ScopeKit error - unable to check access due to a dependency error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
  * @public
  */
 export type HasAccessToResponse =
@@ -74,28 +48,10 @@ export type HasAccessToResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Result object for reloading scopes.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Scope
- *
- * @public
- */
-export type ReloadScopesResult = void;
-
-/**
  * Response when reloading consented scopes.
  *
  * @group Modules
  * @category Scope
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Scopes reloaded successfully (no content).
- * - `424`: ScopeKit error - unable to reload scopes due to a dependency error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

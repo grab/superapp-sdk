@@ -46,12 +46,15 @@ export class FileModule extends BaseModule {
   /**
    * Downloads a file through `JSBridge`.
    *
-   * @param request - File information, including URL and target file name. See {@link DownloadFileRequest}.
+   * @param request - File download request parameters.
    *
-   * @returns Download operation result. See {@link DownloadFileResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): File downloaded successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { FileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

@@ -13,16 +13,6 @@ import type { SDKErrorResponse, SDKOkResponse } from '../../core';
  * @group Modules
  * @category Device
  *
- * @example
- * ```typescript
- * true
- * ```
- *
- * @example
- * ```typescript
- * false
- * ```
- *
  * @public
  */
 export type IsEsimSupportedResult = boolean;
@@ -32,15 +22,6 @@ export type IsEsimSupportedResult = boolean;
  *
  * @group Modules
  * @category Device
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: eSIM capability was checked successfully. The `result` contains `true` or `false`.
- * - `403`: Forbidden - client not authorized to query eSIM capability.
- * - `424`: Failed Dependency - underlying telephony/eSIM service unavailable.
- * - `426`: Upgrade Required - feature requires Grab app version 5.402 or above.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

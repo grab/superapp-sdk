@@ -53,12 +53,15 @@ export class CheckoutModule extends BaseModule {
    * Pass the transaction parameters returned from that API call as the `request` argument.
    * Calling this method without a valid pre-created transaction will result in a checkout failure.
    *
-   * @param request - Payment transaction details, including the transaction ID and amount. See {@link TriggerCheckoutRequest}.
+   * @param request - Payment transaction details.
    *
-   * @returns The checkout result, containing transaction status (success, failure, pending, or userInitiatedCancel) and transaction details. See {@link TriggerCheckoutResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Checkout completed successfully. The `result` contains {@link TriggerCheckoutResult}.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { CheckoutModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

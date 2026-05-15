@@ -17,19 +17,6 @@ import type { SDKErrorResponse, SDKOkResponse } from '../../core';
  * This type is intentionally flexible as the checkout parameters vary depending on the specific payment flow and partner requirements.
  * Consult the Grab SuperApp SDK documentation for the specific parameters required for your use case.
  *
- * @example
- * **Typical checkout request:**
- * ```typescript
- * {
- *   partnerTxID: 'txn-123456',
- *   partnerGroupTxID: 'group-txn-789',
- *   amount: 10000,
- *   currency: 'SGD',
- *   description: 'Payment for services',
- *   // ... additional checkout-specific parameters
- * }
- * ```
- *
  * @public
  */
 export type TriggerCheckoutRequest = Record<string, unknown>;
@@ -40,48 +27,6 @@ export type TriggerCheckoutRequest = Record<string, unknown>;
  * @group Modules
  * @category Checkout
  *
- * @remarks
- * - `status: 'success'` → `transactionID`
- * - `status: 'failure'` → `transactionID`, `errorMessage`, `errorCode`
- * - `status: 'pending'` → `transactionID`
- * - `status: 'userInitiatedCancel'` → only `status`
- *
- * @example
- * **Successful transaction:**
- * ```typescript
- * {
- *   transactionID: 'grab-txn-abc123',
- *   status: 'success'
- * }
- * ```
- *
- * @example
- * **Failed transaction:**
- * ```typescript
- * {
- *   transactionID: 'grab-txn-abc123',
- *   status: 'failure',
- *   errorMessage: 'Insufficient funds',
- *   errorCode: 'PAYMENT_FAILED'
- * }
- * ```
- *
- * @example
- * **Pending transaction:**
- * ```typescript
- * {
- *   transactionID: 'grab-txn-abc123',
- *   status: 'pending'
- * }
- * ```
- *
- * @example
- * **User cancelled or closed checkout:**
- * ```typescript
- * {
- *   status: 'userInitiatedCancel'
- * }
- * ```
  *
  * @public
  */
@@ -109,13 +54,6 @@ export type TriggerCheckoutResult =
  *
  * @group Modules
  * @category Checkout
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Checkout completed successfully. The `result` contains transaction details.
- * - `400`: Bad request - invalid checkout parameters.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

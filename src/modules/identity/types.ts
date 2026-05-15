@@ -18,37 +18,18 @@ import type {
  * @group Modules
  * @category Identity
  *
- * @example
- * **Production environment with redirect mode:**
- * ```typescript
- * {
- *   clientId: 'your-client-id',
- *   redirectUri: 'https://your-app.com/callback',
- *   scope: 'openid profile',
- *   environment: 'production',
- *   responseMode: 'redirect'
- * }
- * ```
- *
- * @example
- * **Staging environment with in_place mode:**
- * ```typescript
- * {
- *   clientId: 'staging-client-id',
- *   redirectUri: 'https://staging-app.com/callback',
- *   scope: 'openid',
- *   environment: 'staging',
- *   responseMode: 'in_place'
- * }
- * ```
- *
  * @public
  */
 export type AuthorizeRequest = {
+  /** OAuth client identifier issued to your application. */
   clientId: string;
+  /** OAuth redirect URI registered for your application. */
   redirectUri: string;
+  /** OAuth scopes requested for the authorization flow (for example, `"openid profile.read phone mobile.storage"`). */
   scope: string;
+  /** Target authorization environment (for example, `"staging"` or `"production"`). */
   environment: 'staging' | 'production';
+  /** Authorization response mode for result delivery (for example, `"redirect"` or `"in_place"`). */
   responseMode?: 'redirect' | 'in_place';
 };
 
@@ -76,24 +57,18 @@ export type RawAuthorizeResponse =
  * @group Modules
  * @category Identity
  *
- * @example
- * ```typescript
- * {
- *   code: 'auth-code-abc123',
- *   state: 'csrf-state-xyz789',
- *   codeVerifier: 'code-verifier-123',
- *   nonce: 'nonce-abc',
- *   redirectUri: 'https://your-app.com/current-page'
- * }
- * ```
- *
  * @public
  */
 export type AuthorizeResult = {
+  /** Authorization code returned by the OAuth flow. */
   code: string;
+  /** State value used to correlate and validate the flow. */
   state: string;
+  /** PKCE code verifier used for token exchange. */
   codeVerifier: string;
+  /** Nonce value used to bind and validate the authorization response. */
   nonce: string;
+  /** OAuth redirect URI registered for your application. */
   redirectUri: string;
 };
 
@@ -102,16 +77,6 @@ export type AuthorizeResult = {
  *
  * @group Modules
  * @category Identity
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code, state, and PKCE artifacts (`codeVerifier`, `nonce`, `redirectUri`).
- * - `204`: No content - user cancelled or flow completed without result data.
- * - `302`: Redirect in progress (web redirect flow). The page will navigate away.
- * - `400`: Bad request - missing required OAuth parameters or invalid configuration.
- * - `403`: Forbidden - client not authorized for the requested scope.
- * - `500`: Internal server error - unexpected error during native authorization.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
@@ -131,23 +96,16 @@ export type AuthorizeResponse =
  * @group Modules
  * @category Identity
  *
- * @example
- * **All artifacts present:**
- * ```typescript
- * {
- *   state: 'csrf-state-xyz789',
- *   codeVerifier: 'code-verifier-123',
- *   nonce: 'nonce-abc',
- *   redirectUri: 'https://your-app.com/callback'
- * }
- * ```
- *
  * @public
  */
 export type GetAuthorizationArtifactsResult = {
+  /** State value used to correlate and validate the flow. */
   state: string;
+  /** PKCE code verifier used for token exchange. */
   codeVerifier: string;
+  /** Nonce value used to bind and validate the authorization response. */
   nonce: string;
+  /** OAuth redirect URI registered for your application. */
   redirectUri: string;
 };
 
@@ -157,12 +115,6 @@ export type GetAuthorizationArtifactsResult = {
  * @group Modules
  * @category Identity
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: All artifacts present. The `result` contains the PKCE artifacts needed for token exchange.
- * - `204`: No artifacts yet - authorization has not been initiated.
- * - `400`: Inconsistent state - possible data corruption in storage.
- *
  * @public
  */
 export type GetAuthorizationArtifactsResponse =
@@ -171,24 +123,11 @@ export type GetAuthorizationArtifactsResponse =
   | SDKErrorResponse<400>;
 
 /**
- * Result object for clearing authorization artifacts.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Identity
- *
- * @public
- */
-export type ClearAuthorizationArtifactsResult = void;
-
-/**
  * Response when clearing stored authorization artifacts.
  *
  * @group Modules
  * @category Identity
  *
- * @remarks
- * This response returns status code `204` when artifacts are cleared successfully.
  *
  * @public
  */

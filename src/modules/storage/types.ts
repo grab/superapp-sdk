@@ -8,31 +8,17 @@
 import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
- * Result object for setting a boolean value.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Storage
- *
- * @public
- */
-export type SetBooleanResult = void;
-
-/**
  * Request parameters for storing a boolean value in storage.
  *
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'isDarkMode', value: true }
- * ```
- *
  * @public
  */
 export type SetBooleanRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
+  /** Value associated with the storage key. */
   value: boolean;
 };
 
@@ -41,14 +27,6 @@ export type SetBooleanRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
@@ -65,14 +43,10 @@ export type SetBooleanResponse =
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'isDarkMode' }
- * ```
- *
  * @public
  */
 export type GetBooleanRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
 };
 
@@ -81,14 +55,6 @@ export type GetBooleanRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
- *
- * @example
- * ```typescript
- * true
- * ```
  *
  * @public
  */
@@ -114,15 +80,6 @@ export type RawGetBooleanResponse =
  * @group Modules
  * @category Storage
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the boolean value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
  * @public
  */
 export type GetBooleanResponse =
@@ -134,31 +91,17 @@ export type GetBooleanResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Result object for setting an integer value.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Storage
- *
- * @public
- */
-export type SetIntResult = void;
-
-/**
  * Request parameters for storing an integer value in storage.
  *
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'userCount', value: 42 }
- * ```
- *
  * @public
  */
 export type SetIntRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
+  /** Value associated with the storage key. */
   value: number;
 };
 
@@ -167,14 +110,6 @@ export type SetIntRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
@@ -191,14 +126,10 @@ export type SetIntResponse =
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'userCount' }
- * ```
- *
  * @public
  */
 export type GetIntRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
 };
 
@@ -207,14 +138,6 @@ export type GetIntRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
- *
- * @example
- * ```typescript
- * 42
- * ```
  *
  * @public
  */
@@ -240,15 +163,6 @@ export type RawGetIntResponse =
  * @group Modules
  * @category Storage
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the integer value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
  * @public
  */
 export type GetIntResponse =
@@ -260,31 +174,17 @@ export type GetIntResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Result object for setting a string value.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Storage
- *
- * @public
- */
-export type SetStringResult = void;
-
-/**
  * Request parameters for storing a string value in storage.
  *
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'username', value: 'john_doe' }
- * ```
- *
  * @public
  */
 export type SetStringRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
+  /** Value associated with the storage key. */
   value: string;
 };
 
@@ -293,14 +193,6 @@ export type SetStringRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
@@ -317,14 +209,10 @@ export type SetStringResponse =
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'username' }
- * ```
- *
  * @public
  */
 export type GetStringRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
 };
 
@@ -333,14 +221,6 @@ export type GetStringRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
- *
- * @example
- * ```typescript
- * 'john_doe'
- * ```
  *
  * @public
  */
@@ -366,15 +246,6 @@ export type RawGetStringResponse =
  * @group Modules
  * @category Storage
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the string value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
  * @public
  */
 export type GetStringResponse =
@@ -386,31 +257,17 @@ export type GetStringResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Result object for setting a double value.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Storage
- *
- * @public
- */
-export type SetDoubleResult = void;
-
-/**
  * Request parameters for storing a double value in storage.
  *
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'price', value: 19.99 }
- * ```
- *
  * @public
  */
 export type SetDoubleRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
+  /** Value associated with the storage key. */
   value: number;
 };
 
@@ -419,14 +276,6 @@ export type SetDoubleRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value stored successfully.
- * - `400`: Missing required parameters - key or value not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
@@ -443,14 +292,10 @@ export type SetDoubleResponse =
  * @group Modules
  * @category Storage
  *
- * @example
- * ```typescript
- * { key: 'price' }
- * ```
- *
  * @public
  */
 export type GetDoubleRequest = {
+  /** Storage key used for read/write operations. */
   key: string;
 };
 
@@ -459,14 +304,6 @@ export type GetDoubleRequest = {
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * When the key has no stored value, the response `status_code` is `204` instead.
- *
- * @example
- * ```typescript
- * 19.99
- * ```
  *
  * @public
  */
@@ -492,15 +329,6 @@ export type RawGetDoubleResponse =
  * @group Modules
  * @category Storage
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Value retrieved successfully. The `result` contains the double value.
- * - `204`: Value not found in storage.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
  * @public
  */
 export type GetDoubleResponse =
@@ -510,17 +338,6 @@ export type GetDoubleResponse =
   | SDKErrorResponse<424>
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
-
-/**
- * Result object for removing a value.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Storage
- *
- * @public
- */
-export type RemoveResult = void;
 
 /**
  * Internal request parameters for removing a value by key.
@@ -537,14 +354,6 @@ export type RemoveRequest = {
  * @group Modules
  * @category Storage
  *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Value removed successfully.
- * - `400`: Missing required parameters - key not provided.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
  * @public
  */
 export type RemoveResponse =
@@ -555,28 +364,10 @@ export type RemoveResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Result object for removing all values.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Storage
- *
- * @public
- */
-export type RemoveAllResult = void;
-
-/**
  * Response when removing all values.
  *
  * @group Modules
  * @category Storage
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: All values removed successfully.
- * - `424`: Failed Dependency - storage operation failed due to underlying storage error.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
