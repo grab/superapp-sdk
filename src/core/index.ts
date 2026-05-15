@@ -17,18 +17,18 @@ export {
   isServerError,
   isSuccess,
 } from './guards';
-export type { BridgeErrorStatusCode } from './schemas';
 export {
-  bridgeErrorSchema,
-  bridgeNoContentSchema,
-  bridgeOkSchema,
-  bridgeRedirectSchema,
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+  sdkRedirectResponseSchema,
 } from './schemas';
+export type { SDKErrorStatusCode } from './types';
 export type {
-  BridgeResponse,
-  BridgeStream,
-  BridgeStreamHandlers,
-  InvokeOptions,
+  ModuleInvokeOptions,
+  SDKResponse,
+  SDKStream,
+  SDKStreamHandlers,
   Subscription,
   WrappedModule,
 } from './types';

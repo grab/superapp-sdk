@@ -7,7 +7,11 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
 
 /**
  * @internal
@@ -41,11 +45,11 @@ export const SetBooleanRequestSchema = v.object({
  * @public
  */
 export const SetBooleanResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -69,7 +73,7 @@ export const GetBooleanRequestSchema = storageKeySchema;
 export const GetBooleanResultSchema = v.boolean();
 
 /**
- * Internal valibot schema for the raw bridge response from `getBoolean` before normalization.
+ * Internal valibot schema for the raw `JSBridge` response from `getBoolean` before normalization.
  *
  * @internal
  */
@@ -78,9 +82,9 @@ export const RawGetBooleanResponseSchema = v.union([
     status_code: v.literal(200),
     result: v.nullish(v.boolean()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
@@ -92,12 +96,12 @@ export const RawGetBooleanResponseSchema = v.union([
  * @public
  */
 export const GetBooleanResponseSchema = v.union([
-  bridgeOkSchema(GetBooleanResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetBooleanResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -122,11 +126,11 @@ export const SetIntRequestSchema = v.object({
  * @public
  */
 export const SetIntResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -150,7 +154,7 @@ export const GetIntRequestSchema = storageKeySchema;
 export const GetIntResultSchema = v.number();
 
 /**
- * Internal valibot schema for the raw bridge response from `getInt` before normalization.
+ * Internal valibot schema for the raw `JSBridge` response from `getInt` before normalization.
  *
  * @internal
  */
@@ -159,9 +163,9 @@ export const RawGetIntResponseSchema = v.union([
     status_code: v.literal(200),
     result: v.nullish(v.number()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
@@ -173,12 +177,12 @@ export const RawGetIntResponseSchema = v.union([
  * @public
  */
 export const GetIntResponseSchema = v.union([
-  bridgeOkSchema(GetIntResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetIntResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -203,11 +207,11 @@ export const SetStringRequestSchema = v.object({
  * @public
  */
 export const SetStringResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -231,7 +235,7 @@ export const GetStringRequestSchema = storageKeySchema;
 export const GetStringResultSchema = v.string();
 
 /**
- * Internal valibot schema for the raw bridge response from `getString` before normalization.
+ * Internal valibot schema for the raw `JSBridge` response from `getString` before normalization.
  *
  * @internal
  */
@@ -240,9 +244,9 @@ export const RawGetStringResponseSchema = v.union([
     status_code: v.literal(200),
     result: v.nullish(v.string()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
@@ -254,12 +258,12 @@ export const RawGetStringResponseSchema = v.union([
  * @public
  */
 export const GetStringResponseSchema = v.union([
-  bridgeOkSchema(GetStringResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetStringResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -284,11 +288,11 @@ export const SetDoubleRequestSchema = v.object({
  * @public
  */
 export const SetDoubleResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -312,7 +316,7 @@ export const GetDoubleRequestSchema = storageKeySchema;
 export const GetDoubleResultSchema = v.number();
 
 /**
- * Internal valibot schema for the raw bridge response from `getDouble` before normalization.
+ * Internal valibot schema for the raw `JSBridge` response from `getDouble` before normalization.
  *
  * @internal
  */
@@ -321,9 +325,9 @@ export const RawGetDoubleResponseSchema = v.union([
     status_code: v.literal(200),
     result: v.nullish(v.number()),
   }),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
 ]);
 
 /**
@@ -335,12 +339,12 @@ export const RawGetDoubleResponseSchema = v.union([
  * @public
  */
 export const GetDoubleResponseSchema = v.union([
-  bridgeOkSchema(GetDoubleResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetDoubleResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -357,11 +361,11 @@ export const RemoveRequestSchema = storageKeySchema;
  * @public
  */
 export const RemoveResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -373,8 +377,8 @@ export const RemoveResponseSchema = v.union([
  * @public
  */
 export const RemoveAllResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

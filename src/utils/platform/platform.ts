@@ -72,7 +72,7 @@ export function detectGrabApp(): GrabAppInfo | null {
  * Checks if the Grab app is running on Android.
  *
  * @param grabAppInfo - The parsed Grab app information
- * @returns true if running on Android, false otherwise
+ * @returns `true` if running on Android, `false` otherwise
  *
  * @example
  * ```typescript
@@ -92,7 +92,7 @@ export function isAndroid(grabAppInfo: GrabAppInfo): boolean {
  * Checks if the Grab app is running on iOS.
  *
  * @param grabAppInfo - The parsed Grab app information
- * @returns true if running on iOS, false otherwise
+ * @returns `true` if running on iOS, `false` otherwise
  *
  * @example
  * ```typescript
@@ -111,12 +111,12 @@ export function isIOS(grabAppInfo: GrabAppInfo): boolean {
 /**
  * Checks if the current code is running inside a Grab app webview.
  *
- * @returns true if running in a Grab app (Grab, GrabBeta, GrabTaxi, etc.), false otherwise
+ * @returns `true` if running in a Grab app (Grab, GrabBeta, GrabTaxi, etc.), `false` otherwise
  *
  * @example
  * ```typescript
  * if (isRunningInGrabApp()) {
- *   // Use native JSBridge features
+ *   // Use native `JSBridge` features
  * } else {
  *   // Use web fallback
  * }

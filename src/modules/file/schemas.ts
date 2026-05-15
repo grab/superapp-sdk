@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
+import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
 
 /**
  * Valibot schema for {@link DownloadFileRequest}.
@@ -31,8 +31,8 @@ export const DownloadFileRequestSchema = v.object({
  * @public
  */
 export const DownloadFileResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

@@ -6,32 +6,99 @@
  */
 
 /**
- * Base response type for all JSBridge calls.
+ * Client error status codes for SDK error responses.
+ *
+ * @group Core
+ *
+ * @public
+ */
+export type SDKClientErrorStatusCode = 400 | 401 | 403 | 404 | 424 | 426;
+
+/**
+ * Server error status codes for SDK error responses.
+ *
+ * @group Core
+ *
+ * @public
+ */
+export type SDKServerErrorStatusCode = 500 | 501;
+
+/**
+ * Error status codes for SDK error responses.
+ *
+ * @group Core
+ *
+ * @public
+ */
+export type SDKErrorStatusCode = SDKClientErrorStatusCode | SDKServerErrorStatusCode;
+
+/**
+ * SDK `200` status code response with a typed `result` payload.
+ *
+ * @group Core
+ *
+ * @public
+ */
+export interface SDKOkResponse<T> {
+  readonly status_code: 200;
+  readonly result: T;
+}
+
+/**
+ * SDK `204` status code response.
+ *
+ * @group Core
+ *
+ * @public
+ */
+export interface SDKNoContentResponse {
+  readonly status_code: 204;
+}
+
+/**
+ * SDK `302` status code response.
+ *
+ * @group Core
+ *
+ * @public
+ */
+export interface SDKRedirectResponse {
+  readonly status_code: 302;
+}
+
+/**
+ * SDK error status code response with a `error` message.
+ *
+ * @group Core
+ *
+ * @public
+ */
+export interface SDKErrorResponse<C extends SDKErrorStatusCode> {
+  readonly status_code: C;
+  readonly error: string;
+}
+
+/**
+ * Base SDK response shape.
  *
  * @group Core
  *
  * @remarks
- * Every response has a numeric `status_code`. Success responses (200) carry `result`;
- * error responses (4xx/5xx) carry `error`. Use the type guards ({@link isSuccess},
- * {@link isError}, etc.) to narrow to a specific shape.
- *
- * Per-module response types (e.g., `ScanQRCodeResponse`) are derived from their valibot
- * schemas via `v.InferOutput` and form proper discriminated unions — enabling precise
- * TypeScript narrowing while this base type serves as the internal contract.
+ * Use the type guards to narrow to a specific shape.
  *
  * @public
  */
-export type BridgeResponse = {
-  /** HTTP-style status code indicating the outcome of the JSBridge method call */
+export type SDKResponse = {
+  /** HTTP-style status code indicating the outcome of the SDK method call */
   status_code: number;
-  /** The result data from the JSBridge method, present on 200 responses */
+  /** The result data from the SDK method, present on 200 status code responses */
   result?: unknown;
-  /** Error message, present on 4xx/5xx responses */
+  /** Error message, present on error status code responses */
   error?: string;
 };
 
 /**
- * Controls an active stream subscription. Call `unsubscribe()` to stop receiving data.
+ * Controls an active stream subscription.
  *
  * @group Core
  *
@@ -42,7 +109,7 @@ export type BridgeResponse = {
  * @public
  */
 export type Subscription = Readonly<{
-  /** Returns true if this subscription has been terminated. */
+  /** Returns `true` if this subscription has been terminated. */
   isUnsubscribed: () => boolean;
   /** Terminates the subscription. No further data will be received. */
   unsubscribe: () => unknown;
@@ -60,7 +127,7 @@ export type Subscription = Readonly<{
  *
  * @public
  */
-export type BridgeStreamHandlers<T extends BridgeResponse = BridgeResponse> = Readonly<{
+export type SDKStreamHandlers<T extends SDKResponse = SDKResponse> = Readonly<{
   /** Called with each new value from the stream. */
   next?: (data: T) => unknown;
   /** Called when the stream ends and no more data will arrive. */
@@ -68,7 +135,7 @@ export type BridgeStreamHandlers<T extends BridgeResponse = BridgeResponse> = Re
 }>;
 
 /**
- * A stream for receiving continuous data from JSBridge methods (e.g., location updates).
+ * A stream for receiving continuous data from SDK methods (e.g., location updates).
  *
  * @group Core
  *
@@ -83,37 +150,37 @@ export type BridgeStreamHandlers<T extends BridgeResponse = BridgeResponse> = Re
  *
  * @public
  */
-export type BridgeStream<T extends BridgeResponse = BridgeResponse> = Readonly<{
+export type SDKStream<T extends SDKResponse = SDKResponse> = Readonly<{
   /**
    * Subscribe to receive stream data.
    *
    * @param handlers - Optional callbacks for data (`next`) and completion (`complete`).
    * @returns A `Subscription` to terminate the stream when needed.
    */
-  subscribe: (handlers?: BridgeStreamHandlers<T>) => Subscription;
+  subscribe: (handlers?: SDKStreamHandlers<T>) => Subscription;
 }> &
   PromiseLike<T>;
 
 /**
- * Generic interface for all native JSBridge module wrappers.
+ * Generic interface for all SDK module wrappers exposed through `JSBridge`.
  *
  * @group Core
  *
  * @public
  */
 export interface WrappedModule {
-  invoke(method: string, params?: unknown): BridgeStream | Promise<BridgeResponse>;
+  invoke(method: string, params?: unknown): SDKStream | Promise<SDKResponse>;
 }
 
 /**
- * Options for invoking a JSBridge method.
+ * Options for invoking an SDK method.
  *
  * @group Core
  *
  * @public
  */
-export interface InvokeOptions {
-  /** The name of the JSBridge method to invoke */
+export interface ModuleInvokeOptions {
+  /** The name of the SDK method to invoke */
   method: string;
   /** The parameters to pass to the method */
   params?: unknown;

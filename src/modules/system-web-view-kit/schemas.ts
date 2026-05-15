@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
+import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
 
 /**
  * Valibot schema for {@link RedirectToSystemWebViewRequest}.
@@ -30,9 +30,9 @@ export const RedirectToSystemWebViewRequestSchema = v.object({
  * @public
  */
 export const RedirectToSystemWebViewResponseSchema = v.union([
-  bridgeOkSchema(v.string()),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(v.string()),
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

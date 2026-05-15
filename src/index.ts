@@ -6,10 +6,10 @@
  */
 
 export type {
-  BridgeResponse,
-  BridgeStream,
-  BridgeStreamHandlers,
-  InvokeOptions,
+  ModuleInvokeOptions,
+  SDKResponse,
+  SDKStream,
+  SDKStreamHandlers,
   Subscription,
   WrappedModule,
 } from './core';

@@ -114,7 +114,7 @@ export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
 export type GetBooleanResult = InferOutput<typeof GetBooleanResultSchema>;
 
 /**
- * Internal type for the raw bridge response from getBoolean before normalization.
+ * Internal type for the raw `JSBridge` response from getBoolean before normalization.
  *
  * @internal
  */
@@ -217,7 +217,7 @@ export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
 export type GetIntResult = InferOutput<typeof GetIntResultSchema>;
 
 /**
- * Internal type for the raw bridge response from getInt before normalization.
+ * Internal type for the raw `JSBridge` response from getInt before normalization.
  *
  * @internal
  */
@@ -320,7 +320,7 @@ export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
 export type GetStringResult = InferOutput<typeof GetStringResultSchema>;
 
 /**
- * Internal type for the raw bridge response from getString before normalization.
+ * Internal type for the raw `JSBridge` response from getString before normalization.
  *
  * @internal
  */
@@ -423,7 +423,7 @@ export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
 export type GetDoubleResult = InferOutput<typeof GetDoubleResultSchema>;
 
 /**
- * Internal type for the raw bridge response from getDouble before normalization.
+ * Internal type for the raw `JSBridge` response from getDouble before normalization.
  *
  * @internal
  */

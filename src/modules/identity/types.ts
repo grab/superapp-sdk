@@ -52,7 +52,7 @@ import {
 export type AuthorizeRequest = InferOutput<typeof AuthorizeRequestSchema>;
 
 /**
- * Internal type for the raw bridge response from `authorize` before enrichment.
+ * Internal type for the raw `JSBridge` response from `authorize` before enrichment.
  *
  * @internal
  */
@@ -160,7 +160,7 @@ export type ClearAuthorizationArtifactsResult = void;
  * @category Identity
  *
  * @remarks
- * This response returns status code `204` when artifacts are successfully cleared.
+ * This response returns status code `204` when artifacts are cleared successfully.
  *
  * @public
  */

@@ -65,7 +65,7 @@ export type SendRequest = InferOutput<typeof SendRequestSchema>;
  *
  * @remarks
  * The result type is `Record<string, unknown>` as response bodies are always
- * returned as objects. String responses from the native bridge are automatically
+ * returned as objects. String responses from `JSBridge` are automatically
  * parsed to JSON.
  *
  * @public
@@ -90,16 +90,16 @@ export type SendResult = InferOutput<typeof SendResultSchema>;
 export type SendResponse = InferOutput<typeof SendResponseSchema>;
 
 /**
- * Internal type for the raw bridge response result.
- * The native bridge may return either a JSON string or a parsed Record.
+ * Internal type for the raw `JSBridge` response result.
+ * `JSBridge` may return either a JSON string or a parsed Record.
  *
  * @internal
  */
 export type RawSendResult = InferOutput<typeof RawSendResultSchema>;
 
 /**
- * Internal type for the raw bridge response before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */

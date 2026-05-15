@@ -7,7 +7,7 @@
 
 import type { InferOutput } from 'valibot';
 
-import { BridgeStream } from '../../core';
+import { SDKStream } from '../../core';
 import {
   DRMPlaybackEventSchema,
   ObserveDRMPlaybackResponseSchema,
@@ -128,14 +128,14 @@ export type DRMPlaybackEvent = InferOutput<typeof DRMPlaybackEventSchema>;
  * @category Media
  *
  * @remarks
- * This is a `BridgeStream` that can be:
+ * This is an `SDKStream` that can be:
  * - Subscribed to via `.subscribe()` for continuous updates
  * - Awaited via `await` to get the first value only
  *
- * The stream can emit status codes 200 (event data), 500 (server error), or 501 (not implemented).
+ * The stream can emit status codes `200` (event data), `500` (server error), or `501` (not implemented).
  *
  * @public
  */
-export type ObserveDRMPlaybackResponse = BridgeStream<
+export type ObserveDRMPlaybackResponse = SDKStream<
   InferOutput<typeof ObserveDRMPlaybackResponseSchema>
 >;

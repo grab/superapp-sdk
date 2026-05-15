@@ -8,10 +8,10 @@
 import * as v from 'valibot';
 
 import {
-  bridgeErrorSchema,
-  bridgeNoContentSchema,
-  bridgeOkSchema,
-  bridgeRedirectSchema,
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+  sdkRedirectResponseSchema,
 } from '../../core';
 
 /**
@@ -36,18 +36,18 @@ const RawAuthorizeResultSchema = v.object({
 });
 
 /**
- * Internal valibot schema for the raw bridge response from `authorize` before enrichment.
+ * Internal valibot schema for the raw `JSBridge` response from `authorize` before enrichment.
  *
  * @internal
  */
 export const RawAuthorizeResponseSchema = v.union([
-  bridgeOkSchema(RawAuthorizeResultSchema),
-  bridgeNoContentSchema,
-  bridgeRedirectSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(RawAuthorizeResultSchema),
+  sdkNoContentResponseSchema,
+  sdkRedirectResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -75,13 +75,13 @@ export const AuthorizeResultSchema = v.object({
  * @public
  */
 export const AuthorizeResponseSchema = v.union([
-  bridgeOkSchema(AuthorizeResultSchema),
-  bridgeNoContentSchema,
-  bridgeRedirectSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(AuthorizeResultSchema),
+  sdkNoContentResponseSchema,
+  sdkRedirectResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -108,9 +108,9 @@ export const GetAuthorizationArtifactsResultSchema = v.object({
  * @public
  */
 export const GetAuthorizationArtifactsResponseSchema = v.union([
-  bridgeOkSchema(GetAuthorizationArtifactsResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
+  sdkOkResponseSchema(GetAuthorizationArtifactsResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
 ]);
 
 /**
@@ -121,4 +121,4 @@ export const GetAuthorizationArtifactsResponseSchema = v.union([
  *
  * @public
  */
-export const ClearAuthorizationArtifactsResponseSchema = v.union([bridgeNoContentSchema]);
+export const ClearAuthorizationArtifactsResponseSchema = v.union([sdkNoContentResponseSchema]);

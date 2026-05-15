@@ -10,7 +10,7 @@ import { ScanQRCodeRequestSchema, ScanQRCodeResponseSchema } from './schemas';
 import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
 
 /**
- * JSBridge module for accessing the device camera.
+ * SDK module for accessing the device camera via `JSBridge`.
  *
  * @group Modules
  * @category Camera
@@ -58,7 +58,7 @@ export class CameraModule extends BaseModule {
    * // Initialize the camera module
    * const camera = new CameraModule();
    *
-   * // Scan the QR code
+   * // Scan a QR code
    * const response = await camera.scanQRCode({ title: 'Scan Payment QR' });
    *
    * // Handle the response

@@ -33,7 +33,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for authenticating users via GrabID.
+ * SDK module for authenticating users with GrabID via `JSBridge`.
  *
  * @group Modules
  * @category Identity
@@ -331,7 +331,7 @@ export class IdentityModule extends BaseModule {
    * Determines whether to use web-based consent flow based on app version and environment.
    *
    * @param request - The authorization request containing the environment setting.
-   * @returns True if web consent should be used, false for native consent.
+   * @returns `true` if web consent should be used, `false` for native consent.
    *
    * @internal
    */
@@ -406,7 +406,7 @@ export class IdentityModule extends BaseModule {
   }
 
   /**
-   * Performs native in-app OAuth2 authorization using the JSBridge.
+   * Performs native in-app OAuth2 authorization using `JSBridge`.
    *
    * @param invokeParams - The authorization parameters.
    *

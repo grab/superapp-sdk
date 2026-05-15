@@ -7,7 +7,7 @@
 
 import type { InferOutput } from 'valibot';
 
-import { BridgeStream } from '../../core';
+import { SDKStream } from '../../core';
 import {
   GetCoordinateResponseSchema,
   GetCoordinateResultSchema,
@@ -55,7 +55,7 @@ export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSche
  * @category Location
  *
  * @remarks
- * This is a `BridgeStream` that can be:
+ * This is an `SDKStream` that can be:
  * - Subscribed to via `.subscribe()` for continuous updates
  * - Awaited via `await` to get the first value only
  *
@@ -63,10 +63,10 @@ export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSche
  *
  * @public
  */
-export type ObserveLocationChangeResponse = BridgeStream<GetCoordinateResponse>;
+export type ObserveLocationChangeResponse = SDKStream<GetCoordinateResponse>;
 
 /**
- * The ISO country code string returned from the native bridge.
+ * The ISO country code string returned from `JSBridge`.
  *
  * @group Modules
  * @category Location

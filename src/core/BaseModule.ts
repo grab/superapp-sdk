@@ -12,34 +12,34 @@ import { isErrorWithMessage } from '../utils/error';
 import { Logger } from '../utils/logger';
 import { detectGrabApp, GrabAppInfo } from '../utils/platform';
 import { formatIssues } from '../utils/schema';
-import { BridgeResponse, BridgeStream, InvokeOptions, Subscription, WrappedModule } from './types';
+import { ModuleInvokeOptions, SDKResponse, SDKStream, Subscription, WrappedModule } from './types';
 
 /**
- * Base class for all JSBridge modules.
+ * Base class for all modules.
  *
  * @group Core
  *
  * @remarks
- * On construction, the class wraps the JSBridge module on `window` (e.g., `WrappedContainerModule`).
+ * On construction, the class wraps the module on `window` (e.g., `WrappedContainerModule`).
  * This code must run on the Grab SuperApp's webview to function correctly.
  *
  * @public
  */
 export class BaseModule {
   /**
-   * The module name used to identify the JSBridge module.
+   * The module name.
    */
   private readonly name: string;
 
   /**
-   * Logger scoped to this module (e.g. `[SuperAppSDK][ContainerModule.setTitle] ...`).
+   * Logger scoped to this module.
    *
    * @protected
    */
   protected readonly logger: Logger;
 
   /**
-   * Returns the wrapped JSBridge module from the global `window` object.
+   * Returns the wrapped module from the global `window` object.
    *
    * @returns The wrapped module instance with native method bindings.
    *
@@ -53,7 +53,7 @@ export class BaseModule {
    * Creates a new module instance and wraps it on the global `window` object.
    *
    * @param moduleName - The name of the module (e.g., "ContainerModule", "ProfileModule").
-   * @throws Error when the bridge SDK fails to wrap the module.
+   * @throws Error when the module fails to initialize.
    */
   constructor(moduleName: string) {
     this.name = moduleName;
@@ -97,10 +97,9 @@ export class BaseModule {
    * Checks whether the current app version supports this method.
    *
    * @remarks
-   * Returns 501 if not running in the Grab app, 426 if the version check fails,
-   * or `null` if the method is supported.
+   * Returns `501` status code if not running in the Grab app, `426` status code if the version check fails. Otherwise, returns `null`.
    *
-   * @param isSupported - A function receiving the detected app info, returning true if supported.
+   * @param isSupported - A function receiving the detected app info, returning `true` if supported.
    * @returns An error response, or `null` if supported.
    *
    * @protected
@@ -125,19 +124,18 @@ export class BaseModule {
   }
 
   /**
-   * Invokes a JSBridge method.
+   * Invokes a method.
    *
    * @remarks
-   * - Always checks if running in Grab app (returns 501 if not).
+   * - Always checks if running in Grab app (returns `501` status code if not).
    * - All errors are reported via the `status_code` field; this method never rejects.
-   * - For streaming methods, use `invokeStream` instead.
    *
    * @param options - The invoke options including method name and params.
-   * @returns A promise resolving to the JSBridge response.
+   * @returns A promise resolving to the SDK response.
    *
    * @protected
    */
-  protected async invoke(options: InvokeOptions): Promise<BridgeResponse> {
+  protected async invoke(options: ModuleInvokeOptions): Promise<SDKResponse> {
     const { method, params } = options;
 
     try {
@@ -149,7 +147,7 @@ export class BaseModule {
         };
       }
 
-      return (await this.wrappedModule.invoke(method, params)) as BridgeResponse;
+      return (await this.wrappedModule.invoke(method, params)) as SDKResponse;
     } catch (error) {
       return {
         status_code: 500,
@@ -159,14 +157,13 @@ export class BaseModule {
   }
 
   /**
-   * Creates a BridgeStream that immediately emits an error response.
-   * Used for 501, 426, and 500 error scenarios in invokeStream.
+   * Creates a {@link SDKStream} that immediately emits an error response.
    *
-   * @returns A BridgeStream that emits the error and immediately completes.
+   * @returns A {@link SDKStream} that immediately emits an error response.
    *
    * @private
    */
-  private createErrorStream(errorResponse: BridgeResponse): BridgeStream {
+  private createErrorStream(errorResponse: SDKResponse): SDKStream {
     return {
       subscribe: (handlers) => {
         handlers?.next?.(errorResponse);
@@ -177,23 +174,23 @@ export class BaseModule {
         } as Subscription;
       },
       then: (onfulfilled) => Promise.resolve(errorResponse).then(onfulfilled),
-    } as BridgeStream;
+    } as SDKStream;
   }
 
   /**
-   * Invokes a JSBridge streaming method that returns a `BridgeStream`.
+   * Invokes a streaming method that returns a {@link SDKStream}.
    *
    * @remarks
-   * - Always checks if running in Grab app (returns 501 error response if not).
-   * - Returns a `BridgeStream` that can be subscribed to or awaited for the first value.
+   * - Always checks if running in Grab app (returns `501` status code if not).
+   * - Returns a {@link SDKStream} that can be subscribed to or awaited for the first value.
    * - All errors are reported via error responses in the stream; this method never rejects.
    *
    * @param options - The invoke options including method name and params.
-   * @returns A `BridgeStream` for receiving continuous data from the JSBridge.
+   * @returns A {@link SDKStream} for receiving continuous data.
    *
    * @protected
    */
-  protected invokeStream(options: InvokeOptions): BridgeStream {
+  protected invokeStream(options: ModuleInvokeOptions): SDKStream {
     const { method, params } = options;
 
     try {
@@ -205,7 +202,7 @@ export class BaseModule {
         });
       }
 
-      return this.wrappedModule.invoke(method, params) as BridgeStream;
+      return this.wrappedModule.invoke(method, params) as SDKStream;
     } catch (error) {
       return this.createErrorStream({
         status_code: 500,

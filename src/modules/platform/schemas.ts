@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
+import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
 
 /**
  * Valibot schema for {@link BackResponse}.
@@ -18,7 +18,7 @@ import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
  * @public
  */
 export const BackResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

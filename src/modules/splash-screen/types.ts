@@ -20,7 +20,7 @@ import { DismissSplashScreenResponseSchema } from './schemas';
  * - `204`: No splash screen shown, or it was closed successfully.
  * - `400`: Invalid input (Grablet / client validation error).
  * - `403`: Missing consent for the required OAuth scope.
- * - `500`: Unexpected error while invoking the native bridge.
+ * - `500`: Unexpected error while invoking `JSBridge`.
  * - `501`: Not in the Grab app WebView environment.
  *
  * @example

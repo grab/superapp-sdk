@@ -5,7 +5,7 @@
  * directory of this source tree.
  */
 
-import type { Version } from '../version/types';
+import type { Version } from '../version';
 
 /**
  * Represents the mobile operating system platform.

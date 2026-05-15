@@ -14,7 +14,7 @@ import {
 import { HasAccessToResponse, ReloadScopesResponse } from './types';
 
 /**
- * JSBridge module for checking and refreshing API access permissions.
+ * SDK module for checking and refreshing API access permissions via `JSBridge`.
  *
  * @group Modules
  * @category Scope
@@ -48,9 +48,9 @@ export class ScopeModule extends BaseModule {
   }
 
   /**
-   * Checks if the current client has access to a specific JSBridge API method.
+   * Checks if the current client has access to a specific `JSBridge` API method.
    *
-   * @param module - The name of the bridge module to check access for (e.g., 'CameraModule').
+   * @param module - The name of the SDK module to check access for (e.g., 'CameraModule').
    * @param method - The method name within the module to check access for (e.g., 'scanQRCode').
    *
    * @returns Whether the MiniApp has permission to access the specified method. See {@link HasAccessToResponse}.

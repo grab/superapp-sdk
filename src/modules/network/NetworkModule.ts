@@ -10,7 +10,7 @@ import { RawSendResponseSchema, SendRequestSchema, SendResponseSchema } from './
 import { RawSendResponse, SendRequest, SendResponse } from './types';
 
 /**
- * JSBridge module for making network requests via the native bridge.
+ * SDK module for making network requests through the native layer via `JSBridge`.
  *
  * @group Modules
  * @category Network
@@ -46,7 +46,7 @@ export class NetworkModule extends BaseModule {
   }
 
   /**
-   * Sends a network request via the native bridge.
+   * Sends a network request through `JSBridge`.
    *
    * @param request - The network request parameters including endpoint, method, headers, query, body, and timeout. See {@link SendRequest}.
    *
@@ -95,7 +95,7 @@ export class NetworkModule extends BaseModule {
       this.logger.warn('send', `Unexpected raw response shape: ${rawResponseError}`);
     }
 
-    // The native bridge may return response bodies as JSON strings
+    // `JSBridge` may return response bodies as JSON strings
     // Parse string results into objects for consistency.
     // If parsing fails, return a 500 error rather than exposing invalid data.
     if (

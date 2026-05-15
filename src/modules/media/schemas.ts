@@ -7,7 +7,11 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
 
 /**
  * Valibot schema for {@link DRMPlaybackEvent}.
@@ -46,12 +50,12 @@ export const DRMPlaybackEventSchema = v.object({
  * @public
  */
 export const PlayDRMContentResponseSchema = v.union([
-  bridgeOkSchema(DRMPlaybackEventSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(DRMPlaybackEventSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -61,7 +65,7 @@ export const PlayDRMContentResponseSchema = v.union([
  * @public
  */
 export const ObserveDRMPlaybackResponseSchema = v.union([
-  bridgeOkSchema(DRMPlaybackEventSchema),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(DRMPlaybackEventSchema),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
