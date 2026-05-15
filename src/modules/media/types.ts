@@ -17,6 +17,9 @@ import {
 /**
  * DRM content configuration for playback.
  *
+ * @group Modules
+ * @category Media
+ *
  * @remarks
  * Configuration object containing DRM license information, content URLs, and playback settings.
  * The exact structure depends on the DRM provider (e.g., FairPlay, Widevine).
@@ -51,12 +54,18 @@ export type DRMContentConfig = Record<string, unknown>;
  * Result object for DRM content playback initiation.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Media
+ *
  * @public
  */
 export type PlayDRMContentResult = void;
 
 /**
  * Response when initiating DRM content playback.
+ *
+ * @group Modules
+ * @category Media
  *
  * @remarks
  * This response can have the following status codes:
@@ -71,6 +80,9 @@ export type PlayDRMContentResponse = InferOutput<typeof PlayDRMContentResponseSc
 
 /**
  * Result object for DRM playback events.
+ *
+ * @group Modules
+ * @category Media
  *
  * @example
  * **Playback started event:**
@@ -111,6 +123,9 @@ export type DRMPlaybackEvent = InferOutput<typeof DRMPlaybackEventSchema>;
 
 /**
  * Response stream for observing DRM playback events.
+ *
+ * @group Modules
+ * @category Media
  *
  * @remarks
  * This is a `BridgeStream` that can be:

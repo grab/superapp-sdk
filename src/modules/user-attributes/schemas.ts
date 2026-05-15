@@ -12,12 +12,18 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResult}.
  *
+ * @group Modules
+ * @category UserAttributes
+ *
  * @public
  */
 export const GetSelectedTravelDestinationResultSchema = v.string();
 
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResponse}.
+ *
+ * @group Modules
+ * @category UserAttributes
  *
  * @public
  */

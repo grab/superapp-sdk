@@ -12,6 +12,9 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link HasAccessToRequest}.
  *
+ * @group Modules
+ * @category Scope
+ *
  * @public
  */
 export const HasAccessToRequestSchema = v.object({
@@ -22,12 +25,18 @@ export const HasAccessToRequestSchema = v.object({
 /**
  * Valibot schema for {@link HasAccessToResult}.
  *
+ * @group Modules
+ * @category Scope
+ *
  * @public
  */
 export const HasAccessToResultSchema = v.boolean();
 
 /**
  * Valibot schema for {@link HasAccessToResponse}.
+ *
+ * @group Modules
+ * @category Scope
  *
  * @public
  */
@@ -41,6 +50,9 @@ export const HasAccessToResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link ReloadScopesResponse}.
+ *
+ * @group Modules
+ * @category Scope
  *
  * @public
  */

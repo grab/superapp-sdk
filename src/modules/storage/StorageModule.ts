@@ -52,6 +52,7 @@ import {
  * JSBridge module for persisting key-value data to native storage.
  *
  * @group Modules
+ * @category Storage
  *
  * @remarks
  * Stores data in the native app's persistent storage, allowing data to survive WebView restarts.

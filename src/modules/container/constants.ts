@@ -8,6 +8,9 @@
 /**
  * Constants for container analytics event states.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const ContainerAnalyticsEventState = {
@@ -20,6 +23,9 @@ export const ContainerAnalyticsEventState = {
 /**
  * Constants for container analytics event names.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const ContainerAnalyticsEventName = {
@@ -28,6 +34,9 @@ export const ContainerAnalyticsEventName = {
 
 /**
  * Constants for container analytics event data.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */

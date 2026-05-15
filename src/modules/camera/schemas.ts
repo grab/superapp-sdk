@@ -12,6 +12,9 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link ScanQRCodeRequest}.
  *
+ * @group Modules
+ * @category Camera
+ *
  * @public
  */
 export const ScanQRCodeRequestSchema = v.object({ title: v.optional(v.string()) });
@@ -19,12 +22,18 @@ export const ScanQRCodeRequestSchema = v.object({ title: v.optional(v.string()) 
 /**
  * Valibot schema for {@link ScanQRCodeResult}.
  *
+ * @group Modules
+ * @category Camera
+ *
  * @public
  */
 export const ScanQRCodeResultSchema = v.object({ qrCode: v.string() });
 
 /**
  * Valibot schema for {@link ScanQRCodeResponse}.
+ *
+ * @group Modules
+ * @category Camera
  *
  * @public
  */

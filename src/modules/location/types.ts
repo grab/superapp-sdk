@@ -18,6 +18,9 @@ import {
 /**
  * Result object containing the geographic coordinates.
  *
+ * @group Modules
+ * @category Location
+ *
  * @example
  * ```typescript
  * { latitude: 1.3521, longitude: 103.8198 }
@@ -29,6 +32,9 @@ export type GetCoordinateResult = InferOutput<typeof GetCoordinateResultSchema>;
 
 /**
  * Response when getting the device coordinates.
+ *
+ * @group Modules
+ * @category Location
  *
  * @remarks
  * This response can have the following status codes:
@@ -45,6 +51,9 @@ export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSche
 /**
  * Response when observing the device coordinates.
  *
+ * @group Modules
+ * @category Location
+ *
  * @remarks
  * This is a `BridgeStream` that can be:
  * - Subscribed to via `.subscribe()` for continuous updates
@@ -58,6 +67,9 @@ export type ObserveLocationChangeResponse = BridgeStream<GetCoordinateResponse>;
 
 /**
  * The ISO country code string returned from the native bridge.
+ *
+ * @group Modules
+ * @category Location
  *
  * @example
  * ```typescript
@@ -75,6 +87,9 @@ export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema
 
 /**
  * Response when getting the country code.
+ *
+ * @group Modules
+ * @category Location
  *
  * @remarks
  * This response can have the following status codes:

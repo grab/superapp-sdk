@@ -18,6 +18,7 @@ import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './t
  * JSBridge module for accessing user profile information.
  *
  * @group Modules
+ * @category Profile
  *
  * @remarks
  * Provides access to user profile data such as email verification.

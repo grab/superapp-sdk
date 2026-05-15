@@ -8,6 +8,11 @@
       "allowMultiple": true
     },
     {
+      "tagName": "@category",
+      "syntaxKind": "block",
+      "allowMultiple": false
+    },
+    {
       "tagName": "@noInheritDoc",
       "syntaxKind": "block",
       "allowMultiple": false
@@ -40,6 +45,7 @@
   ],
   "supportForTags": {
     "@group": true,
+    "@category": true,
     "@noInheritDoc": true,
     "@hidden": true,
     "@protected": true,

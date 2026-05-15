@@ -14,6 +14,7 @@ import { IsEsimSupportedResponse } from './types';
  * JSBridge module for querying native device information.
  *
  * @group Modules
+ * @category Device
  *
  * @remarks
  * Provides access to device checks exposed by the native Grab app bridge.

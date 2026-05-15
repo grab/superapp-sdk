@@ -10,6 +10,8 @@ import type { BridgeResponse } from './types';
 /**
  * Type guard to check if a JSBridge response is successful (2xx status codes).
  *
+ * @group Type Guards
+ *
  * @param response - The JSBridge response to check
  * @returns True if the response is successful (200-299), false otherwise
  *
@@ -33,6 +35,8 @@ export function isSuccess<T extends BridgeResponse>(
 /**
  * Type guard to check if a JSBridge response is a 200 OK (operation succeeded with a result).
  *
+ * @group Type Guards
+ *
  * @param response - The JSBridge response to check
  * @returns True if the response has status code 200, false otherwise
  *
@@ -47,6 +51,8 @@ export function isOk<T extends BridgeResponse>(
 /**
  * Type guard to check if a JSBridge response is a 204 No Content (operation succeeded with no result).
  *
+ * @group Type Guards
+ *
  * @param response - The JSBridge response to check
  * @returns True if the response has status code 204, false otherwise
  *
@@ -60,6 +66,8 @@ export function isNoContent<T extends BridgeResponse>(
 
 /**
  * Type guard to check if a JSBridge response is a redirect (status code 302).
+ *
+ * @group Type Guards
  *
  * @param response - The JSBridge response to check
  * @returns True if the response is a redirect (302), false otherwise
@@ -83,6 +91,8 @@ export function isRedirection<T extends BridgeResponse>(
 /**
  * Type guard to check if a JSBridge response is a 302 Found redirect.
  *
+ * @group Type Guards
+ *
  * @param response - The JSBridge response to check
  * @returns True if the response has status code 302, false otherwise
  *
@@ -96,6 +106,8 @@ export function isFound<T extends BridgeResponse>(
 
 /**
  * Type guard to check if a JSBridge response is a client error (4xx status codes).
+ *
+ * @group Type Guards
  *
  * @param response - The JSBridge response to check
  * @returns True if the response is a client error (400-499), false otherwise
@@ -119,6 +131,8 @@ export function isClientError<T extends BridgeResponse>(
 /**
  * Type guard to check if a JSBridge response is a server error (5xx status codes).
  *
+ * @group Type Guards
+ *
  * @param response - The JSBridge response to check
  * @returns True if the response is a server error (500-599), false otherwise
  *
@@ -140,6 +154,8 @@ export function isServerError<T extends BridgeResponse>(
 
 /**
  * Type guard to check if a JSBridge response is an error (4xx or 5xx status codes).
+ *
+ * @group Type Guards
  *
  * @param response - The JSBridge response to check
  * @returns True if the response is any error (4xx or 5xx), false otherwise
@@ -168,6 +184,8 @@ export function isError<T extends BridgeResponse>(
 
 /**
  * Type guard to check if a JSBridge response has a defined result (not null or undefined).
+ *
+ * @group Type Guards
  *
  * @param response - The JSBridge response to check
  * @returns True if the response has a result that is neither null nor undefined, false otherwise

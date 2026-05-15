@@ -10,6 +10,8 @@ const SDK_LABEL = 'SuperAppSDK';
 /**
  * Provides scoped logging for SDK modules.
  *
+ * @group Core
+ *
  * @remarks
  * Log messages are prefixed with `[SuperAppSDK][ModuleName.methodName]`
  * (e.g. `[SuperAppSDK][ContainerModule.setTitle] An error occurred`).

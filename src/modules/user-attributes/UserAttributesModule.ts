@@ -13,6 +13,7 @@ import { GetSelectedTravelDestinationResponse } from './types';
  * JSBridge module for reading user-related attributes from native code.
  *
  * @group Modules
+ * @category UserAttributes
  *
  * @remarks
  * Provides access to user and traveller attributes exposed by the native Grab app bridge.

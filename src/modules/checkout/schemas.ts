@@ -12,6 +12,9 @@ import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
 /**
  * Valibot schema for {@link TriggerCheckoutRequest}.
  *
+ * @group Modules
+ * @category Checkout
+ *
  * @remarks
  * The checkout parameters vary depending on the specific payment flow and partner requirements.
  *
@@ -21,6 +24,9 @@ export const TriggerCheckoutRequestSchema = v.record(v.string(), v.unknown());
 
 /**
  * Valibot schema for {@link TriggerCheckoutResult}.
+ *
+ * @group Modules
+ * @category Checkout
  *
  * @public
  */
@@ -46,6 +52,9 @@ export const TriggerCheckoutResultSchema = v.variant('status', [
 
 /**
  * Valibot schema for {@link TriggerCheckoutResponse}.
+ *
+ * @group Modules
+ * @category Checkout
  *
  * @public
  */

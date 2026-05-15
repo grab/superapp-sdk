@@ -8,6 +8,8 @@
 /**
  * Base response type for all JSBridge calls.
  *
+ * @group Core
+ *
  * @remarks
  * Every response has a numeric `status_code`. Success responses (200) carry `result`;
  * error responses (4xx/5xx) carry `error`. Use the type guards ({@link isSuccess},
@@ -31,6 +33,8 @@ export type BridgeResponse = {
 /**
  * Controls an active stream subscription. Call `unsubscribe()` to stop receiving data.
  *
+ * @group Core
+ *
  * @remarks
  * Returned by `subscribe()`. Use `unsubscribe()` to terminate the stream early.
  * Use `isUnsubscribed()` to check if already terminated.
@@ -46,6 +50,8 @@ export type Subscription = Readonly<{
 
 /**
  * Callbacks for handling stream events.
+ *
+ * @group Core
  *
  * @remarks
  * Pass these to `subscribe()` to receive data via `next` and completion via `complete`.
@@ -63,6 +69,8 @@ export type BridgeStreamHandlers<T extends BridgeResponse = BridgeResponse> = Re
 
 /**
  * A stream for receiving continuous data from JSBridge methods (e.g., location updates).
+ *
+ * @group Core
  *
  * @remarks
  * Provides both Observable-like and Promise-like interfaces:
@@ -89,6 +97,8 @@ export type BridgeStream<T extends BridgeResponse = BridgeResponse> = Readonly<{
 /**
  * Generic interface for all native JSBridge module wrappers.
  *
+ * @group Core
+ *
  * @public
  */
 export interface WrappedModule {
@@ -97,6 +107,8 @@ export interface WrappedModule {
 
 /**
  * Options for invoking a JSBridge method.
+ *
+ * @group Core
  *
  * @public
  */

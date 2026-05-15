@@ -15,6 +15,9 @@ import {
 /**
  * Result object containing the language locale identifier.
  *
+ * @group Modules
+ * @category Locale
+ *
  * @remarks
  * The locale identifier is the language code of the device's language settings.
  * Common values include:
@@ -47,6 +50,9 @@ export type GetLanguageLocaleIdentifierResult = InferOutput<
 
 /**
  * Response when getting the language locale identifier from the device.
+ *
+ * @group Modules
+ * @category Locale
  *
  * @remarks
  * This response can have the following status codes:

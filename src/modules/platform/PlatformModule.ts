@@ -13,6 +13,7 @@ import { BackResponse } from './types';
  * JSBridge module for controlling platform navigation.
  *
  * @group Modules
+ * @category Platform
  *
  * @remarks
  * Provides methods to interact with the native platform navigation stack, such as triggering the back action.

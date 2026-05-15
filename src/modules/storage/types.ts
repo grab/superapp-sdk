@@ -40,12 +40,18 @@ import {
  * Result object for setting a boolean value.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export type SetBooleanResult = void;
 
 /**
  * Request parameters for storing a boolean value in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @example
  * ```typescript
@@ -58,6 +64,9 @@ export type SetBooleanRequest = InferOutput<typeof SetBooleanRequestSchema>;
 
 /**
  * Response when setting a boolean value.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * This response can have the following status codes:
@@ -74,6 +83,9 @@ export type SetBooleanResponse = InferOutput<typeof SetBooleanResponseSchema>;
 /**
  * Request parameters for getting a boolean value from storage.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @example
  * ```typescript
  * { key: 'isDarkMode' }
@@ -85,6 +97,9 @@ export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
 
 /**
  * The boolean value returned when a key exists in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * When the key has no stored value, the response `status_code` is `204` instead.
@@ -108,6 +123,9 @@ export type RawGetBooleanResponse = InferOutput<typeof RawGetBooleanResponseSche
 /**
  * Response when getting a boolean value.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the boolean value.
@@ -125,12 +143,18 @@ export type GetBooleanResponse = InferOutput<typeof GetBooleanResponseSchema>;
  * Result object for setting an integer value.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export type SetIntResult = void;
 
 /**
  * Request parameters for storing an integer value in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @example
  * ```typescript
@@ -143,6 +167,9 @@ export type SetIntRequest = InferOutput<typeof SetIntRequestSchema>;
 
 /**
  * Response when setting an integer value.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * This response can have the following status codes:
@@ -159,6 +186,9 @@ export type SetIntResponse = InferOutput<typeof SetIntResponseSchema>;
 /**
  * Request parameters for getting an integer value from storage.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @example
  * ```typescript
  * { key: 'userCount' }
@@ -170,6 +200,9 @@ export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
 
 /**
  * The integer value returned when a key exists in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * When the key has no stored value, the response `status_code` is `204` instead.
@@ -193,6 +226,9 @@ export type RawGetIntResponse = InferOutput<typeof RawGetIntResponseSchema>;
 /**
  * Response when getting an integer value.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the integer value.
@@ -210,12 +246,18 @@ export type GetIntResponse = InferOutput<typeof GetIntResponseSchema>;
  * Result object for setting a string value.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export type SetStringResult = void;
 
 /**
  * Request parameters for storing a string value in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @example
  * ```typescript
@@ -228,6 +270,9 @@ export type SetStringRequest = InferOutput<typeof SetStringRequestSchema>;
 
 /**
  * Response when setting a string value.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * This response can have the following status codes:
@@ -244,6 +289,9 @@ export type SetStringResponse = InferOutput<typeof SetStringResponseSchema>;
 /**
  * Request parameters for getting a string value from storage.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @example
  * ```typescript
  * { key: 'username' }
@@ -255,6 +303,9 @@ export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
 
 /**
  * The string value returned when a key exists in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * When the key has no stored value, the response `status_code` is `204` instead.
@@ -278,6 +329,9 @@ export type RawGetStringResponse = InferOutput<typeof RawGetStringResponseSchema
 /**
  * Response when getting a string value.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the string value.
@@ -295,12 +349,18 @@ export type GetStringResponse = InferOutput<typeof GetStringResponseSchema>;
  * Result object for setting a double value.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export type SetDoubleResult = void;
 
 /**
  * Request parameters for storing a double value in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @example
  * ```typescript
@@ -313,6 +373,9 @@ export type SetDoubleRequest = InferOutput<typeof SetDoubleRequestSchema>;
 
 /**
  * Response when setting a double value.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * This response can have the following status codes:
@@ -329,6 +392,9 @@ export type SetDoubleResponse = InferOutput<typeof SetDoubleResponseSchema>;
 /**
  * Request parameters for getting a double value from storage.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @example
  * ```typescript
  * { key: 'price' }
@@ -340,6 +406,9 @@ export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
 
 /**
  * The floating-point value returned when a key exists in storage.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * When the key has no stored value, the response `status_code` is `204` instead.
@@ -363,6 +432,9 @@ export type RawGetDoubleResponse = InferOutput<typeof RawGetDoubleResponseSchema
 /**
  * Response when getting a double value.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: Value retrieved successfully. The `result` contains the double value.
@@ -380,12 +452,18 @@ export type GetDoubleResponse = InferOutput<typeof GetDoubleResponseSchema>;
  * Result object for removing a value.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export type RemoveResult = void;
 
 /**
  * Response when removing a value.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * This response can have the following status codes:
@@ -403,12 +481,18 @@ export type RemoveResponse = InferOutput<typeof RemoveResponseSchema>;
  * Result object for removing all values.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export type RemoveAllResult = void;
 
 /**
  * Response when removing all values.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @remarks
  * This response can have the following status codes:
