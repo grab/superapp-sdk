@@ -10,7 +10,7 @@ import { GetLanguageLocaleIdentifierResponseSchema } from './schemas';
 import { GetLanguageLocaleIdentifierResponse } from './types';
 
 /**
- * JSBridge module for accessing device locale settings.
+ * SDK module for accessing device locale settings via `JSBridge`.
  *
  * @group Modules
  * @category Locale

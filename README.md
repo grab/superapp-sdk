@@ -1,14 +1,14 @@
 ## Overview
 
-The SuperApp SDK enables web developers to build MiniApps that run within the Grab SuperApp WebView. It provides a type-safe bridge for communication between web applications and native Android/iOS capabilities.
+The SuperApp SDK helps web developers build MiniApps that run inside the Grab SuperApp WebView. It provides type-safe SDK APIs over `JSBridge` to access the native layer on Android and iOS, along with Grab app features, from web applications.
 
-Each module encapsulates a specific domain of functionality, offering strongly-typed APIs with consistent response patterns.
+Each SDK module encapsulates a specific domain of functionality, offering strongly-typed APIs with consistent response patterns.
 
 ### Key Features
 
 - **Type-Safe APIs** — Full TypeScript support with comprehensive type definitions
 - **Modular Architecture** — Import only the modules you need
-- **Consistent Response Pattern** — All methods return standardized bridge responses with HTTP-style status codes
+- **Consistent Response Pattern** — All methods return standardized SDK responses with HTTP-style status codes
 - **Streaming Support** — Real-time data streams for location updates and media events
 - **Automatic Fallbacks** — Graceful degradation when native features are unavailable
 

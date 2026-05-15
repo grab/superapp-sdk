@@ -7,7 +7,11 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
 
 /**
  * Valibot schema for {@link SendRequest}.
@@ -54,41 +58,41 @@ export const SendResultSchema = v.record(v.string(), v.unknown());
  * @public
  */
 export const SendResponseSchema = v.union([
-  bridgeOkSchema(SendResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(401),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(404),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(SendResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(401),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(404),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
- * Internal valibot schema for the raw bridge response result.
- * The native bridge may return either a JSON string or a parsed Record.
+ * Internal valibot schema for the raw `JSBridge` response result.
+ * `JSBridge` may return either a JSON string or a parsed Record.
  *
  * @internal
  */
 export const RawSendResultSchema = v.union([v.string(), SendResultSchema]);
 
 /**
- * Internal valibot schema for the raw bridge response.
- * Used to validate the response from the native bridge before transformation.
+ * Internal valibot schema for the raw `JSBridge` response.
+ * Used to validate the response from `JSBridge` before transformation.
  *
  * @internal
  */
 export const RawSendResponseSchema = v.union([
-  bridgeOkSchema(RawSendResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(401),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(404),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(RawSendResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(401),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(404),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

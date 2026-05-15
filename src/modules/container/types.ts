@@ -83,8 +83,8 @@ export type SetBackgroundColorResult = void;
 export type SetBackgroundColorResponse = InferOutput<typeof SetBackgroundColorResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from setBackgroundColor before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `setBackgroundColor` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -134,8 +134,8 @@ export type SetTitleResult = void;
 export type SetTitleResponse = InferOutput<typeof SetTitleResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from setTitle before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `setTitle` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -169,8 +169,8 @@ export type HideBackButtonResult = void;
 export type HideBackButtonResponse = InferOutput<typeof HideBackButtonResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from hideBackButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `hideBackButton` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -204,8 +204,8 @@ export type ShowBackButtonResult = void;
 export type ShowBackButtonResponse = InferOutput<typeof ShowBackButtonResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from showBackButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `showBackButton` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -239,8 +239,8 @@ export type HideRefreshButtonResult = void;
 export type HideRefreshButtonResponse = InferOutput<typeof HideRefreshButtonResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from hideRefreshButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `hideRefreshButton` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -274,8 +274,8 @@ export type ShowRefreshButtonResult = void;
 export type ShowRefreshButtonResponse = InferOutput<typeof ShowRefreshButtonResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from showRefreshButton before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `showRefreshButton` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -309,8 +309,8 @@ export type CloseResult = void;
 export type CloseResponse = InferOutput<typeof CloseResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from close before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `close` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -372,8 +372,8 @@ export type ShowLoaderResult = void;
 export type ShowLoaderResponse = InferOutput<typeof ShowLoaderResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from showLoader before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `showLoader` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -407,8 +407,8 @@ export type HideLoaderResult = void;
 export type HideLoaderResponse = InferOutput<typeof HideLoaderResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from hideLoader before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `hideLoader` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -458,8 +458,8 @@ export type OpenExternalLinkResult = void;
 export type OpenExternalLinkResponse = InferOutput<typeof OpenExternalLinkResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from openExternalLink before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `openExternalLink` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */
@@ -570,8 +570,8 @@ export type SendAnalyticsEventResult = void;
 export type SendAnalyticsEventResponse = InferOutput<typeof SendAnalyticsEventResponseSchema>;
 
 /**
- * Internal type for the raw bridge response from sendAnalyticsEvent before transformation.
- * Used internally to handle the native bridge response format.
+ * Internal type for the raw `JSBridge` response from `sendAnalyticsEvent` before transformation.
+ * Used internally to handle the `JSBridge` response format.
  *
  * @internal
  */

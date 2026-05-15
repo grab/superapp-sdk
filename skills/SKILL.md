@@ -1,16 +1,18 @@
 ---
 name: 'grabjs-superapp-sdk'
-description: 'API reference for @grabjs/superapp-sdk. Use when building a MiniApp that runs in the Grab SuperApp WebView and needs to call native features (camera, payments, authorization, authentication, permission, location, device storage, container UI customization) via the Grab JSBridge. Keywords: miniapp, webview, android, ios, jsbridge, grab, superapp.'
+description: 'API reference for `@grabjs/superapp-sdk`. Use when building a MiniApp that runs in the Grab SuperApp WebView and needs to call native features (camera, payments, authorization, authentication, permission, location, device storage, container UI customization) via the Grab `JSBridge`. Keywords: miniapp, webview, android, ios, jsbridge, grab, superapp.'
 license: 'MIT'
 ---
 
 # @grabjs/superapp-sdk
 
-Use this SDK to call native Grab SuperApp features from a MiniApp running in the WebView. Each module covers one domain (camera, payments, location, etc.) and communicates with the native layer via JSBridge.
+Use this SDK to call native Grab SuperApp features from a MiniApp running in the WebView. Each module covers one domain (camera, payments, location, etc.) and communicates with the native layer via `JSBridge`.
 
 ## Setup
 
 ### Installation
+
+Install `@grabjs/superapp-sdk` with your package manager of choice.
 
 #### NPM
 
@@ -55,11 +57,11 @@ If you are not using a bundler, load the SDK from a CDN and access it via the `S
 
 ## Core Concepts
 
-SDK methods communicate with the native Grab SuperApp via JSBridge. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
+SDK methods communicate with the native Grab SuperApp layer via `JSBridge`. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
 
 ### Response Pattern
 
-Every SDK method returns a bridge response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
+Every SDK method returns a response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
 
 ```typescript
 import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
@@ -105,15 +107,15 @@ The SDK uses HTTP-style status codes for all responses:
 
 Type guards narrow the response type so TypeScript knows which fields are available:
 
-| Guard                             | Matches                                  |
-| --------------------------------- | ---------------------------------------- |
-| `isSuccess(r)`                    | `200`, `204`                             |
-| `isOk(r)`                         | `200`                                    |
-| `isNoContent(r)`                  | `204`                                    |
-| `isRedirection(r)` / `isFound(r)` | `302`                                    |
-| `isClientError(r)`                | `400`, `401`, `403`, `404`, `424`, `426` |
-| `isServerError(r)`                | `500`, `501`                             |
-| `isError(r)`                      | any 4xx or 5xx                           |
+| Guard                             | Matches                                                |
+| --------------------------------- | ------------------------------------------------------ |
+| `isSuccess(r)`                    | `200`, `204`                                           |
+| `isOk(r)`                         | `200`                                                  |
+| `isNoContent(r)`                  | `204`                                                  |
+| `isRedirection(r)` / `isFound(r)` | `302`                                                  |
+| `isClientError(r)`                | `400`, `401`, `403`, `404`, `424`, `426`               |
+| `isServerError(r)`                | `500`, `501`                                           |
+| `isError(r)`                      | `400`, `401`, `403`, `404`, `424`, `426`, `500`, `501` |
 
 ```typescript
 import { isSuccess, isOk, isNoContent, isError } from '@grabjs/superapp-sdk';
@@ -245,7 +247,7 @@ if (isError(response) && response.status_code === 403) {
 
 This guide covers the recommended setup for a MiniApp entry point — loading scopes, configuring the container UI, signalling readiness, and handling permissions.
 
-> **Note:** The [demo](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains two complete MiniApp samples demonstrating these integration patterns in action — one using CDN (vanilla HTML/JS) and one using React. Both implement the same user flow: OAuth authorization, user profile display, deferred location permissions, and checkout payment.
+> **Note:** The [`demo`](https://github.com/grab/superapp-sdk/tree/master/demo) folder contains two complete MiniApp samples demonstrating these integration patterns in action — one using CDN (vanilla HTML/JS) and one using React. Both implement the same user flow: OAuth authorization, user profile display, deferred location permissions, and checkout payment.
 
 ### Initialization
 
@@ -525,21 +527,21 @@ For the complete API reference, see [GrabPay API](https://developer.grab.com/doc
 ### Classes
 
 #### `CameraModule`
-JSBridge module for accessing the device camera.
+SDK module for accessing the device camera via `JSBridge`.
 - `scanQRCode(request: { title?: string }): Promise<{ result: { qrCode: string }; status_code: 200 } | { status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Opens the native camera to scan a QR code.
 
 #### `CheckoutModule`
-JSBridge module for triggering native payment flows.
+SDK module for triggering native payment flows via `JSBridge`.
 - `triggerCheckout(request: Record<string, unknown>): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { status: "success"; transactionID: string } | { errorCode: string; errorMessage: string; status: "failure"; transactionID: string } | { status: "pending"; transactionID: string } | { status: "userInitiatedCancel" }; status_code: 200 }>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
 
 #### `ContainerModule`
-JSBridge module for controlling the WebView container.
+SDK module for controlling the WebView container via `JSBridge`.
 - `close(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Close the container and return to the previous screen.
 - `getSessionParams(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Get the session parameters from the container.
 - `hideBackButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the back button on the container header.
 - `hideLoader(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the full-screen loading indicator.
 - `hideRefreshButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the refresh button on the container header.
-- `isConnected(): Promise<{ result: { connected: boolean }; status_code: 200 } | { error: string; status_code: 404 }>` — Check if the web app is connected to the Grab SuperApp via JSBridge.
+- `isConnected(): Promise<{ result: { connected: boolean }; status_code: 200 } | { error: string; status_code: 404 }>` — Check if the web app is connected to the Grab SuperApp via `JSBridge`.
 - `onContentLoaded(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the Grab SuperApp that the page content has loaded.
 - `onCtaTap(request: string): Promise<{ error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the client that the user has tapped a call-to-action (CTA).
 - `openExternalLink(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Open a link in the external browser.
@@ -551,15 +553,15 @@ JSBridge module for controlling the WebView container.
 - `showRefreshButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Show the refresh button on the container header.
 
 #### `DeviceModule`
-JSBridge module for querying native device information.
+SDK module for querying native device information via `JSBridge`.
 - `isEsimSupported(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 } | { error: string; status_code: 426 }>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
 
 #### `FileModule`
-JSBridge module for downloading files to the user's device.
-- `downloadFile(request: { fileName: string; fileUrl: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Downloads a file via the native bridge.
+SDK module for downloading files to the user's device via `JSBridge`.
+- `downloadFile(request: { fileName: string; fileUrl: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Downloads a file through `JSBridge`.
 
 #### `IdentityModule`
-JSBridge module for authenticating users via GrabID.
+SDK module for authenticating users with GrabID via `JSBridge`.
 - `authorize(request: { clientId: string; environment: "staging" | "production"; redirectUri: string; responseMode?: "redirect" | "in_place"; scope: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { status_code: 302 } | { result: { code: string; codeVerifier: string; nonce: string; redirectUri: string; state: string }; status_code: 200 }>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
 This method handles both native in-app consent and web-based fallback flows.
 - `clearAuthorizationArtifacts(): Promise<{ status_code: 204 }>` — Clears all stored PKCE authorization artifacts from local storage.
@@ -569,11 +571,11 @@ reset the authorization state (e.g., on error or logout).
 These artifacts are used to complete the OAuth2 authorization code exchange.
 
 #### `LocaleModule`
-JSBridge module for accessing device locale settings.
+SDK module for accessing device locale settings via `JSBridge`.
 - `getLanguageLocaleIdentifier(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Retrieves the current language locale identifier from the device.
 
 #### `LocationModule`
-JSBridge module for accessing device location services.
+SDK module for accessing device location services via `JSBridge`.
 - `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { latitude: number; longitude: number }; status_code: 200 }>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
 - `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device. (**OAuth Scope:** mobile.geolocation)
@@ -582,36 +584,36 @@ JSBridge module for accessing device location services.
 Provides scoped logging for SDK modules.
 
 #### `MediaModule`
-JSBridge module for playing DRM-protected media content.
+SDK module for playing DRM-protected media content via `JSBridge`.
 - `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
 - `playDRMContent(data: DRMContentConfig): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { length: number; position: number; titleId: string; type: "START_PLAYBACK" | "PROGRESS_PLAYBACK" | "START_SEEK" | "STOP_SEEK" | "STOP_PLAYBACK" | "CLOSE_PLAYBACK" | "PAUSE_PLAYBACK" | "RESUME_PLAYBACK" | "FAST_FORWARD_PLAYBACK" | "REWIND_PLAYBACK" | "ERROR_PLAYBACK" | "CHANGE_VOLUME" }; status_code: 200 }>` — Plays DRM-protected media content in the native media player. (**OAuth Scope:** mobile.media)
 
 #### `NetworkModule`
-JSBridge module for making network requests via the native bridge.
-- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 404 } | { error: string; status_code: 424 } | { error: string; status_code: 426 } | { result: Record<string, unknown>; status_code: 200 } | { error: string; status_code: 401 }>` — Sends a network request via the native bridge.
+SDK module for making network requests through the native layer via `JSBridge`.
+- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 404 } | { error: string; status_code: 424 } | { error: string; status_code: 426 } | { result: Record<string, unknown>; status_code: 200 } | { error: string; status_code: 401 }>` — Sends a network request through `JSBridge`.
 
 #### `PlatformModule`
-JSBridge module for controlling platform navigation.
+SDK module for controlling platform navigation via `JSBridge`.
 - `back(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Triggers the native platform back navigation.
 This navigates back in the native navigation stack.
 
 #### `ProfileModule`
-JSBridge module for accessing user profile information.
+SDK module for accessing user profile information via `JSBridge`.
 - `fetchEmail(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
 - `verifyEmail(request?: { email?: string; skipUserInput?: boolean }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
 
 #### `ScopeModule`
-JSBridge module for checking and refreshing API access permissions.
-- `hasAccessTo(module: string, method: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Checks if the current client has access to a specific JSBridge API method.
+SDK module for checking and refreshing API access permissions via `JSBridge`.
+- `hasAccessTo(module: string, method: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Checks if the current client has access to a specific `JSBridge` API method.
 - `reloadScopes(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Requests to reload the consented OAuth scopes for the current client.
 This refreshes the permissions from the server.
 
 #### `SplashScreenModule`
-JSBridge module for controlling the native splash / Lottie loading screen.
+SDK module for controlling the native splash / Lottie loading screen via `JSBridge`.
 - `dismiss(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Dismisses the native splash (Lottie) loading view if it is presented.
 
 #### `StorageModule`
-JSBridge module for persisting key-value data to native storage.
+SDK module for persisting key-value data to native storage via `JSBridge`.
 - `getBoolean(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
 - `getDouble(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: number; status_code: 200 }>` — Retrieves a double (floating point) value from the native storage. (**OAuth Scope:** mobile.storage)
 - `getInt(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: number; status_code: 200 }>` — Retrieves an integer value from the native storage. (**OAuth Scope:** mobile.storage)
@@ -624,65 +626,65 @@ JSBridge module for persisting key-value data to native storage.
 - `setString(key: string, value: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a string value in the native storage. (**OAuth Scope:** mobile.storage)
 
 #### `SystemWebViewKitModule`
-JSBridge module for opening URLs in the device's system browser.
+SDK module for opening URLs in the device's system browser via `JSBridge`.
 - `redirectToSystemWebView(request: { url: string }): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Opens a URL in the device's system web browser or web view.
 
 #### `UserAttributesModule`
-JSBridge module for reading user-related attributes from native code.
+SDK module for reading user-related attributes from native code via `JSBridge`.
 - `getSelectedTravelDestination(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
 
 ### Functions
 
 #### `hasResult`
-Type guard to check if a JSBridge response has a defined result (not null or undefined).
+Type guard to check if an SDK response has a `result` that is neither `null` nor `undefined`.
 ```ts
 hasResult<T>(response: T): response is Extract<T, { result: {} }>
 ```
 
 #### `isClientError`
-Type guard to check if a JSBridge response is a client error (4xx status codes).
+Type guard to check if an SDK response has a client error status code (`400`, `401`, `403`, `404`, `424`, `426`).
 ```ts
 isClientError<T>(response: T): response is Extract<T, { status_code: 400 | 401 | 403 | 404 | 424 | 426 }>
 ```
 
 #### `isError`
-Type guard to check if a JSBridge response is an error (4xx or 5xx status codes).
+Type guard to check if an SDK response has an error status code (`400`, `401`, `403`, `404`, `424`, `426`, `500`, `501`).
 ```ts
 isError<T>(response: T): response is Extract<T, { error: string }>
 ```
 
 #### `isFound`
-Type guard to check if a JSBridge response is a 302 Found redirect.
+Type guard to check if an SDK response has a `302` status code.
 ```ts
 isFound<T>(response: T): response is Extract<T, { status_code: 302 }>
 ```
 
 #### `isNoContent`
-Type guard to check if a JSBridge response is a 204 No Content (operation succeeded with no result).
+Type guard to check if an SDK response has a `204` status code.
 ```ts
 isNoContent<T>(response: T): response is Extract<T, { status_code: 204 }>
 ```
 
 #### `isOk`
-Type guard to check if a JSBridge response is a 200 OK (operation succeeded with a result).
+Type guard to check if an SDK response has a `200` status code.
 ```ts
 isOk<T>(response: T): response is Extract<T, { status_code: 200 }>
 ```
 
 #### `isRedirection`
-Type guard to check if a JSBridge response is a redirect (status code 302).
+Type guard to check if an SDK response has a `302` status code.
 ```ts
 isRedirection<T>(response: T): response is Extract<T, { status_code: 302 }>
 ```
 
 #### `isServerError`
-Type guard to check if a JSBridge response is a server error (5xx status codes).
+Type guard to check if an SDK response has a server error status code (`500`, `501`).
 ```ts
 isServerError<T>(response: T): response is Extract<T, { status_code: 500 | 501 }>
 ```
 
 #### `isSuccess`
-Type guard to check if a JSBridge response is successful (2xx status codes).
+Type guard to check if an SDK response has a success status code (`200`, `204`).
 ```ts
 isSuccess<T>(response: T): response is Extract<T, { status_code: 200 | 204 }>
 ```

@@ -70,7 +70,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for controlling the WebView container.
+ * SDK module for controlling the WebView container via `JSBridge`.
  *
  * @group Modules
  * @category Container
@@ -806,7 +806,7 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
-   * Check if the web app is connected to the Grab SuperApp via JSBridge.
+   * Check if the web app is connected to the Grab SuperApp via `JSBridge`.
    *
    * @remarks
    * Call this method to verify the connection status before using other features.

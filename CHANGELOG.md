@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.54] - 2026-05-15
+
+_Aligns core response contracts with explicit SDK naming and stricter status-code guards._
+
+### Added
+
+- Added explicit core response/status types: `SDKOkResponse`, `SDKNoContentResponse`, `SDKRedirectResponse`, `SDKErrorResponse`, and `SDKErrorStatusCode`.
+
+### Changed
+
+- Renamed public core contracts from `Bridge*`/`InvokeOptions` to `SDK*`/`ModuleInvokeOptions` across exports, modules, and docs.
+- Updated core response schemas from `bridge*Schema` naming to `sdk*ResponseSchema` naming.
+- Narrowed type guards (`isSuccess`, `isClientError`, `isServerError`, `isError`) to explicit supported status codes instead of open ranges.
+
+### Fixed
+
+- Updated guard tests and documentation examples to match the stricter status-code behavior.
+
+### Removed
+
+- Removed legacy `BridgeResponse`, `BridgeStream`, and `BridgeStreamHandlers` API docs in favor of `SDKResponse`, `SDKStream`, and `SDKStreamHandlers`.
+
 ## [2.0.0-beta.53] - 2026-05-15
 
 _Improves API docs organization with explicit groups/categories and simplified TypeDoc plugins._

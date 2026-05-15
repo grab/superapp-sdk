@@ -10,7 +10,7 @@ import { GetSelectedTravelDestinationResponseSchema } from './schemas';
 import { GetSelectedTravelDestinationResponse } from './types';
 
 /**
- * JSBridge module for reading user-related attributes from native code.
+ * SDK module for reading user-related attributes from native code via `JSBridge`.
  *
  * @group Modules
  * @category User Attributes

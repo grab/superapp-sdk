@@ -7,7 +7,11 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
 
 /**
  * Valibot schema for {@link HasAccessToRequest}.
@@ -41,11 +45,11 @@ export const HasAccessToResultSchema = v.boolean();
  * @public
  */
 export const HasAccessToResponseSchema = v.union([
-  bridgeOkSchema(HasAccessToResultSchema),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(HasAccessToResultSchema),
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -57,8 +61,8 @@ export const HasAccessToResponseSchema = v.union([
  * @public
  */
 export const ReloadScopesResponseSchema = v.union([
-  bridgeNoContentSchema,
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

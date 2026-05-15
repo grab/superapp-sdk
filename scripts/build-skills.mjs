@@ -24,14 +24,36 @@ const KIND_FUNCTION = 64;
 const KIND_METHOD = 2048;
 
 /**
- * Extracts plain text from a TypeDoc comment content array.
+ * Renders a TypeDoc comment content array to markdown text.
  */
-function commentSummary(comment) {
-  return (comment?.summary ?? [])
-    .filter((c) => c.kind === 'text')
-    .map((c) => c.text)
+function renderCommentContent(content = []) {
+  return content
+    .map((c) => {
+      if (!c) return '';
+      if (c.kind === 'text') return c.text ?? '';
+      if (c.kind === 'code') {
+        const code = c.text ?? '';
+        if (!code) return '';
+        const trimmed = code.trim();
+        if (trimmed.startsWith('`') && trimmed.endsWith('`')) return code;
+        return `\`${code}\``;
+      }
+      if (c.kind === 'inline-tag') {
+        if (c.text) return c.text;
+        if (c.target?.name) return `\`${c.target.name}\``;
+        return '';
+      }
+      return c.text ?? '';
+    })
     .join('')
     .trim();
+}
+
+/**
+ * Extracts summary text from a TypeDoc comment.
+ */
+function commentSummary(comment) {
+  return renderCommentContent(comment?.summary ?? []).trim();
 }
 
 /**
@@ -44,11 +66,7 @@ function extractBlockTag(comment, tagName) {
   const blockTags = comment?.blockTags ?? [];
   const tag = blockTags.find((t) => t.tag === tagName);
   if (!tag) return null;
-  return tag.content
-    .filter((c) => c.kind === 'text')
-    .map((c) => c.text)
-    .join('')
-    .trim();
+  return renderCommentContent(tag.content ?? []);
 }
 
 /**

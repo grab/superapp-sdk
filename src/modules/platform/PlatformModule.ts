@@ -10,7 +10,7 @@ import { BackResponseSchema } from './schemas';
 import { BackResponse } from './types';
 
 /**
- * JSBridge module for controlling platform navigation.
+ * SDK module for controlling platform navigation via `JSBridge`.
  *
  * @group Modules
  * @category Platform

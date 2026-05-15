@@ -6,14 +6,22 @@
  */
 
 export type {
-  BridgeResponse,
-  BridgeStream,
-  BridgeStreamHandlers,
-  InvokeOptions,
+  ModuleInvokeOptions,
+  SDKClientErrorStatusCode,
+  SDKErrorResponse,
+  SDKErrorStatusCode,
+  SDKNoContentResponse,
+  SDKOkResponse,
+  SDKRedirectResponse,
+  SDKResponse,
+  SDKServerErrorStatusCode,
+  SDKStream,
+  SDKStreamHandlers,
   Subscription,
   WrappedModule,
 } from './core';
 export {
+  BaseModule,
   hasResult,
   isClientError,
   isError,
@@ -24,7 +32,6 @@ export {
   isServerError,
   isSuccess,
 } from './core';
-export { BaseModule } from './core';
 export {
   CameraModule,
   ScanQRCodeRequest,
