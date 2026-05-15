@@ -13,7 +13,7 @@ import { DismissSplashScreenResponseSchema } from './schemas';
  * Response when dismissing the splash screen.
  *
  * @group Modules
- * @category SplashScreen
+ * @category Splash Screen
  *
  * @remarks
  * Possible status codes:

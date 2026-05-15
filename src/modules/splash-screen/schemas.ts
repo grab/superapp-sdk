@@ -13,7 +13,7 @@ import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
  * Valibot schema for {@link DismissSplashScreenResponse}.
  *
  * @group Modules
- * @category SplashScreen
+ * @category Splash Screen
  *
  * @public
  */

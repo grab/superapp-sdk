@@ -13,7 +13,7 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
  * Valibot schema for {@link GetSelectedTravelDestinationResult}.
  *
  * @group Modules
- * @category UserAttributes
+ * @category User Attributes
  *
  * @public
  */
@@ -23,7 +23,7 @@ export const GetSelectedTravelDestinationResultSchema = v.string();
  * Valibot schema for {@link GetSelectedTravelDestinationResponse}.
  *
  * @group Modules
- * @category UserAttributes
+ * @category User Attributes
  *
  * @public
  */

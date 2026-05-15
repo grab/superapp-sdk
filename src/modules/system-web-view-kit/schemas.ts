@@ -13,7 +13,7 @@ import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
  * Valibot schema for {@link RedirectToSystemWebViewRequest}.
  *
  * @group Modules
- * @category SystemWebViewKit
+ * @category System WebView Kit
  *
  * @public
  */
@@ -25,7 +25,7 @@ export const RedirectToSystemWebViewRequestSchema = v.object({
  * Valibot schema for {@link RedirectToSystemWebViewResponse}.
  *
  * @group Modules
- * @category SystemWebViewKit
+ * @category System WebView Kit
  *
  * @public
  */

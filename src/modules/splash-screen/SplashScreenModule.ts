@@ -13,7 +13,7 @@ import { DismissSplashScreenResponse } from './types';
  * JSBridge module for controlling the native splash / Lottie loading screen.
  *
  * @group Modules
- * @category SplashScreen
+ * @category Splash Screen
  *
  * @remarks
  * Dismisses the splash overlay once the MiniApp is ready. Requires the Grab SuperApp WebView.

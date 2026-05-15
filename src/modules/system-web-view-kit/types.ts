@@ -16,7 +16,7 @@ import {
  * Request parameters for redirecting to the system web view.
  *
  * @group Modules
- * @category SystemWebViewKit
+ * @category System WebView Kit
  *
  * @example
  * ```typescript
@@ -36,7 +36,7 @@ export type RedirectToSystemWebViewRequest = InferOutput<
  * This operation returns no data on success.
  *
  * @group Modules
- * @category SystemWebViewKit
+ * @category System WebView Kit
  *
  * @public
  */
@@ -46,7 +46,7 @@ export type RedirectToSystemWebViewResult = void;
  * Response when redirecting to the system web view.
  *
  * @group Modules
- * @category SystemWebViewKit
+ * @category System WebView Kit
  *
  * @remarks
  * This response can have the following status codes:
