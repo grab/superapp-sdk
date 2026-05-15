@@ -8,6 +8,7 @@
 import * as v from 'valibot';
 
 import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
+import type { BackResponse } from './types';
 
 /**
  * Valibot schema for {@link BackResponse}.
@@ -17,7 +18,7 @@ import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
  *
  * @public
  */
-export const BackResponseSchema = v.union([
+export const BackResponseSchema: v.GenericSchema<BackResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),

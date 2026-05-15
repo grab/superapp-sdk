@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.55] - 2026-05-15
+
+_Strengthens module type/schema contracts and trims schema exports from the public API surface._
+
+### Added
+
+- Explicit, SDK-native type aliases across module request/response/result contracts.
+
+### Changed
+
+- Annotated module Valibot schemas with `v.GenericSchema<...>` to align runtime schema definitions with exported TypeScript types.
+
+### Fixed
+
+- Improved type consistency between schemas and module contracts to reduce inferred-type drift.
+
+### Removed
+
+- Removed public re-exports of `*Schema` symbols from module `index.ts` files and the root `src/index.ts`.
+
 ## [2.0.0-beta.54] - 2026-05-15
 
 _Aligns core response contracts with explicit SDK naming and stricter status-code guards._

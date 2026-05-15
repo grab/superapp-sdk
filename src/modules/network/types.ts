@@ -5,15 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  RawSendResponseSchema,
-  RawSendResultSchema,
-  SendRequestSchema,
-  SendResponseSchema,
-  SendResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for sending a network request.
@@ -55,7 +47,14 @@ import {
  *
  * @public
  */
-export type SendRequest = InferOutput<typeof SendRequestSchema>;
+export type SendRequest = {
+  body?: unknown;
+  endpoint: string;
+  headers?: Record<string, string>;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
+  query?: Record<string, string>;
+  timeout?: number;
+};
 
 /**
  * Result object containing the network response data.
@@ -70,7 +69,7 @@ export type SendRequest = InferOutput<typeof SendRequestSchema>;
  *
  * @public
  */
-export type SendResult = InferOutput<typeof SendResultSchema>;
+export type SendResult = Record<string, unknown>;
 
 /**
  * Response when sending a network request.
@@ -87,7 +86,17 @@ export type SendResult = InferOutput<typeof SendResultSchema>;
  *
  * @public
  */
-export type SendResponse = InferOutput<typeof SendResponseSchema>;
+export type SendResponse =
+  | SDKOkResponse<SendResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<401>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<404>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response result.
@@ -95,7 +104,7 @@ export type SendResponse = InferOutput<typeof SendResponseSchema>;
  *
  * @internal
  */
-export type RawSendResult = InferOutput<typeof RawSendResultSchema>;
+export type RawSendResult = string | SendResult;
 
 /**
  * Internal type for the raw `JSBridge` response before transformation.
@@ -103,4 +112,14 @@ export type RawSendResult = InferOutput<typeof RawSendResultSchema>;
  *
  * @internal
  */
-export type RawSendResponse = InferOutput<typeof RawSendResponseSchema>;
+export type RawSendResponse =
+  | SDKOkResponse<RawSendResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<401>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<404>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

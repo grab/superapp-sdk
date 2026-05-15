@@ -5,9 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 
 /**
  * Request parameters for downloading a file through `JSBridge`.
@@ -25,7 +23,10 @@ import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas
  *
  * @public
  */
-export type DownloadFileRequest = InferOutput<typeof DownloadFileRequestSchema>;
+export type DownloadFileRequest = {
+  fileName: string;
+  fileUrl: string;
+};
 
 /**
  * Result data structure for file download operations.
@@ -55,4 +56,8 @@ export type DownloadFileResult = void;
  *
  * @public
  */
-export type DownloadFileResponse = InferOutput<typeof DownloadFileResponseSchema>;
+export type DownloadFileResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

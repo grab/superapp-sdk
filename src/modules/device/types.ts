@@ -5,9 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './schemas';
+import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result indicating whether the current device supports eSIM.
@@ -27,7 +25,7 @@ import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './sc
  *
  * @public
  */
-export type IsEsimSupportedResult = InferOutput<typeof IsEsimSupportedResultSchema>;
+export type IsEsimSupportedResult = boolean;
 
 /**
  * Response when checking whether the current device supports eSIM.
@@ -46,4 +44,10 @@ export type IsEsimSupportedResult = InferOutput<typeof IsEsimSupportedResultSche
  *
  * @public
  */
-export type IsEsimSupportedResponse = InferOutput<typeof IsEsimSupportedResponseSchema>;
+export type IsEsimSupportedResponse =
+  | SDKOkResponse<IsEsimSupportedResult>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

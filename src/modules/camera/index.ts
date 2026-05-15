@@ -6,9 +6,4 @@
  */
 
 export { CameraModule } from './CameraModule';
-export {
-  ScanQRCodeRequestSchema,
-  ScanQRCodeResponseSchema,
-  ScanQRCodeResultSchema,
-} from './schemas';
 export type { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types';

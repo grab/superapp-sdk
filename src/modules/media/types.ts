@@ -5,14 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { SDKStream } from '../../core';
-import {
-  DRMPlaybackEventSchema,
-  ObserveDRMPlaybackResponseSchema,
-  PlayDRMContentResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse, SDKStream } from '../../core';
 
 /**
  * DRM content configuration for playback.
@@ -59,7 +52,7 @@ export type DRMContentConfig = Record<string, unknown>;
  *
  * @public
  */
-export type PlayDRMContentResult = void;
+export type PlayDRMContentResult = DRMPlaybackEvent;
 
 /**
  * Response when initiating DRM content playback.
@@ -76,7 +69,13 @@ export type PlayDRMContentResult = void;
  *
  * @public
  */
-export type PlayDRMContentResponse = InferOutput<typeof PlayDRMContentResponseSchema>;
+export type PlayDRMContentResponse =
+  | SDKOkResponse<PlayDRMContentResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for DRM playback events.
@@ -119,7 +118,24 @@ export type PlayDRMContentResponse = InferOutput<typeof PlayDRMContentResponseSc
  *
  * @public
  */
-export type DRMPlaybackEvent = InferOutput<typeof DRMPlaybackEventSchema>;
+export type DRMPlaybackEvent = {
+  length: number;
+  position: number;
+  titleId: string;
+  type:
+    | 'START_PLAYBACK'
+    | 'PROGRESS_PLAYBACK'
+    | 'START_SEEK'
+    | 'STOP_SEEK'
+    | 'STOP_PLAYBACK'
+    | 'CLOSE_PLAYBACK'
+    | 'PAUSE_PLAYBACK'
+    | 'RESUME_PLAYBACK'
+    | 'FAST_FORWARD_PLAYBACK'
+    | 'REWIND_PLAYBACK'
+    | 'ERROR_PLAYBACK'
+    | 'CHANGE_VOLUME';
+};
 
 /**
  * Response stream for observing DRM playback events.
@@ -137,5 +153,5 @@ export type DRMPlaybackEvent = InferOutput<typeof DRMPlaybackEventSchema>;
  * @public
  */
 export type ObserveDRMPlaybackResponse = SDKStream<
-  InferOutput<typeof ObserveDRMPlaybackResponseSchema>
+  SDKOkResponse<DRMPlaybackEvent> | SDKErrorResponse<500> | SDKErrorResponse<501>
 >;

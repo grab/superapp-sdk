@@ -12,6 +12,13 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type {
+  RawSendResponse,
+  RawSendResult,
+  SendRequest,
+  SendResponse,
+  SendResult,
+} from './types';
 
 /**
  * Valibot schema for {@link SendRequest}.
@@ -30,7 +37,7 @@ import {
  *
  * @public
  */
-export const SendRequestSchema = v.object({
+export const SendRequestSchema: v.GenericSchema<SendRequest> = v.object({
   endpoint: v.string(),
   method: v.picklist(['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS']),
   headers: v.optional(v.record(v.string(), v.string())),
@@ -47,7 +54,7 @@ export const SendRequestSchema = v.object({
  *
  * @public
  */
-export const SendResultSchema = v.record(v.string(), v.unknown());
+export const SendResultSchema: v.GenericSchema<SendResult> = v.record(v.string(), v.unknown());
 
 /**
  * Valibot schema for {@link SendResponse}.
@@ -57,7 +64,7 @@ export const SendResultSchema = v.record(v.string(), v.unknown());
  *
  * @public
  */
-export const SendResponseSchema = v.union([
+export const SendResponseSchema: v.GenericSchema<SendResponse> = v.union([
   sdkOkResponseSchema(SendResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
@@ -76,7 +83,10 @@ export const SendResponseSchema = v.union([
  *
  * @internal
  */
-export const RawSendResultSchema = v.union([v.string(), SendResultSchema]);
+export const RawSendResultSchema: v.GenericSchema<RawSendResult> = v.union([
+  v.string(),
+  SendResultSchema,
+]);
 
 /**
  * Internal valibot schema for the raw `JSBridge` response.
@@ -84,7 +94,7 @@ export const RawSendResultSchema = v.union([v.string(), SendResultSchema]);
  *
  * @internal
  */
-export const RawSendResponseSchema = v.union([
+export const RawSendResponseSchema: v.GenericSchema<RawSendResponse> = v.union([
   sdkOkResponseSchema(RawSendResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),

@@ -12,6 +12,13 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type {
+  FetchEmailResponse,
+  FetchEmailResult,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
+  VerifyEmailResult,
+} from './types';
 
 /**
  * Valibot schema for {@link FetchEmailResult}.
@@ -21,7 +28,9 @@ import {
  *
  * @public
  */
-export const FetchEmailResultSchema = v.object({ email: v.string() });
+export const FetchEmailResultSchema: v.GenericSchema<FetchEmailResult> = v.object({
+  email: v.string(),
+});
 
 /**
  * Valibot schema for {@link FetchEmailResponse}.
@@ -31,7 +40,7 @@ export const FetchEmailResultSchema = v.object({ email: v.string() });
  *
  * @public
  */
-export const FetchEmailResponseSchema = v.union([
+export const FetchEmailResponseSchema: v.GenericSchema<FetchEmailResponse> = v.union([
   sdkOkResponseSchema(FetchEmailResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
@@ -49,7 +58,7 @@ export const FetchEmailResponseSchema = v.union([
  *
  * @public
  */
-export const VerifyEmailRequestSchema = v.object({
+export const VerifyEmailRequestSchema: v.GenericSchema<VerifyEmailRequest> = v.object({
   email: v.optional(v.pipe(v.string(), v.minLength(1))),
   skipUserInput: v.optional(v.boolean()),
 });
@@ -62,7 +71,9 @@ export const VerifyEmailRequestSchema = v.object({
  *
  * @public
  */
-export const VerifyEmailResultSchema = v.object({ email: v.string() });
+export const VerifyEmailResultSchema: v.GenericSchema<VerifyEmailResult> = v.object({
+  email: v.string(),
+});
 
 /**
  * Valibot schema for {@link VerifyEmailResponse}.
@@ -72,7 +83,7 @@ export const VerifyEmailResultSchema = v.object({ email: v.string() });
  *
  * @public
  */
-export const VerifyEmailResponseSchema = v.union([
+export const VerifyEmailResponseSchema: v.GenericSchema<VerifyEmailResponse> = v.union([
   sdkOkResponseSchema(VerifyEmailResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),

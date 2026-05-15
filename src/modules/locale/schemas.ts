@@ -12,6 +12,10 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type {
+  GetLanguageLocaleIdentifierResponse,
+  GetLanguageLocaleIdentifierResult,
+} from './types';
 
 /**
  * Valibot schema for {@link GetLanguageLocaleIdentifierResult}.
@@ -21,7 +25,8 @@ import {
  *
  * @public
  */
-export const GetLanguageLocaleIdentifierResultSchema = v.string();
+export const GetLanguageLocaleIdentifierResultSchema: v.GenericSchema<GetLanguageLocaleIdentifierResult> =
+  v.string();
 
 /**
  * Valibot schema for {@link GetLanguageLocaleIdentifierResponse}.
@@ -31,10 +36,11 @@ export const GetLanguageLocaleIdentifierResultSchema = v.string();
  *
  * @public
  */
-export const GetLanguageLocaleIdentifierResponseSchema = v.union([
-  sdkOkResponseSchema(GetLanguageLocaleIdentifierResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const GetLanguageLocaleIdentifierResponseSchema: v.GenericSchema<GetLanguageLocaleIdentifierResponse> =
+  v.union([
+    sdkOkResponseSchema(GetLanguageLocaleIdentifierResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);

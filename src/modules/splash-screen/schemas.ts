@@ -8,6 +8,7 @@
 import * as v from 'valibot';
 
 import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
+import type { DismissSplashScreenResponse } from './types';
 
 /**
  * Valibot schema for {@link DismissSplashScreenResponse}.
@@ -17,10 +18,11 @@ import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
  *
  * @public
  */
-export const DismissSplashScreenResponseSchema = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const DismissSplashScreenResponseSchema: v.GenericSchema<DismissSplashScreenResponse> =
+  v.union([
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);

@@ -6,5 +6,4 @@
  */
 
 export { NetworkModule } from './NetworkModule';
-export { SendRequestSchema, SendResponseSchema, SendResultSchema } from './schemas';
 export type { SendRequest, SendResponse, SendResult } from './types';

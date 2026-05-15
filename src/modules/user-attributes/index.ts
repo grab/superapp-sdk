@@ -5,10 +5,6 @@
  * directory of this source tree.
  */
 
-export {
-  GetSelectedTravelDestinationResponseSchema,
-  GetSelectedTravelDestinationResultSchema,
-} from './schemas';
 export type {
   GetSelectedTravelDestinationResponse,
   GetSelectedTravelDestinationResult,

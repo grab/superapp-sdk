@@ -12,6 +12,7 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type { ScanQRCodeRequest, ScanQRCodeResponse, ScanQRCodeResult } from './types';
 
 /**
  * Valibot schema for {@link ScanQRCodeRequest}.
@@ -21,7 +22,9 @@ import {
  *
  * @public
  */
-export const ScanQRCodeRequestSchema = v.object({ title: v.optional(v.string()) });
+export const ScanQRCodeRequestSchema: v.GenericSchema<ScanQRCodeRequest> = v.object({
+  title: v.optional(v.string()),
+});
 
 /**
  * Valibot schema for {@link ScanQRCodeResult}.
@@ -31,7 +34,9 @@ export const ScanQRCodeRequestSchema = v.object({ title: v.optional(v.string()) 
  *
  * @public
  */
-export const ScanQRCodeResultSchema = v.object({ qrCode: v.string() });
+export const ScanQRCodeResultSchema: v.GenericSchema<ScanQRCodeResult> = v.object({
+  qrCode: v.string(),
+});
 
 /**
  * Valibot schema for {@link ScanQRCodeResponse}.
@@ -41,7 +46,7 @@ export const ScanQRCodeResultSchema = v.object({ qrCode: v.string() });
  *
  * @public
  */
-export const ScanQRCodeResponseSchema = v.union([
+export const ScanQRCodeResponseSchema: v.GenericSchema<ScanQRCodeResponse> = v.union([
   sdkOkResponseSchema(ScanQRCodeResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),

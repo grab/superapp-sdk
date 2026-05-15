@@ -5,12 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  GetSelectedTravelDestinationResponseSchema,
-  GetSelectedTravelDestinationResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result containing the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
@@ -30,9 +25,7 @@ import {
  *
  * @public
  */
-export type GetSelectedTravelDestinationResult = InferOutput<
-  typeof GetSelectedTravelDestinationResultSchema
->;
+export type GetSelectedTravelDestinationResult = string;
 
 /**
  * Response when reading the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
@@ -49,6 +42,8 @@ export type GetSelectedTravelDestinationResult = InferOutput<
  *
  * @public
  */
-export type GetSelectedTravelDestinationResponse = InferOutput<
-  typeof GetSelectedTravelDestinationResponseSchema
->;
+export type GetSelectedTravelDestinationResponse =
+  | SDKOkResponse<GetSelectedTravelDestinationResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

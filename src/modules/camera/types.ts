@@ -5,13 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  ScanQRCodeRequestSchema,
-  ScanQRCodeResponseSchema,
-  ScanQRCodeResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for scanning QR codes.
@@ -33,7 +27,9 @@ import {
  *
  * @public
  */
-export type ScanQRCodeRequest = InferOutput<typeof ScanQRCodeRequestSchema>;
+export type ScanQRCodeRequest = {
+  title?: string;
+};
 
 /**
  * Result object containing the scanned QR code data.
@@ -48,7 +44,9 @@ export type ScanQRCodeRequest = InferOutput<typeof ScanQRCodeRequestSchema>;
  *
  * @public
  */
-export type ScanQRCodeResult = InferOutput<typeof ScanQRCodeResultSchema>;
+export type ScanQRCodeResult = {
+  qrCode: string;
+};
 
 /**
  * Response when scanning a QR code.
@@ -67,4 +65,10 @@ export type ScanQRCodeResult = InferOutput<typeof ScanQRCodeResultSchema>;
  *
  * @public
  */
-export type ScanQRCodeResponse = InferOutput<typeof ScanQRCodeResponseSchema>;
+export type ScanQRCodeResponse =
+  | SDKOkResponse<ScanQRCodeResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

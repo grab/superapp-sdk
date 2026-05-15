@@ -12,6 +12,7 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type { DRMPlaybackEvent, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
 /**
  * Valibot schema for {@link DRMPlaybackEvent}.
@@ -21,7 +22,7 @@ import {
  *
  * @public
  */
-export const DRMPlaybackEventSchema = v.object({
+export const DRMPlaybackEventSchema: v.GenericSchema<DRMPlaybackEvent> = v.object({
   type: v.picklist([
     'START_PLAYBACK',
     'PROGRESS_PLAYBACK',
@@ -49,7 +50,7 @@ export const DRMPlaybackEventSchema = v.object({
  *
  * @public
  */
-export const PlayDRMContentResponseSchema = v.union([
+export const PlayDRMContentResponseSchema: v.GenericSchema<PlayDRMContentResponse> = v.union([
   sdkOkResponseSchema(DRMPlaybackEventSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
@@ -64,7 +65,9 @@ export const PlayDRMContentResponseSchema = v.union([
  *
  * @public
  */
-export const ObserveDRMPlaybackResponseSchema = v.union([
+export const ObserveDRMPlaybackResponseSchema: v.GenericSchema<
+  Awaited<ObserveDRMPlaybackResponse>
+> = v.union([
   sdkOkResponseSchema(DRMPlaybackEventSchema),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),

@@ -5,17 +5,12 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  AuthorizeRequestSchema,
-  AuthorizeResponseSchema,
-  AuthorizeResultSchema,
-  ClearAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResultSchema,
-  RawAuthorizeResponseSchema,
-} from './schemas';
+import type {
+  SDKErrorResponse,
+  SDKNoContentResponse,
+  SDKOkResponse,
+  SDKRedirectResponse,
+} from '../../core';
 
 /**
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
@@ -49,14 +44,30 @@ import {
  *
  * @public
  */
-export type AuthorizeRequest = InferOutput<typeof AuthorizeRequestSchema>;
+export type AuthorizeRequest = {
+  clientId: string;
+  redirectUri: string;
+  scope: string;
+  environment: 'staging' | 'production';
+  responseMode?: 'redirect' | 'in_place';
+};
 
 /**
  * Internal type for the raw `JSBridge` response from `authorize` before enrichment.
  *
  * @internal
  */
-export type RawAuthorizeResponse = InferOutput<typeof RawAuthorizeResponseSchema>;
+export type RawAuthorizeResponse =
+  | SDKOkResponse<{
+      code: string;
+      state: string;
+    }>
+  | SDKNoContentResponse
+  | SDKRedirectResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for the authorization flow.
@@ -78,7 +89,13 @@ export type RawAuthorizeResponse = InferOutput<typeof RawAuthorizeResponseSchema
  *
  * @public
  */
-export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
+export type AuthorizeResult = {
+  code: string;
+  state: string;
+  codeVerifier: string;
+  nonce: string;
+  redirectUri: string;
+};
 
 /**
  * Response when initiating an authorization flow.
@@ -98,7 +115,14 @@ export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
  *
  * @public
  */
-export type AuthorizeResponse = InferOutput<typeof AuthorizeResponseSchema>;
+export type AuthorizeResponse =
+  | SDKOkResponse<AuthorizeResult>
+  | SDKNoContentResponse
+  | SDKRedirectResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object containing the stored PKCE authorization artifacts.
@@ -120,9 +144,12 @@ export type AuthorizeResponse = InferOutput<typeof AuthorizeResponseSchema>;
  *
  * @public
  */
-export type GetAuthorizationArtifactsResult = InferOutput<
-  typeof GetAuthorizationArtifactsResultSchema
->;
+export type GetAuthorizationArtifactsResult = {
+  state: string;
+  codeVerifier: string;
+  nonce: string;
+  redirectUri: string;
+};
 
 /**
  * Response when retrieving stored authorization artifacts.
@@ -138,9 +165,10 @@ export type GetAuthorizationArtifactsResult = InferOutput<
  *
  * @public
  */
-export type GetAuthorizationArtifactsResponse = InferOutput<
-  typeof GetAuthorizationArtifactsResponseSchema
->;
+export type GetAuthorizationArtifactsResponse =
+  | SDKOkResponse<GetAuthorizationArtifactsResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>;
 
 /**
  * Result object for clearing authorization artifacts.
@@ -164,6 +192,4 @@ export type ClearAuthorizationArtifactsResult = void;
  *
  * @public
  */
-export type ClearAuthorizationArtifactsResponse = InferOutput<
-  typeof ClearAuthorizationArtifactsResponseSchema
->;
+export type ClearAuthorizationArtifactsResponse = SDKNoContentResponse;

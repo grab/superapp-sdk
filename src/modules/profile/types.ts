@@ -5,15 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  FetchEmailResponseSchema,
-  FetchEmailResultSchema,
-  VerifyEmailRequestSchema,
-  VerifyEmailResponseSchema,
-  VerifyEmailResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result object containing the user's email address.
@@ -28,7 +20,9 @@ import {
  *
  * @public
  */
-export type FetchEmailResult = InferOutput<typeof FetchEmailResultSchema>;
+export type FetchEmailResult = {
+  email: string;
+};
 
 /**
  * Response when fetching the user's email.
@@ -48,7 +42,14 @@ export type FetchEmailResult = InferOutput<typeof FetchEmailResultSchema>;
  *
  * @public
  */
-export type FetchEmailResponse = InferOutput<typeof FetchEmailResponseSchema>;
+export type FetchEmailResponse =
+  | SDKOkResponse<FetchEmailResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for verifying the user's email.
@@ -70,7 +71,10 @@ export type FetchEmailResponse = InferOutput<typeof FetchEmailResponseSchema>;
  *
  * @public
  */
-export type VerifyEmailRequest = InferOutput<typeof VerifyEmailRequestSchema>;
+export type VerifyEmailRequest = {
+  email?: string;
+  skipUserInput?: boolean;
+};
 
 /**
  * Result object for verifying the user's email.
@@ -85,7 +89,9 @@ export type VerifyEmailRequest = InferOutput<typeof VerifyEmailRequestSchema>;
  *
  * @public
  */
-export type VerifyEmailResult = InferOutput<typeof VerifyEmailResultSchema>;
+export type VerifyEmailResult = {
+  email: string;
+};
 
 /**
  * Response when verifying the user's email.
@@ -120,4 +126,11 @@ export type VerifyEmailResult = InferOutput<typeof VerifyEmailResultSchema>;
  *
  * @public
  */
-export type VerifyEmailResponse = InferOutput<typeof VerifyEmailResponseSchema>;
+export type VerifyEmailResponse =
+  | SDKOkResponse<VerifyEmailResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

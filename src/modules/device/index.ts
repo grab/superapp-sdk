@@ -6,5 +6,4 @@
  */
 
 export { DeviceModule } from './DeviceModule';
-export { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './schemas';
 export type { IsEsimSupportedResponse, IsEsimSupportedResult } from './types';

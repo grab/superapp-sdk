@@ -5,10 +5,6 @@
  * directory of this source tree.
  */
 
-export {
-  RedirectToSystemWebViewRequestSchema,
-  RedirectToSystemWebViewResponseSchema,
-} from './schemas';
 export { SystemWebViewKitModule } from './SystemWebViewKitModule';
 export type {
   RedirectToSystemWebViewRequest,

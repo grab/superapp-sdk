@@ -5,9 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { BackResponseSchema } from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 
 /**
  * Result when triggering platform back navigation.
@@ -34,4 +32,4 @@ export type BackResult = void;
  *
  * @public
  */
-export type BackResponse = InferOutput<typeof BackResponseSchema>;
+export type BackResponse = SDKNoContentResponse | SDKErrorResponse<500> | SDKErrorResponse<501>;

@@ -8,6 +8,7 @@
 import * as v from 'valibot';
 
 import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
+import type { DownloadFileRequest, DownloadFileResponse } from './types';
 
 /**
  * Valibot schema for {@link DownloadFileRequest}.
@@ -17,7 +18,7 @@ import { sdkErrorResponseSchema, sdkNoContentResponseSchema } from '../../core';
  *
  * @public
  */
-export const DownloadFileRequestSchema = v.object({
+export const DownloadFileRequestSchema: v.GenericSchema<DownloadFileRequest> = v.object({
   fileUrl: v.pipe(v.string(), v.url()),
   fileName: v.pipe(v.string(), v.minLength(1)),
 });
@@ -30,7 +31,7 @@ export const DownloadFileRequestSchema = v.object({
  *
  * @public
  */
-export const DownloadFileResponseSchema = v.union([
+export const DownloadFileResponseSchema: v.GenericSchema<DownloadFileResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(500),

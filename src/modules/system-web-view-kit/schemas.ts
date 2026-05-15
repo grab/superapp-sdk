@@ -8,6 +8,7 @@
 import * as v from 'valibot';
 
 import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
+import type { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from './types';
 
 /**
  * Valibot schema for {@link RedirectToSystemWebViewRequest}.
@@ -17,9 +18,10 @@ import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
  *
  * @public
  */
-export const RedirectToSystemWebViewRequestSchema = v.object({
-  url: v.pipe(v.string(), v.url()),
-});
+export const RedirectToSystemWebViewRequestSchema: v.GenericSchema<RedirectToSystemWebViewRequest> =
+  v.object({
+    url: v.pipe(v.string(), v.url()),
+  });
 
 /**
  * Valibot schema for {@link RedirectToSystemWebViewResponse}.
@@ -29,10 +31,11 @@ export const RedirectToSystemWebViewRequestSchema = v.object({
  *
  * @public
  */
-export const RedirectToSystemWebViewResponseSchema = v.union([
-  sdkOkResponseSchema(v.string()),
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RedirectToSystemWebViewResponseSchema: v.GenericSchema<RedirectToSystemWebViewResponse> =
+  v.union([
+    sdkOkResponseSchema(v.string()),
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);

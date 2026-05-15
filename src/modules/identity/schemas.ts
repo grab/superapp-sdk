@@ -13,6 +13,15 @@ import {
   sdkOkResponseSchema,
   sdkRedirectResponseSchema,
 } from '../../core';
+import type {
+  AuthorizeRequest,
+  AuthorizeResponse,
+  AuthorizeResult,
+  ClearAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResponse,
+  GetAuthorizationArtifactsResult,
+  RawAuthorizeResponse,
+} from './types';
 
 /**
  * Valibot schema for {@link AuthorizeRequest}.
@@ -22,7 +31,7 @@ import {
  *
  * @public
  */
-export const AuthorizeRequestSchema = v.object({
+export const AuthorizeRequestSchema: v.GenericSchema<AuthorizeRequest> = v.object({
   clientId: v.pipe(v.string(), v.minLength(1)),
   redirectUri: v.pipe(v.string(), v.url()),
   scope: v.pipe(v.string(), v.minLength(1)),
@@ -40,7 +49,7 @@ const RawAuthorizeResultSchema = v.object({
  *
  * @internal
  */
-export const RawAuthorizeResponseSchema = v.union([
+export const RawAuthorizeResponseSchema: v.GenericSchema<RawAuthorizeResponse> = v.union([
   sdkOkResponseSchema(RawAuthorizeResultSchema),
   sdkNoContentResponseSchema,
   sdkRedirectResponseSchema,
@@ -58,7 +67,7 @@ export const RawAuthorizeResponseSchema = v.union([
  *
  * @public
  */
-export const AuthorizeResultSchema = v.object({
+export const AuthorizeResultSchema: v.GenericSchema<AuthorizeResult> = v.object({
   code: v.string(),
   state: v.string(),
   codeVerifier: v.string(),
@@ -74,7 +83,7 @@ export const AuthorizeResultSchema = v.object({
  *
  * @public
  */
-export const AuthorizeResponseSchema = v.union([
+export const AuthorizeResponseSchema: v.GenericSchema<AuthorizeResponse> = v.union([
   sdkOkResponseSchema(AuthorizeResultSchema),
   sdkNoContentResponseSchema,
   sdkRedirectResponseSchema,
@@ -92,12 +101,13 @@ export const AuthorizeResponseSchema = v.union([
  *
  * @public
  */
-export const GetAuthorizationArtifactsResultSchema = v.object({
-  state: v.string(),
-  codeVerifier: v.string(),
-  nonce: v.string(),
-  redirectUri: v.string(),
-});
+export const GetAuthorizationArtifactsResultSchema: v.GenericSchema<GetAuthorizationArtifactsResult> =
+  v.object({
+    state: v.string(),
+    codeVerifier: v.string(),
+    nonce: v.string(),
+    redirectUri: v.string(),
+  });
 
 /**
  * Valibot schema for {@link GetAuthorizationArtifactsResponse}.
@@ -107,11 +117,12 @@ export const GetAuthorizationArtifactsResultSchema = v.object({
  *
  * @public
  */
-export const GetAuthorizationArtifactsResponseSchema = v.union([
-  sdkOkResponseSchema(GetAuthorizationArtifactsResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-]);
+export const GetAuthorizationArtifactsResponseSchema: v.GenericSchema<GetAuthorizationArtifactsResponse> =
+  v.union([
+    sdkOkResponseSchema(GetAuthorizationArtifactsResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+  ]);
 
 /**
  * Valibot schema for {@link ClearAuthorizationArtifactsResponse}.
@@ -121,4 +132,5 @@ export const GetAuthorizationArtifactsResponseSchema = v.union([
  *
  * @public
  */
-export const ClearAuthorizationArtifactsResponseSchema = v.union([sdkNoContentResponseSchema]);
+export const ClearAuthorizationArtifactsResponseSchema: v.GenericSchema<ClearAuthorizationArtifactsResponse> =
+  v.union([sdkNoContentResponseSchema]);
