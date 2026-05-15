@@ -17,6 +17,7 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  * JSBridge module for checking and refreshing API access permissions.
  *
  * @group Modules
+ * @category Scope
  *
  * @remarks
  * Manages OAuth scope permissions, allowing the MiniApp to check access rights and reload scopes from the server.

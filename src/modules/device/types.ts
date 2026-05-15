@@ -12,6 +12,9 @@ import { IsEsimSupportedResponseSchema, IsEsimSupportedResultSchema } from './sc
 /**
  * Result indicating whether the current device supports eSIM.
  *
+ * @group Modules
+ * @category Device
+ *
  * @example
  * ```typescript
  * true
@@ -28,6 +31,9 @@ export type IsEsimSupportedResult = InferOutput<typeof IsEsimSupportedResultSche
 
 /**
  * Response when checking whether the current device supports eSIM.
+ *
+ * @group Modules
+ * @category Device
  *
  * @remarks
  * This response can have the following status codes:

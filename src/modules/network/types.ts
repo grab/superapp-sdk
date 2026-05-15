@@ -18,6 +18,9 @@ import {
 /**
  * Request parameters for sending a network request.
  *
+ * @group Modules
+ * @category Network
+ *
  * @example
  * **GET request with headers:**
  * ```typescript
@@ -57,6 +60,9 @@ export type SendRequest = InferOutput<typeof SendRequestSchema>;
 /**
  * Result object containing the network response data.
  *
+ * @group Modules
+ * @category Network
+ *
  * @remarks
  * The result type is `Record<string, unknown>` as response bodies are always
  * returned as objects. String responses from the native bridge are automatically
@@ -68,6 +74,9 @@ export type SendResult = InferOutput<typeof SendResultSchema>;
 
 /**
  * Response when sending a network request.
+ *
+ * @group Modules
+ * @category Network
  *
  * @remarks
  * This response can have any HTTP status code returned by the external API:

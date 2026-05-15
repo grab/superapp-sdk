@@ -12,6 +12,9 @@ import { bridgeErrorSchema, bridgeNoContentSchema } from '../../core';
 /**
  * Valibot schema for {@link DismissSplashScreenResponse}.
  *
+ * @group Modules
+ * @category Splash Screen
+ *
  * @public
  */
 export const DismissSplashScreenResponseSchema = v.union([

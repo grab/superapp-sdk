@@ -42,6 +42,9 @@ import {
 /**
  * Request parameters for setting the background color.
  *
+ * @group Modules
+ * @category Container
+ *
  * @example
  * ```typescript
  * '#ffffff'
@@ -55,12 +58,18 @@ export type SetBackgroundColorRequest = string;
  * Result when setting the background color.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type SetBackgroundColorResult = void;
 
 /**
  * Response when setting the background color.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -84,6 +93,9 @@ export type RawSetBackgroundColorResponse = InferOutput<typeof RawSetBackgroundC
 /**
  * Request parameters for setting the title.
  *
+ * @group Modules
+ * @category Container
+ *
  * @example
  * ```typescript
  * 'Home Page'
@@ -97,12 +109,18 @@ export type SetTitleRequest = string;
  * Result when setting the title.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type SetTitleResult = void;
 
 /**
  * Response when setting the title.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -127,12 +145,18 @@ export type RawSetTitleResponse = InferOutput<typeof RawSetTitleResponseSchema>;
  * Result when hiding the back button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type HideBackButtonResult = void;
 
 /**
  * Response when hiding the back button.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -156,12 +180,18 @@ export type RawHideBackButtonResponse = InferOutput<typeof RawHideBackButtonResp
  * Result when showing the back button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type ShowBackButtonResult = void;
 
 /**
  * Response when showing the back button.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -185,12 +215,18 @@ export type RawShowBackButtonResponse = InferOutput<typeof RawShowBackButtonResp
  * Result when hiding the refresh button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type HideRefreshButtonResult = void;
 
 /**
  * Response when hiding the refresh button.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -214,12 +250,18 @@ export type RawHideRefreshButtonResponse = InferOutput<typeof RawHideRefreshButt
  * Result when showing the refresh button.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type ShowRefreshButtonResult = void;
 
 /**
  * Response when showing the refresh button.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -243,12 +285,18 @@ export type RawShowRefreshButtonResponse = InferOutput<typeof RawShowRefreshButt
  * Result when closing the container.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type CloseResult = void;
 
 /**
  * Response when closing the container.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -272,12 +320,18 @@ export type RawCloseResponse = InferOutput<typeof RawCloseResponseSchema>;
  * Result when notifying content loaded.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type OnContentLoadedResult = void;
 
 /**
  * Response when notifying content loaded.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -294,12 +348,18 @@ export type OnContentLoadedResponse = InferOutput<typeof OnContentLoadedResponse
  * Result when showing the loader.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type ShowLoaderResult = void;
 
 /**
  * Response when showing the loader.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -323,12 +383,18 @@ export type RawShowLoaderResponse = InferOutput<typeof RawShowLoaderResponseSche
  * Result when hiding the loader.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type HideLoaderResult = void;
 
 /**
  * Response when hiding the loader.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -351,6 +417,9 @@ export type RawHideLoaderResponse = InferOutput<typeof RawHideLoaderResponseSche
 /**
  * Request parameters for opening an external link.
  *
+ * @group Modules
+ * @category Container
+ *
  * @example
  * ```typescript
  * 'https://example.com'
@@ -364,12 +433,18 @@ export type OpenExternalLinkRequest = string;
  * Result when opening an external link.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type OpenExternalLinkResult = void;
 
 /**
  * Response when opening an external link.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -393,6 +468,9 @@ export type RawOpenExternalLinkResponse = InferOutput<typeof RawOpenExternalLink
 /**
  * Request parameters for notifying CTA tap.
  *
+ * @group Modules
+ * @category Container
+ *
  * @example
  * ```typescript
  * 'AV_LANDING_PAGE_CONTINUE'
@@ -406,12 +484,18 @@ export type OnCtaTapRequest = string;
  * Result when notifying CTA tap.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type OnCtaTapResult = void;
 
 /**
  * Response when notifying CTA tap.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -425,6 +509,9 @@ export type OnCtaTapResponse = InferOutput<typeof OnCtaTapResponseSchema>;
 
 /**
  * Request parameters for sending analytics events.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * Use predefined constants to ensure consistency across the platform:
@@ -458,12 +545,18 @@ export type SendAnalyticsEventRequest = InferOutput<typeof SendAnalyticsEventReq
  * Result when sending analytics events.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export type SendAnalyticsEventResult = void;
 
 /**
  * Response when sending analytics events.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:
@@ -487,6 +580,9 @@ export type RawSendAnalyticsEventResponse = InferOutput<typeof RawSendAnalyticsE
 /**
  * Result object containing the connection status.
  *
+ * @group Modules
+ * @category Container
+ *
  * @example
  * **Connected to Grab SuperApp:**
  * ```typescript
@@ -506,6 +602,9 @@ export type IsConnectedResult = InferOutput<typeof IsConnectedResultSchema>;
 /**
  * Response when checking connection status.
  *
+ * @group Modules
+ * @category Container
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: Connected to Grab SuperApp. The `result` contains the connection status.
@@ -517,6 +616,9 @@ export type IsConnectedResponse = InferOutput<typeof IsConnectedResponseSchema>;
 
 /**
  * Result object containing session parameters as a JSON string.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * The `result` field contains a JSON string that must be parsed with `JSON.parse()` to use as an object.
@@ -534,6 +636,9 @@ export type GetSessionParamsResult = InferOutput<typeof GetSessionParamsResultSc
 
 /**
  * Response when getting session parameters.
+ *
+ * @group Modules
+ * @category Container
  *
  * @remarks
  * This response can have the following status codes:

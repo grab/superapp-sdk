@@ -12,6 +12,9 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link DRMPlaybackEvent}.
  *
+ * @group Modules
+ * @category Media
+ *
  * @public
  */
 export const DRMPlaybackEventSchema = v.object({
@@ -37,6 +40,9 @@ export const DRMPlaybackEventSchema = v.object({
 /**
  * Valibot schema for {@link PlayDRMContentResponse}.
  *
+ * @group Modules
+ * @category Media
+ *
  * @public
  */
 export const PlayDRMContentResponseSchema = v.union([
@@ -49,6 +55,9 @@ export const PlayDRMContentResponseSchema = v.union([
 ]);
 
 /**
+ * @group Modules
+ * @category Media
+ *
  * @public
  */
 export const ObserveDRMPlaybackResponseSchema = v.union([

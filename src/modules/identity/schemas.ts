@@ -17,6 +17,9 @@ import {
 /**
  * Valibot schema for {@link AuthorizeRequest}.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @public
  */
 export const AuthorizeRequestSchema = v.object({
@@ -50,6 +53,9 @@ export const RawAuthorizeResponseSchema = v.union([
 /**
  * Valibot schema for {@link AuthorizeResult}.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @public
  */
 export const AuthorizeResultSchema = v.object({
@@ -62,6 +68,9 @@ export const AuthorizeResultSchema = v.object({
 
 /**
  * Valibot schema for {@link AuthorizeResponse}.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @public
  */
@@ -78,6 +87,9 @@ export const AuthorizeResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetAuthorizationArtifactsResult}.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @public
  */
 export const GetAuthorizationArtifactsResultSchema = v.object({
@@ -90,6 +102,9 @@ export const GetAuthorizationArtifactsResultSchema = v.object({
 /**
  * Valibot schema for {@link GetAuthorizationArtifactsResponse}.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @public
  */
 export const GetAuthorizationArtifactsResponseSchema = v.union([
@@ -100,6 +115,9 @@ export const GetAuthorizationArtifactsResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link ClearAuthorizationArtifactsResponse}.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @public
  */

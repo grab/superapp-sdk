@@ -12,12 +12,18 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link FetchEmailResult}.
  *
+ * @group Modules
+ * @category Profile
+ *
  * @public
  */
 export const FetchEmailResultSchema = v.object({ email: v.string() });
 
 /**
  * Valibot schema for {@link FetchEmailResponse}.
+ *
+ * @group Modules
+ * @category Profile
  *
  * @public
  */
@@ -34,6 +40,9 @@ export const FetchEmailResponseSchema = v.union([
 /**
  * Valibot schema for {@link VerifyEmailRequest}.
  *
+ * @group Modules
+ * @category Profile
+ *
  * @public
  */
 export const VerifyEmailRequestSchema = v.object({
@@ -44,12 +53,18 @@ export const VerifyEmailRequestSchema = v.object({
 /**
  * Valibot schema for {@link VerifyEmailResult}.
  *
+ * @group Modules
+ * @category Profile
+ *
  * @public
  */
 export const VerifyEmailResultSchema = v.object({ email: v.string() });
 
 /**
  * Valibot schema for {@link VerifyEmailResponse}.
+ *
+ * @group Modules
+ * @category Profile
  *
  * @public
  */

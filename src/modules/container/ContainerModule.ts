@@ -73,6 +73,7 @@ import {
  * JSBridge module for controlling the WebView container.
  *
  * @group Modules
+ * @category Container
  *
  * @remarks
  * Provides methods to interact with the WebView container.

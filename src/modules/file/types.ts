@@ -12,6 +12,9 @@ import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas
 /**
  * Request parameters for downloading a file via native bridge.
  *
+ * @group Modules
+ * @category File
+ *
  * @example
  * ```typescript
  * {
@@ -27,6 +30,9 @@ export type DownloadFileRequest = InferOutput<typeof DownloadFileRequestSchema>;
 /**
  * Result data structure for file download operations.
  *
+ * @group Modules
+ * @category File
+ *
  * @remarks
  * This is a void result type as successful downloads return status code 204 with no content.
  *
@@ -36,6 +42,9 @@ export type DownloadFileResult = void;
 
 /**
  * Response when requesting a native file download.
+ *
+ * @group Modules
+ * @category File
  *
  * @remarks
  * This response can have the following status codes:

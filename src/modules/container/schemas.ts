@@ -26,6 +26,9 @@ export const RawSetBackgroundColorResponseSchema = v.union([
 /**
  * Valibot schema for {@link SetBackgroundColorResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const SetBackgroundColorResponseSchema = v.union([
@@ -52,6 +55,9 @@ export const RawSetTitleResponseSchema = v.union([
 /**
  * Valibot schema for {@link SetTitleResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const SetTitleResponseSchema = v.union([
@@ -77,6 +83,9 @@ export const RawHideBackButtonResponseSchema = v.union([
 /**
  * Valibot schema for {@link HideBackButtonResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const HideBackButtonResponseSchema = v.union([
@@ -100,6 +109,9 @@ export const RawShowBackButtonResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link ShowBackButtonResponse}.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
@@ -125,6 +137,9 @@ export const RawHideRefreshButtonResponseSchema = v.union([
 /**
  * Valibot schema for {@link HideRefreshButtonResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const HideRefreshButtonResponseSchema = v.union([
@@ -148,6 +163,9 @@ export const RawShowRefreshButtonResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link ShowRefreshButtonResponse}.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
@@ -173,6 +191,9 @@ export const RawCloseResponseSchema = v.union([
 /**
  * Valibot schema for {@link CloseResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const CloseResponseSchema = v.union([
@@ -183,6 +204,9 @@ export const CloseResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link OnContentLoadedResponse}.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
@@ -209,6 +233,9 @@ export const RawShowLoaderResponseSchema = v.union([
 /**
  * Valibot schema for {@link ShowLoaderResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const ShowLoaderResponseSchema = v.union([
@@ -232,6 +259,9 @@ export const RawHideLoaderResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link HideLoaderResponse}.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
@@ -258,6 +288,9 @@ export const RawOpenExternalLinkResponseSchema = v.union([
 /**
  * Valibot schema for {@link OpenExternalLinkResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const OpenExternalLinkResponseSchema = v.union([
@@ -270,6 +303,9 @@ export const OpenExternalLinkResponseSchema = v.union([
 /**
  * Valibot schema for {@link OnCtaTapResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const OnCtaTapResponseSchema = v.union([
@@ -280,6 +316,9 @@ export const OnCtaTapResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link SendAnalyticsEventRequest}.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
@@ -306,6 +345,9 @@ export const RawSendAnalyticsEventResponseSchema = v.union([
 /**
  * Valibot schema for {@link SendAnalyticsEventResponse}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const SendAnalyticsEventResponseSchema = v.union([
@@ -318,12 +360,18 @@ export const SendAnalyticsEventResponseSchema = v.union([
 /**
  * Valibot schema for {@link IsConnectedResult}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const IsConnectedResultSchema = v.object({ connected: v.boolean() });
 
 /**
  * Valibot schema for {@link IsConnectedResponse}.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */
@@ -335,12 +383,18 @@ export const IsConnectedResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetSessionParamsResult}.
  *
+ * @group Modules
+ * @category Container
+ *
  * @public
  */
 export const GetSessionParamsResultSchema = v.string();
 
 /**
  * Valibot schema for {@link GetSessionParamsResponse}.
+ *
+ * @group Modules
+ * @category Container
  *
  * @public
  */

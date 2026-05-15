@@ -22,6 +22,9 @@ const storageKeySchema = v.object({ key: storageKeyField });
 /**
  * Valibot schema for {@link SetBooleanRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const SetBooleanRequestSchema = v.object({
@@ -31,6 +34,9 @@ export const SetBooleanRequestSchema = v.object({
 
 /**
  * Valibot schema for {@link SetBooleanResponse}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -45,12 +51,18 @@ export const SetBooleanResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetBooleanRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetBooleanRequestSchema = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetBooleanResult}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -74,6 +86,9 @@ export const RawGetBooleanResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetBooleanResponse}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetBooleanResponseSchema = v.union([
@@ -88,6 +103,9 @@ export const GetBooleanResponseSchema = v.union([
 /**
  * Valibot schema for {@link SetIntRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const SetIntRequestSchema = v.object({
@@ -97,6 +115,9 @@ export const SetIntRequestSchema = v.object({
 
 /**
  * Valibot schema for {@link SetIntResponse}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -111,12 +132,18 @@ export const SetIntResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetIntRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetIntRequestSchema = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetIntResult}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -140,6 +167,9 @@ export const RawGetIntResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetIntResponse}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetIntResponseSchema = v.union([
@@ -154,6 +184,9 @@ export const GetIntResponseSchema = v.union([
 /**
  * Valibot schema for {@link SetStringRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const SetStringRequestSchema = v.object({
@@ -163,6 +196,9 @@ export const SetStringRequestSchema = v.object({
 
 /**
  * Valibot schema for {@link SetStringResponse}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -177,12 +213,18 @@ export const SetStringResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetStringRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetStringRequestSchema = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetStringResult}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -206,6 +248,9 @@ export const RawGetStringResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetStringResponse}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetStringResponseSchema = v.union([
@@ -220,6 +265,9 @@ export const GetStringResponseSchema = v.union([
 /**
  * Valibot schema for {@link SetDoubleRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const SetDoubleRequestSchema = v.object({
@@ -229,6 +277,9 @@ export const SetDoubleRequestSchema = v.object({
 
 /**
  * Valibot schema for {@link SetDoubleResponse}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -243,12 +294,18 @@ export const SetDoubleResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetDoubleRequest}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetDoubleRequestSchema = storageKeySchema;
 
 /**
  * Valibot schema for {@link GetDoubleResult}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */
@@ -272,6 +329,9 @@ export const RawGetDoubleResponseSchema = v.union([
 /**
  * Valibot schema for {@link GetDoubleResponse}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const GetDoubleResponseSchema = v.union([
@@ -291,6 +351,9 @@ export const RemoveRequestSchema = storageKeySchema;
 /**
  * Valibot schema for {@link RemoveResponse}.
  *
+ * @group Modules
+ * @category Storage
+ *
  * @public
  */
 export const RemoveResponseSchema = v.union([
@@ -303,6 +366,9 @@ export const RemoveResponseSchema = v.union([
 
 /**
  * Valibot schema for {@link RemoveAllResponse}.
+ *
+ * @group Modules
+ * @category Storage
  *
  * @public
  */

@@ -12,12 +12,18 @@ import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../
 /**
  * Valibot schema for {@link GetLanguageLocaleIdentifierResult}.
  *
+ * @group Modules
+ * @category Locale
+ *
  * @public
  */
 export const GetLanguageLocaleIdentifierResultSchema = v.string();
 
 /**
  * Valibot schema for {@link GetLanguageLocaleIdentifierResponse}.
+ *
+ * @group Modules
+ * @category Locale
  *
  * @public
  */

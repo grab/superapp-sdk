@@ -13,6 +13,7 @@ import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  * JSBridge module for triggering native payment flows.
  *
  * @group Modules
+ * @category Checkout
  *
  * @remarks
  * Invokes the native Grab checkout/pay component to process payments.

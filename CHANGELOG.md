@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.53] - 2026-05-15
+
+_Improves API docs organization with explicit groups/categories and simplified TypeDoc plugins._
+
+### Added
+
+- Added `@category` support in TSDoc config and applied category/group annotations across exported modules, types, and schemas.
+
+### Changed
+
+- Reorganized TypeDoc output ordering (groups/categories) for HTML, API JSON, and Markdown builds.
+
+### Removed
+
+- Removed `typedoc-plugin-valibot` from documentation build plugins and dev dependencies.
+
 ## [2.0.0-beta.52] - 2026-05-14
 
 _Metadata-only release to improve handling of generated assets._

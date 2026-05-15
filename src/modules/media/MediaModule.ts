@@ -13,6 +13,7 @@ import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } 
  * JSBridge module for playing DRM-protected media content.
  *
  * @group Modules
+ * @category Media
  *
  * @remarks
  * Provides access to the native media player with DRM support for secure content playback.

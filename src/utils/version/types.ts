@@ -8,6 +8,8 @@
 /**
  * Represents a semantic version with major, minor, and patch components.
  *
+ * @group Core
+ *
  * @public
  */
 export interface Version {

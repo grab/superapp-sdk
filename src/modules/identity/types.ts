@@ -20,6 +20,9 @@ import {
 /**
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @example
  * **Production environment with redirect mode:**
  * ```typescript
@@ -59,6 +62,9 @@ export type RawAuthorizeResponse = InferOutput<typeof RawAuthorizeResponseSchema
  * Result object for the authorization flow.
  * Contains the authorization code, state, and PKCE artifacts when native in_place flow completes successfully.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @example
  * ```typescript
  * {
@@ -77,6 +83,9 @@ export type AuthorizeResult = InferOutput<typeof AuthorizeResultSchema>;
 /**
  * Response when initiating an authorization flow.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: Authorization completed successfully (native in_place flow). The `result` contains the authorization code, state, and PKCE artifacts (`codeVerifier`, `nonce`, `redirectUri`).
@@ -94,6 +103,9 @@ export type AuthorizeResponse = InferOutput<typeof AuthorizeResponseSchema>;
 /**
  * Result object containing the stored PKCE authorization artifacts.
  * These are used to complete the OAuth2 authorization code exchange.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @example
  * **All artifacts present:**
@@ -115,6 +127,9 @@ export type GetAuthorizationArtifactsResult = InferOutput<
 /**
  * Response when retrieving stored authorization artifacts.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @remarks
  * This response can have the following status codes:
  * - `200`: All artifacts present. The `result` contains the PKCE artifacts needed for token exchange.
@@ -131,12 +146,18 @@ export type GetAuthorizationArtifactsResponse = InferOutput<
  * Result object for clearing authorization artifacts.
  * This operation returns no data on success.
  *
+ * @group Modules
+ * @category Identity
+ *
  * @public
  */
 export type ClearAuthorizationArtifactsResult = void;
 
 /**
  * Response when clearing stored authorization artifacts.
+ *
+ * @group Modules
+ * @category Identity
  *
  * @remarks
  * This response returns status code `204` when artifacts are successfully cleared.

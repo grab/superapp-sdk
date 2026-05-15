@@ -13,6 +13,7 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  * JSBridge module for accessing the device camera.
  *
  * @group Modules
+ * @category Camera
  *
  * @remarks
  * Provides access to native camera functionality including QR code scanning.

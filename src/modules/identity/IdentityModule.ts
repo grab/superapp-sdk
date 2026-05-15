@@ -36,6 +36,7 @@ import {
  * JSBridge module for authenticating users via GrabID.
  *
  * @group Modules
+ * @category Identity
  *
  * @remarks
  * Handles OAuth2/OIDC authentication flows with PKCE support, enabling MiniApps to obtain user identity tokens.
