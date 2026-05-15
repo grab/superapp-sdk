@@ -5,12 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  GetLanguageLocaleIdentifierResponseSchema,
-  GetLanguageLocaleIdentifierResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result object containing the language locale identifier.
@@ -44,9 +39,7 @@ import {
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResult = InferOutput<
-  typeof GetLanguageLocaleIdentifierResultSchema
->;
+export type GetLanguageLocaleIdentifierResult = string;
 
 /**
  * Response when getting the language locale identifier from the device.
@@ -64,6 +57,9 @@ export type GetLanguageLocaleIdentifierResult = InferOutput<
  *
  * @public
  */
-export type GetLanguageLocaleIdentifierResponse = InferOutput<
-  typeof GetLanguageLocaleIdentifierResponseSchema
->;
+export type GetLanguageLocaleIdentifierResponse =
+  | SDKOkResponse<GetLanguageLocaleIdentifierResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

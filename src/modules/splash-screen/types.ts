@@ -5,9 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { DismissSplashScreenResponseSchema } from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 
 /**
  * Response when dismissing the splash screen.
@@ -49,4 +47,9 @@ import { DismissSplashScreenResponseSchema } from './schemas';
  *
  * @public
  */
-export type DismissSplashScreenResponse = InferOutput<typeof DismissSplashScreenResponseSchema>;
+export type DismissSplashScreenResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

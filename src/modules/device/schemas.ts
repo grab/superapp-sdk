@@ -8,6 +8,7 @@
 import * as v from 'valibot';
 
 import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
+import type { IsEsimSupportedResponse, IsEsimSupportedResult } from './types';
 
 /**
  * Valibot schema for {@link IsEsimSupportedResult}.
@@ -17,7 +18,7 @@ import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
  *
  * @public
  */
-export const IsEsimSupportedResultSchema = v.boolean();
+export const IsEsimSupportedResultSchema: v.GenericSchema<IsEsimSupportedResult> = v.boolean();
 
 /**
  * Valibot schema for {@link IsEsimSupportedResponse}.
@@ -27,7 +28,7 @@ export const IsEsimSupportedResultSchema = v.boolean();
  *
  * @public
  */
-export const IsEsimSupportedResponseSchema = v.union([
+export const IsEsimSupportedResponseSchema: v.GenericSchema<IsEsimSupportedResponse> = v.union([
   sdkOkResponseSchema(IsEsimSupportedResultSchema),
   sdkErrorResponseSchema(403),
   sdkErrorResponseSchema(424),

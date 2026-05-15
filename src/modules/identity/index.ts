@@ -6,14 +6,6 @@
  */
 
 export { IdentityModule } from './IdentityModule';
-export {
-  AuthorizeRequestSchema,
-  AuthorizeResponseSchema,
-  AuthorizeResultSchema,
-  ClearAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResponseSchema,
-  GetAuthorizationArtifactsResultSchema,
-} from './schemas';
 export type {
   AuthorizeRequest,
   AuthorizeResponse,

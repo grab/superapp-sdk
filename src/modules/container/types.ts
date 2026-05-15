@@ -5,39 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  CloseResponseSchema,
-  GetSessionParamsResponseSchema,
-  GetSessionParamsResultSchema,
-  HideBackButtonResponseSchema,
-  HideLoaderResponseSchema,
-  HideRefreshButtonResponseSchema,
-  IsConnectedResponseSchema,
-  IsConnectedResultSchema,
-  OnContentLoadedResponseSchema,
-  OnCtaTapResponseSchema,
-  OpenExternalLinkResponseSchema,
-  RawCloseResponseSchema,
-  RawHideBackButtonResponseSchema,
-  RawHideLoaderResponseSchema,
-  RawHideRefreshButtonResponseSchema,
-  RawOpenExternalLinkResponseSchema,
-  RawSendAnalyticsEventResponseSchema,
-  RawSetBackgroundColorResponseSchema,
-  RawSetTitleResponseSchema,
-  RawShowBackButtonResponseSchema,
-  RawShowLoaderResponseSchema,
-  RawShowRefreshButtonResponseSchema,
-  SendAnalyticsEventRequestSchema,
-  SendAnalyticsEventResponseSchema,
-  SetBackgroundColorResponseSchema,
-  SetTitleResponseSchema,
-  ShowBackButtonResponseSchema,
-  ShowLoaderResponseSchema,
-  ShowRefreshButtonResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for setting the background color.
@@ -80,7 +48,11 @@ export type SetBackgroundColorResult = void;
  *
  * @public
  */
-export type SetBackgroundColorResponse = InferOutput<typeof SetBackgroundColorResponseSchema>;
+export type SetBackgroundColorResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `setBackgroundColor` before transformation.
@@ -88,7 +60,12 @@ export type SetBackgroundColorResponse = InferOutput<typeof SetBackgroundColorRe
  *
  * @internal
  */
-export type RawSetBackgroundColorResponse = InferOutput<typeof RawSetBackgroundColorResponseSchema>;
+export type RawSetBackgroundColorResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for setting the title.
@@ -131,7 +108,11 @@ export type SetTitleResult = void;
  *
  * @public
  */
-export type SetTitleResponse = InferOutput<typeof SetTitleResponseSchema>;
+export type SetTitleResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `setTitle` before transformation.
@@ -139,7 +120,12 @@ export type SetTitleResponse = InferOutput<typeof SetTitleResponseSchema>;
  *
  * @internal
  */
-export type RawSetTitleResponse = InferOutput<typeof RawSetTitleResponseSchema>;
+export type RawSetTitleResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when hiding the back button.
@@ -166,7 +152,10 @@ export type HideBackButtonResult = void;
  *
  * @public
  */
-export type HideBackButtonResponse = InferOutput<typeof HideBackButtonResponseSchema>;
+export type HideBackButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `hideBackButton` before transformation.
@@ -174,7 +163,11 @@ export type HideBackButtonResponse = InferOutput<typeof HideBackButtonResponseSc
  *
  * @internal
  */
-export type RawHideBackButtonResponse = InferOutput<typeof RawHideBackButtonResponseSchema>;
+export type RawHideBackButtonResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when showing the back button.
@@ -201,7 +194,10 @@ export type ShowBackButtonResult = void;
  *
  * @public
  */
-export type ShowBackButtonResponse = InferOutput<typeof ShowBackButtonResponseSchema>;
+export type ShowBackButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `showBackButton` before transformation.
@@ -209,7 +205,11 @@ export type ShowBackButtonResponse = InferOutput<typeof ShowBackButtonResponseSc
  *
  * @internal
  */
-export type RawShowBackButtonResponse = InferOutput<typeof RawShowBackButtonResponseSchema>;
+export type RawShowBackButtonResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when hiding the refresh button.
@@ -236,7 +236,10 @@ export type HideRefreshButtonResult = void;
  *
  * @public
  */
-export type HideRefreshButtonResponse = InferOutput<typeof HideRefreshButtonResponseSchema>;
+export type HideRefreshButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `hideRefreshButton` before transformation.
@@ -244,7 +247,11 @@ export type HideRefreshButtonResponse = InferOutput<typeof HideRefreshButtonResp
  *
  * @internal
  */
-export type RawHideRefreshButtonResponse = InferOutput<typeof RawHideRefreshButtonResponseSchema>;
+export type RawHideRefreshButtonResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when showing the refresh button.
@@ -271,7 +278,10 @@ export type ShowRefreshButtonResult = void;
  *
  * @public
  */
-export type ShowRefreshButtonResponse = InferOutput<typeof ShowRefreshButtonResponseSchema>;
+export type ShowRefreshButtonResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `showRefreshButton` before transformation.
@@ -279,7 +289,11 @@ export type ShowRefreshButtonResponse = InferOutput<typeof ShowRefreshButtonResp
  *
  * @internal
  */
-export type RawShowRefreshButtonResponse = InferOutput<typeof RawShowRefreshButtonResponseSchema>;
+export type RawShowRefreshButtonResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when closing the container.
@@ -306,7 +320,7 @@ export type CloseResult = void;
  *
  * @public
  */
-export type CloseResponse = InferOutput<typeof CloseResponseSchema>;
+export type CloseResponse = SDKNoContentResponse | SDKErrorResponse<500> | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `close` before transformation.
@@ -314,7 +328,11 @@ export type CloseResponse = InferOutput<typeof CloseResponseSchema>;
  *
  * @internal
  */
-export type RawCloseResponse = InferOutput<typeof RawCloseResponseSchema>;
+export type RawCloseResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when notifying content loaded.
@@ -342,7 +360,11 @@ export type OnContentLoadedResult = void;
  *
  * @public
  */
-export type OnContentLoadedResponse = InferOutput<typeof OnContentLoadedResponseSchema>;
+export type OnContentLoadedResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when showing the loader.
@@ -369,7 +391,10 @@ export type ShowLoaderResult = void;
  *
  * @public
  */
-export type ShowLoaderResponse = InferOutput<typeof ShowLoaderResponseSchema>;
+export type ShowLoaderResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `showLoader` before transformation.
@@ -377,7 +402,11 @@ export type ShowLoaderResponse = InferOutput<typeof ShowLoaderResponseSchema>;
  *
  * @internal
  */
-export type RawShowLoaderResponse = InferOutput<typeof RawShowLoaderResponseSchema>;
+export type RawShowLoaderResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result when hiding the loader.
@@ -404,7 +433,10 @@ export type HideLoaderResult = void;
  *
  * @public
  */
-export type HideLoaderResponse = InferOutput<typeof HideLoaderResponseSchema>;
+export type HideLoaderResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `hideLoader` before transformation.
@@ -412,7 +444,11 @@ export type HideLoaderResponse = InferOutput<typeof HideLoaderResponseSchema>;
  *
  * @internal
  */
-export type RawHideLoaderResponse = InferOutput<typeof RawHideLoaderResponseSchema>;
+export type RawHideLoaderResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for opening an external link.
@@ -455,7 +491,11 @@ export type OpenExternalLinkResult = void;
  *
  * @public
  */
-export type OpenExternalLinkResponse = InferOutput<typeof OpenExternalLinkResponseSchema>;
+export type OpenExternalLinkResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `openExternalLink` before transformation.
@@ -463,7 +503,12 @@ export type OpenExternalLinkResponse = InferOutput<typeof OpenExternalLinkRespon
  *
  * @internal
  */
-export type RawOpenExternalLinkResponse = InferOutput<typeof RawOpenExternalLinkResponseSchema>;
+export type RawOpenExternalLinkResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for notifying CTA tap.
@@ -505,7 +550,10 @@ export type OnCtaTapResult = void;
  *
  * @public
  */
-export type OnCtaTapResponse = InferOutput<typeof OnCtaTapResponseSchema>;
+export type OnCtaTapResponse =
+  | SDKOkResponse<boolean>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for sending analytics events.
@@ -539,7 +587,11 @@ export type OnCtaTapResponse = InferOutput<typeof OnCtaTapResponseSchema>;
  *
  * @public
  */
-export type SendAnalyticsEventRequest = InferOutput<typeof SendAnalyticsEventRequestSchema>;
+export type SendAnalyticsEventRequest = {
+  state: string;
+  name: string;
+  data?: Record<string, unknown>;
+};
 
 /**
  * Result when sending analytics events.
@@ -567,7 +619,11 @@ export type SendAnalyticsEventResult = void;
  *
  * @public
  */
-export type SendAnalyticsEventResponse = InferOutput<typeof SendAnalyticsEventResponseSchema>;
+export type SendAnalyticsEventResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Internal type for the raw `JSBridge` response from `sendAnalyticsEvent` before transformation.
@@ -575,7 +631,12 @@ export type SendAnalyticsEventResponse = InferOutput<typeof SendAnalyticsEventRe
  *
  * @internal
  */
-export type RawSendAnalyticsEventResponse = InferOutput<typeof RawSendAnalyticsEventResponseSchema>;
+export type RawSendAnalyticsEventResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object containing the connection status.
@@ -597,7 +658,9 @@ export type RawSendAnalyticsEventResponse = InferOutput<typeof RawSendAnalyticsE
  *
  * @public
  */
-export type IsConnectedResult = InferOutput<typeof IsConnectedResultSchema>;
+export type IsConnectedResult = {
+  connected: boolean;
+};
 
 /**
  * Response when checking connection status.
@@ -612,7 +675,7 @@ export type IsConnectedResult = InferOutput<typeof IsConnectedResultSchema>;
  *
  * @public
  */
-export type IsConnectedResponse = InferOutput<typeof IsConnectedResponseSchema>;
+export type IsConnectedResponse = SDKOkResponse<IsConnectedResult> | SDKErrorResponse<404>;
 
 /**
  * Result object containing session parameters as a JSON string.
@@ -632,7 +695,7 @@ export type IsConnectedResponse = InferOutput<typeof IsConnectedResponseSchema>;
  *
  * @public
  */
-export type GetSessionParamsResult = InferOutput<typeof GetSessionParamsResultSchema>;
+export type GetSessionParamsResult = string;
 
 /**
  * Response when getting session parameters.
@@ -648,4 +711,8 @@ export type GetSessionParamsResult = InferOutput<typeof GetSessionParamsResultSc
  *
  * @public
  */
-export type GetSessionParamsResponse = InferOutput<typeof GetSessionParamsResponseSchema>;
+export type GetSessionParamsResponse =
+  | SDKOkResponse<GetSessionParamsResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

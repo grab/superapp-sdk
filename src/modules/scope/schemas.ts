@@ -12,6 +12,12 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type {
+  HasAccessToRequest,
+  HasAccessToResponse,
+  HasAccessToResult,
+  ReloadScopesResponse,
+} from './types';
 
 /**
  * Valibot schema for {@link HasAccessToRequest}.
@@ -21,7 +27,7 @@ import {
  *
  * @public
  */
-export const HasAccessToRequestSchema = v.object({
+export const HasAccessToRequestSchema: v.GenericSchema<HasAccessToRequest> = v.object({
   module: v.pipe(v.string(), v.minLength(1)),
   method: v.pipe(v.string(), v.minLength(1)),
 });
@@ -34,7 +40,7 @@ export const HasAccessToRequestSchema = v.object({
  *
  * @public
  */
-export const HasAccessToResultSchema = v.boolean();
+export const HasAccessToResultSchema: v.GenericSchema<HasAccessToResult> = v.boolean();
 
 /**
  * Valibot schema for {@link HasAccessToResponse}.
@@ -44,7 +50,7 @@ export const HasAccessToResultSchema = v.boolean();
  *
  * @public
  */
-export const HasAccessToResponseSchema = v.union([
+export const HasAccessToResponseSchema: v.GenericSchema<HasAccessToResponse> = v.union([
   sdkOkResponseSchema(HasAccessToResultSchema),
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(424),
@@ -60,7 +66,7 @@ export const HasAccessToResponseSchema = v.union([
  *
  * @public
  */
-export const ReloadScopesResponseSchema = v.union([
+export const ReloadScopesResponseSchema: v.GenericSchema<ReloadScopesResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(424),
   sdkErrorResponseSchema(500),

@@ -5,14 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  HasAccessToRequestSchema,
-  HasAccessToResponseSchema,
-  HasAccessToResultSchema,
-  ReloadScopesResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for checking if the current client has access to a specific API.
@@ -30,7 +23,10 @@ import {
  *
  * @public
  */
-export type HasAccessToRequest = InferOutput<typeof HasAccessToRequestSchema>;
+export type HasAccessToRequest = {
+  method: string;
+  module: string;
+};
 
 /**
  * Boolean result indicating whether the MiniApp has access to the specified API.
@@ -52,7 +48,7 @@ export type HasAccessToRequest = InferOutput<typeof HasAccessToRequestSchema>;
  *
  * @public
  */
-export type HasAccessToResult = InferOutput<typeof HasAccessToResultSchema>;
+export type HasAccessToResult = boolean;
 
 /**
  * Response when checking API access permissions.
@@ -70,7 +66,12 @@ export type HasAccessToResult = InferOutput<typeof HasAccessToResultSchema>;
  *
  * @public
  */
-export type HasAccessToResponse = InferOutput<typeof HasAccessToResponseSchema>;
+export type HasAccessToResponse =
+  | SDKOkResponse<HasAccessToResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for reloading scopes.
@@ -98,4 +99,8 @@ export type ReloadScopesResult = void;
  *
  * @public
  */
-export type ReloadScopesResponse = InferOutput<typeof ReloadScopesResponseSchema>;
+export type ReloadScopesResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

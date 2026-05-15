@@ -7,11 +7,6 @@
 
 export { MediaModule } from './MediaModule';
 export {
-  DRMPlaybackEventSchema,
-  ObserveDRMPlaybackResponseSchema,
-  PlayDRMContentResponseSchema,
-} from './schemas';
-export {
   DRMContentConfig,
   DRMPlaybackEvent,
   ObserveDRMPlaybackResponse,

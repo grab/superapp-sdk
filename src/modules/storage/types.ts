@@ -5,36 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  GetBooleanRequestSchema,
-  GetBooleanResponseSchema,
-  GetBooleanResultSchema,
-  GetDoubleRequestSchema,
-  GetDoubleResponseSchema,
-  GetDoubleResultSchema,
-  GetIntRequestSchema,
-  GetIntResponseSchema,
-  GetIntResultSchema,
-  GetStringRequestSchema,
-  GetStringResponseSchema,
-  GetStringResultSchema,
-  RawGetBooleanResponseSchema,
-  RawGetDoubleResponseSchema,
-  RawGetIntResponseSchema,
-  RawGetStringResponseSchema,
-  RemoveAllResponseSchema,
-  RemoveResponseSchema,
-  SetBooleanRequestSchema,
-  SetBooleanResponseSchema,
-  SetDoubleRequestSchema,
-  SetDoubleResponseSchema,
-  SetIntRequestSchema,
-  SetIntResponseSchema,
-  SetStringRequestSchema,
-  SetStringResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Result object for setting a boolean value.
@@ -60,7 +31,10 @@ export type SetBooleanResult = void;
  *
  * @public
  */
-export type SetBooleanRequest = InferOutput<typeof SetBooleanRequestSchema>;
+export type SetBooleanRequest = {
+  key: string;
+  value: boolean;
+};
 
 /**
  * Response when setting a boolean value.
@@ -78,7 +52,12 @@ export type SetBooleanRequest = InferOutput<typeof SetBooleanRequestSchema>;
  *
  * @public
  */
-export type SetBooleanResponse = InferOutput<typeof SetBooleanResponseSchema>;
+export type SetBooleanResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting a boolean value from storage.
@@ -93,7 +72,9 @@ export type SetBooleanResponse = InferOutput<typeof SetBooleanResponseSchema>;
  *
  * @public
  */
-export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
+export type GetBooleanRequest = {
+  key: string;
+};
 
 /**
  * The boolean value returned when a key exists in storage.
@@ -111,14 +92,21 @@ export type GetBooleanRequest = InferOutput<typeof GetBooleanRequestSchema>;
  *
  * @public
  */
-export type GetBooleanResult = InferOutput<typeof GetBooleanResultSchema>;
+export type GetBooleanResult = boolean;
 
 /**
  * Internal type for the raw `JSBridge` response from getBoolean before normalization.
  *
  * @internal
  */
-export type RawGetBooleanResponse = InferOutput<typeof RawGetBooleanResponseSchema>;
+export type RawGetBooleanResponse =
+  | {
+      status_code: 200;
+      result?: boolean | null | undefined;
+    }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
  * Response when getting a boolean value.
@@ -137,7 +125,13 @@ export type RawGetBooleanResponse = InferOutput<typeof RawGetBooleanResponseSche
  *
  * @public
  */
-export type GetBooleanResponse = InferOutput<typeof GetBooleanResponseSchema>;
+export type GetBooleanResponse =
+  | SDKOkResponse<GetBooleanResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for setting an integer value.
@@ -163,7 +157,10 @@ export type SetIntResult = void;
  *
  * @public
  */
-export type SetIntRequest = InferOutput<typeof SetIntRequestSchema>;
+export type SetIntRequest = {
+  key: string;
+  value: number;
+};
 
 /**
  * Response when setting an integer value.
@@ -181,7 +178,12 @@ export type SetIntRequest = InferOutput<typeof SetIntRequestSchema>;
  *
  * @public
  */
-export type SetIntResponse = InferOutput<typeof SetIntResponseSchema>;
+export type SetIntResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting an integer value from storage.
@@ -196,7 +198,9 @@ export type SetIntResponse = InferOutput<typeof SetIntResponseSchema>;
  *
  * @public
  */
-export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
+export type GetIntRequest = {
+  key: string;
+};
 
 /**
  * The integer value returned when a key exists in storage.
@@ -214,14 +218,21 @@ export type GetIntRequest = InferOutput<typeof GetIntRequestSchema>;
  *
  * @public
  */
-export type GetIntResult = InferOutput<typeof GetIntResultSchema>;
+export type GetIntResult = number;
 
 /**
  * Internal type for the raw `JSBridge` response from getInt before normalization.
  *
  * @internal
  */
-export type RawGetIntResponse = InferOutput<typeof RawGetIntResponseSchema>;
+export type RawGetIntResponse =
+  | {
+      status_code: 200;
+      result?: number | null | undefined;
+    }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
  * Response when getting an integer value.
@@ -240,7 +251,13 @@ export type RawGetIntResponse = InferOutput<typeof RawGetIntResponseSchema>;
  *
  * @public
  */
-export type GetIntResponse = InferOutput<typeof GetIntResponseSchema>;
+export type GetIntResponse =
+  | SDKOkResponse<GetIntResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for setting a string value.
@@ -266,7 +283,10 @@ export type SetStringResult = void;
  *
  * @public
  */
-export type SetStringRequest = InferOutput<typeof SetStringRequestSchema>;
+export type SetStringRequest = {
+  key: string;
+  value: string;
+};
 
 /**
  * Response when setting a string value.
@@ -284,7 +304,12 @@ export type SetStringRequest = InferOutput<typeof SetStringRequestSchema>;
  *
  * @public
  */
-export type SetStringResponse = InferOutput<typeof SetStringResponseSchema>;
+export type SetStringResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting a string value from storage.
@@ -299,7 +324,9 @@ export type SetStringResponse = InferOutput<typeof SetStringResponseSchema>;
  *
  * @public
  */
-export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
+export type GetStringRequest = {
+  key: string;
+};
 
 /**
  * The string value returned when a key exists in storage.
@@ -317,14 +344,21 @@ export type GetStringRequest = InferOutput<typeof GetStringRequestSchema>;
  *
  * @public
  */
-export type GetStringResult = InferOutput<typeof GetStringResultSchema>;
+export type GetStringResult = string;
 
 /**
  * Internal type for the raw `JSBridge` response from getString before normalization.
  *
  * @internal
  */
-export type RawGetStringResponse = InferOutput<typeof RawGetStringResponseSchema>;
+export type RawGetStringResponse =
+  | {
+      status_code: 200;
+      result?: string | null | undefined;
+    }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
  * Response when getting a string value.
@@ -343,7 +377,13 @@ export type RawGetStringResponse = InferOutput<typeof RawGetStringResponseSchema
  *
  * @public
  */
-export type GetStringResponse = InferOutput<typeof GetStringResponseSchema>;
+export type GetStringResponse =
+  | SDKOkResponse<GetStringResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for setting a double value.
@@ -369,7 +409,10 @@ export type SetDoubleResult = void;
  *
  * @public
  */
-export type SetDoubleRequest = InferOutput<typeof SetDoubleRequestSchema>;
+export type SetDoubleRequest = {
+  key: string;
+  value: number;
+};
 
 /**
  * Response when setting a double value.
@@ -387,7 +430,12 @@ export type SetDoubleRequest = InferOutput<typeof SetDoubleRequestSchema>;
  *
  * @public
  */
-export type SetDoubleResponse = InferOutput<typeof SetDoubleResponseSchema>;
+export type SetDoubleResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Request parameters for getting a double value from storage.
@@ -402,7 +450,9 @@ export type SetDoubleResponse = InferOutput<typeof SetDoubleResponseSchema>;
  *
  * @public
  */
-export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
+export type GetDoubleRequest = {
+  key: string;
+};
 
 /**
  * The floating-point value returned when a key exists in storage.
@@ -420,14 +470,21 @@ export type GetDoubleRequest = InferOutput<typeof GetDoubleRequestSchema>;
  *
  * @public
  */
-export type GetDoubleResult = InferOutput<typeof GetDoubleResultSchema>;
+export type GetDoubleResult = number;
 
 /**
  * Internal type for the raw `JSBridge` response from getDouble before normalization.
  *
  * @internal
  */
-export type RawGetDoubleResponse = InferOutput<typeof RawGetDoubleResponseSchema>;
+export type RawGetDoubleResponse =
+  | {
+      status_code: 200;
+      result?: number | null | undefined;
+    }
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>;
 
 /**
  * Response when getting a double value.
@@ -446,7 +503,13 @@ export type RawGetDoubleResponse = InferOutput<typeof RawGetDoubleResponseSchema
  *
  * @public
  */
-export type GetDoubleResponse = InferOutput<typeof GetDoubleResponseSchema>;
+export type GetDoubleResponse =
+  | SDKOkResponse<GetDoubleResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for removing a value.
@@ -458,6 +521,15 @@ export type GetDoubleResponse = InferOutput<typeof GetDoubleResponseSchema>;
  * @public
  */
 export type RemoveResult = void;
+
+/**
+ * Internal request parameters for removing a value by key.
+ *
+ * @internal
+ */
+export type RemoveRequest = {
+  key: string;
+};
 
 /**
  * Response when removing a value.
@@ -475,7 +547,12 @@ export type RemoveResult = void;
  *
  * @public
  */
-export type RemoveResponse = InferOutput<typeof RemoveResponseSchema>;
+export type RemoveResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Result object for removing all values.
@@ -503,4 +580,8 @@ export type RemoveAllResult = void;
  *
  * @public
  */
-export type RemoveAllResponse = InferOutput<typeof RemoveAllResponseSchema>;
+export type RemoveAllResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

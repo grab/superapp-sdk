@@ -12,6 +12,13 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type {
+  GetCoordinateResponse,
+  GetCoordinateResult,
+  GetCountryCodeResponse,
+  GetCountryCodeResult,
+  ObserveLocationChangeResponse,
+} from './types';
 
 /**
  * Valibot schema for {@link GetCoordinateResult}.
@@ -21,7 +28,10 @@ import {
  *
  * @public
  */
-export const GetCoordinateResultSchema = v.object({ latitude: v.number(), longitude: v.number() });
+export const GetCoordinateResultSchema: v.GenericSchema<GetCoordinateResult> = v.object({
+  latitude: v.number(),
+  longitude: v.number(),
+});
 
 /**
  * Valibot schema for {@link GetCoordinateResponse}.
@@ -31,7 +41,7 @@ export const GetCoordinateResultSchema = v.object({ latitude: v.number(), longit
  *
  * @public
  */
-export const GetCoordinateResponseSchema = v.union([
+export const GetCoordinateResponseSchema: v.GenericSchema<GetCoordinateResponse> = v.union([
   sdkOkResponseSchema(GetCoordinateResultSchema),
   sdkErrorResponseSchema(403),
   sdkErrorResponseSchema(424),
@@ -42,7 +52,9 @@ export const GetCoordinateResponseSchema = v.union([
 /**
  * @internal
  */
-export const ObserveLocationChangeResponseSchema = v.union([
+export const ObserveLocationChangeResponseSchema: v.GenericSchema<
+  Awaited<ObserveLocationChangeResponse>
+> = v.union([
   sdkOkResponseSchema(GetCoordinateResultSchema),
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(403),
@@ -59,7 +71,7 @@ export const ObserveLocationChangeResponseSchema = v.union([
  *
  * @public
  */
-export const GetCountryCodeResultSchema = v.string();
+export const GetCountryCodeResultSchema: v.GenericSchema<GetCountryCodeResult> = v.string();
 
 /**
  * Valibot schema for {@link GetCountryCodeResponse}.
@@ -69,7 +81,7 @@ export const GetCountryCodeResultSchema = v.string();
  *
  * @public
  */
-export const GetCountryCodeResponseSchema = v.union([
+export const GetCountryCodeResponseSchema: v.GenericSchema<GetCountryCodeResponse> = v.union([
   sdkOkResponseSchema(GetCountryCodeResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(403),

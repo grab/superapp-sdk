@@ -5,12 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import {
-  RedirectToSystemWebViewRequestSchema,
-  RedirectToSystemWebViewResponseSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for redirecting to the system web view.
@@ -27,20 +22,19 @@ import {
  *
  * @public
  */
-export type RedirectToSystemWebViewRequest = InferOutput<
-  typeof RedirectToSystemWebViewRequestSchema
->;
+export type RedirectToSystemWebViewRequest = {
+  url: string;
+};
 
 /**
- * Result object for redirecting to the system web view.
- * This operation returns no data on success.
+ * Result payload returned when redirecting to the system web view.
  *
  * @group Modules
  * @category System WebView Kit
  *
  * @public
  */
-export type RedirectToSystemWebViewResult = void;
+export type RedirectToSystemWebViewResult = string;
 
 /**
  * Response when redirecting to the system web view.
@@ -58,6 +52,9 @@ export type RedirectToSystemWebViewResult = void;
  *
  * @public
  */
-export type RedirectToSystemWebViewResponse = InferOutput<
-  typeof RedirectToSystemWebViewResponseSchema
->;
+export type RedirectToSystemWebViewResponse =
+  | SDKOkResponse<RedirectToSystemWebViewResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

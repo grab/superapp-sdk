@@ -5,15 +5,7 @@
  * directory of this source tree.
  */
 
-import type { InferOutput } from 'valibot';
-
-import { SDKStream } from '../../core';
-import {
-  GetCoordinateResponseSchema,
-  GetCoordinateResultSchema,
-  GetCountryCodeResponseSchema,
-  GetCountryCodeResultSchema,
-} from './schemas';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse, SDKStream } from '../../core';
 
 /**
  * Result object containing the geographic coordinates.
@@ -28,7 +20,10 @@ import {
  *
  * @public
  */
-export type GetCoordinateResult = InferOutput<typeof GetCoordinateResultSchema>;
+export type GetCoordinateResult = {
+  latitude: number;
+  longitude: number;
+};
 
 /**
  * Response when getting the device coordinates.
@@ -46,7 +41,12 @@ export type GetCoordinateResult = InferOutput<typeof GetCoordinateResultSchema>;
  *
  * @public
  */
-export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSchema>;
+export type GetCoordinateResponse =
+  | SDKOkResponse<GetCoordinateResult>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
 
 /**
  * Response when observing the device coordinates.
@@ -59,11 +59,18 @@ export type GetCoordinateResponse = InferOutput<typeof GetCoordinateResponseSche
  * - Subscribed to via `.subscribe()` for continuous updates
  * - Awaited via `await` to get the first value only
  *
- * The stream can emit the same status codes as {@link GetCoordinateResponse}.
+ * The stream can emit `200`, `400`, `403`, `424`, `500`, and `501` status codes.
  *
  * @public
  */
-export type ObserveLocationChangeResponse = SDKStream<GetCoordinateResponse>;
+export type ObserveLocationChangeResponse = SDKStream<
+  | SDKOkResponse<GetCoordinateResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>
+>;
 
 /**
  * The ISO country code string returned from `JSBridge`.
@@ -83,7 +90,7 @@ export type ObserveLocationChangeResponse = SDKStream<GetCoordinateResponse>;
  *
  * @public
  */
-export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema>;
+export type GetCountryCodeResult = string;
 
 /**
  * Response when getting the country code.
@@ -102,4 +109,10 @@ export type GetCountryCodeResult = InferOutput<typeof GetCountryCodeResultSchema
  *
  * @public
  */
-export type GetCountryCodeResponse = InferOutput<typeof GetCountryCodeResponseSchema>;
+export type GetCountryCodeResponse =
+  | SDKOkResponse<GetCountryCodeResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;

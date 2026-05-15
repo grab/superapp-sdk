@@ -528,56 +528,56 @@ For the complete API reference, see [GrabPay API](https://developer.grab.com/doc
 
 #### `CameraModule`
 SDK module for accessing the device camera via `JSBridge`.
-- `scanQRCode(request: { title?: string }): Promise<{ result: { qrCode: string }; status_code: 200 } | { status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Opens the native camera to scan a QR code.
+- `scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse>` — Opens the native camera to scan a QR code.
 
 #### `CheckoutModule`
 SDK module for triggering native payment flows via `JSBridge`.
-- `triggerCheckout(request: Record<string, unknown>): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: { status: "success"; transactionID: string } | { errorCode: string; errorMessage: string; status: "failure"; transactionID: string } | { status: "pending"; transactionID: string } | { status: "userInitiatedCancel" }; status_code: 200 }>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
+- `triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
 
 #### `ContainerModule`
 SDK module for controlling the WebView container via `JSBridge`.
-- `close(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Close the container and return to the previous screen.
-- `getSessionParams(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Get the session parameters from the container.
-- `hideBackButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the back button on the container header.
-- `hideLoader(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the full-screen loading indicator.
-- `hideRefreshButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Hide the refresh button on the container header.
-- `isConnected(): Promise<{ result: { connected: boolean }; status_code: 200 } | { error: string; status_code: 404 }>` — Check if the web app is connected to the Grab SuperApp via `JSBridge`.
-- `onContentLoaded(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the Grab SuperApp that the page content has loaded.
-- `onCtaTap(request: string): Promise<{ error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 }>` — Notify the client that the user has tapped a call-to-action (CTA).
-- `openExternalLink(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Open a link in the external browser.
-- `sendAnalyticsEvent(request: { data?: Record<string, unknown>; name: string; state: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Use this method to track user interactions and page transitions.
-- `setBackgroundColor(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Set the background color of the container header.
-- `setTitle(request: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Set the title of the container header.
-- `showBackButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Show the back button on the container header.
-- `showLoader(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Show the full-screen loading indicator.
-- `showRefreshButton(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Show the refresh button on the container header.
+- `close(): Promise<CloseResponse>` — Close the container and return to the previous screen.
+- `getSessionParams(): Promise<GetSessionParamsResponse>` — Get the session parameters from the container.
+- `hideBackButton(): Promise<HideBackButtonResponse>` — Hide the back button on the container header.
+- `hideLoader(): Promise<HideLoaderResponse>` — Hide the full-screen loading indicator.
+- `hideRefreshButton(): Promise<HideRefreshButtonResponse>` — Hide the refresh button on the container header.
+- `isConnected(): Promise<IsConnectedResponse>` — Check if the web app is connected to the Grab SuperApp via `JSBridge`.
+- `onContentLoaded(): Promise<OnContentLoadedResponse>` — Notify the Grab SuperApp that the page content has loaded.
+- `onCtaTap(request: string): Promise<OnCtaTapResponse>` — Notify the client that the user has tapped a call-to-action (CTA).
+- `openExternalLink(request: string): Promise<OpenExternalLinkResponse>` — Open a link in the external browser.
+- `sendAnalyticsEvent(request: SendAnalyticsEventRequest): Promise<SendAnalyticsEventResponse>` — Use this method to track user interactions and page transitions.
+- `setBackgroundColor(request: string): Promise<SetBackgroundColorResponse>` — Set the background color of the container header.
+- `setTitle(request: string): Promise<SetTitleResponse>` — Set the title of the container header.
+- `showBackButton(): Promise<ShowBackButtonResponse>` — Show the back button on the container header.
+- `showLoader(): Promise<ShowLoaderResponse>` — Show the full-screen loading indicator.
+- `showRefreshButton(): Promise<ShowRefreshButtonResponse>` — Show the refresh button on the container header.
 
 #### `DeviceModule`
 SDK module for querying native device information via `JSBridge`.
-- `isEsimSupported(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 } | { error: string; status_code: 426 }>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
+- `isEsimSupported(): Promise<IsEsimSupportedResponse>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
 
 #### `FileModule`
 SDK module for downloading files to the user's device via `JSBridge`.
-- `downloadFile(request: { fileName: string; fileUrl: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Downloads a file through `JSBridge`.
+- `downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse>` — Downloads a file through `JSBridge`.
 
 #### `IdentityModule`
 SDK module for authenticating users with GrabID via `JSBridge`.
-- `authorize(request: { clientId: string; environment: "staging" | "production"; redirectUri: string; responseMode?: "redirect" | "in_place"; scope: string }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { status_code: 302 } | { result: { code: string; codeVerifier: string; nonce: string; redirectUri: string; state: string }; status_code: 200 }>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
+- `authorize(request: AuthorizeRequest): Promise<AuthorizeResponse>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
 This method handles both native in-app consent and web-based fallback flows.
-- `clearAuthorizationArtifacts(): Promise<{ status_code: 204 }>` — Clears all stored PKCE authorization artifacts from local storage.
+- `clearAuthorizationArtifacts(): Promise<SDKNoContentResponse>` — Clears all stored PKCE authorization artifacts from local storage.
 This should be called after a successful token exchange or when you need to
 reset the authorization state (e.g., on error or logout).
-- `getAuthorizationArtifacts(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { result: { codeVerifier: string; nonce: string; redirectUri: string; state: string }; status_code: 200 }>` — Retrieves stored PKCE authorization artifacts from local storage.
+- `getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse>` — Retrieves stored PKCE authorization artifacts from local storage.
 These artifacts are used to complete the OAuth2 authorization code exchange.
 
 #### `LocaleModule`
 SDK module for accessing device locale settings via `JSBridge`.
-- `getLanguageLocaleIdentifier(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Retrieves the current language locale identifier from the device.
+- `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` — Retrieves the current language locale identifier from the device.
 
 #### `LocationModule`
 SDK module for accessing device location services via `JSBridge`.
-- `getCoordinate(): Promise<{ error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { latitude: number; longitude: number }; status_code: 200 }>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
-- `getCountryCode(): Promise<{ status_code: 204 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
+- `getCoordinate(): Promise<GetCoordinateResponse>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
+- `getCountryCode(): Promise<GetCountryCodeResponse>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
 - `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device. (**OAuth Scope:** mobile.geolocation)
 
 #### `Logger`
@@ -586,52 +586,52 @@ Provides scoped logging for SDK modules.
 #### `MediaModule`
 SDK module for playing DRM-protected media content via `JSBridge`.
 - `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
-- `playDRMContent(data: DRMContentConfig): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: { length: number; position: number; titleId: string; type: "START_PLAYBACK" | "PROGRESS_PLAYBACK" | "START_SEEK" | "STOP_SEEK" | "STOP_PLAYBACK" | "CLOSE_PLAYBACK" | "PAUSE_PLAYBACK" | "RESUME_PLAYBACK" | "FAST_FORWARD_PLAYBACK" | "REWIND_PLAYBACK" | "ERROR_PLAYBACK" | "CHANGE_VOLUME" }; status_code: 200 }>` — Plays DRM-protected media content in the native media player. (**OAuth Scope:** mobile.media)
+- `playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse>` — Plays DRM-protected media content in the native media player. (**OAuth Scope:** mobile.media)
 
 #### `NetworkModule`
 SDK module for making network requests through the native layer via `JSBridge`.
-- `send(request: { body?: unknown; endpoint: string; headers?: Record<string, string>; method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"; query?: Record<string, string>; timeout?: number }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 404 } | { error: string; status_code: 424 } | { error: string; status_code: 426 } | { result: Record<string, unknown>; status_code: 200 } | { error: string; status_code: 401 }>` — Sends a network request through `JSBridge`.
+- `send(request: SendRequest): Promise<SendResponse>` — Sends a network request through `JSBridge`.
 
 #### `PlatformModule`
 SDK module for controlling platform navigation via `JSBridge`.
-- `back(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Triggers the native platform back navigation.
+- `back(): Promise<BackResponse>` — Triggers the native platform back navigation.
 This navigates back in the native navigation stack.
 
 #### `ProfileModule`
 SDK module for accessing user profile information via `JSBridge`.
-- `fetchEmail(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
-- `verifyEmail(request?: { email?: string; skipUserInput?: boolean }): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 426 } | { result: { email: string }; status_code: 200 }>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+- `fetchEmail(): Promise<FetchEmailResponse>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+- `verifyEmail(request?: VerifyEmailRequest): Promise<VerifyEmailResponse>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
 
 #### `ScopeModule`
 SDK module for checking and refreshing API access permissions via `JSBridge`.
-- `hasAccessTo(module: string, method: string): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Checks if the current client has access to a specific `JSBridge` API method.
-- `reloadScopes(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Requests to reload the consented OAuth scopes for the current client.
+- `hasAccessTo(module: string, method: string): Promise<HasAccessToResponse>` — Checks if the current client has access to a specific `JSBridge` API method.
+- `reloadScopes(): Promise<ReloadScopesResponse>` — Requests to reload the consented OAuth scopes for the current client.
 This refreshes the permissions from the server.
 
 #### `SplashScreenModule`
 SDK module for controlling the native splash / Lottie loading screen via `JSBridge`.
-- `dismiss(): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 403 } | { error: string; status_code: 500 } | { error: string; status_code: 501 }>` — Dismisses the native splash (Lottie) loading view if it is presented.
+- `dismiss(): Promise<DismissSplashScreenResponse>` — Dismisses the native splash (Lottie) loading view if it is presented.
 
 #### `StorageModule`
 SDK module for persisting key-value data to native storage via `JSBridge`.
-- `getBoolean(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: boolean; status_code: 200 } | { error: string; status_code: 424 }>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
-- `getDouble(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: number; status_code: 200 }>` — Retrieves a double (floating point) value from the native storage. (**OAuth Scope:** mobile.storage)
-- `getInt(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 } | { result: number; status_code: 200 }>` — Retrieves an integer value from the native storage. (**OAuth Scope:** mobile.storage)
-- `getString(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Retrieves a string value from the native storage. (**OAuth Scope:** mobile.storage)
-- `remove(key: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes a single value from the native storage by key. (**OAuth Scope:** mobile.storage)
-- `removeAll(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Removes all values from the native storage. (**OAuth Scope:** mobile.storage)
-- `setBoolean(key: string, value: boolean): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a boolean value in the native storage. (**OAuth Scope:** mobile.storage)
-- `setDouble(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a double (floating point) value in the native storage. (**OAuth Scope:** mobile.storage)
-- `setInt(key: string, value: number): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores an integer value in the native storage. (**OAuth Scope:** mobile.storage)
-- `setString(key: string, value: string): Promise<{ status_code: 204 } | { error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { error: string; status_code: 424 }>` — Stores a string value in the native storage. (**OAuth Scope:** mobile.storage)
+- `getBoolean(key: string): Promise<GetBooleanResponse>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
+- `getDouble(key: string): Promise<GetDoubleResponse>` — Retrieves a double (floating point) value from the native storage. (**OAuth Scope:** mobile.storage)
+- `getInt(key: string): Promise<GetIntResponse>` — Retrieves an integer value from the native storage. (**OAuth Scope:** mobile.storage)
+- `getString(key: string): Promise<GetStringResponse>` — Retrieves a string value from the native storage. (**OAuth Scope:** mobile.storage)
+- `remove(key: string): Promise<RemoveResponse>` — Removes a single value from the native storage by key. (**OAuth Scope:** mobile.storage)
+- `removeAll(): Promise<RemoveAllResponse>` — Removes all values from the native storage. (**OAuth Scope:** mobile.storage)
+- `setBoolean(key: string, value: boolean): Promise<SetBooleanResponse>` — Stores a boolean value in the native storage. (**OAuth Scope:** mobile.storage)
+- `setDouble(key: string, value: number): Promise<SetDoubleResponse>` — Stores a double (floating point) value in the native storage. (**OAuth Scope:** mobile.storage)
+- `setInt(key: string, value: number): Promise<SetIntResponse>` — Stores an integer value in the native storage. (**OAuth Scope:** mobile.storage)
+- `setString(key: string, value: string): Promise<SetStringResponse>` — Stores a string value in the native storage. (**OAuth Scope:** mobile.storage)
 
 #### `SystemWebViewKitModule`
 SDK module for opening URLs in the device's system browser via `JSBridge`.
-- `redirectToSystemWebView(request: { url: string }): Promise<{ error: string; status_code: 400 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 } | { error: string; status_code: 424 }>` — Opens a URL in the device's system web browser or web view.
+- `redirectToSystemWebView(request: RedirectToSystemWebViewRequest): Promise<RedirectToSystemWebViewResponse>` — Opens a URL in the device's system web browser or web view.
 
 #### `UserAttributesModule`
 SDK module for reading user-related attributes from native code via `JSBridge`.
-- `getSelectedTravelDestination(): Promise<{ status_code: 204 } | { error: string; status_code: 500 } | { error: string; status_code: 501 } | { result: string; status_code: 200 }>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
+- `getSelectedTravelDestination(): Promise<GetSelectedTravelDestinationResponse>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
 
 ### Functions
 

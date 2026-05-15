@@ -12,6 +12,10 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type {
+  GetSelectedTravelDestinationResponse,
+  GetSelectedTravelDestinationResult,
+} from './types';
 
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResult}.
@@ -21,7 +25,8 @@ import {
  *
  * @public
  */
-export const GetSelectedTravelDestinationResultSchema = v.string();
+export const GetSelectedTravelDestinationResultSchema: v.GenericSchema<GetSelectedTravelDestinationResult> =
+  v.string();
 
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResponse}.
@@ -31,9 +36,10 @@ export const GetSelectedTravelDestinationResultSchema = v.string();
  *
  * @public
  */
-export const GetSelectedTravelDestinationResponseSchema = v.union([
-  sdkOkResponseSchema(GetSelectedTravelDestinationResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const GetSelectedTravelDestinationResponseSchema: v.GenericSchema<GetSelectedTravelDestinationResponse> =
+  v.union([
+    sdkOkResponseSchema(GetSelectedTravelDestinationResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);

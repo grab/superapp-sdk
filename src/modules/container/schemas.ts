@@ -12,6 +12,37 @@ import {
   sdkNoContentResponseSchema,
   sdkOkResponseSchema,
 } from '../../core';
+import type {
+  CloseResponse,
+  GetSessionParamsResponse,
+  GetSessionParamsResult,
+  HideBackButtonResponse,
+  HideLoaderResponse,
+  HideRefreshButtonResponse,
+  IsConnectedResponse,
+  IsConnectedResult,
+  OnContentLoadedResponse,
+  OnCtaTapResponse,
+  OpenExternalLinkResponse,
+  RawCloseResponse,
+  RawHideBackButtonResponse,
+  RawHideLoaderResponse,
+  RawHideRefreshButtonResponse,
+  RawOpenExternalLinkResponse,
+  RawSendAnalyticsEventResponse,
+  RawSetBackgroundColorResponse,
+  RawSetTitleResponse,
+  RawShowBackButtonResponse,
+  RawShowLoaderResponse,
+  RawShowRefreshButtonResponse,
+  SendAnalyticsEventRequest,
+  SendAnalyticsEventResponse,
+  SetBackgroundColorResponse,
+  SetTitleResponse,
+  ShowBackButtonResponse,
+  ShowLoaderResponse,
+  ShowRefreshButtonResponse,
+} from './types';
 
 /**
  * Internal valibot schema for the raw `JSBridge` response from `setBackgroundColor`.
@@ -19,13 +50,14 @@ import {
  *
  * @internal
  */
-export const RawSetBackgroundColorResponseSchema = v.union([
-  sdkOkResponseSchema(v.boolean()),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RawSetBackgroundColorResponseSchema: v.GenericSchema<RawSetBackgroundColorResponse> =
+  v.union([
+    sdkOkResponseSchema(v.boolean()),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link SetBackgroundColorResponse}.
@@ -35,12 +67,13 @@ export const RawSetBackgroundColorResponseSchema = v.union([
  *
  * @public
  */
-export const SetBackgroundColorResponseSchema = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const SetBackgroundColorResponseSchema: v.GenericSchema<SetBackgroundColorResponse> =
+  v.union([
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Internal valibot schema for the raw `JSBridge` response from `setTitle`.
@@ -48,7 +81,7 @@ export const SetBackgroundColorResponseSchema = v.union([
  *
  * @internal
  */
-export const RawSetTitleResponseSchema = v.union([
+export const RawSetTitleResponseSchema: v.GenericSchema<RawSetTitleResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
@@ -64,7 +97,7 @@ export const RawSetTitleResponseSchema = v.union([
  *
  * @public
  */
-export const SetTitleResponseSchema = v.union([
+export const SetTitleResponseSchema: v.GenericSchema<SetTitleResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(500),
@@ -77,7 +110,7 @@ export const SetTitleResponseSchema = v.union([
  *
  * @internal
  */
-export const RawHideBackButtonResponseSchema = v.union([
+export const RawHideBackButtonResponseSchema: v.GenericSchema<RawHideBackButtonResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
@@ -92,7 +125,7 @@ export const RawHideBackButtonResponseSchema = v.union([
  *
  * @public
  */
-export const HideBackButtonResponseSchema = v.union([
+export const HideBackButtonResponseSchema: v.GenericSchema<HideBackButtonResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -104,7 +137,7 @@ export const HideBackButtonResponseSchema = v.union([
  *
  * @internal
  */
-export const RawShowBackButtonResponseSchema = v.union([
+export const RawShowBackButtonResponseSchema: v.GenericSchema<RawShowBackButtonResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
@@ -119,7 +152,7 @@ export const RawShowBackButtonResponseSchema = v.union([
  *
  * @public
  */
-export const ShowBackButtonResponseSchema = v.union([
+export const ShowBackButtonResponseSchema: v.GenericSchema<ShowBackButtonResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -131,12 +164,13 @@ export const ShowBackButtonResponseSchema = v.union([
  *
  * @internal
  */
-export const RawHideRefreshButtonResponseSchema = v.union([
-  sdkOkResponseSchema(v.boolean()),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RawHideRefreshButtonResponseSchema: v.GenericSchema<RawHideRefreshButtonResponse> =
+  v.union([
+    sdkOkResponseSchema(v.boolean()),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link HideRefreshButtonResponse}.
@@ -146,7 +180,7 @@ export const RawHideRefreshButtonResponseSchema = v.union([
  *
  * @public
  */
-export const HideRefreshButtonResponseSchema = v.union([
+export const HideRefreshButtonResponseSchema: v.GenericSchema<HideRefreshButtonResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -158,12 +192,13 @@ export const HideRefreshButtonResponseSchema = v.union([
  *
  * @internal
  */
-export const RawShowRefreshButtonResponseSchema = v.union([
-  sdkOkResponseSchema(v.boolean()),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RawShowRefreshButtonResponseSchema: v.GenericSchema<RawShowRefreshButtonResponse> =
+  v.union([
+    sdkOkResponseSchema(v.boolean()),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link ShowRefreshButtonResponse}.
@@ -173,7 +208,7 @@ export const RawShowRefreshButtonResponseSchema = v.union([
  *
  * @public
  */
-export const ShowRefreshButtonResponseSchema = v.union([
+export const ShowRefreshButtonResponseSchema: v.GenericSchema<ShowRefreshButtonResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -185,7 +220,7 @@ export const ShowRefreshButtonResponseSchema = v.union([
  *
  * @internal
  */
-export const RawCloseResponseSchema = v.union([
+export const RawCloseResponseSchema: v.GenericSchema<RawCloseResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
@@ -200,7 +235,7 @@ export const RawCloseResponseSchema = v.union([
  *
  * @public
  */
-export const CloseResponseSchema = v.union([
+export const CloseResponseSchema: v.GenericSchema<CloseResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -214,7 +249,7 @@ export const CloseResponseSchema = v.union([
  *
  * @public
  */
-export const OnContentLoadedResponseSchema = v.union([
+export const OnContentLoadedResponseSchema: v.GenericSchema<OnContentLoadedResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
@@ -227,7 +262,7 @@ export const OnContentLoadedResponseSchema = v.union([
  *
  * @internal
  */
-export const RawShowLoaderResponseSchema = v.union([
+export const RawShowLoaderResponseSchema: v.GenericSchema<RawShowLoaderResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
@@ -242,7 +277,7 @@ export const RawShowLoaderResponseSchema = v.union([
  *
  * @public
  */
-export const ShowLoaderResponseSchema = v.union([
+export const ShowLoaderResponseSchema: v.GenericSchema<ShowLoaderResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -254,7 +289,7 @@ export const ShowLoaderResponseSchema = v.union([
  *
  * @internal
  */
-export const RawHideLoaderResponseSchema = v.union([
+export const RawHideLoaderResponseSchema: v.GenericSchema<RawHideLoaderResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
@@ -269,7 +304,7 @@ export const RawHideLoaderResponseSchema = v.union([
  *
  * @public
  */
-export const HideLoaderResponseSchema = v.union([
+export const HideLoaderResponseSchema: v.GenericSchema<HideLoaderResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -281,13 +316,14 @@ export const HideLoaderResponseSchema = v.union([
  *
  * @internal
  */
-export const RawOpenExternalLinkResponseSchema = v.union([
-  sdkOkResponseSchema(v.boolean()),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RawOpenExternalLinkResponseSchema: v.GenericSchema<RawOpenExternalLinkResponse> =
+  v.union([
+    sdkOkResponseSchema(v.boolean()),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link OpenExternalLinkResponse}.
@@ -297,7 +333,7 @@ export const RawOpenExternalLinkResponseSchema = v.union([
  *
  * @public
  */
-export const OpenExternalLinkResponseSchema = v.union([
+export const OpenExternalLinkResponseSchema: v.GenericSchema<OpenExternalLinkResponse> = v.union([
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(500),
@@ -312,7 +348,7 @@ export const OpenExternalLinkResponseSchema = v.union([
  *
  * @public
  */
-export const OnCtaTapResponseSchema = v.union([
+export const OnCtaTapResponseSchema: v.GenericSchema<OnCtaTapResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
@@ -326,11 +362,13 @@ export const OnCtaTapResponseSchema = v.union([
  *
  * @public
  */
-export const SendAnalyticsEventRequestSchema = v.object({
-  state: v.pipe(v.string(), v.minLength(1)),
-  name: v.pipe(v.string(), v.minLength(1)),
-  data: v.optional(v.record(v.string(), v.unknown())),
-});
+export const SendAnalyticsEventRequestSchema: v.GenericSchema<SendAnalyticsEventRequest> = v.object(
+  {
+    state: v.pipe(v.string(), v.minLength(1)),
+    name: v.pipe(v.string(), v.minLength(1)),
+    data: v.optional(v.record(v.string(), v.unknown())),
+  }
+);
 
 /**
  * Internal valibot schema for the raw `JSBridge` response from `sendAnalyticsEvent`.
@@ -338,13 +376,14 @@ export const SendAnalyticsEventRequestSchema = v.object({
  *
  * @internal
  */
-export const RawSendAnalyticsEventResponseSchema = v.union([
-  sdkOkResponseSchema(v.boolean()),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RawSendAnalyticsEventResponseSchema: v.GenericSchema<RawSendAnalyticsEventResponse> =
+  v.union([
+    sdkOkResponseSchema(v.boolean()),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link SendAnalyticsEventResponse}.
@@ -354,12 +393,13 @@ export const RawSendAnalyticsEventResponseSchema = v.union([
  *
  * @public
  */
-export const SendAnalyticsEventResponseSchema = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const SendAnalyticsEventResponseSchema: v.GenericSchema<SendAnalyticsEventResponse> =
+  v.union([
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link IsConnectedResult}.
@@ -369,7 +409,9 @@ export const SendAnalyticsEventResponseSchema = v.union([
  *
  * @public
  */
-export const IsConnectedResultSchema = v.object({ connected: v.boolean() });
+export const IsConnectedResultSchema: v.GenericSchema<IsConnectedResult> = v.object({
+  connected: v.boolean(),
+});
 
 /**
  * Valibot schema for {@link IsConnectedResponse}.
@@ -379,7 +421,7 @@ export const IsConnectedResultSchema = v.object({ connected: v.boolean() });
  *
  * @public
  */
-export const IsConnectedResponseSchema = v.union([
+export const IsConnectedResponseSchema: v.GenericSchema<IsConnectedResponse> = v.union([
   sdkOkResponseSchema(IsConnectedResultSchema),
   sdkErrorResponseSchema(404),
 ]);
@@ -392,7 +434,7 @@ export const IsConnectedResponseSchema = v.union([
  *
  * @public
  */
-export const GetSessionParamsResultSchema = v.string();
+export const GetSessionParamsResultSchema: v.GenericSchema<GetSessionParamsResult> = v.string();
 
 /**
  * Valibot schema for {@link GetSessionParamsResponse}.
@@ -402,7 +444,7 @@ export const GetSessionParamsResultSchema = v.string();
  *
  * @public
  */
-export const GetSessionParamsResponseSchema = v.union([
+export const GetSessionParamsResponseSchema: v.GenericSchema<GetSessionParamsResponse> = v.union([
   sdkOkResponseSchema(GetSessionParamsResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
