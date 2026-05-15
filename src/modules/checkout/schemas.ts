@@ -7,7 +7,7 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeOkSchema } from '../../core';
+import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
 
 /**
  * Valibot schema for {@link TriggerCheckoutRequest}.
@@ -59,8 +59,8 @@ export const TriggerCheckoutResultSchema = v.variant('status', [
  * @public
  */
 export const TriggerCheckoutResponseSchema = v.union([
-  bridgeOkSchema(TriggerCheckoutResultSchema),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(TriggerCheckoutResultSchema),
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

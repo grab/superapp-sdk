@@ -4,11 +4,11 @@ title: Core Concepts
 
 # Core Concepts
 
-SDK methods communicate with the native Grab SuperApp via JSBridge. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
+SDK methods communicate with the native Grab SuperApp layer via `JSBridge`. They only work when your page is running inside the **Grab SuperApp WebView**. Calling a method outside that environment returns `{ status_code: 501 }`.
 
 ## Response Pattern
 
-Every SDK method returns a bridge response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
+Every SDK method returns a response object with an HTTP-style `status_code`. SDK methods never throw — use type guards instead of try/catch.
 
 ```typescript
 import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
@@ -54,15 +54,15 @@ The SDK uses HTTP-style status codes for all responses:
 
 Type guards narrow the response type so TypeScript knows which fields are available:
 
-| Guard                             | Matches                                  |
-| --------------------------------- | ---------------------------------------- |
-| `isSuccess(r)`                    | `200`, `204`                             |
-| `isOk(r)`                         | `200`                                    |
-| `isNoContent(r)`                  | `204`                                    |
-| `isRedirection(r)` / `isFound(r)` | `302`                                    |
-| `isClientError(r)`                | `400`, `401`, `403`, `404`, `424`, `426` |
-| `isServerError(r)`                | `500`, `501`                             |
-| `isError(r)`                      | any 4xx or 5xx                           |
+| Guard                             | Matches                                                |
+| --------------------------------- | ------------------------------------------------------ |
+| `isSuccess(r)`                    | `200`, `204`                                           |
+| `isOk(r)`                         | `200`                                                  |
+| `isNoContent(r)`                  | `204`                                                  |
+| `isRedirection(r)` / `isFound(r)` | `302`                                                  |
+| `isClientError(r)`                | `400`, `401`, `403`, `404`, `424`, `426`               |
+| `isServerError(r)`                | `500`, `501`                                           |
+| `isError(r)`                      | `400`, `401`, `403`, `404`, `424`, `426`, `500`, `501` |
 
 ```typescript
 import { isSuccess, isOk, isNoContent, isError } from '@grabjs/superapp-sdk';

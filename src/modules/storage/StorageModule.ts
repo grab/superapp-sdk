@@ -49,7 +49,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for persisting key-value data to native storage.
+ * SDK module for persisting key-value data to native storage via `JSBridge`.
  *
  * @group Modules
  * @category Storage

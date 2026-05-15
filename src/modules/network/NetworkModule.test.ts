@@ -107,7 +107,7 @@ describe('NetworkModule', () => {
       }
     });
 
-    it('should parse stringified JSON result from native bridge', async () => {
+    it('should parse stringified JSON result from JSBridge', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.399.0 (Android 13; SM-G998B)',
       });

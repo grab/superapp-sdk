@@ -12,13 +12,13 @@ import { Version } from './types';
  *
  * @param version - The version to check
  * @param minimumVersion - The minimum required version
- * @returns true if version \>= minimumVersion, false otherwise
+ * @returns `true` if version \>= minimumVersion, `false` otherwise
  *
  * @example
  * ```typescript
  * const version = { major: 5, minor: 396, patch: 0 };
  * const minimumVersion = { major: 5, minor: 395, patch: 0 };
- * meetsMinimumVersion(version, minimumVersion); // true
+ * meetsMinimumVersion(version, minimumVersion); // `true`
  * ```
  *
  * @internal

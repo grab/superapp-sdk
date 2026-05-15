@@ -10,7 +10,7 @@ import { PlayDRMContentResponseSchema } from './schemas';
 import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } from './types';
 
 /**
- * JSBridge module for playing DRM-protected media content.
+ * SDK module for playing DRM-protected media content via `JSBridge`.
  *
  * @group Modules
  * @category Media

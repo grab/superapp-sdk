@@ -11,7 +11,7 @@ import { IsEsimSupportedResponseSchema } from './schemas';
 import { IsEsimSupportedResponse } from './types';
 
 /**
- * JSBridge module for querying native device information.
+ * SDK module for querying native device information via `JSBridge`.
  *
  * @group Modules
  * @category Device

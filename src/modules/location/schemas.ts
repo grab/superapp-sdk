@@ -7,7 +7,11 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
 
 /**
  * Valibot schema for {@link GetCoordinateResult}.
@@ -28,23 +32,23 @@ export const GetCoordinateResultSchema = v.object({ latitude: v.number(), longit
  * @public
  */
 export const GetCoordinateResponseSchema = v.union([
-  bridgeOkSchema(GetCoordinateResultSchema),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetCoordinateResultSchema),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
  * @internal
  */
 export const ObserveLocationChangeResponseSchema = v.union([
-  bridgeOkSchema(GetCoordinateResultSchema),
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetCoordinateResultSchema),
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -66,10 +70,10 @@ export const GetCountryCodeResultSchema = v.string();
  * @public
  */
 export const GetCountryCodeResponseSchema = v.union([
-  bridgeOkSchema(GetCountryCodeResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(424),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetCountryCodeResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

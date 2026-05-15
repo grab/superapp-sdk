@@ -10,7 +10,7 @@
  * Use this to safely narrow `unknown` errors in catch blocks.
  *
  * @param error - The error value (typically from a catch block)
- * @returns True if the error has a string message property
+ * @returns `true` if the error has a string message property
  *
  * @example
  * ```typescript

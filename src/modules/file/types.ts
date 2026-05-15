@@ -10,7 +10,7 @@ import type { InferOutput } from 'valibot';
 import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas';
 
 /**
- * Request parameters for downloading a file via native bridge.
+ * Request parameters for downloading a file through `JSBridge`.
  *
  * @group Modules
  * @category File
@@ -34,7 +34,7 @@ export type DownloadFileRequest = InferOutput<typeof DownloadFileRequestSchema>;
  * @category File
  *
  * @remarks
- * This is a void result type as successful downloads return status code 204 with no content.
+ * This is a void result type as successful downloads return status code `204` with no content.
  *
  * @public
  */

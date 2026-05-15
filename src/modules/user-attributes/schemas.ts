@@ -7,7 +7,11 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
 
 /**
  * Valibot schema for {@link GetSelectedTravelDestinationResult}.
@@ -28,8 +32,8 @@ export const GetSelectedTravelDestinationResultSchema = v.string();
  * @public
  */
 export const GetSelectedTravelDestinationResponseSchema = v.union([
-  bridgeOkSchema(GetSelectedTravelDestinationResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(GetSelectedTravelDestinationResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

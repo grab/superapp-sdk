@@ -7,7 +7,11 @@
 
 import * as v from 'valibot';
 
-import { bridgeErrorSchema, bridgeNoContentSchema, bridgeOkSchema } from '../../core';
+import {
+  sdkErrorResponseSchema,
+  sdkNoContentResponseSchema,
+  sdkOkResponseSchema,
+} from '../../core';
 
 /**
  * Valibot schema for {@link FetchEmailResult}.
@@ -28,13 +32,13 @@ export const FetchEmailResultSchema = v.object({ email: v.string() });
  * @public
  */
 export const FetchEmailResponseSchema = v.union([
-  bridgeOkSchema(FetchEmailResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(FetchEmailResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);
 
 /**
@@ -69,11 +73,11 @@ export const VerifyEmailResultSchema = v.object({ email: v.string() });
  * @public
  */
 export const VerifyEmailResponseSchema = v.union([
-  bridgeOkSchema(VerifyEmailResultSchema),
-  bridgeNoContentSchema,
-  bridgeErrorSchema(400),
-  bridgeErrorSchema(403),
-  bridgeErrorSchema(426),
-  bridgeErrorSchema(500),
-  bridgeErrorSchema(501),
+  sdkOkResponseSchema(VerifyEmailResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
 ]);

@@ -14,7 +14,7 @@ import {
 } from './types';
 
 /**
- * JSBridge module for accessing device location services.
+ * SDK module for accessing device location services via `JSBridge`.
  *
  * @group Modules
  * @category Location
@@ -102,11 +102,11 @@ export class LocationModule extends BaseModule {
    * @requiredOAuthScope mobile.geolocation
    *
    * @remarks
-   * This method returns a `BridgeStream` that continuously emits location updates.
+   * This method returns an `SDKStream` that continuously emits location updates.
    * Remember to call `unsubscribe()` on the subscription when you no longer need updates
    * to conserve battery and free resources.
    *
-   * @returns A `BridgeStream` that emits location updates as the device location changes.
+   * @returns An `SDKStream` that emits location updates as the device location changes.
    * Use `subscribe()` to listen for updates, or `await` to get the first value only. See {@link ObserveLocationChangeResponse}.
    *
    * @example

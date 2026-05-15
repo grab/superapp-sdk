@@ -10,7 +10,7 @@ import { DownloadFileRequestSchema, DownloadFileResponseSchema } from './schemas
 import { DownloadFileRequest, DownloadFileResponse } from './types';
 
 /**
- * JSBridge module for downloading files to the user's device.
+ * SDK module for downloading files to the user's device via `JSBridge`.
  *
  * @group Modules
  * @category File
@@ -44,7 +44,7 @@ export class FileModule extends BaseModule {
   }
 
   /**
-   * Downloads a file via the native bridge.
+   * Downloads a file through `JSBridge`.
    *
    * @param request - File information, including URL and target file name. See {@link DownloadFileRequest}.
    *
