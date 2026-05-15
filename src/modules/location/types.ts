@@ -13,15 +13,12 @@ import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse, SDKStream }
  * @group Modules
  * @category Location
  *
- * @example
- * ```typescript
- * { latitude: 1.3521, longitude: 103.8198 }
- * ```
- *
  * @public
  */
 export type GetCoordinateResult = {
+  /** Latitude coordinate in decimal degrees (for example, `1.3521`). */
   latitude: number;
+  /** Longitude coordinate in decimal degrees (for example, `103.8198`). */
   longitude: number;
 };
 
@@ -30,14 +27,6 @@ export type GetCoordinateResult = {
  *
  * @group Modules
  * @category Location
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Coordinates retrieved successfully. The `result` contains latitude and longitude.
- * - `403`: Forbidden - client not authorized to access location data.
- * - `424`: GeoKit error - location services unavailable.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */
@@ -54,13 +43,6 @@ export type GetCoordinateResponse =
  * @group Modules
  * @category Location
  *
- * @remarks
- * This is an `SDKStream` that can be:
- * - Subscribed to via `.subscribe()` for continuous updates
- * - Awaited via `await` to get the first value only
- *
- * The stream can emit `200`, `400`, `403`, `424`, `500`, and `501` status codes.
- *
  * @public
  */
 export type ObserveLocationChangeResponse = SDKStream<
@@ -73,20 +55,10 @@ export type ObserveLocationChangeResponse = SDKStream<
 >;
 
 /**
- * The ISO country code string returned from `JSBridge`.
+ * The ISO country code string returned from `JSBridge` (for example, `"SG"` or `"ID"`).
  *
  * @group Modules
  * @category Location
- *
- * @example
- * ```typescript
- * 'SG'
- * ```
- *
- * @example
- * ```typescript
- * 'ID'
- * ```
  *
  * @public
  */
@@ -97,15 +69,6 @@ export type GetCountryCodeResult = string;
  *
  * @group Modules
  * @category Location
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Country code retrieved successfully. The `result` is the ISO country code string.
- * - `204`: No content - country code not available.
- * - `403`: Forbidden - client not authorized to access location data.
- * - `424`: GeoKit/Resolver error - location services unavailable.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

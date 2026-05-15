@@ -13,32 +13,6 @@ import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse, SDKStream }
  * @group Modules
  * @category Media
  *
- * @remarks
- * Configuration object containing DRM license information, content URLs, and playback settings.
- * The exact structure depends on the DRM provider (e.g., FairPlay, Widevine).
- *
- * @example
- * **Widevine DRM configuration:**
- * ```typescript
- * {
- *   contentId: 'movie-123',
- *   licenseUrl: 'https://license.example.com/widevine',
- *   contentUrl: 'https://cdn.example.com/video.mp4',
- *   headers: { 'Authorization': 'Bearer token123' }
- * }
- * ```
- *
- * @example
- * **FairPlay DRM configuration:**
- * ```typescript
- * {
- *   assetId: 'content-456',
- *   certificateUrl: 'https://fairplay.example.com/cert',
- *   licenseUrl: 'https://fairplay.example.com/license',
- *   contentUrl: 'https://cdn.example.com/video.m3u8'
- * }
- * ```
- *
  * @public
  */
 export type DRMContentConfig = Record<string, unknown>;
@@ -60,13 +34,6 @@ export type PlayDRMContentResult = DRMPlaybackEvent;
  * @group Modules
  * @category Media
  *
- * @remarks
- * This response can have the following status codes:
- * - `200`: Playback initiated successfully (streaming content).
- * - `204`: Invalid parameters - the DRM configuration is malformed or missing required fields.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
- *
  * @public
  */
 export type PlayDRMContentResponse =
@@ -83,45 +50,16 @@ export type PlayDRMContentResponse =
  * @group Modules
  * @category Media
  *
- * @example
- * **Playback started event:**
- * ```typescript
- * {
- *   type: 'START_PLAYBACK',
- *   titleId: 'movie-123',
- *   position: 0,
- *   length: 3600
- * }
- * ```
- *
- * @example
- * **Playback progress event:**
- * ```typescript
- * {
- *   type: 'PROGRESS_PLAYBACK',
- *   titleId: 'movie-123',
- *   position: 120,
- *   length: 3600
- * }
- * ```
- *
- * @example
- * **Playback error event:**
- * ```typescript
- * {
- *   type: 'ERROR_PLAYBACK',
- *   titleId: 'movie-123',
- *   position: 300,
- *   length: 3600
- * }
- * ```
- *
  * @public
  */
 export type DRMPlaybackEvent = {
+  /** Length value. */
   length: number;
+  /** Playback position in milliseconds. */
   position: number;
+  /** Title id value. */
   titleId: string;
+  /** Playback event type. */
   type:
     | 'START_PLAYBACK'
     | 'PROGRESS_PLAYBACK'
@@ -142,13 +80,6 @@ export type DRMPlaybackEvent = {
  *
  * @group Modules
  * @category Media
- *
- * @remarks
- * This is an `SDKStream` that can be:
- * - Subscribed to via `.subscribe()` for continuous updates
- * - Awaited via `await` to get the first value only
- *
- * The stream can emit status codes `200` (event data), `500` (server error), or `501` (not implemented).
  *
  * @public
  */

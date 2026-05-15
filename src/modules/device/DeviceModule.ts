@@ -53,10 +53,15 @@ export class DeviceModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.device
    *
-   * @returns Whether eSIM is supported on the current device. See {@link IsEsimSupportedResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): eSIM capability was checked successfully. The `result` contains {@link IsEsimSupportedResult}.
+   * - `403` (Forbidden): Client is not authorized to query eSIM capability.
+   * - `424` (Failed Dependency): Dependency error occurred while checking eSIM support.
+   * - `426` (Upgrade Required): Feature requires Grab app version 5.402 or above.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { DeviceModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

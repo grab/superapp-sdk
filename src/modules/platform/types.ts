@@ -8,27 +8,10 @@
 import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 
 /**
- * Result when triggering platform back navigation.
- * This operation returns no data on success.
- *
- * @group Modules
- * @category Platform
- *
- * @public
- */
-export type BackResult = void;
-
-/**
  * Response when triggering platform back navigation.
  *
  * @group Modules
  * @category Platform
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: Back navigation triggered successfully.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

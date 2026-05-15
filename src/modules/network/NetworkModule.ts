@@ -48,12 +48,11 @@ export class NetworkModule extends BaseModule {
   /**
    * Sends a network request through `JSBridge`.
    *
-   * @param request - The network request parameters including endpoint, method, headers, query, body, and timeout. See {@link SendRequest}.
+   * @param request - Network request parameters.
    *
    * @returns The network response containing the result data or error information. See {@link SendResponse}.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { NetworkModule, isSuccess, isError, hasResult } from '@grabjs/superapp-sdk';
    *

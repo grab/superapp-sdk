@@ -52,10 +52,14 @@ export class LocationModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.geolocation
    *
-   * @returns The device's current latitude and longitude coordinates. See {@link GetCoordinateResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Coordinates retrieved successfully. The `result` contains {@link GetCoordinateResult}.
+   * - `403` (Forbidden): Client is not authorized to access location data.
+   * - `424` (Failed Dependency): Dependency error occurred while retrieving coordinates.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -106,11 +110,15 @@ export class LocationModule extends BaseModule {
    * Remember to call `unsubscribe()` on the subscription when you no longer need updates
    * to conserve battery and free resources.
    *
-   * @returns An `SDKStream` that emits location updates as the device location changes.
-   * Use `subscribe()` to listen for updates, or `await` to get the first value only. See {@link ObserveLocationChangeResponse}.
+   * @returns This stream can emit the following `status_code` values:
+   * - `200` (OK): Stream emitted a location update. The `result` contains {@link GetCoordinateResult}.
+   * - `400` (Bad Request): Stream emitted an invalid request error.
+   * - `403` (Forbidden): Stream emitted an authorization error.
+   * - `424` (Failed Dependency): Stream emitted a dependency error.
+   * - `500` (Internal Server Error): Stream emitted an unexpected error.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -153,10 +161,15 @@ export class LocationModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.geolocation
    *
-   * @returns The ISO country code (e.g., 'SG', 'ID') based on the device's location. See {@link GetCountryCodeResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Country code retrieved successfully. The `result` contains {@link GetCountryCodeResult}.
+   * - `204` (No Content): Country code not available.
+   * - `403` (Forbidden): Client is not authorized to access location data.
+   * - `424` (Failed Dependency): Dependency error occurred while resolving country code.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { LocationModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

@@ -46,7 +46,6 @@ export {
 } from './modules/checkout';
 export {
   CloseResponse,
-  CloseResult,
   ContainerAnalyticsEventData,
   ContainerAnalyticsEventName,
   ContainerAnalyticsEventState,
@@ -54,50 +53,32 @@ export {
   GetSessionParamsResponse,
   GetSessionParamsResult,
   HideBackButtonResponse,
-  HideBackButtonResult,
   HideLoaderResponse,
-  HideLoaderResult,
   HideRefreshButtonResponse,
-  HideRefreshButtonResult,
   IsConnectedResponse,
   IsConnectedResult,
   OnContentLoadedResponse,
-  OnContentLoadedResult,
   OnCtaTapRequest,
   OnCtaTapResponse,
-  OnCtaTapResult,
   OpenExternalLinkRequest,
   OpenExternalLinkResponse,
-  OpenExternalLinkResult,
   SendAnalyticsEventRequest,
   SendAnalyticsEventResponse,
-  SendAnalyticsEventResult,
   SetBackgroundColorRequest,
   SetBackgroundColorResponse,
-  SetBackgroundColorResult,
   SetTitleRequest,
   SetTitleResponse,
-  SetTitleResult,
   ShowBackButtonResponse,
-  ShowBackButtonResult,
   ShowLoaderResponse,
-  ShowLoaderResult,
   ShowRefreshButtonResponse,
-  ShowRefreshButtonResult,
 } from './modules/container';
 export { DeviceModule, IsEsimSupportedResponse, IsEsimSupportedResult } from './modules/device';
-export {
-  DownloadFileRequest,
-  DownloadFileResponse,
-  DownloadFileResult,
-  FileModule,
-} from './modules/file';
+export { DownloadFileRequest, DownloadFileResponse, FileModule } from './modules/file';
 export {
   AuthorizeRequest,
   AuthorizeResponse,
   AuthorizeResult,
   ClearAuthorizationArtifactsResponse,
-  ClearAuthorizationArtifactsResult,
   GetAuthorizationArtifactsResponse,
   GetAuthorizationArtifactsResult,
   IdentityModule,
@@ -124,7 +105,7 @@ export {
   PlayDRMContentResult,
 } from './modules/media';
 export { NetworkModule, SendRequest, SendResponse, SendResult } from './modules/network';
-export { BackResponse, BackResult, PlatformModule } from './modules/platform';
+export { BackResponse, PlatformModule } from './modules/platform';
 export {
   FetchEmailResponse,
   FetchEmailResult,
@@ -138,7 +119,6 @@ export {
   HasAccessToResponse,
   HasAccessToResult,
   ReloadScopesResponse,
-  ReloadScopesResult,
   ScopeModule,
 } from './modules/scope';
 export { DismissSplashScreenResponse, SplashScreenModule } from './modules/splash-screen';
@@ -156,21 +136,15 @@ export {
   GetStringResponse,
   GetStringResult,
   RemoveAllResponse,
-  RemoveAllResult,
   RemoveResponse,
-  RemoveResult,
   SetBooleanRequest,
   SetBooleanResponse,
-  SetBooleanResult,
   SetDoubleRequest,
   SetDoubleResponse,
-  SetDoubleResult,
   SetIntRequest,
   SetIntResponse,
-  SetIntResult,
   SetStringRequest,
   SetStringResponse,
-  SetStringResult,
   StorageModule,
 } from './modules/storage';
 export {

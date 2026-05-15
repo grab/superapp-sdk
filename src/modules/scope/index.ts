@@ -11,5 +11,4 @@ export type {
   HasAccessToResponse,
   HasAccessToResult,
   ReloadScopesResponse,
-  ReloadScopesResult,
 } from './types';

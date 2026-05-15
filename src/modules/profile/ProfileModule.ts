@@ -57,10 +57,16 @@ export class ProfileModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.profile
    *
-   * @returns The user's email address if available. See {@link FetchEmailResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Email fetched successfully. The `result` contains {@link FetchEmailResult}.
+   * - `204` (No Content): Email not available.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `403` (Forbidden): Client is not authorized to access user profile data.
+   * - `426` (Upgrade Required): Feature requires Grab app version 5.399 or above.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -116,12 +122,19 @@ export class ProfileModule extends BaseModule {
    * @requiredOAuthScope mobile.profile
    *
    * @remarks
-   * If the user closes the verify OTP bottom sheet, the method will return a `status_code` of `204`.
+   * If the user closes the verify OTP bottom sheet, the verification flow ends early.
    * Successful verification will also update the email address for the user on Grab.
    *
-   * @param request - Optional request parameters for email verification. See {@link VerifyEmailRequest}.
+   * @param request - Optional request parameters for email verification.
    *
-   * @returns Confirmation of whether the email verification was successful. See {@link VerifyEmailResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Success, email verified and returned in `result` as {@link VerifyEmailResult}.
+   * - `204` (No Content): User closed the native bottom sheet.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `403` (Forbidden): Client is not authorized to access user profile data.
+   * - `426` (Upgrade Required): Feature requires Grab app version 5.399 or above.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
    * **Simple usage with email provided**

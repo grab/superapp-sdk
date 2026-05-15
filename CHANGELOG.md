@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.56] - 2026-05-15
+
+_Refines public API typings by removing redundant no-content result aliases and tightening method/type documentation._
+
+### Added
+
+- Expanded inline parameter descriptions to improve API clarity.
+
+### Changed
+
+- Consolidated module method/type docs with explicit `status_code` outcomes and simplified request descriptions across updated modules.
+
+### Fixed
+
+- Reduced ambiguity in no-content API contracts by standardizing on response types instead of separate `*Result = void` aliases.
+
+### Removed
+
+- Removed redundant no-content `*Result` aliases from public exports and module types.
+
 ## [2.0.0-beta.55] - 2026-05-15
 
 _Strengthens module type/schema contracts and trims schema exports from the public API surface._

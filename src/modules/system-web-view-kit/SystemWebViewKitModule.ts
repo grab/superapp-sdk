@@ -49,12 +49,16 @@ export class SystemWebViewKitModule extends BaseModule {
   /**
    * Opens a URL in the device's system web browser or web view.
    *
-   * @param request - The URL to open in the system web view. See {@link RedirectToSystemWebViewRequest}.
+   * @param request - The URL to open in the system web view.
    *
-   * @returns Confirmation of whether the redirect to system web view was successful. See {@link RedirectToSystemWebViewResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Redirect initiated successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Dependency error occurred while processing the request.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { SystemWebViewKitModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *

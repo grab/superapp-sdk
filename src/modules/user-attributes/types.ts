@@ -8,37 +8,20 @@
 import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
- * Result containing the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
+ * Result containing the selected travel destination ISO 3166-1 alpha-2 country code (for example, `"sg"` or `"id"`).
  *
  * @group Modules
  * @category User Attributes
- *
- * @example
- * ```typescript
- * 'id'
- * ```
- *
- * @example
- * ```typescript
- * 'sg'
- * ```
  *
  * @public
  */
 export type GetSelectedTravelDestinationResult = string;
 
 /**
- * Response when reading the selected travel destination lowercase ISO 3166-1 alpha-2 country code.
+ * Response when reading the selected travel destination.
  *
  * @group Modules
  * @category User Attributes
- *
- * @remarks
- * This response can have the following status codes:
- * - `200`: The selected travel destination lowercase ISO 3166-1 alpha-2 country code was returned successfully.
- * - `204`: No selected travel destination is currently available.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

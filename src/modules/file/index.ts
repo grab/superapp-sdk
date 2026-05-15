@@ -6,4 +6,4 @@
  */
 
 export { FileModule } from './FileModule';
-export type { DownloadFileRequest, DownloadFileResponse, DownloadFileResult } from './types';
+export type { DownloadFileRequest, DownloadFileResponse } from './types';

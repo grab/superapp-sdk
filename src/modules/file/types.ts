@@ -13,46 +13,20 @@ import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
  * @group Modules
  * @category File
  *
- * @example
- * ```typescript
- * {
- *   fileUrl: 'https://example.com/report.pdf',
- *   fileName: 'report.pdf'
- * }
- * ```
- *
  * @public
  */
 export type DownloadFileRequest = {
+  /** Target file name used for the downloaded file (for example, `"report.pdf"`). */
   fileName: string;
+  /** Source file URL to download (for example, `"https://example.com/report.pdf"`). */
   fileUrl: string;
 };
-
-/**
- * Result data structure for file download operations.
- *
- * @group Modules
- * @category File
- *
- * @remarks
- * This is a void result type as successful downloads return status code `204` with no content.
- *
- * @public
- */
-export type DownloadFileResult = void;
 
 /**
  * Response when requesting a native file download.
  *
  * @group Modules
  * @category File
- *
- * @remarks
- * This response can have the following status codes:
- * - `204`: File downloaded successfully.
- * - `400`: Invalid request parameters such as invalid file URL, invalid domain, or missing file name.
- * - `500`: Internal server error - an unexpected error occurred on the native side.
- * - `501`: Not implemented - this method requires the Grab app environment.
  *
  * @public
  */

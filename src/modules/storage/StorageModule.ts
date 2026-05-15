@@ -91,10 +91,14 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The boolean value to store.
    *
-   * @returns Confirmation that the boolean value was stored. See {@link SetBooleanResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Value stored successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -140,10 +144,15 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored boolean value. See {@link GetBooleanResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Value retrieved successfully. The `result` contains {@link GetBooleanResult}.
+   * - `204` (No Content): Value not found in storage.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -206,10 +215,14 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The integer value to store.
    *
-   * @returns Confirmation that the integer value was stored. See {@link SetIntResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Value stored successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -254,10 +267,15 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored integer value. See {@link GetIntResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Value retrieved successfully. The `result` contains {@link GetIntResult}.
+   * - `204` (No Content): Value not found in storage.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -319,10 +337,14 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The string value to store.
    *
-   * @returns Confirmation that the string value was stored. See {@link SetStringResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Value stored successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -367,10 +389,15 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored string value. See {@link GetStringResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Value retrieved successfully. The `result` contains {@link GetStringResult}.
+   * - `204` (No Content): Value not found in storage.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -432,10 +459,14 @@ export class StorageModule extends BaseModule {
    * @param key - The key to store the value under.
    * @param value - The double value to store.
    *
-   * @returns Confirmation that the double value was stored. See {@link SetDoubleResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Value stored successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -480,10 +511,15 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to retrieve the value for.
    *
-   * @returns The stored double value. See {@link GetDoubleResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Value retrieved successfully. The `result` contains {@link GetDoubleResult}.
+   * - `204` (No Content): Value not found in storage.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -544,10 +580,14 @@ export class StorageModule extends BaseModule {
    *
    * @param key - The key to remove from storage.
    *
-   * @returns Confirmation that the value was removed. See {@link RemoveResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Value removed successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
@@ -590,10 +630,13 @@ export class StorageModule extends BaseModule {
    *
    * @requiredOAuthScope mobile.storage
    *
-   * @returns Confirmation that all values were removed. See {@link RemoveAllResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): All values removed successfully.
+   * - `424` (Failed Dependency): Storage operation failed.
+   * - `500` (Internal Server Error): Unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
    *
    * @example
-   * **Simple usage**
    * ```typescript
    * import { StorageModule, isSuccess, isError } from '@grabjs/superapp-sdk';
    *
