@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { isSuccess, isOk, isNoContent, isError, ContainerModule, IdentityModule, ScopeModule, LocationModule, LocaleModule } from '@grabjs/superapp-sdk';
 import { ENVIRONMENT_CONFIG } from '../config';
 import { runOptional, formatError } from '../utils/sdkHelpers';
+import { getVisitCount } from '../utils/visitStorage';
 import { WarningArea } from '../components/WarningArea';
 import { StatusMessage } from '../components/StatusMessage';
 import { useUser } from '../context/UserContext';
@@ -15,6 +16,7 @@ export default function IndexPage() {
   const [pageState, setPageState] = useState<PageState>({ status: 'loading', message: 'Checking environment...' });
   const [warning, setWarning] = useState<string | null>(null);
   const [locale, setLocale] = useState<string>('N/A');
+  const [visitCount, setVisitCount] = useState<number | null>(null);
   const [actionResult, setActionResult] = useState<{ message: string; type: 'error' | 'warning' } | null>(null);
 
   async function init() {
@@ -48,6 +50,8 @@ export default function IndexPage() {
     }
 
     await runOptional('Send DEFAULT analytics', container.sendAnalyticsEvent({ state: 'HOMEPAGE', name: 'DEFAULT' }), setWarning);
+
+    setVisitCount(await getVisitCount());
 
     setPageState({ status: 'ready' });
   }
@@ -127,6 +131,7 @@ export default function IndexPage() {
             <p><strong>Email:</strong> {userEmail || 'N/A'}</p>
             <p><strong>Phone:</strong> {userPhone || 'N/A'}</p>
             <p><strong>Locale:</strong> {locale}</p>
+            <p><strong>Visits:</strong> {visitCount ?? 'N/A'}</p>
           </div>
           <div className="mt-6 space-y-3">
             <button

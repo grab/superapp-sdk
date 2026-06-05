@@ -9,6 +9,7 @@
     <script src="config.js?v=1"></script>
     <script src="ui-helpers.js?v=1"></script>
     <script src="grabid-service.js?v=1"></script>
+    <script src="visit-storage.js?v=1"></script>
   </head>
   <body class="p-4">
     <div id="warningArea" class="mb-4"></div>
@@ -38,12 +39,12 @@
         await runOptional('Hide refresh button', container.hideRefreshButton());
         await runOptional('Hide loader', container.hideLoader());
 
-        // Request authorization for core user profile scopes.
-        // These are OIDC scopes that require a backend token exchange to retrieve user info.
+        // Request authorization for user profile (OIDC) and storage (mobile) scopes.
+        // OIDC scopes require a backend token exchange to retrieve user info.
         const authResponse = await identity.authorize({
           clientId: ENVIRONMENT_CONFIG.clientId,
           redirectUri: ENVIRONMENT_CONFIG.redirectUri,
-          scope: 'openid profile.read phone',
+          scope: 'openid profile.read phone mobile.storage',
           environment: ENVIRONMENT,
           responseMode: 'in_place'
         });
@@ -87,6 +88,7 @@
                 return;
               }
 
+              await incrementVisitCount();
               await identity.clearAuthorizationArtifacts();
               window.location.href = 'index.html?v=1';
               break;
