@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@grabjs/superapp-sdk": "^2.0.0-beta.38",
+    "@grabjs/superapp-sdk": "^2.0.0-beta.56",
     "@tailwindcss/vite": "^4.2.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
