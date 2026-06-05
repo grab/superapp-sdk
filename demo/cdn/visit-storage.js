@@ -12,7 +12,7 @@ async function incrementVisitCount() {
   let count = 0;
   if (SuperAppSDK.isOk(getResponse)) {
     count = getResponse.result;
-  } else if (!SuperAppSDK.isNoContent(getResponse)) {
+  } else if (SuperAppSDK.isError(getResponse)) {
     return;
   }
 
@@ -29,8 +29,8 @@ async function getVisitCount() {
   if (SuperAppSDK.isOk(getResponse)) {
     return getResponse.result;
   }
-  if (SuperAppSDK.isNoContent(getResponse)) {
-    return 0;
+  if (SuperAppSDK.isError(getResponse)) {
+    return null;
   }
-  return null;
+  return 0;
 }

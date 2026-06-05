@@ -1,4 +1,4 @@
-import { isSuccess, isOk, isNoContent, StorageModule } from '@grabjs/superapp-sdk';
+import { isSuccess, isOk, isError, StorageModule } from '@grabjs/superapp-sdk';
 
 const VISIT_COUNT_KEY = 'miniapp_visit_count';
 
@@ -9,7 +9,7 @@ export async function incrementVisitCount(): Promise<void> {
   let count = 0;
   if (isOk(getResponse)) {
     count = getResponse.result;
-  } else if (!isNoContent(getResponse)) {
+  } else if (isError(getResponse)) {
     return;
   }
 
@@ -26,8 +26,8 @@ export async function getVisitCount(): Promise<number | null> {
   if (isOk(getResponse)) {
     return getResponse.result;
   }
-  if (isNoContent(getResponse)) {
-    return 0;
+  if (isError(getResponse)) {
+    return null;
   }
-  return null;
+  return 0;
 }
