@@ -131,7 +131,7 @@ export default function IndexPage() {
             <p><strong>Email:</strong> {userEmail || 'N/A'}</p>
             <p><strong>Phone:</strong> {userPhone || 'N/A'}</p>
             <p><strong>Locale:</strong> {locale}</p>
-            <p><strong>Visits:</strong> {visitCount ?? 'N/A'}</p>
+            <p><strong>Visits:</strong> {visitCount || 'N/A'}</p>
           </div>
           <div className="mt-6 space-y-3">
             <button

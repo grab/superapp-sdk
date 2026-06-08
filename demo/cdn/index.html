@@ -61,7 +61,7 @@
         }));
 
         const visitCount = await getVisitCount();
-        const visitCountDisplay = visitCount === null ? 'N/A' : String(visitCount);
+        const visitCountDisplay = visitCount || 'N/A';
 
         content.innerHTML = `
           <h1 class="text-xl font-bold mb-4">User Information</h1>
