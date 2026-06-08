@@ -7,19 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
-## [Unreleased]
+## [2.0.0-beta.57] - 2026-06-08
 
-_Demo visit counter via `StorageModule`; React demo bumps to `@grabjs/superapp-sdk@2.0.0-beta.56`._
+_Demo apps demonstrate per-user visit tracking with `StorageModule`._
 
 ### Added
 
-- Per-user visit counter in CDN and React demos (`visitStorage` helpers, key `miniapp_visit_count`); **Visits** shown on home after successful entry auth.
+- Visit counter in CDN and React demos, displayed on the home page after sign-in.
 
 ### Changed
 
-- Entry `authorize()` bundles `mobile.storage` with OIDC scopes.
 - React demo: `@grabjs/superapp-sdk` `^2.0.0-beta.38` → `^2.0.0-beta.56`.
-- Storage errors are non-blocking; home shows **N/A** for unavailable or zero counts.
 
 ## [2.0.0-beta.56] - 2026-05-15
 
