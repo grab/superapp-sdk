@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@grabjs/superapp-sdk@beta/dist/index.js"></script>
     <script src="config.js?v=1"></script>
     <script src="ui-helpers.js?v=1"></script>
+    <script src="visit-storage.js?v=1"></script>
   </head>
   <body class="p-4">
     <div id="warningArea" class="mb-4"></div>
@@ -59,6 +60,9 @@
           name: 'DEFAULT'
         }));
 
+        const visitCount = await getVisitCount();
+        const visitCountDisplay = visitCount || 'N/A';
+
         content.innerHTML = `
           <h1 class="text-xl font-bold mb-4">User Information</h1>
           <div class="space-y-2 mb-6">
@@ -66,6 +70,7 @@
             <p><strong>Email:</strong> ${escapeHtml(userEmail)}</p>
             <p><strong>Phone:</strong> ${escapeHtml(userPhone)}</p>
             <p><strong>Locale:</strong> ${escapeHtml(localeValue)}</p>
+            <p><strong>Visits:</strong> ${escapeHtml(visitCountDisplay)}</p>
           </div>
 
           <div class="mt-6 space-y-3">

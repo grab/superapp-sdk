@@ -4,6 +4,7 @@ import { isSuccess, isError, ContainerModule, IdentityModule, ScopeModule } from
 import { ENVIRONMENT_CONFIG } from '../config';
 import { fetchDiscoveryConfiguration, exchangeAuthorizationCode, fetchUserInfo } from '../services/grabidService';
 import { runOptional, formatError } from '../utils/sdkHelpers';
+import { incrementVisitCount } from '../utils/visitStorage';
 import { WarningArea } from '../components/WarningArea';
 import { StatusMessage } from '../components/StatusMessage';
 import { useUser } from '../context/UserContext';
@@ -42,7 +43,7 @@ export default function EntryPage() {
     const authResponse = await identity.authorize({
       clientId: ENVIRONMENT_CONFIG.clientId,
       redirectUri: ENVIRONMENT_CONFIG.redirectUri,
-      scope: 'openid profile.read phone',
+      scope: 'openid profile.read phone mobile.storage',
       environment: ENVIRONMENT,
       responseMode: 'in_place'
     });
@@ -96,6 +97,7 @@ export default function EntryPage() {
           return;
         }
 
+        await incrementVisitCount();
         await identity.clearAuthorizationArtifacts();
         navigate('/index');
       } else if (status_code === 204) {
@@ -108,7 +110,7 @@ export default function EntryPage() {
     } else {
       await identity.clearAuthorizationArtifacts();
       setPageState({ status: 'error', message: `Unexpected authorization response: ${authResponse.status_code}`, type: 'error' });
-    }
+    }  
   }
 
   useEffect(() => {

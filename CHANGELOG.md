@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.57] - 2026-06-08
+
+_Demo apps demonstrate per-user visit tracking with `StorageModule`._
+
+### Added
+
+- Visit counter in CDN and React demos, displayed on the home page after sign-in.
+
+### Changed
+
+- React demo: `@grabjs/superapp-sdk` `^2.0.0-beta.38` → `^2.0.0-beta.56`.
+
 ## [2.0.0-beta.56] - 2026-05-15
 
 _Refines public API typings by removing redundant no-content result aliases and tightening method/type documentation._
