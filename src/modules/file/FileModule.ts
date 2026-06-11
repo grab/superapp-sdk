@@ -18,6 +18,9 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  * @remarks
  * Initiates native file download handling in the Grab app using a file URL and file name.
  * This code must run on the Grab SuperApp's WebView to function correctly.
+ * Before using this module, notify the owning team and provide the domains that will call
+ * `downloadFile` so those domains can be whitelisted. File downloads can be used after the
+ * calling domains are whitelisted.
  *
  * @example
  * **ES Module:**
