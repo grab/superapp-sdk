@@ -9,11 +9,11 @@ Each release entry may include a short summary (Markdown, for example `_italic_`
 
 ## [2.0.0-beta.58] - 2026-06-12
 
-_Documents FileModule domain whitelisting requirements for file downloads._
+_Documents `downloadFile` domain whitelisting requirements for file downloads._
 
 ### Changed
 
-- `FileModule` documentation now clarifies that MiniApp domains must be whitelisted by Grab before invoking `downloadFile`.
+- `downloadFile` documentation now clarifies that MiniApp domains must be whitelisted by Grab before it can be invoked.
 
 ## [2.0.0-beta.57] - 2026-06-08
 

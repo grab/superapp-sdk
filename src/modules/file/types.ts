@@ -20,7 +20,7 @@ export type DownloadFileRequest = {
   fileName: string;
   /**
    * Source file URL to download (for example, `"https://example.com/report.pdf"`).
-   * The MiniApp domain must be whitelisted by Grab before using `FileModule`.
+   * The MiniApp domain must be whitelisted by Grab before invoking `downloadFile`.
    */
   fileUrl: string;
 };
