@@ -32,21 +32,21 @@ export type TriggerCheckoutRequest = Record<string, unknown>;
  */
 export type TriggerCheckoutResult =
   | {
-      status: 'success';
+      status: 'Success';
       transactionID: string;
     }
   | {
-      status: 'failure';
+      status: 'Failure';
       transactionID: string;
       errorMessage: string;
       errorCode: string;
     }
   | {
-      status: 'pending';
+      status: 'Pending';
       transactionID: string;
     }
   | {
-      status: 'userInitiatedCancel';
+      status: 'Cancel';
     };
 
 /**

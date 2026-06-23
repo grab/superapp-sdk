@@ -45,7 +45,7 @@ describe('CheckoutModule', () => {
         status_code: 200,
         result: {
           transactionID: 'grab-txn-abc123',
-          status: 'success',
+          status: 'Success',
         },
       };
 
@@ -67,8 +67,8 @@ describe('CheckoutModule', () => {
       });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.status).toBe('success');
-        if (response.result.status === 'success') {
+        expect(response.result.status).toBe('Success');
+        if (response.result.status === 'Success') {
           expect(response.result.transactionID).toBe('grab-txn-abc123');
         }
       }
@@ -83,7 +83,7 @@ describe('CheckoutModule', () => {
         status_code: 200,
         result: {
           transactionID: 'grab-txn-def456',
-          status: 'failure',
+          status: 'Failure',
           errorMessage: 'Insufficient funds',
           errorCode: 'PAYMENT_FAILED',
         },
@@ -107,8 +107,8 @@ describe('CheckoutModule', () => {
       });
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.status).toBe('failure');
-        if (response.result.status === 'failure') {
+        expect(response.result.status).toBe('Failure');
+        if (response.result.status === 'Failure') {
           expect(response.result.errorMessage).toBe('Insufficient funds');
           expect(response.result.errorCode).toBe('PAYMENT_FAILED');
         }
@@ -124,7 +124,7 @@ describe('CheckoutModule', () => {
         status_code: 200,
         result: {
           transactionID: 'grab-txn-ghi789',
-          status: 'pending',
+          status: 'Pending',
         },
       };
 
@@ -142,7 +142,7 @@ describe('CheckoutModule', () => {
 
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.status).toBe('pending');
+        expect(response.result.status).toBe('Pending');
       }
     });
 
@@ -154,7 +154,7 @@ describe('CheckoutModule', () => {
       const mockResponse: TriggerCheckoutResponse = {
         status_code: 200,
         result: {
-          status: 'userInitiatedCancel',
+          status: 'Cancel',
         },
       };
 
@@ -172,7 +172,7 @@ describe('CheckoutModule', () => {
 
       expect(response.status_code).toBe(200);
       if (response.status_code === 200) {
-        expect(response.result.status).toBe('userInitiatedCancel');
+        expect(response.result.status).toBe('Cancel');
       }
     });
 
