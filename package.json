@@ -66,6 +66,10 @@
   ],
   "author": "Viet Hai Pham <viethai.pham@grabtaxi.com>",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/grab/superapp-sdk/issues"
   },
