@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.58] - 2026-06-23
+
+_Capitalizes `CheckoutModule` transaction status values and raises the minimum Node.js version._
+
+### Changed
+
+- `TriggerCheckoutResult` status values are now capitalized: `success` → `Success`, `failure` → `Failure`, `pending` → `Pending`, and `userInitiatedCancel` → `Cancel`.
+- Raised the minimum supported Node.js version from `>=18` to `>=24`.
+- Bumped dev dependencies: `@rollup/plugin-commonjs` `^29.0.0` → `^29.0.3`, `@rollup/plugin-terser` `^0.4.4` → `^1.0.0`, and `rollup` `^4.59.0` → `^4.62.2`.
+- Updated CDN and React demos and `CheckoutModule` examples/tests to use the new capitalized status values.
+
 ## [2.0.0-beta.57] - 2026-06-08
 
 _Demo apps demonstrate per-user visit tracking with `StorageModule`._
