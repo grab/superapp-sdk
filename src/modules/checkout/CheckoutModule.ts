@@ -76,16 +76,16 @@ export class CheckoutModule extends BaseModule {
    * if (isSuccess(response)) {
    *   console.log('Transaction ID:', response.result.transactionID);
    *   switch (response.result.status) {
-   *     case 'success':
+   *     case 'Success':
    *       console.log('Transaction successful');
    *       break;
-   *     case 'failure':
+   *     case 'Failure':
    *       console.log('Transaction failed:', response.result.errorMessage, response.result.errorCode);
    *       break;
-   *     case 'pending':
+   *     case 'Pending':
    *       console.log('Transaction pending');
    *       break;
-   *     case 'userInitiatedCancel':
+   *     case 'Cancel':
    *       console.log('User cancelled the checkout');
    *       break;
    *   }

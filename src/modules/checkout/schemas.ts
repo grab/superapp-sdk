@@ -42,21 +42,21 @@ export const TriggerCheckoutResultSchema: v.GenericSchema<TriggerCheckoutResult>
   'status',
   [
     v.object({
-      status: v.literal('success'),
+      status: v.literal('Success'),
       transactionID: v.string(),
     }),
     v.object({
-      status: v.literal('failure'),
+      status: v.literal('Failure'),
       transactionID: v.string(),
       errorMessage: v.string(),
       errorCode: v.string(),
     }),
     v.object({
-      status: v.literal('pending'),
+      status: v.literal('Pending'),
       transactionID: v.string(),
     }),
     v.object({
-      status: v.literal('userInitiatedCancel'),
+      status: v.literal('Cancel'),
     }),
   ]
 );

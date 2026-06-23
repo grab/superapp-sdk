@@ -16,10 +16,10 @@
     <script>
       // Status style mapping for checkout results
       const STATUS_STYLES = {
-        success: { type: 'success', label: 'Success' },
-        failure: { type: 'error', label: 'Failed' },
-        pending: { type: 'warning', label: 'Pending' },
-        userInitiatedCancel: { type: 'warning', label: 'Cancelled by user' }
+        Success: { type: 'success', label: 'Success' },
+        Failure: { type: 'error', label: 'Failed' },
+        Pending: { type: 'warning', label: 'Pending' },
+        Cancel: { type: 'warning', label: 'Cancelled by user' }
       };
 
       // Sample checkout payload — these fields must come from your backend's
@@ -130,8 +130,8 @@
 
           if (SuperAppSDK.isOk(checkoutResponse)) {
             const result = checkoutResponse.result;
-            // Only display result for non-success statuses (failure, pending, cancel)
-            if (result.status !== 'success') {
+            // Only display result for non-success statuses (Failure, Pending, Cancel)
+            if (result.status !== 'Success') {
               const style = STATUS_STYLES[result.status] || { type: 'warning', label: result.status };
               let resultHtml = `<p class="text-${style.type === 'success' ? 'green' : style.type === 'error' ? 'red' : 'yellow'}-500"><strong>Status:</strong> ${escapeHtml(style.label)}</p>`;
 

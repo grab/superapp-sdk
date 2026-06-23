@@ -15,10 +15,10 @@ const SAMPLE_PAYLOAD = {
 };
 
 const STATUS_STYLES: Record<string, { type: 'success' | 'error' | 'warning'; label: string }> = {
-  success: { type: 'success', label: 'Success' },
-  failure: { type: 'error', label: 'Failed' },
-  pending: { type: 'warning', label: 'Pending' },
-  userInitiatedCancel: { type: 'warning', label: 'Cancelled by user' }
+  Success: { type: 'success', label: 'Success' },
+  Failure: { type: 'error', label: 'Failed' },
+  Pending: { type: 'warning', label: 'Pending' },
+  Cancel: { type: 'warning', label: 'Cancelled by user' }
 };
 
 export default function CheckoutPage() {
@@ -102,11 +102,11 @@ export default function CheckoutPage() {
 
     if (isOk(checkoutResponse)) {
       const res = checkoutResponse.result;
-      if (res.status === 'failure') {
+      if (res.status === 'Failure') {
         setResult({ status: res.status, transactionID: res.transactionID, errorCode: res.errorCode, errorMessage: res.errorMessage });
-      } else if (res.status === 'pending') {
+      } else if (res.status === 'Pending') {
         setResult({ status: res.status, transactionID: res.transactionID });
-      } else if (res.status === 'userInitiatedCancel') {
+      } else if (res.status === 'Cancel') {
         setResult({ status: res.status });
       } else {
         setResult(null);
