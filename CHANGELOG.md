@@ -9,7 +9,7 @@ Each release entry may include a short summary (Markdown, for example `_italic_`
 
 ## [2.0.0-beta.58] - 2026-06-23
 
-_Capitalizes `CheckoutModule` transaction status values and raises the minimum Node.js version._
+_Capitalizes `CheckoutModule` transaction status values._
 
 ### Changed
 
@@ -17,6 +17,8 @@ _Capitalizes `CheckoutModule` transaction status values and raises the minimum N
 - Raised the minimum supported Node.js version from `>=18` to `>=24`.
 - Bumped dev dependencies: `@rollup/plugin-commonjs` `^29.0.0` → `^29.0.3`, `@rollup/plugin-terser` `^0.4.4` → `^1.0.0`, and `rollup` `^4.59.0` → `^4.62.2`.
 - Updated CDN and React demos and `CheckoutModule` examples/tests to use the new capitalized status values.
+- CI `publish-to-npm` and `publish-to-npm-beta` jobs now write an explicit `registry=https://registry.npmjs.org/` entry to `.npmrc` and pass `--registry https://registry.npmjs.org/` to `npm publish`.
+- Added a `publishConfig` field to `package.json` pinning the registry to `https://registry.npmjs.org/` with `public` access.
 
 ## [2.0.0-beta.57] - 2026-06-08
 
