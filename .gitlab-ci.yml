@@ -43,8 +43,9 @@ publish-to-npm:
     - build
     - check
   script:
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
-    - npm publish --access public
+    - echo "registry=https://registry.npmjs.org/" > ./.npmrc
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ./.npmrc
+    - npm publish --access public --registry https://registry.npmjs.org/
   rules:
     - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
@@ -54,8 +55,9 @@ publish-to-npm-beta:
     - build
     - check
   script:
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
-    - npm publish --access public --tag beta
+    - echo "registry=https://registry.npmjs.org/" > ./.npmrc
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ./.npmrc
+    - npm publish --access public --tag beta --registry https://registry.npmjs.org/
   rules:
     - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$/
 
