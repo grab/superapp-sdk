@@ -7,12 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
-## [2.0.0-beta.59] - 2026-06-23
-
-_Ensures npm publishing targets the public npm registry explicitly._
-
-### Changed
-
 ## [2.0.0-beta.58] - 2026-06-23
 
 _Capitalizes `CheckoutModule` transaction status values._
