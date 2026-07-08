@@ -97,6 +97,21 @@ export {
   ObserveLocationChangeResponse,
 } from './modules/location';
 export {
+  CurrencyCode,
+  EstimatedFiat,
+  EstimateGrabCoinErrorItem,
+  EstimateGrabCoinNotApplicableItem,
+  EstimateGrabCoinRequest,
+  EstimateGrabCoinRequestItem,
+  EstimateGrabCoinResponse,
+  EstimateGrabCoinResult,
+  EstimateGrabCoinResultItem,
+  EstimateGrabCoinSuccessItem,
+  GrabCoinReward,
+  HorusItemStatusCode,
+  LoyaltyModule,
+} from './modules/loyalty';
+export {
   DRMContentConfig,
   DRMPlaybackEvent,
   MediaModule,
