@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0] - 2026-07-08
+
+_Stable release of the v2 SDK — full TypeScript rewrite with schema-validated responses, a refined public API, and new modules._
+
+### Added
+
+- Full TypeScript support with dual ESM/CJS output and bundled type definitions via Microsoft API Extractor.
+- Runtime schema validation using `valibot` for all module requests and responses.
+- New modules: `NetworkModule` (HTTP via native bridge), `FileModule` (native file download), `DeviceModule` (eSIM support), `UserAttributesModule` (travel destination), `SplashScreenModule` (native loading screen).
+- Type guard functions: `isSuccess()`, `isNoContent()`, `isFound()`, `isClientError()`, `isServerError()`, `isError()`, `hasResult()`.
+- `Logger` utility for scoped SDK-wide logging.
+- AI IDE skill (`skills/SKILL.md`) and CDN + React demo apps.
+- `@requiredOAuthScope` and `@minimumGrabAppVersion` TSDoc tags on module methods.
+- Slack release notification script (`scripts/notify-slack.mjs`).
+
+### Changed
+
+- Renamed core response/type contracts from `Bridge*` to `SDK*` (e.g. `SDKOkResponse`, `SDKErrorStatusCode`).
+- Renamed `DeviceCapabilityModule` → `DeviceModule`.
+- `IdentityModule.authorize()` 200 responses now include PKCE artifacts (`codeVerifier`, `nonce`, `redirectUri`) directly in `result`.
+- `ScopeModule.hasAccessTo()` returns a plain `boolean` result (was `{ hasAccess: boolean }`).
+- `LocationModule.getCountryCode()` returns a plain `string` result (was `{ countryCode: string }`).
+- `LocationModule.getCoordinate()` result properties renamed `lat`/`lng` → `latitude`/`longitude`.
+- `StorageModule` `get*` results are scalar values (no `{ value }` wrapper); empty-key calls return `400` client-side.
+- `ContainerModule` success responses normalized from `200 OK` to `204 No Content`.
+- `TriggerCheckoutResult` status values capitalized: `success` → `Success`, `failure` → `Failure`, `pending` → `Pending`, `userInitiatedCancel` → `Cancel`.
+- Minimum supported Node.js version raised to `>=24`.
+- `publishConfig` pinned to `https://registry.npmjs.org/` with `public` access.
+
+### Removed
+
+- Legacy `Bridge*` response type aliases and redundant `*Result = void` exports.
+- Public `*Schema` re-exports from module index files.
+- `crypto-js` dependency (replaced by native Web Crypto API).
+
 ## [2.0.0-beta.58] - 2026-06-23
 
 _Capitalizes `CheckoutModule` transaction status values._
