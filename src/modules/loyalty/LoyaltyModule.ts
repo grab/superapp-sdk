@@ -7,8 +7,8 @@
 
 import { BaseModule } from '../../core';
 import { meetsMinimumVersion, Version } from '../../utils/version';
-import { EstimateGrabCoinRequestSchema, EstimateGrabCoinResponseSchema } from './schemas';
-import { EstimateGrabCoinRequest, EstimateGrabCoinResponse } from './types';
+import { EstimateRewardsRequestSchema, EstimateRewardsResponseSchema } from './schemas';
+import { EstimateRewardsRequest, EstimateRewardsResponse } from './types';
 
 /**
  * SDK module for Loyalty features via `JSBridge`.
@@ -56,7 +56,7 @@ export class LoyaltyModule extends BaseModule {
    * @param request - Request containing the list of items to estimate rewards for.
    *
    * @returns This method can return the following `status_code` values:
-   * - `200` (OK): Estimation successful. The `result` contains {@link EstimateGrabCoinResult}.
+   * - `200` (OK): Estimation successful. The `result` contains {@link EstimateRewardsResult}.
    *   Each item in `result.items` has its own `status_code`: `SUCCESS` or `NOT_APPLICABLE`.
    * - `400` (Bad Request): Invalid request parameters (for example, empty items array or missing fields).
    * - `403` (Forbidden): Client is not authorized to estimate GrabCoin rewards.
@@ -70,7 +70,7 @@ export class LoyaltyModule extends BaseModule {
    *
    * const loyalty = new LoyaltyModule();
    *
-   * const response = await loyalty.estimateGrabCoin({
+   * const response = await loyalty.estimateRewards({
    *   items: [
    *     { id: 'trip-456', amount_in_minor_units: 75000, currency_code: 'SGD' },
    *     { id: 'trip-789', amount_in_minor_units: 25000000, currency_code: 'IDR' },
@@ -92,23 +92,23 @@ export class LoyaltyModule extends BaseModule {
    *
    * @public
    */
-  async estimateGrabCoin(request: EstimateGrabCoinRequest): Promise<EstimateGrabCoinResponse> {
+  async estimateRewards(request: EstimateRewardsRequest): Promise<EstimateRewardsResponse> {
     const supportError = this.checkSupport((appInfo) =>
       meetsMinimumVersion(appInfo.version, LoyaltyModule.MINIMUM_VERSION)
     );
     if (supportError) return supportError;
 
-    const requestError = this.validate(EstimateGrabCoinRequestSchema, request);
+    const requestError = this.validate(EstimateRewardsRequestSchema, request);
     if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
-      method: 'estimateGrabCoin',
+      method: 'estimateRewards',
       params: request,
-    })) as EstimateGrabCoinResponse;
+    })) as EstimateRewardsResponse;
 
-    const responseError = this.validate(EstimateGrabCoinResponseSchema, response);
+    const responseError = this.validate(EstimateRewardsResponseSchema, response);
     if (responseError)
-      this.logger.warn('estimateGrabCoin', `Unexpected response shape: ${responseError}`);
+      this.logger.warn('estimateRewards', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

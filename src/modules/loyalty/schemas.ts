@@ -10,36 +10,36 @@ import * as v from 'valibot';
 import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
 import type {
   EstimatedFiat,
-  EstimateGrabCoinRequest,
-  EstimateGrabCoinResponse,
-  EstimateGrabCoinResult,
+  EstimateRewardsRequest,
+  EstimateRewardsResponse,
+  EstimateRewardsResult,
 } from './types';
 
 /**
- * Valibot schema for a single {@link EstimateGrabCoinRequestItem}.
+ * Valibot schema for a single {@link EstimateRewardsRequestItem}.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export const EstimateGrabCoinRequestItemSchema = v.object({
+export const EstimateRewardsRequestItemSchema = v.object({
   id: v.pipe(v.string(), v.minLength(1)),
   amount_in_minor_units: v.pipe(v.number(), v.integer(), v.minValue(1)),
   currency_code: v.pipe(v.string(), v.minLength(1)),
 });
 
 /**
- * Valibot schema for {@link EstimateGrabCoinRequest}.
+ * Valibot schema for {@link EstimateRewardsRequest}.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export const EstimateGrabCoinRequestSchema: v.GenericSchema<EstimateGrabCoinRequest> = v.pipe(
+export const EstimateRewardsRequestSchema: v.GenericSchema<EstimateRewardsRequest> = v.pipe(
   v.object({
-    items: v.pipe(v.array(EstimateGrabCoinRequestItemSchema), v.minLength(1)),
+    items: v.pipe(v.array(EstimateRewardsRequestItemSchema), v.minLength(1)),
   }),
   v.check(
     ({ items }) => new Set(items.map((item) => item.id)).size === items.length,
@@ -52,7 +52,7 @@ const EstimatedFiatSchema: v.GenericSchema<EstimatedFiat> = v.object({
   currency_code: v.string(),
 });
 
-const EstimateGrabCoinSuccessItemSchema = v.object({
+const EstimateRewardsSuccessItemSchema = v.object({
   id: v.string(),
   status_code: v.literal('SUCCESS'),
   result: v.object({
@@ -65,46 +65,46 @@ const EstimateGrabCoinSuccessItemSchema = v.object({
   }),
 });
 
-const EstimateGrabCoinNotApplicableItemSchema = v.object({
+const EstimateRewardsNotApplicableItemSchema = v.object({
   id: v.string(),
   status_code: v.literal('NOT_APPLICABLE'),
   reason_code: v.string(),
 });
 
-const EstimateGrabCoinErrorItemSchema = v.object({
+const EstimateRewardsErrorItemSchema = v.object({
   id: v.string(),
   status_code: v.literal('ERROR'),
   reason_code: v.string(),
 });
 
 /**
- * Valibot schema for {@link EstimateGrabCoinResult}.
+ * Valibot schema for {@link EstimateRewardsResult}.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export const EstimateGrabCoinResultSchema: v.GenericSchema<EstimateGrabCoinResult> = v.object({
+export const EstimateRewardsResultSchema: v.GenericSchema<EstimateRewardsResult> = v.object({
   items: v.array(
     v.union([
-      EstimateGrabCoinSuccessItemSchema,
-      EstimateGrabCoinNotApplicableItemSchema,
-      EstimateGrabCoinErrorItemSchema,
+      EstimateRewardsSuccessItemSchema,
+      EstimateRewardsNotApplicableItemSchema,
+      EstimateRewardsErrorItemSchema,
     ])
   ),
 });
 
 /**
- * Valibot schema for {@link EstimateGrabCoinResponse}.
+ * Valibot schema for {@link EstimateRewardsResponse}.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export const EstimateGrabCoinResponseSchema: v.GenericSchema<EstimateGrabCoinResponse> = v.union([
-  sdkOkResponseSchema(EstimateGrabCoinResultSchema),
+export const EstimateRewardsResponseSchema: v.GenericSchema<EstimateRewardsResponse> = v.union([
+  sdkOkResponseSchema(EstimateRewardsResultSchema),
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(403),
   sdkErrorResponseSchema(426),

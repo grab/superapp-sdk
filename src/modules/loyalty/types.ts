@@ -35,7 +35,7 @@ export type HorusItemStatusCode = 'SUCCESS' | 'NOT_APPLICABLE' | 'ERROR';
  *
  * @public
  */
-export type EstimateGrabCoinRequestItem = {
+export type EstimateRewardsRequestItem = {
   /** Partner-defined identifier for this item (for example, `"trip-456"`). */
   id: string;
   /** Transaction amount in minor currency units (for example, `75000` for SGD 750.00). */
@@ -52,9 +52,9 @@ export type EstimateGrabCoinRequestItem = {
  *
  * @public
  */
-export type EstimateGrabCoinRequest = {
+export type EstimateRewardsRequest = {
   /** List of items to estimate rewards for. Must contain at least one item. */
-  items: EstimateGrabCoinRequestItem[];
+  items: EstimateRewardsRequestItem[];
 };
 
 /**
@@ -97,7 +97,7 @@ export type EstimatedFiat = {
  *
  * @public
  */
-export type EstimateGrabCoinSuccessItem = {
+export type EstimateRewardsSuccessItem = {
   /** Item identifier matching the request. */
   id: string;
   status_code: 'SUCCESS';
@@ -116,7 +116,7 @@ export type EstimateGrabCoinSuccessItem = {
  *
  * @public
  */
-export type EstimateGrabCoinNotApplicableItem = {
+export type EstimateRewardsNotApplicableItem = {
   /** Item identifier matching the request. */
   id: string;
   status_code: 'NOT_APPLICABLE';
@@ -132,7 +132,7 @@ export type EstimateGrabCoinNotApplicableItem = {
  *
  * @public
  */
-export type EstimateGrabCoinErrorItem = {
+export type EstimateRewardsErrorItem = {
   /** Item identifier matching the request. */
   id: string;
   status_code: 'ERROR';
@@ -148,10 +148,10 @@ export type EstimateGrabCoinErrorItem = {
  *
  * @public
  */
-export type EstimateGrabCoinResultItem =
-  | EstimateGrabCoinSuccessItem
-  | EstimateGrabCoinNotApplicableItem
-  | EstimateGrabCoinErrorItem;
+export type EstimateRewardsResultItem =
+  | EstimateRewardsSuccessItem
+  | EstimateRewardsNotApplicableItem
+  | EstimateRewardsErrorItem;
 
 /**
  * Result object containing per-item GrabCoin estimates.
@@ -161,9 +161,9 @@ export type EstimateGrabCoinResultItem =
  *
  * @public
  */
-export type EstimateGrabCoinResult = {
+export type EstimateRewardsResult = {
   /** Estimation result for each item in the request. */
-  items: EstimateGrabCoinResultItem[];
+  items: EstimateRewardsResultItem[];
 };
 
 /**
@@ -174,8 +174,8 @@ export type EstimateGrabCoinResult = {
  *
  * @public
  */
-export type EstimateGrabCoinResponse =
-  | SDKOkResponse<EstimateGrabCoinResult>
+export type EstimateRewardsResponse =
+  | SDKOkResponse<EstimateRewardsResult>
   | SDKErrorResponse<400>
   | SDKErrorResponse<403>
   | SDKErrorResponse<426>
