@@ -14,6 +14,7 @@
     <div id="content"></div>
 
     <script>
+      // Status style mapping for checkout results
       const STATUS_STYLES = {
         Success: { type: 'success', label: 'Success' },
         Failure: { type: 'error', label: 'Failed' },
@@ -21,6 +22,7 @@
         Cancel: { type: 'warning', label: 'Cancelled by user' }
       };
 
+      // Sample checkout payload — these fields must come from your backend's
       const SAMPLE_PAYLOAD = {
         partnerTxID: 'your_unique_transaction_id',
         request: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
@@ -45,16 +47,19 @@
 
         content.innerHTML = `<p>Loading checkout...</p>`;
 
+        // Container setup - optional, don't block on failure
         await runOptional('Set background color', container.setBackgroundColor('#005339'));
         await runOptional('Set title', container.setTitle('Checkout'));
         await runOptional('Show back button', container.showBackButton());
         await runOptional('Hide refresh button', container.hideRefreshButton());
 
+        // Send analytics - optional, don't block on failure
         await runOptional('Send DEFAULT analytics', container.sendAnalyticsEvent({
           state: 'CHECKOUT_PAGE',
           name: 'DEFAULT'
         }));
 
+        // Render the checkout UI
         content.innerHTML = `
           <h1 class="text-xl font-bold mb-4">Checkout</h1>
           <div class="space-y-4">
@@ -84,8 +89,12 @@
             return;
           }
 
+          // Check if the app has permission to trigger a checkout
           const hasAccessResponse = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
           if (!SuperAppSDK.isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
+            // Request authorization for the mobile.checkout scope.
+            // Like mobile.geolocation, this is a mobile-only scope and does not
+            // require a backend token exchange.
             const authResponse = await identity.authorize({
               clientId: ENVIRONMENT_CONFIG.clientId,
               redirectUri: window.location.href,
@@ -111,6 +120,7 @@
             await identity.clearAuthorizationArtifacts();
           }
 
+          // Send analytics - optional, don't block on failure
           await runOptional('Send TRANSACT analytics', container.sendAnalyticsEvent({
             state: 'CHECKOUT_PAGE',
             name: 'TRANSACT'
@@ -120,6 +130,7 @@
 
           if (SuperAppSDK.isOk(checkoutResponse)) {
             const result = checkoutResponse.result;
+            // Only display result for non-success statuses (Failure, Pending, Cancel)
             if (result.status !== 'Success') {
               const style = STATUS_STYLES[result.status] || { type: 'warning', label: result.status };
               let resultHtml = `<p class="text-${style.type === 'success' ? 'green' : style.type === 'error' ? 'red' : 'yellow'}-500"><strong>Status:</strong> ${escapeHtml(style.label)}</p>`;
@@ -136,6 +147,7 @@
 
               resultDiv.innerHTML = resultHtml;
             } else {
+              // Clear any previous error on success
               resultDiv.innerHTML = '';
             }
           } else if (SuperAppSDK.isError(checkoutResponse)) {
@@ -145,6 +157,7 @@
           }
         });
 
+        // Navigate back to home
         document.getElementById('backBtn').addEventListener('click', () => {
           window.location.href = 'index.html?v=1';
         });
@@ -152,6 +165,7 @@
 
       document.addEventListener('DOMContentLoaded', init);
 
+      // Re-apply container settings when page is restored
       window.addEventListener('pageshow', async (event) => {
         if (event.persisted) {
           const container = new SuperAppSDK.ContainerModule();
