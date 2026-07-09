@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Loyalty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../dist/index.js"></script>
+    <script src="config.js?v=1"></script>
+    <script src="ui-helpers.js?v=1"></script>
+  </head>
+  <body class="p-4">
+    <div id="warningArea" class="mb-4"></div>
+    <div id="content"></div>
+
+    <script>
+      const SAMPLE_REQUEST = {
+        items: [
+          { id: 'item-1', amount_in_minor_units: 75000, currency_code: 'SGD' },
+          { id: 'item-2', amount_in_minor_units: 65600, currency_code: 'MYR' },
+        ],
+      };
+
+      async function init() {
+        const container = new SuperAppSDK.ContainerModule();
+        const content = document.getElementById('content');
+        content.innerHTML = `<p>Checking environment...</p>`;
+
+        const connectionResponse = await container.isConnected();
+        if (!SuperAppSDK.isOk(connectionResponse) || !connectionResponse.result?.connected) {
+          show('content', 'This page must be opened from within the Grab SuperApp.', 'error');
+          return;
+        }
+
+        await runOptional('Set background color', container.setBackgroundColor('#005339'));
+        await runOptional('Set title', container.setTitle('Loyalty'));
+        await runOptional('Show back button', container.showBackButton());
+        await runOptional('Hide refresh button', container.hideRefreshButton());
+
+        const loyalty = new SuperAppSDK.LoyaltyModule();
+
+        content.innerHTML = `
+          <h1 class="text-xl font-bold mb-4">Loyalty — Estimate Rewards</h1>
+          <div class="space-y-4">
+            <div>
+              <label for="requestInput" class="block text-sm font-medium mb-2">Request (JSON)</label>
+              <textarea id="requestInput" rows="10" class="w-full p-2 border border-gray-300 rounded bg-white text-gray-900 font-mono text-sm">${JSON.stringify(SAMPLE_REQUEST, null, 2)}</textarea>
+            </div>
+            <button id="estimateBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Estimate Rewards
+            </button>
+            <button id="backBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+              Back to Home
+            </button>
+            <div id="errorArea"></div>
+            <div id="resultsArea"></div>
+          </div>
+        `;
+
+        document.getElementById('estimateBtn').addEventListener('click', async () => {
+          document.getElementById('errorArea').innerHTML = '';
+          document.getElementById('resultsArea').innerHTML = '';
+
+          let request;
+          try {
+            request = JSON.parse(document.getElementById('requestInput').value);
+          } catch (e) {
+            show('errorArea', `Invalid JSON: ${e.message}`, 'error');
+            return;
+          }
+
+          const response = await loyalty.estimateRewards(request);
+
+          if (SuperAppSDK.isOk(response)) {
+            const items = response.result.items;
+            let html = `<h2 class="font-semibold mb-2">Results (${items.length} item${items.length !== 1 ? 's' : ''})</h2>`;
+            for (const item of items) {
+              html += `<div class="border rounded p-3 text-sm mb-2">`;
+              html += `<p><strong>ID:</strong> ${escapeHtml(item.id)}</p>`;
+              html += `<p><strong>Status:</strong> ${escapeHtml(item.status_code)}</p>`;
+              if (item.status_code === 'SUCCESS') {
+                html += `<p><strong>Reward:</strong> ${escapeHtml(item.result.reward.display_amount)} ${escapeHtml(item.result.reward.currency_code)}</p>`;
+                if (item.result.estimated_fiat) {
+                  html += `<p><strong>Fiat:</strong> ${escapeHtml(String(item.result.estimated_fiat.amount_in_minor_units))} ${escapeHtml(item.result.estimated_fiat.currency_code)}</p>`;
+                }
+              } else {
+                html += `<p><strong>Reason:</strong> ${escapeHtml(item.reason_code)}</p>`;
+              }
+              html += `</div>`;
+            }
+            document.getElementById('resultsArea').innerHTML = html;
+          } else if (SuperAppSDK.isError(response)) {
+            show('errorArea', formatError('Estimate rewards', response), 'error');
+          } else {
+            show('errorArea', `Unexpected response: ${response.status_code}`, 'warning');
+          }
+        });
+
+        document.getElementById('backBtn').addEventListener('click', () => {
+          window.location.href = 'index.html?v=1';
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+
+      window.addEventListener('pageshow', async (event) => {
+        if (event.persisted) {
+          const container = new SuperAppSDK.ContainerModule();
+          const connectionResponse = await container.isConnected();
+          if (!SuperAppSDK.isOk(connectionResponse) || !connectionResponse.result?.connected) {
+            show('content', 'This page must be opened from within the Grab SuperApp.', 'error');
+            return;
+          }
+          runOptional('Set background color', container.setBackgroundColor('#005339'));
+          runOptional('Set title', container.setTitle('Loyalty'));
+          runOptional('Show back button', container.showBackButton());
+          runOptional('Hide refresh button', container.hideRefreshButton());
+        }
+      });
+    </script>
+  </body>
+</html>

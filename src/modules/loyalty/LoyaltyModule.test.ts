@@ -242,8 +242,8 @@ describe('LoyaltyModule', () => {
           expect(successItem.result.reward.amount).toBe(3750);
           expect(successItem.result.reward.currency_code).toBe('GRAB-POINT');
           expect(successItem.result.reward.display_amount).toBe('3,750');
-          expect(successItem.result.estimated_fiat.amount_in_minor_units).toBe(750);
-          expect(successItem.result.estimated_fiat.currency_code).toBe('SGD');
+          expect(successItem.result.estimated_fiat!.amount_in_minor_units).toBe(750);
+          expect(successItem.result.estimated_fiat!.currency_code).toBe('SGD');
         }
 
         const notApplicableItem = items[1];
