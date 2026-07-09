@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.59] - 2026-07-09
+
+_Documents `downloadFile` domain whitelisting requirements for file downloads._
+
+### Changed
+
+- `downloadFile` documentation now clarifies that MiniApp domains must be whitelisted by Grab before it can be invoked.
+
 ## [2.0.0-beta.58] - 2026-06-23
 
 _Capitalizes `CheckoutModule` transaction status values._

@@ -18,7 +18,10 @@ import type { SDKErrorResponse, SDKNoContentResponse } from '../../core';
 export type DownloadFileRequest = {
   /** Target file name used for the downloaded file (for example, `"report.pdf"`). */
   fileName: string;
-  /** Source file URL to download (for example, `"https://example.com/report.pdf"`). */
+  /**
+   * Source file URL to download (for example, `"https://example.com/report.pdf"`).
+   * The MiniApp domain must be whitelisted by Grab before invoking `downloadFile`.
+   */
   fileUrl: string;
 };
 
