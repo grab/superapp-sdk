@@ -93,7 +93,7 @@
           const hasAccessResponse = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
           if (!SuperAppSDK.isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
             // Request authorization for the mobile.checkout scope.
-            // Like mobile.geolocation, this is a mobile-only scope and does not
+            // Like mobile.geolocation, this is a mobile-only scope and does not 
             // require a backend token exchange.
             const authResponse = await identity.authorize({
               clientId: ENVIRONMENT_CONFIG.clientId,

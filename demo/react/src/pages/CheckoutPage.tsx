@@ -43,6 +43,7 @@ export default function CheckoutPage() {
     await runOptional('Set title', container.setTitle('Checkout'), setWarning);
     await runOptional('Show back button', container.showBackButton(), setWarning);
     await runOptional('Hide refresh button', container.hideRefreshButton(), setWarning);
+    
     await runOptional('Send DEFAULT analytics', container.sendAnalyticsEvent({ state: 'CHECKOUT_PAGE', name: 'DEFAULT' }), setWarning);
 
     setPageState({ status: 'ready' });
