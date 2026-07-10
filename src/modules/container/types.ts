@@ -121,6 +121,56 @@ export type ShowBackButtonResponse =
   | SDKErrorResponse<501>;
 
 /**
+ * Response when hiding the header.
+ *
+ * @group Modules
+ * @category Container
+ *
+ * @public
+ */
+export type HideHeaderResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
+ * Internal type for the raw `JSBridge` response from `hideHeader` before transformation.
+ * Used internally to handle the `JSBridge` response format.
+ *
+ * @internal
+ */
+export type RawHideHeaderResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
+ * Response when showing the header.
+ *
+ * @group Modules
+ * @category Container
+ *
+ * @public
+ */
+export type ShowHeaderResponse =
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
+ * Internal type for the raw `JSBridge` response from `showHeader` before transformation.
+ * Used internally to handle the `JSBridge` response format.
+ *
+ * @internal
+ */
+export type RawShowHeaderResponse =
+  | SDKOkResponse<boolean>
+  | SDKNoContentResponse
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
  * Internal type for the raw `JSBridge` response from `showBackButton` before transformation.
  * Used internally to handle the `JSBridge` response format.
  *

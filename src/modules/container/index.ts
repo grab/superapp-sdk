@@ -16,6 +16,7 @@ export type {
   GetSessionParamsResponse,
   GetSessionParamsResult,
   HideBackButtonResponse,
+  HideHeaderResponse,
   HideLoaderResponse,
   HideRefreshButtonResponse,
   IsConnectedResponse,
@@ -32,6 +33,7 @@ export type {
   SetTitleRequest,
   SetTitleResponse,
   ShowBackButtonResponse,
+  ShowHeaderResponse,
   ShowLoaderResponse,
   ShowRefreshButtonResponse,
 } from './types';

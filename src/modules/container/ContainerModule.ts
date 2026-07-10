@@ -11,6 +11,7 @@ import {
   CloseResponseSchema,
   GetSessionParamsResponseSchema,
   HideBackButtonResponseSchema,
+  HideHeaderResponseSchema,
   HideLoaderResponseSchema,
   HideRefreshButtonResponseSchema,
   OnContentLoadedResponseSchema,
@@ -18,6 +19,7 @@ import {
   OpenExternalLinkResponseSchema,
   RawCloseResponseSchema,
   RawHideBackButtonResponseSchema,
+  RawHideHeaderResponseSchema,
   RawHideLoaderResponseSchema,
   RawHideRefreshButtonResponseSchema,
   RawOpenExternalLinkResponseSchema,
@@ -25,6 +27,7 @@ import {
   RawSetBackgroundColorResponseSchema,
   RawSetTitleResponseSchema,
   RawShowBackButtonResponseSchema,
+  RawShowHeaderResponseSchema,
   RawShowLoaderResponseSchema,
   RawShowRefreshButtonResponseSchema,
   SendAnalyticsEventRequestSchema,
@@ -32,6 +35,7 @@ import {
   SetBackgroundColorResponseSchema,
   SetTitleResponseSchema,
   ShowBackButtonResponseSchema,
+  ShowHeaderResponseSchema,
   ShowLoaderResponseSchema,
   ShowRefreshButtonResponseSchema,
 } from './schemas';
@@ -39,6 +43,7 @@ import {
   CloseResponse,
   GetSessionParamsResponse,
   HideBackButtonResponse,
+  HideHeaderResponse,
   HideLoaderResponse,
   HideRefreshButtonResponse,
   IsConnectedResponse,
@@ -49,6 +54,7 @@ import {
   OpenExternalLinkResponse,
   RawCloseResponse,
   RawHideBackButtonResponse,
+  RawHideHeaderResponse,
   RawHideLoaderResponse,
   RawHideRefreshButtonResponse,
   RawOpenExternalLinkResponse,
@@ -56,6 +62,7 @@ import {
   RawSetBackgroundColorResponse,
   RawSetTitleResponse,
   RawShowBackButtonResponse,
+  RawShowHeaderResponse,
   RawShowLoaderResponse,
   RawShowRefreshButtonResponse,
   SendAnalyticsEventRequest,
@@ -65,6 +72,7 @@ import {
   SetTitleRequest,
   SetTitleResponse,
   ShowBackButtonResponse,
+  ShowHeaderResponse,
   ShowLoaderResponse,
   ShowRefreshButtonResponse,
 } from './types';
@@ -275,6 +283,60 @@ export class ContainerModule extends BaseModule {
   }
 
   /**
+   * Hide the container header.
+   *
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Header hidden successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
+   *
+   * @example
+   * ```typescript
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+   *
+   * // Initialize the container module
+   * const container = new ContainerModule();
+   *
+   * // Hide header
+   * const response = await container.hideHeader();
+   *
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Header hidden successfully');
+   * } else if (isError(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
+   * }
+   * ```
+   *
+   * @public
+   */
+  async hideHeader(): Promise<HideHeaderResponse> {
+    const rawResponse = (await this.invoke({
+      method: 'hideHeader',
+    })) as RawHideHeaderResponse;
+
+    const rawResponseError = this.validate(RawHideHeaderResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('hideHeader', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: HideHeaderResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as HideHeaderResponse;
+    }
+
+    const responseError = this.validate(HideHeaderResponseSchema, response);
+    if (responseError)
+      this.logger.warn('hideHeader', `Unexpected response shape: ${responseError}`);
+
+    return response;
+  }
+
+  /**
    * Show the back button on the container header.
    *
    * @returns This method can return the following `status_code` values:
@@ -324,6 +386,60 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(ShowBackButtonResponseSchema, response);
     if (responseError)
       this.logger.warn('showBackButton', `Unexpected response shape: ${responseError}`);
+
+    return response;
+  }
+
+  /**
+   * Show the container header.
+   *
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Header shown successfully.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
+   *
+   * @example
+   * ```typescript
+   * import { ContainerModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+   *
+   * // Initialize the container module
+   * const container = new ContainerModule();
+   *
+   * // Show header
+   * const response = await container.showHeader();
+   *
+   * // Handle the response
+   * if (isSuccess(response)) {
+   *   console.log('Header shown successfully');
+   * } else if (isError(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * } else {
+   *   console.error('Unhandled response');
+   * }
+   * ```
+   *
+   * @public
+   */
+  async showHeader(): Promise<ShowHeaderResponse> {
+    const rawResponse = (await this.invoke({
+      method: 'showHeader',
+    })) as RawShowHeaderResponse;
+
+    const rawResponseError = this.validate(RawShowHeaderResponseSchema, rawResponse);
+    if (rawResponseError)
+      this.logger.warn('showHeader', `Unexpected raw response shape: ${rawResponseError}`);
+
+    // Transform 200 OK -> 204 No Content
+    let response: ShowHeaderResponse;
+    if (isOk(rawResponse)) {
+      response = { status_code: 204 };
+    } else {
+      response = rawResponse as ShowHeaderResponse;
+    }
+
+    const responseError = this.validate(ShowHeaderResponseSchema, response);
+    if (responseError)
+      this.logger.warn('showHeader', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

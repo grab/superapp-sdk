@@ -53,6 +53,7 @@ export {
   GetSessionParamsResponse,
   GetSessionParamsResult,
   HideBackButtonResponse,
+  HideHeaderResponse,
   HideLoaderResponse,
   HideRefreshButtonResponse,
   IsConnectedResponse,
@@ -69,6 +70,7 @@ export {
   SetTitleRequest,
   SetTitleResponse,
   ShowBackButtonResponse,
+  ShowHeaderResponse,
   ShowLoaderResponse,
   ShowRefreshButtonResponse,
 } from './modules/container';
