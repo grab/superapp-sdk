@@ -52,6 +52,7 @@ export default function CheckoutPage() {
 
     const loyalty = new LoyaltyModule();
     const rewardsResponse = await loyalty.estimateRewards({ items: [REWARDS_ITEM] });
+    console.log('[loyalty] estimateRewards:', JSON.stringify(rewardsResponse));
     if (isOk(rewardsResponse)) {
       const first = rewardsResponse.result.items[0];
       if (first?.status_code === 'SUCCESS') {
@@ -70,6 +71,7 @@ export default function CheckoutPage() {
 
   async function handleTriggerCheckout() {
     setResult(null);
+    console.log('[checkout] handleTriggerCheckout started');
     let parsedPayload: Record<string, unknown>;
     try {
       parsedPayload = JSON.parse(payload);
@@ -85,6 +87,7 @@ export default function CheckoutPage() {
     const container = new ContainerModule();
 
     const hasAccessResponse = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
+    console.log('[checkout] hasAccessTo:', JSON.stringify(hasAccessResponse));
     if (!isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
       const authResponse = await identity.authorize({
         clientId: ENVIRONMENT_CONFIG.clientId,
@@ -93,6 +96,7 @@ export default function CheckoutPage() {
         environment: 'staging',
         responseMode: 'in_place'
       });
+      console.log('[checkout] authorize:', JSON.stringify(authResponse));
 
       if (!isOk(authResponse)) {
         if (isError(authResponse)) {
@@ -104,6 +108,7 @@ export default function CheckoutPage() {
       }
 
       const reloadResponse = await scope.reloadScopes();
+      console.log('[checkout] reloadScopes:', JSON.stringify(reloadResponse));
       if (!isSuccess(reloadResponse)) {
         setResult({ status: 'error', errorMessage: formatError('Reload scopes', reloadResponse) });
         return;
@@ -114,6 +119,7 @@ export default function CheckoutPage() {
     await runOptional('Send TRANSACT analytics', container.sendAnalyticsEvent({ state: 'CHECKOUT_PAGE', name: 'TRANSACT' }), setWarning);
 
     const checkoutResponse = await checkout.triggerCheckout(parsedPayload);
+    console.log('[checkout] triggerCheckout:', JSON.stringify(checkoutResponse));
 
     if (isOk(checkoutResponse)) {
       const res = checkoutResponse.result;
