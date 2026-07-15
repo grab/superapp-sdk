@@ -17,9 +17,7 @@ import { EstimateRewardsRequest, EstimateRewardsResponse } from './types';
  * @category Loyalty
  *
  * @remarks
- * Provides access to GrabCoin (Grab Points) reward estimation via the Horus service.
- * The native Grab app proxies requests to Horus, so `client_id` and auth headers
- * are handled natively and never exposed to the MiniApp.
+ * Provides GrabCoin (Grab Points) reward estimation for items in a transaction.
  * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
@@ -49,9 +47,11 @@ export class LoyaltyModule extends BaseModule {
   static readonly MINIMUM_VERSION: Version = { major: 5, minor: 400, patch: 0 }; // TBD: confirm with native team
 
   /**
-   * Estimates the GrabCoin rewards for a list of items via the Horus rewards service.
+   * Estimates the GrabCoin rewards for a list of items.
    *
    * @minimumGrabAppVersion Android: TBD, iOS: TBD
+   *
+   * @requiredOAuthScope mobile.loyalty
    *
    * @param request - Request containing the list of items to estimate rewards for.
    *

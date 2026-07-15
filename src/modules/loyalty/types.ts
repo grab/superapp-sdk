@@ -18,14 +18,14 @@ import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 export type CurrencyCode = string;
 
 /**
- * Per-item status code returned by the Horus rewards estimation service.
+ * Per-item status code returned by the rewards estimation service.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type HorusItemStatusCode = 'SUCCESS' | 'NOT_APPLICABLE' | 'ERROR';
+export type RewardItemStatusCode = 'SUCCESS' | 'NOT_APPLICABLE' | 'ERROR';
 
 /**
  * A single item to include in a GrabCoin estimation request.
@@ -103,10 +103,30 @@ export type EstimateRewardsSuccessItem = {
   status_code: 'SUCCESS';
   result: {
     reward: GrabCoinReward;
-    /** Present when Abacus returns fiat metadata; absent otherwise. */
+    /** Present when fiat equivalent metadata is available; absent otherwise. */
     estimated_fiat?: EstimatedFiat;
   };
 };
+
+/**
+ * Reason code for a `NOT_APPLICABLE` item.
+ *
+ * @group Modules
+ * @category Loyalty
+ *
+ * @public
+ */
+export type NotApplicableReasonCode = 'country_restriction' | 'invalid_currency';
+
+/**
+ * Reason code for an `ERROR` item.
+ *
+ * @group Modules
+ * @category Loyalty
+ *
+ * @public
+ */
+export type ErrorReasonCode = 'estimate_failed';
 
 /**
  * Result for an item that could not be estimated (for example, unsupported currency or country restriction).
@@ -120,8 +140,7 @@ export type EstimateRewardsNotApplicableItem = {
   /** Item identifier matching the request. */
   id: string;
   status_code: 'NOT_APPLICABLE';
-  /** Machine-readable reason (for example, `"country_restriction"`, `"invalid_currency"`). */
-  reason_code: string;
+  reason_code: NotApplicableReasonCode;
 };
 
 /**
@@ -136,8 +155,7 @@ export type EstimateRewardsErrorItem = {
   /** Item identifier matching the request. */
   id: string;
   status_code: 'ERROR';
-  /** Machine-readable error reason. */
-  reason_code: string;
+  reason_code: ErrorReasonCode;
 };
 
 /**

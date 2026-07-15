@@ -98,6 +98,7 @@ export {
 } from './modules/location';
 export {
   CurrencyCode,
+  ErrorReasonCode,
   EstimatedFiat,
   EstimateRewardsErrorItem,
   EstimateRewardsNotApplicableItem,
@@ -108,8 +109,9 @@ export {
   EstimateRewardsResultItem,
   EstimateRewardsSuccessItem,
   GrabCoinReward,
-  HorusItemStatusCode,
   LoyaltyModule,
+  NotApplicableReasonCode,
+  RewardItemStatusCode,
 } from './modules/loyalty';
 export {
   DRMContentConfig,

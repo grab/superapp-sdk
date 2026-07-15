@@ -92,7 +92,7 @@ const allItemTypesResponse: EstimateRewardsResponse = {
       {
         id: 'trip-4',
         status_code: 'ERROR',
-        reason_code: 'estimation_failed',
+        reason_code: 'estimate_failed',
       },
     ],
   },
@@ -299,7 +299,7 @@ describe('LoyaltyModule', () => {
 
         const errorItem = items[3] as Extract<EstimateRewardsResultItem, { status_code: 'ERROR' }>;
         expect(errorItem.status_code).toBe('ERROR');
-        expect(errorItem.reason_code).toBe('estimation_failed');
+        expect(errorItem.reason_code).toBe('estimate_failed');
       }
     });
 

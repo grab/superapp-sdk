@@ -68,13 +68,13 @@ const EstimateRewardsSuccessItemSchema = v.object({
 const EstimateRewardsNotApplicableItemSchema = v.object({
   id: v.string(),
   status_code: v.literal('NOT_APPLICABLE'),
-  reason_code: v.string(),
+  reason_code: v.picklist(['country_restriction', 'invalid_currency']),
 });
 
 const EstimateRewardsErrorItemSchema = v.object({
   id: v.string(),
   status_code: v.literal('ERROR'),
-  reason_code: v.string(),
+  reason_code: v.literal('estimate_failed'),
 });
 
 /**

@@ -8,6 +8,7 @@
 export { LoyaltyModule } from './LoyaltyModule';
 export type {
   CurrencyCode,
+  ErrorReasonCode,
   EstimatedFiat,
   EstimateRewardsErrorItem,
   EstimateRewardsNotApplicableItem,
@@ -18,5 +19,6 @@ export type {
   EstimateRewardsResultItem,
   EstimateRewardsSuccessItem,
   GrabCoinReward,
-  HorusItemStatusCode,
+  NotApplicableReasonCode,
+  RewardItemStatusCode,
 } from './types';
