@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isSuccess, isError, ContainerModule, IdentityModule, ScopeModule } from '@grabjs/superapp-sdk';
 import { ENVIRONMENT_CONFIG } from '../config';
@@ -16,6 +16,7 @@ const ENVIRONMENT = ENVIRONMENT_CONFIG.clientId === 'REPLACE_WITH_PRODUCTION_CLI
 export default function EntryPage() {
   const navigate = useNavigate();
   const { setUser } = useUser();
+  const hasRun = useRef(false);
   const [pageState, setPageState] = useState<PageState>({ status: 'loading', message: 'Checking environment...' });
   const [warning, setWarning] = useState<string | null>(null);
 
@@ -114,6 +115,8 @@ export default function EntryPage() {
   }
 
   useEffect(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
     queueMicrotask(init);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

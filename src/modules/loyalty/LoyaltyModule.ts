@@ -17,7 +17,7 @@ import { EstimateRewardsRequest, EstimateRewardsResponse } from './types';
  * @category Loyalty
  *
  * @remarks
- * Provides GrabCoin (Grab Points) reward estimation for items in a transaction.
+ * Provides reward estimation for items in a transaction.
  * This code must run on the Grab SuperApp's WebView to function correctly.
  *
  * @example
@@ -47,7 +47,7 @@ export class LoyaltyModule extends BaseModule {
   static readonly MINIMUM_VERSION: Version = { major: 5, minor: 400, patch: 0 }; // TBD: confirm with native team
 
   /**
-   * Estimates the GrabCoin rewards for a list of items.
+   * Estimates the rewards for a list of items.
    *
    * @minimumGrabAppVersion Android: TBD, iOS: TBD
    *
@@ -59,7 +59,7 @@ export class LoyaltyModule extends BaseModule {
    * - `200` (OK): Estimation successful. The `result` contains {@link EstimateRewardsResult}.
    *   Each item in `result.items` has its own `status_code`: `SUCCESS` or `NOT_APPLICABLE`.
    * - `400` (Bad Request): Invalid request parameters (for example, empty items array or missing fields).
-   * - `403` (Forbidden): Client is not authorized to estimate GrabCoin rewards.
+   * - `403` (Forbidden): Client is not authorized.
    * - `426` (Upgrade Required): Feature requires a minimum Grab app version.
    * - `500` (Internal Server Error): An unexpected error occurred.
    * - `501` (Not Implemented): Requires Grab app environment.
@@ -80,7 +80,7 @@ export class LoyaltyModule extends BaseModule {
    * if (isSuccess(response) && response.status_code === 200) {
    *   for (const item of response.result.items) {
    *     if (item.status_code === 'SUCCESS') {
-   *       console.log(`${item.id}: ${item.result.reward.display_amount} GrabPoints`);
+   *       console.log(`${item.id}: ${item.result.reward.display_amount} ${item.result.reward.currency_code}`);
    *     } else {
    *       console.log(`${item.id}: not applicable (${item.reason_code})`);
    *     }

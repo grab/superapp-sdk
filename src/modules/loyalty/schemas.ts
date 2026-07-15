@@ -26,7 +26,7 @@ import type {
 export const EstimateRewardsRequestItemSchema = v.object({
   id: v.pipe(v.string(), v.minLength(1)),
   amount_in_minor_units: v.pipe(v.number(), v.integer(), v.minValue(1)),
-  currency_code: v.pipe(v.string(), v.minLength(1)),
+  currency_code: v.pipe(v.string(), v.length(3)),
 });
 
 /**

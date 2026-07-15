@@ -8,16 +8,6 @@
 import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 
 /**
- * ISO 4217 currency code or Grab-specific reward currency (for example, `"MYR"`, `"SGD"`, `"GRAB-POINT"`).
- *
- * @group Modules
- * @category Loyalty
- *
- * @public
- */
-export type CurrencyCode = string;
-
-/**
  * Per-item status code returned by the rewards estimation service.
  *
  * @group Modules
@@ -28,7 +18,7 @@ export type CurrencyCode = string;
 export type RewardItemStatusCode = 'SUCCESS' | 'NOT_APPLICABLE' | 'ERROR';
 
 /**
- * A single item to include in a GrabCoin estimation request.
+ * A single item to include in a rewards estimation request.
  *
  * @group Modules
  * @category Loyalty
@@ -40,12 +30,12 @@ export type EstimateRewardsRequestItem = {
   id: string;
   /** Transaction amount in minor currency units (for example, `75000` for SGD 750.00). */
   amount_in_minor_units: number;
-  /** ISO 4217 currency code (for example, `"SGD"`). */
-  currency_code: CurrencyCode;
+  /** ISO 4217 currency code, exactly 3 characters (for example, `"SGD"`). */
+  currency_code: string;
 };
 
 /**
- * Request parameters for estimating GrabCoin rewards.
+ * Request parameters for estimating rewards.
  *
  * @group Modules
  * @category Loyalty
@@ -58,24 +48,24 @@ export type EstimateRewardsRequest = {
 };
 
 /**
- * GrabCoin reward amount for a successfully estimated item.
+ * Reward amount for a successfully estimated item.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type GrabCoinReward = {
+export type EstimateRewardsReward = {
   /** Numeric reward amount (for example, `492`). */
   amount: number;
   /** Reward currency code (for example, `"GRAB-POINT"`). */
-  currency_code: CurrencyCode;
+  currency_code: string;
   /** Human-readable reward amount (for example, `"492"` or `"3,750"`). */
   display_amount: string;
 };
 
 /**
- * Estimated fiat equivalent of the GrabCoin reward.
+ * Estimated fiat equivalent of the reward.
  *
  * @group Modules
  * @category Loyalty
@@ -86,7 +76,7 @@ export type EstimatedFiat = {
   /** Estimated fiat value in minor currency units (for example, `328` for MYR 3.28). */
   amount_in_minor_units: number;
   /** ISO 4217 currency code (for example, `"MYR"`). */
-  currency_code: CurrencyCode;
+  currency_code: string;
 };
 
 /**
@@ -102,7 +92,7 @@ export type EstimateRewardsSuccessItem = {
   id: string;
   status_code: 'SUCCESS';
   result: {
-    reward: GrabCoinReward;
+    reward: EstimateRewardsReward;
     /** Present when fiat equivalent metadata is available; absent otherwise. */
     estimated_fiat?: EstimatedFiat;
   };
@@ -116,7 +106,7 @@ export type EstimateRewardsSuccessItem = {
  *
  * @public
  */
-export type NotApplicableReasonCode = 'country_restriction' | 'invalid_currency';
+export type EstimateRewardsNotApplicableReasonCode = 'country_restriction' | 'invalid_currency';
 
 /**
  * Reason code for an `ERROR` item.
@@ -126,7 +116,7 @@ export type NotApplicableReasonCode = 'country_restriction' | 'invalid_currency'
  *
  * @public
  */
-export type ErrorReasonCode = 'estimate_failed';
+export type EstimateRewardsErrorReasonCode = 'estimate_failed';
 
 /**
  * Result for an item that could not be estimated (for example, unsupported currency or country restriction).
@@ -140,7 +130,7 @@ export type EstimateRewardsNotApplicableItem = {
   /** Item identifier matching the request. */
   id: string;
   status_code: 'NOT_APPLICABLE';
-  reason_code: NotApplicableReasonCode;
+  reason_code: EstimateRewardsNotApplicableReasonCode;
 };
 
 /**
@@ -155,7 +145,7 @@ export type EstimateRewardsErrorItem = {
   /** Item identifier matching the request. */
   id: string;
   status_code: 'ERROR';
-  reason_code: ErrorReasonCode;
+  reason_code: EstimateRewardsErrorReasonCode;
 };
 
 /**
@@ -172,7 +162,7 @@ export type EstimateRewardsResultItem =
   | EstimateRewardsErrorItem;
 
 /**
- * Result object containing per-item GrabCoin estimates.
+ * Result object containing per-item reward estimates.
  *
  * @group Modules
  * @category Loyalty
@@ -185,7 +175,7 @@ export type EstimateRewardsResult = {
 };
 
 /**
- * Response when estimating GrabCoin rewards.
+ * Response when estimating rewards.
  *
  * @group Modules
  * @category Loyalty

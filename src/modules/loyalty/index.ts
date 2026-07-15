@@ -7,18 +7,17 @@
 
 export { LoyaltyModule } from './LoyaltyModule';
 export type {
-  CurrencyCode,
-  ErrorReasonCode,
   EstimatedFiat,
   EstimateRewardsErrorItem,
+  EstimateRewardsErrorReasonCode,
   EstimateRewardsNotApplicableItem,
+  EstimateRewardsNotApplicableReasonCode,
   EstimateRewardsRequest,
   EstimateRewardsRequestItem,
   EstimateRewardsResponse,
   EstimateRewardsResult,
   EstimateRewardsResultItem,
+  EstimateRewardsReward,
   EstimateRewardsSuccessItem,
-  GrabCoinReward,
-  NotApplicableReasonCode,
   RewardItemStatusCode,
 } from './types';

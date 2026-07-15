@@ -116,10 +116,6 @@ export default function IndexPage() {
     navigate('/checkout');
   }
 
-  function handleLoyalty() {
-    navigate('/loyalty');
-  }
-
   return (
     <div className="p-4">
       <WarningArea warning={warning} />
@@ -149,12 +145,6 @@ export default function IndexPage() {
               className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             >
               Go to Checkout
-            </button>
-            <button
-              onClick={handleLoyalty}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Estimate Rewards
             </button>
           </div>
           {actionResult && (

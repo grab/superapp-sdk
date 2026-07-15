@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isSuccess, isOk, isNoContent, isError, ContainerModule, IdentityModule, ScopeModule, CheckoutModule } from '@grabjs/superapp-sdk';
+import { isSuccess, isOk, isNoContent, isError, ContainerModule, IdentityModule, ScopeModule, CheckoutModule, LoyaltyModule } from '@grabjs/superapp-sdk';
 import { ENVIRONMENT_CONFIG } from '../config';
 import { runOptional, formatError } from '../utils/sdkHelpers';
 import { WarningArea } from '../components/WarningArea';
 import { StatusMessage } from '../components/StatusMessage';
 
 import type { PageState } from '../types';
+
+const REWARDS_ITEM = { id: 'checkout-item', amount_in_minor_units: 75000, currency_code: 'SGD' };
 
 const SAMPLE_PAYLOAD = {
   partnerTxID: 'your_unique_transaction_id',
@@ -23,10 +25,12 @@ const STATUS_STYLES: Record<string, { type: 'success' | 'error' | 'warning'; lab
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
+  const hasRun = useRef(false);
   const [pageState, setPageState] = useState<PageState>({ status: 'loading', message: 'Checking environment...' });
   const [warning, setWarning] = useState<string | null>(null);
   const [payload, setPayload] = useState(JSON.stringify(SAMPLE_PAYLOAD, null, 2));
   const [result, setResult] = useState<{ status: string; transactionID?: string; errorCode?: string; errorMessage?: string } | null>(null);
+  const [rewardDisplay, setRewardDisplay] = useState<string | null>(null);
 
   async function init() {
     setPageState({ status: 'loading', message: 'Checking environment...' });
@@ -46,10 +50,21 @@ export default function CheckoutPage() {
     
     await runOptional('Send DEFAULT analytics', container.sendAnalyticsEvent({ state: 'CHECKOUT_PAGE', name: 'DEFAULT' }), setWarning);
 
+    const loyalty = new LoyaltyModule();
+    const rewardsResponse = await loyalty.estimateRewards({ items: [REWARDS_ITEM] });
+    if (isOk(rewardsResponse)) {
+      const first = rewardsResponse.result.items[0];
+      if (first?.status_code === 'SUCCESS') {
+        setRewardDisplay(`${first.result.reward.display_amount} ${first.result.reward.currency_code}`);
+      }
+    }
+
     setPageState({ status: 'ready' });
   }
 
   useEffect(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
     queueMicrotask(init);
   }, []);
 
@@ -152,6 +167,7 @@ export default function CheckoutPage() {
         <>
           <h1 className="text-xl font-bold mb-4">Checkout</h1>
           <div className="space-y-4">
+            <p><strong>Estimated Rewards:</strong> {rewardDisplay || 'N/A'}</p>
             <div>
               <label htmlFor="payloadInput" className="block text-sm font-medium mb-2">Paste Checkout Payload (JSON)</label>
               <textarea

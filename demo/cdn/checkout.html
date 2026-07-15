@@ -29,6 +29,8 @@
         sessionID: 'session-123',
       };
 
+      const REWARDS_ITEM = { id: 'checkout-item', amount_in_minor_units: 75000, currency_code: 'SGD' };
+
       async function init() {
         const container = new SuperAppSDK.ContainerModule();
 
@@ -59,10 +61,21 @@
           name: 'DEFAULT'
         }));
 
+        const loyalty = new SuperAppSDK.LoyaltyModule();
+        const rewardsResponse = await loyalty.estimateRewards({ items: [REWARDS_ITEM] });
+        let rewardDisplay = 'N/A';
+        if (SuperAppSDK.isOk(rewardsResponse)) {
+          const first = rewardsResponse.result.items[0];
+          if (first?.status_code === 'SUCCESS') {
+            rewardDisplay = `${first.result.reward.display_amount} ${first.result.reward.currency_code}`;
+          }
+        }
+
         // Render the checkout UI
         content.innerHTML = `
           <h1 class="text-xl font-bold mb-4">Checkout</h1>
           <div class="space-y-4">
+            <p><strong>Estimated Rewards:</strong> ${escapeHtml(rewardDisplay)}</p>
             <div>
               <label for="payloadInput" class="block text-sm font-medium mb-2">Paste Checkout Payload (JSON)</label>
               <textarea id="payloadInput" rows="10" class="w-full p-2 border border-gray-300 rounded bg-white text-gray-900 font-mono text-sm" placeholder='Paste JSON payload here or use the sample'>${JSON.stringify(SAMPLE_PAYLOAD, null, 2)}</textarea>

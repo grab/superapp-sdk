@@ -97,20 +97,19 @@ export {
   ObserveLocationChangeResponse,
 } from './modules/location';
 export {
-  CurrencyCode,
-  ErrorReasonCode,
   EstimatedFiat,
   EstimateRewardsErrorItem,
+  EstimateRewardsErrorReasonCode,
   EstimateRewardsNotApplicableItem,
+  EstimateRewardsNotApplicableReasonCode,
   EstimateRewardsRequest,
   EstimateRewardsRequestItem,
   EstimateRewardsResponse,
   EstimateRewardsResult,
   EstimateRewardsResultItem,
+  EstimateRewardsReward,
   EstimateRewardsSuccessItem,
-  GrabCoinReward,
   LoyaltyModule,
-  NotApplicableReasonCode,
   RewardItemStatusCode,
 } from './modules/loyalty';
 export {
