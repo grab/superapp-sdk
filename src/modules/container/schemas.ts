@@ -170,7 +170,6 @@ export const ShowBackButtonResponseSchema: v.GenericSchema<ShowBackButtonRespons
  */
 export const RawHideHeaderResponseSchema: v.GenericSchema<RawHideHeaderResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
-  sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
 ]);
@@ -197,7 +196,6 @@ export const HideHeaderResponseSchema: v.GenericSchema<HideHeaderResponse> = v.u
  */
 export const RawShowHeaderResponseSchema: v.GenericSchema<RawShowHeaderResponse> = v.union([
   sdkOkResponseSchema(v.boolean()),
-  sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
 ]);

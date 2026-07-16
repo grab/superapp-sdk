@@ -141,7 +141,6 @@ export type HideHeaderResponse =
  */
 export type RawHideHeaderResponse =
   | SDKOkResponse<boolean>
-  | SDKNoContentResponse
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
 
@@ -166,7 +165,6 @@ export type ShowHeaderResponse =
  */
 export type RawShowHeaderResponse =
   | SDKOkResponse<boolean>
-  | SDKNoContentResponse
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
 
