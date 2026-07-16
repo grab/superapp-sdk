@@ -9,11 +9,11 @@ Each release entry may include a short summary (Markdown, for example `_italic_`
 
 ## [2.0.0-beta.60] - 2026-07-09
 
-_Introduces `LoyaltyModule` for GrabCoin reward estimation via Horus._
+_Introduces `LoyaltyModule` for reward estimation._
 
 ### Added
 
-- `LoyaltyModule` with `estimateRewards` for per-item GrabCoin reward estimation.
+- `LoyaltyModule` with `estimateRewards` for per-item reward estimation.
 
 ## [2.0.0-beta.59] - 2026-07-09
 
