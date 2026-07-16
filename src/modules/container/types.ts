@@ -134,17 +134,6 @@ export type HideHeaderResponse =
   | SDKErrorResponse<501>;
 
 /**
- * Internal type for the raw `JSBridge` response from `hideHeader` before transformation.
- * Used internally to handle the `JSBridge` response format.
- *
- * @internal
- */
-export type RawHideHeaderResponse =
-  | SDKOkResponse<boolean>
-  | SDKErrorResponse<500>
-  | SDKErrorResponse<501>;
-
-/**
  * Response when showing the header.
  *
  * @group Modules
@@ -154,17 +143,6 @@ export type RawHideHeaderResponse =
  */
 export type ShowHeaderResponse =
   | SDKNoContentResponse
-  | SDKErrorResponse<500>
-  | SDKErrorResponse<501>;
-
-/**
- * Internal type for the raw `JSBridge` response from `showHeader` before transformation.
- * Used internally to handle the `JSBridge` response format.
- *
- * @internal
- */
-export type RawShowHeaderResponse =
-  | SDKOkResponse<boolean>
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
 

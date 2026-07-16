@@ -19,7 +19,6 @@ import {
   OpenExternalLinkResponseSchema,
   RawCloseResponseSchema,
   RawHideBackButtonResponseSchema,
-  RawHideHeaderResponseSchema,
   RawHideLoaderResponseSchema,
   RawHideRefreshButtonResponseSchema,
   RawOpenExternalLinkResponseSchema,
@@ -27,7 +26,6 @@ import {
   RawSetBackgroundColorResponseSchema,
   RawSetTitleResponseSchema,
   RawShowBackButtonResponseSchema,
-  RawShowHeaderResponseSchema,
   RawShowLoaderResponseSchema,
   RawShowRefreshButtonResponseSchema,
   SendAnalyticsEventRequestSchema,
@@ -54,7 +52,6 @@ import {
   OpenExternalLinkResponse,
   RawCloseResponse,
   RawHideBackButtonResponse,
-  RawHideHeaderResponse,
   RawHideLoaderResponse,
   RawHideRefreshButtonResponse,
   RawOpenExternalLinkResponse,
@@ -62,7 +59,6 @@ import {
   RawSetBackgroundColorResponse,
   RawSetTitleResponse,
   RawShowBackButtonResponse,
-  RawShowHeaderResponse,
   RawShowLoaderResponse,
   RawShowRefreshButtonResponse,
   SendAnalyticsEventRequest,
@@ -313,21 +309,9 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async hideHeader(): Promise<HideHeaderResponse> {
-    const rawResponse = (await this.invoke({
+    const response = (await this.invoke({
       method: 'hideHeader',
-    })) as RawHideHeaderResponse;
-
-    const rawResponseError = this.validate(RawHideHeaderResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('hideHeader', `Unexpected raw response shape: ${rawResponseError}`);
-
-    // Transform 200 OK -> 204 No Content
-    let response: HideHeaderResponse;
-    if (isOk(rawResponse)) {
-      response = { status_code: 204 };
-    } else {
-      response = rawResponse as HideHeaderResponse;
-    }
+    })) as HideHeaderResponse;
 
     const responseError = this.validate(HideHeaderResponseSchema, response);
     if (responseError)
@@ -421,21 +405,9 @@ export class ContainerModule extends BaseModule {
    * @public
    */
   async showHeader(): Promise<ShowHeaderResponse> {
-    const rawResponse = (await this.invoke({
+    const response = (await this.invoke({
       method: 'showHeader',
-    })) as RawShowHeaderResponse;
-
-    const rawResponseError = this.validate(RawShowHeaderResponseSchema, rawResponse);
-    if (rawResponseError)
-      this.logger.warn('showHeader', `Unexpected raw response shape: ${rawResponseError}`);
-
-    // Transform 200 OK -> 204 No Content
-    let response: ShowHeaderResponse;
-    if (isOk(rawResponse)) {
-      response = { status_code: 204 };
-    } else {
-      response = rawResponse as ShowHeaderResponse;
-    }
+    })) as ShowHeaderResponse;
 
     const responseError = this.validate(ShowHeaderResponseSchema, response);
     if (responseError)

@@ -27,7 +27,6 @@ import type {
   OpenExternalLinkResponse,
   RawCloseResponse,
   RawHideBackButtonResponse,
-  RawHideHeaderResponse,
   RawHideLoaderResponse,
   RawHideRefreshButtonResponse,
   RawOpenExternalLinkResponse,
@@ -35,7 +34,6 @@ import type {
   RawSetBackgroundColorResponse,
   RawSetTitleResponse,
   RawShowBackButtonResponse,
-  RawShowHeaderResponse,
   RawShowLoaderResponse,
   RawShowRefreshButtonResponse,
   SendAnalyticsEventRequest,
@@ -163,18 +161,6 @@ export const ShowBackButtonResponseSchema: v.GenericSchema<ShowBackButtonRespons
 ]);
 
 /**
- * Internal valibot schema for the raw `JSBridge` response from `hideHeader`.
- * Used to validate the response from `JSBridge` before transformation.
- *
- * @internal
- */
-export const RawHideHeaderResponseSchema: v.GenericSchema<RawHideHeaderResponse> = v.union([
-  sdkOkResponseSchema(v.boolean()),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
-
-/**
  * Valibot schema for {@link HideHeaderResponse}.
  *
  * @group Modules
@@ -184,18 +170,6 @@ export const RawHideHeaderResponseSchema: v.GenericSchema<RawHideHeaderResponse>
  */
 export const HideHeaderResponseSchema: v.GenericSchema<HideHeaderResponse> = v.union([
   sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
-
-/**
- * Internal valibot schema for the raw `JSBridge` response from `showHeader`.
- * Used to validate the response from `JSBridge` before transformation.
- *
- * @internal
- */
-export const RawShowHeaderResponseSchema: v.GenericSchema<RawShowHeaderResponse> = v.union([
-  sdkOkResponseSchema(v.boolean()),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
 ]);
