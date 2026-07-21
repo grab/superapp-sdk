@@ -8,16 +8,16 @@
 export { LoyaltyModule } from './LoyaltyModule';
 export type {
   EstimatedFiat,
-  EstimateRewardsErrorItem,
+  EstimateRewardsEntryStatusCode,
+  EstimateRewardsErrorEntry,
   EstimateRewardsErrorReasonCode,
-  EstimateRewardsNotApplicableItem,
+  EstimateRewardsNotApplicableEntry,
   EstimateRewardsNotApplicableReasonCode,
   EstimateRewardsRequest,
-  EstimateRewardsRequestItem,
+  EstimateRewardsRequestEntry,
   EstimateRewardsResponse,
   EstimateRewardsResult,
-  EstimateRewardsResultItem,
+  EstimateRewardsResultEntry,
   EstimateRewardsReward,
-  EstimateRewardsSuccessItem,
-  RewardItemStatusCode,
+  EstimateRewardsSuccessEntry,
 } from './types';

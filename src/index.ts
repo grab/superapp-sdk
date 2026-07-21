@@ -98,19 +98,19 @@ export {
 } from './modules/location';
 export {
   EstimatedFiat,
-  EstimateRewardsErrorItem,
+  EstimateRewardsEntryStatusCode,
+  EstimateRewardsErrorEntry,
   EstimateRewardsErrorReasonCode,
-  EstimateRewardsNotApplicableItem,
+  EstimateRewardsNotApplicableEntry,
   EstimateRewardsNotApplicableReasonCode,
   EstimateRewardsRequest,
-  EstimateRewardsRequestItem,
+  EstimateRewardsRequestEntry,
   EstimateRewardsResponse,
   EstimateRewardsResult,
-  EstimateRewardsResultItem,
+  EstimateRewardsResultEntry,
   EstimateRewardsReward,
-  EstimateRewardsSuccessItem,
+  EstimateRewardsSuccessEntry,
   LoyaltyModule,
-  RewardItemStatusCode,
 } from './modules/loyalty';
 export {
   DRMContentConfig,

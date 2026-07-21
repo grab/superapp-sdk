@@ -16,14 +16,14 @@ import type {
 } from './types';
 
 /**
- * Valibot schema for a single {@link EstimateRewardsRequestItem}.
+ * Valibot schema for a single {@link EstimateRewardsRequestEntry}.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export const EstimateRewardsRequestItemSchema = v.object({
+export const EstimateRewardsRequestEntrySchema = v.object({
   id: v.pipe(v.string(), v.minLength(1)),
   amount_in_minor_units: v.pipe(v.number(), v.integer(), v.minValue(1)),
   currency_code: v.pipe(v.string(), v.length(3)),
@@ -39,11 +39,11 @@ export const EstimateRewardsRequestItemSchema = v.object({
  */
 export const EstimateRewardsRequestSchema: v.GenericSchema<EstimateRewardsRequest> = v.pipe(
   v.object({
-    items: v.pipe(v.array(EstimateRewardsRequestItemSchema), v.minLength(1)),
+    items: v.pipe(v.array(EstimateRewardsRequestEntrySchema), v.minLength(1)),
   }),
   v.check(
     ({ items }) => new Set(items.map((item) => item.id)).size === items.length,
-    'Duplicate item id detected'
+    'Duplicate entry id detected'
   )
 );
 
@@ -52,7 +52,7 @@ const EstimatedFiatSchema: v.GenericSchema<EstimatedFiat> = v.object({
   currency_code: v.string(),
 });
 
-const EstimateRewardsSuccessItemSchema = v.object({
+const EstimateRewardsSuccessEntrySchema = v.object({
   id: v.string(),
   status_code: v.literal('SUCCESS'),
   result: v.object({
@@ -65,13 +65,13 @@ const EstimateRewardsSuccessItemSchema = v.object({
   }),
 });
 
-const EstimateRewardsNotApplicableItemSchema = v.object({
+const EstimateRewardsNotApplicableEntrySchema = v.object({
   id: v.string(),
   status_code: v.literal('NOT_APPLICABLE'),
   reason_code: v.picklist(['country_restriction', 'invalid_currency']),
 });
 
-const EstimateRewardsErrorItemSchema = v.object({
+const EstimateRewardsErrorEntrySchema = v.object({
   id: v.string(),
   status_code: v.literal('ERROR'),
   reason_code: v.literal('estimate_failed'),
@@ -88,9 +88,9 @@ const EstimateRewardsErrorItemSchema = v.object({
 export const EstimateRewardsResultSchema: v.GenericSchema<EstimateRewardsResult> = v.object({
   items: v.array(
     v.union([
-      EstimateRewardsSuccessItemSchema,
-      EstimateRewardsNotApplicableItemSchema,
-      EstimateRewardsErrorItemSchema,
+      EstimateRewardsSuccessEntrySchema,
+      EstimateRewardsNotApplicableEntrySchema,
+      EstimateRewardsErrorEntrySchema,
     ])
   ),
 });

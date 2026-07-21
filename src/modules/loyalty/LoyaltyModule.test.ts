@@ -11,7 +11,7 @@ import { LoyaltyModule } from './LoyaltyModule';
 import type {
   EstimateRewardsRequest,
   EstimateRewardsResponse,
-  EstimateRewardsResultItem,
+  EstimateRewardsResultEntry,
 } from './types';
 
 const GRAB_IOS_UA = 'Grab/5.401.0 (iPhone; iOS 16.0)';
@@ -278,26 +278,29 @@ describe('LoyaltyModule', () => {
         const items = response.result.items;
         expect(items).toHaveLength(4);
 
-        const withFiat = items[0] as Extract<EstimateRewardsResultItem, { status_code: 'SUCCESS' }>;
+        const withFiat = items[0] as Extract<
+          EstimateRewardsResultEntry,
+          { status_code: 'SUCCESS' }
+        >;
         expect(withFiat.status_code).toBe('SUCCESS');
         expect(withFiat.result.estimated_fiat?.amount_in_minor_units).toBe(328);
         expect(withFiat.result.estimated_fiat?.currency_code).toBe('MYR');
 
         const withoutFiat = items[1] as Extract<
-          EstimateRewardsResultItem,
+          EstimateRewardsResultEntry,
           { status_code: 'SUCCESS' }
         >;
         expect(withoutFiat.status_code).toBe('SUCCESS');
         expect(withoutFiat.result.estimated_fiat).toBeUndefined();
 
         const notApplicable = items[2] as Extract<
-          EstimateRewardsResultItem,
+          EstimateRewardsResultEntry,
           { status_code: 'NOT_APPLICABLE' }
         >;
         expect(notApplicable.status_code).toBe('NOT_APPLICABLE');
         expect(notApplicable.reason_code).toBe('country_restriction');
 
-        const errorItem = items[3] as Extract<EstimateRewardsResultItem, { status_code: 'ERROR' }>;
+        const errorItem = items[3] as Extract<EstimateRewardsResultEntry, { status_code: 'ERROR' }>;
         expect(errorItem.status_code).toBe('ERROR');
         expect(errorItem.reason_code).toBe('estimate_failed');
       }

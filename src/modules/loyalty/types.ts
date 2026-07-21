@@ -8,25 +8,25 @@
 import type { SDKErrorResponse, SDKOkResponse } from '../../core';
 
 /**
- * Per-item status code returned by the rewards estimation service.
+ * Per-entry status code returned by the rewards estimation service.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type RewardItemStatusCode = 'SUCCESS' | 'NOT_APPLICABLE' | 'ERROR';
+export type EstimateRewardsEntryStatusCode = 'SUCCESS' | 'NOT_APPLICABLE' | 'ERROR';
 
 /**
- * A single item to include in a rewards estimation request.
+ * A single transaction total to include in a rewards estimation request.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type EstimateRewardsRequestItem = {
-  /** Partner-defined identifier for this item (for example, `"trip-456"`). */
+export type EstimateRewardsRequestEntry = {
+  /** Partner-defined identifier for this entry (for example, `"trip-456"`). */
   id: string;
   /** Transaction amount in minor currency units (for example, `75000` for SGD 750.00). */
   amount_in_minor_units: number;
@@ -43,12 +43,12 @@ export type EstimateRewardsRequestItem = {
  * @public
  */
 export type EstimateRewardsRequest = {
-  /** List of items to estimate rewards for. Must contain at least one item. */
-  items: EstimateRewardsRequestItem[];
+  /** List of transaction totals to estimate rewards for. Must contain at least one entry. */
+  items: EstimateRewardsRequestEntry[];
 };
 
 /**
- * Reward amount for a successfully estimated item.
+ * Reward amount for a successfully estimated entry.
  *
  * @group Modules
  * @category Loyalty
@@ -80,15 +80,15 @@ export type EstimatedFiat = {
 };
 
 /**
- * Result for an item that was successfully estimated.
+ * Result for an entry that was successfully estimated.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type EstimateRewardsSuccessItem = {
-  /** Item identifier matching the request. */
+export type EstimateRewardsSuccessEntry = {
+  /** Entry identifier matching the request. */
   id: string;
   status_code: 'SUCCESS';
   result: {
@@ -99,7 +99,7 @@ export type EstimateRewardsSuccessItem = {
 };
 
 /**
- * Reason code for a `NOT_APPLICABLE` item.
+ * Reason code for a `NOT_APPLICABLE` entry.
  *
  * @group Modules
  * @category Loyalty
@@ -109,7 +109,7 @@ export type EstimateRewardsSuccessItem = {
 export type EstimateRewardsNotApplicableReasonCode = 'country_restriction' | 'invalid_currency';
 
 /**
- * Reason code for an `ERROR` item.
+ * Reason code for an `ERROR` entry.
  *
  * @group Modules
  * @category Loyalty
@@ -119,50 +119,50 @@ export type EstimateRewardsNotApplicableReasonCode = 'country_restriction' | 'in
 export type EstimateRewardsErrorReasonCode = 'estimate_failed';
 
 /**
- * Result for an item that could not be estimated (for example, unsupported currency or country restriction).
+ * Result for an entry that could not be estimated (for example, unsupported currency or country restriction).
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type EstimateRewardsNotApplicableItem = {
-  /** Item identifier matching the request. */
+export type EstimateRewardsNotApplicableEntry = {
+  /** Entry identifier matching the request. */
   id: string;
   status_code: 'NOT_APPLICABLE';
   reason_code: EstimateRewardsNotApplicableReasonCode;
 };
 
 /**
- * Result for an item where estimation failed due to a processing error.
+ * Result for an entry where estimation failed due to a processing error.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type EstimateRewardsErrorItem = {
-  /** Item identifier matching the request. */
+export type EstimateRewardsErrorEntry = {
+  /** Entry identifier matching the request. */
   id: string;
   status_code: 'ERROR';
   reason_code: EstimateRewardsErrorReasonCode;
 };
 
 /**
- * Per-item estimation result, discriminated by `status_code`.
+ * Per-entry estimation result, discriminated by `status_code`.
  *
  * @group Modules
  * @category Loyalty
  *
  * @public
  */
-export type EstimateRewardsResultItem =
-  | EstimateRewardsSuccessItem
-  | EstimateRewardsNotApplicableItem
-  | EstimateRewardsErrorItem;
+export type EstimateRewardsResultEntry =
+  | EstimateRewardsSuccessEntry
+  | EstimateRewardsNotApplicableEntry
+  | EstimateRewardsErrorEntry;
 
 /**
- * Result object containing per-item reward estimates.
+ * Result object containing per-entry reward estimates.
  *
  * @group Modules
  * @category Loyalty
@@ -170,8 +170,8 @@ export type EstimateRewardsResultItem =
  * @public
  */
 export type EstimateRewardsResult = {
-  /** Estimation result for each item in the request. */
-  items: EstimateRewardsResultItem[];
+  /** Estimation result for each entry in the request. */
+  items: EstimateRewardsResultEntry[];
 };
 
 /**
