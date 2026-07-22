@@ -1,0 +1,74 @@
+[
+  {
+    "query": "I'm adding a 'Scan to Pay' button to our Grab MiniApp — tapping it should open the camera, read a QR code, and then kick off the checkout flow with the merchant ID encoded in it. What SDK calls do I chain together for that?",
+    "should_trigger": true
+  },
+  {
+    "query": "our miniapp keeps getting `{status_code: 403}` back from profile.fetchEmail() even though the user just signed in through GrabID. i thought reloadScopes() would fix it but no luck, whats going on",
+    "should_trigger": true
+  },
+  {
+    "query": "trying to hide the back button and refresh icon on our webview container header for the checkout page specifically, everywhere else should keep them",
+    "should_trigger": true
+  },
+  {
+    "query": "what's the difference between mobile scopes and backend scopes in the grab superapp sdk, and when should I request geolocation upfront vs only when the user taps 'find nearby drivers'?",
+    "should_trigger": true
+  },
+  {
+    "query": "porting our miniapp from the CDN bundle to npm + webpack, currently doing `const { ContainerModule } = window.SuperAppSDK` everywhere and want to switch to proper ES module imports",
+    "should_trigger": true
+  },
+  {
+    "query": "need to play a DRM-protected promo video inside our grab miniapp and show a loading spinner while it buffers, is there a native player api for this",
+    "should_trigger": true
+  },
+  {
+    "query": "getting a TS error 'Extract<T, {result: {}}>' is not assignable when I try to narrow the response from isSuccess() before reading response.result, using @grabjs/superapp-sdk 2.0",
+    "should_trigger": true
+  },
+  {
+    "query": "want to log an analytics event to grab's backend every time a user completes checkout in our miniapp, plus a custom event when they abandon the cart on the payment screen",
+    "should_trigger": true
+  },
+  {
+    "query": "can you write a python script that reads a QR code from an image file on disk and prints the decoded text",
+    "should_trigger": false
+  },
+  {
+    "query": "our next.js e-commerce site (not a grab miniapp, just a regular web app) needs a checkout flow with stripe — how do I structure the payment intent and webhook handler",
+    "should_trigger": false
+  },
+  {
+    "query": "how do I request geolocation permission in a plain browser using navigator.geolocation.getCurrentPosition, no webview or superapp involved",
+    "should_trigger": false
+  },
+  {
+    "query": "what oauth scopes does google calendar api require to read a user's events, and how do I set up the consent screen",
+    "should_trigger": false
+  },
+  {
+    "query": "our ios app (native swift, not the webview miniapp) needs to persist a user setting locally — should I use UserDefaults or Keychain for a non-sensitive language preference",
+    "should_trigger": false
+  },
+  {
+    "query": "trying to debug why our webpack build for an unrelated internal dashboard is timing out, nothing to do with grab or miniapps, just node_modules bloat i think",
+    "should_trigger": false
+  },
+  {
+    "query": "what does http status 403 mean in general REST API design and when should a backend return it vs 401",
+    "should_trigger": false
+  },
+  {
+    "query": "we're deciding between grabmart and grabfood integration partnerships for our restaurant business, what are the commission differences",
+    "should_trigger": false
+  },
+  {
+    "query": "camera on my android phone stopped focusing properly after the last OS update, is this a hardware issue or software",
+    "should_trigger": false
+  },
+  {
+    "query": "how do I add a splash screen with a lottie animation to a react native app that's NOT running inside the grab superapp webview",
+    "should_trigger": false
+  }
+]

@@ -1,0 +1,70 @@
+{
+  "skill_name": "grabjs-superapp-sdk",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm building a Grab MiniApp in React and need to check if the user has granted the `mobile.geolocation` scope before calling LocationModule. If they haven't, I want to request it and handle the case where the native app version is too old.",
+      "expected_output": "Code using ScopeModule.hasAccessTo() / reloadScopes() and IdentityModule.authorize() for the deferred permission flow, plus handling for status_code 403 (missing scope) and 426 (app too old), matching the patterns in references/authentication-and-permissions.md.",
+      "files": [],
+      "expectations": [
+        "Response references IdentityModule.authorize() or ScopeModule for requesting/checking the mobile.geolocation scope",
+        "Response explains handling status_code 403 (Forbidden) as a missing-scope case",
+        "Response explains handling status_code 426 (Upgrade Required) as an app-version case",
+        "Response distinguishes proactive vs reactive permission checking"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "How do I trigger a payment in my MiniApp when the user taps 'Pay Now', and what does the checkout response look like on success vs failure?",
+      "expected_output": "Code using CheckoutModule.triggerCheckout() with isSuccess/isError type guards, matching references/checkout.md.",
+      "files": [],
+      "expectations": [
+        "Response uses CheckoutModule and its triggerCheckout-style method",
+        "Response uses isSuccess/isError (or isOk) type guards to branch on the response",
+        "Response does not use try/catch around the SDK call (SDK methods never throw)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "My MiniApp needs to scan a QR code for a promo, and separately I want to grab the user's current location once when the page loads (not a continuous stream). Which modules do I use and how do I avoid draining battery?",
+      "expected_output": "Code using CameraModule for QR scanning and LocationModule (awaiting the stream method directly rather than subscribing) or explaining unsubscribe hygiene, matching references/device-and-sensors.md.",
+      "files": [],
+      "expectations": [
+        "Response uses CameraModule for QR code scanning",
+        "Response uses LocationModule for location access",
+        "Response addresses battery/resource conservation for streaming methods, e.g. via unsubscribe or awaiting a single value"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I want my MiniApp's back button to close the container instead of navigating browser history, and I'd like to hide the native refresh button and set a custom title bar color. Also need to track an analytics event when the page loads.",
+      "expected_output": "Code using ContainerModule (setTitle, setBackgroundColor, hideRefreshButton, sendAnalyticsEvent) and/or PlatformModule for back-button handling, matching references/container-ui-and-navigation.md.",
+      "files": [],
+      "expectations": [
+        "Response uses ContainerModule for title/background/refresh button configuration",
+        "Response addresses native back-button behavior via ContainerModule or PlatformModule",
+        "Response includes an analytics event call via ContainerModule.sendAnalyticsEvent"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I need to persist a small user preference (like a selected language) across app restarts, and separately fetch the device's current locale setting on startup.",
+      "expected_output": "Code using StorageModule for persistence and LocaleModule for reading device locale, matching references/platform-utilities.md.",
+      "files": [],
+      "expectations": [
+        "Response uses StorageModule for persisting key-value data",
+        "Response uses LocaleModule for reading the device locale"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "What's the best way to build a countdown timer animation in a MiniApp using CSS and requestAnimationFrame?",
+      "expected_output": "A general web-development answer with no reference to @grabjs/superapp-sdk modules, since this task doesn't touch any native bridge functionality.",
+      "files": [],
+      "expectations": [
+        "Response does not claim any @grabjs/superapp-sdk module is required to build a CSS/JS animation",
+        "Response does not fabricate an SDK module or method for animations"
+      ]
+    }
+  ]
+}
