@@ -9,6 +9,7 @@
   "excludeInternal": true,
   "excludeProtected": true,
   "disableSources": true,
+  "excludeTags": ["@skillReference"],
   "navigation": {
     "includeCategories": true,
     "includeGroups": true

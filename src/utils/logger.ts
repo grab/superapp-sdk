@@ -11,6 +11,7 @@ const SDK_LABEL = 'SuperAppSDK';
  * Provides scoped logging for SDK modules.
  *
  * @group Core
+ * @skillReference Platform Utilities
  *
  * @remarks
  * Log messages are prefixed with `[SuperAppSDK][ModuleName.methodName]`

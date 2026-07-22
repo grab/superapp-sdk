@@ -178,7 +178,7 @@ When designing your MiniApp, you can choose between two common patterns for requ
   - Request scopes only when the user triggers a specific feature that requires them.
   - _Best for_: Optional permissions (e.g., location) to improve user experience and build trust.
 
-For proactive/reactive permission-checking patterns (including handling `403 Forbidden`) with full code, see `references/auth-and-permissions.md`.
+For proactive/reactive permission-checking patterns (including handling `403 Forbidden`) with full code, see `references/authentication-and-permissions.md`.
 
 ## Integration Guide
 
@@ -225,7 +225,7 @@ async function init() {
   });
 
   // 5. Authenticate the user
-  // (see references/auth-and-permissions.md for the full authorize() flow)
+  // (see references/authentication-and-permissions.md for the full authorize() flow)
   await signIn();
 
   // 6. Load permission scopes — always do this before making module calls
@@ -242,13 +242,13 @@ For the full authentication flow, container UI/navigation controls, analytics ev
 
 | Module | Purpose | Reference file |
 | :--- | :--- | :--- |
-| `IdentityModule` | SDK module for authenticating users with GrabID via `JSBridge`. | `references/auth-and-permissions.md` |
-| `ScopeModule` | SDK module for checking and refreshing API access permissions via `JSBridge`. | `references/auth-and-permissions.md` |
-| `ContainerModule` | SDK module for controlling the WebView container via `JSBridge`. | `references/container-and-navigation.md` |
-| `PlatformModule` | SDK module for controlling platform navigation via `JSBridge`. | `references/container-and-navigation.md` |
-| `SplashScreenModule` | SDK module for controlling the native splash / Lottie loading screen via `JSBridge`. | `references/container-and-navigation.md` |
-| `SystemWebViewKitModule` | SDK module for opening URLs in the device's system browser via `JSBridge`. | `references/container-and-navigation.md` |
+| `IdentityModule` | SDK module for authenticating users with GrabID via `JSBridge`. | `references/authentication-and-permissions.md` |
+| `ScopeModule` | SDK module for checking and refreshing API access permissions via `JSBridge`. | `references/authentication-and-permissions.md` |
 | `CheckoutModule` | SDK module for triggering native payment flows via `JSBridge`. | `references/checkout.md` |
+| `ContainerModule` | SDK module for controlling the WebView container via `JSBridge`. | `references/container-ui-and-navigation.md` |
+| `PlatformModule` | SDK module for controlling platform navigation via `JSBridge`. | `references/container-ui-and-navigation.md` |
+| `SplashScreenModule` | SDK module for controlling the native splash / Lottie loading screen via `JSBridge`. | `references/container-ui-and-navigation.md` |
+| `SystemWebViewKitModule` | SDK module for opening URLs in the device's system browser via `JSBridge`. | `references/container-ui-and-navigation.md` |
 | `CameraModule` | SDK module for accessing the device camera via `JSBridge`. | `references/device-and-sensors.md` |
 | `DeviceModule` | SDK module for querying native device information via `JSBridge`. | `references/device-and-sensors.md` |
 | `LocationModule` | SDK module for accessing device location services via `JSBridge`. | `references/device-and-sensors.md` |
@@ -327,8 +327,8 @@ isSuccess<T>(response: T): response is Extract<T, { status_code: 200 | 204 }>
 
 | File | What it answers |
 | :--- | :--- |
-| `references/auth-and-permissions.md` | Proactive/reactive permission checks, the full `IdentityModule.authorize()` flow, and the `IdentityModule`/`ScopeModule` API reference. |
-| `references/container-and-navigation.md` | Container title/background/buttons, closing, external links, analytics events, native back navigation, and the splash screen. |
+| `references/authentication-and-permissions.md` | Proactive/reactive permission checks, the full `IdentityModule.authorize()` flow, and the `IdentityModule`/`ScopeModule` API reference. |
 | `references/checkout.md` | The two-step payment/checkout flow and the `CheckoutModule` API reference. |
+| `references/container-ui-and-navigation.md` | Container title/background/buttons, closing, external links, analytics events, native back navigation, and the splash screen. |
 | `references/device-and-sensors.md` | Hardware/sensor capability access: camera QR scanning, location, DRM media playback, and device info. |
 | `references/platform-utilities.md` | Simple getter/setter-style native APIs with no dedicated walkthrough: file downloads, locale, logging, network, profile, storage, and user attributes. |

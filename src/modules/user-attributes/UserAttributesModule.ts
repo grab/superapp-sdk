@@ -14,6 +14,7 @@ import { GetSelectedTravelDestinationResponse } from './types';
  *
  * @group Modules
  * @category User Attributes
+ * @skillReference Platform Utilities
  *
  * @remarks
  * Provides access to user and traveller attributes exposed by the native Grab app bridge.

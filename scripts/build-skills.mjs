@@ -24,101 +24,69 @@ const KIND_FUNCTION = 64;
 const KIND_METHOD = 2048;
 
 /**
- * Ordered list of reference files SKILL.md's API Reference and routed guide
- * sections are split across. `blurb` doubles as the file's own intro line and
- * its row in SKILL.md's "Reference Files" lookup table.
+ * Hand-written intro line for a reference group, used as the file's own intro
+ * and its row in SKILL.md's "Reference Files" lookup table. Keyed by the exact
+ * `@skillReference` tag value used in the SDK source (see e.g.
+ * src/modules/identity/IdentityModule.ts). A group with no entry here still
+ * builds — it just gets a generated blurb instead of a curated one.
  */
-const REFERENCE_FILES = [
-  {
-    file: 'auth-and-permissions.md',
-    title: 'Authentication & Permissions',
-    blurb:
-      'Proactive/reactive permission checks, the full `IdentityModule.authorize()` flow, and the `IdentityModule`/`ScopeModule` API reference.',
-  },
-  {
-    file: 'container-and-navigation.md',
-    title: 'Container UI & Navigation',
-    blurb:
-      'Container title/background/buttons, closing, external links, analytics events, native back navigation, and the splash screen.',
-  },
-  {
-    file: 'checkout.md',
-    title: 'Checkout',
-    blurb: 'The two-step payment/checkout flow and the `CheckoutModule` API reference.',
-  },
-  {
-    file: 'device-and-sensors.md',
-    title: 'Device & Sensors',
-    blurb:
-      'Hardware/sensor capability access: camera QR scanning, location, DRM media playback, and device info.',
-  },
-  {
-    file: 'platform-utilities.md',
-    title: 'Platform Utilities',
-    blurb:
-      'Simple getter/setter-style native APIs with no dedicated walkthrough: file downloads, locale, logging, network, profile, storage, and user attributes.',
-  },
-];
+const REFERENCE_BLURBS = {
+  'Authentication & Permissions':
+    'Proactive/reactive permission checks, the full `IdentityModule.authorize()` flow, and the `IdentityModule`/`ScopeModule` API reference.',
+  'Container UI & Navigation':
+    'Container title/background/buttons, closing, external links, analytics events, native back navigation, and the splash screen.',
+  Checkout: 'The two-step payment/checkout flow and the `CheckoutModule` API reference.',
+  'Device & Sensors':
+    'Hardware/sensor capability access: camera QR scanning, location, DRM media playback, and device info.',
+  'Platform Utilities':
+    'Simple getter/setter-style native APIs with no dedicated walkthrough: file downloads, locale, logging, network, profile, storage, and user attributes.',
+};
 
 /**
- * TSDoc `@category` -> reference file. Every category TypeDoc emits must appear
- * here (or in CLASS_NAME_OVERRIDES below), or the build fails loudly instead of
- * silently dropping or misfiling a module.
+ * Slugifies a `@skillReference` group name into its reference filename, e.g.
+ * "Authentication & Permissions" -> "authentication-and-permissions.md".
  */
-const CATEGORY_TO_REFERENCE = {
-  Identity: 'auth-and-permissions.md',
-  Scope: 'auth-and-permissions.md',
-  Container: 'container-and-navigation.md',
-  Platform: 'container-and-navigation.md',
-  'Splash Screen': 'container-and-navigation.md',
-  'System WebView Kit': 'container-and-navigation.md',
-  Checkout: 'checkout.md',
-  Camera: 'device-and-sensors.md',
-  Location: 'device-and-sensors.md',
-  Media: 'device-and-sensors.md',
-  Device: 'device-and-sensors.md',
-  File: 'platform-utilities.md',
-  Locale: 'platform-utilities.md',
-  Network: 'platform-utilities.md',
-  Profile: 'platform-utilities.md',
-  Storage: 'platform-utilities.md',
-  'User Attributes': 'platform-utilities.md',
-};
-
-/** Classes with no `@category` tag — matched by name instead. */
-const CLASS_NAME_OVERRIDES = {
-  Logger: 'platform-utilities.md',
-};
+function slugifyReference(title) {
+  return (
+    title
+      .toLowerCase()
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') + '.md'
+  );
+}
 
 /**
  * Guide sections to pull out of the monolithic guides/*.md files and route to a
- * reference file. Anything NOT listed here stays inline in SKILL.md. `heading`
+ * reference group. Anything NOT listed here stays inline in SKILL.md. `heading`
  * must match the section's heading text exactly (heading level is irrelevant —
  * the extracted block is re-rooted to H2 regardless of its source level).
+ * `target` must be one of the `@skillReference` group names used in the SDK
+ * source — the destination filename is derived from it via slugifyReference().
  */
 const GUIDE_SECTION_ROUTES = [
   {
     guide: 'concepts.md',
     heading: 'Permission Verification Strategies',
-    target: 'auth-and-permissions.md',
+    target: 'Authentication & Permissions',
   },
-  { guide: 'integration.md', heading: 'Authentication', target: 'auth-and-permissions.md' },
+  { guide: 'integration.md', heading: 'Authentication', target: 'Authentication & Permissions' },
   {
     guide: 'integration.md',
     heading: 'Container UI & Navigation',
-    target: 'container-and-navigation.md',
+    target: 'Container UI & Navigation',
   },
   {
     guide: 'integration.md',
     heading: 'Opening External Links',
-    target: 'container-and-navigation.md',
+    target: 'Container UI & Navigation',
   },
   {
     guide: 'integration.md',
     heading: 'Analytics Event Tracking',
-    target: 'container-and-navigation.md',
+    target: 'Container UI & Navigation',
   },
-  { guide: 'integration.md', heading: 'Checkout', target: 'checkout.md' },
+  { guide: 'integration.md', heading: 'Checkout', target: 'Checkout' },
 ];
 
 /**
@@ -126,16 +94,14 @@ const GUIDE_SECTION_ROUTES = [
  * content once, only if that guide had any sections extracted.
  */
 const GUIDE_POINTERS = {
-  'concepts.md':
-    'For proactive/reactive permission-checking patterns (including handling `403 Forbidden`) with full code, see `references/auth-and-permissions.md`.',
+  'concepts.md': `For proactive/reactive permission-checking patterns (including handling \`403 Forbidden\`) with full code, see \`references/${slugifyReference('Authentication & Permissions')}\`.`,
   'integration.md':
     'For the full authentication flow, container UI/navigation controls, analytics event tracking, and the checkout flow, see the relevant reference file below.',
 };
 
-/** Extra hand-written connective note inserted into a specific reference file. */
+/** Extra hand-written connective note inserted into a specific reference file, keyed by group name. */
 const REFERENCE_NOTES = {
-  'device-and-sensors.md':
-    '`LocationModule` is also used as the running example for the Streams pattern (see `SKILL.md` Core Concepts → Streams) and the reactive 403-handling flow (see `references/auth-and-permissions.md` → Reactive Checking).',
+  'Device & Sensors': `\`LocationModule\` is also used as the running example for the Streams pattern (see \`SKILL.md\` Core Concepts → Streams) and the reactive 403-handling flow (see \`references/${slugifyReference('Authentication & Permissions')}\` → Reactive Checking).`,
 };
 
 /**
@@ -150,7 +116,7 @@ const GUIDE_REMAINING_FIXUPS = {
   'integration.md': [
     [
       '// (Implementation detailed in the Authentication section below)',
-      '// (see references/auth-and-permissions.md for the full authorize() flow)',
+      `// (see references/${slugifyReference('Authentication & Permissions')} for the full authorize() flow)`,
     ],
   ],
 };
@@ -355,7 +321,7 @@ function extractSections(markdown, routesForGuide) {
     if (hIndex === -1) {
       throw new Error(
         `build-skills: heading "${route.heading}" not found in guides/${route.guide} ` +
-          `(configured to route to references/${route.target}). Update GUIDE_SECTION_ROUTES ` +
+          `(configured to route to the "${route.target}" reference group). Update GUIDE_SECTION_ROUTES ` +
           'in scripts/build-skills.mjs if the heading was renamed.'
       );
     }
@@ -396,42 +362,39 @@ function processGuide(fileName, rawContent) {
 }
 
 /**
- * Resolves which reference file a public class's API docs belong in, using its
- * TSDoc `@category` tag (falling back to CLASS_NAME_OVERRIDES for classes with
- * no category, e.g. Logger).
+ * Resolves the `@skillReference` group name for a public class's API docs.
+ * This is the single source of truth for skill grouping — it lives on the
+ * class in the SDK source (see e.g. src/modules/identity/IdentityModule.ts),
+ * not in this script, so a new module needs no script edit to be routed.
  */
-function resolveClassTarget(cls) {
-  const categoryTag = (cls.comment?.blockTags ?? []).find((t) => t.tag === '@category');
-  const category = categoryTag ? renderCommentContent(categoryTag.content) : null;
-  if (category && CATEGORY_TO_REFERENCE[category]) return CATEGORY_TO_REFERENCE[category];
-  if (CLASS_NAME_OVERRIDES[cls.name]) return CLASS_NAME_OVERRIDES[cls.name];
-  return null;
+function resolveClassGroup(cls) {
+  const tag = (cls.comment?.blockTags ?? []).find((t) => t.tag === '@skillReference');
+  return tag ? renderCommentContent(tag.content) : null;
 }
 
 /**
  * Generates the API Reference markdown for each public class, grouped by
- * destination reference file. Throws if a class's category has no mapping —
+ * `@skillReference` value. Throws if a class has no `@skillReference` tag —
  * an unmapped module must break the build, not land in the wrong file or be
  * silently dropped.
  *
  * @returns {Map<string, Array<{ name: string, description: string, section: string }>>}
+ *   Keyed by `@skillReference` group name (not filename — see slugifyReference).
  */
 function generateClasses(api) {
   const classes = api.children
     .filter((c) => c.kind === KIND_CLASS && c.name !== 'BaseModule' && c.flags?.isPublic)
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const byFile = new Map();
+  const byGroup = new Map();
 
   for (const cls of classes) {
-    const target = resolveClassTarget(cls);
-    if (!target) {
-      const categoryTag = (cls.comment?.blockTags ?? []).find((t) => t.tag === '@category');
-      const category = categoryTag ? renderCommentContent(categoryTag.content) : '(none)';
+    const group = resolveClassGroup(cls);
+    if (!group) {
       throw new Error(
-        `build-skills: class "${cls.name}" (category: ${category}) has no reference file ` +
-          'mapping. Add it to CATEGORY_TO_REFERENCE or CLASS_NAME_OVERRIDES in ' +
-          'scripts/build-skills.mjs.'
+        `build-skills: class "${cls.name}" has no @skillReference tag. Add one to its ` +
+          'class doc comment in the SDK source naming the reference group it belongs to ' +
+          '(e.g. "Platform Utilities").'
       );
     }
 
@@ -453,11 +416,11 @@ function generateClasses(api) {
 
     const section = [`#### \`${cls.name}\``, description, ...methods].join('\n');
 
-    if (!byFile.has(target)) byFile.set(target, []);
-    byFile.get(target).push({ name: cls.name, description, section });
+    if (!byGroup.has(group)) byGroup.set(group, []);
+    byGroup.get(group).push({ name: cls.name, description, section });
   }
 
-  return byFile;
+  return byGroup;
 }
 
 /**
@@ -489,23 +452,30 @@ function generateFunctions(api) {
 
 /**
  * Builds the "Module Index" table (SKILL.md) mapping each public class to the
- * reference file that documents it, generated from the same routing config that
- * builds the reference files — the table cannot drift out of sync with reality.
+ * reference file that documents it. Groups (and their file order) are derived
+ * directly from the `@skillReference` tags found on the classes themselves —
+ * the table cannot drift out of sync with reality, and a new group needs no
+ * script edit to appear.
  */
-function generateModuleIndex(classesByFile) {
-  const rows = REFERENCE_FILES.flatMap((file) =>
-    (classesByFile.get(file.file) ?? []).map(
-      (entry) => `| \`${entry.name}\` | ${entry.description} | \`references/${file.file}\` |`
-    )
-  );
+function generateModuleIndex(classesByGroup, groups) {
+  const rows = groups.flatMap((group) => {
+    const file = slugifyReference(group);
+    return classesByGroup
+      .get(group)
+      .map((entry) => `| \`${entry.name}\` | ${entry.description} | \`references/${file}\` |`);
+  });
   return ['| Module | Purpose | Reference file |', '| :--- | :--- | :--- |', ...rows].join('\n');
 }
 
 /**
  * Builds the "Reference Files" lookup table (SKILL.md).
  */
-function generateReferenceTable() {
-  const rows = REFERENCE_FILES.map((f) => `| \`references/${f.file}\` | ${f.blurb} |`);
+function generateReferenceTable(groups) {
+  const rows = groups.map((group) => {
+    const file = slugifyReference(group);
+    const blurb = REFERENCE_BLURBS[group] ?? `${group} API reference.`;
+    return `| \`references/${file}\` | ${blurb} |`;
+  });
   return ['| File | What it answers |', '| :--- | :--- |', ...rows].join('\n');
 }
 
@@ -535,9 +505,10 @@ function buildSkills() {
   ];
 
   // Everything below is pure computation over `api` and `guides/*.md` — no
-  // filesystem mutation yet. generateClasses() throws on an unmapped @category
-  // and extractSections() throws on a missing heading; either must abort the
-  // build BEFORE skills/ is touched, so a bad build never destroys good output.
+  // filesystem mutation yet. generateClasses() throws on a missing
+  // @skillReference and extractSections() throws on a missing heading; either
+  // must abort the build BEFORE skills/ is touched, so a bad build never
+  // destroys good output.
   const remainingGuides = [];
   const extractedByTarget = new Map();
   for (const fileName of orderedGuides) {
@@ -551,13 +522,19 @@ function buildSkills() {
   }
   const guides = remainingGuides.join('\n\n');
 
-  const classesByFile = generateClasses(api);
+  const classesByGroup = generateClasses(api);
   const functions = generateFunctions(api);
+
+  // The set of reference groups — and their file order — comes entirely from
+  // the `@skillReference` tags actually present on the SDK's classes, sorted
+  // alphabetically for stable, deterministic output. A new group needs no
+  // change here.
+  const groups = [...classesByGroup.keys()].sort();
 
   const moduleIndex = [
     '## Module Index',
     '',
-    generateModuleIndex(classesByFile),
+    generateModuleIndex(classesByGroup, groups),
     '',
     'New modules should slot into the closest matching reference file above. Only split a file further once it exceeds ~150 lines.',
   ].join('\n');
@@ -570,7 +547,7 @@ function buildSkills() {
     functions,
   ].join('\n');
 
-  const referenceTable = ['## Reference Files', '', generateReferenceTable()].join('\n');
+  const referenceTable = ['## Reference Files', '', generateReferenceTable(groups)].join('\n');
 
   const skill = [template.trimEnd(), guides, moduleIndex, functionsSection, referenceTable].join(
     '\n\n\n'
@@ -585,22 +562,27 @@ function buildSkills() {
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
 
-  for (const file of REFERENCE_FILES) {
-    const classSections = (classesByFile.get(file.file) ?? []).map((e) => e.section).join('\n\n');
-    const guideSections = (extractedByTarget.get(file.file) ?? []).join('\n\n');
-    const note = REFERENCE_NOTES[file.file];
+  for (const group of groups) {
+    const file = slugifyReference(group);
+    const blurb = REFERENCE_BLURBS[group] ?? `${group} API reference.`;
+    const classSections = classesByGroup
+      .get(group)
+      .map((e) => e.section)
+      .join('\n\n');
+    const guideSections = (extractedByTarget.get(group) ?? []).join('\n\n');
+    const note = REFERENCE_NOTES[group];
 
     const parts = [
-      `# ${file.title}`,
-      note ? `${file.blurb}\n\n${note}` : file.blurb,
+      `# ${group}`,
+      note ? `${blurb}\n\n${note}` : blurb,
       guideSections || null,
       `## API Reference\n\n${classSections}`,
     ].filter(Boolean);
 
-    fs.writeFileSync(path.join(referencesDir, file.file), parts.join('\n\n').trimEnd() + '\n');
+    fs.writeFileSync(path.join(referencesDir, file), parts.join('\n\n').trimEnd() + '\n');
   }
 
-  console.log(`Generated skills/SKILL.md + ${REFERENCE_FILES.length} reference files`);
+  console.log(`Generated skills/SKILL.md + ${groups.length} reference files`);
 }
 
 buildSkills();

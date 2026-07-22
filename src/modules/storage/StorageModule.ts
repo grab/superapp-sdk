@@ -53,6 +53,7 @@ import {
  *
  * @group Modules
  * @category Storage
+ * @skillReference Platform Utilities
  *
  * @remarks
  * Stores data in the native app's persistent storage, allowing data to survive WebView restarts.

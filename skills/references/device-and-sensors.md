@@ -2,7 +2,7 @@
 
 Hardware/sensor capability access: camera QR scanning, location, DRM media playback, and device info.
 
-`LocationModule` is also used as the running example for the Streams pattern (see `SKILL.md` Core Concepts → Streams) and the reactive 403-handling flow (see `references/auth-and-permissions.md` → Reactive Checking).
+`LocationModule` is also used as the running example for the Streams pattern (see `SKILL.md` Core Concepts → Streams) and the reactive 403-handling flow (see `references/authentication-and-permissions.md` → Reactive Checking).
 
 ## API Reference
 

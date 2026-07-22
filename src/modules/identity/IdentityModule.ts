@@ -37,6 +37,7 @@ import {
  *
  * @group Modules
  * @category Identity
+ * @skillReference Authentication & Permissions
  *
  * @remarks
  * Handles OAuth2/OIDC authentication flows with PKCE support, enabling MiniApps to obtain user identity tokens.

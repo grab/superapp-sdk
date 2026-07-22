@@ -18,6 +18,7 @@ import {
  *
  * @group Modules
  * @category Location
+ * @skillReference Device & Sensors
  *
  * @remarks
  * Provides access to the device's geolocation data including coordinates and country code.

@@ -10,6 +10,7 @@
   "excludeProtected": true,
   "categorizeByGroup": true,
   "disableSources": true,
+  "excludeTags": ["@skillReference"],
   "groupOrder": ["Documents", "Modules", "Type Guards", "Core", "*"],
   "categoryOrder": [
     "Camera",

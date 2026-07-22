@@ -15,6 +15,7 @@ import { IsEsimSupportedResponse } from './types';
  *
  * @group Modules
  * @category Device
+ * @skillReference Device & Sensors
  *
  * @remarks
  * Provides access to device checks exposed by the native Grab app bridge.

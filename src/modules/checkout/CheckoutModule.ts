@@ -14,6 +14,7 @@ import { TriggerCheckoutRequest, TriggerCheckoutResponse } from './types';
  *
  * @group Modules
  * @category Checkout
+ * @skillReference Checkout
  *
  * @remarks
  * Invokes the native Grab checkout/pay component to process payments.

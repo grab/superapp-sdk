@@ -14,6 +14,7 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
  *
  * @group Modules
  * @category Locale
+ * @skillReference Platform Utilities
  *
  * @remarks
  * Provides the user's preferred language and region settings from the native device.
