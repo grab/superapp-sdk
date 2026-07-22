@@ -24,6 +24,138 @@ const KIND_FUNCTION = 64;
 const KIND_METHOD = 2048;
 
 /**
+ * Ordered list of reference files SKILL.md's API Reference and routed guide
+ * sections are split across. `blurb` doubles as the file's own intro line and
+ * its row in SKILL.md's "Reference Files" lookup table.
+ */
+const REFERENCE_FILES = [
+  {
+    file: 'auth-and-permissions.md',
+    title: 'Authentication & Permissions',
+    blurb:
+      'Proactive/reactive permission checks, the full `IdentityModule.authorize()` flow, and the `IdentityModule`/`ScopeModule` API reference.',
+  },
+  {
+    file: 'container-and-navigation.md',
+    title: 'Container UI & Navigation',
+    blurb:
+      'Container title/background/buttons, closing, external links, analytics events, native back navigation, and the splash screen.',
+  },
+  {
+    file: 'checkout.md',
+    title: 'Checkout',
+    blurb: 'The two-step payment/checkout flow and the `CheckoutModule` API reference.',
+  },
+  {
+    file: 'device-and-sensors.md',
+    title: 'Device & Sensors',
+    blurb:
+      'Hardware/sensor capability access: camera QR scanning, location, DRM media playback, and device info.',
+  },
+  {
+    file: 'platform-utilities.md',
+    title: 'Platform Utilities',
+    blurb:
+      'Simple getter/setter-style native APIs with no dedicated walkthrough: file downloads, locale, logging, network, profile, storage, and user attributes.',
+  },
+];
+
+/**
+ * TSDoc `@category` -> reference file. Every category TypeDoc emits must appear
+ * here (or in CLASS_NAME_OVERRIDES below), or the build fails loudly instead of
+ * silently dropping or misfiling a module.
+ */
+const CATEGORY_TO_REFERENCE = {
+  Identity: 'auth-and-permissions.md',
+  Scope: 'auth-and-permissions.md',
+  Container: 'container-and-navigation.md',
+  Platform: 'container-and-navigation.md',
+  'Splash Screen': 'container-and-navigation.md',
+  'System WebView Kit': 'container-and-navigation.md',
+  Checkout: 'checkout.md',
+  Camera: 'device-and-sensors.md',
+  Location: 'device-and-sensors.md',
+  Media: 'device-and-sensors.md',
+  Device: 'device-and-sensors.md',
+  File: 'platform-utilities.md',
+  Locale: 'platform-utilities.md',
+  Network: 'platform-utilities.md',
+  Profile: 'platform-utilities.md',
+  Storage: 'platform-utilities.md',
+  'User Attributes': 'platform-utilities.md',
+};
+
+/** Classes with no `@category` tag — matched by name instead. */
+const CLASS_NAME_OVERRIDES = {
+  Logger: 'platform-utilities.md',
+};
+
+/**
+ * Guide sections to pull out of the monolithic guides/*.md files and route to a
+ * reference file. Anything NOT listed here stays inline in SKILL.md. `heading`
+ * must match the section's heading text exactly (heading level is irrelevant —
+ * the extracted block is re-rooted to H2 regardless of its source level).
+ */
+const GUIDE_SECTION_ROUTES = [
+  {
+    guide: 'concepts.md',
+    heading: 'Permission Verification Strategies',
+    target: 'auth-and-permissions.md',
+  },
+  { guide: 'integration.md', heading: 'Authentication', target: 'auth-and-permissions.md' },
+  {
+    guide: 'integration.md',
+    heading: 'Container UI & Navigation',
+    target: 'container-and-navigation.md',
+  },
+  {
+    guide: 'integration.md',
+    heading: 'Opening External Links',
+    target: 'container-and-navigation.md',
+  },
+  {
+    guide: 'integration.md',
+    heading: 'Analytics Event Tracking',
+    target: 'container-and-navigation.md',
+  },
+  { guide: 'integration.md', heading: 'Checkout', target: 'checkout.md' },
+];
+
+/**
+ * Connective pointer sentence appended to a guide's remaining (non-routed)
+ * content once, only if that guide had any sections extracted.
+ */
+const GUIDE_POINTERS = {
+  'concepts.md':
+    'For proactive/reactive permission-checking patterns (including handling `403 Forbidden`) with full code, see `references/auth-and-permissions.md`.',
+  'integration.md':
+    'For the full authentication flow, container UI/navigation controls, analytics event tracking, and the checkout flow, see the relevant reference file below.',
+};
+
+/** Extra hand-written connective note inserted into a specific reference file. */
+const REFERENCE_NOTES = {
+  'device-and-sensors.md':
+    '`LocationModule` is also used as the running example for the Streams pattern (see `SKILL.md` Core Concepts → Streams) and the reactive 403-handling flow (see `references/auth-and-permissions.md` → Reactive Checking).',
+};
+
+/**
+ * Fix-ups applied to a guide's REMAINING (non-routed) content once it lands in
+ * SKILL.md, where an in-line reference to a section that just got routed out
+ * would otherwise be stale. Keyed by guide file; each entry is a
+ * [search, replace] pair applied to that guide's remaining text only — the
+ * guide file on disk (and the HTML/MD doc builds that consume it whole) is
+ * untouched.
+ */
+const GUIDE_REMAINING_FIXUPS = {
+  'integration.md': [
+    [
+      '// (Implementation detailed in the Authentication section below)',
+      '// (see references/auth-and-permissions.md for the full authorize() flow)',
+    ],
+  ],
+};
+
+/**
  * Renders a TypeDoc comment content array to markdown text.
  */
 function renderCommentContent(content = []) {
@@ -155,25 +287,155 @@ function getReturnTypeName(sig) {
 }
 
 /**
- * Strips YAML frontmatter and shifts all headings down by one level
- * so guide h1s become h2s when inlined into SKILL.md.
+ * Strips YAML frontmatter from a guide's raw markdown.
  */
-function inlineGuide(content) {
-  const stripped = content.replace(/^---[\s\S]*?---\n+/, '');
-  return stripped.replace(/^(#{1,5}) /gm, (_, hashes) => '#'.repeat(hashes.length + 1) + ' ');
+function stripFrontmatter(content) {
+  return content.replace(/^---[\s\S]*?---\n+/, '');
 }
 
 /**
- * Generates a Markdown section for each public class in the API.
+ * Shifts every ATX heading (# .. ######) in an array of lines by `delta` levels,
+ * clamped to a minimum of H1.
+ */
+function shiftHeadingLines(lines, delta) {
+  if (!delta) return lines;
+  return lines.map((line) => {
+    const m = /^(#{1,6})(\s+.*)$/.exec(line);
+    if (!m) return line;
+    const newLevel = Math.max(1, m[1].length + delta);
+    return '#'.repeat(newLevel) + m[2];
+  });
+}
+
+/**
+ * Locates every heading line in an array of lines.
+ */
+function findHeadingLines(lines) {
+  return lines
+    .map((line, index) => {
+      const m = /^(#{1,6})\s+(.*)$/.exec(line);
+      return m ? { index, level: m[1].length, title: m[2].trim() } : null;
+    })
+    .filter(Boolean);
+}
+
+/**
+ * Returns the [start, end) line range covered by the heading at `headings[i]`,
+ * including all of its nested sub-headings (i.e. up to the next heading at the
+ * same or a shallower level).
+ */
+function sectionRange(headings, i, totalLines) {
+  const level = headings[i].level;
+  let end = totalLines;
+  for (let j = i + 1; j < headings.length; j++) {
+    if (headings[j].level <= level) {
+      end = headings[j].index;
+      break;
+    }
+  }
+  return { start: headings[i].index, end };
+}
+
+/**
+ * Pulls the guide sections named in `routesForGuide` out of `markdown`, re-rooting
+ * each extracted section's top heading to H2 (shifting its descendants by the same
+ * delta). Throws if a configured heading can't be found — a stale/renamed heading
+ * should fail the build, not silently produce an incomplete reference file.
+ *
+ * @returns {{ remaining: string, extracted: Map<string, string[]> }}
+ */
+function extractSections(markdown, routesForGuide) {
+  const lines = markdown.split('\n');
+  const headings = findHeadingLines(lines);
+  const extracted = new Map();
+  const consumed = new Array(lines.length).fill(false);
+
+  for (const route of routesForGuide) {
+    const hIndex = headings.findIndex((h) => h.title === route.heading);
+    if (hIndex === -1) {
+      throw new Error(
+        `build-skills: heading "${route.heading}" not found in guides/${route.guide} ` +
+          `(configured to route to references/${route.target}). Update GUIDE_SECTION_ROUTES ` +
+          'in scripts/build-skills.mjs if the heading was renamed.'
+      );
+    }
+    const { start, end } = sectionRange(headings, hIndex, lines.length);
+    const block = shiftHeadingLines(lines.slice(start, end), 2 - headings[hIndex].level)
+      .join('\n')
+      .trim();
+    for (let k = start; k < end; k++) consumed[k] = true;
+    if (!extracted.has(route.target)) extracted.set(route.target, []);
+    extracted.get(route.target).push(block);
+  }
+
+  const remaining = lines.filter((_, i) => !consumed[i]).join('\n');
+  return { remaining, extracted };
+}
+
+/**
+ * Strips frontmatter, extracts routed sections, and shifts the remaining content
+ * down one heading level so it nests correctly under SKILL.md's top-level headings.
+ */
+function processGuide(fileName, rawContent) {
+  const routes = GUIDE_SECTION_ROUTES.filter((r) => r.guide === fileName);
+  const { remaining, extracted } = extractSections(stripFrontmatter(rawContent), routes);
+
+  let remainingShifted = shiftHeadingLines(remaining.split('\n'), 1)
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+  for (const [search, replace] of GUIDE_REMAINING_FIXUPS[fileName] ?? []) {
+    remainingShifted = remainingShifted.split(search).join(replace);
+  }
+
+  const pointer = extracted.size > 0 ? GUIDE_POINTERS[fileName] : null;
+  if (pointer) remainingShifted = `${remainingShifted}\n\n${pointer}`;
+
+  return { remaining: remainingShifted, extracted };
+}
+
+/**
+ * Resolves which reference file a public class's API docs belong in, using its
+ * TSDoc `@category` tag (falling back to CLASS_NAME_OVERRIDES for classes with
+ * no category, e.g. Logger).
+ */
+function resolveClassTarget(cls) {
+  const categoryTag = (cls.comment?.blockTags ?? []).find((t) => t.tag === '@category');
+  const category = categoryTag ? renderCommentContent(categoryTag.content) : null;
+  if (category && CATEGORY_TO_REFERENCE[category]) return CATEGORY_TO_REFERENCE[category];
+  if (CLASS_NAME_OVERRIDES[cls.name]) return CLASS_NAME_OVERRIDES[cls.name];
+  return null;
+}
+
+/**
+ * Generates the API Reference markdown for each public class, grouped by
+ * destination reference file. Throws if a class's category has no mapping —
+ * an unmapped module must break the build, not land in the wrong file or be
+ * silently dropped.
+ *
+ * @returns {Map<string, Array<{ name: string, description: string, section: string }>>}
  */
 function generateClasses(api) {
   const classes = api.children
     .filter((c) => c.kind === KIND_CLASS && c.name !== 'BaseModule' && c.flags?.isPublic)
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const sections = classes.map((cls) => {
-    const description = commentSummary(cls.comment);
+  const byFile = new Map();
 
+  for (const cls of classes) {
+    const target = resolveClassTarget(cls);
+    if (!target) {
+      const categoryTag = (cls.comment?.blockTags ?? []).find((t) => t.tag === '@category');
+      const category = categoryTag ? renderCommentContent(categoryTag.content) : '(none)';
+      throw new Error(
+        `build-skills: class "${cls.name}" (category: ${category}) has no reference file ` +
+          'mapping. Add it to CATEGORY_TO_REFERENCE or CLASS_NAME_OVERRIDES in ' +
+          'scripts/build-skills.mjs.'
+      );
+    }
+
+    const description = commentSummary(cls.comment);
     const methods = (cls.children ?? [])
       .filter((c) => c.kind === KIND_METHOD && c.flags?.isPublic)
       .map((method) => {
@@ -189,39 +451,67 @@ function generateClasses(api) {
       })
       .filter(Boolean);
 
-    return [`#### \`${cls.name}\``, description, ...methods].join('\n');
-  });
+    const section = [`#### \`${cls.name}\``, description, ...methods].join('\n');
 
-  return `### Classes\n\n${sections.join('\n\n')}`;
+    if (!byFile.has(target)) byFile.set(target, []);
+    byFile.get(target).push({ name: cls.name, description, section });
+  }
+
+  return byFile;
 }
 
 /**
- * Generates a Markdown section for each public function in the API.
+ * Generates the Markdown section for each public top-level function (the type
+ * guards). These stay universal and inline in SKILL.md, not routed per-file.
  */
 function generateFunctions(api) {
   const functions = api.children
     .filter((c) => c.kind === KIND_FUNCTION && c.flags?.isPublic)
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const sections = functions.map((fn) => {
-    const sig = fn.signatures?.[0];
-    if (!sig) return null;
-    const description = commentSummary(sig.comment ?? fn.comment);
-    const typeParams = sig.typeParameters?.length
-      ? `<${sig.typeParameters.map((t) => t.name).join(', ')}>`
-      : '';
-    const params = (sig.parameters ?? [])
-      .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
-      .join(', ');
-    const returnType = renderType(sig.type);
-    return `#### \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
-  });
-
-  return `### Functions\n\n${sections.join('\n\n')}`;
+  return functions
+    .map((fn) => {
+      const sig = fn.signatures?.[0];
+      if (!sig) return null;
+      const description = commentSummary(sig.comment ?? fn.comment);
+      const typeParams = sig.typeParameters?.length
+        ? `<${sig.typeParameters.map((t) => t.name).join(', ')}>`
+        : '';
+      const params = (sig.parameters ?? [])
+        .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
+        .join(', ');
+      const returnType = renderType(sig.type);
+      return `#### \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
+    })
+    .filter(Boolean)
+    .join('\n\n');
 }
 
 /**
- * Builds the skills documentation.
+ * Builds the "Module Index" table (SKILL.md) mapping each public class to the
+ * reference file that documents it, generated from the same routing config that
+ * builds the reference files — the table cannot drift out of sync with reality.
+ */
+function generateModuleIndex(classesByFile) {
+  const rows = REFERENCE_FILES.flatMap((file) =>
+    (classesByFile.get(file.file) ?? []).map(
+      (entry) => `| \`${entry.name}\` | ${entry.description} | \`references/${file.file}\` |`
+    )
+  );
+  return ['| Module | Purpose | Reference file |', '| :--- | :--- | :--- |', ...rows].join('\n');
+}
+
+/**
+ * Builds the "Reference Files" lookup table (SKILL.md).
+ */
+function generateReferenceTable() {
+  const rows = REFERENCE_FILES.map((f) => `| \`references/${f.file}\` | ${f.blurb} |`);
+  return ['| File | What it answers |', '| :--- | :--- |', ...rows].join('\n');
+}
+
+/**
+ * Builds the skills documentation: a lean SKILL.md plus one reference file per
+ * domain under skills/references/.
  */
 function buildSkills() {
   if (!fs.existsSync(API_JSON_FILE)) {
@@ -236,11 +526,6 @@ function buildSkills() {
   const api = JSON.parse(fs.readFileSync(API_JSON_FILE, 'utf-8'));
   const template = fs.readFileSync(SKILLS_TEMPLATE, 'utf-8');
 
-  const skillDir = path.join(ROOT_DIR, 'skills');
-
-  if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
-  fs.mkdirSync(skillDir, { recursive: true });
-
   const allGuides = fs
     .readdirSync(GUIDES_DIR)
     .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md' && f !== 'jsdoc-tags.md');
@@ -248,16 +533,74 @@ function buildSkills() {
     ...GUIDE_ORDER.filter((f) => allGuides.includes(f)),
     ...allGuides.filter((f) => !GUIDE_ORDER.includes(f)).sort(),
   ];
-  const guides = orderedGuides
-    .map((f) => inlineGuide(fs.readFileSync(path.join(GUIDES_DIR, f), 'utf-8')))
-    .join('\n\n');
 
-  const apiReference = `## API Reference\n\n${generateClasses(api)}\n\n${generateFunctions(api)}`;
+  // Everything below is pure computation over `api` and `guides/*.md` — no
+  // filesystem mutation yet. generateClasses() throws on an unmapped @category
+  // and extractSections() throws on a missing heading; either must abort the
+  // build BEFORE skills/ is touched, so a bad build never destroys good output.
+  const remainingGuides = [];
+  const extractedByTarget = new Map();
+  for (const fileName of orderedGuides) {
+    const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
+    const { remaining, extracted } = processGuide(fileName, raw);
+    remainingGuides.push(remaining);
+    for (const [target, blocks] of extracted) {
+      if (!extractedByTarget.has(target)) extractedByTarget.set(target, []);
+      extractedByTarget.get(target).push(...blocks);
+    }
+  }
+  const guides = remainingGuides.join('\n\n');
 
-  const skill = [template.trimEnd(), guides, apiReference].join('\n\n');
+  const classesByFile = generateClasses(api);
+  const functions = generateFunctions(api);
 
-  fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill);
-  console.log('Generated skills/SKILL.md');
+  const moduleIndex = [
+    '## Module Index',
+    '',
+    generateModuleIndex(classesByFile),
+    '',
+    'New modules should slot into the closest matching reference file above. Only split a file further once it exceeds ~150 lines.',
+  ].join('\n');
+
+  const functionsSection = [
+    '## Functions',
+    '',
+    'Type guards for narrowing SDK response types (see Core Concepts → Type Guards for usage).',
+    '',
+    functions,
+  ].join('\n');
+
+  const referenceTable = ['## Reference Files', '', generateReferenceTable()].join('\n');
+
+  const skill = [template.trimEnd(), guides, moduleIndex, functionsSection, referenceTable].join(
+    '\n\n\n'
+  );
+
+  // Only now that everything above has succeeded do we touch the filesystem.
+  const skillDir = path.join(ROOT_DIR, 'skills');
+  const referencesDir = path.join(skillDir, 'references');
+
+  if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
+  fs.mkdirSync(referencesDir, { recursive: true });
+
+  fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
+
+  for (const file of REFERENCE_FILES) {
+    const classSections = (classesByFile.get(file.file) ?? []).map((e) => e.section).join('\n\n');
+    const guideSections = (extractedByTarget.get(file.file) ?? []).join('\n\n');
+    const note = REFERENCE_NOTES[file.file];
+
+    const parts = [
+      `# ${file.title}`,
+      note ? `${file.blurb}\n\n${note}` : file.blurb,
+      guideSections || null,
+      `## API Reference\n\n${classSections}`,
+    ].filter(Boolean);
+
+    fs.writeFileSync(path.join(referencesDir, file.file), parts.join('\n\n').trimEnd() + '\n');
+  }
+
+  console.log(`Generated skills/SKILL.md + ${REFERENCE_FILES.length} reference files`);
 }
 
 buildSkills();
