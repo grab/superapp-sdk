@@ -32,7 +32,7 @@
     "check": "npm run check:format && npm run check:lint && npm run test:check",
     "check:format": "prettier --check .",
     "check:lint": "eslint .",
-    "clean": "rimraf md dist build api-reference skills",
+    "clean": "rimraf md dist build api-reference skills/SKILL.md skills/references",
     "fix": "npm run fix:format && npm run fix:lint",
     "fix:format": "prettier --write .",
     "fix:lint": "eslint . --fix",

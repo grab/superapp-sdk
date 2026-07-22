@@ -554,10 +554,12 @@ function buildSkills() {
   );
 
   // Only now that everything above has succeeded do we touch the filesystem.
+  // Only clear SKILL.md + references/ (this script's own output) — skills/
+  // also holds evals/, which is hand-authored and must survive a rebuild.
   const skillDir = path.join(ROOT_DIR, 'skills');
   const referencesDir = path.join(skillDir, 'references');
 
-  if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
+  if (fs.existsSync(referencesDir)) fs.rmSync(referencesDir, { recursive: true, force: true });
   fs.mkdirSync(referencesDir, { recursive: true });
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
