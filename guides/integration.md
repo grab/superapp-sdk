@@ -96,7 +96,7 @@ async function signIn() {
     if (response.status_code === 200) {
       const { code, state, codeVerifier, nonce, redirectUri } = response.result;
 
-      // 1. Send the values to your backend for token exchange (see Backend Token Exchange section below)
+      // 1. Send the values to your backend so it can exchange the authorization code for tokens
       // await myBackend.exchangeTokens({ code, codeVerifier, nonce, redirectUri, state });
 
       // 2. Clear artifacts and reload scopes

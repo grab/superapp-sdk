@@ -12,11 +12,12 @@ Proactively verify if the current session has the necessary permissions for a me
 
 ```typescript
 const scope = new ScopeModule();
+const location = new LocationModule();
 const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
 
 if (isSuccess(hasAccess) && hasAccess.result) {
   // Permission is available, safe to call the method
-  const location = await location.getCoordinate();
+  const coordinate = await location.getCoordinate();
 }
 ```
 
@@ -105,7 +106,7 @@ async function signIn() {
     if (response.status_code === 200) {
       const { code, state, codeVerifier, nonce, redirectUri } = response.result;
 
-      // 1. Send the values to your backend for token exchange (see Backend Token Exchange section below)
+      // 1. Send the values to your backend so it can exchange the authorization code for tokens
       // await myBackend.exchangeTokens({ code, codeVerifier, nonce, redirectUri, state });
 
       // 2. Clear artifacts and reload scopes

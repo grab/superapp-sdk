@@ -135,11 +135,12 @@ Proactively verify if the current session has the necessary permissions for a me
 
 ```typescript
 const scope = new ScopeModule();
+const location = new LocationModule();
 const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
 
 if (isSuccess(hasAccess) && hasAccess.result) {
   // Permission is available, safe to call the method
-  const location = await location.getCoordinate();
+  const coordinate = await location.getCoordinate();
 }
 ```
 

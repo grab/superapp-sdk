@@ -8,7 +8,7 @@ The SuperApp SDK includes an AI skill that provides contextual help with the SDK
 
 ## Setup
 
-The skill file is included in the SDK package at `skills/SKILL.md`. To use it:
+The skill files are included in the SDK package at `skills/` (`SKILL.md` plus its `references/` folder). Copy the whole directory — copying `SKILL.md` alone leaves its reference-file links broken. To use it:
 
 ### Cursor IDE
 
@@ -16,7 +16,7 @@ Copy the skill to your Cursor skills directory:
 
 ```bash
 mkdir -p ~/.cursor/skills/superapp-sdk
-cp node_modules/@grabjs/superapp-sdk/skills/SKILL.md ~/.cursor/skills/superapp-sdk/
+cp -r node_modules/@grabjs/superapp-sdk/skills/. ~/.cursor/skills/superapp-sdk/
 ```
 
 Restart Cursor after copying.
@@ -27,7 +27,7 @@ Copy the skill to Claude's skills directory:
 
 ```bash
 mkdir -p ~/.claude/skills/grabjs-superapp-sdk
-cp node_modules/@grabjs/superapp-sdk/skills/SKILL.md ~/.claude/skills/grabjs-superapp-sdk/
+cp -r node_modules/@grabjs/superapp-sdk/skills/. ~/.claude/skills/grabjs-superapp-sdk/
 ```
 
 Restart Claude Desktop after copying.
