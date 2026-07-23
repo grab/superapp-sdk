@@ -202,12 +202,12 @@ await container.sendAnalyticsEvent({
 
 ### Journey Stages
 
-| State              | Description                                      |
-| :----------------- | :----------------------------------------------- |
-| `HOMEPAGE`         | Entry point or main landing page.                |
-| `CHECKOUT_PAGE`    | Transaction confirmation or payment selection.   |
-| `COMPLETION_POINT` | Post-transaction or success page.                |
-| `CUSTOM`           | Any other interaction outside the standard flow. |
+| State                | Description                                      |
+| :------------------- | :----------------------------------------------- |
+| `HOMEPAGE`           | Entry point or main landing page.                |
+| `CHECKOUT_PAGE`      | Transaction confirmation or payment selection.   |
+| `BOOKING_COMPLETION` | Post-transaction or success page.                |
+| `CUSTOM`             | Any other interaction outside the standard flow. |
 
 ### Best Practices
 
