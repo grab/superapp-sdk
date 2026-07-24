@@ -235,7 +235,8 @@ export class IdentityModule extends BaseModule {
    * This should be called after a successful token exchange or when you need to
    * reset the authorization state (e.g., on error or logout).
    *
-   * @returns Confirmation that the authorization artifacts have been cleared. See {@link ClearAuthorizationArtifactsResponse}.
+   * @returns This method can return the following `status_code` values:
+   * - `204` (No Content): Authorization artifacts cleared successfully.
    *
    * @example
    * ```typescript

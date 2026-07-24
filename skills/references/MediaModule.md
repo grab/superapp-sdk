@@ -40,6 +40,8 @@ subscription.unsubscribe();
 This method can return the following `status_code` values:
 - `200` (OK): Playback initiated successfully.
 - `204` (No Content): Request completed.
+- `400` (Bad Request): Invalid request parameters.
+- `424` (Failed Dependency): Underlying native request failed.
 - `500` (Internal Server Error): An unexpected error occurred.
 - `501` (Not Implemented): Requires Grab app environment.
 

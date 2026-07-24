@@ -67,7 +67,8 @@ if (isSuccess(response)) {
 This should be called after a successful token exchange or when you need to
 reset the authorization state (e.g., on error or logout).
 
-Confirmation that the authorization artifacts have been cleared. See ClearAuthorizationArtifactsResponse.
+This method can return the following `status_code` values:
+- `204` (No Content): Authorization artifacts cleared successfully.
 
 ```typescript
 import { IdentityModule, isSuccess } from '@grabjs/superapp-sdk';
