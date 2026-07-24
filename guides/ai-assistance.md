@@ -8,7 +8,7 @@ The SuperApp SDK includes an AI skill that provides contextual help with the SDK
 
 ## Setup
 
-The skill files are included in the SDK package at `skills/` (`SKILL.md` plus its `references/` folder). Copy the whole directory — copying `SKILL.md` alone leaves its reference-file links broken. To use it:
+The skill files are included in the SDK package at `skills/` (`SKILL.md` plus its `references/` folder). To use it:
 
 ### Cursor IDE
 
