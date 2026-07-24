@@ -885,6 +885,7 @@ export class ContainerModule extends BaseModule {
    *
    * @returns This method can return the following `status_code` values:
    * - `200` (OK): Session parameters retrieved successfully.
+   * - `204` (No Content): No session parameters were found.
    * - `500` (Internal Server Error): An unexpected error occurred.
    * - `501` (Not Implemented): Requires Grab app environment.
    *

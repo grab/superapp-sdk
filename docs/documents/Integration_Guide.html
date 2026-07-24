@@ -16,6 +16,10 @@ and <code>ScopeModule.reloadScopes()</code> once your backend has exchanged the 
 <h2 id="container-ui-navigation" class="tsd-anchor-link">Container UI &amp; Navigation<a href="#container-ui-navigation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>Configure the native container's title, background, and back/refresh buttons, and track analytics events, via
 <code>ContainerModule</code> — see <code>references/ContainerModule.md</code> for every method and its parameters.</p>
+<p><code>sendAnalyticsEvent()</code>'s <code>state</code> parameter (<code>ContainerAnalyticsEventState</code>) categorizes the event by journey
+stage: <code>HOMEPAGE</code> (entry point/main landing page), <code>CHECKOUT_PAGE</code> (transaction confirmation/payment
+selection), <code>BOOKING_COMPLETION</code> (post-transaction/success page), or <code>CUSTOM</code> (any other interaction outside
+the standard flow).</p>
 <h2 id="checkout" class="tsd-anchor-link">Checkout<a href="#checkout" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>The checkout flow is a two-step process split across two systems: your <strong>backend</strong> first initializes a
 transaction using your partner credentials against the

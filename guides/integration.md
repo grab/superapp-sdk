@@ -69,6 +69,11 @@ and `ScopeModule.reloadScopes()` once your backend has exchanged the result for 
 Configure the native container's title, background, and back/refresh buttons, and track analytics events, via
 `ContainerModule` — see `references/ContainerModule.md` for every method and its parameters.
 
+`sendAnalyticsEvent()`'s `state` parameter (`ContainerAnalyticsEventState`) categorizes the event by journey
+stage: `HOMEPAGE` (entry point/main landing page), `CHECKOUT_PAGE` (transaction confirmation/payment
+selection), `BOOKING_COMPLETION` (post-transaction/success page), or `CUSTOM` (any other interaction outside
+the standard flow).
+
 ## Checkout
 
 The checkout flow is a two-step process split across two systems: your **backend** first initializes a
