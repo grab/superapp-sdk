@@ -127,6 +127,8 @@ When designing your MiniApp, you can choose between two common patterns for requ
 
 ### Permission Verification Strategies
 
+<!-- skillReference: Authentication & Permissions -->
+
 You can verify permissions either proactively before calling a method, or reactively by handling errors.
 
 #### Proactive Checking

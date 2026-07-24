@@ -59,6 +59,8 @@ init();
 
 ## Authentication
 
+<!-- skillReference: Authentication & Permissions -->
+
 Trigger `IdentityModule.authorize()` to start the authorization process and request user permissions.
 
 When authorization completes with `status_code: 200` (native `in_place` flow), `response.result` already includes `code`, `state`, and the PKCE values (`codeVerifier`, `nonce`, `redirectUri`), so you do not need `getAuthorizationArtifacts()`.
@@ -120,6 +122,8 @@ async function signIn() {
 
 ## Container UI & Navigation
 
+<!-- skillReference: Container UI & Navigation -->
+
 Control the native container's appearance and behavior to match your MiniApp's branding and navigation flow.
 
 ### Title and Background
@@ -155,6 +159,8 @@ await container.close();
 
 ## Opening External Links
 
+<!-- skillReference: Container UI & Navigation -->
+
 Use `ContainerModule.openExternalLink()` to open URLs in the system browser instead of navigating away from the MiniApp WebView.
 
 ```typescript
@@ -166,6 +172,8 @@ if (isError(response)) {
 ```
 
 ## Analytics Event Tracking
+
+<!-- skillReference: Container UI & Navigation -->
 
 Track user interactions to monitor performance and conversion. Events are categorised by journey stage using `ContainerAnalyticsEventState`.
 
@@ -217,6 +225,8 @@ await container.sendAnalyticsEvent({
 - Never include Personally Identifiable Information (PII) in event data.
 
 ## Checkout
+
+<!-- skillReference: Checkout -->
 
 The checkout flow is a two-step process: your backend first initializes a transaction using your partner credentials, then your frontend triggers the native payment interface using the response from your backend.
 

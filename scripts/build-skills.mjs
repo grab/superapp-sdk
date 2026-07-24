@@ -57,39 +57,6 @@ function slugifyReference(title) {
 }
 
 /**
- * Guide sections to pull out of the monolithic guides/*.md files and route to a
- * reference group. Anything NOT listed here stays inline in SKILL.md. `heading`
- * must match the section's heading text exactly (heading level is irrelevant —
- * the extracted block is re-rooted to H2 regardless of its source level).
- * `target` must be one of the `@skillReference` group names used in the SDK
- * source — the destination filename is derived from it via slugifyReference().
- */
-const GUIDE_SECTION_ROUTES = [
-  {
-    guide: 'concepts.md',
-    heading: 'Permission Verification Strategies',
-    target: 'Authentication & Permissions',
-  },
-  { guide: 'integration.md', heading: 'Authentication', target: 'Authentication & Permissions' },
-  {
-    guide: 'integration.md',
-    heading: 'Container UI & Navigation',
-    target: 'Container UI & Navigation',
-  },
-  {
-    guide: 'integration.md',
-    heading: 'Opening External Links',
-    target: 'Container UI & Navigation',
-  },
-  {
-    guide: 'integration.md',
-    heading: 'Analytics Event Tracking',
-    target: 'Container UI & Navigation',
-  },
-  { guide: 'integration.md', heading: 'Checkout', target: 'Checkout' },
-];
-
-/**
  * Connective pointer sentence appended to a guide's remaining (non-routed)
  * content once, only if that guide had any sections extracted.
  */
@@ -274,13 +241,34 @@ function shiftHeadingLines(lines, delta) {
 }
 
 /**
- * Locates every heading line in an array of lines.
+ * Matches a `<!-- skillReference: Group Name -->` marker comment.
+ */
+const SKILL_REFERENCE_MARKER = /^<!--\s*skillReference:\s*(.+?)\s*-->$/;
+
+/**
+ * Locates every heading line in an array of lines. A heading followed by a
+ * `<!-- skillReference: Group Name -->` comment — on the very next line, or
+ * after a single blank line (prettier's own normalized spacing) — is
+ * annotated with `target` (the group name) and `markerIndex` (the comment's
+ * own line, consumed alongside the section it marks). The marker lives next
+ * to the content it routes, instead of in an out-of-band map in this script.
  */
 function findHeadingLines(lines) {
   return lines
     .map((line, index) => {
       const m = /^(#{1,6})\s+(.*)$/.exec(line);
-      return m ? { index, level: m[1].length, title: m[2].trim() } : null;
+      if (!m) return null;
+      const heading = { index, level: m[1].length, title: m[2].trim() };
+      for (const candidate of [index + 1, index + 2]) {
+        const markerMatch = SKILL_REFERENCE_MARKER.exec((lines[candidate] ?? '').trim());
+        if (markerMatch) {
+          heading.target = markerMatch[1];
+          heading.markerIndex = candidate;
+          break;
+        }
+        if ((lines[candidate] ?? '').trim() !== '') break;
+      }
+      return heading;
     })
     .filter(Boolean);
 }
@@ -303,35 +291,32 @@ function sectionRange(headings, i, totalLines) {
 }
 
 /**
- * Pulls the guide sections named in `routesForGuide` out of `markdown`, re-rooting
- * each extracted section's top heading to H2 (shifting its descendants by the same
- * delta). Throws if a configured heading can't be found — a stale/renamed heading
- * should fail the build, not silently produce an incomplete reference file.
+ * Pulls every heading marked with a `<!-- skillReference: Group Name -->`
+ * comment out of `markdown` and routes it to that group, re-rooting the
+ * extracted section's top heading to H2 (shifting its descendants by the
+ * same delta). The marker comment line itself is consumed along with its
+ * section. Anything with no marker stays inline in SKILL.md.
  *
  * @returns {{ remaining: string, extracted: Map<string, string[]> }}
  */
-function extractSections(markdown, routesForGuide) {
+function extractSections(markdown) {
   const lines = markdown.split('\n');
   const headings = findHeadingLines(lines);
   const extracted = new Map();
   const consumed = new Array(lines.length).fill(false);
 
-  for (const route of routesForGuide) {
-    const hIndex = headings.findIndex((h) => h.title === route.heading);
-    if (hIndex === -1) {
-      throw new Error(
-        `build-skills: heading "${route.heading}" not found in guides/${route.guide} ` +
-          `(configured to route to the "${route.target}" reference group). Update GUIDE_SECTION_ROUTES ` +
-          'in scripts/build-skills.mjs if the heading was renamed.'
-      );
-    }
+  for (let hIndex = 0; hIndex < headings.length; hIndex++) {
+    const heading = headings[hIndex];
+    if (!heading.target) continue;
+
     const { start, end } = sectionRange(headings, hIndex, lines.length);
-    const block = shiftHeadingLines(lines.slice(start, end), 2 - headings[hIndex].level)
+    const sectionLines = [lines[heading.index], ...lines.slice(heading.markerIndex + 1, end)];
+    const block = shiftHeadingLines(sectionLines, 2 - heading.level)
       .join('\n')
       .trim();
     for (let k = start; k < end; k++) consumed[k] = true;
-    if (!extracted.has(route.target)) extracted.set(route.target, []);
-    extracted.get(route.target).push(block);
+    if (!extracted.has(heading.target)) extracted.set(heading.target, []);
+    extracted.get(heading.target).push(block);
   }
 
   const remaining = lines.filter((_, i) => !consumed[i]).join('\n');
@@ -339,12 +324,12 @@ function extractSections(markdown, routesForGuide) {
 }
 
 /**
- * Strips frontmatter, extracts routed sections, and shifts the remaining content
- * down one heading level so it nests correctly under SKILL.md's top-level headings.
+ * Strips frontmatter, extracts marker-routed sections, and shifts the
+ * remaining content down one heading level so it nests correctly under
+ * SKILL.md's top-level headings.
  */
 function processGuide(fileName, rawContent) {
-  const routes = GUIDE_SECTION_ROUTES.filter((r) => r.guide === fileName);
-  const { remaining, extracted } = extractSections(stripFrontmatter(rawContent), routes);
+  const { remaining, extracted } = extractSections(stripFrontmatter(rawContent));
 
   let remainingShifted = shiftHeadingLines(remaining.split('\n'), 1)
     .join('\n')
@@ -531,6 +516,20 @@ function buildSkills() {
   // change here.
   const groups = [...classesByGroup.keys()].sort();
 
+  // A guide's `<!-- skillReference: X -->` marker must name a group that
+  // actually has classes, or the extracted content would be silently
+  // dropped (extracted out of SKILL.md but never written to a reference
+  // file, since the write loop below only iterates `groups`).
+  for (const target of extractedByTarget.keys()) {
+    if (!groups.includes(target)) {
+      throw new Error(
+        `build-skills: a guide's <!-- skillReference: ${target} --> marker names a group ` +
+          'with no matching classes. Fix the typo, or add a class with that ' +
+          '@skillReference tag.'
+      );
+    }
+  }
+
   const moduleIndex = [
     '## Module Index',
     '',
@@ -554,12 +553,10 @@ function buildSkills() {
   );
 
   // Only now that everything above has succeeded do we touch the filesystem.
-  // Only clear SKILL.md + references/ (this script's own output) — skills/
-  // also holds evals/, which is hand-authored and must survive a rebuild.
   const skillDir = path.join(ROOT_DIR, 'skills');
   const referencesDir = path.join(skillDir, 'references');
 
-  if (fs.existsSync(referencesDir)) fs.rmSync(referencesDir, { recursive: true, force: true });
+  if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
   fs.mkdirSync(referencesDir, { recursive: true });
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
