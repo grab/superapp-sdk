@@ -14,7 +14,6 @@ import { DRMContentConfig, ObserveDRMPlaybackResponse, PlayDRMContentResponse } 
  *
  * @group Modules
  * @category Media
- * @skillReference Device & Sensors
  *
  * @remarks
  * Provides access to the native media player with DRM support for secure content playback.

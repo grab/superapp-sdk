@@ -14,7 +14,6 @@ import { BackResponse } from './types';
  *
  * @group Modules
  * @category Platform
- * @skillReference Container UI & Navigation
  *
  * @remarks
  * Provides methods to interact with the native platform navigation stack, such as triggering the back action.

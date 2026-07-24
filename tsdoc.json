@@ -41,11 +41,6 @@
       "tagName": "@minimumGrabAppVersion",
       "syntaxKind": "block",
       "allowMultiple": false
-    },
-    {
-      "tagName": "@skillReference",
-      "syntaxKind": "block",
-      "allowMultiple": false
     }
   ],
   "supportForTags": {
@@ -56,7 +51,6 @@
     "@protected": true,
     "@private": true,
     "@requiredOAuthScope": true,
-    "@minimumGrabAppVersion": true,
-    "@skillReference": true
+    "@minimumGrabAppVersion": true
   }
 }

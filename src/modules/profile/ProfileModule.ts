@@ -19,7 +19,6 @@ import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './t
  *
  * @group Modules
  * @category Profile
- * @skillReference Platform Utilities
  *
  * @remarks
  * Provides access to user profile data such as email verification.

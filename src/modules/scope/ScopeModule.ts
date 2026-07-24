@@ -18,7 +18,6 @@ import { HasAccessToResponse, ReloadScopesResponse } from './types';
  *
  * @group Modules
  * @category Scope
- * @skillReference Authentication & Permissions
  *
  * @remarks
  * Manages OAuth scope permissions, allowing the MiniApp to check access rights and reload scopes from the server.

@@ -17,7 +17,6 @@ import { RedirectToSystemWebViewRequest, RedirectToSystemWebViewResponse } from 
  *
  * @group Modules
  * @category System WebView Kit
- * @skillReference Container UI & Navigation
  *
  * @remarks
  * Allows MiniApps to redirect users to external content using the native system browser.

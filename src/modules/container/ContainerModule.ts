@@ -74,7 +74,6 @@ import {
  *
  * @group Modules
  * @category Container
- * @skillReference Container UI & Navigation
  *
  * @remarks
  * Provides methods to interact with the WebView container.

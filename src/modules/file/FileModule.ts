@@ -14,7 +14,6 @@ import { DownloadFileRequest, DownloadFileResponse } from './types';
  *
  * @group Modules
  * @category File
- * @skillReference Platform Utilities
  *
  * @remarks
  * Initiates native file download handling in the Grab app using a file URL and file name.

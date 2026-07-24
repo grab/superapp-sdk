@@ -14,7 +14,6 @@ import { DismissSplashScreenResponse } from './types';
  *
  * @group Modules
  * @category Splash Screen
- * @skillReference Container UI & Navigation
  *
  * @remarks
  * Dismisses the splash overlay once the MiniApp is ready. Requires the Grab SuperApp WebView.

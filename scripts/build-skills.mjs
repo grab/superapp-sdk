@@ -24,71 +24,6 @@ const KIND_FUNCTION = 64;
 const KIND_METHOD = 2048;
 
 /**
- * Hand-written intro line for a reference group, used as the file's own intro
- * and its row in SKILL.md's "Reference Files" lookup table. Keyed by the exact
- * `@skillReference` tag value used in the SDK source (see e.g.
- * src/modules/identity/IdentityModule.ts). A group with no entry here still
- * builds — it just gets a generated blurb instead of a curated one.
- */
-const REFERENCE_BLURBS = {
-  'Authentication & Permissions':
-    'Proactive/reactive permission checks, the full `IdentityModule.authorize()` flow, and the `IdentityModule`/`ScopeModule` API reference.',
-  'Container UI & Navigation':
-    'Container title/background/buttons, closing, external links, analytics events, native back navigation, and the splash screen.',
-  Checkout: 'The two-step payment/checkout flow and the `CheckoutModule` API reference.',
-  'Device & Sensors':
-    'Hardware/sensor capability access: camera QR scanning, location, DRM media playback, and device info.',
-  'Platform Utilities':
-    'Simple getter/setter-style native APIs with no dedicated walkthrough: file downloads, locale, logging, network, profile, storage, and user attributes.',
-};
-
-/**
- * Slugifies a `@skillReference` group name into its reference filename, e.g.
- * "Authentication & Permissions" -> "authentication-and-permissions.md".
- */
-function slugifyReference(title) {
-  return (
-    title
-      .toLowerCase()
-      .replace(/&/g, 'and')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '') + '.md'
-  );
-}
-
-/**
- * Connective pointer sentence appended to a guide's remaining (non-routed)
- * content once, only if that guide had any sections extracted.
- */
-const GUIDE_POINTERS = {
-  'concepts.md': `For proactive/reactive permission-checking patterns (including handling \`403 Forbidden\`) with full code, see \`references/${slugifyReference('Authentication & Permissions')}\`.`,
-  'integration.md':
-    'For the full authentication flow, container UI/navigation controls, analytics event tracking, and the checkout flow, see the relevant reference file below.',
-};
-
-/** Extra hand-written connective note inserted into a specific reference file, keyed by group name. */
-const REFERENCE_NOTES = {
-  'Device & Sensors': `\`LocationModule\` is also used as the running example for the Streams pattern (see \`SKILL.md\` Core Concepts → Streams) and the reactive 403-handling flow (see \`references/${slugifyReference('Authentication & Permissions')}\` → Reactive Checking).`,
-};
-
-/**
- * Fix-ups applied to a guide's REMAINING (non-routed) content once it lands in
- * SKILL.md, where an in-line reference to a section that just got routed out
- * would otherwise be stale. Keyed by guide file; each entry is a
- * [search, replace] pair applied to that guide's remaining text only — the
- * guide file on disk (and the HTML/MD doc builds that consume it whole) is
- * untouched.
- */
-const GUIDE_REMAINING_FIXUPS = {
-  'integration.md': [
-    [
-      '// (Implementation detailed in the Authentication section below)',
-      `// (see references/${slugifyReference('Authentication & Permissions')} for the full authorize() flow)`,
-    ],
-  ],
-};
-
-/**
  * Renders a TypeDoc comment content array to markdown text.
  */
 function renderCommentContent(content = []) {
@@ -132,6 +67,18 @@ function extractBlockTag(comment, tagName) {
   const tag = blockTags.find((t) => t.tag === tagName);
   if (!tag) return null;
   return renderCommentContent(tag.content ?? []);
+}
+
+/**
+ * Extracts the content of every occurrence of a JSDoc block tag from a
+ * comment — a method can carry more than one `@example` (e.g. one per
+ * request variant), and only surfacing the first would silently drop
+ * the rest.
+ */
+function extractAllBlockTags(comment, tagName) {
+  return (comment?.blockTags ?? [])
+    .filter((t) => t.tag === tagName)
+    .map((t) => renderCommentContent(t.content ?? []));
 }
 
 /**
@@ -241,148 +188,22 @@ function shiftHeadingLines(lines, delta) {
 }
 
 /**
- * Matches a `<!-- skillReference: Group Name -->` marker comment.
- */
-const SKILL_REFERENCE_MARKER = /^<!--\s*skillReference:\s*(.+?)\s*-->$/;
-
-/**
- * Locates every heading line in an array of lines. A heading followed by a
- * `<!-- skillReference: Group Name -->` comment — on the very next line, or
- * after a single blank line (prettier's own normalized spacing) — is
- * annotated with `target` (the group name) and `markerIndex` (the comment's
- * own line, consumed alongside the section it marks). The marker lives next
- * to the content it routes, instead of in an out-of-band map in this script.
- */
-function findHeadingLines(lines) {
-  return lines
-    .map((line, index) => {
-      const m = /^(#{1,6})\s+(.*)$/.exec(line);
-      if (!m) return null;
-      const heading = { index, level: m[1].length, title: m[2].trim() };
-      for (const candidate of [index + 1, index + 2]) {
-        const markerMatch = SKILL_REFERENCE_MARKER.exec((lines[candidate] ?? '').trim());
-        if (markerMatch) {
-          heading.target = markerMatch[1];
-          heading.markerIndex = candidate;
-          break;
-        }
-        if ((lines[candidate] ?? '').trim() !== '') break;
-      }
-      return heading;
-    })
-    .filter(Boolean);
-}
-
-/**
- * Returns the [start, end) line range covered by the heading at `headings[i]`,
- * including all of its nested sub-headings (i.e. up to the next heading at the
- * same or a shallower level).
- */
-function sectionRange(headings, i, totalLines) {
-  const level = headings[i].level;
-  let end = totalLines;
-  for (let j = i + 1; j < headings.length; j++) {
-    if (headings[j].level <= level) {
-      end = headings[j].index;
-      break;
-    }
-  }
-  return { start: headings[i].index, end };
-}
-
-/**
- * Pulls every heading marked with a `<!-- skillReference: Group Name -->`
- * comment out of `markdown` and routes it to that group, re-rooting the
- * extracted section's top heading to H2 (shifting its descendants by the
- * same delta). The marker comment line itself is consumed along with its
- * section. Anything with no marker stays inline in SKILL.md.
+ * Generates the API Reference markdown for each public class. Every class
+ * gets its own reference file — no grouping decision, no tag to maintain:
+ * `api.json` already has everything (summary, methods, `@example`,
+ * `@returns`) needed to document a class standalone, so the filename is
+ * just the class name.
  *
- * @returns {{ remaining: string, extracted: Map<string, string[]> }}
- */
-function extractSections(markdown) {
-  const lines = markdown.split('\n');
-  const headings = findHeadingLines(lines);
-  const extracted = new Map();
-  const consumed = new Array(lines.length).fill(false);
-
-  for (let hIndex = 0; hIndex < headings.length; hIndex++) {
-    const heading = headings[hIndex];
-    if (!heading.target) continue;
-
-    const { start, end } = sectionRange(headings, hIndex, lines.length);
-    const sectionLines = [lines[heading.index], ...lines.slice(heading.markerIndex + 1, end)];
-    const block = shiftHeadingLines(sectionLines, 2 - heading.level)
-      .join('\n')
-      .trim();
-    for (let k = start; k < end; k++) consumed[k] = true;
-    if (!extracted.has(heading.target)) extracted.set(heading.target, []);
-    extracted.get(heading.target).push(block);
-  }
-
-  const remaining = lines.filter((_, i) => !consumed[i]).join('\n');
-  return { remaining, extracted };
-}
-
-/**
- * Strips frontmatter, extracts marker-routed sections, and shifts the
- * remaining content down one heading level so it nests correctly under
- * SKILL.md's top-level headings.
- */
-function processGuide(fileName, rawContent) {
-  const { remaining, extracted } = extractSections(stripFrontmatter(rawContent));
-
-  let remainingShifted = shiftHeadingLines(remaining.split('\n'), 1)
-    .join('\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-
-  for (const [search, replace] of GUIDE_REMAINING_FIXUPS[fileName] ?? []) {
-    remainingShifted = remainingShifted.split(search).join(replace);
-  }
-
-  const pointer = extracted.size > 0 ? GUIDE_POINTERS[fileName] : null;
-  if (pointer) remainingShifted = `${remainingShifted}\n\n${pointer}`;
-
-  return { remaining: remainingShifted, extracted };
-}
-
-/**
- * Resolves the `@skillReference` group name for a public class's API docs.
- * This is the single source of truth for skill grouping — it lives on the
- * class in the SDK source (see e.g. src/modules/identity/IdentityModule.ts),
- * not in this script, so a new module needs no script edit to be routed.
- */
-function resolveClassGroup(cls) {
-  const tag = (cls.comment?.blockTags ?? []).find((t) => t.tag === '@skillReference');
-  return tag ? renderCommentContent(tag.content) : null;
-}
-
-/**
- * Generates the API Reference markdown for each public class, grouped by
- * `@skillReference` value. Throws if a class has no `@skillReference` tag —
- * an unmapped module must break the build, not land in the wrong file or be
- * silently dropped.
- *
- * @returns {Map<string, Array<{ name: string, description: string, section: string }>>}
- *   Keyed by `@skillReference` group name (not filename — see slugifyReference).
+ * @returns {Array<{ name: string, description: string, section: string }>}
+ *   Sorted by class name — this order also drives the Module Index table
+ *   and each generated file's write order.
  */
 function generateClasses(api) {
   const classes = api.children
     .filter((c) => c.kind === KIND_CLASS && c.name !== 'BaseModule' && c.flags?.isPublic)
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const byGroup = new Map();
-
-  for (const cls of classes) {
-    const group = resolveClassGroup(cls);
-    if (!group) {
-      throw new Error(
-        `build-skills: class "${cls.name}" has no @skillReference tag. Add one to its ` +
-          'class doc comment in the SDK source naming the reference group it belongs to ' +
-          '(e.g. "Platform Utilities").'
-      );
-    }
-
+  return classes.map((cls) => {
     const description = commentSummary(cls.comment);
     const methods = (cls.children ?? [])
       .filter((c) => c.kind === KIND_METHOD && c.flags?.isPublic)
@@ -395,17 +216,20 @@ function generateClasses(api) {
         const params = (sig.parameters ?? [])
           .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
           .join(', ');
-        return `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${fullDesc}`;
+        const signatureLine = `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${fullDesc}`;
+
+        const returns = extractBlockTag(sig.comment, '@returns');
+        const examples = extractAllBlockTags(sig.comment, '@example');
+        const details = [returns, ...examples].filter(Boolean).join('\n\n');
+
+        return details ? `${signatureLine}\n\n${details}` : signatureLine;
       })
       .filter(Boolean);
 
-    const section = [`#### \`${cls.name}\``, description, ...methods].join('\n');
+    const section = [`## API Reference`, description, ...methods].join('\n\n');
 
-    if (!byGroup.has(group)) byGroup.set(group, []);
-    byGroup.get(group).push({ name: cls.name, description, section });
-  }
-
-  return byGroup;
+    return { name: cls.name, description, section };
+  });
 }
 
 /**
@@ -436,37 +260,21 @@ function generateFunctions(api) {
 }
 
 /**
- * Builds the "Module Index" table (SKILL.md) mapping each public class to the
- * reference file that documents it. Groups (and their file order) are derived
- * directly from the `@skillReference` tags found on the classes themselves —
- * the table cannot drift out of sync with reality, and a new group needs no
- * script edit to appear.
+ * Builds the "Module Index" table (SKILL.md) mapping each public class to
+ * its own reference file. One row per class, in the same order the classes
+ * were generated (alphabetical) — the table cannot drift out of sync with
+ * reality, since the filename is just the class name.
  */
-function generateModuleIndex(classesByGroup, groups) {
-  const rows = groups.flatMap((group) => {
-    const file = slugifyReference(group);
-    return classesByGroup
-      .get(group)
-      .map((entry) => `| \`${entry.name}\` | ${entry.description} | \`references/${file}\` |`);
-  });
+function generateModuleIndex(classes) {
+  const rows = classes.map(
+    (cls) => `| \`${cls.name}\` | ${cls.description} | \`references/${cls.name}.md\` |`
+  );
   return ['| Module | Purpose | Reference file |', '| :--- | :--- | :--- |', ...rows].join('\n');
 }
 
 /**
- * Builds the "Reference Files" lookup table (SKILL.md).
- */
-function generateReferenceTable(groups) {
-  const rows = groups.map((group) => {
-    const file = slugifyReference(group);
-    const blurb = REFERENCE_BLURBS[group] ?? `${group} API reference.`;
-    return `| \`references/${file}\` | ${blurb} |`;
-  });
-  return ['| File | What it answers |', '| :--- | :--- |', ...rows].join('\n');
-}
-
-/**
- * Builds the skills documentation: a lean SKILL.md plus one reference file per
- * domain under skills/references/.
+ * Builds the skills documentation: a lean SKILL.md plus one reference file
+ * per class under skills/references/.
  */
 function buildSkills() {
   if (!fs.existsSync(API_JSON_FILE)) {
@@ -489,53 +297,26 @@ function buildSkills() {
     ...allGuides.filter((f) => !GUIDE_ORDER.includes(f)).sort(),
   ];
 
-  // Everything below is pure computation over `api` and `guides/*.md` — no
-  // filesystem mutation yet. generateClasses() throws on a missing
-  // @skillReference and extractSections() throws on a missing heading; either
-  // must abort the build BEFORE skills/ is touched, so a bad build never
-  // destroys good output.
-  const remainingGuides = [];
-  const extractedByTarget = new Map();
-  for (const fileName of orderedGuides) {
-    const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
-    const { remaining, extracted } = processGuide(fileName, raw);
-    remainingGuides.push(remaining);
-    for (const [target, blocks] of extracted) {
-      if (!extractedByTarget.has(target)) extractedByTarget.set(target, []);
-      extractedByTarget.get(target).push(...blocks);
-    }
-  }
-  const guides = remainingGuides.join('\n\n');
+  // Guides are read whole and shifted one heading level to nest under
+  // SKILL.md's top-level headings — no per-heading routing. Every class
+  // being fully self-documented (methods, @example, @returns) means guide
+  // content only needs to cover what's genuinely cross-class or universal.
+  const guides = orderedGuides
+    .map((fileName) => {
+      const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
+      return shiftHeadingLines(stripFrontmatter(raw).split('\n'), 1).join('\n').trim();
+    })
+    .join('\n\n');
 
-  const classesByGroup = generateClasses(api);
+  const classes = generateClasses(api);
   const functions = generateFunctions(api);
-
-  // The set of reference groups — and their file order — comes entirely from
-  // the `@skillReference` tags actually present on the SDK's classes, sorted
-  // alphabetically for stable, deterministic output. A new group needs no
-  // change here.
-  const groups = [...classesByGroup.keys()].sort();
-
-  // A guide's `<!-- skillReference: X -->` marker must name a group that
-  // actually has classes, or the extracted content would be silently
-  // dropped (extracted out of SKILL.md but never written to a reference
-  // file, since the write loop below only iterates `groups`).
-  for (const target of extractedByTarget.keys()) {
-    if (!groups.includes(target)) {
-      throw new Error(
-        `build-skills: a guide's <!-- skillReference: ${target} --> marker names a group ` +
-          'with no matching classes. Fix the typo, or add a class with that ' +
-          '@skillReference tag.'
-      );
-    }
-  }
 
   const moduleIndex = [
     '## Module Index',
     '',
-    generateModuleIndex(classesByGroup, groups),
+    generateModuleIndex(classes),
     '',
-    'New modules should slot into the closest matching reference file above. Only split a file further once it exceeds ~150 lines.',
+    'New modules automatically get their own reference file — no script or tag changes needed.',
   ].join('\n');
 
   const functionsSection = [
@@ -546,11 +327,7 @@ function buildSkills() {
     functions,
   ].join('\n');
 
-  const referenceTable = ['## Reference Files', '', generateReferenceTable(groups)].join('\n');
-
-  const skill = [template.trimEnd(), guides, moduleIndex, functionsSection, referenceTable].join(
-    '\n\n\n'
-  );
+  const skill = [template.trimEnd(), guides, moduleIndex, functionsSection].join('\n\n\n');
 
   // Only now that everything above has succeeded do we touch the filesystem.
   const skillDir = path.join(ROOT_DIR, 'skills');
@@ -561,27 +338,14 @@ function buildSkills() {
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
 
-  for (const group of groups) {
-    const file = slugifyReference(group);
-    const blurb = REFERENCE_BLURBS[group] ?? `${group} API reference.`;
-    const classSections = classesByGroup
-      .get(group)
-      .map((e) => e.section)
-      .join('\n\n');
-    const guideSections = (extractedByTarget.get(group) ?? []).join('\n\n');
-    const note = REFERENCE_NOTES[group];
-
-    const parts = [
-      `# ${group}`,
-      note ? `${blurb}\n\n${note}` : blurb,
-      guideSections || null,
-      `## API Reference\n\n${classSections}`,
-    ].filter(Boolean);
-
-    fs.writeFileSync(path.join(referencesDir, file), parts.join('\n\n').trimEnd() + '\n');
+  for (const cls of classes) {
+    fs.writeFileSync(
+      path.join(referencesDir, `${cls.name}.md`),
+      `# ${cls.name}\n\n${cls.section}`.trimEnd() + '\n'
+    );
   }
 
-  console.log(`Generated skills/SKILL.md + ${groups.length} reference files`);
+  console.log(`Generated skills/SKILL.md + ${classes.length} reference files`);
 }
 
 buildSkills();

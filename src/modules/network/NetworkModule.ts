@@ -14,7 +14,6 @@ import { RawSendResponse, SendRequest, SendResponse } from './types';
  *
  * @group Modules
  * @category Network
- * @skillReference Platform Utilities
  *
  * @remarks
  * Provides access to native network functionality for making HTTP requests.

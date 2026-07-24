@@ -178,7 +178,14 @@ When designing your MiniApp, you can choose between two common patterns for requ
   - Request scopes only when the user triggers a specific feature that requires them.
   - _Best for_: Optional permissions (e.g., location) to improve user experience and build trust.
 
-For proactive/reactive permission-checking patterns (including handling `403 Forbidden`) with full code, see `references/authentication-and-permissions.md`.
+#### Permission Verification Strategies
+
+A scope the user has already granted can be revoked again at any time from the Grab app's settings, so a
+method tagged `@requiredOAuthScope` can return `403` even if you checked access moments earlier. Recovering
+spans two modules, not one: call `IdentityModule.authorize()` to re-request the scope, then
+`ScopeModule.reloadScopes()` to refresh the SDK's internal permission state, then retry the original call.
+See `references/IdentityModule.md` for `authorize()`'s signature and `references/ScopeModule.md` for
+`reloadScopes()`'s.
 
 ## Integration Guide
 
@@ -225,7 +232,7 @@ async function init() {
   });
 
   // 5. Authenticate the user
-  // (see references/authentication-and-permissions.md for the full authorize() flow)
+  // (Implementation detailed in the Authentication section below)
   await signIn();
 
   // 6. Load permission scopes — always do this before making module calls
@@ -235,33 +242,51 @@ async function init() {
 init();
 ```
 
-For the full authentication flow, container UI/navigation controls, analytics event tracking, and the checkout flow, see the relevant reference file below.
+### Authentication
+
+Trigger `IdentityModule.authorize()` to request user permissions, then `IdentityModule.clearAuthorizationArtifacts()`
+and `ScopeModule.reloadScopes()` once your backend has exchanged the result for a session. See
+`references/IdentityModule.md` for the full request/response shapes (including the native `in_place` vs. web
+`302` redirect flows) and `references/ScopeModule.md` for `reloadScopes()`.
+
+### Container UI & Navigation
+
+Configure the native container's title, background, and back/refresh buttons, and track analytics events, via
+`ContainerModule` — see `references/ContainerModule.md` for every method and its parameters.
+
+### Checkout
+
+The checkout flow is a two-step process split across two systems: your **backend** first initializes a
+transaction using your partner credentials against the
+[GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/), then your
+**frontend** triggers the native payment interface with `CheckoutModule.triggerCheckout()`, passing the
+response your backend returned. See `references/CheckoutModule.md` for the frontend call's exact signature.
 
 
 ## Module Index
 
 | Module | Purpose | Reference file |
 | :--- | :--- | :--- |
-| `IdentityModule` | SDK module for authenticating users with GrabID via `JSBridge`. | `references/authentication-and-permissions.md` |
-| `ScopeModule` | SDK module for checking and refreshing API access permissions via `JSBridge`. | `references/authentication-and-permissions.md` |
-| `CheckoutModule` | SDK module for triggering native payment flows via `JSBridge`. | `references/checkout.md` |
-| `ContainerModule` | SDK module for controlling the WebView container via `JSBridge`. | `references/container-ui-and-navigation.md` |
-| `PlatformModule` | SDK module for controlling platform navigation via `JSBridge`. | `references/container-ui-and-navigation.md` |
-| `SplashScreenModule` | SDK module for controlling the native splash / Lottie loading screen via `JSBridge`. | `references/container-ui-and-navigation.md` |
-| `SystemWebViewKitModule` | SDK module for opening URLs in the device's system browser via `JSBridge`. | `references/container-ui-and-navigation.md` |
-| `CameraModule` | SDK module for accessing the device camera via `JSBridge`. | `references/device-and-sensors.md` |
-| `DeviceModule` | SDK module for querying native device information via `JSBridge`. | `references/device-and-sensors.md` |
-| `LocationModule` | SDK module for accessing device location services via `JSBridge`. | `references/device-and-sensors.md` |
-| `MediaModule` | SDK module for playing DRM-protected media content via `JSBridge`. | `references/device-and-sensors.md` |
-| `FileModule` | SDK module for downloading files to the user's device via `JSBridge`. | `references/platform-utilities.md` |
-| `LocaleModule` | SDK module for accessing device locale settings via `JSBridge`. | `references/platform-utilities.md` |
-| `Logger` | Provides scoped logging for SDK modules. | `references/platform-utilities.md` |
-| `NetworkModule` | SDK module for making network requests through the native layer via `JSBridge`. | `references/platform-utilities.md` |
-| `ProfileModule` | SDK module for accessing user profile information via `JSBridge`. | `references/platform-utilities.md` |
-| `StorageModule` | SDK module for persisting key-value data to native storage via `JSBridge`. | `references/platform-utilities.md` |
-| `UserAttributesModule` | SDK module for reading user-related attributes from native code via `JSBridge`. | `references/platform-utilities.md` |
+| `CameraModule` | SDK module for accessing the device camera via `JSBridge`. | `references/CameraModule.md` |
+| `CheckoutModule` | SDK module for triggering native payment flows via `JSBridge`. | `references/CheckoutModule.md` |
+| `ContainerModule` | SDK module for controlling the WebView container via `JSBridge`. | `references/ContainerModule.md` |
+| `DeviceModule` | SDK module for querying native device information via `JSBridge`. | `references/DeviceModule.md` |
+| `FileModule` | SDK module for downloading files to the user's device via `JSBridge`. | `references/FileModule.md` |
+| `IdentityModule` | SDK module for authenticating users with GrabID via `JSBridge`. | `references/IdentityModule.md` |
+| `LocaleModule` | SDK module for accessing device locale settings via `JSBridge`. | `references/LocaleModule.md` |
+| `LocationModule` | SDK module for accessing device location services via `JSBridge`. | `references/LocationModule.md` |
+| `Logger` | Provides scoped logging for SDK modules. | `references/Logger.md` |
+| `MediaModule` | SDK module for playing DRM-protected media content via `JSBridge`. | `references/MediaModule.md` |
+| `NetworkModule` | SDK module for making network requests through the native layer via `JSBridge`. | `references/NetworkModule.md` |
+| `PlatformModule` | SDK module for controlling platform navigation via `JSBridge`. | `references/PlatformModule.md` |
+| `ProfileModule` | SDK module for accessing user profile information via `JSBridge`. | `references/ProfileModule.md` |
+| `ScopeModule` | SDK module for checking and refreshing API access permissions via `JSBridge`. | `references/ScopeModule.md` |
+| `SplashScreenModule` | SDK module for controlling the native splash / Lottie loading screen via `JSBridge`. | `references/SplashScreenModule.md` |
+| `StorageModule` | SDK module for persisting key-value data to native storage via `JSBridge`. | `references/StorageModule.md` |
+| `SystemWebViewKitModule` | SDK module for opening URLs in the device's system browser via `JSBridge`. | `references/SystemWebViewKitModule.md` |
+| `UserAttributesModule` | SDK module for reading user-related attributes from native code via `JSBridge`. | `references/UserAttributesModule.md` |
 
-New modules should slot into the closest matching reference file above. Only split a file further once it exceeds ~150 lines.
+New modules automatically get their own reference file — no script or tag changes needed.
 
 
 ## Functions
@@ -321,14 +346,3 @@ Type guard to check if an SDK response has a success status code (`200`, `204`).
 ```ts
 isSuccess<T>(response: T): response is Extract<T, { status_code: 200 | 204 }>
 ```
-
-
-## Reference Files
-
-| File | What it answers |
-| :--- | :--- |
-| `references/authentication-and-permissions.md` | Proactive/reactive permission checks, the full `IdentityModule.authorize()` flow, and the `IdentityModule`/`ScopeModule` API reference. |
-| `references/checkout.md` | The two-step payment/checkout flow and the `CheckoutModule` API reference. |
-| `references/container-ui-and-navigation.md` | Container title/background/buttons, closing, external links, analytics events, native back navigation, and the splash screen. |
-| `references/device-and-sensors.md` | Hardware/sensor capability access: camera QR scanning, location, DRM media playback, and device info. |
-| `references/platform-utilities.md` | Simple getter/setter-style native APIs with no dedicated walkthrough: file downloads, locale, logging, network, profile, storage, and user attributes. |

@@ -14,7 +14,6 @@ import { ScanQRCodeRequest, ScanQRCodeResponse } from './types';
  *
  * @group Modules
  * @category Camera
- * @skillReference Device & Sensors
  *
  * @remarks
  * Provides access to native camera functionality including QR code scanning.
