@@ -9,6 +9,8 @@ export { ProfileModule } from './ProfileModule';
 export type {
   FetchEmailResponse,
   FetchEmailResult,
+  ShowAddressPickerResponse,
+  ShowAddressPickerResult,
   VerifyEmailRequest,
   VerifyEmailResponse,
   VerifyEmailResult,

@@ -9,10 +9,16 @@ import { BaseModule } from '../../core';
 import { meetsMinimumVersion, Version } from '../../utils/version';
 import {
   FetchEmailResponseSchema,
+  ShowAddressPickerResponseSchema,
   VerifyEmailRequestSchema,
   VerifyEmailResponseSchema,
 } from './schemas';
-import { FetchEmailResponse, VerifyEmailRequest, VerifyEmailResponse } from './types';
+import {
+  FetchEmailResponse,
+  ShowAddressPickerResponse,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
+} from './types';
 
 /**
  * SDK module for accessing user profile information via `JSBridge`.
@@ -110,6 +116,59 @@ export class ProfileModule extends BaseModule {
     const responseError = this.validate(FetchEmailResponseSchema, response);
     if (responseError)
       this.logger.warn('fetchEmail', `Unexpected response shape: ${responseError}`);
+
+    return response;
+  }
+
+  /**
+   * Shows the native address picker and returns the selected address.
+   *
+   * @minimumGrabAppVersion Android: TBD, iOS: TBD
+   *
+   * @requiredOAuthScope mobile.profile
+   *
+   * @remarks
+   * This method opens a Grab-owned native address picker UI. If the user closes the
+   * picker without selecting an address, the flow ends early with a `204` response.
+   *
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Address selected successfully. The `result` contains {@link ShowAddressPickerResult}.
+   * - `204` (No Content): User closed the native address picker.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `403` (Forbidden): Client is not authorized to access user profile data.
+   * - `424` (Failed Dependency): Dependency error occurred while showing the address picker.
+   * - `426` (Upgrade Required): Feature requires a minimum Grab app version.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
+   *
+   * @example
+   * ```typescript
+   * import { ProfileModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+   *
+   * const profile = new ProfileModule();
+   * const response = await profile.showAddressPicker();
+   *
+   * if (isSuccess(response)) {
+   *   if (response.status_code === 200) {
+   *     console.log('Selected address:', response.result.full_address);
+   *   } else if (response.status_code === 204) {
+   *     console.log('User closed the address picker');
+   *   }
+   * } else if (isError(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  async showAddressPicker(): Promise<ShowAddressPickerResponse> {
+    const response = (await this.invoke({
+      method: 'showAddressPicker',
+    })) as ShowAddressPickerResponse;
+
+    const responseError = this.validate(ShowAddressPickerResponseSchema, response);
+    if (responseError)
+      this.logger.warn('showAddressPicker', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

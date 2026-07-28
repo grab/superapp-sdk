@@ -600,6 +600,7 @@ This navigates back in the native navigation stack.
 #### `ProfileModule`
 SDK module for accessing user profile information via `JSBridge`.
 - `fetchEmail(): Promise<FetchEmailResponse>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+- `showAddressPicker(): Promise<ShowAddressPickerResponse>` — Shows the native address picker and returns the selected address. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: TBD, iOS: TBD)
 - `verifyEmail(request?: VerifyEmailRequest): Promise<VerifyEmailResponse>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
 
 #### `ScopeModule`

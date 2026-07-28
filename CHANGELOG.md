@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.61] - 2026-07-27
+
+### Added
+
+- `ProfileModule.showAddressPicker()` for showing the native address picker and returning the selected address.
+
 ## [2.0.0-beta.59] - 2026-07-09
 
 _Documents `downloadFile` domain whitelisting requirements for file downloads._

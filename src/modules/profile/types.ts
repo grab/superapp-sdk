@@ -38,6 +38,51 @@ export type FetchEmailResponse =
   | SDKErrorResponse<501>;
 
 /**
+ * Result object containing the address selected from the native address picker.
+ *
+ * @group Modules
+ * @category Profile
+ *
+ * @public
+ */
+export type ShowAddressPickerResult = {
+  /** Short address label or street address (for example, `"1 Example Road"`). */
+  address: string;
+  /** Full formatted address (for example, `"1 Example Road, Singapore"`). */
+  full_address: string;
+  /** Unit or floor details for the address (for example, `"#01-0123"`). */
+  unit_detail: string;
+  /** Latitude coordinate of the selected address. */
+  latitude: number;
+  /** Longitude coordinate of the selected address. */
+  longitude: number;
+  /** ISO 3166-1 alpha-2 country code (for example, `"SG"`). */
+  country_code: string;
+  /** City for the selected address. */
+  city: string;
+  /** Postal code for the selected address. */
+  postal_code: number;
+};
+
+/**
+ * Response when showing the native address picker.
+ *
+ * @group Modules
+ * @category Profile
+ *
+ * @public
+ */
+export type ShowAddressPickerResponse =
+  | SDKOkResponse<ShowAddressPickerResult>
+  | SDKNoContentResponse
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
  * Request parameters for verifying the user's email.
  *
  * @group Modules

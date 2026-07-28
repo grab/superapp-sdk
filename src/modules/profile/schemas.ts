@@ -15,6 +15,8 @@ import {
 import type {
   FetchEmailResponse,
   FetchEmailResult,
+  ShowAddressPickerResponse,
+  ShowAddressPickerResult,
   VerifyEmailRequest,
   VerifyEmailResponse,
   VerifyEmailResult,
@@ -45,6 +47,44 @@ export const FetchEmailResponseSchema: v.GenericSchema<FetchEmailResponse> = v.u
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(426),
+  sdkErrorResponseSchema(500),
+  sdkErrorResponseSchema(501),
+]);
+
+/**
+ * Valibot schema for {@link ShowAddressPickerResult}.
+ *
+ * @group Modules
+ * @category Profile
+ *
+ * @public
+ */
+export const ShowAddressPickerResultSchema: v.GenericSchema<ShowAddressPickerResult> = v.object({
+  address: v.string(),
+  full_address: v.string(),
+  unit_detail: v.string(),
+  latitude: v.number(),
+  longitude: v.number(),
+  country_code: v.string(),
+  city: v.string(),
+  postal_code: v.number(),
+});
+
+/**
+ * Valibot schema for {@link ShowAddressPickerResponse}.
+ *
+ * @group Modules
+ * @category Profile
+ *
+ * @public
+ */
+export const ShowAddressPickerResponseSchema: v.GenericSchema<ShowAddressPickerResponse> = v.union([
+  sdkOkResponseSchema(ShowAddressPickerResultSchema),
+  sdkNoContentResponseSchema,
+  sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
   sdkErrorResponseSchema(426),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),

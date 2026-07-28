@@ -110,6 +110,8 @@ export {
   FetchEmailResponse,
   FetchEmailResult,
   ProfileModule,
+  ShowAddressPickerResponse,
+  ShowAddressPickerResult,
   VerifyEmailRequest,
   VerifyEmailResponse,
   VerifyEmailResult,

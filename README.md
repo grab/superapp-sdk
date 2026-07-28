@@ -34,7 +34,7 @@ Each SDK module encapsulates a specific domain of functionality, offering strong
 
 - **[PlatformModule](https://grab.github.io/superapp-sdk/classes/PlatformModule.html)** — Access platform information and navigation controls
 
-- **[ProfileModule](https://grab.github.io/superapp-sdk/classes/ProfileModule.html)** — Access user profile information including email
+- **[ProfileModule](https://grab.github.io/superapp-sdk/classes/ProfileModule.html)** — Access user profile information including email and native address picker
 
 - **[ScopeModule](https://grab.github.io/superapp-sdk/classes/ScopeModule.html)** — Manage permission scopes from GrabID
 
