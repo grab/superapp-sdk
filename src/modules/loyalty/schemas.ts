@@ -107,6 +107,7 @@ export const EstimateRewardsResponseSchema: v.GenericSchema<EstimateRewardsRespo
   sdkOkResponseSchema(EstimateRewardsResultSchema),
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(403),
+  sdkErrorResponseSchema(424),
   sdkErrorResponseSchema(426),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),

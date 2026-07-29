@@ -186,6 +186,7 @@ export type EstimateRewardsResponse =
   | SDKOkResponse<EstimateRewardsResult>
   | SDKErrorResponse<400>
   | SDKErrorResponse<403>
+  | SDKErrorResponse<424>
   | SDKErrorResponse<426>
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;

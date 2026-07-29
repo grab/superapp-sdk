@@ -5,9 +5,11 @@
  * directory of this source tree.
  */
 
+import { safeParse } from 'valibot';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { LoyaltyModule } from './LoyaltyModule';
+import { EstimateRewardsResponseSchema } from './schemas';
 import type {
   EstimateRewardsRequest,
   EstimateRewardsResponse,
@@ -333,6 +335,27 @@ describe('LoyaltyModule', () => {
       const response = await module.estimateRewards(validRequest);
 
       expect(response.status_code).toBe(403);
+    });
+
+    it('should return and validate 424 when a native or backend dependency fails', async () => {
+      stubGrabUserAgent();
+
+      const mockResponse: EstimateRewardsResponse = {
+        status_code: 424,
+        error: 'Failed Dependency',
+      };
+
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+      installWrappedLoyaltyMock(mockInvoke);
+
+      const module = new LoyaltyModule();
+      const response = await module.estimateRewards(validRequest);
+
+      expect(response.status_code).toBe(424);
+      expect(safeParse(EstimateRewardsResponseSchema, response).success).toBe(true);
+      if (response.status_code === 424) {
+        expect(response.error).toBe('Failed Dependency');
+      }
     });
 
     it('should return 500 when an unexpected error occurs', async () => {
