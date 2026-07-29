@@ -134,10 +134,8 @@ export class ProfileModule extends BaseModule {
    * @returns This method can return the following `status_code` values:
    * - `200` (OK): Address selected successfully. The `result` contains {@link ShowAddressPickerResult}.
    * - `204` (No Content): User closed the native address picker.
-   * - `400` (Bad Request): Invalid request parameters.
    * - `403` (Forbidden): Client is not authorized to access user profile data.
    * - `424` (Failed Dependency): Dependency error occurred while showing the address picker.
-   * - `426` (Upgrade Required): Feature requires a minimum Grab app version.
    * - `500` (Internal Server Error): An unexpected error occurred.
    * - `501` (Not Implemented): Requires Grab app environment.
    *

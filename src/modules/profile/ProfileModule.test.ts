@@ -269,10 +269,8 @@ describe('ProfileModule', () => {
     });
 
     it.each([
-      [400, 'Invalid request'],
       [403, 'Forbidden'],
       [424, 'Failed dependency'],
-      [426, 'Upgrade required'],
     ] as const)('should pass through %i response from native', async (statusCode, error) => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
