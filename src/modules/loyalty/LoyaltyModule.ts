@@ -59,7 +59,7 @@ export class LoyaltyModule extends BaseModule {
    * - `200` (OK): Estimation successful. The `result` contains {@link EstimateRewardsResult}.
    *   Each entry in `result.items` has its own `status_code`: `SUCCESS`, `NOT_APPLICABLE`, or `ERROR`.
    * - `400` (Bad Request): Invalid request parameters (for example, empty items array or missing fields).
-   * - `403` (Forbidden): Client is not authorized.
+   * - `403` (Forbidden): Client is not authorized to estimate rewards.
    * - `424` (Failed Dependency): An underlying native or backend dependency failed.
    * - `426` (Upgrade Required): Feature requires a minimum Grab app version.
    * - `500` (Internal Server Error): An unexpected error occurred.
