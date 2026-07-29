@@ -271,30 +271,35 @@ describe('ProfileModule', () => {
     it.each([
       [403, 'Forbidden'],
       [424, 'Failed dependency'],
-    ] as const)('should pass through %i response from native', async (statusCode, error) => {
-      vi.stubGlobal('navigator', {
-        userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
-      });
+      [426, 'Upgrade required'],
+    ] as const)(
+      'should return %i response from the address picker contract',
+      async (statusCode, error) => {
+        vi.stubGlobal('navigator', {
+          userAgent: 'Grab/5.399.0 (iPhone; iOS 16.0)',
+        });
 
-      const mockResponse: ShowAddressPickerResponse = {
-        status_code: statusCode,
-        error,
-      };
+        const mockResponse: ShowAddressPickerResponse = {
+          status_code: statusCode,
+          error,
+        };
 
-      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+        const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
 
-      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedProfileModule = {
-        invoke: mockInvoke,
-      };
+        (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedProfileModule =
+          {
+            invoke: mockInvoke,
+          };
 
-      const module = new ProfileModule();
-      const response = await module.showAddressPicker();
+        const module = new ProfileModule();
+        const response = await module.showAddressPicker();
 
-      expect(response.status_code).toBe(statusCode);
-      if (response.status_code === statusCode) {
-        expect(response.error).toBe(error);
+        expect(response.status_code).toBe(statusCode);
+        if (response.status_code === statusCode) {
+          expect(response.error).toBe(error);
+        }
       }
-    });
+    );
 
     it('should return 500 when an unexpected error occurs', async () => {
       vi.stubGlobal('navigator', {

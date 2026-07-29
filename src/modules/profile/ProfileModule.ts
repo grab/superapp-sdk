@@ -136,6 +136,7 @@ export class ProfileModule extends BaseModule {
    * - `204` (No Content): User closed the native address picker.
    * - `403` (Forbidden): Client is not authorized to access user profile data.
    * - `424` (Failed Dependency): Dependency error occurred while showing the address picker.
+   * - `426` (Upgrade Required): Feature requires a newer Grab app version. Minimum version is TBD.
    * - `500` (Internal Server Error): An unexpected error occurred.
    * - `501` (Not Implemented): Requires Grab app environment.
    *

@@ -77,6 +77,7 @@ export type ShowAddressPickerResponse =
   | SDKNoContentResponse
   | SDKErrorResponse<403>
   | SDKErrorResponse<424>
+  | SDKErrorResponse<426>
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
 

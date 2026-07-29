@@ -84,6 +84,7 @@ export const ShowAddressPickerResponseSchema: v.GenericSchema<ShowAddressPickerR
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(403),
   sdkErrorResponseSchema(424),
+  sdkErrorResponseSchema(426),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
 ]);
