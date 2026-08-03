@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0] - 2026-08-03
+
+_Stable release of the v2 SDK — full TypeScript rewrite with schema-validated responses, a refined public API, and new modules._
+
+### Added
+
+- Full TypeScript support with dual ESM/CJS output and bundled type definitions via Microsoft API Extractor.
+- Runtime schema validation using `valibot` for all module requests and responses.
+- New modules: `NetworkModule` (HTTP via native bridge), `FileModule` (native file download), `DeviceModule` (eSIM support), `UserAttributesModule` (travel destination), `SplashScreenModule` (native loading screen).
+- Type guard functions: `isSuccess()`, `isNoContent()`, `isFound()`, `isClientError()`, `isServerError()`, `isError()`, `hasResult()`.
+- `Logger` utility for scoped SDK-wide logging.
+- AI IDE skill (`skills/SKILL.md` plus one reference file per module under `skills/references/`) and CDN + React demo apps.
+- `@requiredOAuthScope` and `@minimumGrabAppVersion` TSDoc tags on module methods.
+- Slack release notification script (`scripts/notify-slack.mjs`).
+
+### Changed
+
+- Renamed core response/type contracts from `Bridge*` to `SDK*` (e.g. `SDKOkResponse`, `SDKErrorStatusCode`).
+- Renamed `DeviceCapabilityModule` → `DeviceModule`.
+- `IdentityModule.authorize()` 200 responses now include PKCE artifacts (`codeVerifier`, `nonce`, `redirectUri`) directly in `result`.
+- `ScopeModule.hasAccessTo()` returns a plain `boolean` result (was `{ hasAccess: boolean }`).
+- `LocationModule.getCountryCode()` returns a plain `string` result (was `{ countryCode: string }`).
+- `LocationModule.getCoordinate()` result properties renamed `lat`/`lng` → `latitude`/`longitude`.
+- `StorageModule` `get*` results are scalar values (no `{ value }` wrapper); empty-key calls return `400` client-side.
+- `ContainerModule` success responses normalized from `200 OK` to `204 No Content`.
+- `TriggerCheckoutResult` status values capitalized: `success` → `Success`, `failure` → `Failure`, `pending` → `Pending`, `userInitiatedCancel` → `Cancel`.
+- `CheckoutModule.triggerCheckout()` now documents and types a `403` response for missing `mobile.checkout` authorization, matching every other `@requiredOAuthScope`-gated method.
+- `downloadFile` documentation now clarifies that MiniApp domains must be whitelisted by Grab before it can be invoked.
+- Skill reference files switched from five hand-grouped domain files to one file per module, generated directly from the TypeDoc API JSON (including each method's `@returns` and `@example`) — removes the need to maintain a grouping/tagging mechanism.
+- Minimum supported Node.js version raised to `>=24`.
+- `publishConfig` pinned to `https://registry.npmjs.org/` with `public` access.
+
+### Fixed
+
+- Five pre-existing `@returns`/`@example` documentation mismatches found while auditing the skill reference files against each method's real response type: `CheckoutModule.triggerCheckout()` (missing `403`), `ContainerModule.getSessionParams()` (missing `204`), `MediaModule.playDRMContent()` (missing `400`/`424`), `NetworkModule.send()` and `IdentityModule.clearAuthorizationArtifacts()` (both had link-only `@returns` prose instead of an enumerated status-code list).
+
+### Removed
+
+- Legacy `Bridge*` response type aliases and redundant `*Result = void` exports.
+- Public `*Schema` re-exports from module index files.
+- `crypto-js` dependency (replaced by native Web Crypto API).
+
 ## [2.0.0-beta.59] - 2026-07-09
 
 _Documents `downloadFile` domain whitelisting requirements for file downloads._
