@@ -59,25 +59,14 @@ init();
 
 ## Authentication
 
-Trigger `IdentityModule.authorize()` to request user permissions, then `IdentityModule.clearAuthorizationArtifacts()`
-and `ScopeModule.reloadScopes()` once your backend has exchanged the result for a session. See
-`references/IdentityModule.md` for the full request/response shapes (including the native `in_place` vs. web
-`302` redirect flows) and `references/ScopeModule.md` for `reloadScopes()`.
+Trigger `IdentityModule.authorize()` to request user permissions, then `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` once your backend has exchanged the result for a session. The native flow resolves with `in_place`; the web flow redirects with a `302`.
 
 ## Container UI & Navigation
 
-Configure the native container's title, background, and back/refresh buttons, and track analytics events, via
-`ContainerModule` — see `references/ContainerModule.md` for every method and its parameters.
+Configure the native container's title, background, and back/refresh buttons, and track analytics events, via `ContainerModule`.
 
-`sendAnalyticsEvent()`'s `state` parameter (`ContainerAnalyticsEventState`) categorizes the event by journey
-stage: `HOMEPAGE` (entry point/main landing page), `CHECKOUT_PAGE` (transaction confirmation/payment
-selection), `BOOKING_COMPLETION` (post-transaction/success page), or `CUSTOM` (any other interaction outside
-the standard flow).
+`sendAnalyticsEvent()`'s `state` parameter (`ContainerAnalyticsEventState`) categorizes the event by journey stage: `HOMEPAGE` (entry point/main landing page), `CHECKOUT_PAGE` (transaction confirmation/payment selection), `BOOKING_COMPLETION` (post-transaction/success page), or `CUSTOM` (any other interaction outside the standard flow).
 
 ## Checkout
 
-The checkout flow is a two-step process split across two systems: your **backend** first initializes a
-transaction using your partner credentials against the
-[GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/), then your
-**frontend** triggers the native payment interface with `CheckoutModule.triggerCheckout()`, passing the
-response your backend returned. See `references/CheckoutModule.md` for the frontend call's exact signature.
+The checkout flow is a two-step process split across two systems: your **backend** first initializes a transaction using your partner credentials against the [GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/), then your **frontend** triggers the native payment interface with `CheckoutModule.triggerCheckout()`, passing the response your backend returned.

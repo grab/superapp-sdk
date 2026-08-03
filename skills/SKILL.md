@@ -89,19 +89,19 @@ if (isSuccess(response)) {
 
 The SDK uses HTTP-style status codes for all responses:
 
-| Code  | Type              | Description                                                 |
-| :---- | :---------------- | :---------------------------------------------------------- |
-| `200` | OK                | Request successful, `result` contains response data         |
-| `204` | No Content        | Request successful, no data returned                        |
-| `302` | Redirect          | Redirect in progress                                        |
-| `400` | Bad Request       | Invalid request parameters                                  |
-| `401` | Unauthorized      | Authentication required                                     |
-| `403` | Forbidden         | Insufficient permission (see `@requiredOAuthScope` tag)     |
-| `404` | Not Found         | Resource not found                                          |
-| `424` | Failed Dependency | Underlying native request failed                            |
-| `426` | Upgrade Required  | Grab app version too old (see `@minimumGrabAppVersion` tag) |
-| `500` | Internal Error    | Unexpected SDK error                                        |
-| `501` | Not Implemented   | Outside Grab SuperApp environment                           |
+| Code  | Type              | Description                                         |
+| :---- | :---------------- | :-------------------------------------------------- |
+| `200` | OK                | Request successful, `result` contains response data |
+| `204` | No Content        | Request successful, no data returned                |
+| `302` | Redirect          | Redirect in progress                                |
+| `400` | Bad Request       | Invalid request parameters                          |
+| `401` | Unauthorized      | Authentication required                             |
+| `403` | Forbidden         | Insufficient permission for the requested scope     |
+| `404` | Not Found         | Resource not found                                  |
+| `424` | Failed Dependency | Underlying native request failed                    |
+| `426` | Upgrade Required  | Grab app version too old                            |
+| `500` | Internal Error    | Unexpected SDK error                                |
+| `501` | Not Implemented   | Outside Grab SuperApp environment                   |
 
 ### Type Guards
 
@@ -180,12 +180,7 @@ When designing your MiniApp, you can choose between two common patterns for requ
 
 #### Permission Verification Strategies
 
-A scope the user has already granted can be revoked again at any time from the Grab app's settings, so a
-method tagged `@requiredOAuthScope` can return `403` even if you checked access moments earlier. Recovering
-spans two modules, not one: call `IdentityModule.authorize()` to re-request the scope, then
-`ScopeModule.reloadScopes()` to refresh the SDK's internal permission state, then retry the original call.
-See `references/IdentityModule.md` for `authorize()`'s signature and `references/ScopeModule.md` for
-`reloadScopes()`'s.
+A scope the user has already granted can be revoked again at any time from the Grab app's settings, so a method that requires a scope can return `403` even if you checked access moments earlier. Recovering spans two modules, not one: call `IdentityModule.authorize()` to re-request the scope, then `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state, then retry the original call.
 
 ## Integration Guide
 
@@ -244,28 +239,17 @@ init();
 
 ### Authentication
 
-Trigger `IdentityModule.authorize()` to request user permissions, then `IdentityModule.clearAuthorizationArtifacts()`
-and `ScopeModule.reloadScopes()` once your backend has exchanged the result for a session. See
-`references/IdentityModule.md` for the full request/response shapes (including the native `in_place` vs. web
-`302` redirect flows) and `references/ScopeModule.md` for `reloadScopes()`.
+Trigger `IdentityModule.authorize()` to request user permissions, then `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` once your backend has exchanged the result for a session. The native flow resolves with `in_place`; the web flow redirects with a `302`.
 
 ### Container UI & Navigation
 
-Configure the native container's title, background, and back/refresh buttons, and track analytics events, via
-`ContainerModule` — see `references/ContainerModule.md` for every method and its parameters.
+Configure the native container's title, background, and back/refresh buttons, and track analytics events, via `ContainerModule`.
 
-`sendAnalyticsEvent()`'s `state` parameter (`ContainerAnalyticsEventState`) categorizes the event by journey
-stage: `HOMEPAGE` (entry point/main landing page), `CHECKOUT_PAGE` (transaction confirmation/payment
-selection), `BOOKING_COMPLETION` (post-transaction/success page), or `CUSTOM` (any other interaction outside
-the standard flow).
+`sendAnalyticsEvent()`'s `state` parameter (`ContainerAnalyticsEventState`) categorizes the event by journey stage: `HOMEPAGE` (entry point/main landing page), `CHECKOUT_PAGE` (transaction confirmation/payment selection), `BOOKING_COMPLETION` (post-transaction/success page), or `CUSTOM` (any other interaction outside the standard flow).
 
 ### Checkout
 
-The checkout flow is a two-step process split across two systems: your **backend** first initializes a
-transaction using your partner credentials against the
-[GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/), then your
-**frontend** triggers the native payment interface with `CheckoutModule.triggerCheckout()`, passing the
-response your backend returned. See `references/CheckoutModule.md` for the frontend call's exact signature.
+The checkout flow is a two-step process split across two systems: your **backend** first initializes a transaction using your partner credentials against the [GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/), then your **frontend** triggers the native payment interface with `CheckoutModule.triggerCheckout()`, passing the response your backend returned.
 
 
 ## Module Index

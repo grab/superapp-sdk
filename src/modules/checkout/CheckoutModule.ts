@@ -58,6 +58,7 @@ export class CheckoutModule extends BaseModule {
    * @returns This method can return the following `status_code` values:
    * - `200` (OK): Checkout completed successfully. The `result` contains {@link TriggerCheckoutResult}.
    * - `400` (Bad Request): Invalid request parameters.
+   * - `403` (Forbidden): Client is not authorized to trigger checkout.
    * - `500` (Internal Server Error): An unexpected error occurred.
    * - `501` (Not Implemented): Requires Grab app environment.
    *
@@ -90,7 +91,14 @@ export class CheckoutModule extends BaseModule {
    *       break;
    *   }
    * } else if (isError(response)) {
-   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   *   switch (response.status_code) {
+   *     case 403:
+   *       console.log('No permission to trigger checkout');
+   *       // Trigger IdentityModule.authorize() for scope 'mobile.checkout', then reload via ScopeModule.reloadScopes() and try again
+   *       break;
+   *     default:
+   *       console.error(`Error ${response.status_code}: ${response.error}`);
+   *   }
    * } else {
    *   console.error('Unhandled response');
    * }

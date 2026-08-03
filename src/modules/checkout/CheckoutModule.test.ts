@@ -176,6 +176,38 @@ describe('CheckoutModule', () => {
       }
     });
 
+    it('should return 403 when not authorized to trigger checkout', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'GrabBeta/5.256.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockResponse: TriggerCheckoutResponse = {
+        status_code: 403,
+        error: 'Client is not authorized to trigger checkout',
+      };
+
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedCheckoutModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new CheckoutModule();
+      const response = await module.triggerCheckout({
+        partnerTxID: 'txn-345',
+        amount: 20000,
+      });
+
+      expect(mockInvoke).toHaveBeenCalledWith('triggerCheckout', {
+        partnerTxID: 'txn-345',
+        amount: 20000,
+      });
+      expect(response.status_code).toBe(403);
+      if (response.status_code === 403) {
+        expect(response.error).toBe('Client is not authorized to trigger checkout');
+      }
+    });
+
     it('should return 400 when checkout parameters are invalid', async () => {
       vi.stubGlobal('navigator', {
         userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',

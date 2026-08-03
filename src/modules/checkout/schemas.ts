@@ -72,6 +72,7 @@ export const TriggerCheckoutResultSchema: v.GenericSchema<TriggerCheckoutResult>
 export const TriggerCheckoutResponseSchema: v.GenericSchema<TriggerCheckoutResponse> = v.union([
   sdkOkResponseSchema(TriggerCheckoutResultSchema),
   sdkErrorResponseSchema(400),
+  sdkErrorResponseSchema(403),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),
 ]);

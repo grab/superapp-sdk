@@ -36,19 +36,19 @@ if (isSuccess(response)) {
 
 The SDK uses HTTP-style status codes for all responses:
 
-| Code  | Type              | Description                                                 |
-| :---- | :---------------- | :---------------------------------------------------------- |
-| `200` | OK                | Request successful, `result` contains response data         |
-| `204` | No Content        | Request successful, no data returned                        |
-| `302` | Redirect          | Redirect in progress                                        |
-| `400` | Bad Request       | Invalid request parameters                                  |
-| `401` | Unauthorized      | Authentication required                                     |
-| `403` | Forbidden         | Insufficient permission (see `@requiredOAuthScope` tag)     |
-| `404` | Not Found         | Resource not found                                          |
-| `424` | Failed Dependency | Underlying native request failed                            |
-| `426` | Upgrade Required  | Grab app version too old (see `@minimumGrabAppVersion` tag) |
-| `500` | Internal Error    | Unexpected SDK error                                        |
-| `501` | Not Implemented   | Outside Grab SuperApp environment                           |
+| Code  | Type              | Description                                         |
+| :---- | :---------------- | :-------------------------------------------------- |
+| `200` | OK                | Request successful, `result` contains response data |
+| `204` | No Content        | Request successful, no data returned                |
+| `302` | Redirect          | Redirect in progress                                |
+| `400` | Bad Request       | Invalid request parameters                          |
+| `401` | Unauthorized      | Authentication required                             |
+| `403` | Forbidden         | Insufficient permission for the requested scope     |
+| `404` | Not Found         | Resource not found                                  |
+| `424` | Failed Dependency | Underlying native request failed                    |
+| `426` | Upgrade Required  | Grab app version too old                            |
+| `500` | Internal Error    | Unexpected SDK error                                |
+| `501` | Not Implemented   | Outside Grab SuperApp environment                   |
 
 ## Type Guards
 
@@ -127,9 +127,4 @@ When designing your MiniApp, you can choose between two common patterns for requ
 
 ### Permission Verification Strategies
 
-A scope the user has already granted can be revoked again at any time from the Grab app's settings, so a
-method tagged `@requiredOAuthScope` can return `403` even if you checked access moments earlier. Recovering
-spans two modules, not one: call `IdentityModule.authorize()` to re-request the scope, then
-`ScopeModule.reloadScopes()` to refresh the SDK's internal permission state, then retry the original call.
-See `references/IdentityModule.md` for `authorize()`'s signature and `references/ScopeModule.md` for
-`reloadScopes()`'s.
+A scope the user has already granted can be revoked again at any time from the Grab app's settings, so a method that requires a scope can return `403` even if you checked access moments earlier. Recovering spans two modules, not one: call `IdentityModule.authorize()` to re-request the scope, then `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state, then retry the original call.

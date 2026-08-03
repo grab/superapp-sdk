@@ -60,5 +60,6 @@ export type TriggerCheckoutResult =
 export type TriggerCheckoutResponse =
   | SDKOkResponse<TriggerCheckoutResult>
   | SDKErrorResponse<400>
+  | SDKErrorResponse<403>
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
