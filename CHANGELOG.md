@@ -14,7 +14,7 @@ _Stable release of the v2 SDK._
 ### Changed
 
 - Skill reference files switched from five hand-grouped domain files to one file per module, generated directly from the TypeDoc API JSON (including each method's `@returns` and `@example`) — removes the need to maintain a grouping/tagging mechanism.
-- `CheckoutModule.triggerCheckout()` now documents and types a `403` response for missing `mobile.checkout` authorization, matching every other `@requiredOAuthScope`-gated method.
+- `CheckoutModule.triggerCheckout()` now documents and types a `403` response for missing `mobile.checkout` authorization, matching every other scope-gated method.
 
 ### Fixed
 
