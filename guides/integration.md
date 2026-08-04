@@ -120,7 +120,50 @@ async function signIn() {
 
 ## Container UI & Navigation
 
-Configure the native container's title, background, and back/refresh buttons via `ContainerModule`.
+Control the native container's appearance and behavior to match your MiniApp's branding and navigation flow.
+
+### Title and Background
+
+Set the title and background color for the native container.
+
+```typescript
+await container.setTitle('My MiniApp');
+await container.setBackgroundColor('#FFFFFF');
+```
+
+### Back and Refresh Buttons
+
+Hide these buttons when your MiniApp manages its own navigation or requires a focused, non-refreshable view. Restore them when appropriate.
+
+```typescript
+// Hide buttons
+await container.hideBackButton();
+await container.hideRefreshButton();
+
+// Restore buttons
+await container.showBackButton();
+await container.showRefreshButton();
+```
+
+### Closing the MiniApp
+
+Programmatically close the MiniApp and return the user to the Grab SuperApp.
+
+```typescript
+await container.close();
+```
+
+## Opening External Links
+
+Use `ContainerModule.openExternalLink()` to open URLs in the system browser instead of navigating away from the MiniApp WebView.
+
+```typescript
+const response = await container.openExternalLink('https://example.com');
+
+if (isError(response)) {
+  console.error('Failed to open link:', response.error);
+}
+```
 
 ## Analytics Event Tracking
 
