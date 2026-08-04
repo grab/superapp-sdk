@@ -18,6 +18,20 @@ import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../.
 export type GetLanguageLocaleIdentifierResult = string;
 
 /**
+ * Response when getting the app locale identifier from the device.
+ *
+ * @group Modules
+ * @category Locale
+ *
+ * @public
+ */
+export type GetAppLocaleIdentifierResponse =
+  | SDKOkResponse<GetLanguageLocaleIdentifierResult>
+  | SDKErrorResponse<400>
+  | SDKErrorResponse<500>
+  | SDKErrorResponse<501>;
+
+/**
  * Response when getting the language locale identifier from the device.
  *
  * @group Modules

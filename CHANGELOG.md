@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.60] - 2026-08-05
+
+_Adds access to the app-specific locale identifier._
+
+### Added
+
+- `LocaleModule.getAppLocaleIdentifier()` retrieves the current app locale using the dedicated `GetAppLocaleIdentifierResponse` contract.
+
 ## [2.0.0-beta.59] - 2026-07-09
 
 _Documents `downloadFile` domain whitelisting requirements for file downloads._
