@@ -63,9 +63,58 @@ Trigger `IdentityModule.authorize()` to request user permissions, then `Identity
 
 ## Container UI & Navigation
 
-Configure the native container's title, background, and back/refresh buttons, and track analytics events, via `ContainerModule`.
+Configure the native container's title, background, and back/refresh buttons via `ContainerModule`.
 
-`sendAnalyticsEvent()`'s `state` parameter (`ContainerAnalyticsEventState`) categorizes the event by journey stage: `HOMEPAGE` (entry point/main landing page), `CHECKOUT_PAGE` (transaction confirmation/payment selection), `BOOKING_COMPLETION` (post-transaction/success page), or `CUSTOM` (any other interaction outside the standard flow).
+## Analytics Event Tracking
+
+Track user interactions to monitor performance and conversion. Events are categorised by journey stage using `ContainerAnalyticsEventState`.
+
+```typescript
+import { ContainerModule, ContainerAnalyticsEventState, isSuccess } from '@grabjs/superapp-sdk';
+
+const container = new ContainerModule();
+
+// 1. System Event (DEFAULT)
+// Send when a user lands on a key page
+await container.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: 'DEFAULT',
+});
+
+// 2. Named Action (INITIATE / TRANSACT)
+// Send when a user performs a primary action
+await container.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: 'INITIATE',
+});
+
+// 3. Custom Interaction
+// Send for specific interactions with additional metadata
+await container.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CUSTOM,
+  name: 'BANNER_CLICK',
+  data: {
+    page: 'homepage',
+    banner_id: 'promo-summer-2024',
+  },
+});
+```
+
+### Journey Stages
+
+| State                | Description                                      |
+| :------------------- | :----------------------------------------------- |
+| `HOMEPAGE`           | Entry point or main landing page.                |
+| `CHECKOUT_PAGE`      | Transaction confirmation or payment selection.   |
+| `BOOKING_COMPLETION` | Post-transaction or success page.                |
+| `CUSTOM`             | Any other interaction outside the standard flow. |
+
+### Best Practices
+
+- Track system events automatically when users navigate to the corresponding pages.
+- Always include required data fields for transaction events to enable accurate revenue tracking.
+- Use descriptive names for custom events that clearly indicate the user action being tracked.
+- Never include Personally Identifiable Information (PII) in event data.
 
 ## Checkout
 

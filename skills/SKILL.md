@@ -89,19 +89,19 @@ if (isSuccess(response)) {
 
 The SDK uses HTTP-style status codes for all responses:
 
-| Code  | Type              | Description                                         |
-| :---- | :---------------- | :-------------------------------------------------- |
-| `200` | OK                | Request successful, `result` contains response data |
-| `204` | No Content        | Request successful, no data returned                |
-| `302` | Redirect          | Redirect in progress                                |
-| `400` | Bad Request       | Invalid request parameters                          |
-| `401` | Unauthorized      | Authentication required                             |
-| `403` | Forbidden         | Insufficient permission for the requested scope     |
-| `404` | Not Found         | Resource not found                                  |
-| `424` | Failed Dependency | Underlying native request failed                    |
-| `426` | Upgrade Required  | Grab app version too old                            |
-| `500` | Internal Error    | Unexpected SDK error                                |
-| `501` | Not Implemented   | Outside Grab SuperApp environment                   |
+| Code  | Type              | Description                                            |
+| :---- | :---------------- | :----------------------------------------------------- |
+| `200` | OK                | Request successful, `result` contains response data    |
+| `204` | No Content        | Request successful, no data returned                   |
+| `302` | Redirect          | Redirect in progress                                   |
+| `400` | Bad Request       | Invalid request parameters                             |
+| `401` | Unauthorized      | Authentication required                                |
+| `403` | Forbidden         | Method requires a scope the client hasn't been granted |
+| `404` | Not Found         | Resource not found                                     |
+| `424` | Failed Dependency | Underlying native request failed                       |
+| `426` | Upgrade Required  | Grab app version too old                               |
+| `500` | Internal Error    | Unexpected SDK error                                   |
+| `501` | Not Implemented   | Outside Grab SuperApp environment                      |
 
 ### Type Guards
 
@@ -180,7 +180,67 @@ When designing your MiniApp, you can choose between two common patterns for requ
 
 #### Permission Verification Strategies
 
-A scope the user has already granted can be revoked again at any time from the Grab app's settings, so a method that requires a scope can return `403` even if you checked access moments earlier. Recovering spans two modules, not one: call `IdentityModule.authorize()` to re-request the scope, then `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state, then retry the original call.
+You can verify permissions either proactively before calling a method, or reactively by handling errors.
+
+##### Proactive Checking
+
+Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`. This is recommended before calling gated methods, as users can revoke permissions at any time via the Grab app settings.
+
+```typescript
+const scope = new ScopeModule();
+const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
+
+if (isSuccess(hasAccess) && hasAccess.result) {
+  // Permission is available, safe to call the method
+  const location = await location.getCoordinate();
+}
+```
+
+##### Reactive Checking (Handling 403 Forbidden)
+
+Some methods require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
+
+1. Call `IdentityModule.authorize()` to request the scope.
+2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
+3. Retry the original method call.
+
+```typescript
+import {
+  LocationModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const location = new LocationModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+const response = await location.getCoordinate();
+
+if (isError(response) && response.status_code === 403) {
+  // 1. Request authorization for the required scope
+  const auth = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-app.com/callback',
+    scope: 'mobile.geolocation',
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(auth)) {
+    // 2. Reload scopes so the new permission is available
+    await scope.reloadScopes();
+
+    // 3. Retry the original call
+    const retry = await location.getCoordinate();
+    if (isSuccess(retry)) {
+      console.log('Result:', retry.result);
+    }
+  }
+}
+```
 
 ## Integration Guide
 
@@ -243,9 +303,58 @@ Trigger `IdentityModule.authorize()` to request user permissions, then `Identity
 
 ### Container UI & Navigation
 
-Configure the native container's title, background, and back/refresh buttons, and track analytics events, via `ContainerModule`.
+Configure the native container's title, background, and back/refresh buttons via `ContainerModule`.
 
-`sendAnalyticsEvent()`'s `state` parameter (`ContainerAnalyticsEventState`) categorizes the event by journey stage: `HOMEPAGE` (entry point/main landing page), `CHECKOUT_PAGE` (transaction confirmation/payment selection), `BOOKING_COMPLETION` (post-transaction/success page), or `CUSTOM` (any other interaction outside the standard flow).
+### Analytics Event Tracking
+
+Track user interactions to monitor performance and conversion. Events are categorised by journey stage using `ContainerAnalyticsEventState`.
+
+```typescript
+import { ContainerModule, ContainerAnalyticsEventState, isSuccess } from '@grabjs/superapp-sdk';
+
+const container = new ContainerModule();
+
+// 1. System Event (DEFAULT)
+// Send when a user lands on a key page
+await container.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: 'DEFAULT',
+});
+
+// 2. Named Action (INITIATE / TRANSACT)
+// Send when a user performs a primary action
+await container.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.HOMEPAGE,
+  name: 'INITIATE',
+});
+
+// 3. Custom Interaction
+// Send for specific interactions with additional metadata
+await container.sendAnalyticsEvent({
+  state: ContainerAnalyticsEventState.CUSTOM,
+  name: 'BANNER_CLICK',
+  data: {
+    page: 'homepage',
+    banner_id: 'promo-summer-2024',
+  },
+});
+```
+
+#### Journey Stages
+
+| State                | Description                                      |
+| :------------------- | :----------------------------------------------- |
+| `HOMEPAGE`           | Entry point or main landing page.                |
+| `CHECKOUT_PAGE`      | Transaction confirmation or payment selection.   |
+| `BOOKING_COMPLETION` | Post-transaction or success page.                |
+| `CUSTOM`             | Any other interaction outside the standard flow. |
+
+#### Best Practices
+
+- Track system events automatically when users navigate to the corresponding pages.
+- Always include required data fields for transaction events to enable accurate revenue tracking.
+- Use descriptive names for custom events that clearly indicate the user action being tracked.
+- Never include Personally Identifiable Information (PII) in event data.
 
 ### Checkout
 

@@ -36,19 +36,19 @@ if (isSuccess(response)) {
 
 The SDK uses HTTP-style status codes for all responses:
 
-| Code  | Type              | Description                                         |
-| :---- | :---------------- | :-------------------------------------------------- |
-| `200` | OK                | Request successful, `result` contains response data |
-| `204` | No Content        | Request successful, no data returned                |
-| `302` | Redirect          | Redirect in progress                                |
-| `400` | Bad Request       | Invalid request parameters                          |
-| `401` | Unauthorized      | Authentication required                             |
-| `403` | Forbidden         | Insufficient permission for the requested scope     |
-| `404` | Not Found         | Resource not found                                  |
-| `424` | Failed Dependency | Underlying native request failed                    |
-| `426` | Upgrade Required  | Grab app version too old                            |
-| `500` | Internal Error    | Unexpected SDK error                                |
-| `501` | Not Implemented   | Outside Grab SuperApp environment                   |
+| Code  | Type              | Description                                            |
+| :---- | :---------------- | :----------------------------------------------------- |
+| `200` | OK                | Request successful, `result` contains response data    |
+| `204` | No Content        | Request successful, no data returned                   |
+| `302` | Redirect          | Redirect in progress                                   |
+| `400` | Bad Request       | Invalid request parameters                             |
+| `401` | Unauthorized      | Authentication required                                |
+| `403` | Forbidden         | Method requires a scope the client hasn't been granted |
+| `404` | Not Found         | Resource not found                                     |
+| `424` | Failed Dependency | Underlying native request failed                       |
+| `426` | Upgrade Required  | Grab app version too old                               |
+| `500` | Internal Error    | Unexpected SDK error                                   |
+| `501` | Not Implemented   | Outside Grab SuperApp environment                      |
 
 ## Type Guards
 
@@ -127,4 +127,64 @@ When designing your MiniApp, you can choose between two common patterns for requ
 
 ### Permission Verification Strategies
 
-A scope the user has already granted can be revoked again at any time from the Grab app's settings, so a method that requires a scope can return `403` even if you checked access moments earlier. Recovering spans two modules, not one: call `IdentityModule.authorize()` to re-request the scope, then `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state, then retry the original call.
+You can verify permissions either proactively before calling a method, or reactively by handling errors.
+
+#### Proactive Checking
+
+Proactively verify if the current session has the necessary permissions for a method using `ScopeModule.hasAccessTo()`. This is recommended before calling gated methods, as users can revoke permissions at any time via the Grab app settings.
+
+```typescript
+const scope = new ScopeModule();
+const hasAccess = await scope.hasAccessTo('LocationModule', 'getCoordinate');
+
+if (isSuccess(hasAccess) && hasAccess.result) {
+  // Permission is available, safe to call the method
+  const location = await location.getCoordinate();
+}
+```
+
+#### Reactive Checking (Handling 403 Forbidden)
+
+Some methods require specific permissions. If the user hasn't granted the required scope, the method returns `403`. You must request authorization and reload scopes before retrying:
+
+1. Call `IdentityModule.authorize()` to request the scope.
+2. Call `ScopeModule.reloadScopes()` to refresh the SDK's internal permission state.
+3. Retry the original method call.
+
+```typescript
+import {
+  LocationModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const location = new LocationModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+const response = await location.getCoordinate();
+
+if (isError(response) && response.status_code === 403) {
+  // 1. Request authorization for the required scope
+  const auth = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-app.com/callback',
+    scope: 'mobile.geolocation',
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(auth)) {
+    // 2. Reload scopes so the new permission is available
+    await scope.reloadScopes();
+
+    // 3. Retry the original call
+    const retry = await location.getCoordinate();
+    if (isSuccess(retry)) {
+      console.log('Result:', retry.result);
+    }
+  }
+}
+```
