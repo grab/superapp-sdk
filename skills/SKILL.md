@@ -299,7 +299,64 @@ init();
 
 ### Authentication
 
-Trigger `IdentityModule.authorize()` to request user permissions, then `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` once your backend has exchanged the result for a session. The native flow resolves with `in_place`; the web flow redirects with a `302`.
+Trigger `IdentityModule.authorize()` to start the authorization process and request user permissions.
+
+When authorization completes with `status_code: 200` (native `in_place` flow), `response.result` already includes `code`, `state`, and the PKCE values (`codeVerifier`, `nonce`, `redirectUri`), so you do not need `getAuthorizationArtifacts()`.
+
+If the flow uses the web redirect instead (`status_code: 302`), the page navigates away; after the redirect lands on your callback URL, read the `code` from the query string and retrieve the stored PKCE artifacts with `IdentityModule.getAuthorizationArtifacts()`.
+
+In either case, send those values to your backend so it can exchange the authorization code for tokens, validate the `id_token`, fetch user info, and establish the user's session.
+
+After the session is established, call `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` so your MiniApp can begin using the newly granted permissions.
+
+Use `isRedirection` for `302`: that branch is separate from `isSuccess`, which only matches `200` and `204` for `authorize()`.
+
+```typescript
+import {
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+  isRedirection,
+} from '@grabjs/superapp-sdk';
+
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+async function signIn() {
+  const response = await identity.authorize({
+    clientId: 'your-client-id',
+    redirectUri: 'https://your-miniapp.example.com/callback',
+    scope: 'openid profile.read phone mobile.storage',
+    environment: 'production',
+    responseMode: 'in_place',
+  });
+
+  if (isSuccess(response)) {
+    if (response.status_code === 200) {
+      const { code, state, codeVerifier, nonce, redirectUri } = response.result;
+
+      // 1. Send the values to your backend for token exchange (see Backend Token Exchange section below)
+      // await myBackend.exchangeTokens({ code, codeVerifier, nonce, redirectUri, state });
+
+      // 2. Clear artifacts and reload scopes
+      await identity.clearAuthorizationArtifacts();
+      await scope.reloadScopes();
+    } else if (response.status_code === 204) {
+      // User cancelled the authorization flow
+      await identity.clearAuthorizationArtifacts();
+    }
+  } else if (isRedirection(response)) {
+    // `302`: web consent — the SDK redirected the browser to GrabID. After the user returns to
+    // `redirectUri` with `?code=...&state=...`, read the code from the URL and call
+    // `getAuthorizationArtifacts()` for PKCE values, then exchange tokens (see paragraphs above).
+    return;
+  } else if (isError(response)) {
+    console.error('Authorization failed:', response.error);
+    await identity.clearAuthorizationArtifacts();
+  }
+}
+```
 
 ### Container UI & Navigation
 
@@ -358,7 +415,67 @@ await container.sendAnalyticsEvent({
 
 ### Checkout
 
-The checkout flow is a two-step process split across two systems: your **backend** first initializes a transaction using your partner credentials against the [GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/), then your **frontend** triggers the native payment interface with `CheckoutModule.triggerCheckout()`, passing the response your backend returned.
+The checkout flow is a two-step process: your backend first initializes a transaction using your partner credentials, then your frontend triggers the native payment interface using the response from your backend.
+
+```typescript
+import {
+  CheckoutModule,
+  IdentityModule,
+  ScopeModule,
+  isSuccess,
+  isError,
+} from '@grabjs/superapp-sdk';
+
+const checkout = new CheckoutModule();
+const identity = new IdentityModule();
+const scope = new ScopeModule();
+
+async function processPayment() {
+  // 1. Proactively check for checkout permission
+  const hasAccess = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
+
+  if (!isSuccess(hasAccess) || !hasAccess.result) {
+    // Request authorization for mobile.checkout
+    // Note: mobile.checkout is a mobile scope; no backend exchange is needed for auth.
+    const authResponse = await identity.authorize({
+      clientId: 'your-client-id',
+      redirectUri: window.location.href,
+      scope: 'mobile.checkout',
+      environment: 'production',
+      responseMode: 'in_place',
+    });
+
+    if (isSuccess(authResponse) && authResponse.status_code === 200) {
+      await scope.reloadScopes();
+    } else {
+      return;
+    }
+  }
+
+  // 2. Fetch the initialized transaction payload from your backend
+  const response = await fetch('https://your-backend.example.com/init-transaction', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ orderId: 'order-123' }),
+  });
+  const { partnerTxID, request, sessionID } = await response.json();
+
+  // 3. Trigger checkout with the backend response
+  const checkoutResult = await checkout.triggerCheckout({
+    partnerTxID,
+    request,
+    sessionID,
+  });
+
+  if (isSuccess(checkoutResult)) {
+    console.log(checkoutResult.result);
+  } else if (isError(checkoutResult)) {
+    console.error('Checkout error:', checkoutResult.error);
+  }
+}
+```
+
+For the complete API reference, see [GrabPay API](https://developer.grab.com/docs/partner-apps/pages/developer-resources/payment/) and [CheckoutModule](https://grab.github.io/superapp-sdk/classes/CheckoutModule.html).
 
 
 ## Module Index
