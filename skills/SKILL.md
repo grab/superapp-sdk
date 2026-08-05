@@ -572,6 +572,7 @@ These artifacts are used to complete the OAuth2 authorization code exchange.
 
 #### `LocaleModule`
 SDK module for accessing device locale settings via `JSBridge`.
+- `getAppLocaleIdentifier(): Promise<GetAppLocaleIdentifierResponse>` — Retrieves the current app locale identifier from the device.
 - `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` — Retrieves the current language locale identifier from the device.
 
 #### `LocationModule`

@@ -84,6 +84,7 @@ export {
   IdentityModule,
 } from './modules/identity';
 export {
+  GetAppLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResult,
   LocaleModule,
