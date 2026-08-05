@@ -4,6 +4,27 @@
 
 SDK module for accessing device locale settings via `JSBridge`.
 
+- `getAppLocaleIdentifier(): Promise<GetAppLocaleIdentifierResponse>` — Retrieves the current app locale identifier from the device.
+
+This method can return the following `status_code` values:
+- `200` (OK): Locale identifier retrieved successfully.
+- `400` (Bad Request): Invalid request parameters.
+- `500` (Internal Server Error): An unexpected error occurred.
+- `501` (Not Implemented): Requires Grab app environment.
+
+```typescript
+import { LocaleModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+
+const locale = new LocaleModule();
+const response = await locale.getAppLocaleIdentifier();
+
+if (isSuccess(response)) {
+  console.log('Current app locale:', response.result);
+} else if (isError(response)) {
+  console.error(`Error ${response.status_code}: ${response.error}`);
+}
+```
+
 - `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` — Retrieves the current language locale identifier from the device.
 
 This method can return the following `status_code` values:
