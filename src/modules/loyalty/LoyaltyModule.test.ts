@@ -16,8 +16,8 @@ import type {
   EstimateRewardsResultEntry,
 } from './types';
 
-const GRAB_IOS_UA = 'Grab/5.401.0 (iPhone; iOS 16.0)';
-const GRAB_ANDROID_UA = 'Grab/5.401.0 (Android 13; SM-G998B)';
+const GRAB_IOS_UA = 'Grab/5.424.0 (iPhone; iOS 16.0)';
+const GRAB_ANDROID_UA = 'Grab/5.424.0 (Android 13; SM-G998B)';
 const NON_GRAB_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124';
 
 function stubGrabUserAgent(userAgent = GRAB_IOS_UA) {

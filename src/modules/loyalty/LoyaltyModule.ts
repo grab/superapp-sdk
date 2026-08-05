@@ -44,12 +44,12 @@ export class LoyaltyModule extends BaseModule {
     super('LoyaltyModule');
   }
 
-  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 400, patch: 0 }; // TBD: confirm with native team
+  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 424, patch: 0 };
 
   /**
    * Estimates the rewards for a list of transaction totals.
    *
-   * @minimumGrabAppVersion Android: TBD, iOS: TBD
+   * @minimumGrabAppVersion Android: 5.424.0, iOS: 5.424.0
    *
    * @requiredOAuthScope mobile.loyalty
    *
