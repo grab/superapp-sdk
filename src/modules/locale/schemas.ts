@@ -13,6 +13,7 @@ import {
   sdkOkResponseSchema,
 } from '../../core';
 import type {
+  GetAppLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResult,
 } from './types';
@@ -27,6 +28,22 @@ import type {
  */
 export const GetLanguageLocaleIdentifierResultSchema: v.GenericSchema<GetLanguageLocaleIdentifierResult> =
   v.string();
+
+/**
+ * Valibot schema for {@link GetAppLocaleIdentifierResponse}.
+ *
+ * @group Modules
+ * @category Locale
+ *
+ * @public
+ */
+export const GetAppLocaleIdentifierResponseSchema: v.GenericSchema<GetAppLocaleIdentifierResponse> =
+  v.union([
+    sdkOkResponseSchema(GetLanguageLocaleIdentifierResultSchema),
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]);
 
 /**
  * Valibot schema for {@link GetLanguageLocaleIdentifierResponse}.

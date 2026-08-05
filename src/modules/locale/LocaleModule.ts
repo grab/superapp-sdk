@@ -6,8 +6,11 @@
  */
 
 import { BaseModule } from '../../core';
-import { GetLanguageLocaleIdentifierResponseSchema } from './schemas';
-import { GetLanguageLocaleIdentifierResponse } from './types';
+import {
+  GetAppLocaleIdentifierResponseSchema,
+  GetLanguageLocaleIdentifierResponseSchema,
+} from './schemas';
+import { GetAppLocaleIdentifierResponse, GetLanguageLocaleIdentifierResponse } from './types';
 
 /**
  * SDK module for accessing device locale settings via `JSBridge`.
@@ -41,6 +44,43 @@ import { GetLanguageLocaleIdentifierResponse } from './types';
 export class LocaleModule extends BaseModule {
   constructor() {
     super('LocaleModule');
+  }
+
+  /**
+   * Retrieves the current app locale identifier from the device.
+   *
+   * @returns This method can return the following `status_code` values:
+   * - `200` (OK): Locale identifier retrieved successfully.
+   * - `400` (Bad Request): Invalid request parameters.
+   * - `500` (Internal Server Error): An unexpected error occurred.
+   * - `501` (Not Implemented): Requires Grab app environment.
+   *
+   * @example
+   * ```typescript
+   * import { LocaleModule, isSuccess, isError } from '@grabjs/superapp-sdk';
+   *
+   * const locale = new LocaleModule();
+   * const response = await locale.getAppLocaleIdentifier();
+   *
+   * if (isSuccess(response)) {
+   *   console.log('Current app locale:', response.result);
+   * } else if (isError(response)) {
+   *   console.error(`Error ${response.status_code}: ${response.error}`);
+   * }
+   * ```
+   *
+   * @public
+   */
+  async getAppLocaleIdentifier(): Promise<GetAppLocaleIdentifierResponse> {
+    const response = (await this.invoke({
+      method: 'getAppLocaleIdentifier',
+    })) as GetAppLocaleIdentifierResponse;
+
+    const responseError = this.validate(GetAppLocaleIdentifierResponseSchema, response);
+    if (responseError)
+      this.logger.warn('getAppLocaleIdentifier', `Unexpected response shape: ${responseError}`);
+
+    return response;
   }
 
   /**
