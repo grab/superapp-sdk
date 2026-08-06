@@ -72,7 +72,7 @@ export type EstimateRewardsReward = {
  *
  * @public
  */
-export type EstimatedFiat = {
+export type EstimateRewardsEstimatedFiat = {
   /** Estimated fiat value in minor currency units (for example, `328` for MYR 3.28). */
   amount_in_minor_units: number;
   /** ISO 4217 currency code (for example, `"MYR"`). */
@@ -94,7 +94,7 @@ export type EstimateRewardsSuccessEntry = {
   result: {
     reward: EstimateRewardsReward;
     /** Present when fiat equivalent metadata is available; absent otherwise. */
-    estimated_fiat?: EstimatedFiat;
+    estimated_fiat?: EstimateRewardsEstimatedFiat;
   };
 };
 

@@ -8,7 +8,7 @@ import { StatusMessage } from '../components/StatusMessage';
 
 import type { PageState } from '../types';
 
-const REWARDS_ITEM = { id: 'checkout-item', amount_in_minor_units: 75000, currency_code: 'SGD' };
+const REWARD_ITEM = { id: 'checkout-item', amount_in_minor_units: 75000, currency_code: 'SGD' };
 
 const SAMPLE_PAYLOAD = {
   partnerTxID: 'your_unique_transaction_id',
@@ -51,7 +51,7 @@ export default function CheckoutPage() {
     await runOptional('Send DEFAULT analytics', container.sendAnalyticsEvent({ state: 'CHECKOUT_PAGE', name: 'DEFAULT' }), setWarning);
 
     const loyalty = new LoyaltyModule();
-    const rewardsResponse = await loyalty.estimateRewards({ items: [REWARDS_ITEM] });
+    const rewardsResponse = await loyalty.estimateRewards({ items: [REWARD_ITEM] });
     if (isOk(rewardsResponse)) {
       const first = rewardsResponse.result.items[0];
       if (first?.status_code === 'SUCCESS') {

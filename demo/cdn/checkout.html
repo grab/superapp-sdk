@@ -29,7 +29,7 @@
         sessionID: 'session-123',
       };
 
-      const REWARDS_ITEM = { id: 'checkout-item', amount_in_minor_units: 75000, currency_code: 'SGD' };
+      const REWARD_ITEM = { id: 'checkout-item', amount_in_minor_units: 75000, currency_code: 'SGD' };
 
       async function init() {
         const container = new SuperAppSDK.ContainerModule();
@@ -62,7 +62,7 @@
         }));
 
         const loyalty = new SuperAppSDK.LoyaltyModule();
-        const rewardsResponse = await loyalty.estimateRewards({ items: [REWARDS_ITEM] });
+        const rewardsResponse = await loyalty.estimateRewards({ items: [REWARD_ITEM] });
         let rewardDisplay = 'N/A';
         if (SuperAppSDK.isOk(rewardsResponse)) {
           const first = rewardsResponse.result.items[0];

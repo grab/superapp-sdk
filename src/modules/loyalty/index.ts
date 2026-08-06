@@ -7,10 +7,10 @@
 
 export { LoyaltyModule } from './LoyaltyModule';
 export type {
-  EstimatedFiat,
   EstimateRewardsEntryStatusCode,
   EstimateRewardsErrorEntry,
   EstimateRewardsErrorReasonCode,
+  EstimateRewardsEstimatedFiat,
   EstimateRewardsNotApplicableEntry,
   EstimateRewardsNotApplicableReasonCode,
   EstimateRewardsRequest,

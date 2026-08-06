@@ -98,10 +98,10 @@ export {
   ObserveLocationChangeResponse,
 } from './modules/location';
 export {
-  EstimatedFiat,
   EstimateRewardsEntryStatusCode,
   EstimateRewardsErrorEntry,
   EstimateRewardsErrorReasonCode,
+  EstimateRewardsEstimatedFiat,
   EstimateRewardsNotApplicableEntry,
   EstimateRewardsNotApplicableReasonCode,
   EstimateRewardsRequest,

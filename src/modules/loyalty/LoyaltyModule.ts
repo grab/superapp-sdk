@@ -16,10 +16,6 @@ import { EstimateRewardsRequest, EstimateRewardsResponse } from './types';
  * @group Modules
  * @category Loyalty
  *
- * @remarks
- * Provides reward estimation for one or more transaction totals in a single call.
- * This code must run on the Grab SuperApp's WebView to function correctly.
- *
  * @example
  * **ES Module:**
  * ```typescript
@@ -47,7 +43,7 @@ export class LoyaltyModule extends BaseModule {
   static readonly MINIMUM_VERSION: Version = { major: 5, minor: 424, patch: 0 };
 
   /**
-   * Estimates the rewards for a list of transaction totals.
+   * Estimates the rewards for a list of items.
    *
    * @minimumGrabAppVersion Android: 5.424.0, iOS: 5.424.0
    *
@@ -82,8 +78,10 @@ export class LoyaltyModule extends BaseModule {
    *   for (const entry of response.result.items) {
    *     if (entry.status_code === 'SUCCESS') {
    *       console.log(`${entry.id}: ${entry.result.reward.display_amount} ${entry.result.reward.currency_code}`);
-   *     } else {
+   *     } else if (entry.status_code === 'NOT_APPLICABLE') {
    *       console.log(`${entry.id}: not applicable (${entry.reason_code})`);
+   *     } else {
+   *       console.error(`${entry.id}: estimation failed (${entry.reason_code})`);
    *     }
    *   }
    * } else if (isError(response)) {

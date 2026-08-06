@@ -9,7 +9,7 @@ import * as v from 'valibot';
 
 import { sdkErrorResponseSchema, sdkOkResponseSchema } from '../../core';
 import type {
-  EstimatedFiat,
+  EstimateRewardsEstimatedFiat,
   EstimateRewardsRequest,
   EstimateRewardsResponse,
   EstimateRewardsResult,
@@ -47,7 +47,7 @@ export const EstimateRewardsRequestSchema: v.GenericSchema<EstimateRewardsReques
   )
 );
 
-const EstimatedFiatSchema: v.GenericSchema<EstimatedFiat> = v.object({
+const EstimateRewardsEstimatedFiatSchema: v.GenericSchema<EstimateRewardsEstimatedFiat> = v.object({
   amount_in_minor_units: v.number(),
   currency_code: v.string(),
 });
@@ -61,7 +61,7 @@ const EstimateRewardsSuccessEntrySchema = v.object({
       currency_code: v.string(),
       display_amount: v.string(),
     }),
-    estimated_fiat: v.optional(EstimatedFiatSchema),
+    estimated_fiat: v.optional(EstimateRewardsEstimatedFiatSchema),
   }),
 });
 
