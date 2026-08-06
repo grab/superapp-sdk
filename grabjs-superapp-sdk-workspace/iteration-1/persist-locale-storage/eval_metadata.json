@@ -1,9 +1,0 @@
-{
-  "eval_id": 5,
-  "eval_name": "persist-locale-storage",
-  "prompt": "I want to persist a user's selected language across app restarts, and read the device's current locale on startup. What SDK calls do I use?",
-  "assertions": [
-    "Uses StorageModule for persisting the user's language preference",
-    "Uses LocaleModule for reading the device's current locale"
-  ]
-}
