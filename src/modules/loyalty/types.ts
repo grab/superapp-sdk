@@ -59,7 +59,7 @@ export type EstimateRewardsReward = {
   /** Numeric reward amount (for example, `492`). */
   amount: number;
   /** Reward currency code (for example, `"GRAB-POINT"`). */
-  currency_code: string;
+  currency_code: 'GRAB-POINT' | 'OVO-POINT';
   /** Human-readable reward amount (for example, `"492"` or `"3,750"`). */
   display_amount: string;
 };

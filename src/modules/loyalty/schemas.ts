@@ -58,7 +58,7 @@ const EstimateRewardsSuccessEntrySchema = v.object({
   result: v.object({
     reward: v.object({
       amount: v.number(),
-      currency_code: v.string(),
+      currency_code: v.picklist(['GRAB-POINT', 'OVO-POINT']),
       display_amount: v.string(),
     }),
     estimated_fiat: v.optional(EstimateRewardsEstimatedFiatSchema),
