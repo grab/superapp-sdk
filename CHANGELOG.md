@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.61] - 2026-08-05
+
+_Introduces `LoyaltyModule` for reward estimation._
+
+### Added
+
+- `LoyaltyModule` with `estimateRewards` for per-item reward estimation.
+
 ## [2.0.0-beta.60] - 2026-08-05
 
 _Adds access to the app-specific locale identifier._

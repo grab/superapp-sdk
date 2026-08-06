@@ -584,6 +584,10 @@ SDK module for accessing device location services via `JSBridge`.
 #### `Logger`
 Provides scoped logging for SDK modules.
 
+#### `LoyaltyModule`
+SDK module for Loyalty features via `JSBridge`.
+- `estimateRewards(request: EstimateRewardsRequest): Promise<EstimateRewardsResponse>` — Estimates the rewards for a list of items. (**OAuth Scope:** mobile.loyalty | **Minimum Grab App Version:** Android: 5.424.0, iOS: 5.424.0)
+
 #### `MediaModule`
 SDK module for playing DRM-protected media content via `JSBridge`.
 - `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
