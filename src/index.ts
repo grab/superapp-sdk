@@ -84,6 +84,7 @@ export {
   IdentityModule,
 } from './modules/identity';
 export {
+  GetAppLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResult,
   LocaleModule,
@@ -96,6 +97,22 @@ export {
   LocationModule,
   ObserveLocationChangeResponse,
 } from './modules/location';
+export {
+  EstimateRewardsEntryStatusCode,
+  EstimateRewardsErrorEntry,
+  EstimateRewardsErrorReasonCode,
+  EstimateRewardsEstimatedFiat,
+  EstimateRewardsNotApplicableEntry,
+  EstimateRewardsNotApplicableReasonCode,
+  EstimateRewardsRequest,
+  EstimateRewardsRequestEntry,
+  EstimateRewardsResponse,
+  EstimateRewardsResult,
+  EstimateRewardsResultEntry,
+  EstimateRewardsReward,
+  EstimateRewardsSuccessEntry,
+  LoyaltyModule,
+} from './modules/loyalty';
 export {
   DRMContentConfig,
   DRMPlaybackEvent,

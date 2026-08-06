@@ -7,6 +7,7 @@
 
 export { LocaleModule } from './LocaleModule';
 export type {
+  GetAppLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResponse,
   GetLanguageLocaleIdentifierResult,
 } from './types';

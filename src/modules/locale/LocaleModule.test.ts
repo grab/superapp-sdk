@@ -8,9 +8,49 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { LocaleModule } from './LocaleModule';
-import { GetLanguageLocaleIdentifierResponse } from './types';
+import { GetAppLocaleIdentifierResponse, GetLanguageLocaleIdentifierResponse } from './types';
 
 describe('LocaleModule', () => {
+  describe('getAppLocaleIdentifier', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+      delete (window as unknown as Record<string, unknown>).WrappedLocaleModule;
+    });
+
+    it('should invoke the app locale bridge method and return its response', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Grab/5.256.0 (iPhone; iOS 16.0)',
+      });
+
+      const mockResponse: GetAppLocaleIdentifierResponse = {
+        status_code: 200,
+        result: 'en',
+      };
+      const mockInvoke = vi.fn().mockResolvedValue(mockResponse);
+
+      (window as unknown as Record<string, { invoke: typeof mockInvoke }>).WrappedLocaleModule = {
+        invoke: mockInvoke,
+      };
+
+      const module = new LocaleModule();
+      const response = await module.getAppLocaleIdentifier();
+
+      expect(mockInvoke).toHaveBeenCalledWith('getAppLocaleIdentifier', undefined);
+      expect(response).toEqual(mockResponse);
+    });
+
+    it('should return 501 when not running in Grab app', async () => {
+      vi.stubGlobal('navigator', {
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124',
+      });
+
+      const module = new LocaleModule();
+      const response = await module.getAppLocaleIdentifier();
+
+      expect(response.status_code).toBe(501);
+    });
+  });
+
   describe('getLanguageLocaleIdentifier', () => {
     afterEach(() => {
       vi.unstubAllGlobals();

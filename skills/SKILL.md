@@ -572,6 +572,7 @@ These artifacts are used to complete the OAuth2 authorization code exchange.
 
 #### `LocaleModule`
 SDK module for accessing device locale settings via `JSBridge`.
+- `getAppLocaleIdentifier(): Promise<GetAppLocaleIdentifierResponse>` — Retrieves the current app locale identifier from the device.
 - `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` — Retrieves the current language locale identifier from the device.
 
 #### `LocationModule`
@@ -582,6 +583,10 @@ SDK module for accessing device location services via `JSBridge`.
 
 #### `Logger`
 Provides scoped logging for SDK modules.
+
+#### `LoyaltyModule`
+SDK module for Loyalty features via `JSBridge`.
+- `estimateRewards(request: EstimateRewardsRequest): Promise<EstimateRewardsResponse>` — Estimates the rewards for a list of items. (**OAuth Scope:** mobile.loyalty | **Minimum Grab App Version:** Android: 5.424.0, iOS: 5.424.0)
 
 #### `MediaModule`
 SDK module for playing DRM-protected media content via `JSBridge`.
