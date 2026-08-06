@@ -40,7 +40,7 @@ export class LoyaltyModule extends BaseModule {
     super('LoyaltyModule');
   }
 
-  static readonly MINIMUM_VERSION: Version = { major: 5, minor: 424, patch: 0 };
+  static readonly ESTIMATE_REWARDS_MINIMUM_VERSION: Version = { major: 5, minor: 424, patch: 0 };
 
   /**
    * Estimates the rewards for a list of items.
@@ -93,7 +93,7 @@ export class LoyaltyModule extends BaseModule {
    */
   async estimateRewards(request: EstimateRewardsRequest): Promise<EstimateRewardsResponse> {
     const supportError = this.checkSupport((appInfo) =>
-      meetsMinimumVersion(appInfo.version, LoyaltyModule.MINIMUM_VERSION)
+      meetsMinimumVersion(appInfo.version, LoyaltyModule.ESTIMATE_REWARDS_MINIMUM_VERSION)
     );
     if (supportError) return supportError;
 
