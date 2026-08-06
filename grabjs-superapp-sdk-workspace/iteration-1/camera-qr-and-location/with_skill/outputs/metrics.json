@@ -1,0 +1,10 @@
+{
+  "tool_calls": {
+    "Bash": 3,
+    "Read": 5,
+    "Write": 2
+  },
+  "total_tool_calls": 10,
+  "files_created": ["response.md"],
+  "errors_encountered": 0
+}

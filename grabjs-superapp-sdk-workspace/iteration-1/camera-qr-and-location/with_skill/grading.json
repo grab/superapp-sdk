@@ -1,0 +1,82 @@
+{
+  "expectations": [
+    {
+      "text": "Uses CameraModule for QR code scanning",
+      "passed": true,
+      "evidence": "response.md instantiates `const camera = new CameraModule();` (line 39) and calls `camera.scanQRCode({ title: 'Scan QR Code' })` (line 79) inside a `scanQRCode()` handler, with response handling for status codes 200 (success), 204 (user cancelled), and error cases. The method signature and status codes (200/204/400/403/500/501) match `CameraModule.scanQRCode` in src/modules/camera/CameraModule.ts and are also listed correctly in skills/references/device-and-sensors.md line 11."
+    },
+    {
+      "text": "Uses LocationModule for location access",
+      "passed": true,
+      "evidence": "response.md instantiates `const location = new LocationModule();` (line 40) and calls `location.getCoordinate()` (lines 50 and 70) inside `fetchLocationOnce()`, reading `response.result.latitude/longitude` on success and `response.status_code`/`response.error` on failure. This matches `LocationModule.getCoordinate(): Promise<GetCoordinateResponse>` documented in skills/references/device-and-sensors.md line 19 and requires the `mobile.geolocation` scope, which the response correctly identifies and gates with `ScopeModule.hasAccessTo('LocationModule', 'getCoordinate')`."
+    },
+    {
+      "text": "Addresses battery/resource conservation for a single location read — e.g. awaiting the stream method directly or unsubscribing promptly rather than leaving a subscription open indefinitely",
+      "passed": true,
+      "evidence": "response.md explicitly frames the battery question as a choice between `getCoordinate()` (one-shot Promise) and `observeLocationChange()` (continuous stream that 'keeps the GPS radio active... until you unsubscribe'), and recommends `getCoordinate()` for a single load-time read specifically to avoid opening an unnecessary stream ('the simplest way to avoid the problem entirely is to just not open a stream you don't need'). It also correctly cites the SDK's own guidance comment 'Always unsubscribe when done to conserve battery and resources' (verified verbatim in skills/SKILL.md line 151, guides/concepts.md line 98, and the LocationModule.ts source doc comment) as the fallback recommendation if a stream were used elsewhere. The dedicated 'Battery takeaway' section (lines 96-100) reiterates this and even notes CameraModule's scan UI self-closes so it has no equivalent concern. This is a substantive, correct treatment of the assertion, not a superficial mention."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Bash": 3,
+      "Read": 5,
+      "Write": 2
+    },
+    "total_tool_calls": 10,
+    "files_created": ["response.md"],
+    "errors_encountered": 0
+  },
+  "claims": [
+    {
+      "claim": "CameraModule.scanQRCode() has no OAuth scope requirement listed",
+      "type": "factual",
+      "verified": true,
+      "evidence": "device-and-sensors.md line 11 lists scanQRCode with no '**OAuth Scope:**' annotation, unlike LocationModule.getCoordinate() which is annotated 'mobile.geolocation' (line 19). Confirmed no scope check exists in CameraModule.ts source."
+    },
+    {
+      "claim": "scanQRCode() returns 501 if called outside the Grab SuperApp WebView, and 400/500 for other errors",
+      "type": "factual",
+      "verified": true,
+      "evidence": "CameraModule.ts doc comment (lines 52-58) and CameraModule.test.ts (lines 20-34) confirm status_code 501 with error 'Not implemented: This method requires the Grab app environment' when not in Grab app; 400 for invalid params, 500 for unexpected errors, 204 for user cancellation, 403 for camera permission not enabled (this last one, 403, is not mentioned in the response but doesn't contradict it either)."
+    },
+    {
+      "claim": "getCoordinate() requires the mobile.geolocation OAuth scope",
+      "type": "factual",
+      "verified": true,
+      "evidence": "device-and-sensors.md line 19: '`getCoordinate(): Promise<GetCoordinateResponse>` — ... (**OAuth Scope:** mobile.geolocation)'."
+    },
+    {
+      "claim": "The SDK's guidance says 'Always unsubscribe when done to conserve battery and resources'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Exact phrase found in skills/SKILL.md:151, guides/concepts.md:98, docs/documents/Core_Concepts.html, and as a source doc comment in src/modules/location/LocationModule.ts:112 ('...to conserve battery and free resources' — response paraphrases 'and resources' consistent with the comment convention used elsewhere)."
+    },
+    {
+      "claim": "scope.hasAccessTo('LocationModule', 'getCoordinate') is a valid proactive permission-check pattern",
+      "type": "process",
+      "verified": true,
+      "evidence": "ScopeModule.ts defines `async hasAccessTo(module: string, method: string): Promise<HasAccessToResponse>` taking module/method string params, matching the call signature used in response.md line 47."
+    },
+    {
+      "claim": "observeLocationChange() is a stream/subscription-based API (not a Promise)",
+      "type": "factual",
+      "verified": true,
+      "evidence": "device-and-sensors.md line 21 types it as `observeLocationChange(): ObserveLocationChangeResponse` (no Promise wrapper, unlike getCoordinate's Promise return), and Core_Concepts.html shows the `.subscribe({...})`/`.unsubscribe()` pattern, consistent with response.md's description."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Uses CameraModule for QR code scanning",
+        "reason": "This assertion is fairly easy to satisfy (any response mentioning CameraModule.scanQRCode passes) and doesn't check that error/cancellation handling is present. Consider tightening to also require handling of the 204/cancel case, which is a common correctness gap in QR-scan integrations — though in this case the response happens to handle it well."
+      }
+    ],
+    "overall": "All three assertions pass with genuine, substantive evidence rather than superficial keyword matches — the response correctly distinguishes the one-shot vs. streaming location APIs and ties that distinction directly to the battery-conservation question, which is the crux of assertion 3. No corrections needed to the grading; the eval prompt is reasonably discriminating since a naive response could easily have defaulted to observeLocationChange() or omitted unsubscribe guidance entirely."
+  }
+}

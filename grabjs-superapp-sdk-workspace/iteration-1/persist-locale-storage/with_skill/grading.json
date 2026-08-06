@@ -1,0 +1,93 @@
+{
+  "expectations": [
+    {
+      "text": "Uses StorageModule for persisting the user's language preference",
+      "passed": true,
+      "evidence": "response.md imports `StorageModule` from `@grabjs/superapp-sdk`, instantiates it (`const storage = new StorageModule();`), and calls `storage.setString(LANGUAGE_KEY, languageTag)` inside `saveSelectedLanguage()` to persist the user's chosen language, and `storage.getString(LANGUAGE_KEY)` inside `resolveStartupLanguage()` to read it back on startup. This matches the real SDK's `StorageModule.setString`/`getString` signatures in src/modules/storage/StorageModule.ts (verified against source: `async setString(key: string, value: string): Promise<SetStringResponse>` and `async getString(key: string): Promise<GetStringResponse>`)."
+    },
+    {
+      "text": "Uses LocaleModule for reading the device's current locale",
+      "passed": true,
+      "evidence": "response.md imports `LocaleModule`, instantiates it (`const locale = new LocaleModule();`), and calls `locale.getLanguageLocaleIdentifier()` as the fallback when no stored preference exists, per step 2 of 'How it fits together' and the code in `resolveStartupLanguage()`. This matches the real SDK's `LocaleModule.getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` in src/modules/locale/LocaleModule.ts."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Read": 2,
+      "Bash": 2,
+      "Write": 2
+    },
+    "total_tool_calls": 6,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 3286,
+    "transcript_chars": 3286,
+    "files_created": ["response.md", "metrics.json"]
+  },
+  "timing": {
+    "executor_duration_seconds": null,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": null,
+    "note": "No timing.json found alongside outputs_dir; timing data unavailable."
+  },
+  "claims": [
+    {
+      "claim": "StorageModule.setString/getString require the mobile.storage OAuth scope",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Confirmed in src/modules/storage/StorageModule.ts JSDoc: every method (`setString`, `getString`, etc.) carries `@requiredOAuthScope mobile.storage`."
+    },
+    {
+      "claim": "StorageModule.getString returns 404 if the key has never been set",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Contradicted by source: src/modules/storage/StorageModule.ts and src/modules/storage/types.ts (`GetStringResponse = SDKOkResponse<string> | SDKNoContentResponse | SDKErrorResponse<400> | SDKErrorResponse<424> | SDKErrorResponse<500> | SDKErrorResponse<501>`) show the 'not found' case is `204` (No Content), not `404`. `404` is not part of GetStringResponse's status_code union at all for this module. The JSDoc explicitly states: '`204` (No Content): Value not found in storage.'"
+    },
+    {
+      "claim": "Missing the mobile.storage scope causes StorageModule calls to return status_code 403",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Not supported by source: the `SetStringResponse`/`GetStringResponse` type unions (src/modules/storage/types.ts) and their Valibot schemas (src/modules/storage/schemas.ts) only include `400, 424, 500, 501` (plus `200`/`204` for get) — `403` is not a possible status code for any StorageModule method per its type/schema definitions, even though `403` is a generic SDK-wide error code (per guides/concepts.md) used by other modules (e.g. LocationModule). The general `@requiredOAuthScope` + 403 pattern is real elsewhere in the SDK, but the response misapplies it to StorageModule specifically."
+    },
+    {
+      "claim": "SDK calls return a response object with status_code instead of throwing; use isSuccess/isError rather than try/catch",
+      "type": "process",
+      "verified": true,
+      "evidence": "Confirmed by src/core/guards.ts (`isSuccess`, `isError` type guards operate on `status_code` fields) and guides/concepts.md ('SDK methods never throw — use type guards instead of try/catch')."
+    },
+    {
+      "claim": "These calls only work inside the Grab SuperApp WebView; outside of it they resolve with status_code 501",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Confirmed by guides/concepts.md: 'Calling a method outside that environment returns `{ status_code: 501 }`,' and both StorageModule and LocaleModule JSDoc list `501 (Not Implemented): Requires Grab app environment.`"
+    },
+    {
+      "claim": "The example code's fallback logic correctly handles the mislabeled status code despite the 404/204 confusion",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Even though the comment/notes incorrectly say '404', the actual runtime logic (`if (isSuccess(stored) && stored.result)`) does not branch on a specific status code — it checks for a truthy `result`, which is absent on both `204` and any error response. So the code itself would behave correctly at runtime despite the incorrect status-code documentation in the comments/notes."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "Both assertions only check that StorageModule and LocaleModule are named/used somewhere in the response — they would also pass for an output that used the wrong methods (e.g. setInt instead of setString, or called LocaleModule but never actually read its result). They are fairly weak/non-discriminating in that a response mentioning both module names in passing (without correct method calls or a coherent read-then-fallback flow) would still satisfy them. Consider strengthening to something like: 'Calls StorageModule.setString/getString with a consistent key, and calls LocaleModule.getLanguageLocaleIdentifier() only as a fallback when no stored value exists' to actually verify the persistence/fallback logic, not just module name-dropping."
+      },
+      {
+        "reason": "No assertion checks correctness of the response's status-code guidance, and I found a real error there: the response states StorageModule.getString returns 404 for a missing key and 403 for a missing OAuth scope, but per the actual SDK source (src/modules/storage/types.ts, schemas.ts) the not-found case is 204 and 403 is not even a possible status code for StorageModule methods. This is exactly the kind of subtly wrong but confident-sounding detail that could mislead a developer writing production error-handling code, and no current assertion would catch it."
+      }
+    ],
+    "overall": "The two predefined assertions pass and are supported by genuine, correct usage of StorageModule.setString/getString and LocaleModule.getLanguageLocaleIdentifier() with proper isSuccess/isError guards. However, the assertions are weak (presence-only, not correctness-checking), and the response contains a factual error about StorageModule status codes (claims 404 for missing key / 403 for missing scope, when the SDK actually returns 204 for missing key and does not define 403 for this module at all). Recommend adding a correctness-oriented assertion for future runs of this eval."
+  }
+}

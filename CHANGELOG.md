@@ -20,6 +20,14 @@ _Stable release of the v2 SDK._
 
 - Five pre-existing `@returns`/`@example` documentation mismatches found while auditing the skill reference files against each method's real response type: `CheckoutModule.triggerCheckout()` (missing `403`), `ContainerModule.getSessionParams()` (missing `204`), `MediaModule.playDRMContent()` (missing `400`/`424`), `NetworkModule.send()` and `IdentityModule.clearAuthorizationArtifacts()` (both had link-only `@returns` prose instead of an enumerated status-code list).
 
+## [2.0.0-beta.61] - 2026-08-05
+
+_Introduces `LoyaltyModule` for reward estimation._
+
+### Added
+
+- `LoyaltyModule` with `estimateRewards` for per-item reward estimation.
+
 ## [2.0.0-beta.60] - 2026-08-05
 
 _Adds access to the app-specific locale identifier._

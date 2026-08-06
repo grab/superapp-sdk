@@ -1,0 +1,80 @@
+{
+  "expectations": [
+    {
+      "text": "Explains that status_code 403 means a missing or insufficient OAuth scope",
+      "passed": true,
+      "evidence": "response.md lines 3-5: '`403 Forbidden` from `@grabjs/superapp-sdk` means **insufficient permission** — specifically, the current session hasn't granted the OAuth scope that method requires.' It further ties this to the specific method: 'ProfileModule.fetchEmail() is annotated with: Required OAuth Scope: mobile.profile ... So a 403 here almost always means the session is missing the mobile.profile scope' (lines 7-12), and correctly distinguishes it from other causes ('Note: if the Grab app itself were too old for this method, you'd get 426 Upgrade Required instead, not 403', line 14), matching the skill's own status table entry ('403 | Forbidden | Insufficient permission (see @requiredOAuthScope tag)')."
+    },
+    {
+      "text": "Describes the proactive pattern: checking scope access (e.g. via ScopeModule.hasAccessTo) before making the call",
+      "passed": true,
+      "evidence": "response.md lines 16-23 explicitly recommends 'Proactively check with ScopeModule.hasAccessTo() before calling a gated method' and explains the rationale (permissions can be revoked at any time). A full code example is given at lines 87-106 calling `scope.hasAccessTo('ProfileModule', 'fetchEmail')` and branching on `isSuccess(hasAccess) && hasAccess.result`, matching the skill snapshot's documented pattern (SKILL.md lines 187-193)."
+    },
+    {
+      "text": "Describes the reactive pattern: calling IdentityModule.authorize() then ScopeModule.reloadScopes() after catching a 403",
+      "passed": true,
+      "evidence": "response.md lines 25-31 lay out the exact sequence: '1. Call IdentityModule.authorize() requesting the missing scope ... 2. Call ScopeModule.reloadScopes() to refresh the SDK's internal permission state. 3. Retry the original call (fetchEmail()).' The code block (lines 33-81) implements this precisely: checks `isError(response) && response.status_code === 403`, calls `identity.authorize({...})`, then `await scope.reloadScopes()`, then retries `profile.fetchEmail()` — matching the skill's 'Reactive Checking (Handling 403 Forbidden)' section (SKILL.md lines 199-238) almost verbatim in structure."
+    },
+    {
+      "text": "Does not claim the SDK throws exceptions for errors (SDK methods never throw)",
+      "passed": true,
+      "evidence": "A full-text search of response.md for 'throw', 'exception', 'try {', and 'catch(' returns zero matches. All error handling in the response is expressed via response objects and type guards (`isSuccess(response)`, `isError(response) && response.status_code === 403`), consistent with the SDK's actual contract that 'SDK methods never throw — use type guards instead of try/catch' (skill-snapshot SKILL.md line 64). The response never implies exceptions are thrown or need to be caught with try/catch."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Bash": 2,
+      "Read": 3,
+      "Write": 2
+    },
+    "total_tool_calls": 7,
+    "files_created": ["response.md", "metrics.json"],
+    "errors_encountered": 0,
+    "output_chars": 4894
+  },
+  "claims": [
+    {
+      "claim": "ProfileModule.fetchEmail() requires the 'mobile.profile' OAuth scope",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Consistent with the skill snapshot's per-method scope annotations pattern (e.g. @requiredOAuthScope tags referenced at SKILL.md line 99); the response's specific scope name 'mobile.profile' could not be independently cross-checked against a method-level API reference within the materials available to the grader, but is presented consistently and used correctly throughout the authorize() call (scope: 'mobile.profile')."
+    },
+    {
+      "claim": "A too-old Grab app version would return 426 Upgrade Required, not 403",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Matches the skill snapshot's status code table which lists 426 separately from 403 as a distinct client-error code, and the response correctly differentiates the two failure modes (response.md line 14)."
+    },
+    {
+      "claim": "You should keep the reactive 403 handler in place even if you check proactively, because of a race condition between the check and the call",
+      "type": "quality",
+      "verified": true,
+      "evidence": "This is a reasonable and correct engineering claim (TOCTOU-style race), and is consistent with the skill's own guidance to treat hasAccessTo() as a proactive optimization while the authorize()/reloadScopes() reactive flow remains the durable recovery path (SKILL.md sections 185-243)."
+    },
+    {
+      "claim": "isSuccess/isError are used as type guards rather than exceptions for error handling",
+      "type": "process",
+      "verified": true,
+      "evidence": "Code samples throughout response.md correctly import and use `isSuccess`/`isError` from '@grabjs/superapp-sdk' as the sole error-detection mechanism, matching SKILL.md's documented API (isSuccess<T>, isError<T> type guard signatures around lines 645-689)."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Does not claim the SDK throws exceptions for errors (SDK methods never throw)",
+        "reason": "This assertion is a negative/absence check — it would trivially pass for almost any response that simply doesn't discuss error handling at all (e.g., a response that ignored the 403 handling question entirely would also 'not claim the SDK throws'). It is not very discriminating on its own; it only becomes meaningful when combined with assertion 3 (which forces the response to actually demonstrate the correct type-guard-based error handling). Consider merging it into assertion 3 as 'and does so via type guards (isSuccess/isError), not try/catch' rather than keeping it as a standalone assertion."
+      },
+      {
+        "assertion": "Describes the reactive pattern: calling IdentityModule.authorize() then ScopeModule.reloadScopes() after catching a 403",
+        "reason": "No assertion checks that the retry step (re-calling the original gated method after reloadScopes()) is included — a response that stopped after reloadScopes() without retrying fetchEmail() would still satisfy the current wording. The response under test does include the retry (lines 27-31, 67-72), but this important completeness detail goes unchecked by the assertion text as written."
+      }
+    ],
+    "overall": "All four assertions pass with strong, specific evidence, and the response closely mirrors the skill's own documented patterns almost verbatim (including code structure). The main weakness is assertion 4, which is a negative claim that isn't very discriminating in isolation — it should be evaluated jointly with assertion 3's evidence of genuine type-guard usage rather than as an independent pass/fail. No assertion currently checks that the reactive flow's retry step is present, which is a minor coverage gap worth adding for future eval robustness."
+  }
+}

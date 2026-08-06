@@ -1,0 +1,96 @@
+{
+  "expectations": [
+    {
+      "text": "Uses CheckoutModule (or its trigger-checkout method) to initiate the payment",
+      "passed": true,
+      "evidence": "response.md instantiates `const checkout = new CheckoutModule();` (line 50) and calls `const checkoutResult = await checkout.triggerCheckout({ partnerTxID, request, sessionID });` (lines 86-90) inside the 'Pay Now' click handler `onPayNowTapped`. This matches the real SDK API: `src/modules/checkout/CheckoutModule.ts` defines `triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse>` as the module's sole public method, and the call signature/argument shape (`partnerTxID`, `request`, `sessionID`) mirrors `skills/references/checkout.md`'s documented example."
+    },
+    {
+      "text": "Uses isSuccess/isOk and isError type guards to branch on the response",
+      "passed": true,
+      "evidence": "response.md imports `isSuccess, isError` from `@grabjs/superapp-sdk` (lines 42-48) and uses them to branch on the checkout result: `if (isSuccess(checkoutResult)) { ... } else if (isError(checkoutResult)) { switch (checkoutResult.status_code) { ... } }` (lines 93-113). The same pair of guards is also used earlier for the permission check (`isSuccess(hasAccess)`, line 58) and the authorize call (`isSuccess(authResponse)`, line 69). `isOk` specifically is not used, but the assertion is phrased as 'isSuccess/isOk' (either), and `isSuccess` is used consistently and correctly per `src/core/guards.ts` (`isSuccess` narrows to `status_code 200 | 204`, `isError` narrows to the error-code union)."
+    },
+    {
+      "text": "Does not wrap the SDK call in try/catch as the primary error-handling mechanism",
+      "passed": true,
+      "evidence": "No `try`/`catch` block appears anywhere in response.md (only literal occurrences of the word 'try' are in the prose warning 'it never throws, so don't wrap it in try/catch' at line 28, and 'Please try to make this payment' at line 99, neither of which is a code try/catch). All error handling in the code sample — for the permission check, the authorize() call, and the triggerCheckout() call — is done exclusively via the `isSuccess`/`isError` type guards, consistent with `src/core/BaseModule.ts`'s `invoke()` method, which internally catches exceptions and always resolves to a `status_code`-bearing object (`... this method never rejects`, per its doc comment) rather than throwing to the caller."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Bash": 2,
+      "Read": 1,
+      "Write": 2
+    },
+    "total_tool_calls": 5,
+    "files_created": ["response.md", "metrics.json"],
+    "errors_encountered": 0,
+    "output_chars": 6479,
+    "transcript_chars": 6479
+  },
+  "claims": [
+    {
+      "claim": "triggerCheckout requires the mobile.checkout OAuth scope",
+      "type": "factual",
+      "verified": true,
+      "evidence": "src/modules/checkout/CheckoutModule.ts documents `@requiredOAuthScope mobile.checkout` on `triggerCheckout`, and `skills/references/checkout.md`'s API reference states '(OAuth Scope: mobile.checkout)'."
+    },
+    {
+      "claim": "mobile.checkout is a mobile scope, so it grants in-app permission immediately with no backend token exchange needed",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Matches skills/SKILL.md's Scopes section: 'Mobile Scopes (mobile.geolocation, mobile.checkout) ... Grants in-app permission immediately; no backend exchange is necessary.'"
+    },
+    {
+      "claim": "isError(response) for triggerCheckout can be one of status_code 400/401/403/404/424/426/500/501",
+      "type": "factual",
+      "verified": false,
+      "evidence": "This is FALSE for the actual triggerCheckout return type. src/modules/checkout/types.ts defines `TriggerCheckoutResponse = SDKOkResponse<TriggerCheckoutResult> | SDKErrorResponse<400> | SDKErrorResponse<500> | SDKErrorResponse<501>` — i.e. the method can only ever return 400, 500, or 501 as error codes (also enforced at runtime by `TriggerCheckoutResponseSchema` in schemas.ts, which only unions 400/500/501). The response's list of 401/403/404/424/426 as possible triggerCheckout outcomes — and its dedicated example `switch` cases for `403`, `426`, and `424` (lines 98-106) — do not correspond to codes this method can actually return; they appear to have been generalized from the generic `isClientError`/`isError` type-guard status-code union (which does cover 400-426 across the SDK in general) and from unrelated modules (e.g. LocationModule/ScopeModule/DeviceModule use 424/426), not from CheckoutModule's own contract. A developer following this guidance would write dead `switch` branches for codes triggerCheckout cannot produce, and could be misled into thinking a 403 from a *different* call (e.g. hasAccessTo) is a response from triggerCheckout itself."
+    },
+    {
+      "claim": "ScopeModule.hasAccessTo('CheckoutModule', 'triggerCheckout') is the correct way to proactively check checkout permission",
+      "type": "process",
+      "verified": true,
+      "evidence": "Matches the real signature `hasAccessTo(module: string, method: string): Promise<HasAccessToResponse>` in src/modules/scope/ScopeModule.ts, and the module/method name pairing ('CheckoutModule', 'triggerCheckout') is correct."
+    },
+    {
+      "claim": "After authorize() succeeds, call ScopeModule.reloadScopes() before retrying the gated call",
+      "type": "process",
+      "verified": true,
+      "evidence": "Matches the documented reactive-permission pattern in skills/references/authentication-and-permissions.md ('1. Call IdentityModule.authorize() ... 2. Call ScopeModule.reloadScopes() ... 3. Retry the original method call'), and CheckoutModule.ts's own JSDoc example comment ('Trigger IdentityModule.authorize() for scope mobile.checkout, then reload via ScopeModule.reloadScopes() and try again')."
+    },
+    {
+      "claim": "ContainerModule.sendAnalyticsEvent() with ContainerAnalyticsEventState.CHECKOUT_PAGE and COMPLETION_POINT can be used for conversion tracking",
+      "type": "factual",
+      "verified": false,
+      "evidence": "`CHECKOUT_PAGE` is correct, but `COMPLETION_POINT` is not a real export: `src/modules/container/constants.ts` defines `ContainerAnalyticsEventState` as `{ HOMEPAGE, CHECKOUT_PAGE, BOOKING_COMPLETION, CUSTOM }` — there is no `COMPLETION_POINT` member; the actual name is `BOOKING_COMPLETION`. Note this is not an isolated hallucination by the executor: the shipped skill docs themselves are wrong here (`skills/references/container-ui-and-navigation.md` line 93 and the `skill-snapshot/SKILL.md` line 450 both list `COMPLETION_POINT` in their 'Journey Stages' table), so the response faithfully reproduced a pre-existing bug in the skill's reference material rather than inventing it independently. Using `ContainerAnalyticsEventState.COMPLETION_POINT` as written would be `undefined` at runtime."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Uses isSuccess/isOk and isError type guards to branch on the response",
+        "reason": "This assertion only checks that the guards are present and used for branching, not that the status codes attributed to triggerCheckout are correct. The response under test invents 401/403/404/424/426 as possible triggerCheckout error codes (and writes switch cases for 403/424/426) even though the actual type (src/modules/checkout/types.ts) restricts triggerCheckout to 400/500/501 only. A response could pass this assertion while giving materially wrong per-code guidance, as this one does. Consider adding an assertion like 'The status codes discussed for triggerCheckout's error branch match the SDK's actual TriggerCheckoutResponse union (400/500/501)' to catch this class of hallucination."
+      },
+      {
+        "assertion": "Does not wrap the SDK call in try/catch as the primary error-handling mechanism",
+        "reason": "This is a negative/absence check that would also trivially pass for a response that omitted error handling entirely (no try/catch and no type-guard branching). It only becomes meaningful in combination with assertion 2 (which this eval already includes), so the pairing is acceptable, but assertion 3 alone is not discriminating."
+      },
+      {
+        "reason": "Not an eval-assertion issue but a source-content bug worth flagging to the skill author separately: `skills/references/container-ui-and-navigation.md` (and the `skill-snapshot/SKILL.md` it's generated from) document `ContainerAnalyticsEventState.COMPLETION_POINT` in the 'Journey Stages' table, but the actual exported constant in `src/modules/container/constants.ts` is `BOOKING_COMPLETION`. The graded response faithfully copied this wrong name from the skill's own docs, so this isn't an executor hallucination — it's a pre-existing doc/source mismatch that will keep tripping up every future response that consults this reference."
+      }
+    ],
+    "overall": "All three predefined assertions pass with genuine, specific evidence: the response correctly uses CheckoutModule.triggerCheckout(), branches on isSuccess/isError, and explicitly avoids try/catch with a correct rationale ('it never throws'). However, none of the three assertions catch a real defect found during grading: the response fabricates additional error status codes (401, 403, 404, 424, 426) for triggerCheckout's isError branch that do not exist in the actual TriggerCheckoutResponse type (which is limited to 400/500/501 per src/modules/checkout/types.ts and its schema). This is a substantive factual inaccuracy that would lead a developer to write dead code and potentially misdiagnose which call produced a given error code — it should be flagged even though it doesn't fail any of the given assertions. Separately, the response's suggestion to use `ContainerAnalyticsEventState.COMPLETION_POINT` reproduces a pre-existing error in the skill's own reference docs (the real constant is `BOOKING_COMPLETION`); this is a skill-content bug rather than an executor hallucination, but still worth fixing at the source."
+  }
+}

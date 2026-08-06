@@ -534,6 +534,7 @@ For the complete API reference, see [GrabPay API](https://developer.grab.com/doc
 | `LocaleModule` | SDK module for accessing device locale settings via `JSBridge`. | `references/LocaleModule.md` |
 | `LocationModule` | SDK module for accessing device location services via `JSBridge`. | `references/LocationModule.md` |
 | `Logger` | Provides scoped logging for SDK modules. | `references/Logger.md` |
+| `LoyaltyModule` | SDK module for Loyalty features via `JSBridge`. | `references/LoyaltyModule.md` |
 | `MediaModule` | SDK module for playing DRM-protected media content via `JSBridge`. | `references/MediaModule.md` |
 | `NetworkModule` | SDK module for making network requests through the native layer via `JSBridge`. | `references/NetworkModule.md` |
 | `PlatformModule` | SDK module for controlling platform navigation via `JSBridge`. | `references/PlatformModule.md` |
