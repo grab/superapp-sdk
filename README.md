@@ -30,7 +30,7 @@ Each SDK module encapsulates a specific domain of functionality, offering strong
 
 - **[LocationModule](https://grab.github.io/superapp-sdk/classes/LocationModule.html)** — Access device location services and subscribe to location updates
 
-- **[LoyaltyModule](https://grab.github.io/superapp-sdk/classes/LoyaltyModule.html)** — Estimate rewards for items via loyalty features
+- **[LoyaltyModule](https://grab.github.io/superapp-sdk/classes/LoyaltyModule.html)** — Access loyalty features including reward estimation
 
 - **[MediaModule](https://grab.github.io/superapp-sdk/classes/MediaModule.html)** — Handle media playback including DRM-protected content
 
