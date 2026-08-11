@@ -174,6 +174,50 @@ function stripFrontmatter(content) {
 }
 
 /**
+ * Strips fenced code blocks from markdown, collapsing the resulting
+ * blank lines so prose and tables remain readable. Code examples are
+ * already present in the per-class reference files; keeping them in
+ * SKILL.md would duplicate content and inflate the word count.
+ */
+function stripCodeBlocks(content) {
+  return content.replace(/```[\s\S]*?```\n?/g, '').replace(/\n{3,}/g, '\n\n');
+}
+
+/**
+ * Removes ATX headings that have no prose body between them and the next
+ * heading (or end of file). A heading with only blank lines beneath it
+ * adds noise — this happens naturally when a guide section is code-only
+ * and the code has already been stripped. Tables and list items count as
+ * content; a section is only dropped if nothing substantive remains.
+ */
+function stripEmptyHeadings(content) {
+  const lines = content.split('\n');
+  const result = [];
+  let i = 0;
+  while (i < lines.length) {
+    if (!/^#{1,6}\s/.test(lines[i])) {
+      result.push(lines[i]);
+      i++;
+      continue;
+    }
+    // Collect lines until the next heading or EOF
+    const headingLine = lines[i];
+    i++;
+    const body = [];
+    while (i < lines.length && !/^#{1,6}\s/.test(lines[i])) {
+      body.push(lines[i]);
+      i++;
+    }
+    const hasContent = body.some((l) => l.trim().length > 0);
+    if (hasContent) {
+      result.push(headingLine, ...body);
+    }
+    // heading with no content is silently dropped
+  }
+  return result.join('\n').replace(/\n{3,}/g, '\n\n');
+}
+
+/**
  * Shifts every ATX heading (# .. ######) in an array of lines by `delta` levels,
  * clamped to a minimum of H1.
  */
@@ -304,7 +348,12 @@ function buildSkills() {
   const guides = orderedGuides
     .map((fileName) => {
       const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
-      return shiftHeadingLines(stripFrontmatter(raw).split('\n'), 1).join('\n').trim();
+      return shiftHeadingLines(
+        stripEmptyHeadings(stripCodeBlocks(stripFrontmatter(raw))).split('\n'),
+        1
+      )
+        .join('\n')
+        .trim();
     })
     .join('\n\n');
 
