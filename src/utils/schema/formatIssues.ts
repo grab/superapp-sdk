@@ -17,7 +17,11 @@ export function formatIssues(issues: [BaseIssue<unknown>, ...BaseIssue<unknown>[
   return issues
     .map((issue) => {
       const path = issue.path?.map((p) => String(p.key)).join('.');
-      return path ? `${path}: ${issue.message}` : issue.message;
+      const base = path ? `${path}: ${issue.message}` : issue.message;
+      if (issue.input !== null && typeof issue.input === 'object') {
+        return `${base} (${JSON.stringify(issue.input)})`;
+      }
+      return base;
     })
     .join(', ');
 }
