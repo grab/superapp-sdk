@@ -17,73 +17,113 @@ function getIssues(schema: v.GenericSchema, value: unknown) {
 }
 
 describe('formatIssues', () => {
-  it('should include path and message for a primitive mismatch', () => {
-    const schema = v.object({ status_code: v.number() });
-    const issues = getIssues(schema, { status_code: 'wrong' });
-    expect(formatIssues(issues)).toBe(
-      'status_code: Invalid type: Expected number but received "wrong"'
-    );
+  describe('without schema/value (issues only)', () => {
+    it('should include path and message for a primitive mismatch', () => {
+      const schema = v.object({ status_code: v.number() });
+      const issues = getIssues(schema, { status_code: 'wrong' });
+      expect(formatIssues(issues)).toBe(
+        'status_code: Invalid type: Expected number but received "wrong"'
+      );
+    });
+
+    it('should join multiple issues with comma', () => {
+      const schema = v.object({ a: v.number(), b: v.string() });
+      const issues = getIssues(schema, { a: 'x', b: { c: 1 } });
+      expect(formatIssues(issues)).toBe(
+        'a: Invalid type: Expected number but received "x", b: Invalid type: Expected string but received Object'
+      );
+    });
+
+    it('should format issue with no path', () => {
+      const schema = v.number();
+      const issues = getIssues(schema, { foo: 1 });
+      expect(formatIssues(issues)).toBe('Invalid type: Expected number but received Object');
+    });
   });
 
-  it('should append JSON when the offending value is an object', () => {
-    const schema = v.object({ status_code: v.number() });
-    const issues = getIssues(schema, { status_code: { foo: 1 } });
-    expect(formatIssues(issues)).toBe(
-      'status_code: Invalid type: Expected number but received Object ({"foo":1})'
-    );
-  });
+  describe('with schema and value', () => {
+    it('primitive mismatch — shows field types', () => {
+      const schema = v.object({ status_code: v.number() });
+      const value = { status_code: 'wrong' };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'status_code: Invalid type: Expected number but received "wrong"; expected: { status_code: number }; received: { status_code: string }'
+      );
+    });
 
-  it('should append JSON when the offending value is an array', () => {
-    const schema = v.object({ items: v.string() });
-    const issues = getIssues(schema, { items: [1, 2, 3] });
-    expect(formatIssues(issues)).toBe(
-      'items: Invalid type: Expected string but received Array ([1,2,3])'
-    );
-  });
+    it('object where primitive expected — shows nested shape', () => {
+      const schema = v.object({ status_code: v.number() });
+      const value = { status_code: { foo: 1 } };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'status_code: Invalid type: Expected number but received Object; expected: { status_code: number }; received: { status_code: { foo: number } }'
+      );
+    });
 
-  it('should append JSON for a nested object path', () => {
-    const schema = v.object({ data: v.object({ id: v.string() }) });
-    const issues = getIssues(schema, { data: { id: { nested: true } } });
-    expect(formatIssues(issues)).toBe(
-      'data.id: Invalid type: Expected string but received Object ({"nested":true})'
-    );
-  });
+    it('object/object union mismatch — previously useless, now actionable', () => {
+      const schema = v.union([
+        v.object({ type: v.literal('a') }),
+        v.object({ type: v.literal('b') }),
+      ]);
+      const value = { type: 'c' };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'Invalid type: Expected Object but received Object; expected: { type: "a" } | { type: "b" }; received: { type: string }'
+      );
+    });
 
-  it('should not append anything for null input', () => {
-    const schema = v.object({ status_code: v.number() });
-    const issues = getIssues(schema, { status_code: null });
-    expect(formatIssues(issues)).toBe(
-      'status_code: Invalid type: Expected number but received null'
-    );
-  });
+    it('array item mismatch — shows array shape', () => {
+      const schema = v.object({ items: v.array(v.string()) });
+      const value = { items: [1, 2, 3] };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'items.0: Invalid type: Expected string but received 1, items.1: Invalid type: Expected string but received 2, items.2: Invalid type: Expected string but received 3; expected: { items: string[] }; received: { items: number[] }'
+      );
+    });
 
-  it('should not append anything for undefined input (missing key)', () => {
-    const schema = v.object({ status_code: v.number() });
-    const issues = getIssues(schema, {});
-    expect(formatIssues(issues)).toBe(
-      'status_code: Invalid key: Expected "status_code" but received undefined'
-    );
-  });
+    it('nested object mismatch', () => {
+      const schema = v.object({ data: v.object({ id: v.string() }) });
+      const value = { data: { id: { nested: true } } };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'data.id: Invalid type: Expected string but received Object; expected: { data: { id: string } }; received: { data: { id: { nested: boolean } } }'
+      );
+    });
 
-  it('should append JSON for a top-level object with no path', () => {
-    const schema = v.number();
-    const issues = getIssues(schema, { foo: 1 });
-    expect(formatIssues(issues)).toBe(
-      'Invalid type: Expected number but received Object ({"foo":1})'
-    );
-  });
+    it('multiple issues', () => {
+      const schema = v.object({ a: v.number(), b: v.string() });
+      const value = { a: 'x', b: { c: 1 } };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'a: Invalid type: Expected number but received "x", b: Invalid type: Expected string but received Object; expected: { a: number, b: string }; received: { a: string, b: { c: number } }'
+      );
+    });
 
-  it('should not append anything for a top-level primitive with no path', () => {
-    const schema = v.object({ status_code: v.number() });
-    const issues = getIssues(schema, 'not-an-object');
-    expect(formatIssues(issues)).toBe('Invalid type: Expected Object but received "not-an-object"');
-  });
+    it('missing key', () => {
+      const schema = v.object({ status_code: v.number() });
+      const value = {};
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'status_code: Invalid key: Expected "status_code" but received undefined; expected: { status_code: number }; received: {}'
+      );
+    });
 
-  it('should join multiple issues with comma', () => {
-    const schema = v.object({ a: v.number(), b: v.string() });
-    const issues = getIssues(schema, { a: 'x', b: { c: 1 } });
-    expect(formatIssues(issues)).toBe(
-      'a: Invalid type: Expected number but received "x", b: Invalid type: Expected string but received Object ({"c":1})'
-    );
+    it('optional field', () => {
+      const schema = v.object({ name: v.optional(v.string()) });
+      const value = { name: 42 };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'name: Invalid type: Expected string but received 42; expected: { name: string? }; received: { name: number }'
+      );
+    });
+
+    it('picklist mismatch', () => {
+      const schema = v.object({ env: v.picklist(['staging', 'production']) });
+      const value = { env: 'local' };
+      const issues = getIssues(schema, value);
+      expect(formatIssues(issues, schema, value)).toBe(
+        'env: Invalid type: Expected ("staging" | "production") but received "local"; expected: { env: ("staging" | "production") }; received: { env: string }'
+      );
+    });
   });
 });

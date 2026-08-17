@@ -88,7 +88,7 @@ export class BaseModule {
   protected validate(schema: GenericSchema, value: unknown): string | null {
     const parsed = safeParse(schema, value);
     if (!parsed.success) {
-      return formatIssues(parsed.issues);
+      return formatIssues(parsed.issues, schema, value);
     }
     return null;
   }
