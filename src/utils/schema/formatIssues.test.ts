@@ -102,7 +102,7 @@ describe('formatIssues', () => {
       const value = {};
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'status_code: Expected "status_code" but received undefined; expected: { status_code: number }; received: {}'
+        'status_code: Invalid key: Expected "status_code" but received undefined; expected: { status_code: number }; received: {}'
       );
     });
 

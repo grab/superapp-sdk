@@ -79,7 +79,7 @@ export function formatIssues(
   const issueStr = issues
     .map((issue) => {
       const path = issue.path?.map((p) => String(p.key)).join('.');
-      const message = issue.message.replace(/^Invalid \w+: /, '');
+      const message = issue.message.replace(/^Invalid type: /, '');
       return path ? `${path}: ${message}` : message;
     })
     .join(', ');

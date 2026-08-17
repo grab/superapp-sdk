@@ -120,7 +120,7 @@ describe('SystemWebViewKitModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'url: Received "not-a-valid-url"; expected: { url: string }; received: { url: string }'
+          'url: Invalid URL: Received "not-a-valid-url"; expected: { url: string }; received: { url: string }'
         );
       }
     });

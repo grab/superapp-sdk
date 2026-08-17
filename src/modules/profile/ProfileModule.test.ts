@@ -272,7 +272,7 @@ describe('ProfileModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'email: Expected >=1 but received 0; expected: { email: string?, skipUserInput: boolean? }; received: { email: string, skipUserInput: boolean }'
+          'email: Invalid length: Expected >=1 but received 0; expected: { email: string?, skipUserInput: boolean? }; received: { email: string, skipUserInput: boolean }'
         );
       }
     });

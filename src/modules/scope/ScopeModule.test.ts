@@ -113,7 +113,7 @@ describe('ScopeModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'module: Expected >=1 but received 0, method: Expected >=1 but received 0; expected: { module: string, method: string }; received: { module: string, method: string }'
+          'module: Invalid length: Expected >=1 but received 0, method: Invalid length: Expected >=1 but received 0; expected: { module: string, method: string }; received: { module: string, method: string }'
         );
       }
     });
