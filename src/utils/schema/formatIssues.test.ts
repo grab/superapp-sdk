@@ -21,23 +21,21 @@ describe('formatIssues', () => {
     it('should include path and message for a primitive mismatch', () => {
       const schema = v.object({ status_code: v.number() });
       const issues = getIssues(schema, { status_code: 'wrong' });
-      expect(formatIssues(issues)).toBe(
-        'status_code: Invalid type: Expected number but received "wrong"'
-      );
+      expect(formatIssues(issues)).toBe('status_code: Expected number but received "wrong"');
     });
 
     it('should join multiple issues with comma', () => {
       const schema = v.object({ a: v.number(), b: v.string() });
       const issues = getIssues(schema, { a: 'x', b: { c: 1 } });
       expect(formatIssues(issues)).toBe(
-        'a: Invalid type: Expected number but received "x", b: Invalid type: Expected string but received Object'
+        'a: Expected number but received "x", b: Expected string but received Object'
       );
     });
 
     it('should format issue with no path', () => {
       const schema = v.number();
       const issues = getIssues(schema, { foo: 1 });
-      expect(formatIssues(issues)).toBe('Invalid type: Expected number but received Object');
+      expect(formatIssues(issues)).toBe('Expected number but received Object');
     });
   });
 
@@ -47,7 +45,7 @@ describe('formatIssues', () => {
       const value = { status_code: 'wrong' };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'status_code: Invalid type: Expected number but received "wrong"; expected: { status_code: number }; received: { status_code: string }'
+        'status_code: Expected number but received "wrong"; expected: { status_code: number }; received: { status_code: string }'
       );
     });
 
@@ -56,7 +54,7 @@ describe('formatIssues', () => {
       const value = { status_code: { foo: 1 } };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'status_code: Invalid type: Expected number but received Object; expected: { status_code: number }; received: { status_code: { foo: number } }'
+        'status_code: Expected number but received Object; expected: { status_code: number }; received: { status_code: { foo: number } }'
       );
     });
 
@@ -68,7 +66,7 @@ describe('formatIssues', () => {
       const value = { type: 'c' };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'Invalid type: Expected Object but received Object; expected: { type: "a" } | { type: "b" }; received: { type: string }'
+        'Expected Object but received Object; expected: { type: "a" } | { type: "b" }; received: { type: string }'
       );
     });
 
@@ -77,7 +75,7 @@ describe('formatIssues', () => {
       const value = { items: [1, 2, 3] };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'items.0: Invalid type: Expected string but received 1, items.1: Invalid type: Expected string but received 2, items.2: Invalid type: Expected string but received 3; expected: { items: string[] }; received: { items: number[] }'
+        'items.0: Expected string but received 1, items.1: Expected string but received 2, items.2: Expected string but received 3; expected: { items: string[] }; received: { items: number[] }'
       );
     });
 
@@ -86,7 +84,7 @@ describe('formatIssues', () => {
       const value = { data: { id: { nested: true } } };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'data.id: Invalid type: Expected string but received Object; expected: { data: { id: string } }; received: { data: { id: { nested: boolean } } }'
+        'data.id: Expected string but received Object; expected: { data: { id: string } }; received: { data: { id: { nested: boolean } } }'
       );
     });
 
@@ -95,7 +93,7 @@ describe('formatIssues', () => {
       const value = { a: 'x', b: { c: 1 } };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'a: Invalid type: Expected number but received "x", b: Invalid type: Expected string but received Object; expected: { a: number, b: string }; received: { a: string, b: { c: number } }'
+        'a: Expected number but received "x", b: Expected string but received Object; expected: { a: number, b: string }; received: { a: string, b: { c: number } }'
       );
     });
 
@@ -104,7 +102,7 @@ describe('formatIssues', () => {
       const value = {};
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'status_code: Invalid key: Expected "status_code" but received undefined; expected: { status_code: number }; received: {}'
+        'status_code: Expected "status_code" but received undefined; expected: { status_code: number }; received: {}'
       );
     });
 
@@ -113,7 +111,7 @@ describe('formatIssues', () => {
       const value = { name: 42 };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'name: Invalid type: Expected string but received 42; expected: { name: string? }; received: { name: number }'
+        'name: Expected string but received 42; expected: { name: string? }; received: { name: number }'
       );
     });
 
@@ -122,7 +120,7 @@ describe('formatIssues', () => {
       const value = { env: 'local' };
       const issues = getIssues(schema, value);
       expect(formatIssues(issues, schema, value)).toBe(
-        'env: Invalid type: Expected ("staging" | "production") but received "local"; expected: { env: ("staging" | "production") }; received: { env: string }'
+        'env: Expected ("staging" | "production") but received "local"; expected: { env: ("staging" | "production") }; received: { env: string }'
       );
     });
   });

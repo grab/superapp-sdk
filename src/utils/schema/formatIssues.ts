@@ -19,13 +19,9 @@ function describeSchema(schema: GenericSchema, depth = 0): string {
   switch (s.type) {
     case 'object': {
       const entries = s.entries as Record<string, GenericSchema>;
-      return (
-        `{ ${ 
-        Object.entries(entries)
-          .map(([k, v]) => `${k}: ${describeSchema(v, depth + 1)}`)
-          .join(', ') 
-        } }`
-      );
+      return `{ ${Object.entries(entries)
+        .map(([k, v]) => `${k}: ${describeSchema(v, depth + 1)}`)
+        .join(', ')} }`;
     }
     case 'array':
       return `${describeSchema(s.item as GenericSchema, depth + 1)}[]`;
@@ -62,7 +58,7 @@ function describeValue(value: unknown, depth = 0): string {
   if (typeof value === 'object') {
     const entries = Object.entries(value as Record<string, unknown>);
     if (entries.length === 0) return '{}';
-    return `{ ${  entries.map(([k, v]) => `${k}: ${describeValue(v, depth + 1)}`).join(', ')  } }`;
+    return `{ ${entries.map(([k, v]) => `${k}: ${describeValue(v, depth + 1)}`).join(', ')} }`;
   }
   return typeof value;
 }
@@ -83,7 +79,8 @@ export function formatIssues(
   const issueStr = issues
     .map((issue) => {
       const path = issue.path?.map((p) => String(p.key)).join('.');
-      return path ? `${path}: ${issue.message}` : issue.message;
+      const message = issue.message.replace(/^Invalid \w+: /, '');
+      return path ? `${path}: ${message}` : message;
     })
     .join(', ');
 

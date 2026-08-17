@@ -144,7 +144,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'Invalid type: Expected Object but received null; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: null'
+          'Expected Object but received null; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: null'
         );
       }
     });
@@ -161,7 +161,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'clientId: Invalid length: Expected >=1 but received 0; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
+          'clientId: Expected >=1 but received 0; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
         );
       }
     });
@@ -178,7 +178,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'redirectUri: Invalid URL: Received ""; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
+          'redirectUri: Received ""; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
         );
       }
     });
@@ -195,7 +195,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'redirectUri: Invalid URL: Received "not-a-valid-url"; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
+          'redirectUri: Received "not-a-valid-url"; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
         );
       }
     });
@@ -212,7 +212,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'scope: Invalid length: Expected >=1 but received 0; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
+          'scope: Expected >=1 but received 0; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
         );
       }
     });
@@ -229,7 +229,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'environment: Invalid type: Expected ("staging" | "production") but received "invalid"; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
+          'environment: Expected ("staging" | "production") but received "invalid"; expected: { clientId: string, redirectUri: string, scope: string, environment: ("staging" | "production"), responseMode: ("redirect" | "in_place")? }; received: { clientId: string, redirectUri: string, scope: string, environment: string }'
         );
       }
     });
