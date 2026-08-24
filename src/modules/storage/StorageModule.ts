@@ -131,7 +131,8 @@ export class StorageModule extends BaseModule {
     })) as SetBooleanResponse;
 
     const responseError = this.validate(SetBooleanResponseSchema, response);
-    if (responseError) this.logger.warn('setBoolean', 'Unexpected response shape', responseError);
+    if (responseError)
+      this.logger.warn('setBoolean', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -189,7 +190,7 @@ export class StorageModule extends BaseModule {
 
     const rawResponseError = this.validate(RawGetBooleanResponseSchema, rawResponse);
     if (rawResponseError)
-      this.logger.warn('getBoolean', 'Unexpected raw response shape', rawResponseError);
+      this.logger.warn('getBoolean', `Unexpected raw response shape: ${rawResponseError}`);
 
     let response: GetBooleanResponse;
     if (rawResponse.status_code === 200) {
@@ -200,7 +201,8 @@ export class StorageModule extends BaseModule {
     }
 
     const responseError = this.validate(GetBooleanResponseSchema, response);
-    if (responseError) this.logger.warn('getBoolean', 'Unexpected response shape', responseError);
+    if (responseError)
+      this.logger.warn('getBoolean', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -253,7 +255,7 @@ export class StorageModule extends BaseModule {
     })) as SetIntResponse;
 
     const responseError = this.validate(SetIntResponseSchema, response);
-    if (responseError) this.logger.warn('setInt', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('setInt', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -311,7 +313,7 @@ export class StorageModule extends BaseModule {
 
     const rawResponseError = this.validate(RawGetIntResponseSchema, rawResponse);
     if (rawResponseError)
-      this.logger.warn('getInt', 'Unexpected raw response shape', rawResponseError);
+      this.logger.warn('getInt', `Unexpected raw response shape: ${rawResponseError}`);
 
     let response: GetIntResponse;
     if (rawResponse.status_code === 200) {
@@ -322,7 +324,7 @@ export class StorageModule extends BaseModule {
     }
 
     const responseError = this.validate(GetIntResponseSchema, response);
-    if (responseError) this.logger.warn('getInt', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('getInt', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -375,7 +377,7 @@ export class StorageModule extends BaseModule {
     })) as SetStringResponse;
 
     const responseError = this.validate(SetStringResponseSchema, response);
-    if (responseError) this.logger.warn('setString', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('setString', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -433,7 +435,7 @@ export class StorageModule extends BaseModule {
 
     const rawResponseError = this.validate(RawGetStringResponseSchema, rawResponse);
     if (rawResponseError)
-      this.logger.warn('getString', 'Unexpected raw response shape', rawResponseError);
+      this.logger.warn('getString', `Unexpected raw response shape: ${rawResponseError}`);
 
     let response: GetStringResponse;
     if (rawResponse.status_code === 200) {
@@ -444,7 +446,7 @@ export class StorageModule extends BaseModule {
     }
 
     const responseError = this.validate(GetStringResponseSchema, response);
-    if (responseError) this.logger.warn('getString', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('getString', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -497,7 +499,7 @@ export class StorageModule extends BaseModule {
     })) as SetDoubleResponse;
 
     const responseError = this.validate(SetDoubleResponseSchema, response);
-    if (responseError) this.logger.warn('setDouble', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('setDouble', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -555,7 +557,7 @@ export class StorageModule extends BaseModule {
 
     const rawResponseError = this.validate(RawGetDoubleResponseSchema, rawResponse);
     if (rawResponseError)
-      this.logger.warn('getDouble', 'Unexpected raw response shape', rawResponseError);
+      this.logger.warn('getDouble', `Unexpected raw response shape: ${rawResponseError}`);
 
     let response: GetDoubleResponse;
     if (rawResponse.status_code === 200) {
@@ -566,7 +568,7 @@ export class StorageModule extends BaseModule {
     }
 
     const responseError = this.validate(GetDoubleResponseSchema, response);
-    if (responseError) this.logger.warn('getDouble', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('getDouble', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -618,7 +620,7 @@ export class StorageModule extends BaseModule {
     })) as RemoveResponse;
 
     const responseError = this.validate(RemoveResponseSchema, response);
-    if (responseError) this.logger.warn('remove', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('remove', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
@@ -662,7 +664,7 @@ export class StorageModule extends BaseModule {
     })) as RemoveAllResponse;
 
     const responseError = this.validate(RemoveAllResponseSchema, response);
-    if (responseError) this.logger.warn('removeAll', 'Unexpected response shape', responseError);
+    if (responseError) this.logger.warn('removeAll', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

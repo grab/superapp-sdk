@@ -95,11 +95,7 @@ export class SystemWebViewKitModule extends BaseModule {
 
     const responseError = this.validate(RedirectToSystemWebViewResponseSchema, response);
     if (responseError)
-      this.logger.warn(
-        'redirectToSystemWebView',
-        'Unexpected Unexpected response shape:',
-        responseError
-      );
+      this.logger.warn('redirectToSystemWebView', `Unexpected response shape: ${responseError}`);
 
     return response;
   }

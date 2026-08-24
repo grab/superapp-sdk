@@ -29,11 +29,11 @@ export class Logger {
     return `[${SDK_LABEL}][${this.moduleName}.${method}]`;
   }
 
-  warn(method: string, message: string, ...args: unknown[]): void {
-    console.warn(`${this.formatPrefix(method)} ${message}`, ...args);
+  warn(method: string, message: string): void {
+    console.warn(`${this.formatPrefix(method)} ${message}`);
   }
 
-  error(method: string, message: string, ...args: unknown[]): void {
-    console.error(`${this.formatPrefix(method)} ${message}`, ...args);
+  error(method: string, message: string): void {
+    console.error(`${this.formatPrefix(method)} ${message}`);
   }
 }

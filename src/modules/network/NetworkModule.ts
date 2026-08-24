@@ -91,7 +91,7 @@ export class NetworkModule extends BaseModule {
 
     const rawResponseError = this.validate(RawSendResponseSchema, rawResponse);
     if (rawResponseError) {
-      this.logger.warn('send', 'Unexpected raw response shape', rawResponseError);
+      this.logger.warn('send', `Unexpected raw response shape: ${rawResponseError}`);
     }
 
     // `JSBridge` may return response bodies as JSON strings
@@ -111,11 +111,7 @@ export class NetworkModule extends BaseModule {
 
         const responseError = this.validate(SendResponseSchema, response);
         if (responseError) {
-          this.logger.warn(
-            'send',
-            'Unexpected Unexpected response shape after parsing:',
-            responseError
-          );
+          this.logger.warn('send', `Unexpected response shape after parsing: ${responseError}`);
         }
 
         return response;
@@ -131,7 +127,7 @@ export class NetworkModule extends BaseModule {
 
     const responseError = this.validate(SendResponseSchema, response);
     if (responseError) {
-      this.logger.warn('send', 'Unexpected response shape', responseError);
+      this.logger.warn('send', `Unexpected response shape: ${responseError}`);
     }
 
     return response;

@@ -90,7 +90,8 @@ export class FileModule extends BaseModule {
     })) as DownloadFileResponse;
 
     const responseError = this.validate(DownloadFileResponseSchema, response);
-    if (responseError) this.logger.warn('downloadFile', 'Unexpected response shape', responseError);
+    if (responseError)
+      this.logger.warn('downloadFile', `Unexpected response shape: ${responseError}`);
 
     return response;
   }
