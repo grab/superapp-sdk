@@ -78,7 +78,12 @@ export class LocaleModule extends BaseModule {
 
     const responseError = this.validate(GetAppLocaleIdentifierResponseSchema, response);
     if (responseError)
-      this.logger.warn('getAppLocaleIdentifier', `Unexpected response shape: ${responseError}`);
+      this.logger.warn(
+        'getAppLocaleIdentifier',
+        'Unexpected response shape',
+        responseError.issues,
+        { expected: responseError.expected, received: responseError.received }
+      );
 
     return response;
   }
@@ -124,7 +129,9 @@ export class LocaleModule extends BaseModule {
     if (responseError)
       this.logger.warn(
         'getLanguageLocaleIdentifier',
-        `Unexpected response shape: ${responseError}`
+        'Unexpected response shape',
+        responseError.issues,
+        { expected: responseError.expected, received: responseError.received }
       );
 
     return response;

@@ -109,7 +109,10 @@ export class ProfileModule extends BaseModule {
 
     const responseError = this.validate(FetchEmailResponseSchema, response);
     if (responseError)
-      this.logger.warn('fetchEmail', `Unexpected response shape: ${responseError}`);
+      this.logger.warn('fetchEmail', 'Unexpected response shape', responseError.issues, {
+        expected: responseError.expected,
+        received: responseError.received,
+      });
 
     return response;
   }
@@ -195,7 +198,7 @@ export class ProfileModule extends BaseModule {
     if (supportError) return supportError;
 
     const requestError = this.validate(VerifyEmailRequestSchema, request ?? {});
-    if (requestError) return { status_code: 400, error: requestError };
+    if (requestError) return { status_code: 400, error: requestError.issues };
 
     const response = (await this.invoke({
       method: 'verifyEmail',
@@ -204,7 +207,10 @@ export class ProfileModule extends BaseModule {
 
     const responseError = this.validate(VerifyEmailResponseSchema, response);
     if (responseError)
-      this.logger.warn('verifyEmail', `Unexpected response shape: ${responseError}`);
+      this.logger.warn('verifyEmail', 'Unexpected response shape', responseError.issues, {
+        expected: responseError.expected,
+        received: responseError.received,
+      });
 
     return response;
   }

@@ -709,9 +709,7 @@ describe('ContainerModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe(
-          'name: Expected string but received null; expected: { state: string, name: string, data: Record<string, unknown>? }; received: { state: string, name: null }'
-        );
+        expect(response.error).toBe('name: Expected string but received null');
       }
     });
 
@@ -728,9 +726,7 @@ describe('ContainerModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe(
-          'state: Expected string but received null; expected: { state: string, name: string, data: Record<string, unknown>? }; received: { state: null, name: string }'
-        );
+        expect(response.error).toBe('state: Expected string but received null');
       }
     });
 
@@ -748,9 +744,7 @@ describe('ContainerModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe(
-          'data: Expected Object but received "invalid"; expected: { state: string, name: string, data: Record<string, unknown>? }; received: { state: string, name: string, data: string }'
-        );
+        expect(response.error).toBe('data: Expected Object but received "invalid"');
       }
     });
   });

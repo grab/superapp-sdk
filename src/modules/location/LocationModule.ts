@@ -95,7 +95,10 @@ export class LocationModule extends BaseModule {
 
     const responseError = this.validate(GetCoordinateResponseSchema, response);
     if (responseError)
-      this.logger.warn('getCoordinate', `Unexpected response shape: ${responseError}`);
+      this.logger.warn('getCoordinate', 'Unexpected response shape', responseError.issues, {
+        expected: responseError.expected,
+        received: responseError.received,
+      });
 
     return response;
   }
@@ -205,7 +208,10 @@ export class LocationModule extends BaseModule {
 
     const responseError = this.validate(GetCountryCodeResponseSchema, response);
     if (responseError)
-      this.logger.warn('getCountryCode', `Unexpected response shape: ${responseError}`);
+      this.logger.warn('getCountryCode', 'Unexpected response shape', responseError.issues, {
+        expected: responseError.expected,
+        received: responseError.received,
+      });
 
     return response;
   }

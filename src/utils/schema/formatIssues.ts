@@ -13,9 +13,9 @@ import type { BaseIssue, GenericSchema } from 'valibot';
  * @returns A compact type-shape string.
  * @internal
  */
-function describeSchema(schema: GenericSchema, depth = 0): string {
+export function describeSchema(schema: GenericSchema, depth = 0): string {
   if (depth > 3) return '...';
-  const s = schema as Record<string, unknown>;
+  const s = schema as unknown as Record<string, unknown>;
   switch (s.type) {
     case 'object': {
       const entries = s.entries as Record<string, GenericSchema>;
@@ -47,7 +47,7 @@ function describeSchema(schema: GenericSchema, depth = 0): string {
  * @returns A compact type-shape string.
  * @internal
  */
-function describeValue(value: unknown, depth = 0): string {
+export function describeValue(value: unknown, depth = 0): string {
   if (depth > 3) return '...';
   if (value === null) return 'null';
   if (value === undefined) return 'undefined';
@@ -65,28 +65,16 @@ function describeValue(value: unknown, depth = 0): string {
 
 /**
  * Formats valibot issues into a human-readable error string.
- * When `schema` and `value` are provided, appends compact expected/received shape summaries.
  *
- * @returns A comma-separated string of issue messages, prefixed with their dot-notation path when available,
- * followed by expected and received shape descriptions.
+ * @returns A comma-separated string of issue messages, prefixed with their dot-notation path when available.
  * @internal
  */
-export function formatIssues(
-  issues: [BaseIssue<unknown>, ...BaseIssue<unknown>[]],
-  schema?: GenericSchema,
-  value?: unknown
-): string {
-  const issueStr = issues
+export function formatIssues(issues: [BaseIssue<unknown>, ...BaseIssue<unknown>[]]): string {
+  return issues
     .map((issue) => {
       const path = issue.path?.map((p) => String(p.key)).join('.');
       const message = issue.message.replace(/^Invalid type: /, '');
       return path ? `${path}: ${message}` : message;
     })
     .join(', ');
-
-  if (schema !== undefined && value !== undefined) {
-    return `${issueStr}; expected: ${describeSchema(schema)}; received: ${describeValue(value)}`;
-  }
-
-  return issueStr;
 }

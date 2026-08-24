@@ -82,7 +82,7 @@ export class NetworkModule extends BaseModule {
    */
   async send(request: SendRequest): Promise<SendResponse> {
     const requestError = this.validate(SendRequestSchema, request);
-    if (requestError) return { status_code: 400, error: requestError };
+    if (requestError) return { status_code: 400, error: requestError.issues };
 
     const rawResponse = (await this.invoke({
       method: 'send',
@@ -91,7 +91,10 @@ export class NetworkModule extends BaseModule {
 
     const rawResponseError = this.validate(RawSendResponseSchema, rawResponse);
     if (rawResponseError) {
-      this.logger.warn('send', `Unexpected raw response shape: ${rawResponseError}`);
+      this.logger.warn('send', 'Unexpected raw response shape', rawResponseError.issues, {
+        expected: rawResponseError.expected,
+        received: rawResponseError.received,
+      });
     }
 
     // `JSBridge` may return response bodies as JSON strings
@@ -111,7 +114,12 @@ export class NetworkModule extends BaseModule {
 
         const responseError = this.validate(SendResponseSchema, response);
         if (responseError) {
-          this.logger.warn('send', `Unexpected response shape after parsing: ${responseError}`);
+          this.logger.warn(
+            'send',
+            'Unexpected response shape after parsing',
+            responseError.issues,
+            { expected: responseError.expected, received: responseError.received }
+          );
         }
 
         return response;
@@ -127,7 +135,10 @@ export class NetworkModule extends BaseModule {
 
     const responseError = this.validate(SendResponseSchema, response);
     if (responseError) {
-      this.logger.warn('send', `Unexpected response shape: ${responseError}`);
+      this.logger.warn('send', 'Unexpected response shape', responseError.issues, {
+        expected: responseError.expected,
+        received: responseError.received,
+      });
     }
 
     return response;

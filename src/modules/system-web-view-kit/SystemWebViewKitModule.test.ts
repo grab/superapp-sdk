@@ -119,9 +119,7 @@ describe('SystemWebViewKitModule', () => {
       expect(mockInvoke).not.toHaveBeenCalled();
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe(
-          'url: Invalid URL: Received "not-a-valid-url"; expected: { url: string }; received: { url: string }'
-        );
+        expect(response.error).toBe('url: Invalid URL: Received "not-a-valid-url"');
       }
     });
 

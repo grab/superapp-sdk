@@ -107,7 +107,7 @@ export class CheckoutModule extends BaseModule {
    */
   async triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse> {
     const requestError = this.validate(TriggerCheckoutRequestSchema, request);
-    if (requestError) return { status_code: 400, error: requestError };
+    if (requestError) return { status_code: 400, error: requestError.issues };
 
     const response = (await this.invoke({
       method: 'triggerCheckout',
@@ -116,7 +116,10 @@ export class CheckoutModule extends BaseModule {
 
     const responseError = this.validate(TriggerCheckoutResponseSchema, response);
     if (responseError)
-      this.logger.warn('triggerCheckout', `Unexpected response shape: ${responseError}`);
+      this.logger.warn('triggerCheckout', 'Unexpected response shape', responseError.issues, {
+        expected: responseError.expected,
+        received: responseError.received,
+      });
 
     return response;
   }

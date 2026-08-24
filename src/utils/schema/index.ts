@@ -5,4 +5,4 @@
  * directory of this source tree.
  */
 
-export { formatIssues } from './formatIssues';
+export { describeSchema, describeValue, formatIssues } from './formatIssues';
