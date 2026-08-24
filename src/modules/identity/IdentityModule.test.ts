@@ -143,7 +143,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('Expected Object but received null');
+        expect(response.error).toBe('Invalid type: Expected Object but received null');
       }
     });
 
@@ -219,7 +219,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'environment: Expected ("staging" | "production") but received "invalid"'
+          'environment: Invalid type: Expected ("staging" | "production") but received "invalid"'
         );
       }
     });
