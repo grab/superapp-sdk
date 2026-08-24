@@ -49,15 +49,18 @@ const RawAuthorizeResultSchema = v.object({
  *
  * @internal
  */
-export const RawAuthorizeResponseSchema: v.GenericSchema<RawAuthorizeResponse> = v.union([
-  sdkOkResponseSchema(RawAuthorizeResultSchema),
-  sdkNoContentResponseSchema,
-  sdkRedirectResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RawAuthorizeResponseSchema: v.GenericSchema<RawAuthorizeResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(RawAuthorizeResultSchema),
+    sdkNoContentResponseSchema,
+    sdkRedirectResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link AuthorizeResult}.
@@ -83,15 +86,18 @@ export const AuthorizeResultSchema: v.GenericSchema<AuthorizeResult> = v.object(
  *
  * @public
  */
-export const AuthorizeResponseSchema: v.GenericSchema<AuthorizeResponse> = v.union([
-  sdkOkResponseSchema(AuthorizeResultSchema),
-  sdkNoContentResponseSchema,
-  sdkRedirectResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const AuthorizeResponseSchema: v.GenericSchema<AuthorizeResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(AuthorizeResultSchema),
+    sdkNoContentResponseSchema,
+    sdkRedirectResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetAuthorizationArtifactsResult}.
@@ -118,7 +124,7 @@ export const GetAuthorizationArtifactsResultSchema: v.GenericSchema<GetAuthoriza
  * @public
  */
 export const GetAuthorizationArtifactsResponseSchema: v.GenericSchema<GetAuthorizationArtifactsResponse> =
-  v.union([
+  v.variant('status_code', [
     sdkOkResponseSchema(GetAuthorizationArtifactsResultSchema),
     sdkNoContentResponseSchema,
     sdkErrorResponseSchema(400),
@@ -133,4 +139,4 @@ export const GetAuthorizationArtifactsResponseSchema: v.GenericSchema<GetAuthori
  * @public
  */
 export const ClearAuthorizationArtifactsResponseSchema: v.GenericSchema<ClearAuthorizationArtifactsResponse> =
-  v.union([sdkNoContentResponseSchema]);
+  v.variant('status_code', [sdkNoContentResponseSchema]);

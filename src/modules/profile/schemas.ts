@@ -40,15 +40,18 @@ export const FetchEmailResultSchema: v.GenericSchema<FetchEmailResult> = v.objec
  *
  * @public
  */
-export const FetchEmailResponseSchema: v.GenericSchema<FetchEmailResponse> = v.union([
-  sdkOkResponseSchema(FetchEmailResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(426),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const FetchEmailResponseSchema: v.GenericSchema<FetchEmailResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(FetchEmailResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(426),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link VerifyEmailRequest}.
@@ -83,12 +86,15 @@ export const VerifyEmailResultSchema: v.GenericSchema<VerifyEmailResult> = v.obj
  *
  * @public
  */
-export const VerifyEmailResponseSchema: v.GenericSchema<VerifyEmailResponse> = v.union([
-  sdkOkResponseSchema(VerifyEmailResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(426),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const VerifyEmailResponseSchema: v.GenericSchema<VerifyEmailResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(VerifyEmailResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(426),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

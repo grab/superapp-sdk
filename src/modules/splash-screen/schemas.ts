@@ -19,7 +19,7 @@ import type { DismissSplashScreenResponse } from './types';
  * @public
  */
 export const DismissSplashScreenResponseSchema: v.GenericSchema<DismissSplashScreenResponse> =
-  v.union([
+  v.variant('status_code', [
     sdkNoContentResponseSchema,
     sdkErrorResponseSchema(400),
     sdkErrorResponseSchema(403),
