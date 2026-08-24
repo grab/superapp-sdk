@@ -97,8 +97,8 @@ export class SystemWebViewKitModule extends BaseModule {
     if (responseError)
       this.logger.warn(
         'redirectToSystemWebView',
-        `Unexpected response shape:
-`
+        'Unexpected Unexpected response shape:',
+        responseError
       );
 
     return response;

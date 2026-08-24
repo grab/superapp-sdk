@@ -113,8 +113,8 @@ export class NetworkModule extends BaseModule {
         if (responseError) {
           this.logger.warn(
             'send',
-            `Unexpected response shape after parsing:
-`
+            'Unexpected Unexpected response shape after parsing:',
+            responseError
           );
         }
 
