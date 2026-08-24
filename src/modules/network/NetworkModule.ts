@@ -82,8 +82,7 @@ export class NetworkModule extends BaseModule {
    */
   async send(request: SendRequest): Promise<SendResponse> {
     const requestError = this.validate(SendRequestSchema, request);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const rawResponse = (await this.invoke({
       method: 'send',

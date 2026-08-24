@@ -194,8 +194,7 @@ export class ProfileModule extends BaseModule {
     if (supportError) return supportError;
 
     const requestError = this.validate(VerifyEmailRequestSchema, request ?? {});
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'verifyEmail',

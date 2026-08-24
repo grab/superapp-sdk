@@ -820,8 +820,7 @@ export class ContainerModule extends BaseModule {
     request: SendAnalyticsEventRequest
   ): Promise<SendAnalyticsEventResponse> {
     const requestError = this.validate(SendAnalyticsEventRequestSchema, request);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const rawResponse = (await this.invoke({
       method: 'sendAnalyticsEvent',

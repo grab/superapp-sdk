@@ -538,8 +538,7 @@ export class IdentityModule extends BaseModule {
    */
   async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
     const requestError = this.validate(AuthorizeRequestSchema, request);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const pkceArtifacts = await this.generatePKCEArtifacts();
 

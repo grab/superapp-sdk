@@ -123,8 +123,7 @@ export class StorageModule extends BaseModule {
   async setBoolean(key: string, value: boolean): Promise<SetBooleanResponse> {
     const params = { key, value };
     const requestError = this.validate(SetBooleanRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'setBoolean',
@@ -181,8 +180,7 @@ export class StorageModule extends BaseModule {
   async getBoolean(key: string): Promise<GetBooleanResponse> {
     const params = { key };
     const requestError = this.validate(GetBooleanRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const rawResponse = (await this.invoke({
       method: 'getBoolean',
@@ -247,8 +245,7 @@ export class StorageModule extends BaseModule {
   async setInt(key: string, value: number): Promise<SetIntResponse> {
     const params = { key, value };
     const requestError = this.validate(SetIntRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'setInt',
@@ -305,8 +302,7 @@ export class StorageModule extends BaseModule {
   async getInt(key: string): Promise<GetIntResponse> {
     const params = { key };
     const requestError = this.validate(GetIntRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const rawResponse = (await this.invoke({
       method: 'getInt',
@@ -371,8 +367,7 @@ export class StorageModule extends BaseModule {
   async setString(key: string, value: string): Promise<SetStringResponse> {
     const params = { key, value };
     const requestError = this.validate(SetStringRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'setString',
@@ -429,8 +424,7 @@ export class StorageModule extends BaseModule {
   async getString(key: string): Promise<GetStringResponse> {
     const params = { key };
     const requestError = this.validate(GetStringRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const rawResponse = (await this.invoke({
       method: 'getString',
@@ -495,8 +489,7 @@ export class StorageModule extends BaseModule {
   async setDouble(key: string, value: number): Promise<SetDoubleResponse> {
     const params = { key, value };
     const requestError = this.validate(SetDoubleRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'setDouble',
@@ -553,8 +546,7 @@ export class StorageModule extends BaseModule {
   async getDouble(key: string): Promise<GetDoubleResponse> {
     const params = { key };
     const requestError = this.validate(GetDoubleRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const rawResponse = (await this.invoke({
       method: 'getDouble',
@@ -618,8 +610,7 @@ export class StorageModule extends BaseModule {
   async remove(key: string): Promise<RemoveResponse> {
     const params = { key };
     const requestError = this.validate(RemoveRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'remove',

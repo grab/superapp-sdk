@@ -107,8 +107,7 @@ export class CheckoutModule extends BaseModule {
    */
   async triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse> {
     const requestError = this.validate(TriggerCheckoutRequestSchema, request);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'triggerCheckout',

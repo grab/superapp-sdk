@@ -85,8 +85,7 @@ export class ScopeModule extends BaseModule {
   async hasAccessTo(module: string, method: string): Promise<HasAccessToResponse> {
     const params = { module, method };
     const requestError = this.validate(HasAccessToRequestSchema, params);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'hasAccessTo',

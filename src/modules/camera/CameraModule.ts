@@ -93,8 +93,7 @@ export class CameraModule extends BaseModule {
    */
   async scanQRCode(request: ScanQRCodeRequest = {}): Promise<ScanQRCodeResponse> {
     const requestError = this.validate(ScanQRCodeRequestSchema, request);
-    if (requestError)
-      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
+    if (requestError) return { status_code: 400, error: requestError };
 
     const response = (await this.invoke({
       method: 'scanQRCode',
