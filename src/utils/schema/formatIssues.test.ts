@@ -24,7 +24,7 @@ describe('formatIssues', () => {
       v.object({ status_code: v.literal(400), error: v.string() }),
     ]);
     const issues = getIssues(schema, { status_code: 200, result: 123 });
-    expect(formatIssues(issues)).toBe('\n- result: Invalid type: Expected string but received 123');
+    expect(formatIssues(issues)).toBe('result: Invalid type: Expected string but received 123');
   });
 
   it('variant mismatch — unknown discriminator reports expected values', () => {
@@ -34,7 +34,7 @@ describe('formatIssues', () => {
     ]);
     const issues = getIssues(schema, { status_code: 999 });
     expect(formatIssues(issues)).toBe(
-      '\n- status_code: Invalid type: Expected (200 | 400) but received 999'
+      'status_code: Invalid type: Expected (200 | 400) but received 999'
     );
   });
 });
