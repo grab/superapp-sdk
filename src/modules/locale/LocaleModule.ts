@@ -82,7 +82,7 @@ export class LocaleModule extends BaseModule {
         'getAppLocaleIdentifier',
         'Unexpected response shape',
         responseError.issues,
-        { expected: responseError.expected, received: responseError.received }
+        { received: responseError.received }
       );
 
     return response;
@@ -131,7 +131,7 @@ export class LocaleModule extends BaseModule {
         'getLanguageLocaleIdentifier',
         'Unexpected response shape',
         responseError.issues,
-        { expected: responseError.expected, received: responseError.received }
+        { received: responseError.received }
       );
 
     return response;

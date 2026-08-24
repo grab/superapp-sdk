@@ -110,7 +110,6 @@ export class ProfileModule extends BaseModule {
     const responseError = this.validate(FetchEmailResponseSchema, response);
     if (responseError)
       this.logger.warn('fetchEmail', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -208,7 +207,6 @@ export class ProfileModule extends BaseModule {
     const responseError = this.validate(VerifyEmailResponseSchema, response);
     if (responseError)
       this.logger.warn('verifyEmail', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 

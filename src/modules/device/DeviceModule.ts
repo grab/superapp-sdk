@@ -107,7 +107,6 @@ export class DeviceModule extends BaseModule {
     const responseError = this.validate(IsEsimSupportedResponseSchema, response);
     if (responseError)
       this.logger.warn('isEsimSupported', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 

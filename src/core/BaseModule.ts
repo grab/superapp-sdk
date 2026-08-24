@@ -11,7 +11,7 @@ import { type GenericSchema, safeParse } from 'valibot';
 import { isErrorWithMessage } from '../utils/error';
 import { Logger } from '../utils/logger';
 import { detectGrabApp, GrabAppInfo } from '../utils/platform';
-import { describeSchema, describeValue, formatIssues } from '../utils/schema';
+import { describeValue, formatIssues } from '../utils/schema';
 import { ModuleInvokeOptions, SDKResponse, SDKStream, Subscription, WrappedModule } from './types';
 
 /**
@@ -88,12 +88,11 @@ export class BaseModule {
   protected validate(
     schema: GenericSchema,
     value: unknown
-  ): { issues: string; expected: unknown; received: unknown } | null {
+  ): { issues: string; received: unknown } | null {
     const parsed = safeParse(schema, value);
     if (!parsed.success) {
       return {
         issues: formatIssues(parsed.issues),
-        expected: describeSchema(schema),
         received: describeValue(value),
       };
     }

@@ -92,7 +92,6 @@ export class NetworkModule extends BaseModule {
     const rawResponseError = this.validate(RawSendResponseSchema, rawResponse);
     if (rawResponseError) {
       this.logger.warn('send', 'Unexpected raw response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
     }
@@ -118,7 +117,7 @@ export class NetworkModule extends BaseModule {
             'send',
             'Unexpected response shape after parsing',
             responseError.issues,
-            { expected: responseError.expected, received: responseError.received }
+            { received: responseError.received }
           );
         }
 
@@ -136,7 +135,6 @@ export class NetworkModule extends BaseModule {
     const responseError = this.validate(SendResponseSchema, response);
     if (responseError) {
       this.logger.warn('send', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
     }

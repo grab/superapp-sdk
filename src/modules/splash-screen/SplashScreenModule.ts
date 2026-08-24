@@ -78,7 +78,6 @@ export class SplashScreenModule extends BaseModule {
     const responseError = this.validate(DismissSplashScreenResponseSchema, response);
     if (responseError)
       this.logger.warn('dismiss', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 

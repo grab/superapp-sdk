@@ -108,7 +108,6 @@ export class LoyaltyModule extends BaseModule {
     const responseError = this.validate(EstimateRewardsResponseSchema, response);
     if (responseError)
       this.logger.warn('estimateRewards', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 

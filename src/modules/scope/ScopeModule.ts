@@ -95,7 +95,6 @@ export class ScopeModule extends BaseModule {
     const responseError = this.validate(HasAccessToResponseSchema, response);
     if (responseError)
       this.logger.warn('hasAccessTo', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -142,7 +141,6 @@ export class ScopeModule extends BaseModule {
     const responseError = this.validate(ReloadScopesResponseSchema, response);
     if (responseError)
       this.logger.warn('reloadScopes', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 

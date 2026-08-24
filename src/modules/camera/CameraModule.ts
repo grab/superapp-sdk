@@ -103,7 +103,6 @@ export class CameraModule extends BaseModule {
     const responseError = this.validate(ScanQRCodeResponseSchema, response);
     if (responseError)
       this.logger.warn('scanQRCode', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 

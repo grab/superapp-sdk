@@ -150,7 +150,7 @@ export class ContainerModule extends BaseModule {
         'setBackgroundColor',
         'Unexpected raw response shape',
         rawResponseError.issues,
-        { expected: rawResponseError.expected, received: rawResponseError.received }
+        { received: rawResponseError.received }
       );
 
     // Transform 200 OK -> 204 No Content
@@ -164,7 +164,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(SetBackgroundColorResponseSchema, response);
     if (responseError)
       this.logger.warn('setBackgroundColor', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -213,7 +212,6 @@ export class ContainerModule extends BaseModule {
     const rawResponseError = this.validate(RawSetTitleResponseSchema, rawResponse);
     if (rawResponseError)
       this.logger.warn('setTitle', 'Unexpected raw response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
 
@@ -228,7 +226,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(SetTitleResponseSchema, response);
     if (responseError)
       this.logger.warn('setTitle', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -273,7 +270,6 @@ export class ContainerModule extends BaseModule {
     const rawResponseError = this.validate(RawHideBackButtonResponseSchema, rawResponse);
     if (rawResponseError)
       this.logger.warn('hideBackButton', 'Unexpected raw response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
 
@@ -288,7 +284,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(HideBackButtonResponseSchema, response);
     if (responseError)
       this.logger.warn('hideBackButton', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -333,7 +328,6 @@ export class ContainerModule extends BaseModule {
     const rawResponseError = this.validate(RawShowBackButtonResponseSchema, rawResponse);
     if (rawResponseError)
       this.logger.warn('showBackButton', 'Unexpected raw response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
 
@@ -348,7 +342,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(ShowBackButtonResponseSchema, response);
     if (responseError)
       this.logger.warn('showBackButton', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -396,7 +389,7 @@ export class ContainerModule extends BaseModule {
         'hideRefreshButton',
         'Unexpected raw response shape',
         rawResponseError.issues,
-        { expected: rawResponseError.expected, received: rawResponseError.received }
+        { received: rawResponseError.received }
       );
 
     // Transform 200 OK -> 204 No Content
@@ -410,7 +403,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(HideRefreshButtonResponseSchema, response);
     if (responseError)
       this.logger.warn('hideRefreshButton', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -458,7 +450,7 @@ export class ContainerModule extends BaseModule {
         'showRefreshButton',
         'Unexpected raw response shape',
         rawResponseError.issues,
-        { expected: rawResponseError.expected, received: rawResponseError.received }
+        { received: rawResponseError.received }
       );
 
     // Transform 200 OK -> 204 No Content
@@ -472,7 +464,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(ShowRefreshButtonResponseSchema, response);
     if (responseError)
       this.logger.warn('showRefreshButton', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -517,7 +508,6 @@ export class ContainerModule extends BaseModule {
     const rawResponseError = this.validate(RawCloseResponseSchema, rawResponse);
     if (rawResponseError)
       this.logger.warn('close', 'Unexpected raw response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
 
@@ -532,7 +522,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(CloseResponseSchema, response);
     if (responseError)
       this.logger.warn('close', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -578,7 +567,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(OnContentLoadedResponseSchema, response);
     if (responseError)
       this.logger.warn('onContentLoaded', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -626,7 +614,6 @@ export class ContainerModule extends BaseModule {
     const rawResponseError = this.validate(RawShowLoaderResponseSchema, rawResponse);
     if (rawResponseError)
       this.logger.warn('showLoader', 'Unexpected raw response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
 
@@ -641,7 +628,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(ShowLoaderResponseSchema, response);
     if (responseError)
       this.logger.warn('showLoader', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -689,7 +675,6 @@ export class ContainerModule extends BaseModule {
     const rawResponseError = this.validate(RawHideLoaderResponseSchema, rawResponse);
     if (rawResponseError)
       this.logger.warn('hideLoader', 'Unexpected raw response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
 
@@ -704,7 +689,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(HideLoaderResponseSchema, response);
     if (responseError)
       this.logger.warn('hideLoader', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -759,7 +743,7 @@ export class ContainerModule extends BaseModule {
         'openExternalLink',
         'Unexpected raw response shape',
         rawResponseError.issues,
-        { expected: rawResponseError.expected, received: rawResponseError.received }
+        { received: rawResponseError.received }
       );
 
     // Transform 200 OK -> 204 No Content
@@ -773,7 +757,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(OpenExternalLinkResponseSchema, response);
     if (responseError)
       this.logger.warn('openExternalLink', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -821,7 +804,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(OnCtaTapResponseSchema, response);
     if (responseError)
       this.logger.warn('onCtaTap', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -900,7 +882,7 @@ export class ContainerModule extends BaseModule {
         'sendAnalyticsEvent',
         'Unexpected raw response shape',
         rawResponseError.issues,
-        { expected: rawResponseError.expected, received: rawResponseError.received }
+        { received: rawResponseError.received }
       );
 
     // Transform 200 OK -> 204 No Content
@@ -914,7 +896,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(SendAnalyticsEventResponseSchema, response);
     if (responseError)
       this.logger.warn('sendAnalyticsEvent', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 
@@ -1008,7 +989,6 @@ export class ContainerModule extends BaseModule {
     const responseError = this.validate(GetSessionParamsResponseSchema, response);
     if (responseError)
       this.logger.warn('getSessionParams', 'Unexpected response shape', responseError.issues, {
-        expected: responseError.expected,
         received: responseError.received,
       });
 

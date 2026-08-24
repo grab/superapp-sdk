@@ -92,7 +92,7 @@ export class UserAttributesModule extends BaseModule {
         'getSelectedTravelDestination',
         'Unexpected response shape',
         responseError.issues,
-        { expected: responseError.expected, received: responseError.received }
+        { received: responseError.received }
       );
 
     return response;

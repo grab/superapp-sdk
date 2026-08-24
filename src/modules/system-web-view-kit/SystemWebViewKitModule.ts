@@ -99,7 +99,7 @@ export class SystemWebViewKitModule extends BaseModule {
         'redirectToSystemWebView',
         'Unexpected response shape',
         responseError.issues,
-        { expected: responseError.expected, received: responseError.received }
+        { received: responseError.received }
       );
 
     return response;

@@ -441,7 +441,6 @@ export class IdentityModule extends BaseModule {
     const rawResponseError = this.validate(RawAuthorizeResponseSchema, response);
     if (rawResponseError)
       this.logger.warn('authorize', 'Unexpected response shape', rawResponseError.issues, {
-        expected: rawResponseError.expected,
         received: rawResponseError.received,
       });
 
