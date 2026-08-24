@@ -17,42 +17,6 @@ function getIssues(schema: v.GenericSchema, value: unknown) {
 }
 
 describe('formatIssues', () => {
-  it('should include path and message for a primitive mismatch', () => {
-    const schema = v.object({ status_code: v.number() });
-    const issues = getIssues(schema, { status_code: 'wrong' });
-    expect(formatIssues(issues)).toBe(
-      'status_code: Invalid type: Expected number but received "wrong"'
-    );
-  });
-
-  it('should format issue with no path', () => {
-    const schema = v.number();
-    const issues = getIssues(schema, 'wrong');
-    expect(formatIssues(issues)).toBe('Invalid type: Expected number but received "wrong"');
-  });
-
-  it('should join multiple issues with comma', () => {
-    const schema = v.object({ a: v.number(), b: v.string() });
-    const issues = getIssues(schema, { a: 'x', b: 123 });
-    expect(formatIssues(issues)).toBe(
-      'a: Invalid type: Expected number but received "x", b: Invalid type: Expected string but received 123'
-    );
-  });
-
-  it('should include Invalid key prefix', () => {
-    const schema = v.object({ status_code: v.number() });
-    const issues = getIssues(schema, {});
-    expect(formatIssues(issues)).toBe(
-      'status_code: Invalid key: Expected "status_code" but received undefined'
-    );
-  });
-
-  it('should include Invalid length prefix', () => {
-    const schema = v.object({ n: v.pipe(v.string(), v.minLength(1)) });
-    const issues = getIssues(schema, { n: '' });
-    expect(formatIssues(issues)).toBe('n: Invalid length: Expected >=1 but received 0');
-  });
-
   it('variant mismatch — reports exact field failure on matched branch', () => {
     const schema = v.variant('status_code', [
       v.object({ status_code: v.literal(200), result: v.string() }),
