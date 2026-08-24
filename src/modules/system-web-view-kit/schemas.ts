@@ -32,7 +32,7 @@ export const RedirectToSystemWebViewRequestSchema: v.GenericSchema<RedirectToSys
  * @public
  */
 export const RedirectToSystemWebViewResponseSchema: v.GenericSchema<RedirectToSystemWebViewResponse> =
-  v.union([
+  v.variant('status_code', [
     sdkOkResponseSchema(v.string()),
     sdkErrorResponseSchema(400),
     sdkErrorResponseSchema(424),

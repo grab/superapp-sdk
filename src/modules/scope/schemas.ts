@@ -50,13 +50,16 @@ export const HasAccessToResultSchema: v.GenericSchema<HasAccessToResult> = v.boo
  *
  * @public
  */
-export const HasAccessToResponseSchema: v.GenericSchema<HasAccessToResponse> = v.union([
-  sdkOkResponseSchema(HasAccessToResultSchema),
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const HasAccessToResponseSchema: v.GenericSchema<HasAccessToResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(HasAccessToResultSchema),
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link ReloadScopesResponse}.
@@ -66,9 +69,12 @@ export const HasAccessToResponseSchema: v.GenericSchema<HasAccessToResponse> = v
  *
  * @public
  */
-export const ReloadScopesResponseSchema: v.GenericSchema<ReloadScopesResponse> = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const ReloadScopesResponseSchema: v.GenericSchema<ReloadScopesResponse> = v.variant(
+  'status_code',
+  [
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

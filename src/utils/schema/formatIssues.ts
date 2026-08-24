@@ -14,10 +14,11 @@ import type { BaseIssue } from 'valibot';
  * @internal
  */
 export function formatIssues(issues: [BaseIssue<unknown>, ...BaseIssue<unknown>[]]): string {
-  return issues
-    .map((issue) => {
-      const path = issue.path?.map((p) => String(p.key)).join('.');
-      return path ? `${path}: ${issue.message}` : issue.message;
-    })
-    .join(', ');
+  const messages = issues.map((issue) => {
+    const path = issue.path?.map((p) => String(p.key)).join('.');
+    return path ? `${path}: ${issue.message}` : issue.message;
+  });
+
+  if (messages.length === 1) return messages[0];
+  return messages.map((msg) => `\n- ${msg}`).join('');
 }

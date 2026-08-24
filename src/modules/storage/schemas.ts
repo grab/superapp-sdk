@@ -73,13 +73,16 @@ export const SetBooleanRequestSchema: v.GenericSchema<SetBooleanRequest> = v.obj
  *
  * @public
  */
-export const SetBooleanResponseSchema: v.GenericSchema<SetBooleanResponse> = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const SetBooleanResponseSchema: v.GenericSchema<SetBooleanResponse> = v.variant(
+  'status_code',
+  [
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetBooleanRequest}.
@@ -106,15 +109,18 @@ export const GetBooleanResultSchema: v.GenericSchema<GetBooleanResult> = v.boole
  *
  * @internal
  */
-export const RawGetBooleanResponseSchema: v.GenericSchema<RawGetBooleanResponse> = v.union([
-  v.object({
-    status_code: v.literal(200),
-    result: v.nullish(v.boolean()),
-  }),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-]);
+export const RawGetBooleanResponseSchema: v.GenericSchema<RawGetBooleanResponse> = v.variant(
+  'status_code',
+  [
+    v.object({
+      status_code: v.literal(200),
+      result: v.nullish(v.boolean()),
+    }),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetBooleanResponse}.
@@ -124,14 +130,17 @@ export const RawGetBooleanResponseSchema: v.GenericSchema<RawGetBooleanResponse>
  *
  * @public
  */
-export const GetBooleanResponseSchema: v.GenericSchema<GetBooleanResponse> = v.union([
-  sdkOkResponseSchema(GetBooleanResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const GetBooleanResponseSchema: v.GenericSchema<GetBooleanResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(GetBooleanResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link SetIntRequest}.
@@ -154,7 +163,7 @@ export const SetIntRequestSchema: v.GenericSchema<SetIntRequest> = v.object({
  *
  * @public
  */
-export const SetIntResponseSchema: v.GenericSchema<SetIntResponse> = v.union([
+export const SetIntResponseSchema: v.GenericSchema<SetIntResponse> = v.variant('status_code', [
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(424),
@@ -187,15 +196,18 @@ export const GetIntResultSchema: v.GenericSchema<GetIntResult> = v.number();
  *
  * @internal
  */
-export const RawGetIntResponseSchema: v.GenericSchema<RawGetIntResponse> = v.union([
-  v.object({
-    status_code: v.literal(200),
-    result: v.nullish(v.number()),
-  }),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-]);
+export const RawGetIntResponseSchema: v.GenericSchema<RawGetIntResponse> = v.variant(
+  'status_code',
+  [
+    v.object({
+      status_code: v.literal(200),
+      result: v.nullish(v.number()),
+    }),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetIntResponse}.
@@ -205,7 +217,7 @@ export const RawGetIntResponseSchema: v.GenericSchema<RawGetIntResponse> = v.uni
  *
  * @public
  */
-export const GetIntResponseSchema: v.GenericSchema<GetIntResponse> = v.union([
+export const GetIntResponseSchema: v.GenericSchema<GetIntResponse> = v.variant('status_code', [
   sdkOkResponseSchema(GetIntResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
@@ -235,13 +247,16 @@ export const SetStringRequestSchema: v.GenericSchema<SetStringRequest> = v.objec
  *
  * @public
  */
-export const SetStringResponseSchema: v.GenericSchema<SetStringResponse> = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const SetStringResponseSchema: v.GenericSchema<SetStringResponse> = v.variant(
+  'status_code',
+  [
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetStringRequest}.
@@ -268,15 +283,18 @@ export const GetStringResultSchema: v.GenericSchema<GetStringResult> = v.string(
  *
  * @internal
  */
-export const RawGetStringResponseSchema: v.GenericSchema<RawGetStringResponse> = v.union([
-  v.object({
-    status_code: v.literal(200),
-    result: v.nullish(v.string()),
-  }),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-]);
+export const RawGetStringResponseSchema: v.GenericSchema<RawGetStringResponse> = v.variant(
+  'status_code',
+  [
+    v.object({
+      status_code: v.literal(200),
+      result: v.nullish(v.string()),
+    }),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetStringResponse}.
@@ -286,14 +304,17 @@ export const RawGetStringResponseSchema: v.GenericSchema<RawGetStringResponse> =
  *
  * @public
  */
-export const GetStringResponseSchema: v.GenericSchema<GetStringResponse> = v.union([
-  sdkOkResponseSchema(GetStringResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const GetStringResponseSchema: v.GenericSchema<GetStringResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(GetStringResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link SetDoubleRequest}.
@@ -316,13 +337,16 @@ export const SetDoubleRequestSchema: v.GenericSchema<SetDoubleRequest> = v.objec
  *
  * @public
  */
-export const SetDoubleResponseSchema: v.GenericSchema<SetDoubleResponse> = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const SetDoubleResponseSchema: v.GenericSchema<SetDoubleResponse> = v.variant(
+  'status_code',
+  [
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetDoubleRequest}.
@@ -349,15 +373,18 @@ export const GetDoubleResultSchema: v.GenericSchema<GetDoubleResult> = v.number(
  *
  * @internal
  */
-export const RawGetDoubleResponseSchema: v.GenericSchema<RawGetDoubleResponse> = v.union([
-  v.object({
-    status_code: v.literal(200),
-    result: v.nullish(v.number()),
-  }),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-]);
+export const RawGetDoubleResponseSchema: v.GenericSchema<RawGetDoubleResponse> = v.variant(
+  'status_code',
+  [
+    v.object({
+      status_code: v.literal(200),
+      result: v.nullish(v.number()),
+    }),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+  ]
+);
 
 /**
  * Valibot schema for {@link GetDoubleResponse}.
@@ -367,14 +394,17 @@ export const RawGetDoubleResponseSchema: v.GenericSchema<RawGetDoubleResponse> =
  *
  * @public
  */
-export const GetDoubleResponseSchema: v.GenericSchema<GetDoubleResponse> = v.union([
-  sdkOkResponseSchema(GetDoubleResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const GetDoubleResponseSchema: v.GenericSchema<GetDoubleResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(GetDoubleResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * @internal
@@ -389,7 +419,7 @@ export const RemoveRequestSchema: v.GenericSchema<RemoveRequest> = storageKeySch
  *
  * @public
  */
-export const RemoveResponseSchema: v.GenericSchema<RemoveResponse> = v.union([
+export const RemoveResponseSchema: v.GenericSchema<RemoveResponse> = v.variant('status_code', [
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(424),
@@ -405,9 +435,12 @@ export const RemoveResponseSchema: v.GenericSchema<RemoveResponse> = v.union([
  *
  * @public
  */
-export const RemoveAllResponseSchema: v.GenericSchema<RemoveAllResponse> = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const RemoveAllResponseSchema: v.GenericSchema<RemoveAllResponse> = v.variant(
+  'status_code',
+  [
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

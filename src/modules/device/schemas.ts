@@ -28,11 +28,14 @@ export const IsEsimSupportedResultSchema: v.GenericSchema<IsEsimSupportedResult>
  *
  * @public
  */
-export const IsEsimSupportedResponseSchema: v.GenericSchema<IsEsimSupportedResponse> = v.union([
-  sdkOkResponseSchema(IsEsimSupportedResultSchema),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(426),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const IsEsimSupportedResponseSchema: v.GenericSchema<IsEsimSupportedResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(IsEsimSupportedResultSchema),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(426),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

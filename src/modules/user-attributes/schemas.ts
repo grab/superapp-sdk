@@ -37,7 +37,7 @@ export const GetSelectedTravelDestinationResultSchema: v.GenericSchema<GetSelect
  * @public
  */
 export const GetSelectedTravelDestinationResponseSchema: v.GenericSchema<GetSelectedTravelDestinationResponse> =
-  v.union([
+  v.variant('status_code', [
     sdkOkResponseSchema(GetSelectedTravelDestinationResultSchema),
     sdkNoContentResponseSchema,
     sdkErrorResponseSchema(500),
