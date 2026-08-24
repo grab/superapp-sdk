@@ -86,7 +86,8 @@ export class SystemWebViewKitModule extends BaseModule {
     request: RedirectToSystemWebViewRequest
   ): Promise<RedirectToSystemWebViewResponse> {
     const requestError = this.validate(RedirectToSystemWebViewRequestSchema, request);
-    if (requestError) return { status_code: 400, error: requestError.issues };
+    if (requestError)
+      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
 
     const response = (await this.invoke({
       method: 'redirectToSystemWebView',
@@ -97,9 +98,8 @@ export class SystemWebViewKitModule extends BaseModule {
     if (responseError)
       this.logger.warn(
         'redirectToSystemWebView',
-        'Unexpected response shape',
-        responseError.issues,
-        { received: responseError.received }
+        `Unexpected response shape:
+`
       );
 
     return response;

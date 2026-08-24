@@ -440,9 +440,7 @@ export class IdentityModule extends BaseModule {
 
     const rawResponseError = this.validate(RawAuthorizeResponseSchema, response);
     if (rawResponseError)
-      this.logger.warn('authorize', 'Unexpected response shape', rawResponseError.issues, {
-        received: rawResponseError.received,
-      });
+      this.logger.warn('authorize', 'Unexpected response shape', rawResponseError);
 
     return response;
   }
@@ -540,7 +538,8 @@ export class IdentityModule extends BaseModule {
    */
   async authorize(request: AuthorizeRequest): Promise<AuthorizeResponse> {
     const requestError = this.validate(AuthorizeRequestSchema, request);
-    if (requestError) return { status_code: 400, error: requestError.issues };
+    if (requestError)
+      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
 
     const pkceArtifacts = await this.generatePKCEArtifacts();
 

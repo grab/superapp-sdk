@@ -50,14 +50,17 @@ export const DRMPlaybackEventSchema: v.GenericSchema<DRMPlaybackEvent> = v.objec
  *
  * @public
  */
-export const PlayDRMContentResponseSchema: v.GenericSchema<PlayDRMContentResponse> = v.union([
-  sdkOkResponseSchema(DRMPlaybackEventSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const PlayDRMContentResponseSchema: v.GenericSchema<PlayDRMContentResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(DRMPlaybackEventSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * @group Modules
@@ -67,7 +70,7 @@ export const PlayDRMContentResponseSchema: v.GenericSchema<PlayDRMContentRespons
  */
 export const ObserveDRMPlaybackResponseSchema: v.GenericSchema<
   Awaited<ObserveDRMPlaybackResponse>
-> = v.union([
+> = v.variant('status_code', [
   sdkOkResponseSchema(DRMPlaybackEventSchema),
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),

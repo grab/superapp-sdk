@@ -18,7 +18,7 @@ import type { BackResponse } from './types';
  *
  * @public
  */
-export const BackResponseSchema: v.GenericSchema<BackResponse> = v.union([
+export const BackResponseSchema: v.GenericSchema<BackResponse> = v.variant('status_code', [
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(500),
   sdkErrorResponseSchema(501),

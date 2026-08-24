@@ -90,9 +90,8 @@ export class UserAttributesModule extends BaseModule {
     if (responseError)
       this.logger.warn(
         'getSelectedTravelDestination',
-        'Unexpected response shape',
-        responseError.issues,
-        { received: responseError.received }
+        `Unexpected response shape:
+`
       );
 
     return response;

@@ -80,9 +80,8 @@ export class LocaleModule extends BaseModule {
     if (responseError)
       this.logger.warn(
         'getAppLocaleIdentifier',
-        'Unexpected response shape',
-        responseError.issues,
-        { received: responseError.received }
+        `Unexpected response shape:
+`
       );
 
     return response;
@@ -129,9 +128,8 @@ export class LocaleModule extends BaseModule {
     if (responseError)
       this.logger.warn(
         'getLanguageLocaleIdentifier',
-        'Unexpected response shape',
-        responseError.issues,
-        { received: responseError.received }
+        `Unexpected response shape:
+`
       );
 
     return response;

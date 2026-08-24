@@ -98,7 +98,8 @@ export class LoyaltyModule extends BaseModule {
     if (supportError) return supportError;
 
     const requestError = this.validate(EstimateRewardsRequestSchema, request);
-    if (requestError) return { status_code: 400, error: requestError.issues };
+    if (requestError)
+      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
 
     const response = (await this.invoke({
       method: 'estimateRewards',
@@ -107,9 +108,7 @@ export class LoyaltyModule extends BaseModule {
 
     const responseError = this.validate(EstimateRewardsResponseSchema, response);
     if (responseError)
-      this.logger.warn('estimateRewards', 'Unexpected response shape', responseError.issues, {
-        received: responseError.received,
-      });
+      this.logger.warn('estimateRewards', 'Unexpected response shape', responseError);
 
     return response;
   }

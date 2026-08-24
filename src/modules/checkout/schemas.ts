@@ -69,9 +69,12 @@ export const TriggerCheckoutResultSchema: v.GenericSchema<TriggerCheckoutResult>
  *
  * @public
  */
-export const TriggerCheckoutResponseSchema: v.GenericSchema<TriggerCheckoutResponse> = v.union([
-  sdkOkResponseSchema(TriggerCheckoutResultSchema),
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const TriggerCheckoutResponseSchema: v.GenericSchema<TriggerCheckoutResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(TriggerCheckoutResultSchema),
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

@@ -41,20 +41,23 @@ export const GetCoordinateResultSchema: v.GenericSchema<GetCoordinateResult> = v
  *
  * @public
  */
-export const GetCoordinateResponseSchema: v.GenericSchema<GetCoordinateResponse> = v.union([
-  sdkOkResponseSchema(GetCoordinateResultSchema),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const GetCoordinateResponseSchema: v.GenericSchema<GetCoordinateResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(GetCoordinateResultSchema),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);
 
 /**
  * @internal
  */
 export const ObserveLocationChangeResponseSchema: v.GenericSchema<
   Awaited<ObserveLocationChangeResponse>
-> = v.union([
+> = v.variant('status_code', [
   sdkOkResponseSchema(GetCoordinateResultSchema),
   sdkErrorResponseSchema(400),
   sdkErrorResponseSchema(403),
@@ -81,11 +84,14 @@ export const GetCountryCodeResultSchema: v.GenericSchema<GetCountryCodeResult> =
  *
  * @public
  */
-export const GetCountryCodeResponseSchema: v.GenericSchema<GetCountryCodeResponse> = v.union([
-  sdkOkResponseSchema(GetCountryCodeResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const GetCountryCodeResponseSchema: v.GenericSchema<GetCountryCodeResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(GetCountryCodeResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

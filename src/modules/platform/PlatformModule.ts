@@ -80,10 +80,7 @@ export class PlatformModule extends BaseModule {
     })) as BackResponse;
 
     const responseError = this.validate(BackResponseSchema, response);
-    if (responseError)
-      this.logger.warn('back', 'Unexpected response shape', responseError.issues, {
-        received: responseError.received,
-      });
+    if (responseError) this.logger.warn('back', 'Unexpected response shape', responseError);
 
     return response;
   }

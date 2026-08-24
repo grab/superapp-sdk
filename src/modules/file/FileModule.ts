@@ -82,7 +82,8 @@ export class FileModule extends BaseModule {
    */
   async downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse> {
     const requestError = this.validate(DownloadFileRequestSchema, request);
-    if (requestError) return { status_code: 400, error: requestError.issues };
+    if (requestError)
+      return { status_code: 400, error: requestError.split('\n')[0].replace('  issue:    ', '') };
 
     const response = (await this.invoke({
       method: 'downloadFile',
@@ -90,10 +91,7 @@ export class FileModule extends BaseModule {
     })) as DownloadFileResponse;
 
     const responseError = this.validate(DownloadFileResponseSchema, response);
-    if (responseError)
-      this.logger.warn('downloadFile', 'Unexpected response shape', responseError.issues, {
-        received: responseError.received,
-      });
+    if (responseError) this.logger.warn('downloadFile', 'Unexpected response shape', responseError);
 
     return response;
   }
