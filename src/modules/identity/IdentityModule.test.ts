@@ -143,7 +143,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('Invalid type: Expected Object but received null');
+        expect(response.error).toBe('\n- Invalid type: Expected Object but received null');
       }
     });
 
@@ -158,7 +158,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('clientId: Invalid length: Expected >=1 but received 0');
+        expect(response.error).toBe('\n- clientId: Invalid length: Expected >=1 but received 0');
       }
     });
 
@@ -173,7 +173,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('redirectUri: Invalid URL: Received ""');
+        expect(response.error).toBe('\n- redirectUri: Invalid URL: Received ""');
       }
     });
 
@@ -188,7 +188,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('redirectUri: Invalid URL: Received "not-a-valid-url"');
+        expect(response.error).toBe('\n- redirectUri: Invalid URL: Received "not-a-valid-url"');
       }
     });
 
@@ -203,7 +203,7 @@ describe('IdentityModule', () => {
 
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
-        expect(response.error).toBe('scope: Invalid length: Expected >=1 but received 0');
+        expect(response.error).toBe('\n- scope: Invalid length: Expected >=1 but received 0');
       }
     });
 
@@ -219,7 +219,7 @@ describe('IdentityModule', () => {
       expect(response.status_code).toBe(400);
       if (response.status_code === 400) {
         expect(response.error).toBe(
-          'environment: Invalid type: Expected ("staging" | "production") but received "invalid"'
+          '\n- environment: Invalid type: Expected ("staging" | "production") but received "invalid"'
         );
       }
     });

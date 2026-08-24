@@ -19,5 +19,6 @@ export function formatIssues(issues: [BaseIssue<unknown>, ...BaseIssue<unknown>[
       const path = issue.path?.map((p) => String(p.key)).join('.');
       return path ? `${path}: ${issue.message}` : issue.message;
     })
-    .join(', ');
+    .map((msg) => `\n- ${msg}`)
+    .join('');
 }
