@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isSuccess, isOk, isNoContent, isError, ContainerModule, IdentityModule, ScopeModule, LocationModule, LocaleModule } from '@grabjs/superapp-sdk';
-import { ENVIRONMENT_CONFIG } from '../config';
 import { runOptional, formatError } from '../utils/sdkHelpers';
 import { getVisitCount } from '../utils/visitStorage';
 import { WarningArea } from '../components/WarningArea';
@@ -71,11 +70,7 @@ export default function IndexPage() {
     const hasAccessResponse = await scope.hasAccessTo('LocationModule', 'getCoordinate');
     if (!isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
       const authResponse = await identity.authorize({
-        clientId: ENVIRONMENT_CONFIG.clientId,
-        redirectUri: window.location.href,
         scope: 'mobile.geolocation',
-        environment: 'staging',
-        responseMode: 'in_place'
       });
 
       if (!isOk(authResponse)) {
@@ -92,7 +87,6 @@ export default function IndexPage() {
         setActionResult({ message: formatError('Reload scopes', reloadResponse), type: 'error' });
         return;
       }
-      await identity.clearAuthorizationArtifacts();
     }
 
     const locationResponse = await location.getCoordinate();

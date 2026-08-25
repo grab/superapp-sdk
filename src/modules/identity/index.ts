@@ -6,11 +6,4 @@
  */
 
 export { IdentityModule } from './IdentityModule';
-export type {
-  AuthorizeRequest,
-  AuthorizeResponse,
-  AuthorizeResult,
-  ClearAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsResult,
-} from './types';
+export type { AuthorizeRequest, AuthorizeResponse, AuthorizeResult } from './types';

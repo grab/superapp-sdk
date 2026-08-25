@@ -78,9 +78,6 @@ export {
   AuthorizeRequest,
   AuthorizeResponse,
   AuthorizeResult,
-  ClearAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsResponse,
-  GetAuthorizationArtifactsResult,
   IdentityModule,
 } from './modules/identity';
 export {

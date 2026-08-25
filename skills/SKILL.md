@@ -93,7 +93,7 @@ The SDK uses HTTP-style status codes for all responses:
 | :---- | :---------------- | :---------------------------------------------------------- |
 | `200` | OK                | Request successful, `result` contains response data         |
 | `204` | No Content        | Request successful, no data returned                        |
-| `302` | Redirect          | Redirect in progress                                        |
+| `302` | Redirect          | Deprecated. No SDK method returns this code.                |
 | `400` | Bad Request       | Invalid request parameters                                  |
 | `401` | Unauthorized      | Authentication required                                     |
 | `403` | Forbidden         | Insufficient permission (see `@requiredOAuthScope` tag)     |
@@ -112,7 +112,7 @@ Type guards narrow the response type so TypeScript knows which fields are availa
 | `isSuccess(r)`                    | `200`, `204`                                           |
 | `isOk(r)`                         | `200`                                                  |
 | `isNoContent(r)`                  | `204`                                                  |
-| `isRedirection(r)` / `isFound(r)` | `302`                                                  |
+| `isRedirection(r)` / `isFound(r)` | `302` (deprecated)                                     |
 | `isClientError(r)`                | `400`, `401`, `403`, `404`, `424`, `426`               |
 | `isServerError(r)`                | `500`, `501`                                           |
 | `isError(r)`                      | `400`, `401`, `403`, `404`, `424`, `426`, `500`, `501` |
@@ -222,11 +222,7 @@ const response = await location.getCoordinate();
 if (isError(response) && response.status_code === 403) {
   // 1. Request authorization for the required scope
   const auth = await identity.authorize({
-    clientId: 'your-client-id',
-    redirectUri: 'https://your-app.com/callback',
     scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
-    environment: 'production',
-    responseMode: 'in_place',
   });
 
   if (isSuccess(auth)) {
@@ -302,59 +298,37 @@ init();
 
 Trigger `IdentityModule.authorize()` to start the authorization process and request user permissions.
 
-When authorization completes with `status_code: 200` (native `in_place` flow), `response.result` already includes `code`, `state`, and the PKCE values (`codeVerifier`, `nonce`, `redirectUri`), so you do not need `getAuthorizationArtifacts()`.
+When authorization completes with `status_code: 200`, `response.result` includes `code`, `state`, and the PKCE values (`codeVerifier`, `nonce`, `redirectUri`) returned by the native SuperApp. Send these values to your backend so it can exchange the authorization code for tokens, validate the `id_token`, fetch user info, and establish the user's session.
 
-If the flow uses the web redirect instead (`status_code: 302`), the page navigates away; after the redirect lands on your callback URL, read the `code` from the query string and retrieve the stored PKCE artifacts with `IdentityModule.getAuthorizationArtifacts()`.
+Callers only need to provide the requested `scope`. The legacy `clientId`, `redirectUri`, `environment`, and `responseMode` fields are deprecated and accepted only for backward compatibility; they are ignored.
 
-In either case, send those values to your backend so it can exchange the authorization code for tokens, validate the `id_token`, fetch user info, and establish the user's session.
-
-After the session is established, call `IdentityModule.clearAuthorizationArtifacts()` and `ScopeModule.reloadScopes()` so your MiniApp can begin using the newly granted permissions.
-
-Use `isRedirection` for `302`: that branch is separate from `isSuccess`, which only matches `200` and `204` for `authorize()`.
+After the session is established, call `ScopeModule.reloadScopes()` so your MiniApp can begin using the newly granted permissions.
 
 ```typescript
-import {
-  IdentityModule,
-  ScopeModule,
-  isSuccess,
-  isError,
-  isRedirection,
-} from '@grabjs/superapp-sdk';
+import { IdentityModule, ScopeModule, isSuccess, isError } from '@grabjs/superapp-sdk';
 
 const identity = new IdentityModule();
 const scope = new ScopeModule();
 
 async function signIn() {
   const response = await identity.authorize({
-    clientId: 'your-client-id',
-    redirectUri: 'https://your-miniapp.example.com/callback',
     scope: 'openid profile.read phone mobile.storage',
-    environment: 'production',
-    responseMode: 'in_place',
   });
 
   if (isSuccess(response)) {
     if (response.status_code === 200) {
       const { code, state, codeVerifier, nonce, redirectUri } = response.result;
 
-      // 1. Send the values to your backend for token exchange (see Backend Token Exchange section below)
+      // Send the values to your backend for token exchange (see Backend Token Exchange section below)
       // await myBackend.exchangeTokens({ code, codeVerifier, nonce, redirectUri, state });
 
-      // 2. Clear artifacts and reload scopes
-      await identity.clearAuthorizationArtifacts();
       await scope.reloadScopes();
     } else if (response.status_code === 204) {
       // User cancelled the authorization flow
-      await identity.clearAuthorizationArtifacts();
+      console.log('Authorization cancelled');
     }
-  } else if (isRedirection(response)) {
-    // `302`: web consent — the SDK redirected the browser to GrabID. After the user returns to
-    // `redirectUri` with `?code=...&state=...`, read the code from the URL and call
-    // `getAuthorizationArtifacts()` for PKCE values, then exchange tokens (see paragraphs above).
-    return;
   } else if (isError(response)) {
     console.error('Authorization failed:', response.error);
-    await identity.clearAuthorizationArtifacts();
   }
 }
 ```
@@ -482,11 +456,7 @@ async function processPayment() {
     // Request authorization for mobile.checkout
     // Note: mobile.checkout is a mobile scope; no backend exchange is needed for auth.
     const authResponse = await identity.authorize({
-      clientId: 'your-client-id',
-      redirectUri: window.location.href,
       scope: 'mobile.checkout',
-      environment: 'production',
-      responseMode: 'in_place',
     });
 
     if (isSuccess(authResponse) && authResponse.status_code === 200) {
@@ -562,13 +532,7 @@ SDK module for downloading files to the user's device via `JSBridge`.
 
 #### `IdentityModule`
 SDK module for authenticating users with GrabID via `JSBridge`.
-- `authorize(request: AuthorizeRequest): Promise<AuthorizeResponse>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
-This method handles both native in-app consent and web-based fallback flows.
-- `clearAuthorizationArtifacts(): Promise<SDKNoContentResponse>` — Clears all stored PKCE authorization artifacts from local storage.
-This should be called after a successful token exchange or when you need to
-reset the authorization state (e.g., on error or logout).
-- `getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse>` — Retrieves stored PKCE authorization artifacts from local storage.
-These artifacts are used to complete the OAuth2 authorization code exchange.
+- `authorize(request: AuthorizeRequest): Promise<AuthorizeResponse>` — Initiates an OAuth2 authorization flow with PKCE.
 
 #### `LocaleModule`
 SDK module for accessing device locale settings via `JSBridge`.

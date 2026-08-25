@@ -40,7 +40,7 @@ The SDK uses HTTP-style status codes for all responses:
 | :---- | :---------------- | :---------------------------------------------------------- |
 | `200` | OK                | Request successful, `result` contains response data         |
 | `204` | No Content        | Request successful, no data returned                        |
-| `302` | Redirect          | Redirect in progress                                        |
+| `302` | Redirect          | Deprecated. No SDK method returns this code.                |
 | `400` | Bad Request       | Invalid request parameters                                  |
 | `401` | Unauthorized      | Authentication required                                     |
 | `403` | Forbidden         | Insufficient permission (see `@requiredOAuthScope` tag)     |
@@ -59,7 +59,7 @@ Type guards narrow the response type so TypeScript knows which fields are availa
 | `isSuccess(r)`                    | `200`, `204`                                           |
 | `isOk(r)`                         | `200`                                                  |
 | `isNoContent(r)`                  | `204`                                                  |
-| `isRedirection(r)` / `isFound(r)` | `302`                                                  |
+| `isRedirection(r)` / `isFound(r)` | `302` (deprecated)                                     |
 | `isClientError(r)`                | `400`, `401`, `403`, `404`, `424`, `426`               |
 | `isServerError(r)`                | `500`, `501`                                           |
 | `isError(r)`                      | `400`, `401`, `403`, `404`, `424`, `426`, `500`, `501` |
@@ -169,11 +169,7 @@ const response = await location.getCoordinate();
 if (isError(response) && response.status_code === 403) {
   // 1. Request authorization for the required scope
   const auth = await identity.authorize({
-    clientId: 'your-client-id',
-    redirectUri: 'https://your-app.com/callback',
     scope: 'mobile.geolocation', // The scope defined in @requiredOAuthScope
-    environment: 'production',
-    responseMode: 'in_place',
   });
 
   if (isSuccess(auth)) {

@@ -42,11 +42,7 @@
         // Request authorization for user profile (OIDC) and storage (mobile) scopes.
         // OIDC scopes require a backend token exchange to retrieve user info.
         const authResponse = await identity.authorize({
-          clientId: ENVIRONMENT_CONFIG.clientId,
-          redirectUri: ENVIRONMENT_CONFIG.redirectUri,
           scope: 'openid profile.read phone mobile.storage',
-          environment: ENVIRONMENT,
-          responseMode: 'in_place'
         });
 
         // Production: handle the authorization code on your backend (exchange tokens, validate id_token, session).
@@ -89,21 +85,17 @@
               }
 
               await incrementVisitCount();
-              await identity.clearAuthorizationArtifacts();
               window.location.href = 'index.html?v=1';
               break;
             }
 
             case 204:
-              await identity.clearAuthorizationArtifacts();
               show('content', 'Authorization was cancelled.', 'error');
               break;
           }
         } else if (SuperAppSDK.isError(authResponse)) {
-          await identity.clearAuthorizationArtifacts();
           show('content', `Authorization failed: ${authResponse.error || 'Unknown error'} (code: ${authResponse.status_code})`, 'error');
         } else {
-          await identity.clearAuthorizationArtifacts();
           show('content', `Unexpected authorization response: ${authResponse.status_code}`, 'error');
         }
       }

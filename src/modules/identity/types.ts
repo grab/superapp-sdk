@@ -5,12 +5,7 @@
  * directory of this source tree.
  */
 
-import type {
-  SDKErrorResponse,
-  SDKNoContentResponse,
-  SDKOkResponse,
-  SDKRedirectResponse,
-} from '../../core';
+import type { SDKErrorResponse, SDKNoContentResponse, SDKOkResponse } from '../../core';
 
 /**
  * Request parameters for initiating an OAuth2 authorization flow with PKCE.
@@ -21,15 +16,15 @@ import type {
  * @public
  */
 export type AuthorizeRequest = {
-  /** OAuth client identifier issued to your application. */
-  clientId: string;
-  /** OAuth redirect URI registered for your application. */
-  redirectUri: string;
   /** OAuth scopes requested for the authorization flow (for example, `"openid profile.read phone mobile.storage"`). */
   scope: string;
-  /** Target authorization environment (for example, `"staging"` or `"production"`). */
-  environment: 'staging' | 'production';
-  /** Authorization response mode for result delivery (for example, `"redirect"` or `"in_place"`). */
+  /** @deprecated Ignored. No longer required for authorization. */
+  clientId?: string;
+  /** @deprecated Ignored. No longer required for authorization. */
+  redirectUri?: string;
+  /** @deprecated Ignored. No longer required for authorization. */
+  environment?: 'staging' | 'production';
+  /** @deprecated Ignored. The response mode is always `in_place` via the native bridge. */
   responseMode?: 'redirect' | 'in_place';
 };
 
@@ -39,14 +34,11 @@ export type AuthorizeRequest = {
  * @internal
  */
 export type RawAuthorizeResponse =
-  | SDKOkResponse<{
-      code: string;
-      state: string;
-    }>
+  | SDKOkResponse<AuthorizeResult>
   | SDKNoContentResponse
-  | SDKRedirectResponse
   | SDKErrorResponse<400>
   | SDKErrorResponse<403>
+  | SDKErrorResponse<426>
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
 
@@ -83,52 +75,8 @@ export type AuthorizeResult = {
 export type AuthorizeResponse =
   | SDKOkResponse<AuthorizeResult>
   | SDKNoContentResponse
-  | SDKRedirectResponse
   | SDKErrorResponse<400>
   | SDKErrorResponse<403>
+  | SDKErrorResponse<426>
   | SDKErrorResponse<500>
   | SDKErrorResponse<501>;
-
-/**
- * Result object containing the stored PKCE authorization artifacts.
- * These are used to complete the OAuth2 authorization code exchange.
- *
- * @group Modules
- * @category Identity
- *
- * @public
- */
-export type GetAuthorizationArtifactsResult = {
-  /** State value used to correlate and validate the flow. */
-  state: string;
-  /** PKCE code verifier used for token exchange. */
-  codeVerifier: string;
-  /** Nonce value used to bind and validate the authorization response. */
-  nonce: string;
-  /** OAuth redirect URI registered for your application. */
-  redirectUri: string;
-};
-
-/**
- * Response when retrieving stored authorization artifacts.
- *
- * @group Modules
- * @category Identity
- *
- * @public
- */
-export type GetAuthorizationArtifactsResponse =
-  | SDKOkResponse<GetAuthorizationArtifactsResult>
-  | SDKNoContentResponse
-  | SDKErrorResponse<400>;
-
-/**
- * Response when clearing stored authorization artifacts.
- *
- * @group Modules
- * @category Identity
- *
- *
- * @public
- */
-export type ClearAuthorizationArtifactsResponse = SDKNoContentResponse;

@@ -60,6 +60,8 @@ export interface SDKNoContentResponse {
  *
  * @group Core
  *
+ * @deprecated No SDK method returns `302`. The identity web redirect flow has been removed.
+ *
  * @public
  */
 export interface SDKRedirectResponse {

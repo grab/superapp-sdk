@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.63] - 2026-08-25
+
+_Simplifies `IdentityModule.authorize()` to a scope-only native contract and removes the web consent fallback and localStorage artifact helpers._
+
+### Changed
+
+- `IdentityModule.authorize()` now requires only `scope`.
+- `AuthorizeRequest` legacy fields (`clientId`, `redirectUri`, `environment`, `responseMode`) are deprecated and accepted only for backward compatibility; they are ignored.
+- `AuthorizeResponse` no longer returns `302`. Web consent fallback, OpenID configuration fetching, and `window.location` redirect logic have been removed.
+- `IdentityModule.authorize()` returns `426` on Grab app versions below 5.397.0 on Android and iOS.
+- Deprecated `SDKRedirectResponse`, `isRedirection()`, and `isFound()`. No SDK method returns `302`.
+
+### Removed
+
+- `IdentityModule.getAuthorizationArtifacts()` and `IdentityModule.clearAuthorizationArtifacts()`.
+- Exported artifact types: `GetAuthorizationArtifactsResponse`, `GetAuthorizationArtifactsResult`, and `ClearAuthorizationArtifactsResponse`.
+- Identity-specific constants (`OPENID_CONFIG_ENDPOINTS`, `NAMESPACE`, PKCE lengths) and `AuthorizationConfigurationError`.
+
+### Migration
+
+Replace any `authorize()` call with a scope-only request:
+
+```typescript
+// Before
+await identity.authorize({
+  clientId: '...',
+  redirectUri: '...',
+  scope: 'openid profile.read',
+  environment: 'production',
+  responseMode: 'in_place',
+});
+
+// After
+await identity.authorize({ scope: 'openid profile.read' });
+```
+
+Remove `getAuthorizationArtifacts()` and `clearAuthorizationArtifacts()` calls; on `200` the response already contains all token-exchange values. Stop handling `302` / `isRedirection` from `authorize()`.
+
 ## [2.0.0-beta.62] - 2026-08-24
 
 _Improves validation error messages for easier debugging of unexpected JSBridge responses._

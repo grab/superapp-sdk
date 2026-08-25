@@ -62,6 +62,8 @@ export const sdkNoContentResponseSchema = v.object({ status_code: v.literal(204)
  *
  * @group Core
  *
+ * @deprecated No SDK method returns `302`. The identity web redirect flow has been removed.
+ *
  * @internal
  */
 export const sdkRedirectResponseSchema = v.object({ status_code: v.literal(302) });

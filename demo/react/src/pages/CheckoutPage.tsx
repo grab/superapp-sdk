@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isSuccess, isOk, isNoContent, isError, ContainerModule, IdentityModule, ScopeModule, CheckoutModule, LoyaltyModule } from '@grabjs/superapp-sdk';
-import { ENVIRONMENT_CONFIG } from '../config';
 import { runOptional, formatError } from '../utils/sdkHelpers';
 import { WarningArea } from '../components/WarningArea';
 import { StatusMessage } from '../components/StatusMessage';
@@ -87,11 +86,7 @@ export default function CheckoutPage() {
     const hasAccessResponse = await scope.hasAccessTo('CheckoutModule', 'triggerCheckout');
     if (!isSuccess(hasAccessResponse) || !hasAccessResponse.result) {
       const authResponse = await identity.authorize({
-        clientId: ENVIRONMENT_CONFIG.clientId,
-        redirectUri: window.location.href,
         scope: 'mobile.checkout',
-        environment: 'staging',
-        responseMode: 'in_place'
       });
       if (!isOk(authResponse)) {
         if (isError(authResponse)) {
@@ -107,7 +102,6 @@ export default function CheckoutPage() {
         setResult({ status: 'error', errorMessage: formatError('Reload scopes', reloadResponse) });
         return;
       }
-      await identity.clearAuthorizationArtifacts();
     }
 
     await runOptional('Send TRANSACT analytics', container.sendAnalyticsEvent({ state: 'CHECKOUT_PAGE', name: 'TRANSACT' }), setWarning);

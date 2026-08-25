@@ -90,6 +90,8 @@ export function isNoContent<T extends SDKResponse>(
  * @param response - The SDK response to check
  * @returns `true` if the response is a redirect, `false` otherwise
  *
+ * @deprecated No SDK method returns `302`. The identity web redirect flow has been removed.
+ *
  * @example
  * ```typescript
  * const response = await someBridgeMethod();
@@ -114,6 +116,8 @@ export function isRedirection<T extends SDKResponse>(
  *
  * @param response - The SDK response to check
  * @returns `true` if the response has `302` status code, `false` otherwise
+ *
+ * @deprecated Alias of {@link isRedirection}. No SDK method returns `302`.
  *
  * @example
  * ```typescript

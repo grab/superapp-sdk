@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isSuccess, isError, ContainerModule, IdentityModule, ScopeModule } from '@grabjs/superapp-sdk';
-import { ENVIRONMENT_CONFIG } from '../config';
 import { fetchDiscoveryConfiguration, exchangeAuthorizationCode, fetchUserInfo } from '../services/grabidService';
 import { runOptional, formatError } from '../utils/sdkHelpers';
 import { incrementVisitCount } from '../utils/visitStorage';
@@ -10,8 +9,6 @@ import { StatusMessage } from '../components/StatusMessage';
 import { useUser } from '../context/UserContext';
 
 import type { PageState } from '../types';
-
-const ENVIRONMENT = ENVIRONMENT_CONFIG.clientId === 'REPLACE_WITH_PRODUCTION_CLIENT_ID' ? 'production' : 'staging';
 
 export default function EntryPage() {
   const navigate = useNavigate();
@@ -42,11 +39,7 @@ export default function EntryPage() {
     await runOptional('Hide loader', container.hideLoader(), setWarning);
 
     const authResponse = await identity.authorize({
-      clientId: ENVIRONMENT_CONFIG.clientId,
-      redirectUri: ENVIRONMENT_CONFIG.redirectUri,
       scope: 'openid profile.read phone mobile.storage',
-      environment: ENVIRONMENT,
-      responseMode: 'in_place'
     });
 
     if (isSuccess(authResponse)) {
@@ -99,17 +92,13 @@ export default function EntryPage() {
         }
 
         await incrementVisitCount();
-        await identity.clearAuthorizationArtifacts();
         navigate('/index');
       } else if (status_code === 204) {
-        await identity.clearAuthorizationArtifacts();
         setPageState({ status: 'error', message: 'Authorization was cancelled.', type: 'error' });
       }
     } else if (isError(authResponse)) {
-      await identity.clearAuthorizationArtifacts();
       setPageState({ status: 'error', message: `Authorization failed: ${authResponse.error} (code: ${authResponse.status_code})`, type: 'error' });
     } else {
-      await identity.clearAuthorizationArtifacts();
       setPageState({ status: 'error', message: `Unexpected authorization response: ${authResponse.status_code}`, type: 'error' });
     }  
   }

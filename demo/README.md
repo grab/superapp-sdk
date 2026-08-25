@@ -64,7 +64,7 @@ npm run dev
 
 1. Open `cdn/config.js` (or `react/src/config.ts`).
 2. Set `ENVIRONMENT` to `'staging'` or `'production'`.
-3. Replace placeholders with your `clientId` and `redirectUri` (must match your Grab partner registration).
+3. Replace placeholders with your `clientId` (must match your Grab partner registration). This is used only for the demo's browser-side token exchange. The `redirectUri` for that exchange comes from `authorize()`'s result.
 
 ## Testing
 
@@ -89,7 +89,6 @@ sequenceDiagram
     Entry->>OIDC: OIDC Flow (Discovery, Token Exchange, UserInfo)
     OIDC-->>Entry: User profile data
     Entry->>SDK: Reload scopes via ScopeModule.reloadScopes
-    Entry->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
     Entry->>Home: Navigate to home page
 
     Home->>SDK: Configure container via ContainerModule (setBackgroundColor, setTitle, hideBackButton, showRefreshButton)
@@ -101,7 +100,6 @@ sequenceDiagram
         Note over Home,SDK: mobile.geolocation is a mobile scope (no token exchange needed)
         Home->>SDK: Authorize via IdentityModule.authorize with scope mobile.geolocation
         Home->>SDK: Reload scopes via ScopeModule.reloadScopes
-        Home->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
     end
     Home->>SDK: Track analytics event via ContainerModule.sendAnalyticsEvent for event HOMEPAGE INITIATE
     Home->>SDK: Get coordinates via LocationModule.getCoordinate
@@ -115,7 +113,6 @@ sequenceDiagram
     alt No access
         Checkout->>SDK: Authorize via IdentityModule.authorize with scope mobile.checkout
         Checkout->>SDK: Reload scopes via ScopeModule.reloadScopes
-        Checkout->>SDK: Clear authorization artifacts via IdentityModule.clearAuthorizationArtifacts
     end
     Checkout->>Backend: Create transaction via GrabPay API
     Backend-->>Checkout: { partnerTxID, request, sessionID }

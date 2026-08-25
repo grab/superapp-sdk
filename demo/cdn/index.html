@@ -94,11 +94,7 @@
             // permission within the native app. No backend token exchange is required 
             // to use LocationModule methods after authorization.
             const authResponse = await identity.authorize({
-              clientId: ENVIRONMENT_CONFIG.clientId,
-              redirectUri: window.location.href,
               scope: 'mobile.geolocation',
-              environment: ENVIRONMENT,
-              responseMode: 'in_place'
             });
 
             if (!SuperAppSDK.isOk(authResponse)) {
@@ -115,7 +111,6 @@
               show('content', formatError('Reload scopes', reloadResponse), 'error');
               return;
             }
-            await identity.clearAuthorizationArtifacts();
           }
 
           const locationResponse = await location.getCoordinate();
