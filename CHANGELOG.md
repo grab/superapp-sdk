@@ -15,6 +15,8 @@ _Stable release of the v2 SDK._
 
 - Skill reference files switched from five hand-grouped domain files to one file per module, generated directly from the TypeDoc API JSON (including each method's `@returns` and `@example`) — removes the need to maintain a grouping/tagging mechanism.
 - `CheckoutModule.triggerCheckout()` now documents and types a `403` response for missing `mobile.checkout` authorization, matching every other scope-gated method.
+- Response schemas migrated from `v.union` to `v.variant('status_code', [...])` across all modules, so valibot identifies the matching branch and reports the exact field failure instead of a generic type mismatch.
+- Validation errors with multiple issues are now formatted as a newline-separated list prefixed with `-`.
 
 ### Fixed
 

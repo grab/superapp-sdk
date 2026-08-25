@@ -87,7 +87,7 @@ const EstimateRewardsErrorEntrySchema = v.object({
  */
 export const EstimateRewardsResultSchema: v.GenericSchema<EstimateRewardsResult> = v.object({
   items: v.array(
-    v.union([
+    v.variant('status_code', [
       EstimateRewardsSuccessEntrySchema,
       EstimateRewardsNotApplicableEntrySchema,
       EstimateRewardsErrorEntrySchema,
@@ -103,12 +103,15 @@ export const EstimateRewardsResultSchema: v.GenericSchema<EstimateRewardsResult>
  *
  * @public
  */
-export const EstimateRewardsResponseSchema: v.GenericSchema<EstimateRewardsResponse> = v.union([
-  sdkOkResponseSchema(EstimateRewardsResultSchema),
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(424),
-  sdkErrorResponseSchema(426),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const EstimateRewardsResponseSchema: v.GenericSchema<EstimateRewardsResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(EstimateRewardsResultSchema),
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(424),
+    sdkErrorResponseSchema(426),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

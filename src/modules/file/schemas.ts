@@ -31,9 +31,12 @@ export const DownloadFileRequestSchema: v.GenericSchema<DownloadFileRequest> = v
  *
  * @public
  */
-export const DownloadFileResponseSchema: v.GenericSchema<DownloadFileResponse> = v.union([
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const DownloadFileResponseSchema: v.GenericSchema<DownloadFileResponse> = v.variant(
+  'status_code',
+  [
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

@@ -38,7 +38,7 @@ export const GetLanguageLocaleIdentifierResultSchema: v.GenericSchema<GetLanguag
  * @public
  */
 export const GetAppLocaleIdentifierResponseSchema: v.GenericSchema<GetAppLocaleIdentifierResponse> =
-  v.union([
+  v.variant('status_code', [
     sdkOkResponseSchema(GetLanguageLocaleIdentifierResultSchema),
     sdkErrorResponseSchema(400),
     sdkErrorResponseSchema(500),
@@ -54,7 +54,7 @@ export const GetAppLocaleIdentifierResponseSchema: v.GenericSchema<GetAppLocaleI
  * @public
  */
 export const GetLanguageLocaleIdentifierResponseSchema: v.GenericSchema<GetLanguageLocaleIdentifierResponse> =
-  v.union([
+  v.variant('status_code', [
     sdkOkResponseSchema(GetLanguageLocaleIdentifierResultSchema),
     sdkNoContentResponseSchema,
     sdkErrorResponseSchema(400),

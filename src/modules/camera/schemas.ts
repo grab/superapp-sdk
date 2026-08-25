@@ -46,11 +46,14 @@ export const ScanQRCodeResultSchema: v.GenericSchema<ScanQRCodeResult> = v.objec
  *
  * @public
  */
-export const ScanQRCodeResponseSchema: v.GenericSchema<ScanQRCodeResponse> = v.union([
-  sdkOkResponseSchema(ScanQRCodeResultSchema),
-  sdkNoContentResponseSchema,
-  sdkErrorResponseSchema(400),
-  sdkErrorResponseSchema(403),
-  sdkErrorResponseSchema(500),
-  sdkErrorResponseSchema(501),
-]);
+export const ScanQRCodeResponseSchema: v.GenericSchema<ScanQRCodeResponse> = v.variant(
+  'status_code',
+  [
+    sdkOkResponseSchema(ScanQRCodeResultSchema),
+    sdkNoContentResponseSchema,
+    sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
+    sdkErrorResponseSchema(500),
+    sdkErrorResponseSchema(501),
+  ]
+);

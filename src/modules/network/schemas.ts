@@ -64,7 +64,7 @@ export const SendResultSchema: v.GenericSchema<SendResult> = v.record(v.string()
  *
  * @public
  */
-export const SendResponseSchema: v.GenericSchema<SendResponse> = v.union([
+export const SendResponseSchema: v.GenericSchema<SendResponse> = v.variant('status_code', [
   sdkOkResponseSchema(SendResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
@@ -94,7 +94,7 @@ export const RawSendResultSchema: v.GenericSchema<RawSendResult> = v.union([
  *
  * @internal
  */
-export const RawSendResponseSchema: v.GenericSchema<RawSendResponse> = v.union([
+export const RawSendResponseSchema: v.GenericSchema<RawSendResponse> = v.variant('status_code', [
   sdkOkResponseSchema(RawSendResultSchema),
   sdkNoContentResponseSchema,
   sdkErrorResponseSchema(400),
