@@ -167,10 +167,10 @@ function getReturnTypeName(sig) {
 }
 
 /**
- * Extracts the YAML frontmatter `title` field from a guide file.
+ * Extracts a named YAML frontmatter field from a guide file.
  */
-function extractTitle(content) {
-  const m = /^---[\s\S]*?^title:\s*(.+)$/m.exec(content);
+function extractFrontmatterField(content, field) {
+  const m = new RegExp(`^---[\\s\\S]*?^${field}:\\s*(.+)$`, 'm').exec(content);
   return m ? m[1].trim() : null;
 }
 
@@ -190,11 +190,14 @@ function generateGuidesTable() {
 
   const rows = orderedGuides.map((fileName) => {
     const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
-    const title = extractTitle(raw) ?? fileName;
-    return `| ${title} | \`guides/${fileName}\` |`;
+    const title = extractFrontmatterField(raw, 'title') ?? fileName;
+    const description = extractFrontmatterField(raw, 'description') ?? '';
+    return `| ${title} | ${description} | \`guides/${fileName}\` |`;
   });
 
-  return ['## Guides', '', '| Guide | File |', '| :--- | :--- |', ...rows].join('\n');
+  return ['## Guides', '', '| Guide | Contents | File |', '| :--- | :--- | :--- |', ...rows].join(
+    '\n'
+  );
 }
 
 /**

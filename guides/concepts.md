@@ -1,5 +1,6 @@
 ---
 title: Core Concepts
+description: Response pattern, status codes, type guards, streams, scopes and permissions
 ---
 
 # Core Concepts

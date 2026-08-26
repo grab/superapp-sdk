@@ -1,5 +1,6 @@
 ---
 title: Integration Guide
+description: Initialization, authentication, container UI, external links, analytics event tracking, checkout flow
 ---
 
 # Integration Guide

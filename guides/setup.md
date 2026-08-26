@@ -1,5 +1,6 @@
 ---
 title: Setup
+description: Installation and importing (ES Modules and CDN)
 ---
 
 # Setup

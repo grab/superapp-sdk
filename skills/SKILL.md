@@ -11,11 +11,11 @@ Use this SDK to call native Grab SuperApp features from a MiniApp running in the
 
 ## Guides
 
-| Guide | File |
-| :--- | :--- |
-| Setup | `guides/setup.md` |
-| Core Concepts | `guides/concepts.md` |
-| Integration Guide | `guides/integration.md` |
+| Guide | Contents | File |
+| :--- | :--- | :--- |
+| Setup | Installation and importing (ES Modules and CDN) | `guides/setup.md` |
+| Core Concepts | Response pattern, status codes, type guards, streams, scopes and permissions | `guides/concepts.md` |
+| Integration Guide | Initialization, authentication, container UI, external links, analytics event tracking, checkout flow | `guides/integration.md` |
 
 
 ## Module Index
