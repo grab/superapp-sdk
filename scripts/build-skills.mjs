@@ -20,7 +20,6 @@ const GUIDES_DIR = path.join(ROOT_DIR, 'guides');
 const EXCLUDED_CLASSES = ['BaseModule', 'Logger'];
 
 const KIND_CLASS = 128;
-const KIND_FUNCTION = 64;
 const KIND_METHOD = 2048;
 
 /**
@@ -246,33 +245,6 @@ function generateClasses(api) {
 }
 
 /**
- * Generates the Markdown section for each public top-level function (the type
- * guards). These stay universal and inline in SKILL.md, not routed per-file.
- */
-function generateFunctions(api) {
-  const functions = api.children
-    .filter((c) => c.kind === KIND_FUNCTION && c.flags?.isPublic)
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  return functions
-    .map((fn) => {
-      const sig = fn.signatures?.[0];
-      if (!sig) return null;
-      const description = commentSummary(sig.comment ?? fn.comment);
-      const typeParams = sig.typeParameters?.length
-        ? `<${sig.typeParameters.map((t) => t.name).join(', ')}>`
-        : '';
-      const params = (sig.parameters ?? [])
-        .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
-        .join(', ');
-      const returnType = renderType(sig.type);
-      return `#### \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
-    })
-    .filter(Boolean)
-    .join('\n\n');
-}
-
-/**
  * Builds the "Module Index" table (SKILL.md) mapping each public class to
  * its own reference file. One row per class, in the same order the classes
  * were generated (alphabetical) — the table cannot drift out of sync with
@@ -309,21 +281,12 @@ function buildSkills() {
   const template = fs.readFileSync(SKILLS_TEMPLATE, 'utf-8');
 
   const classes = generateClasses(api);
-  const functions = generateFunctions(api);
 
   const guidesSection = generateGuidesTable();
 
   const moduleIndex = generateModuleIndex(classes);
 
-  const functionsSection = [
-    '## Functions',
-    '',
-    'Type guards for narrowing SDK response types (see Core Concepts → Type Guards for usage).',
-    '',
-    functions,
-  ].join('\n');
-
-  const skill = [template.trimEnd(), guidesSection, moduleIndex, functionsSection].join('\n\n\n');
+  const skill = [template.trimEnd(), guidesSection, moduleIndex].join('\n\n\n');
 
   // Only now that everything above has succeeded do we touch the filesystem.
   const skillDir = path.join(ROOT_DIR, 'skills');
