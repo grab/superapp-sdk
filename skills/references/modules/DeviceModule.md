@@ -4,7 +4,17 @@
 
 SDK module for querying native device information via `JSBridge`.
 
-- `isEsimSupported(): Promise<IsEsimSupportedResponse>` — Checks whether the current device supports eSIM. (**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0)
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `isEsimSupported()` | `Promise<IsEsimSupportedResponse>` | Checks whether the current device supports eSIM. |
+
+## `isEsimSupported`
+
+Checks whether the current device supports eSIM.
+
+**OAuth Scope:** mobile.device | **Minimum Grab App Version:** Android: 5.402.0, iOS: 5.402.0
+
+**Signature:** `isEsimSupported(): Promise<IsEsimSupportedResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): eSIM capability was checked successfully. The `result` contains IsEsimSupportedResult.

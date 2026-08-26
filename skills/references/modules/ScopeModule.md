@@ -4,7 +4,17 @@
 
 SDK module for checking and refreshing API access permissions via `JSBridge`.
 
-- `hasAccessTo(module: string, method: string): Promise<HasAccessToResponse>` — Checks if the current client has access to a specific `JSBridge` API method.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `hasAccessTo(module: string, method: string)` | `Promise<HasAccessToResponse>` | Checks if the current client has access to a specific `JSBridge` API method. |
+| `reloadScopes()` | `Promise<ReloadScopesResponse>` | Requests to reload the consented OAuth scopes for the current client.
+This refreshes the permissions from the server. |
+
+## `hasAccessTo`
+
+Checks if the current client has access to a specific `JSBridge` API method.
+
+**Signature:** `hasAccessTo(module: string, method: string): Promise<HasAccessToResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Access check completed successfully. The `result` contains HasAccessToResult.
@@ -32,8 +42,12 @@ if (isSuccess(response)) {
 }
 ```
 
-- `reloadScopes(): Promise<ReloadScopesResponse>` — Requests to reload the consented OAuth scopes for the current client.
+## `reloadScopes`
+
+Requests to reload the consented OAuth scopes for the current client.
 This refreshes the permissions from the server.
+
+**Signature:** `reloadScopes(): Promise<ReloadScopesResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Scopes reloaded successfully.

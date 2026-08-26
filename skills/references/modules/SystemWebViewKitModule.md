@@ -4,7 +4,15 @@
 
 SDK module for opening URLs in the device's system browser via `JSBridge`.
 
-- `redirectToSystemWebView(request: RedirectToSystemWebViewRequest): Promise<RedirectToSystemWebViewResponse>` — Opens a URL in the device's system web browser or web view.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `redirectToSystemWebView(request: RedirectToSystemWebViewRequest)` | `Promise<RedirectToSystemWebViewResponse>` | Opens a URL in the device's system web browser or web view. |
+
+## `redirectToSystemWebView`
+
+Opens a URL in the device's system web browser or web view.
+
+**Signature:** `redirectToSystemWebView(request: RedirectToSystemWebViewRequest): Promise<RedirectToSystemWebViewResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Redirect initiated successfully.

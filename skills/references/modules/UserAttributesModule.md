@@ -4,7 +4,15 @@
 
 SDK module for reading user-related attributes from native code via `JSBridge`.
 
-- `getSelectedTravelDestination(): Promise<GetSelectedTravelDestinationResponse>` — Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `getSelectedTravelDestination()` | `Promise<GetSelectedTravelDestinationResponse>` | Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code. |
+
+## `getSelectedTravelDestination`
+
+Returns the currently selected travel destination as a lowercase ISO 3166-1 alpha-2 country code.
+
+**Signature:** `getSelectedTravelDestination(): Promise<GetSelectedTravelDestinationResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): The selected travel destination code was returned in `result` as GetSelectedTravelDestinationResult.

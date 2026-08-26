@@ -4,8 +4,17 @@
 
 SDK module for controlling platform navigation via `JSBridge`.
 
-- `back(): Promise<BackResponse>` — Triggers the native platform back navigation.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `back()` | `Promise<BackResponse>` | Triggers the native platform back navigation.
+This navigates back in the native navigation stack. |
+
+## `back`
+
+Triggers the native platform back navigation.
 This navigates back in the native navigation stack.
+
+**Signature:** `back(): Promise<BackResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Back navigation triggered successfully.

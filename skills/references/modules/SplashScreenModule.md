@@ -4,7 +4,15 @@
 
 SDK module for controlling the native splash / Lottie loading screen via `JSBridge`.
 
-- `dismiss(): Promise<DismissSplashScreenResponse>` — Dismisses the native splash (Lottie) loading view if it is presented.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `dismiss()` | `Promise<DismissSplashScreenResponse>` | Dismisses the native splash (Lottie) loading view if it is presented. |
+
+## `dismiss`
+
+Dismisses the native splash (Lottie) loading view if it is presented.
+
+**Signature:** `dismiss(): Promise<DismissSplashScreenResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): No splash screen shown, or it was closed successfully.

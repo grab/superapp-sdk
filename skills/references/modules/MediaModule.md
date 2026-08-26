@@ -4,7 +4,18 @@
 
 SDK module for playing DRM-protected media content via `JSBridge`.
 
-- `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse` — Observes DRM-protected media content playback events. (**OAuth Scope:** mobile.media)
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `observePlayDRMContent(data: DRMContentConfig)` | `ObserveDRMPlaybackResponse` | Observes DRM-protected media content playback events. |
+| `playDRMContent(data: DRMContentConfig)` | `Promise<PlayDRMContentResponse>` | Plays DRM-protected media content in the native media player. |
+
+## `observePlayDRMContent`
+
+Observes DRM-protected media content playback events.
+
+**OAuth Scope:** mobile.media
+
+**Signature:** `observePlayDRMContent(data: DRMContentConfig): ObserveDRMPlaybackResponse`
 
 This stream can emit the following `status_code` values:
 - `200` (OK): Stream emitted a playback event. The `result` contains DRMPlaybackEvent.
@@ -35,7 +46,13 @@ const subscription = media.observePlayDRMContent({
 subscription.unsubscribe();
 ```
 
-- `playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse>` — Plays DRM-protected media content in the native media player. (**OAuth Scope:** mobile.media)
+## `playDRMContent`
+
+Plays DRM-protected media content in the native media player.
+
+**OAuth Scope:** mobile.media
+
+**Signature:** `playDRMContent(data: DRMContentConfig): Promise<PlayDRMContentResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Playback initiated successfully.

@@ -4,7 +4,17 @@
 
 SDK module for Loyalty features via `JSBridge`.
 
-- `estimateRewards(request: EstimateRewardsRequest): Promise<EstimateRewardsResponse>` — Estimates the rewards for a list of items. (**OAuth Scope:** mobile.loyalty | **Minimum Grab App Version:** Android: 5.424.0, iOS: 5.424.0)
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `estimateRewards(request: EstimateRewardsRequest)` | `Promise<EstimateRewardsResponse>` | Estimates the rewards for a list of items. |
+
+## `estimateRewards`
+
+Estimates the rewards for a list of items.
+
+**OAuth Scope:** mobile.loyalty | **Minimum Grab App Version:** Android: 5.424.0, iOS: 5.424.0
+
+**Signature:** `estimateRewards(request: EstimateRewardsRequest): Promise<EstimateRewardsResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Estimation successful. The `result` contains EstimateRewardsResult.

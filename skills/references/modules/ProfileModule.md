@@ -4,7 +4,18 @@
 
 SDK module for accessing user profile information via `JSBridge`.
 
-- `fetchEmail(): Promise<FetchEmailResponse>` — Fetches the user's email address from their Grab profile. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `fetchEmail()` | `Promise<FetchEmailResponse>` | Fetches the user's email address from their Grab profile. |
+| `verifyEmail(request?: VerifyEmailRequest)` | `Promise<VerifyEmailResponse>` | Verifies the user's email address by triggering email capture bottom sheet and OTP verification. |
+
+## `fetchEmail`
+
+Fetches the user's email address from their Grab profile.
+
+**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0
+
+**Signature:** `fetchEmail(): Promise<FetchEmailResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Email fetched successfully. The `result` contains FetchEmailResult.
@@ -45,7 +56,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `verifyEmail(request?: VerifyEmailRequest): Promise<VerifyEmailResponse>` — Verifies the user's email address by triggering email capture bottom sheet and OTP verification. (**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0)
+## `verifyEmail`
+
+Verifies the user's email address by triggering email capture bottom sheet and OTP verification.
+
+**OAuth Scope:** mobile.profile | **Minimum Grab App Version:** Android: 5.399.0, iOS: 5.399.0
+
+**Signature:** `verifyEmail(request?: VerifyEmailRequest): Promise<VerifyEmailResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Success, email verified and returned in `result` as VerifyEmailResult.

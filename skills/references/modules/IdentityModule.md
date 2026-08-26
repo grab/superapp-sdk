@@ -4,8 +4,22 @@
 
 SDK module for authenticating users with GrabID via `JSBridge`.
 
-- `authorize(request: AuthorizeRequest): Promise<AuthorizeResponse>` — Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `authorize(request: AuthorizeRequest)` | `Promise<AuthorizeResponse>` | Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
+This method handles both native in-app consent and web-based fallback flows. |
+| `clearAuthorizationArtifacts()` | `Promise<SDKNoContentResponse>` | Clears all stored PKCE authorization artifacts from local storage.
+This should be called after a successful token exchange or when you need to
+reset the authorization state (e.g., on error or logout). |
+| `getAuthorizationArtifacts()` | `Promise<GetAuthorizationArtifactsResponse>` | Retrieves stored PKCE authorization artifacts from local storage.
+These artifacts are used to complete the OAuth2 authorization code exchange. |
+
+## `authorize`
+
+Initiates an OAuth2 authorization flow with PKCE (Proof Key for Code Exchange).
 This method handles both native in-app consent and web-based fallback flows.
+
+**Signature:** `authorize(request: AuthorizeRequest): Promise<AuthorizeResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Authorization completed successfully (native in_place flow). The `result` contains AuthorizeResult.
@@ -63,9 +77,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `clearAuthorizationArtifacts(): Promise<SDKNoContentResponse>` — Clears all stored PKCE authorization artifacts from local storage.
+## `clearAuthorizationArtifacts`
+
+Clears all stored PKCE authorization artifacts from local storage.
 This should be called after a successful token exchange or when you need to
 reset the authorization state (e.g., on error or logout).
+
+**Signature:** `clearAuthorizationArtifacts(): Promise<SDKNoContentResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Authorization artifacts cleared successfully.
@@ -85,8 +103,12 @@ if (isSuccess(response)) {
 }
 ```
 
-- `getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse>` — Retrieves stored PKCE authorization artifacts from local storage.
+## `getAuthorizationArtifacts`
+
+Retrieves stored PKCE authorization artifacts from local storage.
 These artifacts are used to complete the OAuth2 authorization code exchange.
+
+**Signature:** `getAuthorizationArtifacts(): Promise<GetAuthorizationArtifactsResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): All artifacts present. The `result` contains GetAuthorizationArtifactsResult.

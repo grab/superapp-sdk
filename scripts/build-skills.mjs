@@ -217,28 +217,59 @@ function generateClasses(api) {
 
   return classes.map((cls) => {
     const description = commentSummary(cls.comment);
-    const methods = (cls.children ?? [])
-      .filter((c) => c.kind === KIND_METHOD && c.flags?.isPublic)
+    const methodNodes = (cls.children ?? []).filter(
+      (c) => c.kind === KIND_METHOD && c.flags?.isPublic
+    );
+
+    // Summary table — one row per method
+    const tableRows = methodNodes
+      .map((method) => {
+        const sig = method.signatures?.[0];
+        if (!sig) return null;
+        const desc = commentSummary(sig.comment);
+        const params = (sig.parameters ?? [])
+          .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
+          .join(', ');
+        return `| \`${sig.name}(${params})\` | \`${getReturnTypeName(sig)}\` | ${desc} |`;
+      })
+      .filter(Boolean);
+
+    const methodsTable =
+      tableRows.length > 0
+        ? ['| Method | Returns | Description |', '| :--- | :--- | :--- |', ...tableRows].join('\n')
+        : null;
+
+    // Per-method sections with ## headings
+    const methodSections = methodNodes
       .map((method) => {
         const sig = method.signatures?.[0];
         if (!sig) return null;
         const desc = commentSummary(sig.comment);
         const requirements = buildRequirements(sig.comment);
-        const fullDesc = requirements ? `${desc} (${requirements})` : desc;
         const params = (sig.parameters ?? [])
           .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
           .join(', ');
-        const signatureLine = `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${fullDesc}`;
+        const signature = `\`${sig.name}(${params}): ${getReturnTypeName(sig)}\``;
+
+        const parts = [`## \`${sig.name}\``, desc];
+        if (requirements) parts.push(requirements);
+        parts.push(`**Signature:** ${signature}`);
 
         const returns = extractBlockTag(sig.comment, '@returns');
-        const examples = extractAllBlockTags(sig.comment, '@example');
-        const details = [returns, ...examples].filter(Boolean).join('\n\n');
+        if (returns) parts.push(returns);
 
-        return details ? `${signatureLine}\n\n${details}` : signatureLine;
+        const examples = extractAllBlockTags(sig.comment, '@example');
+        examples.forEach((ex) => parts.push(ex));
+
+        return parts.join('\n\n');
       })
       .filter(Boolean);
 
-    const section = [`## API Reference`, description, ...methods].join('\n\n');
+    const sectionParts = ['## API Reference', description];
+    if (methodsTable) sectionParts.push(methodsTable);
+    sectionParts.push(...methodSections);
+
+    const section = sectionParts.join('\n\n');
 
     return { name: cls.name, description, section };
   });

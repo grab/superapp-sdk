@@ -4,7 +4,17 @@
 
 SDK module for triggering native payment flows via `JSBridge`.
 
-- `triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse>` — Triggers the native checkout flow for payment processing. (**OAuth Scope:** mobile.checkout)
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `triggerCheckout(request: TriggerCheckoutRequest)` | `Promise<TriggerCheckoutResponse>` | Triggers the native checkout flow for payment processing. |
+
+## `triggerCheckout`
+
+Triggers the native checkout flow for payment processing.
+
+**OAuth Scope:** mobile.checkout
+
+**Signature:** `triggerCheckout(request: TriggerCheckoutRequest): Promise<TriggerCheckoutResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Checkout completed successfully. The `result` contains TriggerCheckoutResult.

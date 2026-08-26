@@ -4,7 +4,15 @@
 
 SDK module for accessing the device camera via `JSBridge`.
 
-- `scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse>` — Opens the native camera to scan a QR code.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `scanQRCode(request: ScanQRCodeRequest)` | `Promise<ScanQRCodeResponse>` | Opens the native camera to scan a QR code. |
+
+## `scanQRCode`
+
+Opens the native camera to scan a QR code.
+
+**Signature:** `scanQRCode(request: ScanQRCodeRequest): Promise<ScanQRCodeResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Successfully scanned QR code. The `result` contains ScanQRCodeResult.

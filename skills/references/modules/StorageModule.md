@@ -4,7 +4,26 @@
 
 SDK module for persisting key-value data to native storage via `JSBridge`.
 
-- `getBoolean(key: string): Promise<GetBooleanResponse>` — Retrieves a boolean value from the native storage. (**OAuth Scope:** mobile.storage)
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `getBoolean(key: string)` | `Promise<GetBooleanResponse>` | Retrieves a boolean value from the native storage. |
+| `getDouble(key: string)` | `Promise<GetDoubleResponse>` | Retrieves a double (floating point) value from the native storage. |
+| `getInt(key: string)` | `Promise<GetIntResponse>` | Retrieves an integer value from the native storage. |
+| `getString(key: string)` | `Promise<GetStringResponse>` | Retrieves a string value from the native storage. |
+| `remove(key: string)` | `Promise<RemoveResponse>` | Removes a single value from the native storage by key. |
+| `removeAll()` | `Promise<RemoveAllResponse>` | Removes all values from the native storage. |
+| `setBoolean(key: string, value: boolean)` | `Promise<SetBooleanResponse>` | Stores a boolean value in the native storage. |
+| `setDouble(key: string, value: number)` | `Promise<SetDoubleResponse>` | Stores a double (floating point) value in the native storage. |
+| `setInt(key: string, value: number)` | `Promise<SetIntResponse>` | Stores an integer value in the native storage. |
+| `setString(key: string, value: string)` | `Promise<SetStringResponse>` | Stores a string value in the native storage. |
+
+## `getBoolean`
+
+Retrieves a boolean value from the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `getBoolean(key: string): Promise<GetBooleanResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Value retrieved successfully. The `result` contains GetBooleanResult.
@@ -37,7 +56,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `getDouble(key: string): Promise<GetDoubleResponse>` — Retrieves a double (floating point) value from the native storage. (**OAuth Scope:** mobile.storage)
+## `getDouble`
+
+Retrieves a double (floating point) value from the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `getDouble(key: string): Promise<GetDoubleResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Value retrieved successfully. The `result` contains GetDoubleResult.
@@ -70,7 +95,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `getInt(key: string): Promise<GetIntResponse>` — Retrieves an integer value from the native storage. (**OAuth Scope:** mobile.storage)
+## `getInt`
+
+Retrieves an integer value from the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `getInt(key: string): Promise<GetIntResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Value retrieved successfully. The `result` contains GetIntResult.
@@ -103,7 +134,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `getString(key: string): Promise<GetStringResponse>` — Retrieves a string value from the native storage. (**OAuth Scope:** mobile.storage)
+## `getString`
+
+Retrieves a string value from the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `getString(key: string): Promise<GetStringResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Value retrieved successfully. The `result` contains GetStringResult.
@@ -136,7 +173,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `remove(key: string): Promise<RemoveResponse>` — Removes a single value from the native storage by key. (**OAuth Scope:** mobile.storage)
+## `remove`
+
+Removes a single value from the native storage by key.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `remove(key: string): Promise<RemoveResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Value removed successfully.
@@ -164,7 +207,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `removeAll(): Promise<RemoveAllResponse>` — Removes all values from the native storage. (**OAuth Scope:** mobile.storage)
+## `removeAll`
+
+Removes all values from the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `removeAll(): Promise<RemoveAllResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): All values removed successfully.
@@ -191,7 +240,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `setBoolean(key: string, value: boolean): Promise<SetBooleanResponse>` — Stores a boolean value in the native storage. (**OAuth Scope:** mobile.storage)
+## `setBoolean`
+
+Stores a boolean value in the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `setBoolean(key: string, value: boolean): Promise<SetBooleanResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Value stored successfully.
@@ -219,7 +274,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `setDouble(key: string, value: number): Promise<SetDoubleResponse>` — Stores a double (floating point) value in the native storage. (**OAuth Scope:** mobile.storage)
+## `setDouble`
+
+Stores a double (floating point) value in the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `setDouble(key: string, value: number): Promise<SetDoubleResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Value stored successfully.
@@ -247,7 +308,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `setInt(key: string, value: number): Promise<SetIntResponse>` — Stores an integer value in the native storage. (**OAuth Scope:** mobile.storage)
+## `setInt`
+
+Stores an integer value in the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `setInt(key: string, value: number): Promise<SetIntResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Value stored successfully.
@@ -275,7 +342,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `setString(key: string, value: string): Promise<SetStringResponse>` — Stores a string value in the native storage. (**OAuth Scope:** mobile.storage)
+## `setString`
+
+Stores a string value in the native storage.
+
+**OAuth Scope:** mobile.storage
+
+**Signature:** `setString(key: string, value: string): Promise<SetStringResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Value stored successfully.

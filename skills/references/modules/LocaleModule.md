@@ -4,7 +4,16 @@
 
 SDK module for accessing device locale settings via `JSBridge`.
 
-- `getAppLocaleIdentifier(): Promise<GetAppLocaleIdentifierResponse>` — Retrieves the current app locale identifier from the device.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `getAppLocaleIdentifier()` | `Promise<GetAppLocaleIdentifierResponse>` | Retrieves the current app locale identifier from the device. |
+| `getLanguageLocaleIdentifier()` | `Promise<GetLanguageLocaleIdentifierResponse>` | Retrieves the current language locale identifier from the device. |
+
+## `getAppLocaleIdentifier`
+
+Retrieves the current app locale identifier from the device.
+
+**Signature:** `getAppLocaleIdentifier(): Promise<GetAppLocaleIdentifierResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Locale identifier retrieved successfully.
@@ -25,7 +34,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>` — Retrieves the current language locale identifier from the device.
+## `getLanguageLocaleIdentifier`
+
+Retrieves the current language locale identifier from the device.
+
+**Signature:** `getLanguageLocaleIdentifier(): Promise<GetLanguageLocaleIdentifierResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Locale identifier retrieved successfully.

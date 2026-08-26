@@ -4,7 +4,19 @@
 
 SDK module for accessing device location services via `JSBridge`.
 
-- `getCoordinate(): Promise<GetCoordinateResponse>` — Get the current geographic coordinates of the device. (**OAuth Scope:** mobile.geolocation)
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `getCoordinate()` | `Promise<GetCoordinateResponse>` | Get the current geographic coordinates of the device. |
+| `getCountryCode()` | `Promise<GetCountryCodeResponse>` | Get the country code based on the device's current location. |
+| `observeLocationChange()` | `ObserveLocationChangeResponse` | Subscribe to location change updates from the device. |
+
+## `getCoordinate`
+
+Get the current geographic coordinates of the device.
+
+**OAuth Scope:** mobile.geolocation
+
+**Signature:** `getCoordinate(): Promise<GetCoordinateResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Coordinates retrieved successfully. The `result` contains GetCoordinateResult.
@@ -39,7 +51,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `getCountryCode(): Promise<GetCountryCodeResponse>` — Get the country code based on the device's current location. (**OAuth Scope:** mobile.geolocation)
+## `getCountryCode`
+
+Get the country code based on the device's current location.
+
+**OAuth Scope:** mobile.geolocation
+
+**Signature:** `getCountryCode(): Promise<GetCountryCodeResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Country code retrieved successfully. The `result` contains GetCountryCodeResult.
@@ -75,7 +93,13 @@ if (isSuccess(response)) {
 }
 ```
 
-- `observeLocationChange(): ObserveLocationChangeResponse` — Subscribe to location change updates from the device. (**OAuth Scope:** mobile.geolocation)
+## `observeLocationChange`
+
+Subscribe to location change updates from the device.
+
+**OAuth Scope:** mobile.geolocation
+
+**Signature:** `observeLocationChange(): ObserveLocationChangeResponse`
 
 This stream can emit the following `status_code` values:
 - `200` (OK): Stream emitted a location update. The `result` contains GetCoordinateResult.

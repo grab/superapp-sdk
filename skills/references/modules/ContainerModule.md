@@ -4,7 +4,29 @@
 
 SDK module for controlling the WebView container via `JSBridge`.
 
-- `close(): Promise<CloseResponse>` — Close the container and return to the previous screen.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `close()` | `Promise<CloseResponse>` | Close the container and return to the previous screen. |
+| `getSessionParams()` | `Promise<GetSessionParamsResponse>` | Get the session parameters from the container. |
+| `hideBackButton()` | `Promise<HideBackButtonResponse>` | Hide the back button on the container header. |
+| `hideLoader()` | `Promise<HideLoaderResponse>` | Hide the full-screen loading indicator. |
+| `hideRefreshButton()` | `Promise<HideRefreshButtonResponse>` | Hide the refresh button on the container header. |
+| `isConnected()` | `Promise<IsConnectedResponse>` | Check if the web app is connected to the Grab SuperApp via `JSBridge`. |
+| `onContentLoaded()` | `Promise<OnContentLoadedResponse>` | Notify the Grab SuperApp that the page content has loaded. |
+| `onCtaTap(request: string)` | `Promise<OnCtaTapResponse>` | Notify the client that the user has tapped a call-to-action (CTA). |
+| `openExternalLink(request: string)` | `Promise<OpenExternalLinkResponse>` | Open a link in the external browser. |
+| `sendAnalyticsEvent(request: SendAnalyticsEventRequest)` | `Promise<SendAnalyticsEventResponse>` | Use this method to track user interactions and page transitions. |
+| `setBackgroundColor(request: string)` | `Promise<SetBackgroundColorResponse>` | Set the background color of the container header. |
+| `setTitle(request: string)` | `Promise<SetTitleResponse>` | Set the title of the container header. |
+| `showBackButton()` | `Promise<ShowBackButtonResponse>` | Show the back button on the container header. |
+| `showLoader()` | `Promise<ShowLoaderResponse>` | Show the full-screen loading indicator. |
+| `showRefreshButton()` | `Promise<ShowRefreshButtonResponse>` | Show the refresh button on the container header. |
+
+## `close`
+
+Close the container and return to the previous screen.
+
+**Signature:** `close(): Promise<CloseResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Container closed successfully.
@@ -30,7 +52,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `getSessionParams(): Promise<GetSessionParamsResponse>` — Get the session parameters from the container.
+## `getSessionParams`
+
+Get the session parameters from the container.
+
+**Signature:** `getSessionParams(): Promise<GetSessionParamsResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Session parameters retrieved successfully.
@@ -62,7 +88,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `hideBackButton(): Promise<HideBackButtonResponse>` — Hide the back button on the container header.
+## `hideBackButton`
+
+Hide the back button on the container header.
+
+**Signature:** `hideBackButton(): Promise<HideBackButtonResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Back button hidden successfully.
@@ -88,7 +118,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `hideLoader(): Promise<HideLoaderResponse>` — Hide the full-screen loading indicator.
+## `hideLoader`
+
+Hide the full-screen loading indicator.
+
+**Signature:** `hideLoader(): Promise<HideLoaderResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Loader hidden successfully.
@@ -114,7 +148,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `hideRefreshButton(): Promise<HideRefreshButtonResponse>` — Hide the refresh button on the container header.
+## `hideRefreshButton`
+
+Hide the refresh button on the container header.
+
+**Signature:** `hideRefreshButton(): Promise<HideRefreshButtonResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Refresh button hidden successfully.
@@ -140,7 +178,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `isConnected(): Promise<IsConnectedResponse>` — Check if the web app is connected to the Grab SuperApp via `JSBridge`.
+## `isConnected`
+
+Check if the web app is connected to the Grab SuperApp via `JSBridge`.
+
+**Signature:** `isConnected(): Promise<IsConnectedResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Connected to Grab SuperApp. The `result` contains IsConnectedResult.
@@ -165,7 +207,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `onContentLoaded(): Promise<OnContentLoadedResponse>` — Notify the Grab SuperApp that the page content has loaded.
+## `onContentLoaded`
+
+Notify the Grab SuperApp that the page content has loaded.
+
+**Signature:** `onContentLoaded(): Promise<OnContentLoadedResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): Notification sent successfully.
@@ -192,7 +238,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `onCtaTap(request: string): Promise<OnCtaTapResponse>` — Notify the client that the user has tapped a call-to-action (CTA).
+## `onCtaTap`
+
+Notify the client that the user has tapped a call-to-action (CTA).
+
+**Signature:** `onCtaTap(request: string): Promise<OnCtaTapResponse>`
 
 This method can return the following `status_code` values:
 - `200` (OK): CTA tap notification sent successfully.
@@ -218,7 +268,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `openExternalLink(request: string): Promise<OpenExternalLinkResponse>` — Open a link in the external browser.
+## `openExternalLink`
+
+Open a link in the external browser.
+
+**Signature:** `openExternalLink(request: string): Promise<OpenExternalLinkResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): External link opened successfully.
@@ -245,7 +299,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `sendAnalyticsEvent(request: SendAnalyticsEventRequest): Promise<SendAnalyticsEventResponse>` — Use this method to track user interactions and page transitions.
+## `sendAnalyticsEvent`
+
+Use this method to track user interactions and page transitions.
+
+**Signature:** `sendAnalyticsEvent(request: SendAnalyticsEventRequest): Promise<SendAnalyticsEventResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Analytics event sent successfully.
@@ -281,7 +339,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `setBackgroundColor(request: string): Promise<SetBackgroundColorResponse>` — Set the background color of the container header.
+## `setBackgroundColor`
+
+Set the background color of the container header.
+
+**Signature:** `setBackgroundColor(request: string): Promise<SetBackgroundColorResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Background color set successfully.
@@ -308,7 +370,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `setTitle(request: string): Promise<SetTitleResponse>` — Set the title of the container header.
+## `setTitle`
+
+Set the title of the container header.
+
+**Signature:** `setTitle(request: string): Promise<SetTitleResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Title set successfully.
@@ -335,7 +401,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `showBackButton(): Promise<ShowBackButtonResponse>` — Show the back button on the container header.
+## `showBackButton`
+
+Show the back button on the container header.
+
+**Signature:** `showBackButton(): Promise<ShowBackButtonResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Back button shown successfully.
@@ -361,7 +431,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `showLoader(): Promise<ShowLoaderResponse>` — Show the full-screen loading indicator.
+## `showLoader`
+
+Show the full-screen loading indicator.
+
+**Signature:** `showLoader(): Promise<ShowLoaderResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Loader shown successfully.
@@ -387,7 +461,11 @@ if (isSuccess(response)) {
 }
 ```
 
-- `showRefreshButton(): Promise<ShowRefreshButtonResponse>` — Show the refresh button on the container header.
+## `showRefreshButton`
+
+Show the refresh button on the container header.
+
+**Signature:** `showRefreshButton(): Promise<ShowRefreshButtonResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): Refresh button shown successfully.

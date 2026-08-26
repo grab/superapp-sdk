@@ -4,7 +4,15 @@
 
 SDK module for downloading files to the user's device via `JSBridge`.
 
-- `downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse>` — Downloads a file through `JSBridge`.
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `downloadFile(request: DownloadFileRequest)` | `Promise<DownloadFileResponse>` | Downloads a file through `JSBridge`. |
+
+## `downloadFile`
+
+Downloads a file through `JSBridge`.
+
+**Signature:** `downloadFile(request: DownloadFileRequest): Promise<DownloadFileResponse>`
 
 This method can return the following `status_code` values:
 - `204` (No Content): File downloaded successfully.
