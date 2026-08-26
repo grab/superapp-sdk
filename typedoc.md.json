@@ -38,9 +38,9 @@
   "expandParameters": true,
   "parametersFormat": "list",
   "projectDocuments": [
-    "./scripts/guides/setup.md",
-    "./scripts/guides/concepts.md",
-    "./scripts/guides/integration.md"
+    "./skills/references/guides/setup.md",
+    "./skills/references/guides/concepts.md",
+    "./skills/references/guides/integration.md"
   ],
   "validation": {
     "notExported": true
