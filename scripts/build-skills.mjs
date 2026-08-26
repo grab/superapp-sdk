@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 const API_JSON_FILE = path.join(ROOT_DIR, 'api-reference', 'api.json');
 const SKILLS_TEMPLATE = path.join(ROOT_DIR, 'scripts', 'skills-template.md');
-const GUIDES_DIR = path.join(ROOT_DIR, 'skills', 'references', 'guides');
+const GUIDES_DIR = path.join(ROOT_DIR, 'guides');
 
 const EXCLUDED_CLASSES = ['BaseModule', 'Logger'];
 
@@ -321,11 +321,11 @@ function buildSkills() {
 
   // Only now that everything above has succeeded do we touch the filesystem.
   const skillDir = path.join(ROOT_DIR, 'skills');
-  const modulesDir = path.join(skillDir, 'references', 'modules');
+  const referencesDir = path.join(skillDir, 'references');
+  const modulesDir = path.join(referencesDir, 'modules');
+  const guidesOutDir = path.join(referencesDir, 'guides');
 
-  // Wipe only SKILL.md and references/modules — references/guides is source, not generated.
-  if (fs.existsSync(path.join(skillDir, 'SKILL.md'))) fs.rmSync(path.join(skillDir, 'SKILL.md'));
-  if (fs.existsSync(modulesDir)) fs.rmSync(modulesDir, { recursive: true, force: true });
+  if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
   fs.mkdirSync(modulesDir, { recursive: true });
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
@@ -337,7 +337,9 @@ function buildSkills() {
     );
   }
 
-  console.log(`Generated skills/SKILL.md + ${classes.length} module files`);
+  fs.cpSync(GUIDES_DIR, guidesOutDir, { recursive: true });
+
+  console.log(`Generated skills/SKILL.md + ${classes.length} module files + guides`);
 }
 
 buildSkills();

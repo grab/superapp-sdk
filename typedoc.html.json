@@ -15,10 +15,10 @@
   },
   "alwaysCreateEntryPointModule": false,
   "projectDocuments": [
-    "./skills/references/guides/setup.md",
-    "./skills/references/guides/concepts.md",
-    "./skills/references/guides/integration.md",
-    "./skills/references/guides/ai-assistance.md",
+    "./guides/setup.md",
+    "./guides/concepts.md",
+    "./guides/integration.md",
+    "./guides/ai-assistance.md",
     "./CHANGELOG.md"
   ],
   "searchInComments": true,
