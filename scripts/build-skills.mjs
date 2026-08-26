@@ -17,7 +17,7 @@ const API_JSON_FILE = path.join(ROOT_DIR, 'api-reference', 'api.json');
 const SKILLS_TEMPLATE = path.join(ROOT_DIR, 'scripts', 'skills-template.md');
 const GUIDES_DIR = path.join(ROOT_DIR, 'guides');
 
-const GUIDE_ORDER = ['setup.md', 'concepts.md', 'integration.md'];
+const EXCLUDED_CLASSES = ['BaseModule', 'Logger'];
 
 const KIND_CLASS = 128;
 const KIND_FUNCTION = 64;
@@ -167,68 +167,34 @@ function getReturnTypeName(sig) {
 }
 
 /**
- * Strips YAML frontmatter from a guide's raw markdown.
+ * Extracts the YAML frontmatter `title` field from a guide file.
  */
-function stripFrontmatter(content) {
-  return content.replace(/^---[\s\S]*?---\n+/, '');
+function extractTitle(content) {
+  const m = /^---[\s\S]*?^title:\s*(.+)$/m.exec(content);
+  return m ? m[1].trim() : null;
 }
 
 /**
- * Strips fenced code blocks from markdown, collapsing the resulting
- * blank lines so prose and tables remain readable. Code examples are
- * already present in the per-class reference files; keeping them in
- * SKILL.md would duplicate content and inflate the word count.
+ * Builds the "Guides" table for SKILL.md — one row per guide file,
+ * pointing directly to the source markdown file in the repo.
  */
-function stripCodeBlocks(content) {
-  return content.replace(/```[\s\S]*?```\n?/g, '').replace(/\n{3,}/g, '\n\n');
-}
+function generateGuidesTable() {
+  const guideOrder = ['setup.md', 'concepts.md', 'integration.md'];
+  const allGuides = fs
+    .readdirSync(GUIDES_DIR)
+    .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md' && f !== 'jsdoc-tags.md');
+  const orderedGuides = [
+    ...guideOrder.filter((f) => allGuides.includes(f)),
+    ...allGuides.filter((f) => !guideOrder.includes(f)).sort(),
+  ];
 
-/**
- * Removes ATX headings that have no prose body between them and the next
- * heading (or end of file). A heading with only blank lines beneath it
- * adds noise — this happens naturally when a guide section is code-only
- * and the code has already been stripped. Tables and list items count as
- * content; a section is only dropped if nothing substantive remains.
- */
-function stripEmptyHeadings(content) {
-  const lines = content.split('\n');
-  const result = [];
-  let i = 0;
-  while (i < lines.length) {
-    if (!/^#{1,6}\s/.test(lines[i])) {
-      result.push(lines[i]);
-      i++;
-      continue;
-    }
-    // Collect lines until the next heading or EOF
-    const headingLine = lines[i];
-    i++;
-    const body = [];
-    while (i < lines.length && !/^#{1,6}\s/.test(lines[i])) {
-      body.push(lines[i]);
-      i++;
-    }
-    const hasContent = body.some((l) => l.trim().length > 0);
-    if (hasContent) {
-      result.push(headingLine, ...body);
-    }
-    // heading with no content is silently dropped
-  }
-  return result.join('\n').replace(/\n{3,}/g, '\n\n');
-}
-
-/**
- * Shifts every ATX heading (# .. ######) in an array of lines by `delta` levels,
- * clamped to a minimum of H1.
- */
-function shiftHeadingLines(lines, delta) {
-  if (!delta) return lines;
-  return lines.map((line) => {
-    const m = /^(#{1,6})(\s+.*)$/.exec(line);
-    if (!m) return line;
-    const newLevel = Math.max(1, m[1].length + delta);
-    return '#'.repeat(newLevel) + m[2];
+  const rows = orderedGuides.map((fileName) => {
+    const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
+    const title = extractTitle(raw) ?? fileName;
+    return `| ${title} | \`guides/${fileName}\` |`;
   });
+
+  return ['## Guides', '', '| Guide | File |', '| :--- | :--- |', ...rows].join('\n');
 }
 
 /**
@@ -244,7 +210,7 @@ function shiftHeadingLines(lines, delta) {
  */
 function generateClasses(api) {
   const classes = api.children
-    .filter((c) => c.kind === KIND_CLASS && c.name !== 'BaseModule' && c.flags?.isPublic)
+    .filter((c) => c.kind === KIND_CLASS && !EXCLUDED_CLASSES.includes(c.name) && c.flags?.isPublic)
     .sort((a, b) => a.name.localeCompare(b.name));
 
   return classes.map((cls) => {
@@ -313,7 +279,13 @@ function generateModuleIndex(classes) {
   const rows = classes.map(
     (cls) => `| \`${cls.name}\` | ${cls.description} | \`references/${cls.name}.md\` |`
   );
-  return ['| Module | Purpose | Reference file |', '| :--- | :--- | :--- |', ...rows].join('\n');
+  return [
+    '## Module Index',
+    '',
+    '| Module | Purpose | Reference file |',
+    '| :--- | :--- | :--- |',
+    ...rows,
+  ].join('\n');
 }
 
 /**
@@ -333,40 +305,12 @@ function buildSkills() {
   const api = JSON.parse(fs.readFileSync(API_JSON_FILE, 'utf-8'));
   const template = fs.readFileSync(SKILLS_TEMPLATE, 'utf-8');
 
-  const allGuides = fs
-    .readdirSync(GUIDES_DIR)
-    .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md' && f !== 'jsdoc-tags.md');
-  const orderedGuides = [
-    ...GUIDE_ORDER.filter((f) => allGuides.includes(f)),
-    ...allGuides.filter((f) => !GUIDE_ORDER.includes(f)).sort(),
-  ];
-
-  // Guides are read whole and shifted one heading level to nest under
-  // SKILL.md's top-level headings — no per-heading routing. Every class
-  // being fully self-documented (methods, @example, @returns) means guide
-  // content only needs to cover what's genuinely cross-class or universal.
-  const guides = orderedGuides
-    .map((fileName) => {
-      const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
-      return shiftHeadingLines(
-        stripEmptyHeadings(stripCodeBlocks(stripFrontmatter(raw))).split('\n'),
-        1
-      )
-        .join('\n')
-        .trim();
-    })
-    .join('\n\n');
-
   const classes = generateClasses(api);
   const functions = generateFunctions(api);
 
-  const moduleIndex = [
-    '## Module Index',
-    '',
-    generateModuleIndex(classes),
-    '',
-    'New modules automatically get their own reference file — no script or tag changes needed.',
-  ].join('\n');
+  const guidesSection = generateGuidesTable();
+
+  const moduleIndex = generateModuleIndex(classes);
 
   const functionsSection = [
     '## Functions',
@@ -376,7 +320,7 @@ function buildSkills() {
     functions,
   ].join('\n');
 
-  const skill = [template.trimEnd(), guides, moduleIndex, functionsSection].join('\n\n\n');
+  const skill = [template.trimEnd(), guidesSection, moduleIndex, functionsSection].join('\n\n\n');
 
   // Only now that everything above has succeeded do we touch the filesystem.
   const skillDir = path.join(ROOT_DIR, 'skills');
