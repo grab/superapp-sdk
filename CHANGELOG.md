@@ -14,7 +14,6 @@ _Stable release of the v2 SDK._
 ### Added
 
 - Per-class skill reference files (`skills/references/modules/<ClassName>.md`) generated from the TypeDoc API JSON, each with a methods index table and per-method signature, status codes, and example.
-- `skills/references/guides/` with setup, concepts, and integration guides for AI-assisted development.
 
 ### Changed
 
