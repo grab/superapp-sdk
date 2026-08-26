@@ -13,8 +13,6 @@ _Stable release of the v2 SDK._
 
 ### Changed
 
-- Response schemas migrated from `v.union` to `v.variant('status_code', [...])` across all modules — valibot now reports the exact field failure instead of a generic type mismatch.
-- Validation errors with multiple issues are formatted as a newline-separated list.
 - `CheckoutModule.triggerCheckout()` now returns `403` when the `mobile.checkout` scope is missing.
 
 ### Fixed
