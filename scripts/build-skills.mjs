@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 const API_JSON_FILE = path.join(ROOT_DIR, 'api-reference', 'api.json');
 const SKILLS_TEMPLATE = path.join(ROOT_DIR, 'scripts', 'skills-template.md');
-const GUIDES_DIR = path.join(ROOT_DIR, 'guides');
+const GUIDES_DIR = path.join(__dirname, 'guides');
 
 const EXCLUDED_CLASSES = ['BaseModule', 'Logger'];
 
@@ -191,7 +191,7 @@ function generateGuidesTable() {
     const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
     const title = extractFrontmatterField(raw, 'title') ?? fileName;
     const description = extractFrontmatterField(raw, 'description') ?? '';
-    return `| ${title} | ${description} | \`guides/${fileName}\` |`;
+    return `| ${title} | ${description} | \`references/guides/${fileName}\` |`;
   });
 
   return ['## Guides', '', '| Guide | Contents | File |', '| :--- | :--- | :--- |', ...rows].join(
@@ -252,7 +252,7 @@ function generateClasses(api) {
  */
 function generateModuleIndex(classes) {
   const rows = classes.map(
-    (cls) => `| \`${cls.name}\` | ${cls.description} | \`references/${cls.name}.md\` |`
+    (cls) => `| \`${cls.name}\` | ${cls.description} | \`references/modules/${cls.name}.md\` |`
   );
   return [
     '## Module Index',
@@ -291,20 +291,24 @@ function buildSkills() {
   // Only now that everything above has succeeded do we touch the filesystem.
   const skillDir = path.join(ROOT_DIR, 'skills');
   const referencesDir = path.join(skillDir, 'references');
+  const modulesDir = path.join(referencesDir, 'modules');
+  const guidesOutDir = path.join(referencesDir, 'guides');
 
   if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
-  fs.mkdirSync(referencesDir, { recursive: true });
+  fs.mkdirSync(modulesDir, { recursive: true });
 
   fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
 
   for (const cls of classes) {
     fs.writeFileSync(
-      path.join(referencesDir, `${cls.name}.md`),
+      path.join(modulesDir, `${cls.name}.md`),
       `# ${cls.name}\n\n${cls.section}`.trimEnd() + '\n'
     );
   }
 
-  console.log(`Generated skills/SKILL.md + ${classes.length} reference files`);
+  fs.cpSync(GUIDES_DIR, guidesOutDir, { recursive: true });
+
+  console.log(`Generated skills/SKILL.md + ${classes.length} module files + guides`);
 }
 
 buildSkills();

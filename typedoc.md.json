@@ -37,7 +37,11 @@
   "expandObjects": true,
   "expandParameters": true,
   "parametersFormat": "list",
-  "projectDocuments": ["./guides/setup.md", "./guides/concepts.md", "./guides/integration.md"],
+  "projectDocuments": [
+    "./scripts/guides/setup.md",
+    "./scripts/guides/concepts.md",
+    "./scripts/guides/integration.md"
+  ],
   "validation": {
     "notExported": true
   }
