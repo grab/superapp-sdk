@@ -13,16 +13,24 @@ _Stable release of the v2 SDK._
 
 ### Changed
 
-- Skill reference files switched from five hand-grouped domain files to one file per module, generated directly from the TypeDoc API JSON (including each method's `@returns` and `@example`) — removes the need to maintain a grouping/tagging mechanism.
-- `SKILL.md` guides section replaced with a reference table pointing to `guides/*.md` files — removes guide inlining and the associated code-stripping/heading-shifting pipeline from the build script.
-- `Logger` excluded from the Module Index in `SKILL.md` — it is an internal utility, not a MiniApp-facing SDK module.
-- `CheckoutModule.triggerCheckout()` now documents and types a `403` response for missing `mobile.checkout` authorization, matching every other scope-gated method.
-- Response schemas migrated from `v.union` to `v.variant('status_code', [...])` across all modules, so valibot identifies the matching branch and reports the exact field failure instead of a generic type mismatch.
-- Validation errors with multiple issues are now formatted as a newline-separated list prefixed with `-`.
+- Response schemas migrated from `v.union` to `v.variant('status_code', [...])` across all modules — valibot now reports the exact field failure instead of a generic type mismatch.
+- Validation errors with multiple issues are formatted as a newline-separated list.
+- `CheckoutModule.triggerCheckout()` now returns `403` when the `mobile.checkout` scope is missing.
 
 ### Fixed
 
-- Five pre-existing `@returns`/`@example` documentation mismatches found while auditing the skill reference files against each method's real response type: `CheckoutModule.triggerCheckout()` (missing `403`), `ContainerModule.getSessionParams()` (missing `204`), `MediaModule.playDRMContent()` (missing `400`/`424`), `NetworkModule.send()` and `IdentityModule.clearAuthorizationArtifacts()` (both had link-only `@returns` prose instead of an enumerated status-code list).
+- `ContainerModule.getSessionParams()`: missing `204` response documented.
+- `MediaModule.playDRMContent()`: missing `400`/`424` responses documented.
+- `NetworkModule.send()` and `IdentityModule.clearAuthorizationArtifacts()`: `@returns` now enumerates status codes instead of a link-only description.
+
+## [2.0.0-beta.62] - 2026-08-24
+
+_Improves validation error messages for easier debugging of unexpected JSBridge responses._
+
+### Changed
+
+- Response schemas migrated from `v.union` to `v.variant('status_code', [...])` across all modules, so valibot identifies the matching branch and reports the exact field failure instead of a generic type mismatch.
+- Validation errors with multiple issues are now formatted as a newline-separated list prefixed with `-`.
 
 ## [2.0.0-beta.61] - 2026-08-05
 
