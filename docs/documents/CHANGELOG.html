@@ -9,6 +9,8 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <ul>
 <li>Skill reference files switched from five hand-grouped domain files to one file per module, generated directly from the TypeDoc API JSON (including each method's <code>@returns</code> and <code>@example</code>) — removes the need to maintain a grouping/tagging mechanism.</li>
 <li><code>CheckoutModule.triggerCheckout()</code> now documents and types a <code>403</code> response for missing <code>mobile.checkout</code> authorization, matching every other scope-gated method.</li>
+<li>Response schemas migrated from <code>v.union</code> to <code>v.variant('status_code', [...])</code> across all modules, so valibot identifies the matching branch and reports the exact field failure instead of a generic type mismatch.</li>
+<li>Validation errors with multiple issues are now formatted as a newline-separated list prefixed with <code>-</code>.</li>
 </ul>
 <h3 id="fixed" class="tsd-anchor-link">Fixed<a href="#fixed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
