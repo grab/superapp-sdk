@@ -7,9 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
-## [2.0.0] - 2026-08-03
-
-_Stable release of the v2 SDK._
+## [2.0.0-beta.63] - 2026-08-27
 
 ### Added
 
@@ -24,15 +22,6 @@ _Stable release of the v2 SDK._
 - `ContainerModule.getSessionParams()`: missing `204` response documented.
 - `MediaModule.playDRMContent()`: missing `400`/`424` responses documented.
 - `NetworkModule.send()` and `IdentityModule.clearAuthorizationArtifacts()`: `@returns` now enumerates status codes instead of a link-only description.
-
-## [2.0.0-beta.62] - 2026-08-24
-
-_Improves validation error messages for easier debugging of unexpected JSBridge responses._
-
-### Changed
-
-- Response schemas migrated from `v.union` to `v.variant('status_code', [...])` across all modules, so valibot identifies the matching branch and reports the exact field failure instead of a generic type mismatch.
-- Validation errors with multiple issues are now formatted as a newline-separated list prefixed with `-`.
 
 ## [2.0.0-beta.61] - 2026-08-05
 
