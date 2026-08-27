@@ -50,17 +50,7 @@ export class NetworkModule extends BaseModule {
    *
    * @param request - Network request parameters.
    *
-   * @returns This method can return the following `status_code` values:
-   * - `200` (OK): Request successful. The `result` contains the response data.
-   * - `204` (No Content): Request successful, no data returned.
-   * - `400` (Bad Request): Invalid request parameters.
-   * - `401` (Unauthorized): Authentication required.
-   * - `403` (Forbidden): Missing required OAuth scope.
-   * - `404` (Not Found): Resource not found.
-   * - `424` (Failed Dependency): Underlying native request failed.
-   * - `426` (Upgrade Required): Grab app version too old.
-   * - `500` (Internal Server Error): An unexpected error occurred.
-   * - `501` (Not Implemented): Requires Grab app environment.
+   * @returns The network response containing the result data or error information. See {@link SendResponse}.
    *
    * @example
    * ```typescript
