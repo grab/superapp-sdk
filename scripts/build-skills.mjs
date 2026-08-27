@@ -337,7 +337,11 @@ function buildSkills() {
     );
   }
 
-  fs.cpSync(GUIDES_DIR, guidesOutDir, { recursive: true });
+  const EXCLUDED_GUIDES = ['ai-assistance.md'];
+  fs.mkdirSync(guidesOutDir, { recursive: true });
+  fs.readdirSync(GUIDES_DIR)
+    .filter((f) => f.endsWith('.md') && !EXCLUDED_GUIDES.includes(f))
+    .forEach((f) => fs.copyFileSync(path.join(GUIDES_DIR, f), path.join(guidesOutDir, f)));
 
   console.log(`Generated skills/SKILL.md + ${classes.length} module files + guides`);
 }
