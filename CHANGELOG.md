@@ -9,7 +9,7 @@ Each release entry may include a short summary (Markdown, for example `_italic_`
 
 ## [2.0.0-beta.63] - 2026-08-27
 
-_Updates skill generation for a lean entry file with per-class and guide references._
+_Updates skill generation for a lean entry file with per-class and guide references, and fixes missing response codes across several modules._
 
 ### Added
 
