@@ -20,7 +20,7 @@ _Updates skill generation for a lean entry file with per-class and guide referen
 
 - `ContainerModule.getSessionParams()`: missing `204` response documented.
 - `MediaModule.playDRMContent()`: missing `400`/`424` responses documented.
-- `IdentityModule.clearAuthorizationArtifacts()`: `@returns` now enumerates status codes instead of a link-only description.
+- `NetworkModule.send()` and `IdentityModule.clearAuthorizationArtifacts()`: `@returns` now enumerates status codes instead of a link-only description.
 
 ## [2.0.0-beta.62] - 2026-08-24
 
