@@ -9,9 +9,11 @@ Each release entry may include a short summary (Markdown, for example `_italic_`
 
 ## [2.0.0-beta.63] - 2026-08-27
 
+_Updates skill generation for a lean entry file with per-class and guide references._
+
 ### Added
 
-- Per-class skill reference files (`skills/references/modules/<ClassName>.md`) generated from the TypeDoc API JSON, each with a methods index table and per-method signature, status codes, and example.
+- Per-class skill reference files (`skills/references/modules/<ClassName>.md`), each with a methods index table and per-method signature, status codes, and example.
 
 ### Changed
 
