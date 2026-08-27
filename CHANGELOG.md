@@ -13,7 +13,7 @@ _Updates skill generation for a lean entry file with per-class and guide referen
 
 ### Changed
 
-- Updated skill generation for a lean entry file with per-class and guide references.
+- Updated skill generation to produce a lean entry file (`SKILL.md`) with a module index and guide references, alongside per-class reference files with method signatures, status codes, and examples.
 - `CheckoutModule.triggerCheckout()` now returns `403` when the `mobile.checkout` scope is missing.
 
 ### Fixed
