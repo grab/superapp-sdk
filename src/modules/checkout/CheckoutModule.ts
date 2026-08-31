@@ -58,6 +58,7 @@ export class CheckoutModule extends BaseModule {
    * @returns This method can return the following `status_code` values:
    * - `200` (OK): Checkout completed successfully. The `result` contains {@link TriggerCheckoutResult}.
    * - `400` (Bad Request): Invalid request parameters.
+   * - `403` (Forbidden): Client is not authorized to trigger checkout.
    * - `500` (Internal Server Error): An unexpected error occurred.
    * - `501` (Not Implemented): Requires Grab app environment.
    *

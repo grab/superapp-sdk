@@ -17,10 +17,9 @@ const API_JSON_FILE = path.join(ROOT_DIR, 'api-reference', 'api.json');
 const SKILLS_TEMPLATE = path.join(ROOT_DIR, 'scripts', 'skills-template.md');
 const GUIDES_DIR = path.join(ROOT_DIR, 'guides');
 
-const GUIDE_ORDER = ['setup.md', 'concepts.md', 'integration.md'];
+const EXCLUDED_CLASSES = ['BaseModule', 'Logger'];
 
 const KIND_CLASS = 128;
-const KIND_FUNCTION = 64;
 const KIND_METHOD = 2048;
 
 /**
@@ -67,6 +66,18 @@ function extractBlockTag(comment, tagName) {
   const tag = blockTags.find((t) => t.tag === tagName);
   if (!tag) return null;
   return renderCommentContent(tag.content ?? []);
+}
+
+/**
+ * Extracts the content of every occurrence of a JSDoc block tag from a
+ * comment — a method can carry more than one `@example` (e.g. one per
+ * request variant), and only surfacing the first would silently drop
+ * the rest.
+ */
+function extractAllBlockTags(comment, tagName) {
+  return (comment?.blockTags ?? [])
+    .filter((t) => t.tag === tagName)
+    .map((t) => renderCommentContent(t.content ?? []));
 }
 
 /**
@@ -155,73 +166,137 @@ function getReturnTypeName(sig) {
 }
 
 /**
- * Strips YAML frontmatter and shifts all headings down by one level
- * so guide h1s become h2s when inlined into SKILL.md.
+ * Extracts a named YAML frontmatter field from a guide file.
  */
-function inlineGuide(content) {
-  const stripped = content.replace(/^---[\s\S]*?---\n+/, '');
-  return stripped.replace(/^(#{1,5}) /gm, (_, hashes) => '#'.repeat(hashes.length + 1) + ' ');
+function extractFrontmatterField(content, field) {
+  const m = new RegExp(`^---[\\s\\S]*?^${field}:\\s*(.+)$`, 'm').exec(content);
+  return m ? m[1].trim() : null;
 }
 
 /**
- * Generates a Markdown section for each public class in the API.
+ * Builds the "Guides" table for SKILL.md — one row per guide file,
+ * pointing directly to the source markdown file in the repo.
+ */
+function generateGuidesTable() {
+  const guideOrder = ['setup.md', 'concepts.md', 'integration.md'];
+  const allGuides = fs
+    .readdirSync(GUIDES_DIR)
+    .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md' && f !== 'jsdoc-tags.md');
+  const orderedGuides = [
+    ...guideOrder.filter((f) => allGuides.includes(f)),
+    ...allGuides.filter((f) => !guideOrder.includes(f)).sort(),
+  ];
+
+  const rows = orderedGuides.map((fileName) => {
+    const raw = fs.readFileSync(path.join(GUIDES_DIR, fileName), 'utf-8');
+    const title = extractFrontmatterField(raw, 'title') ?? fileName;
+    const description = extractFrontmatterField(raw, 'description') ?? '';
+    return `| ${title} | ${description} | \`references/guides/${fileName}\` |`;
+  });
+
+  return ['## Guides', '', '| Guide | Contents | File |', '| :--- | :--- | :--- |', ...rows].join(
+    '\n'
+  );
+}
+
+/**
+ * Generates the API Reference markdown for each public class. Every class
+ * gets its own reference file — no grouping decision, no tag to maintain:
+ * `api.json` already has everything (summary, methods, `@example`,
+ * `@returns`) needed to document a class standalone, so the filename is
+ * just the class name.
+ *
+ * @returns {Array<{ name: string, description: string, section: string }>}
+ *   Sorted by class name — this order also drives the Module Index table
+ *   and each generated file's write order.
  */
 function generateClasses(api) {
   const classes = api.children
-    .filter((c) => c.kind === KIND_CLASS && c.name !== 'BaseModule' && c.flags?.isPublic)
+    .filter((c) => c.kind === KIND_CLASS && !EXCLUDED_CLASSES.includes(c.name) && c.flags?.isPublic)
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const sections = classes.map((cls) => {
+  return classes.map((cls) => {
     const description = commentSummary(cls.comment);
+    const methodNodes = (cls.children ?? []).filter(
+      (c) => c.kind === KIND_METHOD && c.flags?.isPublic
+    );
 
-    const methods = (cls.children ?? [])
-      .filter((c) => c.kind === KIND_METHOD && c.flags?.isPublic)
+    // Summary table — one row per method
+    const tableRows = methodNodes
+      .map((method) => {
+        const sig = method.signatures?.[0];
+        if (!sig) return null;
+        const desc = commentSummary(sig.comment);
+        const params = (sig.parameters ?? [])
+          .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
+          .join(', ');
+        return `| \`${sig.name}(${params})\` | \`${getReturnTypeName(sig)}\` | ${desc} |`;
+      })
+      .filter(Boolean);
+
+    const methodsTable =
+      tableRows.length > 0
+        ? ['| Method | Returns | Description |', '| :--- | :--- | :--- |', ...tableRows].join('\n')
+        : null;
+
+    // Per-method sections with ## headings
+    const methodSections = methodNodes
       .map((method) => {
         const sig = method.signatures?.[0];
         if (!sig) return null;
         const desc = commentSummary(sig.comment);
         const requirements = buildRequirements(sig.comment);
-        const fullDesc = requirements ? `${desc} (${requirements})` : desc;
         const params = (sig.parameters ?? [])
           .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
           .join(', ');
-        return `- \`${sig.name}(${params}): ${getReturnTypeName(sig)}\` — ${fullDesc}`;
+        const signature = `\`${sig.name}(${params}): ${getReturnTypeName(sig)}\``;
+
+        const parts = [`## \`${sig.name}\``, desc];
+        if (requirements) parts.push(requirements);
+        parts.push(`**Signature:** ${signature}`);
+
+        const returns = extractBlockTag(sig.comment, '@returns');
+        if (returns) parts.push(returns);
+
+        const examples = extractAllBlockTags(sig.comment, '@example');
+        examples.forEach((ex) => parts.push(ex));
+
+        return parts.join('\n\n');
       })
       .filter(Boolean);
 
-    return [`#### \`${cls.name}\``, description, ...methods].join('\n');
-  });
+    const sectionParts = ['## API Reference', description];
+    if (methodsTable) sectionParts.push(methodsTable);
+    sectionParts.push(...methodSections);
 
-  return `### Classes\n\n${sections.join('\n\n')}`;
+    const section = sectionParts.join('\n\n');
+
+    return { name: cls.name, description, section };
+  });
 }
 
 /**
- * Generates a Markdown section for each public function in the API.
+ * Builds the "Module Index" table (SKILL.md) mapping each public class to
+ * its own reference file. One row per class, in the same order the classes
+ * were generated (alphabetical) — the table cannot drift out of sync with
+ * reality, since the filename is just the class name.
  */
-function generateFunctions(api) {
-  const functions = api.children
-    .filter((c) => c.kind === KIND_FUNCTION && c.flags?.isPublic)
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  const sections = functions.map((fn) => {
-    const sig = fn.signatures?.[0];
-    if (!sig) return null;
-    const description = commentSummary(sig.comment ?? fn.comment);
-    const typeParams = sig.typeParameters?.length
-      ? `<${sig.typeParameters.map((t) => t.name).join(', ')}>`
-      : '';
-    const params = (sig.parameters ?? [])
-      .map((p) => `${p.name}${p.flags?.isOptional ? '?' : ''}: ${getParamTypeName(p)}`)
-      .join(', ');
-    const returnType = renderType(sig.type);
-    return `#### \`${fn.name}\`\n${description}\n\`\`\`ts\n${fn.name}${typeParams}(${params}): ${returnType}\n\`\`\``;
-  });
-
-  return `### Functions\n\n${sections.join('\n\n')}`;
+function generateModuleIndex(classes) {
+  const rows = classes.map(
+    (cls) => `| \`${cls.name}\` | ${cls.description} | \`references/modules/${cls.name}.md\` |`
+  );
+  return [
+    '## Module Index',
+    '',
+    '| Module | Purpose | Reference file |',
+    '| :--- | :--- | :--- |',
+    ...rows,
+  ].join('\n');
 }
 
 /**
- * Builds the skills documentation.
+ * Builds the skills documentation: a lean SKILL.md plus one reference file
+ * per class under skills/references/.
  */
 function buildSkills() {
   if (!fs.existsSync(API_JSON_FILE)) {
@@ -236,28 +311,39 @@ function buildSkills() {
   const api = JSON.parse(fs.readFileSync(API_JSON_FILE, 'utf-8'));
   const template = fs.readFileSync(SKILLS_TEMPLATE, 'utf-8');
 
+  const classes = generateClasses(api);
+
+  const guidesSection = generateGuidesTable();
+
+  const moduleIndex = generateModuleIndex(classes);
+
+  const skill = [template.trimEnd(), guidesSection, moduleIndex].join('\n\n\n');
+
+  // Only now that everything above has succeeded do we touch the filesystem.
   const skillDir = path.join(ROOT_DIR, 'skills');
+  const referencesDir = path.join(skillDir, 'references');
+  const modulesDir = path.join(referencesDir, 'modules');
+  const guidesOutDir = path.join(referencesDir, 'guides');
 
   if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
-  fs.mkdirSync(skillDir, { recursive: true });
+  fs.mkdirSync(modulesDir, { recursive: true });
 
-  const allGuides = fs
-    .readdirSync(GUIDES_DIR)
-    .filter((f) => f.endsWith('.md') && f !== 'ai-assistance.md' && f !== 'jsdoc-tags.md');
-  const orderedGuides = [
-    ...GUIDE_ORDER.filter((f) => allGuides.includes(f)),
-    ...allGuides.filter((f) => !GUIDE_ORDER.includes(f)).sort(),
-  ];
-  const guides = orderedGuides
-    .map((f) => inlineGuide(fs.readFileSync(path.join(GUIDES_DIR, f), 'utf-8')))
-    .join('\n\n');
+  fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill.trimEnd() + '\n');
 
-  const apiReference = `## API Reference\n\n${generateClasses(api)}\n\n${generateFunctions(api)}`;
+  for (const cls of classes) {
+    fs.writeFileSync(
+      path.join(modulesDir, `${cls.name}.md`),
+      `# ${cls.name}\n\n${cls.section}`.trimEnd() + '\n'
+    );
+  }
 
-  const skill = [template.trimEnd(), guides, apiReference].join('\n\n');
+  const EXCLUDED_GUIDES = ['ai-assistance.md'];
+  fs.mkdirSync(guidesOutDir, { recursive: true });
+  fs.readdirSync(GUIDES_DIR)
+    .filter((f) => f.endsWith('.md') && !EXCLUDED_GUIDES.includes(f))
+    .forEach((f) => fs.copyFileSync(path.join(GUIDES_DIR, f), path.join(guidesOutDir, f)));
 
-  fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skill);
-  console.log('Generated skills/SKILL.md');
+  console.log(`Generated skills/SKILL.md + ${classes.length} module files + guides`);
 }
 
 buildSkills();
