@@ -74,6 +74,7 @@ export const TriggerCheckoutResponseSchema: v.GenericSchema<TriggerCheckoutRespo
   [
     sdkOkResponseSchema(TriggerCheckoutResultSchema),
     sdkErrorResponseSchema(400),
+    sdkErrorResponseSchema(403),
     sdkErrorResponseSchema(500),
     sdkErrorResponseSchema(501),
   ]

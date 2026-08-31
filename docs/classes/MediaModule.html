@@ -32,6 +32,8 @@ completion, and errors. Remember to call <code>unsubscribe()</code> when done to
 <ul>
 <li><code>200</code> (OK): Playback initiated successfully.</li>
 <li><code>204</code> (No Content): Request completed.</li>
+<li><code>400</code> (Bad Request): Invalid request parameters.</li>
+<li><code>424</code> (Failed Dependency): Underlying native request failed.</li>
 <li><code>500</code> (Internal Server Error): An unexpected error occurred.</li>
 <li><code>501</code> (Not Implemented): Requires Grab app environment.</li>
 </ul>

@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.63] - 2026-08-27
+
+_Updates skill generation for a lean entry file with per-class and guide references._
+
+### Changed
+
+- Updated skill generation to produce a lean entry file (`SKILL.md`) with a module index and guide references, alongside per-class reference files with method signatures, status codes, and examples.
+- `CheckoutModule.triggerCheckout()` now returns `403` when the `mobile.checkout` scope is missing.
+
+### Fixed
+
+- `ContainerModule.getSessionParams()`: missing `204` response documented.
+- `MediaModule.playDRMContent()`: missing `400`/`424` responses documented.
+- `IdentityModule.clearAuthorizationArtifacts()`: `@returns` now enumerates status codes instead of a link-only description.
+
 ## [2.0.0-beta.62] - 2026-08-24
 
 _Improves validation error messages for easier debugging of unexpected JSBridge responses._
