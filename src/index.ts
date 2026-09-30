@@ -138,6 +138,12 @@ export {
   ReloadScopesResponse,
   ScopeModule,
 } from './modules/scope';
+export {
+  OpenSharePanelRequest,
+  OpenSharePanelResponse,
+  OpenSharePanelResult,
+  SharePanelModule,
+} from './modules/share-panel';
 export { DismissSplashScreenResponse, SplashScreenModule } from './modules/splash-screen';
 export {
   GetBooleanRequest,

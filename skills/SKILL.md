@@ -36,6 +36,7 @@ Use this SDK to call native Grab SuperApp features from a MiniApp running in the
 | `PlatformModule` | SDK module for controlling platform navigation via `JSBridge`. | `references/modules/PlatformModule.md` |
 | `ProfileModule` | SDK module for accessing user profile information via `JSBridge`. | `references/modules/ProfileModule.md` |
 | `ScopeModule` | SDK module for checking and refreshing API access permissions via `JSBridge`. | `references/modules/ScopeModule.md` |
+| `SharePanelModule` | SDK module for presenting the native Grab Share Panel. | `references/modules/SharePanelModule.md` |
 | `SplashScreenModule` | SDK module for controlling the native splash / Lottie loading screen via `JSBridge`. | `references/modules/SplashScreenModule.md` |
 | `StorageModule` | SDK module for persisting key-value data to native storage via `JSBridge`. | `references/modules/StorageModule.md` |
 | `SystemWebViewKitModule` | SDK module for opening URLs in the device's system browser via `JSBridge`. | `references/modules/SystemWebViewKitModule.md` |

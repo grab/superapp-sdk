@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.64] - 2026-09-30
+
+_Adds `SharePanelModule` for opening Grab's native Share Panel from Mini Apps._
+
+### Added
+
+- `SharePanelModule.open()` to present the native Share Panel with typed request validation and terminal `200` / `204` responses.
+- Optional `enableIndividualRecipients` and `enableGroupRecipients` request flags; omitted values default to `false` and are authorized natively via `CXMiniAppSharePanelModule`.
+- Generated API docs and skill reference for `SharePanelModule`.
+
 ## [2.0.0-beta.63] - 2026-08-27
 
 _Updates skill generation for a lean entry file with per-class and guide references._
