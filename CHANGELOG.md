@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.64] - 2026-09-30
+
+_Adds `SharePanelModule` for native content sharing._
+
+### Added
+
+- `SharePanelModule.open()` for native sharing flows with target or recipient selection and dismissal responses.
+
 ## [2.0.0-beta.63] - 2026-08-27
 
 _Updates skill generation for a lean entry file with per-class and guide references._

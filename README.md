@@ -40,6 +40,8 @@ Each SDK module encapsulates a specific domain of functionality, offering strong
 
 - **[ScopeModule](https://grab.github.io/superapp-sdk/classes/ScopeModule.html)** — Manage permission scopes from GrabID
 
+- **[SharePanelModule](https://grab.github.io/superapp-sdk/classes/SharePanelModule.html)** — Trigger native sharing flows for text content
+
 - **[SplashScreenModule](https://grab.github.io/superapp-sdk/classes/SplashScreenModule.html)** — Control the native splash/loading screen
 
 - **[StorageModule](https://grab.github.io/superapp-sdk/classes/StorageModule.html)** — Persist key-value data locally with type-safe storage
