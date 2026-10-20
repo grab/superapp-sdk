@@ -11,6 +11,8 @@ import { GrabAppInfo, Platform } from './types';
  * Parses a user agent string to extract Grab app information.
  * Recognizes app variants like Grab, GrabBeta, GrabBetaDebug, GrabTaxi, GrabEarlyAccess.
  * Extracts version numbers (major.minor.patch) and platform (Android/iOS).
+ * The space before `(` is optional: some Android webviews send `Grab/5.432.0(54320000) Build ...`
+ * followed by the system user agent, which carries the platform.
  *
  * @param userAgent - The user agent string to parse
  * @returns The parsed app info, or null if not a recognized Grab app user agent
@@ -21,7 +23,7 @@ function parseGrabAppInfo(userAgent: string): GrabAppInfo | null {
   }
 
   const match = userAgent.match(
-    /(Grab|GrabBeta|GrabBetaDebug|GrabTaxi|GrabEarlyAccess)\/v?([0-9]+)\.([0-9]+)\.([0-9]+) \(.*(Android|iOS).*\)/i
+    /(Grab|GrabBeta|GrabBetaDebug|GrabTaxi|GrabEarlyAccess)\/v?([0-9]+)\.([0-9]+)\.([0-9]+) ?\(.*(Android|iOS).*\)/i
   );
   if (!match) {
     return null;

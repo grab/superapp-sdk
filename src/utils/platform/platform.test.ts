@@ -162,8 +162,30 @@ describe('platform utilities', () => {
       }
     });
 
+    it('should detect Android webviews that omit the space before the version code', () => {
+      // Some pax-android webviews (e.g. GrabFood/Deliveries, Help Center) prefix the system
+      // user agent with `Grab/<versionName>(<versionCode>) Build ...`.
+      vi.stubGlobal('navigator', {
+        userAgent:
+          'Grab/5.432.0(54320000) Build ; Build 192769123 Mozilla/5.0 (Linux; Android 17; Pixel 9 Build/BP31.250610.004; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/149.0.7827.5 Mobile Safari/537.36',
+      });
+      expect(detectGrabApp()).toEqual({
+        appName: 'Grab',
+        version: { major: 5, minor: 432, patch: 0 },
+        platform: 'Android',
+      });
+
+      // Without the system user agent there is no platform to detect.
+      vi.stubGlobal('navigator', { userAgent: 'Grab/5.432.0(54320000) Build ; Build 192769123' });
+      expect(detectGrabApp()).toBeNull();
+    });
+
     it('should return null for invalid formats', () => {
       const invalidUserAgents = [
+        {
+          userAgent: 'Grab/5.396(iPhone; iOS 16.0)',
+          reason: 'missing patch version without space',
+        },
         { userAgent: 'Grab/5.396 (iPhone; iOS 16.0)', reason: 'missing patch version' },
         { userAgent: 'Grab/5 (iPhone; iOS 16.0)', reason: 'incomplete version' },
         { userAgent: 'Grab/a.b.c (iPhone; iOS 16.0)', reason: 'non-numeric version' },
