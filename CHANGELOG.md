@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Each release entry may include a short summary (Markdown, for example `_italic_`) between the version heading and the first `###` section;
 
+## [2.0.0-beta.65] - 2026-10-15
+
+_Recognises Android webviews whose user agent has no space before the version code._
+
+### Fixed
+
+- Grab app detection now recognises user agents with no space before the version code. Before, every module method returned `501` in these webviews without calling native.
+
 ## [2.0.0-beta.64] - 2026-09-30
 
 _Adds `SharePanelModule` for native content sharing._
